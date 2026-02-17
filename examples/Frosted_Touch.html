@@ -1,0 +1,2726 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Frosted Touch -- Design Aesthetic Showcase</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Space+Grotesk:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    /* ================================================================
+       FROSTED TOUCH -- Design Aesthetic Showcase
+       A self-documenting page: the medium IS the message
+       ================================================================ */
+
+    :root {
+      /* Background gradient stops */
+      --frost-bg-a: #1a1a4e;
+      --frost-bg-b: #4a1a6b;
+      --frost-bg-c: #6b1a4a;
+
+      /* Frost surface layers (ordered by depth, back to front) */
+      --frost-surface-deep: rgba(255, 255, 255, 0.08);
+      --frost-surface-mid: rgba(255, 255, 255, 0.12);
+      --frost-surface-light: rgba(255, 255, 255, 0.18);
+      --frost-surface-raised: rgba(255, 255, 255, 0.25);
+
+      /* Borders */
+      --frost-border: rgba(255, 255, 255, 0.18);
+      --frost-border-bright: rgba(255, 255, 255, 0.30);
+      --frost-border-subtle: rgba(255, 255, 255, 0.10);
+
+      /* Text */
+      --frost-text-primary: #F8FAFC;
+      --frost-text-secondary: rgba(248, 250, 252, 0.70);
+      --frost-text-muted: rgba(248, 250, 252, 0.45);
+      --frost-text-heading: #FFFFFF;
+
+      /* Accents */
+      --frost-accent-blue: #60A5FA;
+      --frost-accent-purple: #A78BFA;
+      --frost-accent-cyan: #67E8F9;
+      --frost-accent-pink: #F472B6;
+
+      /* Shadows */
+      --frost-shadow: rgba(15, 10, 40, 0.25);
+      --frost-shadow-diffused: rgba(10, 10, 50, 0.15);
+      --frost-shadow-glow: rgba(96, 165, 250, 0.12);
+
+      /* Functional mappings */
+      --frost-bg-primary: var(--frost-bg-a);
+      --frost-bg-card: var(--frost-surface-light);
+      --frost-bg-card-hover: var(--frost-surface-raised);
+      --frost-accent-primary: var(--frost-accent-blue);
+      --frost-accent-secondary: var(--frost-accent-purple);
+
+      /* Blur values */
+      --frost-blur-sm: blur(8px);
+      --frost-blur-md: blur(16px);
+      --frost-blur-lg: blur(24px);
+      --frost-blur-xl: blur(40px);
+
+      /* Border radius */
+      --frost-radius-sm: 8px;
+      --frost-radius-md: 16px;
+      --frost-radius-lg: 24px;
+      --frost-radius-pill: 9999px;
+    }
+
+    /* ---- Reset ---- */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(255,255,255,0.15) transparent;
+    }
+
+    html::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    html::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    html::-webkit-scrollbar-thumb {
+      background: rgba(255,255,255,0.12);
+      border-radius: 4px;
+    }
+
+    html::-webkit-scrollbar-thumb:hover {
+      background: rgba(255,255,255,0.22);
+    }
+
+    body {
+      font-family: 'Inter', 'DM Sans', system-ui, -apple-system, sans-serif;
+      font-size: 16px;
+      line-height: 1.7;
+      letter-spacing: 0.01em;
+      color: var(--frost-text-primary);
+      min-height: 100vh;
+      overflow-x: hidden;
+      font-weight: 400;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* ---- Typography ---- */
+    h1, h2, h3, h4 {
+      font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+      color: var(--frost-text-heading);
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      line-height: 1.3;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+    }
+
+    h1 {
+      font-size: clamp(2.2rem, 5vw, 3.8rem);
+      font-weight: 800;
+      letter-spacing: -0.025em;
+      line-height: 1.15;
+    }
+
+    h2 {
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      font-weight: 700;
+      color: var(--frost-text-primary);
+    }
+
+    h3 {
+      font-size: clamp(1.1rem, 2vw, 1.35rem);
+      font-weight: 600;
+      color: var(--frost-text-secondary);
+    }
+
+    h4 {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--frost-text-secondary);
+      letter-spacing: 0;
+    }
+
+    p {
+      color: var(--frost-text-secondary);
+      line-height: 1.75;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+    }
+
+    a {
+      color: var(--frost-accent-blue);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.2s ease;
+    }
+
+    a:hover {
+      color: var(--frost-accent-cyan);
+    }
+
+    strong {
+      color: var(--frost-text-primary);
+      font-weight: 600;
+    }
+
+    code {
+      font-family: 'JetBrains Mono', 'Space Grotesk', monospace;
+      font-size: 0.85em;
+      color: var(--frost-accent-cyan);
+      background: rgba(255, 255, 255, 0.06);
+      padding: 0.15em 0.45em;
+      border-radius: 4px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      letter-spacing: 0.02em;
+    }
+
+    /* ================================================================
+       ANIMATED GRADIENT BACKGROUND
+       ================================================================ */
+    .frost-bg {
+      position: fixed;
+      inset: 0;
+      background: linear-gradient(
+        135deg,
+        var(--frost-bg-a) 0%,
+        var(--frost-bg-b) 50%,
+        var(--frost-bg-c) 100%
+      );
+      background-size: 200% 200%;
+      animation: frost-gradient-shift 20s ease-in-out infinite;
+      z-index: -2;
+    }
+
+    .frost-bg::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(
+          ellipse 80% 60% at 20% 30%,
+          rgba(96, 165, 250, 0.25) 0%,
+          transparent 70%
+        ),
+        radial-gradient(
+          ellipse 60% 80% at 80% 70%,
+          rgba(167, 139, 250, 0.20) 0%,
+          transparent 70%
+        ),
+        radial-gradient(
+          ellipse 70% 50% at 50% 90%,
+          rgba(244, 114, 182, 0.15) 0%,
+          transparent 70%
+        );
+      z-index: -1;
+    }
+
+    .frost-bg::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(
+          ellipse 50% 40% at 65% 15%,
+          rgba(103, 232, 249, 0.12) 0%,
+          transparent 60%
+        ),
+        radial-gradient(
+          ellipse 40% 50% at 10% 80%,
+          rgba(244, 114, 182, 0.10) 0%,
+          transparent 60%
+        );
+      z-index: -1;
+      animation: frost-orb-drift 25s ease-in-out infinite alternate;
+    }
+
+    @keyframes frost-gradient-shift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    @keyframes frost-orb-drift {
+      0% { transform: translate(0, 0) scale(1); opacity: 1; }
+      33% { transform: translate(30px, -20px) scale(1.05); opacity: 0.8; }
+      66% { transform: translate(-20px, 15px) scale(0.95); opacity: 1; }
+      100% { transform: translate(10px, -10px) scale(1.02); opacity: 0.9; }
+    }
+
+    /* Floating ambient orbs for depth */
+    .frost-orb {
+      position: fixed;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: -1;
+      filter: blur(60px);
+    }
+
+    .frost-orb--1 {
+      width: 400px;
+      height: 400px;
+      background: rgba(96, 165, 250, 0.12);
+      top: 10%;
+      left: -5%;
+      animation: frost-float-1 30s ease-in-out infinite;
+    }
+
+    .frost-orb--2 {
+      width: 350px;
+      height: 350px;
+      background: rgba(167, 139, 250, 0.10);
+      top: 50%;
+      right: -8%;
+      animation: frost-float-2 25s ease-in-out infinite;
+    }
+
+    .frost-orb--3 {
+      width: 300px;
+      height: 300px;
+      background: rgba(244, 114, 182, 0.08);
+      bottom: 5%;
+      left: 30%;
+      animation: frost-float-3 35s ease-in-out infinite;
+    }
+
+    @keyframes frost-float-1 {
+      0%, 100% { transform: translate(0, 0); }
+      25% { transform: translate(40px, 30px); }
+      50% { transform: translate(-20px, 60px); }
+      75% { transform: translate(30px, -20px); }
+    }
+
+    @keyframes frost-float-2 {
+      0%, 100% { transform: translate(0, 0); }
+      25% { transform: translate(-30px, -40px); }
+      50% { transform: translate(20px, -20px); }
+      75% { transform: translate(-40px, 30px); }
+    }
+
+    @keyframes frost-float-3 {
+      0%, 100% { transform: translate(0, 0); }
+      33% { transform: translate(50px, -30px); }
+      66% { transform: translate(-30px, 40px); }
+    }
+
+    /* ================================================================
+       NAVIGATION
+       ================================================================ */
+    .frost-nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255, 255, 255, 0.06);
+      backdrop-filter: blur(24px) saturate(1.6);
+      -webkit-backdrop-filter: blur(24px) saturate(1.6);
+      border-bottom: 1px solid var(--frost-border-subtle);
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 60px;
+      transition: background 0.4s ease, box-shadow 0.4s ease;
+    }
+
+    .frost-nav.scrolled {
+      background: rgba(255, 255, 255, 0.12);
+      box-shadow: 0 4px 24px var(--frost-shadow-diffused);
+    }
+
+    .frost-nav-brand {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 800;
+      font-size: 1.15rem;
+      color: var(--frost-text-primary);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      letter-spacing: -0.02em;
+    }
+
+    .frost-nav-brand-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, rgba(96, 165, 250, 0.3), rgba(167, 139, 250, 0.3));
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+
+    .frost-nav-brand-icon svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    .frost-nav-links {
+      display: flex;
+      gap: 0.25rem;
+      list-style: none;
+    }
+
+    .frost-nav-links a {
+      color: var(--frost-text-secondary);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.88rem;
+      padding: 0.45rem 0.95rem;
+      border-radius: var(--frost-radius-sm);
+      transition: color 0.2s ease, background 0.2s ease;
+      letter-spacing: 0.01em;
+    }
+
+    .frost-nav-links a:hover {
+      color: var(--frost-text-primary);
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .frost-nav-links a.active {
+      color: var(--frost-accent-blue);
+      background: rgba(96, 165, 250, 0.10);
+    }
+
+    .frost-mobile-toggle {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--frost-text-secondary);
+      cursor: pointer;
+      padding: 0.5rem;
+      border-radius: var(--frost-radius-sm);
+      transition: background 0.2s ease;
+    }
+
+    .frost-mobile-toggle:hover {
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .frost-mobile-toggle svg {
+      width: 22px;
+      height: 22px;
+      display: block;
+    }
+
+    /* ================================================================
+       PAGE LAYOUT
+       ================================================================ */
+    .frost-page {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 3rem 2rem 4rem;
+    }
+
+    .frost-section {
+      margin-bottom: 3rem;
+    }
+
+    .frost-section-label {
+      font-family: 'Space Grotesk', 'Inter', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--frost-accent-purple);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .frost-section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, rgba(167, 139, 250, 0.25), transparent);
+    }
+
+    /* ================================================================
+       HERO SECTION -- Deep Layer
+       ================================================================ */
+    .frost-hero {
+      position: relative;
+      background: var(--frost-surface-deep);
+      backdrop-filter: blur(40px) saturate(1.2);
+      -webkit-backdrop-filter: blur(40px) saturate(1.2);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: var(--frost-radius-lg);
+      padding: 5rem 3rem 4rem;
+      margin-bottom: 3rem;
+      box-shadow:
+        0 16px 64px rgba(10, 10, 50, 0.12),
+        0 4px 16px rgba(0, 0, 0, 0.06);
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .frost-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.07) 0%,
+        rgba(255, 255, 255, 0.01) 40%,
+        transparent 70%
+      );
+      pointer-events: none;
+    }
+
+    /* Decorative light streak */
+    .frost-hero::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -20%;
+      width: 140%;
+      height: 100%;
+      background: radial-gradient(
+        ellipse 60% 20% at 50% 100%,
+        rgba(96, 165, 250, 0.08) 0%,
+        transparent 70%
+      );
+      pointer-events: none;
+      transform: rotate(-5deg);
+    }
+
+    .frost-hero > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .frost-hero-eyebrow {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--frost-accent-cyan);
+      margin-bottom: 1.25rem;
+      opacity: 0;
+      animation: frost-fade-up 0.8s ease-out 0.2s forwards;
+    }
+
+    .frost-hero h1 {
+      margin-bottom: 1.25rem;
+      background: linear-gradient(
+        135deg,
+        #FFFFFF 0%,
+        rgba(248, 250, 252, 0.9) 40%,
+        var(--frost-accent-cyan) 100%
+      );
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      opacity: 0;
+      animation: frost-fade-up 0.8s ease-out 0.35s forwards;
+    }
+
+    .frost-hero-subtitle {
+      font-size: 1.15rem;
+      color: var(--frost-text-secondary);
+      max-width: 680px;
+      margin: 0 auto 2.5rem;
+      line-height: 1.8;
+      opacity: 0;
+      animation: frost-fade-up 0.8s ease-out 0.5s forwards;
+    }
+
+    .frost-hero-tags {
+      display: flex;
+      gap: 0.6rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      opacity: 0;
+      animation: frost-fade-up 0.8s ease-out 0.65s forwards;
+    }
+
+    @keyframes frost-fade-up {
+      from {
+        opacity: 0;
+        transform: translateY(16px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* ================================================================
+       TAGS / BADGES
+       ================================================================ */
+    .frost-tag {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.3rem 0.9rem;
+      background: rgba(167, 139, 250, 0.14);
+      border: 1px solid rgba(167, 139, 250, 0.25);
+      border-radius: var(--frost-radius-pill);
+      font-family: 'Space Grotesk', 'Inter', sans-serif;
+      font-size: 0.76rem;
+      font-weight: 500;
+      color: var(--frost-accent-purple);
+      letter-spacing: 0.02em;
+      transition: background 0.2s ease, border-color 0.2s ease;
+    }
+
+    .frost-tag:hover {
+      background: rgba(167, 139, 250, 0.22);
+      border-color: rgba(167, 139, 250, 0.35);
+    }
+
+    .frost-tag--blue {
+      background: rgba(96, 165, 250, 0.14);
+      border-color: rgba(96, 165, 250, 0.25);
+      color: var(--frost-accent-blue);
+    }
+
+    .frost-tag--blue:hover {
+      background: rgba(96, 165, 250, 0.22);
+      border-color: rgba(96, 165, 250, 0.35);
+    }
+
+    .frost-tag--cyan {
+      background: rgba(103, 232, 249, 0.10);
+      border-color: rgba(103, 232, 249, 0.22);
+      color: var(--frost-accent-cyan);
+    }
+
+    .frost-tag--cyan:hover {
+      background: rgba(103, 232, 249, 0.18);
+      border-color: rgba(103, 232, 249, 0.32);
+    }
+
+    .frost-tag--pink {
+      background: rgba(244, 114, 182, 0.12);
+      border-color: rgba(244, 114, 182, 0.22);
+      color: var(--frost-accent-pink);
+    }
+
+    .frost-tag--pink:hover {
+      background: rgba(244, 114, 182, 0.20);
+      border-color: rgba(244, 114, 182, 0.32);
+    }
+
+    /* ================================================================
+       STATS ROW
+       ================================================================ */
+    .frost-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 1rem;
+      margin-bottom: 3rem;
+    }
+
+    .frost-stat {
+      position: relative;
+      background: var(--frost-surface-mid);
+      backdrop-filter: blur(20px) saturate(1.3);
+      -webkit-backdrop-filter: blur(20px) saturate(1.3);
+      border: 1px solid rgba(255, 255, 255, 0.10);
+      border-radius: var(--frost-radius-md);
+      padding: 1.5rem 1.25rem;
+      text-align: center;
+      overflow: hidden;
+      transition: background 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
+    }
+
+    .frost-stat::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      background: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.05) 0%,
+        transparent 50%
+      );
+      pointer-events: none;
+    }
+
+    .frost-stat:hover {
+      background: var(--frost-surface-light);
+      border-color: var(--frost-border);
+      transform: translateY(-2px);
+    }
+
+    .frost-stat > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .frost-stat-value {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: var(--frost-text-primary);
+      line-height: 1.2;
+      margin-bottom: 0.3rem;
+    }
+
+    .frost-stat-label {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 500;
+      color: var(--frost-text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    /* ================================================================
+       CARD GRID
+       ================================================================ */
+    .frost-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 3rem;
+    }
+
+    .frost-grid--2col {
+      grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+    }
+
+    .frost-grid--3col {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    /* ================================================================
+       FROST CARDS -- Surface Layer
+       ================================================================ */
+    .frost-card {
+      position: relative;
+      background: var(--frost-surface-light);
+      backdrop-filter: blur(16px) saturate(1.5);
+      -webkit-backdrop-filter: blur(16px) saturate(1.5);
+      border: 1px solid var(--frost-border);
+      border-radius: var(--frost-radius-lg);
+      padding: 2rem;
+      box-shadow:
+        0 4px 16px var(--frost-shadow-diffused),
+        0 1px 4px rgba(0, 0, 0, 0.06);
+      transition:
+        background 0.3s ease,
+        border-color 0.3s ease,
+        box-shadow 0.3s ease,
+        transform 0.3s ease;
+      overflow: hidden;
+    }
+
+    .frost-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.09) 0%,
+        rgba(255, 255, 255, 0.02) 40%,
+        transparent 70%
+      );
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .frost-card:hover {
+      background: var(--frost-surface-raised);
+      border-color: var(--frost-border-bright);
+      box-shadow:
+        0 8px 32px rgba(10, 10, 50, 0.22),
+        0 2px 8px rgba(0, 0, 0, 0.10),
+        0 0 0 1px rgba(255, 255, 255, 0.05);
+      transform: translateY(-3px);
+    }
+
+    .frost-card > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .frost-card h3 {
+      color: var(--frost-text-primary);
+      margin-bottom: 0.75rem;
+    }
+
+    .frost-card p {
+      font-size: 0.94rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .frost-card p:last-child {
+      margin-bottom: 0;
+    }
+
+    .frost-card-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.25rem;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .frost-card-icon--blue {
+      background: rgba(96, 165, 250, 0.15);
+    }
+
+    .frost-card-icon--purple {
+      background: rgba(167, 139, 250, 0.15);
+    }
+
+    .frost-card-icon--cyan {
+      background: rgba(103, 232, 249, 0.12);
+    }
+
+    .frost-card-icon--pink {
+      background: rgba(244, 114, 182, 0.12);
+    }
+
+    .frost-card-icon svg {
+      width: 22px;
+      height: 22px;
+    }
+
+    /* ================================================================
+       CONTENT PANELS -- Mid Layer
+       ================================================================ */
+    .frost-panel {
+      position: relative;
+      background: var(--frost-surface-mid);
+      backdrop-filter: blur(20px) saturate(1.4);
+      -webkit-backdrop-filter: blur(20px) saturate(1.4);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: var(--frost-radius-lg);
+      padding: 2.5rem;
+      box-shadow: 0 8px 32px rgba(10, 10, 50, 0.12);
+      margin-bottom: 3rem;
+      overflow: hidden;
+    }
+
+    .frost-panel::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      background: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.05) 0%,
+        transparent 40%
+      );
+      pointer-events: none;
+    }
+
+    .frost-panel > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .frost-panel h2 {
+      margin-bottom: 1.25rem;
+    }
+
+    .frost-panel p {
+      margin-bottom: 1rem;
+    }
+
+    .frost-panel p:last-child {
+      margin-bottom: 0;
+    }
+
+    /* ================================================================
+       COLOR PALETTE DISPLAY
+       ================================================================ */
+    .frost-palette {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+
+    .frost-swatch {
+      position: relative;
+      border-radius: var(--frost-radius-md);
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.10);
+      transition: transform 0.3s ease, border-color 0.3s ease;
+    }
+
+    .frost-swatch:hover {
+      transform: translateY(-2px);
+      border-color: var(--frost-border);
+    }
+
+    .frost-swatch-color {
+      height: 72px;
+      position: relative;
+    }
+
+    .frost-swatch-color::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,0.08) 0%, transparent 60%);
+    }
+
+    .frost-swatch-info {
+      padding: 0.85rem 1rem;
+      background: rgba(255, 255, 255, 0.06);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    .frost-swatch-name {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--frost-text-primary);
+      margin-bottom: 0.2rem;
+    }
+
+    .frost-swatch-value {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--frost-text-muted);
+      letter-spacing: 0.02em;
+    }
+
+    /* ================================================================
+       CODE BLOCKS
+       ================================================================ */
+    .frost-code-block {
+      background: rgba(10, 10, 30, 0.5);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: var(--frost-radius-md);
+      padding: 1.5rem;
+      margin: 1.25rem 0;
+      overflow-x: auto;
+    }
+
+    .frost-code-block code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.82rem;
+      line-height: 1.7;
+      color: var(--frost-text-secondary);
+      background: none;
+      padding: 0;
+      border: none;
+      display: block;
+      white-space: pre;
+    }
+
+    .frost-code-block .code-prop {
+      color: var(--frost-accent-cyan);
+    }
+
+    .frost-code-block .code-value {
+      color: var(--frost-accent-pink);
+    }
+
+    .frost-code-block .code-comment {
+      color: var(--frost-text-muted);
+      font-style: italic;
+    }
+
+    .frost-code-block .code-selector {
+      color: var(--frost-accent-blue);
+    }
+
+    .frost-code-block .code-unit {
+      color: var(--frost-accent-purple);
+    }
+
+    /* ================================================================
+       DEPTH LAYER VISUALIZATION
+       ================================================================ */
+    .frost-depth-demo {
+      position: relative;
+      height: 340px;
+      margin: 2rem 0;
+      perspective: 1000px;
+    }
+
+    .frost-depth-layer {
+      position: absolute;
+      border-radius: var(--frost-radius-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 0.3rem;
+      transition: transform 0.5s ease, opacity 0.5s ease;
+    }
+
+    .frost-depth-layer span:first-child {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      font-size: 0.85rem;
+      color: var(--frost-text-primary);
+    }
+
+    .frost-depth-layer span:last-child {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem;
+      color: var(--frost-text-muted);
+    }
+
+    .frost-depth-layer--0 {
+      inset: 0;
+      background: linear-gradient(135deg, var(--frost-bg-a), var(--frost-bg-b), var(--frost-bg-c));
+      border: 1px solid rgba(255, 255, 255, 0.04);
+    }
+
+    .frost-depth-layer--1 {
+      left: 6%;
+      top: 8%;
+      right: 30%;
+      bottom: 15%;
+      background: var(--frost-surface-deep);
+      backdrop-filter: blur(40px) saturate(1.2);
+      -webkit-backdrop-filter: blur(40px) saturate(1.2);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      box-shadow: 0 16px 64px rgba(10, 10, 50, 0.10);
+    }
+
+    .frost-depth-layer--2 {
+      left: 15%;
+      top: 20%;
+      right: 22%;
+      bottom: 25%;
+      background: var(--frost-surface-mid);
+      backdrop-filter: blur(20px) saturate(1.4);
+      -webkit-backdrop-filter: blur(20px) saturate(1.4);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      box-shadow: 0 8px 32px rgba(10, 10, 50, 0.12);
+    }
+
+    .frost-depth-layer--3 {
+      left: 28%;
+      top: 32%;
+      right: 12%;
+      bottom: 18%;
+      background: var(--frost-surface-light);
+      backdrop-filter: blur(16px) saturate(1.6);
+      -webkit-backdrop-filter: blur(16px) saturate(1.6);
+      border: 1px solid var(--frost-border);
+      box-shadow: 0 4px 16px rgba(10, 10, 50, 0.15);
+    }
+
+    .frost-depth-layer--4 {
+      right: 6%;
+      top: 40%;
+      width: 200px;
+      height: 120px;
+      background: var(--frost-surface-raised);
+      backdrop-filter: blur(8px) saturate(1.8);
+      -webkit-backdrop-filter: blur(8px) saturate(1.8);
+      border: 1px solid var(--frost-border-bright);
+      box-shadow: 0 12px 40px rgba(10, 10, 50, 0.20);
+    }
+
+    /* ================================================================
+       TYPOGRAPHY SPECIMENS
+       ================================================================ */
+    .frost-type-specimen {
+      margin: 1.5rem 0;
+    }
+
+    .frost-type-sample {
+      padding: 1.5rem;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: var(--frost-radius-md);
+      margin-bottom: 0.75rem;
+    }
+
+    .frost-type-sample-heading {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 800;
+      font-size: 2rem;
+      color: var(--frost-text-heading);
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+      margin-bottom: 0.75rem;
+    }
+
+    .frost-type-sample-body {
+      font-family: 'Inter', sans-serif;
+      font-size: 1rem;
+      line-height: 1.7;
+      color: var(--frost-text-secondary);
+      letter-spacing: 0.01em;
+    }
+
+    .frost-type-sample-mono {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.88rem;
+      color: var(--frost-accent-cyan);
+      letter-spacing: 0.02em;
+    }
+
+    .frost-type-sample-label {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--frost-text-muted);
+    }
+
+    .frost-type-meta {
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .frost-type-meta-item {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.75rem;
+      color: var(--frost-text-muted);
+    }
+
+    .frost-type-meta-item strong {
+      color: var(--frost-text-secondary);
+      font-weight: 500;
+    }
+
+    /* ================================================================
+       TABLE DISPLAY
+       ================================================================ */
+    .frost-table-wrap {
+      overflow-x: auto;
+      margin: 1.25rem 0;
+      border-radius: var(--frost-radius-md);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .frost-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+
+    .frost-table thead {
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .frost-table th {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--frost-text-muted);
+      text-align: left;
+      padding: 0.85rem 1.25rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .frost-table td {
+      padding: 0.85rem 1.25rem;
+      color: var(--frost-text-secondary);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      vertical-align: top;
+    }
+
+    .frost-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .frost-table tbody tr {
+      transition: background 0.2s ease;
+    }
+
+    .frost-table tbody tr:hover {
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .frost-table td code {
+      font-size: 0.78rem;
+    }
+
+    /* ================================================================
+       BUTTONS
+       ================================================================ */
+    .frost-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.65rem 1.5rem;
+      background: rgba(96, 165, 250, 0.18);
+      backdrop-filter: blur(12px) saturate(1.3);
+      -webkit-backdrop-filter: blur(12px) saturate(1.3);
+      border: 1px solid rgba(96, 165, 250, 0.30);
+      border-radius: var(--frost-radius-sm);
+      color: var(--frost-text-primary);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 500;
+      letter-spacing: 0.01em;
+      cursor: pointer;
+      text-decoration: none;
+      transition:
+        background 0.25s ease,
+        border-color 0.25s ease,
+        box-shadow 0.25s ease,
+        transform 0.1s ease;
+    }
+
+    .frost-button:hover {
+      background: rgba(96, 165, 250, 0.28);
+      border-color: rgba(96, 165, 250, 0.45);
+      color: var(--frost-text-primary);
+      box-shadow:
+        0 4px 16px rgba(96, 165, 250, 0.15),
+        0 0 0 1px rgba(96, 165, 250, 0.08);
+    }
+
+    .frost-button:active {
+      background: rgba(96, 165, 250, 0.35);
+      transform: scale(0.98);
+      transition-duration: 0.1s;
+    }
+
+    .frost-button--secondary {
+      background: var(--frost-surface-mid);
+      border-color: var(--frost-border);
+      color: var(--frost-text-secondary);
+    }
+
+    .frost-button--secondary:hover {
+      background: var(--frost-surface-light);
+      border-color: var(--frost-border-bright);
+      color: var(--frost-text-primary);
+      box-shadow: 0 4px 16px var(--frost-shadow-diffused);
+    }
+
+    .frost-button-group {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      margin-top: 1.5rem;
+    }
+
+    /* ================================================================
+       DIVIDERS
+       ================================================================ */
+    .frost-divider {
+      border: none;
+      height: 1px;
+      background: linear-gradient(
+        to right,
+        transparent 0%,
+        rgba(255, 255, 255, 0.10) 20%,
+        rgba(255, 255, 255, 0.10) 80%,
+        transparent 100%
+      );
+      margin: 2rem 0;
+    }
+
+    .frost-divider--accent {
+      background: linear-gradient(
+        to right,
+        transparent 0%,
+        rgba(96, 165, 250, 0.25) 30%,
+        rgba(167, 139, 250, 0.25) 70%,
+        transparent 100%
+      );
+      box-shadow: 0 0 8px rgba(96, 165, 250, 0.06);
+    }
+
+    /* ================================================================
+       FEATURE LIST
+       ================================================================ */
+    .frost-feature-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+      margin: 1.25rem 0;
+    }
+
+    .frost-feature-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      font-size: 0.94rem;
+      color: var(--frost-text-secondary);
+      line-height: 1.65;
+    }
+
+    .frost-feature-list li::before {
+      content: '';
+      flex-shrink: 0;
+      width: 6px;
+      height: 6px;
+      margin-top: 0.55rem;
+      border-radius: 50%;
+      background: var(--frost-accent-blue);
+      box-shadow: 0 0 6px rgba(96, 165, 250, 0.4);
+    }
+
+    .frost-feature-list--purple li::before {
+      background: var(--frost-accent-purple);
+      box-shadow: 0 0 6px rgba(167, 139, 250, 0.4);
+    }
+
+    .frost-feature-list--cyan li::before {
+      background: var(--frost-accent-cyan);
+      box-shadow: 0 0 6px rgba(103, 232, 249, 0.4);
+    }
+
+    /* ================================================================
+       INTERACTIVE DEMO SECTION
+       ================================================================ */
+    .frost-demo-row {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin: 1.5rem 0;
+      align-items: flex-start;
+    }
+
+    .frost-demo-panel {
+      position: relative;
+      border-radius: var(--frost-radius-lg);
+      padding: 1.5rem;
+      flex: 1;
+      min-width: 200px;
+      overflow: hidden;
+      text-align: center;
+    }
+
+    .frost-demo-panel::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.06) 0%,
+        transparent 50%
+      );
+      pointer-events: none;
+    }
+
+    .frost-demo-panel > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .frost-demo-panel-label {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--frost-text-muted);
+      margin-bottom: 0.5rem;
+    }
+
+    .frost-demo-panel-value {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem;
+      color: var(--frost-accent-cyan);
+    }
+
+    .frost-demo--deep {
+      background: var(--frost-surface-deep);
+      backdrop-filter: blur(40px) saturate(1.2);
+      -webkit-backdrop-filter: blur(40px) saturate(1.2);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      box-shadow: 0 16px 64px rgba(10, 10, 50, 0.10);
+    }
+
+    .frost-demo--mid {
+      background: var(--frost-surface-mid);
+      backdrop-filter: blur(20px) saturate(1.4);
+      -webkit-backdrop-filter: blur(20px) saturate(1.4);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      box-shadow: 0 8px 32px rgba(10, 10, 50, 0.12);
+    }
+
+    .frost-demo--surface {
+      background: var(--frost-surface-light);
+      backdrop-filter: blur(16px) saturate(1.6);
+      -webkit-backdrop-filter: blur(16px) saturate(1.6);
+      border: 1px solid var(--frost-border);
+      box-shadow: 0 4px 16px rgba(10, 10, 50, 0.15);
+    }
+
+    .frost-demo--raised {
+      background: var(--frost-surface-raised);
+      backdrop-filter: blur(8px) saturate(1.8);
+      -webkit-backdrop-filter: blur(8px) saturate(1.8);
+      border: 1px solid var(--frost-border-bright);
+      box-shadow: 0 12px 40px rgba(10, 10, 50, 0.20);
+    }
+
+    /* ================================================================
+       INPUT DEMO
+       ================================================================ */
+    .frost-input {
+      width: 100%;
+      padding: 0.7rem 1rem;
+      background: rgba(255, 255, 255, 0.06);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.10);
+      border-radius: var(--frost-radius-sm);
+      color: var(--frost-text-primary);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.95rem;
+      outline: none;
+      transition:
+        border-color 0.25s ease,
+        box-shadow 0.25s ease,
+        background 0.25s ease;
+    }
+
+    .frost-input::placeholder {
+      color: var(--frost-text-muted);
+    }
+
+    .frost-input:focus {
+      border-color: rgba(96, 165, 250, 0.50);
+      background: rgba(255, 255, 255, 0.10);
+      box-shadow:
+        0 0 0 3px rgba(96, 165, 250, 0.12),
+        0 2px 8px rgba(10, 10, 50, 0.10);
+    }
+
+    .frost-input-group {
+      display: flex;
+      gap: 0.75rem;
+      margin: 1.5rem 0;
+    }
+
+    .frost-input-group .frost-input {
+      flex: 1;
+    }
+
+    /* ================================================================
+       RELATED AESTHETICS CARDS
+       ================================================================ */
+    .frost-related-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+
+    .frost-related-card {
+      position: relative;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: var(--frost-radius-md);
+      padding: 1.25rem 1.5rem;
+      transition: background 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
+      overflow: hidden;
+    }
+
+    .frost-related-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.04) 0%,
+        transparent 50%
+      );
+      pointer-events: none;
+    }
+
+    .frost-related-card:hover {
+      background: rgba(255, 255, 255, 0.09);
+      border-color: var(--frost-border);
+      transform: translateY(-1px);
+    }
+
+    .frost-related-card > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .frost-related-card h4 {
+      color: var(--frost-text-primary);
+      margin-bottom: 0.4rem;
+      font-size: 0.95rem;
+    }
+
+    .frost-related-card p {
+      font-size: 0.85rem;
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    /* ================================================================
+       FOOTER
+       ================================================================ */
+    .frost-footer {
+      position: relative;
+      text-align: center;
+      padding: 2.5rem 2rem;
+      margin-top: 1rem;
+    }
+
+    .frost-footer::before {
+      content: '';
+      display: block;
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(
+        to right,
+        transparent 0%,
+        rgba(96, 165, 250, 0.20) 30%,
+        rgba(167, 139, 250, 0.20) 70%,
+        transparent 100%
+      );
+      margin-bottom: 2.5rem;
+    }
+
+    .frost-footer p {
+      color: var(--frost-text-muted);
+      font-size: 0.85rem;
+    }
+
+    .frost-footer-brand {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      color: var(--frost-text-secondary);
+      font-size: 1rem;
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+
+    /* ================================================================
+       UTILITY CLASSES
+       ================================================================ */
+    .text-blue { color: var(--frost-accent-blue); }
+    .text-purple { color: var(--frost-accent-purple); }
+    .text-cyan { color: var(--frost-accent-cyan); }
+    .text-pink { color: var(--frost-accent-pink); }
+    .text-muted { color: var(--frost-text-muted); }
+    .text-primary { color: var(--frost-text-primary); }
+
+    .mt-0 { margin-top: 0; }
+    .mt-1 { margin-top: 0.75rem; }
+    .mt-2 { margin-top: 1.5rem; }
+    .mb-0 { margin-bottom: 0; }
+    .mb-1 { margin-bottom: 0.75rem; }
+    .mb-2 { margin-bottom: 1.5rem; }
+
+    /* ================================================================
+       SCROLL ANIMATIONS
+       ================================================================ */
+    .frost-reveal {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+    }
+
+    .frost-reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .frost-reveal-delay-1 { transition-delay: 0.1s; }
+    .frost-reveal-delay-2 { transition-delay: 0.2s; }
+    .frost-reveal-delay-3 { transition-delay: 0.3s; }
+    .frost-reveal-delay-4 { transition-delay: 0.4s; }
+
+    /* ================================================================
+       RESPONSIVE
+       ================================================================ */
+    @media (max-width: 1024px) {
+      .frost-grid--3col {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .frost-depth-demo {
+        height: 280px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .frost-page {
+        padding: 1.5rem 1rem 3rem;
+      }
+
+      .frost-hero {
+        padding: 3rem 1.5rem 2.5rem;
+      }
+
+      .frost-panel {
+        padding: 1.75rem 1.25rem;
+      }
+
+      .frost-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .frost-grid--2col {
+        grid-template-columns: 1fr;
+      }
+
+      .frost-grid--3col {
+        grid-template-columns: 1fr;
+      }
+
+      .frost-nav {
+        padding: 0 1rem;
+      }
+
+      .frost-nav-links {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: rgba(20, 15, 45, 0.95);
+        backdrop-filter: blur(24px) saturate(1.6);
+        -webkit-backdrop-filter: blur(24px) saturate(1.6);
+        border-bottom: 1px solid var(--frost-border-subtle);
+        flex-direction: column;
+        padding: 0.5rem;
+      }
+
+      .frost-nav-links.open {
+        display: flex;
+      }
+
+      .frost-nav-links a {
+        padding: 0.7rem 1rem;
+        font-size: 0.9rem;
+      }
+
+      .frost-mobile-toggle {
+        display: block;
+      }
+
+      .frost-stats {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .frost-depth-demo {
+        height: 240px;
+      }
+
+      .frost-depth-layer--4 {
+        width: 140px;
+        height: 90px;
+      }
+
+      .frost-demo-row {
+        flex-direction: column;
+      }
+
+      .frost-palette {
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      }
+
+      .frost-related-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .frost-input-group {
+        flex-direction: column;
+      }
+
+      .frost-table {
+        font-size: 0.82rem;
+      }
+
+      .frost-table th,
+      .frost-table td {
+        padding: 0.65rem 0.85rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .frost-stats {
+        grid-template-columns: 1fr 1fr;
+        gap: 0.75rem;
+      }
+
+      .frost-hero h1 {
+        font-size: 1.8rem;
+      }
+
+      .frost-hero-subtitle {
+        font-size: 1rem;
+      }
+
+      .frost-stat-value {
+        font-size: 1.5rem;
+      }
+
+      .frost-card {
+        padding: 1.5rem;
+      }
+    }
+
+    /* ================================================================
+       FALLBACK for browsers without backdrop-filter
+       ================================================================ */
+    @supports not (backdrop-filter: blur(1px)) {
+      .frost-hero,
+      .frost-card,
+      .frost-panel,
+      .frost-nav,
+      .frost-stat,
+      .frost-demo-panel,
+      .frost-swatch-info {
+        background: rgba(30, 25, 60, 0.88);
+      }
+
+      .frost-nav.scrolled {
+        background: rgba(30, 25, 60, 0.95);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================================
+       GRADIENT BACKGROUND + FLOATING ORBS
+       ============================================================ -->
+  <div class="frost-bg"></div>
+  <div class="frost-orb frost-orb--1"></div>
+  <div class="frost-orb frost-orb--2"></div>
+  <div class="frost-orb frost-orb--3"></div>
+
+  <!-- ============================================================
+       NAVIGATION
+       ============================================================ -->
+  <nav class="frost-nav" id="frost-nav">
+    <a href="#" class="frost-nav-brand">
+      <span class="frost-nav-brand-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--frost-accent-cyan)">
+          <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+          <path d="M2 17l10 5 10-5"/>
+          <path d="M2 12l10 5 10-5"/>
+        </svg>
+      </span>
+      Frosted Touch
+    </a>
+    <button class="frost-mobile-toggle" id="mobile-toggle" aria-label="Toggle navigation">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <line x1="3" y1="6" x2="21" y2="6"/>
+        <line x1="3" y1="12" x2="21" y2="12"/>
+        <line x1="3" y1="18" x2="21" y2="18"/>
+      </svg>
+    </button>
+    <ul class="frost-nav-links" id="nav-links">
+      <li><a href="#visual" class="active">Visual</a></li>
+      <li><a href="#palette">Palette</a></li>
+      <li><a href="#typography">Type</a></li>
+      <li><a href="#elements">Elements</a></li>
+      <li><a href="#depth">Depth</a></li>
+      <li><a href="#layout">Layout</a></li>
+      <li><a href="#techniques">CSS</a></li>
+      <li><a href="#related">Related</a></li>
+    </ul>
+  </nav>
+
+  <!-- ============================================================
+       PAGE CONTENT
+       ============================================================ -->
+  <div class="frost-page">
+
+    <!-- ============================================================
+         HERO
+         ============================================================ -->
+    <section class="frost-hero">
+      <p class="frost-hero-eyebrow">Design Reference -- 2026</p>
+      <h1>Frosted Touch</h1>
+      <p class="frost-hero-subtitle">
+        The 2026 evolution of glassmorphism -- more refined, more subtle, with better performance and deeper layering. Entire interfaces built from translucent layers at multiple depths, each revealing hints of color beneath.
+      </p>
+      <div class="frost-hero-tags">
+        <span class="frost-tag frost-tag--blue">backdrop-filter</span>
+        <span class="frost-tag">translucent layers</span>
+        <span class="frost-tag frost-tag--cyan">diffused shadows</span>
+        <span class="frost-tag frost-tag--pink">gradient mesh</span>
+        <span class="frost-tag frost-tag--blue">soft borders</span>
+        <span class="frost-tag frost-tag--cyan">saturation boost</span>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         KEY STATS
+         ============================================================ -->
+    <div class="frost-stats frost-reveal">
+      <div class="frost-stat">
+        <div class="frost-stat-value text-blue">4</div>
+        <div class="frost-stat-label">Depth Layers</div>
+      </div>
+      <div class="frost-stat">
+        <div class="frost-stat-value text-purple">24px</div>
+        <div class="frost-stat-label">Border Radius</div>
+      </div>
+      <div class="frost-stat">
+        <div class="frost-stat-value text-cyan">16-40px</div>
+        <div class="frost-stat-label">Blur Range</div>
+      </div>
+      <div class="frost-stat">
+        <div class="frost-stat-value text-pink">0.08-0.25</div>
+        <div class="frost-stat-label">Alpha Range</div>
+      </div>
+      <div class="frost-stat">
+        <div class="frost-stat-value text-blue">1.2-1.8</div>
+        <div class="frost-stat-label">Saturation</div>
+      </div>
+    </div>
+
+    <!-- ============================================================
+         VISUAL CHARACTERISTICS
+         ============================================================ -->
+    <section id="visual" class="frost-section frost-reveal">
+      <div class="frost-section-label">Visual Characteristics</div>
+      <div class="frost-panel">
+        <h2>The Frosted Glass Language</h2>
+        <p>Frosted glass panels float over vibrant gradient backgrounds, connected by diffused shadows that create elegant depth without heaviness. Semi-transparent whites and soft blurs replace hard edges and solid fills. The result is an interface that feels like looking through layers of architectural glass: <strong>luminous, airy, and quietly sophisticated</strong>.</p>
+        <hr class="frost-divider">
+        <ul class="frost-feature-list">
+          <li><strong>Frosted glass panels</strong> with <code>backdrop-filter: blur()</code> creating translucent surfaces that obscure but do not hide the layers beneath</li>
+          <li><strong>Multiple depth layers</strong> -- 3-4 z-levels of translucent panels, each with slightly different blur intensity and opacity, creating a convincing sense of spatial depth</li>
+          <li><strong>Diffused box-shadows</strong> -- large spread values (20-40px) with low opacity (0.05-0.15) replacing hard drop shadows, producing soft halos of depth</li>
+          <li><strong>Rounded edges everywhere</strong> -- 16-24px border-radius on panels, 8-12px on buttons and inputs</li>
+          <li><strong>Soft inner-glow borders</strong> -- 1px semi-transparent white borders that catch light and define panel edges without hard contrast</li>
+          <li><strong>Subtle gradients within glass</strong> -- panels carry faint directional gradients to simulate light falling across frosted glass</li>
+          <li><strong>Vibrant gradient backgrounds</strong> -- rich, multi-stop gradients in deep blues, purples, and magentas provide the color energy that frosted panels partially reveal</li>
+          <li><strong>Light refraction effects</strong> at panel edges -- brighter border highlights on the side facing the virtual light source</li>
+          <li><strong>Saturation boost behind glass</strong> -- <code>saturate(1.2-1.8)</code> applied with backdrop-filter to keep colors vivid through the frost</li>
+          <li><strong>Floating composition</strong> -- panels appear to hover in space, supported only by light and shadow</li>
+          <li><strong>Minimal visual noise</strong> -- no textures, no patterns, no grain; all visual interest comes from transparency, blur, and light</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         COLOR PALETTE
+         ============================================================ -->
+    <section id="palette" class="frost-section frost-reveal">
+      <div class="frost-section-label">Color Palette</div>
+      <div class="frost-panel">
+        <h2>Chromatic Foundation</h2>
+        <p>The Frosted Touch palette centers on semi-transparent whites layered over vibrant gradients. The frost itself is nearly colorless; all chromatic energy comes from the backgrounds and accents beneath.</p>
+
+        <h3 class="mt-2 mb-1">Background Gradients</h3>
+        <div class="frost-palette">
+          <div class="frost-swatch">
+            <div class="frost-swatch-color" style="background: #1a1a4e;"></div>
+            <div class="frost-swatch-info">
+              <div class="frost-swatch-name">Deep Navy Blue</div>
+              <div class="frost-swatch-value">#1a1a4e</div>
+            </div>
+          </div>
+          <div class="frost-swatch">
+            <div class="frost-swatch-color" style="background: #4a1a6b;"></div>
+            <div class="frost-swatch-info">
+              <div class="frost-swatch-name">Deep Purple</div>
+              <div class="frost-swatch-value">#4a1a6b</div>
+            </div>
+          </div>
+          <div class="frost-swatch">
+            <div class="frost-swatch-color" style="background: #6b1a4a;"></div>
+            <div class="frost-swatch-info">
+              <div class="frost-swatch-name">Deep Magenta</div>
+              <div class="frost-swatch-value">#6b1a4a</div>
+            </div>
+          </div>
+        </div>
+
+        <h3 class="mt-2 mb-1">Frost Surfaces</h3>
+        <div class="frost-palette">
+          <div class="frost-swatch">
+            <div class="frost-swatch-color" style="background: linear-gradient(135deg, #1a1a4e, #4a1a6b);"><div style="width:100%;height:100%;background:rgba(255,255,255,0.08);"></div></div>
+            <div class="frost-swatch-info">
+              <div class="frost-swatch-name">Deep Surface</div>
+              <div class="frost-swatch-value">rgba(255,255,255, 0.08)</div>
+            </div>
+          </div>
+          <div class="frost-swatch">
+            <div class="frost-swatch-color" style="background: linear-gradient(135deg, #1a1a4e, #4a1a6b);"><div style="width:100%;height:100%;background:rgba(255,255,255,0.12);"></div></div>
+            <div class="frost-swatch-info">
+              <div class="frost-swatch-name">Mid Surface</div>
+              <div class="frost-swatch-value">rgba(255,255,255, 0.12)</div>
+            </div>
+          </div>
+          <div class="frost-swatch">
+            <div class="frost-swatch-color" style="background: linear-gradient(135deg, #1a1a4e, #4a1a6b);"><div style="width:100%;height:100%;background:rgba(255,255,255,0.18);"></div></div>
+            <div class="frost-swatch-info">
+              <div class="frost-swatch-name">Light Surface</div>
+              <div class="frost-swatch-value">rgba(255,255,255, 0.18)</div>
+            </div>
+          </div>
+          <div class="frost-swatch">
+            <div class="frost-swatch-color" style="background: linear-gradient(135deg, #1a1a4e, #4a1a6b);"><div style="width:100%;height:100%;background:rgba(255,255,255,0.25);"></div></div>
+            <div class="frost-swatch-info">
+              <div class="frost-swatch-name">Raised Surface</div>
+              <div class="frost-swatch-value">rgba(255,255,255, 0.25)</div>
+            </div>
+          </div>
+        </div>
+
+        <h3 class="mt-2 mb-1">Accent Colors</h3>
+        <div class="frost-palette">
+          <div class="frost-swatch">
+            <div class="frost-swatch-color" style="background: #60A5FA;"></div>
+            <div class="frost-swatch-info">
+              <div class="frost-swatch-name">Clear Sky Blue</div>
+              <div class="frost-swatch-value">#60A5FA</div>
+            </div>
+          </div>
+          <div class="frost-swatch">
+            <div class="frost-swatch-color" style="background: #A78BFA;"></div>
+            <div class="frost-swatch-info">
+              <div class="frost-swatch-name">Soft Violet</div>
+              <div class="frost-swatch-value">#A78BFA</div>
+            </div>
+          </div>
+          <div class="frost-swatch">
+            <div class="frost-swatch-color" style="background: #67E8F9;"></div>
+            <div class="frost-swatch-info">
+              <div class="frost-swatch-name">Frost Cyan</div>
+              <div class="frost-swatch-value">#67E8F9</div>
+            </div>
+          </div>
+          <div class="frost-swatch">
+            <div class="frost-swatch-color" style="background: #F472B6;"></div>
+            <div class="frost-swatch-info">
+              <div class="frost-swatch-name">Accent Pink</div>
+              <div class="frost-swatch-value">#F472B6</div>
+            </div>
+          </div>
+        </div>
+
+        <h3 class="mt-2 mb-1">Text & Shadows</h3>
+        <div class="frost-palette">
+          <div class="frost-swatch">
+            <div class="frost-swatch-color" style="background: #F8FAFC;"></div>
+            <div class="frost-swatch-info">
+              <div class="frost-swatch-name">Warm White</div>
+              <div class="frost-swatch-value">#F8FAFC</div>
+            </div>
+          </div>
+          <div class="frost-swatch">
+            <div class="frost-swatch-color" style="background: linear-gradient(135deg, #1a1a4e, #4a1a6b);"><div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:rgba(248,250,252,0.70);font-family:'Inter',sans-serif;font-size:0.9rem;">Aa</div></div>
+            <div class="frost-swatch-info">
+              <div class="frost-swatch-name">Text Secondary</div>
+              <div class="frost-swatch-value">rgba(248,250,252, 0.70)</div>
+            </div>
+          </div>
+          <div class="frost-swatch">
+            <div class="frost-swatch-color" style="background: linear-gradient(135deg, #1a1a4e, #4a1a6b);"><div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:rgba(248,250,252,0.45);font-family:'Inter',sans-serif;font-size:0.9rem;">Aa</div></div>
+            <div class="frost-swatch-info">
+              <div class="frost-swatch-name">Text Muted</div>
+              <div class="frost-swatch-value">rgba(248,250,252, 0.45)</div>
+            </div>
+          </div>
+          <div class="frost-swatch">
+            <div class="frost-swatch-color" style="background: rgba(15, 10, 40, 1);"></div>
+            <div class="frost-swatch-info">
+              <div class="frost-swatch-name">Shadow Tone</div>
+              <div class="frost-swatch-value">rgba(15,10,40, 0.25)</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         TYPOGRAPHY
+         ============================================================ -->
+    <section id="typography" class="frost-section frost-reveal">
+      <div class="frost-section-label">Typography</div>
+      <div class="frost-panel">
+        <h2>Typeface System</h2>
+        <p>Frosted Touch typography prioritizes clean legibility against translucent, shifting backgrounds. Geometric sans-serifs with even stroke widths remain readable at any blur level beneath them.</p>
+
+        <div class="frost-type-specimen">
+          <div class="frost-type-sample">
+            <div class="frost-type-sample-heading">Through the Frost, Light Reveals</div>
+            <div class="frost-type-sample-body">Every surface breathes, every boundary is soft, and the vibrant world beneath the frost is always felt but never fully revealed. A refined aesthetic for luminous interfaces.</div>
+            <div class="frost-type-sample-mono mt-1">backdrop-filter: blur(16px) saturate(1.4);</div>
+            <div class="frost-type-sample-label mt-1">Section Label -- Uppercase Tracking</div>
+          </div>
+          <div class="frost-type-meta">
+            <span class="frost-type-meta-item"><strong>Headings:</strong> Plus Jakarta Sans 800</span>
+            <span class="frost-type-meta-item"><strong>Body:</strong> Inter 400, 1.7 line-height</span>
+            <span class="frost-type-meta-item"><strong>Code:</strong> JetBrains Mono 400</span>
+            <span class="frost-type-meta-item"><strong>Labels:</strong> Space Grotesk 600</span>
+          </div>
+        </div>
+
+        <hr class="frost-divider">
+
+        <h3>Recommended Web Fonts</h3>
+        <div class="frost-table-wrap mt-1">
+          <table class="frost-table">
+            <thead>
+              <tr>
+                <th>Font</th>
+                <th>Style</th>
+                <th>Usage</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong style="color: var(--frost-accent-blue);">Inter</strong></td>
+                <td>Geometric sans-serif</td>
+                <td>Primary body and UI text -- excellent legibility, wide weight range, variable font support</td>
+              </tr>
+              <tr>
+                <td><strong style="color: var(--frost-accent-blue);">Plus Jakarta Sans</strong></td>
+                <td>Modern geometric sans</td>
+                <td>Headings and display text -- slightly warmer and more characterful</td>
+              </tr>
+              <tr>
+                <td><strong style="color: var(--frost-accent-purple);">DM Sans</strong></td>
+                <td>Clean geometric sans</td>
+                <td>Alternative body text -- compact and clear with geometric proportions</td>
+              </tr>
+              <tr>
+                <td><strong style="color: var(--frost-accent-purple);">Outfit</strong></td>
+                <td>Geometric sans-serif</td>
+                <td>Headings -- geometric with slight softness, good at larger sizes</td>
+              </tr>
+              <tr>
+                <td><strong style="color: var(--frost-accent-cyan);">Space Grotesk</strong></td>
+                <td>Monospace-inspired sans</td>
+                <td>UI labels, data displays, technical text</td>
+              </tr>
+              <tr>
+                <td><strong style="color: var(--frost-accent-cyan);">JetBrains Mono</strong></td>
+                <td>Monospace</td>
+                <td>Code snippets, status indicators, numerical data</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <hr class="frost-divider">
+
+        <h3>Typography Principles</h3>
+        <ul class="frost-feature-list frost-feature-list--cyan">
+          <li><strong>Medium weight bias</strong> -- 400-500 for body; thinner weights disappear against frost, heavier weights feel too solid</li>
+          <li><strong>Generous letter-spacing</strong> -- 0.01-0.03em improves readability on translucent surfaces</li>
+          <li><strong>High line-height</strong> -- 1.6-1.8 for body text matches the spaciousness of frosted layouts</li>
+          <li><strong>Subtle text-shadow</strong> -- faint dark shadow ensures characters remain readable when backgrounds shift</li>
+          <li><strong>White and near-white</strong> -- all text in the white/cool-gray range; color reserved for interactive elements</li>
+          <li><strong>Heading distinction</strong> through weight and size, not color -- preserving the monochromatic frost feeling</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         KEY DESIGN ELEMENTS
+         ============================================================ -->
+    <section id="elements" class="frost-section frost-reveal">
+      <div class="frost-section-label">Key Design Elements</div>
+
+      <div class="frost-grid">
+        <div class="frost-card">
+          <div class="frost-card-icon frost-card-icon--blue">
+            <svg viewBox="0 0 24 24" fill="none" stroke="var(--frost-accent-blue)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="3" width="18" height="18" rx="4"/>
+              <path d="M3 9h18"/>
+              <path d="M9 3v18"/>
+            </svg>
+          </div>
+          <h3>Frosted Glass Panel</h3>
+          <p>The defining element -- a translucent surface with semi-transparent rgba white background, backdrop blur, saturation boost, thin luminous border, and generous border-radius.</p>
+          <code>backdrop-filter: blur(16px) saturate(1.4)</code>
+        </div>
+
+        <div class="frost-card">
+          <div class="frost-card-icon frost-card-icon--purple">
+            <svg viewBox="0 0 24 24" fill="none" stroke="var(--frost-accent-purple)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="9"/>
+              <circle cx="12" cy="12" r="5"/>
+              <circle cx="12" cy="12" r="1"/>
+            </svg>
+          </div>
+          <h3>Diffused Shadows</h3>
+          <p>Atmospheric, not structural. Large spread, low opacity. Multiple shadow layers stacked at different spreads. Color-tinted with blue-purple hints from the gradient beneath.</p>
+          <code>box-shadow: 0 8px 32px rgba(10,10,50,0.12)</code>
+        </div>
+
+        <div class="frost-card">
+          <div class="frost-card-icon frost-card-icon--cyan">
+            <svg viewBox="0 0 24 24" fill="none" stroke="var(--frost-accent-cyan)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2v4"/>
+              <path d="M12 18v4"/>
+              <path d="M4.93 4.93l2.83 2.83"/>
+              <path d="M16.24 16.24l2.83 2.83"/>
+              <path d="M2 12h4"/>
+              <path d="M18 12h4"/>
+              <path d="M4.93 19.07l2.83-2.83"/>
+              <path d="M16.24 7.76l2.83-2.83"/>
+            </svg>
+          </div>
+          <h3>Luminous Borders</h3>
+          <p>Thin white borders at low opacity (0.15-0.25 alpha) catch light like glass edges. They define panel boundaries without hard contrast, glowing faintly against the frosted surface.</p>
+          <code>border: 1px solid rgba(255,255,255,0.18)</code>
+        </div>
+
+        <div class="frost-card">
+          <div class="frost-card-icon frost-card-icon--pink">
+            <svg viewBox="0 0 24 24" fill="none" stroke="var(--frost-accent-pink)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 3c4.97 0 9 4.03 9 9s-4.03 9-9 9"/>
+              <path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9"/>
+              <path d="M3 12h18"/>
+              <path d="M12 3c2.21 3.15 3.5 6.42 3.5 9s-1.29 5.85-3.5 9"/>
+            </svg>
+          </div>
+          <h3>Gradient Background</h3>
+          <p>Multi-stop radial and linear gradients using deep, saturated colors. Gradient mesh simulation via overlapping radial gradients at different positions creating organic color fields.</p>
+          <code>linear-gradient(135deg, #1a1a4e, #4a1a6b, #6b1a4a)</code>
+        </div>
+
+        <div class="frost-card">
+          <div class="frost-card-icon frost-card-icon--blue">
+            <svg viewBox="0 0 24 24" fill="none" stroke="var(--frost-accent-blue)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M15 3h6v6"/>
+              <path d="M9 21H3v-6"/>
+              <path d="M21 3l-7 7"/>
+              <path d="M3 21l7-7"/>
+            </svg>
+          </div>
+          <h3>Hover & Interaction</h3>
+          <p>Interactions feel like moving a panel closer. Opacity increases, blur reduces, borders brighten, shadows intensify. All changes animate over 0.25-0.35s with ease-out timing.</p>
+          <code>transition: all 0.3s ease</code>
+        </div>
+
+        <div class="frost-card">
+          <div class="frost-card-icon frost-card-icon--purple">
+            <svg viewBox="0 0 24 24" fill="none" stroke="var(--frost-accent-purple)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="3" y1="12" x2="21" y2="12"/>
+              <polyline points="8 6 3 12 8 18"/>
+              <polyline points="16 6 21 12 16 18"/>
+            </svg>
+          </div>
+          <h3>Gradient Dividers</h3>
+          <p>Horizontal rules that fade from transparent to white to transparent. Barely visible, more felt than seen. Generous padding used more often than visible dividers.</p>
+          <code>background: linear-gradient(to right, transparent, rgba(...))</code>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         DEPTH LAYER SYSTEM
+         ============================================================ -->
+    <section id="depth" class="frost-section frost-reveal">
+      <div class="frost-section-label">Layered Depth System</div>
+      <div class="frost-panel">
+        <h2>Four Layers of Glass</h2>
+        <p>Multiple translucent layers create a convincing 3D space. Each layer has a distinct combination of opacity, blur, and shadow that positions it in z-space.</p>
+
+        <div class="frost-depth-demo">
+          <div class="frost-depth-layer frost-depth-layer--0">
+            <span>Layer 0</span>
+            <span>Background Gradient</span>
+          </div>
+          <div class="frost-depth-layer frost-depth-layer--1">
+            <span>Layer 1 -- Deep</span>
+            <span>blur(40px) / alpha 0.08</span>
+          </div>
+          <div class="frost-depth-layer frost-depth-layer--2">
+            <span>Layer 2 -- Mid</span>
+            <span>blur(20px) / alpha 0.12</span>
+          </div>
+          <div class="frost-depth-layer frost-depth-layer--3">
+            <span>Layer 3 -- Surface</span>
+            <span>blur(16px) / alpha 0.18</span>
+          </div>
+          <div class="frost-depth-layer frost-depth-layer--4">
+            <span>Layer 4</span>
+            <span>blur(8px) / 0.25</span>
+          </div>
+        </div>
+
+        <hr class="frost-divider--accent">
+
+        <h3>Live Layer Comparison</h3>
+        <div class="frost-demo-row">
+          <div class="frost-demo-panel frost-demo--deep">
+            <div class="frost-demo-panel-label">Layer 1 -- Deep</div>
+            <div class="frost-demo-panel-value">blur(40px) saturate(1.2)</div>
+            <div class="frost-demo-panel-value" style="margin-top:0.3rem">alpha: 0.08</div>
+          </div>
+          <div class="frost-demo-panel frost-demo--mid">
+            <div class="frost-demo-panel-label">Layer 2 -- Mid</div>
+            <div class="frost-demo-panel-value">blur(20px) saturate(1.4)</div>
+            <div class="frost-demo-panel-value" style="margin-top:0.3rem">alpha: 0.12</div>
+          </div>
+          <div class="frost-demo-panel frost-demo--surface">
+            <div class="frost-demo-panel-label">Layer 3 -- Surface</div>
+            <div class="frost-demo-panel-value">blur(16px) saturate(1.6)</div>
+            <div class="frost-demo-panel-value" style="margin-top:0.3rem">alpha: 0.18</div>
+          </div>
+          <div class="frost-demo-panel frost-demo--raised">
+            <div class="frost-demo-panel-label">Layer 4 -- Raised</div>
+            <div class="frost-demo-panel-value">blur(8px) saturate(1.8)</div>
+            <div class="frost-demo-panel-value" style="margin-top:0.3rem">alpha: 0.25</div>
+          </div>
+        </div>
+
+        <hr class="frost-divider">
+
+        <h3>Depth Layer Specifications</h3>
+        <div class="frost-table-wrap mt-1">
+          <table class="frost-table">
+            <thead>
+              <tr>
+                <th>Layer</th>
+                <th>Purpose</th>
+                <th>Opacity</th>
+                <th>Blur</th>
+                <th>Saturate</th>
+                <th>Shadow Spread</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong class="text-pink">0 -- Background</strong></td>
+                <td>Vibrant gradient mesh</td>
+                <td>Full color</td>
+                <td>None</td>
+                <td>None</td>
+                <td>None</td>
+              </tr>
+              <tr>
+                <td><strong class="text-purple">1 -- Deep</strong></td>
+                <td>Ambient panels</td>
+                <td>0.06 - 0.10</td>
+                <td>32 - 40px</td>
+                <td>1.2</td>
+                <td>64px</td>
+              </tr>
+              <tr>
+                <td><strong class="text-blue">2 -- Mid</strong></td>
+                <td>Content containers</td>
+                <td>0.12 - 0.18</td>
+                <td>16 - 24px</td>
+                <td>1.4</td>
+                <td>32px</td>
+              </tr>
+              <tr>
+                <td><strong class="text-cyan">3 -- Surface</strong></td>
+                <td>Interactive cards</td>
+                <td>0.18 - 0.25</td>
+                <td>8 - 16px</td>
+                <td>1.6</td>
+                <td>16px</td>
+              </tr>
+              <tr>
+                <td><strong class="text-primary">4 -- Raised</strong></td>
+                <td>Tooltips, modals</td>
+                <td>0.25 - 0.35</td>
+                <td>4 - 8px</td>
+                <td>1.8</td>
+                <td>40px</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         LAYOUT PRINCIPLES
+         ============================================================ -->
+    <section id="layout" class="frost-section frost-reveal">
+      <div class="frost-section-label">Layout Principles</div>
+      <div class="frost-grid frost-grid--2col">
+        <div class="frost-card">
+          <h3>Spatial Composition</h3>
+          <ul class="frost-feature-list">
+            <li><strong>Floating panels</strong> -- hover in space over the gradient, not anchored to edges</li>
+            <li><strong>Generous whitespace</strong> -- 24-48px gaps; the gradient is a first-class design element</li>
+            <li><strong>Consistent border-radius</strong> -- 8, 16, 24px family creates visual cohesion</li>
+            <li><strong>Asymmetric depth</strong> -- vary opacity and blur across panels for a layered landscape</li>
+            <li><strong>Low content density</strong> -- each panel contains a focused amount of content</li>
+          </ul>
+        </div>
+        <div class="frost-card">
+          <h3>Web Adaptation</h3>
+          <ul class="frost-feature-list frost-feature-list--purple">
+            <li><strong>CSS Grid or Flexbox</strong> with generous gap values (24-40px)</li>
+            <li><strong>Frosted cards</strong> -- each section wrapped in glass panels</li>
+            <li><strong>Sticky frosted navigation</strong> -- becoming more opaque on scroll</li>
+            <li><strong>Max-width containers</strong> -- 1200-1400px for comfortable reading</li>
+            <li><strong>Dark mode default</strong> -- the aesthetic requires a dark, vibrant background</li>
+            <li><strong>Responsive</strong> -- reduce depth layers and increase opacity on mobile</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         INTERACTIVE COMPONENT DEMOS
+         ============================================================ -->
+    <section class="frost-section frost-reveal">
+      <div class="frost-section-label">Interactive Components</div>
+      <div class="frost-panel">
+        <h2>Component Library</h2>
+        <p>Frosted Touch components maintain consistent translucency, rounded corners, and diffused shadows across all interactive states.</p>
+
+        <hr class="frost-divider">
+
+        <h3>Buttons</h3>
+        <div class="frost-button-group">
+          <button class="frost-button">Primary Action</button>
+          <button class="frost-button frost-button--secondary">Secondary</button>
+          <span class="frost-tag frost-tag--blue">Tag Blue</span>
+          <span class="frost-tag">Tag Purple</span>
+          <span class="frost-tag frost-tag--cyan">Tag Cyan</span>
+          <span class="frost-tag frost-tag--pink">Tag Pink</span>
+        </div>
+
+        <hr class="frost-divider">
+
+        <h3>Input Fields</h3>
+        <div class="frost-input-group">
+          <input type="text" class="frost-input" placeholder="Type something on frosted glass...">
+          <button class="frost-button">Submit</button>
+        </div>
+
+        <hr class="frost-divider">
+
+        <h3>Divider Styles</h3>
+        <p class="text-muted" style="font-size:0.85rem;">Standard divider:</p>
+        <hr class="frost-divider">
+        <p class="text-muted" style="font-size:0.85rem;">Accent gradient divider:</p>
+        <hr class="frost-divider frost-divider--accent">
+      </div>
+    </section>
+
+    <!-- ============================================================
+         CSS TECHNIQUES
+         ============================================================ -->
+    <section id="techniques" class="frost-section frost-reveal">
+      <div class="frost-section-label">CSS Techniques</div>
+      <div class="frost-panel">
+        <h2>Core Implementation</h2>
+        <p>The complete Frosted Touch aesthetic is achievable with modern CSS. Below are the essential patterns.</p>
+
+        <hr class="frost-divider">
+
+        <h3>Frost Panel</h3>
+        <div class="frost-code-block">
+          <code><span class="code-selector">.frost-panel</span> {
+  <span class="code-prop">background</span>: <span class="code-value">rgba(255, 255, 255, 0.18)</span>;
+  <span class="code-prop">backdrop-filter</span>: <span class="code-value">blur(16px) saturate(1.4)</span>;
+  <span class="code-prop">-webkit-backdrop-filter</span>: <span class="code-value">blur(16px) saturate(1.4)</span>;
+  <span class="code-prop">border</span>: <span class="code-value">1px solid rgba(255, 255, 255, 0.18)</span>;
+  <span class="code-prop">border-radius</span>: <span class="code-unit">24px</span>;
+  <span class="code-prop">box-shadow</span>:
+    <span class="code-value">0 8px 32px rgba(10, 10, 50, 0.15)</span>,
+    <span class="code-value">0 2px 8px rgba(0, 0, 0, 0.08)</span>;
+}</code>
+        </div>
+
+        <h3>Inner Light Gradient</h3>
+        <div class="frost-code-block">
+          <code><span class="code-selector">.frost-panel::before</span> {
+  <span class="code-prop">content</span>: <span class="code-value">''</span>;
+  <span class="code-prop">position</span>: <span class="code-value">absolute</span>;
+  <span class="code-prop">inset</span>: <span class="code-unit">0</span>;
+  <span class="code-prop">border-radius</span>: <span class="code-value">inherit</span>;
+  <span class="code-prop">background</span>: <span class="code-value">linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.08) 0%,
+    rgba(255, 255, 255, 0.02) 50%,
+    transparent 100%
+  )</span>;
+  <span class="code-prop">pointer-events</span>: <span class="code-value">none</span>;
+}</code>
+        </div>
+
+        <h3>Gradient Background Mesh</h3>
+        <div class="frost-code-block">
+          <code><span class="code-selector">.frost-background</span> {
+  <span class="code-prop">background</span>: <span class="code-value">linear-gradient(135deg, #1a1a4e, #4a1a6b, #6b1a4a)</span>;
+}
+
+<span class="code-selector">.frost-background::before</span> {
+  <span class="code-prop">background</span>:
+    <span class="code-value">radial-gradient(ellipse 80% 60% at 20% 30%,
+      rgba(96, 165, 250, 0.25), transparent 70%)</span>,
+    <span class="code-value">radial-gradient(ellipse 60% 80% at 80% 70%,
+      rgba(167, 139, 250, 0.20), transparent 70%)</span>,
+    <span class="code-value">radial-gradient(ellipse 70% 50% at 50% 90%,
+      rgba(244, 114, 182, 0.15), transparent 70%)</span>;
+}</code>
+        </div>
+
+        <h3>Hover Elevation</h3>
+        <div class="frost-code-block">
+          <code><span class="code-selector">.frost-card:hover</span> {
+  <span class="code-prop">background</span>: <span class="code-value">rgba(255, 255, 255, 0.25)</span>;  <span class="code-comment">/* opacity increase */</span>
+  <span class="code-prop">border-color</span>: <span class="code-value">rgba(255, 255, 255, 0.30)</span>; <span class="code-comment">/* border brightens */</span>
+  <span class="code-prop">box-shadow</span>:
+    <span class="code-value">0 8px 32px rgba(10, 10, 50, 0.20)</span>,
+    <span class="code-value">0 2px 8px rgba(0, 0, 0, 0.10)</span>;   <span class="code-comment">/* shadow intensifies */</span>
+  <span class="code-prop">transform</span>: <span class="code-value">translateY(-2px)</span>;          <span class="code-comment">/* panel lifts */</span>
+}</code>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         MATERIALS & TEXTURES
+         ============================================================ -->
+    <section class="frost-section frost-reveal">
+      <div class="frost-section-label">Materials & Visual Metaphors</div>
+      <div class="frost-panel">
+        <h2>From Architecture to Web</h2>
+        <p>Frosted Touch translates physical glass and light phenomena into CSS properties.</p>
+        <div class="frost-table-wrap mt-2">
+          <table class="frost-table">
+            <thead>
+              <tr>
+                <th>Physical Reference</th>
+                <th>Web Equivalent</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Frosted architectural glass panels</td>
+                <td><code>backdrop-filter: blur(16-24px)</code> with semi-transparent background</td>
+              </tr>
+              <tr>
+                <td>Layered glass walls at different depths</td>
+                <td>Multiple overlapping elements with varying blur and opacity</td>
+              </tr>
+              <tr>
+                <td>Light falling across a glass surface</td>
+                <td><code>linear-gradient(135deg, rgba(255,255,255,0.08), transparent)</code> overlay</td>
+              </tr>
+              <tr>
+                <td>Diffused light through frosted glass</td>
+                <td><code>backdrop-filter: saturate(1.2-1.8)</code> boosting color vibrancy</td>
+              </tr>
+              <tr>
+                <td>Soft shadows cast by floating glass</td>
+                <td>Large-spread, low-opacity <code>box-shadow</code> (20-40px, 0.08-0.15 alpha)</td>
+              </tr>
+              <tr>
+                <td>Thin luminous edge catching light</td>
+                <td><code>border: 1px solid rgba(255,255,255,0.15-0.25)</code></td>
+              </tr>
+              <tr>
+                <td>Vibrant wall behind glass partitions</td>
+                <td>Multi-stop CSS <code>linear-gradient</code> and <code>radial-gradient</code></td>
+              </tr>
+              <tr>
+                <td>Rounded glass corners</td>
+                <td><code>border-radius: 16-24px</code></td>
+              </tr>
+              <tr>
+                <td>Anti-reflective coating</td>
+                <td>Smooth CSS transitions (0.25-0.35s ease-out)</td>
+              </tr>
+              <tr>
+                <td>Stacked glass shelves</td>
+                <td><code>z-index</code> layering with decreasing blur for closer layers</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         IMAGERY GUIDELINES
+         ============================================================ -->
+    <section class="frost-section frost-reveal">
+      <div class="frost-section-label">Imagery Guidelines</div>
+      <div class="frost-grid frost-grid--2col">
+        <div class="frost-card">
+          <h3 class="text-cyan">Favor</h3>
+          <ul class="frost-feature-list frost-feature-list--cyan">
+            <li>Abstract gradient imagery, soft color fields, bokeh effects</li>
+            <li>Outlined or semi-filled icons at 1.5-2px stroke weight</li>
+            <li>Minimal, geometric illustrations with translucent fills</li>
+            <li>Circular avatars with frosted ring borders</li>
+            <li>Semi-transparent chart fills with visible strokes</li>
+            <li>Hero sections with large vibrant gradients as color sources</li>
+          </ul>
+        </div>
+        <div class="frost-card">
+          <h3 class="text-pink">Avoid</h3>
+          <ul class="frost-feature-list" style="--dot-color: var(--frost-accent-pink);">
+            <li style="color: var(--frost-text-secondary);">Busy, high-detail photographs behind frost panels</li>
+            <li>Complex, detailed drawings or illustrations</li>
+            <li>Hard-edged or pixel-art imagery</li>
+            <li>Noise, grain, or repeating pattern textures</li>
+            <li>Solid blocks of color for status states</li>
+            <li>Unrounded corners on embedded media</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         IMPLEMENTATION NOTES
+         ============================================================ -->
+    <section class="frost-section frost-reveal">
+      <div class="frost-section-label">Implementation Notes</div>
+      <div class="frost-panel">
+        <h2>Production Considerations</h2>
+        <div class="frost-grid frost-grid--2col" style="margin-top:1.5rem;">
+          <div style="display:flex;flex-direction:column;gap:1rem;">
+            <div>
+              <h4 class="text-blue mb-1">Browser Support</h4>
+              <p style="font-size:0.9rem;"><code>backdrop-filter</code> is critical -- the entire aesthetic depends on it. As of 2026, support is strong. Always provide a solid-color fallback using <code>@supports not (backdrop-filter: blur(1px))</code>.</p>
+            </div>
+            <div>
+              <h4 class="text-blue mb-1">Performance</h4>
+              <p style="font-size:0.9rem;">Blur is GPU-intensive with large radii and overlapping layers. Limit to 3-4 visible frosted panels. Avoid animating blur values. Use <code>will-change</code> sparingly.</p>
+            </div>
+            <div>
+              <h4 class="text-blue mb-1">Stacking Contexts</h4>
+              <p style="font-size:0.9rem;"><code>backdrop-filter</code> creates new stacking contexts. Nested frost panels may not blur content outside their parent context. Test layering carefully.</p>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:1rem;">
+            <div>
+              <h4 class="text-purple mb-1">Accessibility</h4>
+              <p style="font-size:0.9rem;">Translucent backgrounds make WCAG contrast harder. Use <code>text-shadow</code>, increase panel opacity in reading areas, and test across gradient positions.</p>
+            </div>
+            <div>
+              <h4 class="text-purple mb-1">The Gradient Is Not Optional</h4>
+              <p style="font-size:0.9rem;">Frosted panels over solid dark backgrounds look like faded gray boxes, not glass. The vibrant gradient is what gives frost its visual purpose and beauty.</p>
+            </div>
+            <div>
+              <h4 class="text-purple mb-1">Dark Mode Only</h4>
+              <p style="font-size:0.9rem;">Frosted Touch is inherently a dark-mode aesthetic. Light backgrounds fundamentally change the character. If needed, use colored tints instead of white transparency.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         RELATED AESTHETICS
+         ============================================================ -->
+    <section id="related" class="frost-section frost-reveal">
+      <div class="frost-section-label">Related Aesthetics</div>
+      <div class="frost-panel">
+        <h2>Aesthetic Lineage</h2>
+        <p>Frosted Touch exists within a constellation of modern design approaches. It shares DNA with several movements while maintaining its distinct identity.</p>
+        <div class="frost-related-grid">
+          <div class="frost-related-card">
+            <h4><span class="text-blue">Glassmorphism</span></h4>
+            <p>Direct predecessor. Frosted Touch refines it with multi-layer depth, better performance patterns, and more sophisticated color handling.</p>
+          </div>
+          <div class="frost-related-card">
+            <h4><span class="text-purple">Neumorphism</span></h4>
+            <p>Shares the soft-shadow philosophy but differs fundamentally -- extruded surfaces on solid backgrounds vs. translucent surfaces over vibrant gradients.</p>
+          </div>
+          <div class="frost-related-card">
+            <h4><span class="text-cyan">Aurora Gradient</span></h4>
+            <p>Shares vibrant gradient backgrounds. Aurora focuses on the gradient as primary element; Frosted Touch uses gradients as the foundation beneath frost.</p>
+          </div>
+          <div class="frost-related-card">
+            <h4><span class="text-pink">Dark Mode Neon</span></h4>
+            <p>Both work on dark backgrounds, but Neon uses high-contrast glowing elements while Frosted Touch uses soft, diffused translucency.</p>
+          </div>
+          <div class="frost-related-card">
+            <h4><span class="text-blue">Cyberminimalism</span></h4>
+            <p>Shares the minimal, clean approach but uses flat surfaces and sharp type, lacking the frosted depth and warmth.</p>
+          </div>
+          <div class="frost-related-card">
+            <h4><span class="text-purple">Claymorphism</span></h4>
+            <p>Both create soft, rounded, elevated surfaces. Clay simulates opaque plastic; Frosted Touch simulates transparent glass.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         CSS CUSTOM PROPERTIES REFERENCE
+         ============================================================ -->
+    <section class="frost-section frost-reveal">
+      <div class="frost-section-label">CSS Custom Properties</div>
+      <div class="frost-panel">
+        <h2>Variable Reference</h2>
+        <p>The complete set of CSS custom properties that define the Frosted Touch design token system.</p>
+        <div class="frost-code-block">
+          <code><span class="code-selector">:root</span> {
+  <span class="code-comment">/* Background gradient stops */</span>
+  <span class="code-prop">--frost-bg-a</span>: <span class="code-value">#1a1a4e</span>;
+  <span class="code-prop">--frost-bg-b</span>: <span class="code-value">#4a1a6b</span>;
+  <span class="code-prop">--frost-bg-c</span>: <span class="code-value">#6b1a4a</span>;
+
+  <span class="code-comment">/* Frost surface layers (back to front) */</span>
+  <span class="code-prop">--frost-surface-deep</span>:   <span class="code-value">rgba(255, 255, 255, 0.08)</span>;
+  <span class="code-prop">--frost-surface-mid</span>:    <span class="code-value">rgba(255, 255, 255, 0.12)</span>;
+  <span class="code-prop">--frost-surface-light</span>:  <span class="code-value">rgba(255, 255, 255, 0.18)</span>;
+  <span class="code-prop">--frost-surface-raised</span>: <span class="code-value">rgba(255, 255, 255, 0.25)</span>;
+
+  <span class="code-comment">/* Borders */</span>
+  <span class="code-prop">--frost-border</span>:        <span class="code-value">rgba(255, 255, 255, 0.18)</span>;
+  <span class="code-prop">--frost-border-bright</span>: <span class="code-value">rgba(255, 255, 255, 0.30)</span>;
+  <span class="code-prop">--frost-border-subtle</span>: <span class="code-value">rgba(255, 255, 255, 0.10)</span>;
+
+  <span class="code-comment">/* Text */</span>
+  <span class="code-prop">--frost-text-primary</span>:   <span class="code-value">#F8FAFC</span>;
+  <span class="code-prop">--frost-text-secondary</span>: <span class="code-value">rgba(248, 250, 252, 0.70)</span>;
+  <span class="code-prop">--frost-text-muted</span>:     <span class="code-value">rgba(248, 250, 252, 0.45)</span>;
+  <span class="code-prop">--frost-text-heading</span>:   <span class="code-value">#FFFFFF</span>;
+
+  <span class="code-comment">/* Accents */</span>
+  <span class="code-prop">--frost-accent-blue</span>:   <span class="code-value">#60A5FA</span>;
+  <span class="code-prop">--frost-accent-purple</span>: <span class="code-value">#A78BFA</span>;
+  <span class="code-prop">--frost-accent-cyan</span>:   <span class="code-value">#67E8F9</span>;
+  <span class="code-prop">--frost-accent-pink</span>:   <span class="code-value">#F472B6</span>;
+
+  <span class="code-comment">/* Blur values */</span>
+  <span class="code-prop">--frost-blur-sm</span>: <span class="code-value">blur(8px)</span>;
+  <span class="code-prop">--frost-blur-md</span>: <span class="code-value">blur(16px)</span>;
+  <span class="code-prop">--frost-blur-lg</span>: <span class="code-value">blur(24px)</span>;
+  <span class="code-prop">--frost-blur-xl</span>: <span class="code-value">blur(40px)</span>;
+
+  <span class="code-comment">/* Border radius */</span>
+  <span class="code-prop">--frost-radius-sm</span>:   <span class="code-unit">8px</span>;
+  <span class="code-prop">--frost-radius-md</span>:   <span class="code-unit">16px</span>;
+  <span class="code-prop">--frost-radius-lg</span>:   <span class="code-unit">24px</span>;
+  <span class="code-prop">--frost-radius-pill</span>: <span class="code-unit">9999px</span>;
+}</code>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         FOOTER
+         ============================================================ -->
+    <footer class="frost-footer">
+      <span class="frost-footer-brand">Frosted Touch</span>
+      <p>Refined glassmorphism for 2026 and beyond. Every surface breathes, every boundary is soft, and the vibrant world beneath the frost is always felt but never fully revealed.</p>
+    </footer>
+
+  </div>
+
+  <!-- ============================================================
+       JAVASCRIPT
+       ============================================================ -->
+  <script>
+    (function() {
+      'use strict';
+
+      // --- Navigation scroll effect ---
+      const nav = document.getElementById('frost-nav');
+      let lastScroll = 0;
+
+      function handleScroll() {
+        const scrollY = window.scrollY;
+        if (scrollY > 40) {
+          nav.classList.add('scrolled');
+        } else {
+          nav.classList.remove('scrolled');
+        }
+        lastScroll = scrollY;
+      }
+
+      window.addEventListener('scroll', handleScroll, { passive: true });
+
+      // --- Mobile navigation toggle ---
+      const mobileToggle = document.getElementById('mobile-toggle');
+      const navLinks = document.getElementById('nav-links');
+
+      if (mobileToggle && navLinks) {
+        mobileToggle.addEventListener('click', function() {
+          navLinks.classList.toggle('open');
+        });
+
+        // Close mobile nav when a link is clicked
+        navLinks.querySelectorAll('a').forEach(function(link) {
+          link.addEventListener('click', function() {
+            navLinks.classList.remove('open');
+          });
+        });
+      }
+
+      // --- Active nav link tracking ---
+      const sections = document.querySelectorAll('[id]');
+      const navAnchors = navLinks ? navLinks.querySelectorAll('a') : [];
+
+      function updateActiveLink() {
+        const scrollPos = window.scrollY + 100;
+
+        sections.forEach(function(section) {
+          const top = section.offsetTop;
+          const height = section.offsetHeight;
+          const id = section.getAttribute('id');
+
+          if (scrollPos >= top && scrollPos < top + height) {
+            navAnchors.forEach(function(a) {
+              a.classList.remove('active');
+              if (a.getAttribute('href') === '#' + id) {
+                a.classList.add('active');
+              }
+            });
+          }
+        });
+      }
+
+      window.addEventListener('scroll', updateActiveLink, { passive: true });
+
+      // --- Scroll reveal animations ---
+      const revealElements = document.querySelectorAll('.frost-reveal');
+
+      function checkReveal() {
+        const windowHeight = window.innerHeight;
+        const triggerPoint = windowHeight * 0.88;
+
+        revealElements.forEach(function(el) {
+          const rect = el.getBoundingClientRect();
+          if (rect.top < triggerPoint) {
+            el.classList.add('visible');
+          }
+        });
+      }
+
+      window.addEventListener('scroll', checkReveal, { passive: true });
+      // Initial check
+      checkReveal();
+
+      // --- Smooth scroll for anchor links ---
+      document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
+        anchor.addEventListener('click', function(e) {
+          e.preventDefault();
+          const targetId = this.getAttribute('href');
+          if (targetId === '#') return;
+          const target = document.querySelector(targetId);
+          if (target) {
+            const navHeight = nav ? nav.offsetHeight : 0;
+            const targetPosition = target.getBoundingClientRect().top + window.scrollY - navHeight - 20;
+            window.scrollTo({
+              top: targetPosition,
+              behavior: 'smooth'
+            });
+          }
+        });
+      });
+
+    })();
+  </script>
+
+</body>
+</html>

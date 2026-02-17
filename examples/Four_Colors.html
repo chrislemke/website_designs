@@ -1,0 +1,1989 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Four Colors -- Design Aesthetic Showcase</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Poppins:wght@400;500;600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* =============================================
+       CSS CUSTOM PROPERTIES -- FOUR COLORS SYSTEM
+       ============================================= */
+    :root {
+      /* Primary Four Colors */
+      --fc-lime: #7FFF00;
+      --fc-lime-soft: #ADFF2F;
+      --fc-sky: #00BFFF;
+      --fc-sky-soft: #38BDF8;
+      --fc-pink: #FF1493;
+      --fc-pink-soft: #FF69B4;
+      --fc-orange: #FF6600;
+      --fc-orange-soft: #FF8C00;
+
+      /* Extended Rainbow */
+      --fc-red: #FF0033;
+      --fc-yellow: #FFD700;
+      --fc-purple: #8B00FF;
+
+      /* Neutrals */
+      --fc-white: #FFFFFF;
+      --fc-light-gray: #F5F5F5;
+      --fc-silver: #C0C0C0;
+      --fc-dark: #1A1A1A;
+      --fc-black: #000000;
+
+      /* Functional */
+      --fc-bg-primary: var(--fc-white);
+      --fc-bg-secondary: var(--fc-light-gray);
+      --fc-text-primary: var(--fc-dark);
+      --fc-text-on-color: var(--fc-white);
+    }
+
+    /* =============================================
+       RESET & BASE
+       ============================================= */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+      background: var(--fc-white);
+      color: var(--fc-dark);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 400;
+      line-height: 1.65;
+      overflow-x: hidden;
+    }
+
+    /* =============================================
+       TYPOGRAPHY
+       ============================================= */
+    h1, h2, h3, h4 {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      line-height: 1.15;
+    }
+
+    .fc-display {
+      font-family: 'Montserrat', sans-serif;
+      font-size: clamp(2.8rem, 8vw, 6.5rem);
+      font-weight: 900;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      line-height: 1.05;
+    }
+
+    .fc-label {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 600;
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    p {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 1.05rem;
+      line-height: 1.7;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* =============================================
+       FOUR-COLOR STRIPE
+       ============================================= */
+    .fc-stripe {
+      display: flex;
+      height: 6px;
+      width: 100%;
+      position: relative;
+      z-index: 100;
+    }
+
+    .fc-stripe > span {
+      flex: 1;
+    }
+
+    .fc-stripe > span:nth-child(1) { background: var(--fc-lime); }
+    .fc-stripe > span:nth-child(2) { background: var(--fc-sky); }
+    .fc-stripe > span:nth-child(3) { background: var(--fc-pink); }
+    .fc-stripe > span:nth-child(4) { background: var(--fc-orange); }
+
+    .fc-stripe--thick {
+      height: 10px;
+    }
+
+    /* =============================================
+       NAVIGATION
+       ============================================= */
+    .fc-nav {
+      position: fixed;
+      top: 6px;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      background: var(--fc-white);
+      padding: 0.9rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: box-shadow 0.3s ease;
+    }
+
+    .fc-nav.scrolled {
+      box-shadow: 0 2px 0 var(--fc-light-gray);
+    }
+
+    .fc-nav-logo {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 900;
+      font-size: 1.1rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      display: flex;
+      gap: 0.3rem;
+      align-items: center;
+    }
+
+    .fc-nav-logo span:nth-child(1) { color: var(--fc-lime); }
+    .fc-nav-logo span:nth-child(2) { color: var(--fc-sky); }
+    .fc-nav-logo span:nth-child(3) { color: var(--fc-pink); }
+    .fc-nav-logo span:nth-child(4) { color: var(--fc-orange); }
+
+    .fc-nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .fc-nav-links a {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 600;
+      font-size: 0.75rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--fc-dark);
+      transition: color 0.2s ease;
+    }
+
+    .fc-nav-links a:hover {
+      color: var(--fc-pink);
+    }
+
+    @media (max-width: 768px) {
+      .fc-nav-links {
+        display: none;
+      }
+    }
+
+    /* =============================================
+       HERO -- CYCLING COLOR BACKGROUND
+       ============================================= */
+    @keyframes fc-color-cycle {
+      0%   { background-color: var(--fc-pink); }
+      25%  { background-color: var(--fc-sky); }
+      50%  { background-color: var(--fc-lime); }
+      75%  { background-color: var(--fc-orange); }
+      100% { background-color: var(--fc-pink); }
+    }
+
+    .fc-hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 8rem 2rem 6rem;
+      overflow: hidden;
+      animation: fc-color-cycle 16s ease-in-out infinite;
+    }
+
+    .fc-hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 900px;
+    }
+
+    .fc-hero h1 {
+      color: var(--fc-white);
+      margin-bottom: 1.5rem;
+      text-shadow: none;
+    }
+
+    .fc-hero-subtitle {
+      font-family: 'Poppins', sans-serif;
+      font-size: clamp(1rem, 2.5vw, 1.35rem);
+      font-weight: 500;
+      color: var(--fc-white);
+      opacity: 0.95;
+      max-width: 650px;
+      margin: 0 auto 2.5rem;
+      letter-spacing: 0.02em;
+    }
+
+    /* Silhouette figures -- iPod-inspired */
+    .fc-hero-silhouette {
+      position: absolute;
+      bottom: 0;
+      z-index: 1;
+      opacity: 0.12;
+    }
+
+    .fc-hero-silhouette--left {
+      left: 3%;
+      width: 280px;
+      height: 500px;
+    }
+
+    .fc-hero-silhouette--right {
+      right: 3%;
+      width: 240px;
+      height: 460px;
+    }
+
+    @media (max-width: 768px) {
+      .fc-hero-silhouette { display: none; }
+    }
+
+    /* Hero swatches */
+    .fc-hero-swatches {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      margin-top: 2rem;
+    }
+
+    .fc-swatch {
+      width: 2.5rem;
+      height: 2.5rem;
+      border-radius: 50%;
+      border: 3px solid rgba(255,255,255,0.6);
+      cursor: pointer;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .fc-swatch:hover {
+      transform: scale(1.2);
+      border-color: var(--fc-white);
+    }
+
+    .fc-swatch--lime { background: var(--fc-lime); }
+    .fc-swatch--sky { background: var(--fc-sky); }
+    .fc-swatch--pink { background: var(--fc-pink); }
+    .fc-swatch--orange { background: var(--fc-orange); }
+
+    /* =============================================
+       SEASON BADGE
+       ============================================= */
+    .fc-season-badge {
+      display: inline-block;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.35rem 1rem;
+      margin-bottom: 0.75rem;
+    }
+
+    /* =============================================
+       INTRODUCTION SECTION
+       ============================================= */
+    .fc-intro {
+      padding: 6rem 2rem;
+      text-align: center;
+      background: var(--fc-white);
+    }
+
+    .fc-intro-inner {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .fc-intro h2 {
+      font-size: clamp(1.6rem, 4vw, 2.5rem);
+      margin-bottom: 1.5rem;
+      color: var(--fc-dark);
+    }
+
+    .fc-intro p {
+      font-size: 1.1rem;
+      color: #444;
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    /* =============================================
+       FOUR-COLOR CARD GRID
+       ============================================= */
+    .fc-card-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+    }
+
+    @media (max-width: 1024px) {
+      .fc-card-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 640px) {
+      .fc-card-grid { grid-template-columns: 1fr; }
+    }
+
+    .fc-card {
+      padding: 3.5rem 2.2rem;
+      text-align: center;
+      color: var(--fc-white);
+      transition: transform 0.2s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .fc-card:hover {
+      transform: scale(1.02);
+      z-index: 2;
+    }
+
+    .fc-card:nth-child(4n+1) { background: var(--fc-lime); color: var(--fc-dark); }
+    .fc-card:nth-child(4n+2) { background: var(--fc-sky); }
+    .fc-card:nth-child(4n+3) { background: var(--fc-pink); }
+    .fc-card:nth-child(4n+4) { background: var(--fc-orange); }
+
+    .fc-card h3 {
+      font-size: 1.15rem;
+      margin-bottom: 0.75rem;
+      letter-spacing: 0.05em;
+    }
+
+    .fc-card p {
+      font-size: 0.92rem;
+      opacity: 0.92;
+      line-height: 1.6;
+    }
+
+    .fc-card-icon {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      display: block;
+    }
+
+    /* =============================================
+       SECTION PANELS -- SOLID COLOR BACKGROUNDS
+       ============================================= */
+    .fc-section {
+      padding: 6rem 2rem;
+      text-align: center;
+    }
+
+    .fc-section-white {
+      background: var(--fc-white);
+      color: var(--fc-dark);
+    }
+
+    .fc-section-black {
+      background: var(--fc-black);
+      color: var(--fc-white);
+    }
+
+    .fc-section-lime {
+      background: var(--fc-lime);
+      color: var(--fc-dark);
+    }
+
+    .fc-section-sky {
+      background: var(--fc-sky);
+      color: var(--fc-white);
+    }
+
+    .fc-section-pink {
+      background: var(--fc-pink);
+      color: var(--fc-white);
+    }
+
+    .fc-section-orange {
+      background: var(--fc-orange);
+      color: var(--fc-white);
+    }
+
+    .fc-section-gray {
+      background: var(--fc-light-gray);
+      color: var(--fc-dark);
+    }
+
+    .fc-section-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .fc-section h2 {
+      font-size: clamp(1.6rem, 4vw, 2.8rem);
+      margin-bottom: 1.5rem;
+    }
+
+    .fc-section p {
+      max-width: 700px;
+      margin: 0 auto 2rem;
+      font-size: 1.05rem;
+    }
+
+    /* =============================================
+       COLOR PALETTE SHOWCASE
+       ============================================= */
+    .fc-palette-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2rem;
+      max-width: 1100px;
+      margin: 3rem auto 0;
+    }
+
+    @media (max-width: 900px) {
+      .fc-palette-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 500px) {
+      .fc-palette-grid { grid-template-columns: 1fr; }
+    }
+
+    .fc-palette-card {
+      text-align: center;
+    }
+
+    .fc-palette-swatch {
+      width: 100%;
+      aspect-ratio: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1rem;
+      transition: transform 0.2s ease;
+    }
+
+    .fc-palette-swatch:hover {
+      transform: scale(1.05);
+    }
+
+    .fc-palette-swatch-inner {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: clamp(1.5rem, 3vw, 2.2rem);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .fc-palette-label {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 0.95rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 0.3rem;
+    }
+
+    .fc-palette-hex {
+      font-family: 'DM Sans', monospace;
+      font-size: 0.85rem;
+      color: var(--fc-silver);
+    }
+
+    .fc-palette-hex-dark {
+      color: #666;
+    }
+
+    .fc-palette-season {
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-top: 0.2rem;
+      opacity: 0.7;
+    }
+
+    /* =============================================
+       TYPOGRAPHY SHOWCASE
+       ============================================= */
+    .fc-type-showcase {
+      max-width: 1000px;
+      margin: 3rem auto 0;
+      text-align: left;
+    }
+
+    .fc-type-row {
+      padding: 2.5rem 0;
+      border-bottom: 2px solid rgba(255,255,255,0.15);
+      display: flex;
+      align-items: baseline;
+      gap: 2rem;
+    }
+
+    .fc-type-row:last-child {
+      border-bottom: none;
+    }
+
+    .fc-type-meta {
+      flex: 0 0 180px;
+      text-align: right;
+    }
+
+    .fc-type-meta span {
+      display: block;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      opacity: 0.6;
+    }
+
+    .fc-type-sample {
+      flex: 1;
+    }
+
+    .fc-type-display {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 900;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      line-height: 1.1;
+    }
+
+    .fc-type-heading {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: clamp(1.3rem, 3vw, 2rem);
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+    }
+
+    .fc-type-subhead {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 600;
+      font-size: clamp(1rem, 2.5vw, 1.4rem);
+      letter-spacing: 0.02em;
+    }
+
+    .fc-type-body {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 400;
+      font-size: 1.05rem;
+      line-height: 1.7;
+    }
+
+    .fc-type-label-sample {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 600;
+      font-size: 0.85rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    @media (max-width: 768px) {
+      .fc-type-row {
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+      .fc-type-meta {
+        text-align: left;
+        flex: none;
+      }
+    }
+
+    /* =============================================
+       LAYOUT PRINCIPLES
+       ============================================= */
+    .fc-layout-demo {
+      max-width: 1100px;
+      margin: 3rem auto 0;
+    }
+
+    .fc-layout-mini-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+      margin-bottom: 2rem;
+    }
+
+    @media (max-width: 768px) {
+      .fc-layout-mini-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    .fc-layout-cell {
+      aspect-ratio: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: clamp(0.7rem, 1.5vw, 1rem);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      text-align: center;
+      padding: 1rem;
+      transition: transform 0.2s ease;
+    }
+
+    .fc-layout-cell:hover {
+      transform: scale(1.04);
+      z-index: 2;
+    }
+
+    /* =============================================
+       SILHOUETTE SECTION
+       ============================================= */
+    .fc-silhouette-area {
+      position: relative;
+      min-height: 500px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .fc-silhouette-figure {
+      position: absolute;
+      bottom: 0;
+    }
+
+    /* SVG silhouette person inline */
+    .fc-silhouette-svg {
+      width: 200px;
+      height: 380px;
+      fill: var(--fc-black);
+      opacity: 0.85;
+    }
+
+    .fc-silhouette-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+    }
+
+    /* =============================================
+       DESIGN PRINCIPLES LIST
+       ============================================= */
+    .fc-principles {
+      max-width: 900px;
+      margin: 3rem auto 0;
+      text-align: left;
+    }
+
+    .fc-principle {
+      display: flex;
+      align-items: flex-start;
+      gap: 1.5rem;
+      padding: 1.5rem 0;
+      border-bottom: 2px solid rgba(0,0,0,0.06);
+    }
+
+    .fc-principle:last-child {
+      border-bottom: none;
+    }
+
+    .fc-principle-marker {
+      flex: 0 0 auto;
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 0.8rem;
+      color: var(--fc-white);
+      letter-spacing: 0.04em;
+    }
+
+    .fc-principle:nth-child(4n+1) .fc-principle-marker { background: var(--fc-lime); color: var(--fc-dark); }
+    .fc-principle:nth-child(4n+2) .fc-principle-marker { background: var(--fc-sky); }
+    .fc-principle:nth-child(4n+3) .fc-principle-marker { background: var(--fc-pink); }
+    .fc-principle:nth-child(4n+4) .fc-principle-marker { background: var(--fc-orange); }
+
+    .fc-principle-text h4 {
+      font-size: 0.95rem;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.3rem;
+    }
+
+    .fc-principle-text p {
+      font-size: 0.92rem;
+      color: #555;
+      line-height: 1.6;
+    }
+
+    /* =============================================
+       APPLICATIONS TIMELINE
+       ============================================= */
+    .fc-timeline {
+      max-width: 900px;
+      margin: 3rem auto 0;
+      position: relative;
+      text-align: left;
+    }
+
+    .fc-timeline::before {
+      content: '';
+      position: absolute;
+      left: 24px;
+      top: 0;
+      bottom: 0;
+      width: 3px;
+      background: linear-gradient(
+        180deg,
+        var(--fc-lime) 0%,
+        var(--fc-sky) 33%,
+        var(--fc-pink) 66%,
+        var(--fc-orange) 100%
+      );
+    }
+
+    .fc-timeline-item {
+      padding: 1.5rem 0 1.5rem 4rem;
+      position: relative;
+    }
+
+    .fc-timeline-dot {
+      position: absolute;
+      left: 14px;
+      top: 1.85rem;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      border: 3px solid var(--fc-white);
+    }
+
+    .fc-timeline-item:nth-child(4n+1) .fc-timeline-dot { background: var(--fc-lime); }
+    .fc-timeline-item:nth-child(4n+2) .fc-timeline-dot { background: var(--fc-sky); }
+    .fc-timeline-item:nth-child(4n+3) .fc-timeline-dot { background: var(--fc-pink); }
+    .fc-timeline-item:nth-child(4n+4) .fc-timeline-dot { background: var(--fc-orange); }
+
+    .fc-timeline-year {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 0.75rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 0.3rem;
+      opacity: 0.7;
+    }
+
+    .fc-timeline-title {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      margin-bottom: 0.3rem;
+    }
+
+    .fc-timeline-desc {
+      font-size: 0.9rem;
+      opacity: 0.85;
+      line-height: 1.55;
+    }
+
+    /* =============================================
+       RELATED AESTHETICS
+       ============================================= */
+    .fc-related-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.2rem;
+      max-width: 1100px;
+      margin: 3rem auto 0;
+    }
+
+    @media (max-width: 1024px) {
+      .fc-related-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 640px) {
+      .fc-related-grid { grid-template-columns: 1fr; }
+    }
+
+    .fc-related-tag {
+      padding: 1.5rem 1.2rem;
+      background: rgba(255,255,255,0.08);
+      text-align: center;
+      transition: transform 0.2s ease, background 0.2s ease;
+    }
+
+    .fc-related-tag:hover {
+      transform: scale(1.03);
+      background: rgba(255,255,255,0.15);
+    }
+
+    .fc-related-tag h4 {
+      font-size: 0.85rem;
+      letter-spacing: 0.04em;
+      margin-bottom: 0.4rem;
+    }
+
+    .fc-related-tag p {
+      font-size: 0.78rem;
+      opacity: 0.75;
+      line-height: 1.5;
+    }
+
+    /* =============================================
+       CSS TECHNIQUES SECTION
+       ============================================= */
+    .fc-techniques-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2rem;
+      max-width: 1100px;
+      margin: 3rem auto 0;
+      text-align: left;
+    }
+
+    @media (max-width: 768px) {
+      .fc-techniques-grid { grid-template-columns: 1fr; }
+    }
+
+    .fc-technique-card {
+      padding: 2rem;
+      background: var(--fc-white);
+      color: var(--fc-dark);
+      transition: transform 0.2s ease;
+    }
+
+    .fc-technique-card:hover {
+      transform: translateY(-4px);
+    }
+
+    .fc-technique-card h4 {
+      font-size: 0.9rem;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.6rem;
+      padding-bottom: 0.6rem;
+      border-bottom: 3px solid;
+    }
+
+    .fc-technique-card:nth-child(4n+1) h4 { border-color: var(--fc-lime); }
+    .fc-technique-card:nth-child(4n+2) h4 { border-color: var(--fc-sky); }
+    .fc-technique-card:nth-child(4n+3) h4 { border-color: var(--fc-pink); }
+    .fc-technique-card:nth-child(4n+4) h4 { border-color: var(--fc-orange); }
+
+    .fc-technique-card p {
+      font-size: 0.9rem;
+      color: #555;
+      line-height: 1.6;
+    }
+
+    .fc-technique-demo {
+      margin-top: 1rem;
+      padding: 1rem;
+      background: var(--fc-light-gray);
+      font-family: 'DM Sans', monospace;
+      font-size: 0.78rem;
+      line-height: 1.6;
+      color: #666;
+      overflow-x: auto;
+      white-space: pre;
+    }
+
+    /* =============================================
+       BUTTONS
+       ============================================= */
+    .fc-button {
+      display: inline-block;
+      padding: 0.9rem 2.8rem;
+      border: none;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 0.85rem;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      text-decoration: none;
+      cursor: pointer;
+      transition: transform 0.15s ease, opacity 0.15s ease;
+    }
+
+    .fc-button:hover {
+      transform: scale(1.05);
+      opacity: 0.92;
+    }
+
+    .fc-button--pill { border-radius: 999px; }
+    .fc-button--square { border-radius: 0; }
+
+    .fc-button--lime { background: var(--fc-lime); color: var(--fc-dark); }
+    .fc-button--sky { background: var(--fc-sky); color: var(--fc-white); }
+    .fc-button--pink { background: var(--fc-pink); color: var(--fc-white); }
+    .fc-button--orange { background: var(--fc-orange); color: var(--fc-white); }
+    .fc-button--white { background: var(--fc-white); color: var(--fc-dark); }
+    .fc-button--dark { background: var(--fc-dark); color: var(--fc-white); }
+
+    .fc-button-group {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 2rem;
+    }
+
+    /* =============================================
+       PRODUCT SHOWCASE (iPod-inspired)
+       ============================================= */
+    .fc-product-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+      max-width: 1100px;
+      margin: 3rem auto 0;
+    }
+
+    @media (max-width: 900px) {
+      .fc-product-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 500px) {
+      .fc-product-grid { grid-template-columns: 1fr; }
+    }
+
+    .fc-product-slot {
+      aspect-ratio: 3/4;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .fc-product-slot:nth-child(1) { background: var(--fc-lime); }
+    .fc-product-slot:nth-child(2) { background: var(--fc-sky); }
+    .fc-product-slot:nth-child(3) { background: var(--fc-pink); }
+    .fc-product-slot:nth-child(4) { background: var(--fc-orange); }
+
+    .fc-product-device {
+      width: 60px;
+      height: 100px;
+      border-radius: 12px;
+      background: var(--fc-white);
+      position: relative;
+      margin-bottom: 1.5rem;
+      transition: transform 0.3s ease;
+    }
+
+    .fc-product-slot:hover .fc-product-device {
+      transform: scale(1.08);
+    }
+
+    .fc-product-device::after {
+      content: '';
+      position: absolute;
+      bottom: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      border: 2px solid var(--fc-silver);
+    }
+
+    .fc-product-device::before {
+      content: '';
+      position: absolute;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 36px;
+      height: 36px;
+      border-radius: 4px;
+      background: var(--fc-light-gray);
+    }
+
+    .fc-product-name {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 0.8rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .fc-product-slot:nth-child(1) .fc-product-name { color: var(--fc-dark); }
+    .fc-product-slot:nth-child(2) .fc-product-name,
+    .fc-product-slot:nth-child(3) .fc-product-name,
+    .fc-product-slot:nth-child(4) .fc-product-name { color: var(--fc-white); }
+
+    /* =============================================
+       SCROLL ANIMATIONS
+       ============================================= */
+    .fc-reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .fc-reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .fc-reveal-delay-1 { transition-delay: 0.1s; }
+    .fc-reveal-delay-2 { transition-delay: 0.2s; }
+    .fc-reveal-delay-3 { transition-delay: 0.3s; }
+    .fc-reveal-delay-4 { transition-delay: 0.4s; }
+
+    /* =============================================
+       EXTENDED PALETTE
+       ============================================= */
+    .fc-extended-swatches {
+      display: flex;
+      gap: 1.5rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 3rem;
+    }
+
+    .fc-ext-swatch {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .fc-ext-circle {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      transition: transform 0.2s ease;
+    }
+
+    .fc-ext-circle:hover {
+      transform: scale(1.15);
+    }
+
+    .fc-ext-label {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 600;
+      font-size: 0.65rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    /* =============================================
+       FOOTER
+       ============================================= */
+    .fc-footer {
+      background: var(--fc-black);
+      color: var(--fc-white);
+      text-align: center;
+      padding: 4rem 2rem;
+    }
+
+    .fc-footer p {
+      font-size: 0.85rem;
+      opacity: 0.5;
+      margin-top: 1rem;
+    }
+
+    .fc-footer-logo {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 900;
+      font-size: 1.4rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      display: flex;
+      gap: 0.35rem;
+      justify-content: center;
+    }
+
+    .fc-footer-logo span:nth-child(1) { color: var(--fc-lime); }
+    .fc-footer-logo span:nth-child(2) { color: var(--fc-sky); }
+    .fc-footer-logo span:nth-child(3) { color: var(--fc-pink); }
+    .fc-footer-logo span:nth-child(4) { color: var(--fc-orange); }
+
+    /* =============================================
+       UTILITY
+       ============================================= */
+    .fc-spacer {
+      height: 2rem;
+    }
+
+    .fc-text-center { text-align: center; }
+
+    .fc-mb-1 { margin-bottom: 1rem; }
+    .fc-mb-2 { margin-bottom: 2rem; }
+    .fc-mb-3 { margin-bottom: 3rem; }
+
+    /* Marker dots for lists */
+    .fc-list {
+      list-style: none;
+      text-align: left;
+      max-width: 700px;
+      margin: 2rem auto 0;
+    }
+
+    .fc-list li {
+      padding: 0.6rem 0 0.6rem 2rem;
+      position: relative;
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    .fc-list li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 1rem;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+
+    .fc-list li:nth-child(4n+1)::before { background: var(--fc-lime); }
+    .fc-list li:nth-child(4n+2)::before { background: var(--fc-sky); }
+    .fc-list li:nth-child(4n+3)::before { background: var(--fc-pink); }
+    .fc-list li:nth-child(4n+4)::before { background: var(--fc-orange); }
+
+    /* Color-coded section headings accent bar */
+    .fc-heading-bar {
+      width: 60px;
+      height: 5px;
+      margin: 0 auto 1.5rem;
+    }
+
+    .fc-heading-bar--lime { background: var(--fc-lime); }
+    .fc-heading-bar--sky { background: var(--fc-sky); }
+    .fc-heading-bar--pink { background: var(--fc-pink); }
+    .fc-heading-bar--orange { background: var(--fc-orange); }
+  </style>
+</head>
+<body>
+
+  <!-- TOP STRIPE -->
+  <div class="fc-stripe" style="position:fixed;top:0;left:0;right:0;z-index:1001;">
+    <span></span><span></span><span></span><span></span>
+  </div>
+
+  <!-- NAVIGATION -->
+  <nav class="fc-nav" id="nav">
+    <div class="fc-nav-logo">
+      <span>Four</span>
+      <span>Co</span>
+      <span>lo</span>
+      <span>rs</span>
+    </div>
+    <ul class="fc-nav-links">
+      <li><a href="#overview">Overview</a></li>
+      <li><a href="#palette">Palette</a></li>
+      <li><a href="#typography">Type</a></li>
+      <li><a href="#layout">Layout</a></li>
+      <li><a href="#techniques">CSS</a></li>
+      <li><a href="#applications">Culture</a></li>
+      <li><a href="#related">Related</a></li>
+    </ul>
+  </nav>
+
+  <!-- ============================================= -->
+  <!-- HERO -->
+  <!-- ============================================= -->
+  <section class="fc-hero" id="hero">
+    <!-- Decorative silhouette shapes -->
+    <svg class="fc-hero-silhouette fc-hero-silhouette--left" viewBox="0 0 200 400" xmlns="http://www.w3.org/2000/svg">
+      <ellipse cx="100" cy="50" rx="35" ry="42" fill="#000"/>
+      <rect x="60" y="90" width="80" height="140" rx="20" fill="#000"/>
+      <rect x="30" y="130" width="40" height="120" rx="10" fill="#000" transform="rotate(-15 50 130)"/>
+      <rect x="130" y="130" width="40" height="120" rx="10" fill="#000" transform="rotate(20 150 130)"/>
+      <rect x="65" y="225" width="32" height="160" rx="10" fill="#000"/>
+      <rect x="103" y="225" width="32" height="160" rx="10" fill="#000"/>
+    </svg>
+    <svg class="fc-hero-silhouette fc-hero-silhouette--right" viewBox="0 0 200 400" xmlns="http://www.w3.org/2000/svg">
+      <ellipse cx="100" cy="50" rx="32" ry="40" fill="#000"/>
+      <rect x="62" y="88" width="76" height="135" rx="18" fill="#000"/>
+      <rect x="25" y="120" width="45" height="115" rx="10" fill="#000" transform="rotate(-25 47 120)"/>
+      <rect x="135" y="140" width="40" height="100" rx="10" fill="#000" transform="rotate(30 155 140)"/>
+      <rect x="67" y="220" width="30" height="155" rx="10" fill="#000"/>
+      <rect x="105" y="220" width="30" height="155" rx="10" fill="#000"/>
+    </svg>
+
+    <div class="fc-hero-content">
+      <div class="fc-label" style="color: var(--fc-white); opacity:0.8; margin-bottom:1.5rem;">Design Aesthetic Showcase</div>
+      <h1 class="fc-display">Four Colors</h1>
+      <p class="fc-hero-subtitle">
+        The bold, flat, saturated color system that defined a generation of consumer products -- from the iPod Silhouette campaign to iPhone 5C. Four colors. Infinite energy.
+      </p>
+      <div class="fc-hero-swatches">
+        <div class="fc-swatch fc-swatch--lime" title="Electric Lime"></div>
+        <div class="fc-swatch fc-swatch--sky" title="Sky Blue"></div>
+        <div class="fc-swatch fc-swatch--pink" title="Hot Pink"></div>
+        <div class="fc-swatch fc-swatch--orange" title="Neon Orange"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================= -->
+  <!-- INTRODUCTION -->
+  <!-- ============================================= -->
+  <section class="fc-intro fc-reveal" id="overview">
+    <div class="fc-intro-inner">
+      <div class="fc-heading-bar fc-heading-bar--pink"></div>
+      <h2>The Aesthetic</h2>
+      <p>
+        Four Colors is a color scheme and design aesthetic that dominated consumer products and consumer technology from the mid-2000s to the mid-2010s. First gaining prominence through Apple's iPod "Silhouette" advertising campaign around 2004, the style is characterized by flat visuals that predominantly use four colors -- electric lime, sky blue, hot pink, and neon orange. It functions as a subgenre bridging Superflat Pop and Frutiger Aero, emphasizing personalization, bold saturation, and eye-catching consumer appeal.
+      </p>
+    </div>
+  </section>
+
+  <div class="fc-stripe"><span></span><span></span><span></span><span></span></div>
+
+  <!-- ============================================= -->
+  <!-- VISUAL CHARACTERISTICS -- FOUR CARDS -->
+  <!-- ============================================= -->
+  <section>
+    <div class="fc-card-grid">
+      <div class="fc-card fc-reveal">
+        <span class="fc-card-icon">&#9632;</span>
+        <h3>Four-Color Constraint</h3>
+        <p>Designs predominantly use exactly four saturated colors as the organizing principle. No more, no less -- the limitation creates the system.</p>
+      </div>
+      <div class="fc-card fc-reveal fc-reveal-delay-1">
+        <span class="fc-card-icon">&#9724;</span>
+        <h3>Flat Rendering</h3>
+        <p>No gradients, drop shadows, or 3D effects. All surfaces are solid color fills. The flatness is absolute and uncompromising.</p>
+      </div>
+      <div class="fc-card fc-reveal fc-reveal-delay-2">
+        <span class="fc-card-icon">&#9673;</span>
+        <h3>Bold Saturation</h3>
+        <p>Colors are pushed to maximum vibrancy and chroma. Muted tones are avoided entirely. Every hue screams with energy.</p>
+      </div>
+      <div class="fc-card fc-reveal fc-reveal-delay-3">
+        <span class="fc-card-icon">&#9734;</span>
+        <h3>Consumer Focus</h3>
+        <p>The aesthetic originates from and is most at home on physical products, packaging, and advertising for mass markets.</p>
+      </div>
+      <div class="fc-card fc-reveal">
+        <span class="fc-card-icon">&#9899;</span>
+        <h3>Silhouette Compositions</h3>
+        <p>Human or object silhouettes placed against vivid solid-color backgrounds -- directly from the iconic iPod campaign.</p>
+      </div>
+      <div class="fc-card fc-reveal fc-reveal-delay-1">
+        <span class="fc-card-icon">&#10070;</span>
+        <h3>Color Variants</h3>
+        <p>The same product or design offered in each of the four colors, encouraging personalization and collection behavior.</p>
+      </div>
+      <div class="fc-card fc-reveal fc-reveal-delay-2">
+        <span class="fc-card-icon">&#9634;</span>
+        <h3>Clean Surfaces</h3>
+        <p>Products and designs feature smooth, unadorned surfaces where the color itself is the primary and only design element.</p>
+      </div>
+      <div class="fc-card fc-reveal fc-reveal-delay-3">
+        <span class="fc-card-icon">&#127752;</span>
+        <h3>Rainbow Extensions</h3>
+        <p>The four core colors occasionally expand into wider rainbow arrangements while maintaining the original four as anchors.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================= -->
+  <!-- COLOR PALETTE -->
+  <!-- ============================================= -->
+  <section class="fc-section fc-section-white fc-reveal" id="palette">
+    <div class="fc-section-inner">
+      <div class="fc-heading-bar fc-heading-bar--lime"></div>
+      <h2>Primary Color Palette</h2>
+      <p>The four colors reference Japanese seasonal symbolism: pink for spring, green for summer, orange for autumn, blue for winter. Together they form a balanced system representing completeness.</p>
+
+      <div class="fc-palette-grid">
+        <div class="fc-palette-card fc-reveal">
+          <div class="fc-palette-swatch" style="background: var(--fc-lime);">
+            <span class="fc-palette-swatch-inner" style="color: var(--fc-dark);">Lime</span>
+          </div>
+          <div class="fc-palette-label">Electric Lime</div>
+          <div class="fc-palette-hex fc-palette-hex-dark">#7FFF00 / #ADFF2F</div>
+          <div class="fc-palette-season" style="color: var(--fc-lime);">Summer</div>
+        </div>
+        <div class="fc-palette-card fc-reveal fc-reveal-delay-1">
+          <div class="fc-palette-swatch" style="background: var(--fc-sky);">
+            <span class="fc-palette-swatch-inner" style="color: var(--fc-white);">Sky</span>
+          </div>
+          <div class="fc-palette-label">Sky Blue</div>
+          <div class="fc-palette-hex fc-palette-hex-dark">#00BFFF / #38BDF8</div>
+          <div class="fc-palette-season" style="color: var(--fc-sky);">Winter</div>
+        </div>
+        <div class="fc-palette-card fc-reveal fc-reveal-delay-2">
+          <div class="fc-palette-swatch" style="background: var(--fc-pink);">
+            <span class="fc-palette-swatch-inner" style="color: var(--fc-white);">Pink</span>
+          </div>
+          <div class="fc-palette-label">Hot Pink</div>
+          <div class="fc-palette-hex fc-palette-hex-dark">#FF1493 / #FF69B4</div>
+          <div class="fc-palette-season" style="color: var(--fc-pink);">Spring</div>
+        </div>
+        <div class="fc-palette-card fc-reveal fc-reveal-delay-3">
+          <div class="fc-palette-swatch" style="background: var(--fc-orange);">
+            <span class="fc-palette-swatch-inner" style="color: var(--fc-white);">Orange</span>
+          </div>
+          <div class="fc-palette-label">Neon Orange</div>
+          <div class="fc-palette-hex fc-palette-hex-dark">#FF6600 / #FF8C00</div>
+          <div class="fc-palette-season" style="color: var(--fc-orange);">Autumn</div>
+        </div>
+      </div>
+
+      <!-- Extended Palette -->
+      <div style="margin-top: 4rem;">
+        <h3 style="font-size: 1rem; letter-spacing: 0.08em; margin-bottom: 0.5rem;">Extended Rainbow + Neutrals</h3>
+        <div class="fc-extended-swatches">
+          <div class="fc-ext-swatch">
+            <div class="fc-ext-circle" style="background: var(--fc-red);"></div>
+            <span class="fc-ext-label">Vivid Red</span>
+          </div>
+          <div class="fc-ext-swatch">
+            <div class="fc-ext-circle" style="background: var(--fc-yellow);"></div>
+            <span class="fc-ext-label">Bright Yellow</span>
+          </div>
+          <div class="fc-ext-swatch">
+            <div class="fc-ext-circle" style="background: var(--fc-purple);"></div>
+            <span class="fc-ext-label">True Purple</span>
+          </div>
+          <div class="fc-ext-swatch">
+            <div class="fc-ext-circle" style="background: var(--fc-white); border: 2px solid var(--fc-light-gray);"></div>
+            <span class="fc-ext-label">Pure White</span>
+          </div>
+          <div class="fc-ext-swatch">
+            <div class="fc-ext-circle" style="background: var(--fc-silver);"></div>
+            <span class="fc-ext-label">Silver</span>
+          </div>
+          <div class="fc-ext-swatch">
+            <div class="fc-ext-circle" style="background: var(--fc-dark);"></div>
+            <span class="fc-ext-label">Near-Black</span>
+          </div>
+          <div class="fc-ext-swatch">
+            <div class="fc-ext-circle" style="background: var(--fc-black);"></div>
+            <span class="fc-ext-label">Black</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="fc-stripe"><span></span><span></span><span></span><span></span></div>
+
+  <!-- ============================================= -->
+  <!-- COLOR USAGE RULES -->
+  <!-- ============================================= -->
+  <section class="fc-section fc-section-black" id="color-usage">
+    <div class="fc-section-inner">
+      <div class="fc-heading-bar fc-heading-bar--sky"></div>
+      <h2>Color Usage Rules</h2>
+      <p style="color: rgba(255,255,255,0.75);">How the four colors are deployed across every surface, product, and pixel.</p>
+
+      <ul class="fc-list" style="color: rgba(255,255,255,0.85);">
+        <li><strong>Solid flat fills only</strong> -- no gradients, no blending between colors; each surface is a single hue</li>
+        <li><strong>Maximum saturation</strong> -- use the purest, most vivid versions of each color; never desaturate</li>
+        <li><strong>Four-color rotation</strong> -- cycle through the four colors systematically across cards, sections, and elements</li>
+        <li><strong>High-contrast pairings</strong> -- place lime against pink, sky blue against orange for maximum visual energy</li>
+        <li><strong>White or black as ground</strong> -- products and elements sit on pure white or pure black; no colored backgrounds behind colored objects</li>
+        <li><strong>Seasonal symbolism</strong> -- when assigning colors to categories, consider the Japanese seasonal mapping</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============================================= -->
+  <!-- iPOD-STYLE PRODUCT SHOWCASE -->
+  <!-- ============================================= -->
+  <section class="fc-reveal">
+    <div class="fc-product-grid">
+      <div class="fc-product-slot">
+        <div class="fc-product-device"></div>
+        <span class="fc-product-name">Lime</span>
+      </div>
+      <div class="fc-product-slot">
+        <div class="fc-product-device"></div>
+        <span class="fc-product-name">Sky</span>
+      </div>
+      <div class="fc-product-slot">
+        <div class="fc-product-device"></div>
+        <span class="fc-product-name">Pink</span>
+      </div>
+      <div class="fc-product-slot">
+        <div class="fc-product-device"></div>
+        <span class="fc-product-name">Orange</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="fc-stripe"><span></span><span></span><span></span><span></span></div>
+
+  <!-- ============================================= -->
+  <!-- TYPOGRAPHY -->
+  <!-- ============================================= -->
+  <section class="fc-section fc-section-sky fc-reveal" id="typography">
+    <div class="fc-section-inner">
+      <div class="fc-heading-bar" style="background: var(--fc-white);"></div>
+      <h2>Typography</h2>
+      <p>Four Colors typography reflects the mid-2000s to mid-2010s consumer tech era: clean, modern sans-serif typefaces with medium-weight, confident letterforms and wide tracking on display text.</p>
+
+      <div class="fc-type-showcase">
+        <div class="fc-type-row">
+          <div class="fc-type-meta">
+            <span>Display / 900</span>
+            <span>Montserrat</span>
+          </div>
+          <div class="fc-type-sample">
+            <div class="fc-type-display">Bold Energy</div>
+          </div>
+        </div>
+        <div class="fc-type-row">
+          <div class="fc-type-meta">
+            <span>Heading / 700</span>
+            <span>Montserrat</span>
+          </div>
+          <div class="fc-type-sample">
+            <div class="fc-type-heading">Product Catalog Headline</div>
+          </div>
+        </div>
+        <div class="fc-type-row">
+          <div class="fc-type-meta">
+            <span>Subhead / 600</span>
+            <span>Poppins</span>
+          </div>
+          <div class="fc-type-sample">
+            <div class="fc-type-subhead">Geometric sans, friendly and approachable for subheadings</div>
+          </div>
+        </div>
+        <div class="fc-type-row">
+          <div class="fc-type-meta">
+            <span>Body / 400</span>
+            <span>DM Sans</span>
+          </div>
+          <div class="fc-type-sample">
+            <div class="fc-type-body">Clean geometric body text designed for legibility at all sizes. The style avoids decorative or serif typefaces -- it is emphatically modern and sans-serif. Slightly rounded terminals soften the forms, referencing the friendly, consumer-oriented tone.</div>
+          </div>
+        </div>
+        <div class="fc-type-row">
+          <div class="fc-type-meta">
+            <span>Label / 600</span>
+            <span>Montserrat</span>
+          </div>
+          <div class="fc-type-sample">
+            <div class="fc-type-label-sample">Product Label -- All Caps -- Wide Tracking</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top: 3rem;">
+        <h3 style="font-size: 0.9rem; letter-spacing: 0.08em; margin-bottom: 1rem;">Recommended Web Fonts</h3>
+        <div style="display: flex; gap: 0.8rem; flex-wrap: wrap; justify-content: center;">
+          <span class="fc-button fc-button--pill fc-button--white" style="font-size: 0.75rem; padding: 0.5rem 1.2rem; cursor: default;">Montserrat</span>
+          <span class="fc-button fc-button--pill fc-button--white" style="font-size: 0.75rem; padding: 0.5rem 1.2rem; cursor: default;">Poppins</span>
+          <span class="fc-button fc-button--pill fc-button--white" style="font-size: 0.75rem; padding: 0.5rem 1.2rem; cursor: default;">Inter</span>
+          <span class="fc-button fc-button--pill fc-button--white" style="font-size: 0.75rem; padding: 0.5rem 1.2rem; cursor: default;">DM Sans</span>
+          <span class="fc-button fc-button--pill fc-button--white" style="font-size: 0.75rem; padding: 0.5rem 1.2rem; cursor: default;">Outfit</span>
+          <span class="fc-button fc-button--pill fc-button--white" style="font-size: 0.75rem; padding: 0.5rem 1.2rem; cursor: default;">Nunito Sans</span>
+          <span class="fc-button fc-button--pill fc-button--white" style="font-size: 0.75rem; padding: 0.5rem 1.2rem; cursor: default;">Sora</span>
+          <span class="fc-button fc-button--pill fc-button--white" style="font-size: 0.75rem; padding: 0.5rem 1.2rem; cursor: default;">Lexend</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================= -->
+  <!-- DESIGN PRINCIPLES -->
+  <!-- ============================================= -->
+  <section class="fc-section fc-section-white fc-reveal" id="principles">
+    <div class="fc-section-inner">
+      <div class="fc-heading-bar fc-heading-bar--orange"></div>
+      <h2>Design Principles</h2>
+      <p>The philosophical foundation underlying every Four Colors composition.</p>
+
+      <div class="fc-principles">
+        <div class="fc-principle fc-reveal">
+          <div class="fc-principle-marker">01</div>
+          <div class="fc-principle-text">
+            <h4>Color as Identity</h4>
+            <p>Each of the four hues serves as a distinct identity marker. Products are differentiated by color alone -- no ornamentation necessary.</p>
+          </div>
+        </div>
+        <div class="fc-principle fc-reveal">
+          <div class="fc-principle-marker">02</div>
+          <div class="fc-principle-text">
+            <h4>Flat Composition Without Texture</h4>
+            <p>Surfaces are smooth and plastic-like. No noise, grain, or material texture. The absence of depth is the aesthetic statement.</p>
+          </div>
+        </div>
+        <div class="fc-principle fc-reveal">
+          <div class="fc-principle-marker">03</div>
+          <div class="fc-principle-text">
+            <h4>Personalization Through Color</h4>
+            <p>The aesthetic empowers the consumer to express individuality via color selection. Which color are you?</p>
+          </div>
+        </div>
+        <div class="fc-principle fc-reveal">
+          <div class="fc-principle-marker">04</div>
+          <div class="fc-principle-text">
+            <h4>Eye-Catching Adjacency</h4>
+            <p>The four colors are placed in direct proximity for maximum visual impact and energy. Side by side, they vibrate.</p>
+          </div>
+        </div>
+        <div class="fc-principle fc-reveal">
+          <div class="fc-principle-marker">05</div>
+          <div class="fc-principle-text">
+            <h4>Youthful, Optimistic Tone</h4>
+            <p>The palette and its application communicate fun, energy, and accessibility. This is design that wants to be picked up and played with.</p>
+          </div>
+        </div>
+        <div class="fc-principle fc-reveal">
+          <div class="fc-principle-marker">06</div>
+          <div class="fc-principle-text">
+            <h4>Seasonal / Cyclical Balance</h4>
+            <p>The four colors form a balanced system representing completeness -- four seasons, four directions, four elemental energies.</p>
+          </div>
+        </div>
+        <div class="fc-principle fc-reveal">
+          <div class="fc-principle-marker">07</div>
+          <div class="fc-principle-text">
+            <h4>Product Photography as Design</h4>
+            <p>The product itself, rendered in one of the four colors against a contrasting solid background, constitutes the complete visual composition.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="fc-stripe"><span></span><span></span><span></span><span></span></div>
+
+  <!-- ============================================= -->
+  <!-- LAYOUT PRINCIPLES -->
+  <!-- ============================================= -->
+  <section class="fc-section fc-section-gray fc-reveal" id="layout">
+    <div class="fc-section-inner">
+      <div class="fc-heading-bar fc-heading-bar--pink"></div>
+      <h2>Layout Principles</h2>
+      <p>How Four Colors compositions are structured across space.</p>
+
+      <!-- Interactive 4x4 grid demo -->
+      <div class="fc-layout-demo fc-reveal">
+        <div class="fc-layout-mini-grid">
+          <div class="fc-layout-cell" style="background: var(--fc-lime); color: var(--fc-dark);">Product Grid</div>
+          <div class="fc-layout-cell" style="background: var(--fc-sky); color: var(--fc-white);">Four Columns</div>
+          <div class="fc-layout-cell" style="background: var(--fc-pink); color: var(--fc-white);">Centered</div>
+          <div class="fc-layout-cell" style="background: var(--fc-orange); color: var(--fc-white);">Poster-Like</div>
+          <div class="fc-layout-cell" style="background: var(--fc-sky); color: var(--fc-white);">Whitespace</div>
+          <div class="fc-layout-cell" style="background: var(--fc-pink); color: var(--fc-white);">No Borders</div>
+          <div class="fc-layout-cell" style="background: var(--fc-orange); color: var(--fc-white);">Full-Bleed</div>
+          <div class="fc-layout-cell" style="background: var(--fc-lime); color: var(--fc-dark);">Color = Divider</div>
+          <div class="fc-layout-cell" style="background: var(--fc-pink); color: var(--fc-white);">Flat Sections</div>
+          <div class="fc-layout-cell" style="background: var(--fc-orange); color: var(--fc-white);">Catalog Style</div>
+          <div class="fc-layout-cell" style="background: var(--fc-lime); color: var(--fc-dark);">Ample Padding</div>
+          <div class="fc-layout-cell" style="background: var(--fc-sky); color: var(--fc-white);">Card Grids</div>
+          <div class="fc-layout-cell" style="background: var(--fc-orange); color: var(--fc-white);">Silhouette Hero</div>
+          <div class="fc-layout-cell" style="background: var(--fc-lime); color: var(--fc-dark);">Breathing Space</div>
+          <div class="fc-layout-cell" style="background: var(--fc-sky); color: var(--fc-white);">Color Hierarchy</div>
+          <div class="fc-layout-cell" style="background: var(--fc-pink); color: var(--fc-white);">Responsive</div>
+        </div>
+      </div>
+
+      <ul class="fc-list fc-reveal" style="margin-top: 3rem;">
+        <li><strong>Product-grid layout</strong> -- items displayed in a uniform grid where each cell features one of the four colors</li>
+        <li><strong>Generous whitespace</strong> -- products and colored elements float in open white space, catalog-style</li>
+        <li><strong>Four-column structure</strong> -- naturally suited to four-column grids, one column per color</li>
+        <li><strong>Centered compositions</strong> -- individual product/element presentations are centered on their solid-color background</li>
+        <li><strong>Flat, poster-like sections</strong> -- each section resembles a print advertisement or product poster</li>
+        <li><strong>No visible borders or dividers</strong> -- sections are separated by color changes alone</li>
+        <li><strong>Alternating color backgrounds</strong> -- cycling through the four colors between sections</li>
+        <li><strong>Responsive collapse</strong> -- four columns become two on tablet, one on mobile, retaining full-bleed color</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============================================= -->
+  <!-- CSS TECHNIQUES -->
+  <!-- ============================================= -->
+  <section class="fc-section fc-section-white fc-reveal" id="techniques">
+    <div class="fc-section-inner">
+      <div class="fc-heading-bar fc-heading-bar--sky"></div>
+      <h2>CSS / Design Techniques</h2>
+      <p>The technical building blocks of the Four Colors system.</p>
+
+      <div class="fc-techniques-grid">
+        <div class="fc-technique-card fc-reveal">
+          <h4>Solid Color Section Panels</h4>
+          <p>Full-width sections with vivid solid backgrounds. Text is white on saturated colors, dark on lime. Generous padding (5rem+) creates poster-like impact.</p>
+          <div class="fc-technique-demo">.fc-section-pink {
+  background: var(--fc-pink);
+  color: var(--fc-white);
+  padding: 5rem 2rem;
+  text-align: center;
+}</div>
+        </div>
+        <div class="fc-technique-card fc-reveal fc-reveal-delay-1">
+          <h4>Four-Color Card Grid</h4>
+          <p>A repeating grid where each card is assigned a color via nth-child rotation. Cards scale on hover with no shadow -- just pure flat color interaction.</p>
+          <div class="fc-technique-demo">.fc-card:nth-child(4n+1) {
+  background: var(--fc-lime);
+  color: var(--fc-dark);
+}
+.fc-card:nth-child(4n+2) {
+  background: var(--fc-sky);
+}</div>
+        </div>
+        <div class="fc-technique-card fc-reveal">
+          <h4>iPod Silhouette Hero</h4>
+          <p>Dark silhouette figures overlaid on vivid backgrounds with brightness(0) filter. The silhouette-on-color pattern is the signature of the aesthetic.</p>
+          <div class="fc-technique-demo">.fc-hero-silhouette {
+  position: absolute;
+  filter: brightness(0);
+  opacity: 0.9;
+}</div>
+        </div>
+        <div class="fc-technique-card fc-reveal fc-reveal-delay-1">
+          <h4>Color-Cycle Animation</h4>
+          <p>Backgrounds cycle through all four colors on a continuous loop, creating the iconic iPod-ad energy on hero sections and landing areas.</p>
+          <div class="fc-technique-demo">@keyframes fc-color-cycle {
+  0%   { background: var(--fc-lime); }
+  25%  { background: var(--fc-sky); }
+  50%  { background: var(--fc-pink); }
+  75%  { background: var(--fc-orange); }
+}</div>
+        </div>
+        <div class="fc-technique-card fc-reveal">
+          <h4>Four-Color Stripe Divider</h4>
+          <p>A thin horizontal bar split into four equal segments, each a different color. Used as a divider, header accent, or loading indicator.</p>
+          <div class="fc-technique-demo">.fc-stripe {
+  display: flex;
+  height: 6px;
+}
+.fc-stripe > span { flex: 1; }
+.fc-stripe > span:nth-child(1) {
+  background: var(--fc-lime);
+}</div>
+        </div>
+        <div class="fc-technique-card fc-reveal fc-reveal-delay-1">
+          <h4>Flat Button System</h4>
+          <p>Bold, borderless buttons in pill or square variants. Each color variant is available. Hover state is scale + subtle opacity shift -- never a shadow.</p>
+          <div class="fc-technique-demo">.fc-button {
+  padding: 0.85rem 2.5rem;
+  border: none;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.fc-button:hover {
+  transform: scale(1.05);
+}</div>
+        </div>
+        <div class="fc-technique-card fc-reveal">
+          <h4>Color Swatch Selector</h4>
+          <p>Circular swatches for product color variant selection, inspired by Apple's product configurators. Active state indicated by border, not shadow.</p>
+          <div class="fc-technique-demo">.fc-swatch {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  border: 3px solid transparent;
+}
+.fc-swatch.active {
+  border-color: var(--fc-dark);
+}</div>
+        </div>
+        <div class="fc-technique-card fc-reveal fc-reveal-delay-1">
+          <h4>Product Showcase Card</h4>
+          <p>Clean product cards on white backgrounds with no shadow, no border. The product image and color are the complete composition. Price in accent color.</p>
+          <div class="fc-technique-demo">.fc-product-card {
+  background: var(--fc-white);
+  padding: 2rem;
+  text-align: center;
+  border: none;
+  box-shadow: none;
+}</div>
+        </div>
+      </div>
+
+      <!-- Button Demo -->
+      <div style="margin-top: 4rem;">
+        <h3 style="font-size: 0.9rem; letter-spacing: 0.08em; margin-bottom: 0.5rem; text-align: center;">Button Variants</h3>
+        <div class="fc-button-group">
+          <span class="fc-button fc-button--pill fc-button--lime">Lime Pill</span>
+          <span class="fc-button fc-button--pill fc-button--sky">Sky Pill</span>
+          <span class="fc-button fc-button--pill fc-button--pink">Pink Pill</span>
+          <span class="fc-button fc-button--pill fc-button--orange">Orange Pill</span>
+        </div>
+        <div class="fc-button-group" style="margin-top: 1rem;">
+          <span class="fc-button fc-button--square fc-button--lime">Lime Square</span>
+          <span class="fc-button fc-button--square fc-button--sky">Sky Square</span>
+          <span class="fc-button fc-button--square fc-button--pink">Pink Square</span>
+          <span class="fc-button fc-button--square fc-button--orange">Orange Square</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================= -->
+  <!-- SILHOUETTE HERO DEMO -->
+  <!-- ============================================= -->
+  <section class="fc-section fc-section-orange fc-reveal" style="min-height: 50vh; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden;">
+    <svg style="position: absolute; bottom: 0; left: 8%; width: 180px; height: 340px; opacity: 0.15;" viewBox="0 0 200 400" xmlns="http://www.w3.org/2000/svg">
+      <ellipse cx="100" cy="45" rx="33" ry="40" fill="#000"/>
+      <rect x="62" y="82" width="76" height="130" rx="18" fill="#000"/>
+      <rect x="20" y="115" width="48" height="110" rx="10" fill="#000" transform="rotate(-20 44 115)"/>
+      <rect x="132" y="100" width="45" height="120" rx="10" fill="#000" transform="rotate(15 154 100)"/>
+      <rect x="67" y="208" width="28" height="170" rx="10" fill="#000" transform="rotate(-5 81 208)"/>
+      <rect x="105" y="208" width="28" height="170" rx="10" fill="#000" transform="rotate(8 119 208)"/>
+    </svg>
+    <svg style="position: absolute; bottom: 0; right: 12%; width: 160px; height: 320px; opacity: 0.12;" viewBox="0 0 200 400" xmlns="http://www.w3.org/2000/svg">
+      <ellipse cx="100" cy="48" rx="30" ry="38" fill="#000"/>
+      <rect x="65" y="84" width="70" height="125" rx="16" fill="#000"/>
+      <rect x="28" y="140" width="42" height="100" rx="10" fill="#000" transform="rotate(-30 49 140)"/>
+      <rect x="134" y="120" width="40" height="115" rx="10" fill="#000" transform="rotate(25 154 120)"/>
+      <rect x="70" y="205" width="26" height="165" rx="10" fill="#000"/>
+      <rect x="108" y="205" width="26" height="165" rx="10" fill="#000"/>
+    </svg>
+    <div style="position: relative; z-index: 2; text-align: center; max-width: 700px;">
+      <h2 style="font-size: clamp(2rem, 5vw, 3.5rem); margin-bottom: 1rem;">Silhouette on Color</h2>
+      <p style="color: rgba(255,255,255,0.9); max-width: 500px; margin: 0 auto;">The signature compositional technique -- dark human figures dancing against vivid saturated backgrounds. Directly inspired by the iPod campaign that started it all.</p>
+    </div>
+  </section>
+
+  <div class="fc-stripe"><span></span><span></span><span></span><span></span></div>
+
+  <!-- ============================================= -->
+  <!-- APPLICATIONS & CULTURE -->
+  <!-- ============================================= -->
+  <section class="fc-section fc-section-black fc-reveal" id="applications">
+    <div class="fc-section-inner">
+      <div class="fc-heading-bar fc-heading-bar--lime"></div>
+      <h2>Applications by Medium</h2>
+      <p style="color: rgba(255,255,255,0.7);">Four Colors permeated consumer electronics, games, television, packaging, and advertising across a decade of visual culture.</p>
+
+      <div class="fc-timeline">
+        <div class="fc-timeline-item fc-reveal">
+          <div class="fc-timeline-dot"></div>
+          <div class="fc-timeline-year">1996</div>
+          <div class="fc-timeline-title">Nintendo 64 "Funtastic Series"</div>
+          <div class="fc-timeline-desc" style="color: rgba(255,255,255,0.7);">Translucent colored console variants -- an early precursor to the four-color product philosophy.</div>
+        </div>
+        <div class="fc-timeline-item fc-reveal">
+          <div class="fc-timeline-dot"></div>
+          <div class="fc-timeline-year">2004</div>
+          <div class="fc-timeline-title">iPod Silhouette Campaign</div>
+          <div class="fc-timeline-desc" style="color: rgba(255,255,255,0.7);">The origin point. Apple's dancing silhouettes on vivid color backgrounds defined the aesthetic for a generation.</div>
+        </div>
+        <div class="fc-timeline-item fc-reveal">
+          <div class="fc-timeline-dot"></div>
+          <div class="fc-timeline-year">2004</div>
+          <div class="fc-timeline-title">Katamari Damacy</div>
+          <div class="fc-timeline-desc" style="color: rgba(255,255,255,0.7);">Vibrant four-color flat compositions in gaming, carrying the aesthetic into interactive media.</div>
+        </div>
+        <div class="fc-timeline-item fc-reveal">
+          <div class="fc-timeline-dot"></div>
+          <div class="fc-timeline-year">2005</div>
+          <div class="fc-timeline-title">iPod Nano / Shuffle / Motorola Pebl</div>
+          <div class="fc-timeline-desc" style="color: rgba(255,255,255,0.7);">Each model available in lime, sky blue, pink, and orange. The four-color variant system fully established.</div>
+        </div>
+        <div class="fc-timeline-item fc-reveal">
+          <div class="fc-timeline-dot"></div>
+          <div class="fc-timeline-year">2006</div>
+          <div class="fc-timeline-title">Nintendo Wii Accessories</div>
+          <div class="fc-timeline-desc" style="color: rgba(255,255,255,0.7);">Colored controller jackets and accessories brought the four-color system into living rooms worldwide.</div>
+        </div>
+        <div class="fc-timeline-item fc-reveal">
+          <div class="fc-timeline-dot"></div>
+          <div class="fc-timeline-year">2009</div>
+          <div class="fc-timeline-title">Just Dance / The Fresh Beat Band</div>
+          <div class="fc-timeline-desc" style="color: rgba(255,255,255,0.7);">Neon silhouettes on saturated backgrounds in gaming; four-color character assignment in children's television.</div>
+        </div>
+        <div class="fc-timeline-item fc-reveal">
+          <div class="fc-timeline-dot"></div>
+          <div class="fc-timeline-year">2010</div>
+          <div class="fc-timeline-title">Wii Party</div>
+          <div class="fc-timeline-desc" style="color: rgba(255,255,255,0.7);">Four-player color coding matching the aesthetic perfectly -- one color per player, maximum fun.</div>
+        </div>
+        <div class="fc-timeline-item fc-reveal">
+          <div class="fc-timeline-dot"></div>
+          <div class="fc-timeline-year">2013</div>
+          <div class="fc-timeline-title">iPhone 5C</div>
+          <div class="fc-timeline-desc" style="color: rgba(255,255,255,0.7);">Extended the Four Colors philosophy to smartphones. "For the colorful." The culmination of a decade of color-as-identity.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================= -->
+  <!-- RELATED AESTHETICS -->
+  <!-- ============================================= -->
+  <section class="fc-section fc-section-pink fc-reveal" id="related">
+    <div class="fc-section-inner">
+      <div class="fc-heading-bar" style="background: var(--fc-white);"></div>
+      <h2>Related Aesthetics</h2>
+      <p style="color: rgba(255,255,255,0.85);">Four Colors exists within a web of related visual movements spanning consumer culture, flat design, and pop art.</p>
+
+      <div class="fc-related-grid">
+        <div class="fc-related-tag fc-reveal">
+          <h4>Superflat Pop</h4>
+          <p>Parent aesthetic; Four Colors is a subgenre of Superflat Pop's flat, saturated color fields.</p>
+        </div>
+        <div class="fc-related-tag fc-reveal fc-reveal-delay-1">
+          <h4>Frutiger Aero</h4>
+          <p>Parent aesthetic; bridges into optimistic, nature-referencing consumer tech design.</p>
+        </div>
+        <div class="fc-related-tag fc-reveal fc-reveal-delay-2">
+          <h4>Bright Tertiaries</h4>
+          <p>Closest relative; shares flat color-block approach and consumer-friendly design language.</p>
+        </div>
+        <div class="fc-related-tag fc-reveal fc-reveal-delay-3">
+          <h4>Flat Design</h4>
+          <p>Shared commitment to flat rendering with no gradients, shadows, or 3D effects.</p>
+        </div>
+        <div class="fc-related-tag fc-reveal">
+          <h4>Corporate</h4>
+          <p>Shared clean, product-focused visual language for branding and marketing materials.</p>
+        </div>
+        <div class="fc-related-tag fc-reveal fc-reveal-delay-1">
+          <h4>McBling</h4>
+          <p>Overlapping era (mid-2000s) and shared emphasis on bold, flashy consumer aesthetics.</p>
+        </div>
+        <div class="fc-related-tag fc-reveal fc-reveal-delay-2">
+          <h4>Pop Art</h4>
+          <p>Shared use of bold, flat color and consumer culture as subject matter.</p>
+        </div>
+        <div class="fc-related-tag fc-reveal fc-reveal-delay-3">
+          <h4>Vectordelia</h4>
+          <p>Shared vibrant color palette and flat vector design approach.</p>
+        </div>
+        <div class="fc-related-tag fc-reveal">
+          <h4>Dollar Store Vernacular</h4>
+          <p>Shares the mass-produced consumer product context and bright color packaging.</p>
+        </div>
+        <div class="fc-related-tag fc-reveal fc-reveal-delay-1">
+          <h4>Technozen</h4>
+          <p>Overlapping tech-forward optimism and clean product design.</p>
+        </div>
+        <div class="fc-related-tag fc-reveal fc-reveal-delay-2">
+          <h4>Old Web</h4>
+          <p>Shared era of bright, unrestrained color usage in digital contexts.</p>
+        </div>
+        <div class="fc-related-tag fc-reveal fc-reveal-delay-3">
+          <h4>UrBling</h4>
+          <p>Overlapping era and shared consumer product/fashion color boldness.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="fc-stripe fc-stripe--thick"><span></span><span></span><span></span><span></span></div>
+
+  <!-- ============================================= -->
+  <!-- CLOSING SECTION -->
+  <!-- ============================================= -->
+  <section class="fc-section fc-section-lime fc-reveal" style="min-height: 40vh; display: flex; align-items: center; justify-content: center;">
+    <div class="fc-section-inner" style="max-width: 700px;">
+      <h2 style="font-size: clamp(1.8rem, 4vw, 3rem); color: var(--fc-dark);">Which Color Are You?</h2>
+      <p style="color: rgba(26,26,26,0.8); margin-bottom: 2rem;">The power of Four Colors is personalization. Every product, every surface, every identity -- defined by a single, bold color choice.</p>
+      <div class="fc-hero-swatches" style="margin-top: 0;">
+        <div class="fc-swatch fc-swatch--lime" style="border-color: var(--fc-dark); width: 3.5rem; height: 3.5rem;" title="Electric Lime"></div>
+        <div class="fc-swatch fc-swatch--sky" style="border-color: var(--fc-dark); width: 3.5rem; height: 3.5rem;" title="Sky Blue"></div>
+        <div class="fc-swatch fc-swatch--pink" style="border-color: var(--fc-dark); width: 3.5rem; height: 3.5rem;" title="Hot Pink"></div>
+        <div class="fc-swatch fc-swatch--orange" style="border-color: var(--fc-dark); width: 3.5rem; height: 3.5rem;" title="Neon Orange"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================= -->
+  <!-- FOOTER -->
+  <!-- ============================================= -->
+  <footer class="fc-footer">
+    <div class="fc-footer-logo">
+      <span>Four</span>
+      <span>Co</span>
+      <span>lo</span>
+      <span>rs</span>
+    </div>
+    <p>A design aesthetic showcase -- mid-2000s to mid-2010s consumer culture</p>
+    <p style="margin-top: 0.5rem; font-size: 0.75rem;">Electric Lime / Sky Blue / Hot Pink / Neon Orange</p>
+  </footer>
+
+  <div class="fc-stripe" style="position: relative; z-index: 100;">
+    <span></span><span></span><span></span><span></span>
+  </div>
+
+  <!-- ============================================= -->
+  <!-- JAVASCRIPT -->
+  <!-- ============================================= -->
+  <script>
+    // Navigation scroll effect
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 20) {
+        nav.classList.add('scrolled');
+      } else {
+        nav.classList.remove('scrolled');
+      }
+    });
+
+    // Intersection Observer for scroll-triggered animations
+    const revealElements = document.querySelectorAll('.fc-reveal');
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, {
+      threshold: 0.12,
+      rootMargin: '0px 0px -40px 0px'
+    });
+
+    revealElements.forEach(el => revealObserver.observe(el));
+
+    // Interactive color swatches -- change hero background on click
+    const heroSwatches = document.querySelectorAll('.fc-hero-swatches .fc-swatch');
+    const hero = document.querySelector('.fc-hero');
+    const colorMap = {
+      'fc-swatch--lime': '#7FFF00',
+      'fc-swatch--sky': '#00BFFF',
+      'fc-swatch--pink': '#FF1493',
+      'fc-swatch--orange': '#FF6600'
+    };
+
+    heroSwatches.forEach(swatch => {
+      swatch.addEventListener('click', () => {
+        const colorClass = Array.from(swatch.classList).find(c => c.startsWith('fc-swatch--'));
+        if (colorClass && colorMap[colorClass]) {
+          hero.style.animation = 'none';
+          hero.style.backgroundColor = colorMap[colorClass];
+
+          // Update active state on swatches in this group
+          const parentGroup = swatch.closest('.fc-hero-swatches');
+          if (parentGroup) {
+            parentGroup.querySelectorAll('.fc-swatch').forEach(s => {
+              s.style.borderColor = 'rgba(255,255,255,0.6)';
+            });
+            swatch.style.borderColor = '#fff';
+          }
+        }
+      });
+    });
+
+    // Smooth scroll for nav links
+    document.querySelectorAll('.fc-nav-links a').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const target = document.querySelector(link.getAttribute('href'));
+        if (target) {
+          const offset = 70;
+          const top = target.getBoundingClientRect().top + window.pageYOffset - offset;
+          window.scrollTo({ top, behavior: 'smooth' });
+        }
+      });
+    });
+  </script>
+</body>
+</html>

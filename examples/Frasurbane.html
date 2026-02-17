@@ -1,0 +1,1933 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Frasurbane -- A Design Reference</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Cinzel+Decorative:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Josefin+Sans:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    /* ===================================================
+       FRASURBANE DESIGN SYSTEM
+       Refined Postmodern Aesthetic, c. late 1980s--mid 1990s
+       =================================================== */
+
+    :root {
+      /* Base tones */
+      --fr-cream: #f5f0e8;
+      --fr-ivory: #ede6d6;
+      --fr-linen: #faf8f4;
+      --fr-paper: #e8dfd0;
+
+      /* Text tones */
+      --fr-espresso: #2c1e14;
+      --fr-charcoal: #3d3530;
+      --fr-stone: #5c4f47;
+      --fr-taupe: #8c8178;
+      --fr-tan: #b5a99a;
+
+      /* Warm accents */
+      --fr-terracotta: #c67a52;
+      --fr-sienna: #a0603c;
+      --fr-amber: #c4973b;
+      --fr-gold: #d4b880;
+      --fr-clay: #9e7b65;
+
+      /* Cool accents */
+      --fr-sage: #7a9178;
+      --fr-olive: #6b7c5e;
+      --fr-moss: #4a5e3c;
+      --fr-slate: #6b7d8e;
+      --fr-teal: #5e8a8a;
+      --fr-denim: #7e8fa0;
+
+      /* Neutrals */
+      --fr-fog: #d6cfc5;
+      --fr-burgundy: #6b2d3e;
+    }
+
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background-color: var(--fr-cream);
+      background-image:
+        radial-gradient(ellipse at 20% 50%, rgba(180, 160, 130, 0.04) 0%, transparent 60%),
+        radial-gradient(ellipse at 80% 20%, rgba(160, 140, 110, 0.03) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 80%, rgba(190, 170, 140, 0.03) 0%, transparent 55%);
+      color: var(--fr-charcoal);
+      font-family: 'EB Garamond', Georgia, serif;
+      font-weight: 400;
+      font-size: 1.05rem;
+      line-height: 1.8;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overflow-x: hidden;
+    }
+
+    /* Paper texture overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      opacity: 0.022;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23p)'/%3E%3C/svg%3E");
+      background-size: 256px 256px;
+      pointer-events: none;
+      mix-blend-mode: multiply;
+      z-index: 10000;
+    }
+
+    /* ===== ANIMATIONS ===== */
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(24px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes revealLine {
+      from { width: 0; }
+      to { width: 100%; }
+    }
+
+    @keyframes gentlePulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.6; }
+    }
+
+    @keyframes drawBorder {
+      0% { clip-path: inset(0 100% 100% 0); }
+      25% { clip-path: inset(0 0 100% 0); }
+      50% { clip-path: inset(0 0 0 0); }
+      100% { clip-path: inset(0 0 0 0); }
+    }
+
+    .animate-on-scroll {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .animate-on-scroll.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ===== NAVIGATION ===== */
+
+    .nav-wrapper {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: var(--fr-linen);
+      border-bottom: 1px solid var(--fr-fog);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+
+    nav {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 2.5rem;
+      padding: 1.2rem 2rem;
+      max-width: 1100px;
+      margin: 0 auto;
+      flex-wrap: wrap;
+    }
+
+    .nav-brand {
+      font-family: 'Cinzel', serif;
+      font-weight: 500;
+      font-size: 0.82rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--fr-espresso);
+      text-decoration: none;
+      border: none;
+      margin-right: auto;
+    }
+
+    .nav-brand:hover {
+      color: var(--fr-terracotta);
+    }
+
+    nav a {
+      font-family: 'Josefin Sans', sans-serif;
+      font-weight: 300;
+      font-size: 0.68rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--fr-stone);
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      padding-bottom: 0.2rem;
+      transition: color 0.3s ease, border-color 0.3s ease;
+    }
+
+    nav a:hover {
+      color: var(--fr-terracotta);
+      border-bottom-color: var(--fr-terracotta);
+    }
+
+    /* ===== HERO ===== */
+
+    .hero {
+      text-align: center;
+      padding: 7rem 2rem 6rem;
+      background: var(--fr-linen);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80%;
+      max-width: 700px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--fr-tan), transparent);
+    }
+
+    .hero-label {
+      font-family: 'Josefin Sans', sans-serif;
+      font-weight: 300;
+      font-size: 0.68rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--fr-taupe);
+      margin-bottom: 2rem;
+      animation: fadeIn 1s ease 0.2s both;
+    }
+
+    .hero h1 {
+      font-family: 'Cinzel Decorative', 'Cinzel', serif;
+      font-weight: 400;
+      font-size: clamp(2.6rem, 6vw, 5rem);
+      letter-spacing: 0.1em;
+      color: var(--fr-espresso);
+      text-transform: uppercase;
+      line-height: 1.1;
+      margin-bottom: 1.6rem;
+      animation: fadeInUp 1s ease 0.4s both;
+    }
+
+    .hero-subtitle {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-style: italic;
+      font-weight: 300;
+      font-size: clamp(1.15rem, 2.5vw, 1.5rem);
+      color: var(--fr-stone);
+      max-width: 600px;
+      margin: 0 auto 2.5rem;
+      line-height: 1.6;
+      animation: fadeInUp 1s ease 0.6s both;
+    }
+
+    .hero-meta {
+      font-family: 'Josefin Sans', sans-serif;
+      font-weight: 300;
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--fr-taupe);
+      animation: fadeIn 1s ease 1s both;
+    }
+
+    .hero-meta span {
+      display: inline-block;
+      margin: 0 0.8rem;
+    }
+
+    .hero-meta .sep {
+      color: var(--fr-tan);
+    }
+
+    /* ===== ORNAMENTAL DIVIDERS ===== */
+
+    .divider {
+      border: none;
+      height: 1px;
+      background: var(--fr-tan);
+      position: relative;
+      margin: 0 auto;
+      max-width: 600px;
+    }
+
+    .divider::after {
+      content: '\2766';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: var(--fr-cream);
+      padding: 0 1rem;
+      font-size: 1rem;
+      color: var(--fr-tan);
+      line-height: 1;
+    }
+
+    .divider-leaf::after {
+      content: '\2767';
+      font-size: 1.1rem;
+    }
+
+    .divider-diamond::after {
+      content: '\25C6';
+      font-size: 0.6rem;
+    }
+
+    .divider-on-ivory::after {
+      background: var(--fr-ivory);
+    }
+
+    .divider-on-linen::after {
+      background: var(--fr-linen);
+    }
+
+    .divider-on-paper::after {
+      background: var(--fr-paper);
+    }
+
+    /* ===== SECTIONS ===== */
+
+    .section {
+      padding: 5rem 2rem;
+      position: relative;
+    }
+
+    .section-cream { background: var(--fr-cream); }
+    .section-ivory { background: var(--fr-ivory); }
+    .section-linen { background: var(--fr-linen); }
+    .section-paper { background: var(--fr-paper); }
+
+    .section-inner {
+      max-width: 760px;
+      margin: 0 auto;
+    }
+
+    .section-wide {
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    /* ===== TYPOGRAPHY STYLES ===== */
+
+    h2 {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-style: italic;
+      font-weight: 400;
+      font-size: clamp(1.7rem, 3.5vw, 2.4rem);
+      letter-spacing: 0.03em;
+      line-height: 1.3;
+      color: var(--fr-espresso);
+      margin-bottom: 1.5rem;
+    }
+
+    h3 {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-weight: 600;
+      font-size: 1.1rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--fr-stone);
+      margin-bottom: 1rem;
+      margin-top: 2.5rem;
+    }
+
+    h4 {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-style: italic;
+      font-weight: 500;
+      font-size: 1.2rem;
+      color: var(--fr-stone);
+      margin-bottom: 0.5rem;
+      margin-top: 1.5rem;
+    }
+
+    p {
+      margin-bottom: 1.2rem;
+    }
+
+    p:last-child {
+      margin-bottom: 0;
+    }
+
+    strong {
+      font-weight: 600;
+      color: var(--fr-espresso);
+    }
+
+    em {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-style: italic;
+      font-size: 1.08em;
+      color: var(--fr-stone);
+    }
+
+    a {
+      color: var(--fr-terracotta);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(198, 122, 82, 0.3);
+      transition: color 0.25s ease, border-color 0.25s ease;
+    }
+
+    a:hover {
+      color: var(--fr-sienna);
+      border-bottom-color: var(--fr-sienna);
+    }
+
+    /* Label style */
+    .label {
+      font-family: 'Josefin Sans', sans-serif;
+      font-weight: 300;
+      font-size: 0.68rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--fr-taupe);
+      display: block;
+      margin-bottom: 0.8rem;
+    }
+
+    /* ===== PULLQUOTE ===== */
+
+    .pullquote {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-style: italic;
+      font-weight: 300;
+      font-size: clamp(1.3rem, 2.8vw, 1.8rem);
+      line-height: 1.55;
+      color: var(--fr-stone);
+      border-left: 2px solid var(--fr-gold);
+      padding: 0.5rem 0 0.5rem 1.8rem;
+      margin: 2.5rem 0;
+      max-width: 620px;
+    }
+
+    /* ===== FEATURE QUOTE (centered) ===== */
+
+    .feature-quote {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-style: italic;
+      font-weight: 300;
+      font-size: clamp(1.25rem, 2.5vw, 1.6rem);
+      color: var(--fr-stone);
+      text-align: center;
+      padding: 2rem 1.5rem;
+      max-width: 580px;
+      margin: 2.5rem auto;
+      line-height: 1.6;
+    }
+
+    .feature-quote::before {
+      content: '\201C';
+      display: block;
+      font-family: 'Cinzel Decorative', 'Cinzel', serif;
+      font-style: normal;
+      font-size: 3rem;
+      color: var(--fr-gold);
+      line-height: 0.5;
+      margin-bottom: 1rem;
+    }
+
+    /* ===== DROP CAP ===== */
+
+    .dropcap::first-letter {
+      font-family: 'Cinzel Decorative', 'Cinzel', serif;
+      font-size: 3.5em;
+      float: left;
+      line-height: 0.8;
+      margin-right: 0.1em;
+      margin-top: 0.08em;
+      color: var(--fr-terracotta);
+    }
+
+    /* ===== CARDS ===== */
+
+    .card {
+      background: var(--fr-linen);
+      border: 1px solid var(--fr-fog);
+      padding: 2rem 2.5rem;
+      margin: 2rem 0;
+      box-shadow:
+        0 1px 3px rgba(44, 30, 20, 0.06),
+        0 6px 20px rgba(44, 30, 20, 0.04);
+      transition: box-shadow 0.4s ease, transform 0.4s ease;
+    }
+
+    .card:hover {
+      box-shadow:
+        0 2px 6px rgba(44, 30, 20, 0.08),
+        0 12px 35px rgba(44, 30, 20, 0.06);
+      transform: translateY(-2px);
+    }
+
+    .card-accented {
+      border-top: 2px solid var(--fr-terracotta);
+    }
+
+    .card-gold {
+      border-top: 1px solid var(--fr-gold);
+    }
+
+    .card h3 {
+      margin-top: 0;
+    }
+
+    /* ===== CLASSICAL FRAME ===== */
+
+    .frame {
+      border: 1px solid var(--fr-tan);
+      padding: 2.5rem;
+      position: relative;
+      background: var(--fr-linen);
+    }
+
+    .frame::before {
+      content: '';
+      position: absolute;
+      inset: 6px;
+      border: 1px solid var(--fr-fog);
+      pointer-events: none;
+    }
+
+    .frame-corners {
+      position: relative;
+      padding: 3rem;
+    }
+
+    .frame-corners::before,
+    .frame-corners::after {
+      content: '';
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      border-color: var(--fr-clay);
+      border-style: solid;
+    }
+
+    .frame-corners::before {
+      top: 12px;
+      left: 12px;
+      border-width: 1px 0 0 1px;
+    }
+
+    .frame-corners::after {
+      bottom: 12px;
+      right: 12px;
+      border-width: 0 1px 1px 0;
+    }
+
+    /* Additional corner ornaments using extra elements */
+    .frame-corners .corner-tr,
+    .frame-corners .corner-bl {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      border-color: var(--fr-clay);
+      border-style: solid;
+    }
+
+    .frame-corners .corner-tr {
+      top: 12px;
+      right: 12px;
+      border-width: 1px 1px 0 0;
+    }
+
+    .frame-corners .corner-bl {
+      bottom: 12px;
+      left: 12px;
+      border-width: 0 0 1px 1px;
+    }
+
+    /* ===== GRID LAYOUTS ===== */
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin: 2rem 0;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin: 2rem 0;
+    }
+
+    .grid-golden {
+      display: grid;
+      grid-template-columns: 1fr 1.618fr;
+      gap: 3rem;
+      align-items: start;
+      margin: 2.5rem 0;
+    }
+
+    .grid-golden-reverse {
+      display: grid;
+      grid-template-columns: 1.618fr 1fr;
+      gap: 3rem;
+      align-items: start;
+      margin: 2.5rem 0;
+    }
+
+    @media (max-width: 768px) {
+      .grid-2, .grid-3, .grid-golden, .grid-golden-reverse {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* ===== COLOR PALETTE DISPLAY ===== */
+
+    .palette-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 1.2rem;
+      margin: 2rem 0;
+    }
+
+    .swatch {
+      text-align: center;
+      transition: transform 0.3s ease;
+    }
+
+    .swatch:hover {
+      transform: scale(1.04);
+    }
+
+    .swatch-color {
+      width: 100%;
+      aspect-ratio: 1.2;
+      border: 1px solid var(--fr-fog);
+      box-shadow: 0 2px 8px rgba(44, 30, 20, 0.08);
+      margin-bottom: 0.6rem;
+    }
+
+    .swatch-name {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-style: italic;
+      font-size: 0.9rem;
+      color: var(--fr-stone);
+      display: block;
+    }
+
+    .swatch-hex {
+      font-family: 'Josefin Sans', sans-serif;
+      font-weight: 300;
+      font-size: 0.6rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--fr-taupe);
+      display: block;
+      margin-top: 0.15rem;
+    }
+
+    /* ===== TYPOGRAPHY SHOWCASE ===== */
+
+    .type-specimen {
+      margin: 2rem 0;
+      padding: 2.5rem;
+      background: var(--fr-linen);
+      border: 1px solid var(--fr-fog);
+    }
+
+    .type-specimen-display {
+      font-family: 'Cinzel', serif;
+      font-weight: 500;
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--fr-espresso);
+      line-height: 1.2;
+      margin-bottom: 0.3rem;
+    }
+
+    .type-specimen-italic {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-style: italic;
+      font-weight: 300;
+      font-size: clamp(1.5rem, 3vw, 2.2rem);
+      color: var(--fr-stone);
+      line-height: 1.4;
+      margin-bottom: 0.3rem;
+    }
+
+    .type-specimen-body {
+      font-family: 'EB Garamond', Georgia, serif;
+      font-size: 1.05rem;
+      line-height: 1.8;
+      color: var(--fr-charcoal);
+      margin-bottom: 0.3rem;
+    }
+
+    .type-specimen-label {
+      font-family: 'Josefin Sans', sans-serif;
+      font-weight: 300;
+      font-size: 0.68rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--fr-taupe);
+    }
+
+    /* ===== MATERIAL TEXTURES ===== */
+
+    .material-sample {
+      padding: 2rem;
+      border: 1px solid var(--fr-fog);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      min-height: 120px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .material-parchment {
+      background: var(--fr-cream);
+      background-image:
+        radial-gradient(ellipse at 30% 40%, rgba(180, 160, 130, 0.08) 0%, transparent 60%),
+        radial-gradient(ellipse at 70% 60%, rgba(160, 140, 110, 0.06) 0%, transparent 50%);
+    }
+
+    .material-linen {
+      background: var(--fr-linen);
+      background-image:
+        repeating-linear-gradient(
+          0deg,
+          transparent,
+          transparent 2px,
+          rgba(180, 160, 130, 0.02) 2px,
+          rgba(180, 160, 130, 0.02) 4px
+        ),
+        repeating-linear-gradient(
+          90deg,
+          transparent,
+          transparent 2px,
+          rgba(180, 160, 130, 0.015) 2px,
+          rgba(180, 160, 130, 0.015) 4px
+        );
+    }
+
+    .material-plaster {
+      background: var(--fr-ivory);
+      background-image:
+        radial-gradient(ellipse at 25% 25%, rgba(210, 195, 170, 0.15) 0%, transparent 50%),
+        radial-gradient(ellipse at 75% 75%, rgba(200, 185, 160, 0.1) 0%, transparent 50%);
+    }
+
+    .material-stone {
+      background: linear-gradient(135deg, var(--fr-fog) 0%, var(--fr-paper) 50%, var(--fr-fog) 100%);
+    }
+
+    .material-leather {
+      background: var(--fr-espresso);
+      color: var(--fr-gold);
+    }
+
+    .material-terracotta {
+      background: var(--fr-terracotta);
+      color: var(--fr-linen);
+    }
+
+    .material-label {
+      font-family: 'Josefin Sans', sans-serif;
+      font-weight: 300;
+      font-size: 0.62rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-top: 0.5rem;
+      opacity: 0.8;
+    }
+
+    .material-name {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-style: italic;
+      font-size: 1.1rem;
+    }
+
+    /* ===== LIST STYLES ===== */
+
+    .styled-list {
+      list-style: none;
+      padding: 0;
+      margin: 1.5rem 0;
+    }
+
+    .styled-list li {
+      padding: 0.6rem 0 0.6rem 1.6rem;
+      position: relative;
+      border-bottom: 1px solid rgba(214, 207, 197, 0.5);
+    }
+
+    .styled-list li:last-child {
+      border-bottom: none;
+    }
+
+    .styled-list li::before {
+      content: '\2022';
+      position: absolute;
+      left: 0;
+      color: var(--fr-terracotta);
+      font-size: 1.2em;
+    }
+
+    /* Leaf bullet variant */
+    .styled-list-leaf li::before {
+      content: '\2767';
+      color: var(--fr-sage);
+      font-size: 0.9em;
+      top: 0.7rem;
+    }
+
+    /* ===== TABLE ===== */
+
+    .styled-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 2rem 0;
+      font-size: 0.95rem;
+    }
+
+    .styled-table thead {
+      border-bottom: 2px solid var(--fr-tan);
+    }
+
+    .styled-table th {
+      font-family: 'Josefin Sans', sans-serif;
+      font-weight: 400;
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--fr-taupe);
+      text-align: left;
+      padding: 0.8rem 1rem;
+    }
+
+    .styled-table td {
+      padding: 0.8rem 1rem;
+      border-bottom: 1px solid var(--fr-fog);
+      vertical-align: top;
+    }
+
+    .styled-table tbody tr {
+      transition: background-color 0.3s ease;
+    }
+
+    .styled-table tbody tr:hover {
+      background: rgba(250, 248, 244, 0.6);
+    }
+
+    .styled-table .font-name {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-style: italic;
+      font-size: 1.05rem;
+      color: var(--fr-espresso);
+    }
+
+    /* ===== BUTTONS ===== */
+
+    .btn {
+      display: inline-block;
+      padding: 0.7rem 2.2rem;
+      font-family: 'Josefin Sans', sans-serif;
+      font-weight: 400;
+      font-size: 0.68rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--fr-espresso);
+      background: transparent;
+      border: 1px solid var(--fr-charcoal);
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .btn:hover {
+      background: var(--fr-espresso);
+      color: var(--fr-cream);
+      border-color: var(--fr-espresso);
+      border-bottom-color: var(--fr-espresso);
+    }
+
+    .btn-warm {
+      border-color: var(--fr-terracotta);
+      color: var(--fr-terracotta);
+    }
+
+    .btn-warm:hover {
+      background: var(--fr-terracotta);
+      color: var(--fr-linen);
+      border-color: var(--fr-terracotta);
+      border-bottom-color: var(--fr-terracotta);
+    }
+
+    /* ===== BOTANICAL ACCENT ===== */
+
+    .botanical-accent {
+      position: relative;
+      padding-left: 2rem;
+    }
+
+    .botanical-accent::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: linear-gradient(
+        180deg,
+        transparent 0%,
+        var(--fr-sage) 15%,
+        var(--fr-sage) 85%,
+        transparent 100%
+      );
+    }
+
+    /* ===== INLINE CODE ===== */
+
+    code {
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 0.88em;
+      background: var(--fr-paper);
+      padding: 0.15em 0.4em;
+      border: 1px solid var(--fr-fog);
+      color: var(--fr-sienna);
+    }
+
+    /* ===== TAG / BADGE ===== */
+
+    .tag {
+      display: inline-block;
+      font-family: 'Josefin Sans', sans-serif;
+      font-weight: 300;
+      font-size: 0.58rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      padding: 0.3rem 0.8rem;
+      border: 1px solid var(--fr-fog);
+      color: var(--fr-taupe);
+      margin: 0.2rem 0.3rem 0.2rem 0;
+      transition: all 0.3s ease;
+    }
+
+    .tag:hover {
+      border-color: var(--fr-terracotta);
+      color: var(--fr-terracotta);
+    }
+
+    .tag-sage {
+      border-color: var(--fr-sage);
+      color: var(--fr-sage);
+    }
+
+    .tag-amber {
+      border-color: var(--fr-amber);
+      color: var(--fr-amber);
+    }
+
+    /* ===== RELATED AESTHETICS TABLE ===== */
+
+    .aesthetic-card {
+      padding: 1.2rem 1.5rem;
+      border: 1px solid var(--fr-fog);
+      background: var(--fr-linen);
+      transition: all 0.3s ease;
+    }
+
+    .aesthetic-card:hover {
+      border-color: var(--fr-tan);
+      box-shadow: 0 4px 16px rgba(44, 30, 20, 0.06);
+    }
+
+    .aesthetic-card h4 {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-weight: 600;
+      font-style: normal;
+      font-size: 1rem;
+      letter-spacing: 0.05em;
+      color: var(--fr-espresso);
+      margin-top: 0;
+      margin-bottom: 0.4rem;
+    }
+
+    .aesthetic-card p {
+      font-size: 0.92rem;
+      color: var(--fr-taupe);
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    /* ===== CSS TECHNIQUE DEMO CARDS ===== */
+
+    .technique-card {
+      background: var(--fr-linen);
+      border: 1px solid var(--fr-fog);
+      padding: 2rem;
+      margin: 1.5rem 0;
+    }
+
+    .technique-card h4 {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-weight: 600;
+      font-style: normal;
+      font-size: 0.95rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--fr-stone);
+      margin-top: 0;
+      margin-bottom: 1rem;
+      padding-bottom: 0.6rem;
+      border-bottom: 1px solid var(--fr-fog);
+    }
+
+    /* ===== DECORATIVE ELEMENTS ===== */
+
+    .ornament {
+      text-align: center;
+      color: var(--fr-tan);
+      font-size: 1.5rem;
+      margin: 2rem 0;
+      line-height: 1;
+    }
+
+    .ornament-small {
+      font-size: 0.9rem;
+      margin: 1.5rem 0;
+    }
+
+    /* ===== SCROLLING ACANTHUS BORDER ===== */
+
+    .acanthus-border {
+      position: relative;
+      padding: 3.5rem 2.5rem;
+    }
+
+    .acanthus-border::before,
+    .acanthus-border::after {
+      content: '';
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60%;
+      max-width: 400px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--fr-gold) 20%, var(--fr-gold) 80%, transparent);
+    }
+
+    .acanthus-border::before { top: 0; }
+    .acanthus-border::after { bottom: 0; }
+
+    /* ===== SECTION HEADER STYLE ===== */
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .section-header .label {
+      margin-bottom: 0.6rem;
+    }
+
+    .section-header h2 {
+      margin-bottom: 0.8rem;
+    }
+
+    .section-header-line {
+      display: block;
+      width: 60px;
+      height: 1px;
+      background: var(--fr-gold);
+      margin: 1rem auto 0;
+    }
+
+    /* ===== FULL-WIDTH BAND ===== */
+
+    .hero-band {
+      background: var(--fr-espresso);
+      color: var(--fr-cream);
+      padding: 4rem 2rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-band::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 20% 50%, rgba(198, 122, 82, 0.08) 0%, transparent 60%),
+        radial-gradient(ellipse at 80% 50%, rgba(122, 145, 120, 0.06) 0%, transparent 50%);
+      pointer-events: none;
+    }
+
+    .hero-band h2 {
+      font-family: 'Cinzel', serif;
+      font-weight: 400;
+      font-style: normal;
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--fr-gold);
+      margin-bottom: 1rem;
+    }
+
+    .hero-band p {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-style: italic;
+      font-weight: 300;
+      font-size: 1.15rem;
+      color: var(--fr-tan);
+      max-width: 560px;
+      margin: 0 auto;
+      line-height: 1.7;
+    }
+
+    /* ===== FOOTER ===== */
+
+    footer {
+      text-align: center;
+      padding: 3.5rem 2rem;
+      border-top: 1px solid var(--fr-fog);
+      background: var(--fr-ivory);
+    }
+
+    footer .footer-ornament {
+      color: var(--fr-tan);
+      font-size: 1.2rem;
+      margin-bottom: 1.5rem;
+    }
+
+    footer p {
+      font-family: 'Josefin Sans', sans-serif;
+      font-weight: 300;
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--fr-taupe);
+      margin-bottom: 0.5rem;
+    }
+
+    footer .footer-tagline {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-style: italic;
+      font-weight: 300;
+      font-size: 1rem;
+      letter-spacing: 0.02em;
+      text-transform: none;
+      color: var(--fr-stone);
+    }
+
+    /* ===== RESPONSIVE ===== */
+
+    @media (max-width: 768px) {
+      .section { padding: 3.5rem 1.5rem; }
+      .hero { padding: 5rem 1.5rem 4rem; }
+      .card { padding: 1.5rem 1.8rem; }
+      .frame { padding: 1.5rem; }
+      .frame-corners { padding: 2rem; }
+      .acanthus-border { padding: 2.5rem 1.5rem; }
+      nav { gap: 1.2rem; padding: 1rem 1.2rem; }
+      .nav-brand { margin-right: 0; width: 100%; text-align: center; margin-bottom: 0.5rem; }
+      .palette-grid { grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 0.8rem; }
+      .hero-band { padding: 3rem 1.5rem; }
+      .type-specimen { padding: 1.5rem; }
+
+      .styled-table {
+        font-size: 0.85rem;
+      }
+
+      .styled-table th,
+      .styled-table td {
+        padding: 0.6rem 0.5rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      nav a { font-size: 0.6rem; letter-spacing: 0.15em; }
+      .palette-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    /* ===== STAGGER ANIMATIONS ===== */
+
+    .stagger-1 { transition-delay: 0.1s; }
+    .stagger-2 { transition-delay: 0.2s; }
+    .stagger-3 { transition-delay: 0.3s; }
+    .stagger-4 { transition-delay: 0.4s; }
+    .stagger-5 { transition-delay: 0.5s; }
+    .stagger-6 { transition-delay: 0.6s; }
+  </style>
+</head>
+<body>
+
+  <!-- ===== NAVIGATION ===== -->
+  <div class="nav-wrapper">
+    <nav>
+      <a href="#" class="nav-brand" style="border:none;">Frasurbane</a>
+      <a href="#visual" style="border:none;">Visual</a>
+      <a href="#palette" style="border:none;">Palette</a>
+      <a href="#typography" style="border:none;">Typography</a>
+      <a href="#layout" style="border:none;">Layout</a>
+      <a href="#techniques" style="border:none;">Techniques</a>
+      <a href="#context" style="border:none;">Context</a>
+    </nav>
+  </div>
+
+  <!-- ===== HERO ===== -->
+  <header class="hero">
+    <p class="hero-label">A Design Reference</p>
+    <h1>Frasurbane</h1>
+    <p class="hero-subtitle">The most subdued and sophisticated postmodern aesthetic to emerge after Memphis Design, blending 1990s grunge elements with an "adult contemporary" sensibility</p>
+    <p class="hero-meta">
+      <span>c. late 1980s -- mid 1990s</span>
+      <span class="sep">&middot;</span>
+      <span>Also known as 90's Urbane</span>
+      <span class="sep">&middot;</span>
+      <span>Coined by Evan Collins</span>
+    </p>
+  </header>
+
+  <!-- ===== INTRODUCTION ===== -->
+  <div class="section section-cream">
+    <div class="section-inner">
+      <hr class="divider">
+      <div style="padding-top: 3rem;" class="animate-on-scroll">
+        <p class="dropcap">Frasurbane is a refined postmodern aesthetic used in stores, advertisements, interior design, and graphic design. The name is a portmanteau of <em>Frasier</em> (the 1990s TV show about a cultured radio psychiatrist) and <em>urbane</em>, targeting wealthy, educated suburbanites. Where Corporate Grunge took grunge raw and gritty, Frasurbane domesticated it -- pairing classical Roman columns with muted earth tones, italicized serif typography with ecological motifs, and Renaissance compositional balance with a warm, cultivated restraint.</p>
+      </div>
+      <div class="feature-quote animate-on-scroll">
+        Think: a Pottery Barn catalog designed by someone who studied art history, reads The New Yorker, and drinks single-origin coffee.
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== VISUAL CHARACTERISTICS ===== -->
+  <div id="visual" class="section section-ivory">
+    <div class="section-inner">
+      <div class="section-header animate-on-scroll">
+        <span class="label">Section I</span>
+        <h2>Visual Characteristics</h2>
+        <span class="section-header-line"></span>
+      </div>
+
+      <h3 class="animate-on-scroll">Core Motifs & Patterns</h3>
+
+      <div class="grid-2">
+        <div class="card card-accented animate-on-scroll stagger-1">
+          <h4>Classical & Renaissance Motifs</h4>
+          <p>Corinthian columns, Roman arches, acanthus leaf borders, laurel wreaths, medallions, neoclassical friezes, and pediment forms used as decorative framing devices.</p>
+        </div>
+        <div class="card card-accented animate-on-scroll stagger-2">
+          <h4>Ecological & Natural Imagery</h4>
+          <p>Leaves, ferns, botanical illustrations, rivers, stone textures, woodland scenes, and nature photography treated with warm toning.</p>
+        </div>
+        <div class="card card-accented animate-on-scroll stagger-3">
+          <h4>Italicized Serif Typography</h4>
+          <p>The defining typographic gesture; elegant, sloped letterforms conveying cultivated sophistication.</p>
+        </div>
+        <div class="card card-accented animate-on-scroll stagger-4">
+          <h4>Refined Grunge Textures</h4>
+          <p>Subtle paper grain, lightly distressed edges, antiqued patinas, and gently weathered surfaces -- never raw or aggressive.</p>
+        </div>
+        <div class="card card-accented animate-on-scroll stagger-5">
+          <h4>Tuscan & Mediterranean References</h4>
+          <p>Terracotta, warm plaster, aged stone, wrought iron accents, olive wood -- materials that evoke the warmth of the Mediterranean.</p>
+        </div>
+        <div class="card card-accented animate-on-scroll stagger-6">
+          <h4>Layered, Collaged Compositions</h4>
+          <p>Overlapping photographs, classical illustrations, and typographic elements arranged in harmonious, curated compositions.</p>
+        </div>
+      </div>
+
+      <hr class="divider divider-leaf divider-on-ivory" style="margin: 3rem auto;">
+
+      <h3 class="animate-on-scroll">Design Principles</h3>
+
+      <div class="animate-on-scroll">
+        <ul class="styled-list styled-list-leaf">
+          <li><strong>Subdued sophistication over raw energy</strong> -- every grunge element is refined, softened, and made palatable for an educated, affluent audience</li>
+          <li><strong>Classical order with organic warmth</strong> -- use Renaissance symmetry and proportion as the structural backbone, then soften with natural textures and warm tones</li>
+          <li><strong>Restraint and curation</strong> -- less is more; each element feels deliberately chosen, never cluttered or chaotic</li>
+          <li><strong>Warm, inviting atmosphere</strong> -- design should feel like entering a well-appointed living room with built-in bookshelves and a fireplace</li>
+          <li><strong>Cultural literacy signaling</strong> -- visual references to art history, literature, classical architecture, and nature convey intellectual refinement</li>
+          <li><strong>Ecological consciousness</strong> -- nature imagery and earthy materials suggest environmental awareness and connection to the natural world</li>
+          <li><strong>Timeless elegance over trendiness</strong> -- avoid anything that feels disposable or of-the-moment; aim for enduring, curated quality</li>
+          <li><strong>Balanced asymmetry</strong> -- compositions that feel naturally balanced without rigid mirror symmetry, like a well-arranged bookshelf</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== COLOR PALETTE ===== -->
+  <div id="palette" class="section section-cream">
+    <div class="section-wide">
+      <div class="section-header animate-on-scroll">
+        <span class="label">Section II</span>
+        <h2>Color Palette</h2>
+        <span class="section-header-line"></span>
+      </div>
+
+      <div class="animate-on-scroll">
+        <p style="text-align:center; max-width:600px; margin:0 auto 2rem;">A nature-derived palette where every color references a natural material: clay, stone, sage, moss, terracotta, parchment, espresso. All colors are muted, dusty, or slightly grayed, as if seen through warm afternoon light.</p>
+      </div>
+
+      <h3 class="animate-on-scroll">Base Tones</h3>
+      <div class="palette-grid animate-on-scroll">
+        <div class="swatch">
+          <div class="swatch-color" style="background:#F5F0E8;"></div>
+          <span class="swatch-name">Parchment Cream</span>
+          <span class="swatch-hex">#F5F0E8</span>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background:#EDE6D6;"></div>
+          <span class="swatch-name">Warm Ivory</span>
+          <span class="swatch-hex">#EDE6D6</span>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background:#FAF8F4;"></div>
+          <span class="swatch-name">Linen White</span>
+          <span class="swatch-hex">#FAF8F4</span>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background:#E8DFD0;"></div>
+          <span class="swatch-name">Antique Paper</span>
+          <span class="swatch-hex">#E8DFD0</span>
+        </div>
+      </div>
+
+      <h3 class="animate-on-scroll">Text Tones</h3>
+      <div class="palette-grid animate-on-scroll">
+        <div class="swatch">
+          <div class="swatch-color" style="background:#2C1E14;"></div>
+          <span class="swatch-name">Espresso</span>
+          <span class="swatch-hex">#2C1E14</span>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background:#3D3530;"></div>
+          <span class="swatch-name">Warm Charcoal</span>
+          <span class="swatch-hex">#3D3530</span>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background:#5C4F47;"></div>
+          <span class="swatch-name">Stone Brown</span>
+          <span class="swatch-hex">#5C4F47</span>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background:#8C8178;"></div>
+          <span class="swatch-name">Taupe Gray</span>
+          <span class="swatch-hex">#8C8178</span>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background:#B5A99A;"></div>
+          <span class="swatch-name">Dusty Tan</span>
+          <span class="swatch-hex">#B5A99A</span>
+        </div>
+      </div>
+
+      <h3 class="animate-on-scroll">Warm Accents</h3>
+      <div class="palette-grid animate-on-scroll">
+        <div class="swatch">
+          <div class="swatch-color" style="background:#C67A52;"></div>
+          <span class="swatch-name">Terracotta</span>
+          <span class="swatch-hex">#C67A52</span>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background:#A0603C;"></div>
+          <span class="swatch-name">Burnt Sienna</span>
+          <span class="swatch-hex">#A0603C</span>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background:#C4973B;"></div>
+          <span class="swatch-name">Amber Gold</span>
+          <span class="swatch-hex">#C4973B</span>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background:#D4B880;"></div>
+          <span class="swatch-name">Muted Gold</span>
+          <span class="swatch-hex">#D4B880</span>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background:#9E7B65;"></div>
+          <span class="swatch-name">Clay Brown</span>
+          <span class="swatch-hex">#9E7B65</span>
+        </div>
+      </div>
+
+      <h3 class="animate-on-scroll">Cool Accents</h3>
+      <div class="palette-grid animate-on-scroll">
+        <div class="swatch">
+          <div class="swatch-color" style="background:#7A9178;"></div>
+          <span class="swatch-name">Sage Green</span>
+          <span class="swatch-hex">#7A9178</span>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background:#6B7C5E;"></div>
+          <span class="swatch-name">Dusty Olive</span>
+          <span class="swatch-hex">#6B7C5E</span>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background:#4A5E3C;"></div>
+          <span class="swatch-name">Forest Moss</span>
+          <span class="swatch-hex">#4A5E3C</span>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background:#6B7D8E;"></div>
+          <span class="swatch-name">Slate Blue</span>
+          <span class="swatch-hex">#6B7D8E</span>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background:#5E8A8A;"></div>
+          <span class="swatch-name">Muted Teal</span>
+          <span class="swatch-hex">#5E8A8A</span>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background:#7E8FA0;"></div>
+          <span class="swatch-name">Faded Denim</span>
+          <span class="swatch-hex">#7E8FA0</span>
+        </div>
+      </div>
+
+      <h3 class="animate-on-scroll">Neutrals & Rare Accents</h3>
+      <div class="palette-grid animate-on-scroll">
+        <div class="swatch">
+          <div class="swatch-color" style="background:#D6CFC5;"></div>
+          <span class="swatch-name">Warm Fog</span>
+          <span class="swatch-hex">#D6CFC5</span>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background:#6B2D3E;"></div>
+          <span class="swatch-name">Deep Burgundy</span>
+          <span class="swatch-hex">#6B2D3E</span>
+        </div>
+      </div>
+
+      <hr class="divider divider-diamond" style="margin: 3rem auto;">
+
+      <div class="animate-on-scroll">
+        <h3>Palette Approaches</h3>
+        <div class="botanical-accent" style="margin-top: 1rem;">
+          <ul class="styled-list">
+            <li><strong>Warm, light-dominant atmosphere</strong> -- cream and ivory backgrounds create an inviting, gallery-like warmth, never stark white or cold gray</li>
+            <li><strong>Brown-spectrum text</strong> -- headings and body text use espresso and warm charcoal rather than pure black, maintaining softness</li>
+            <li><strong>Earth-tone accent balance</strong> -- terracotta and amber for warmth, sage and olive for natural freshness; used sparingly and deliberately</li>
+            <li><strong>Low-saturation harmony</strong> -- all colors are muted, dusty, or slightly grayed, as if seen through warm afternoon light</li>
+            <li><strong>Classical gold accents</strong> -- muted gold and amber for decorative details, evoking gilded frames and classical ornamentation</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== TYPOGRAPHY ===== -->
+  <div id="typography" class="section section-ivory">
+    <div class="section-inner">
+      <div class="section-header animate-on-scroll">
+        <span class="label">Section III</span>
+        <h2>Typography</h2>
+        <span class="section-header-line"></span>
+      </div>
+
+      <div class="animate-on-scroll">
+        <p>Frasurbane typography is defined by its commitment to <strong>refined serif letterforms</strong>, particularly in italic styles, reflecting the aesthetic's classical orientation and educated audience. Italic as signature -- italicized serif text is the hallmark typographic gesture, conveying elegance, literary sophistication, and a conversational intimacy.</p>
+      </div>
+
+      <div class="type-specimen animate-on-scroll" style="margin-top:2.5rem;">
+        <div class="type-specimen-display">Classical Roman Capitals</div>
+        <div class="type-specimen-italic" style="margin-top:0.8rem;">The elegant italic serif -- signature of the Frasurbane voice</div>
+        <div class="type-specimen-body" style="margin-top:0.8rem;">Body text set in EB Garamond: warm, readable, with generous line-height and a centered column that evokes the well-set page of a quality book. The palette stays within warm earth tones.</div>
+        <div class="type-specimen-label" style="margin-top:1rem;">Metadata &middot; Labels &middot; Captions &middot; Josefin Sans Light</div>
+      </div>
+
+      <h3 class="animate-on-scroll">Typeface Characteristics</h3>
+      <div class="animate-on-scroll">
+        <ul class="styled-list styled-list-leaf">
+          <li><strong>Serif dominance</strong> -- serif typefaces are the core typographic identity; sans-serif is used only for small metadata or labels</li>
+          <li><strong>Italic as signature</strong> -- italicized serif text is the hallmark typographic gesture, conveying elegance and conversational intimacy</li>
+          <li><strong>Classical Roman capitals</strong> -- display type references the Trajan column inscription tradition; elegant, wide-set, deeply classical</li>
+          <li><strong>High typographic contrast</strong> -- thin hairlines and thick stems create visual drama within letterforms</li>
+          <li><strong>Generous letter-spacing in headings</strong> -- tracking is opened up for display type, creating an airy, gallery-like feel</li>
+          <li><strong>Warm, readable body type</strong> -- body text uses traditional book-face proportions optimized for long-form reading comfort</li>
+        </ul>
+      </div>
+
+      <h3 class="animate-on-scroll">Era-Defining Typefaces</h3>
+      <div class="grid-2 animate-on-scroll">
+        <div class="card card-gold">
+          <h4 style="font-family:'Cinzel',serif; font-style:normal; letter-spacing:0.08em; text-transform:uppercase; font-size:0.9rem;">Trajan (1989)</h4>
+          <p style="font-size:0.92rem;">Carol Twombly & Robert Slimbach, Adobe. The canonical Frasurbane display typeface; based on Roman square capitals from Trajan's Column. Used extensively in 1990s upscale branding and movie posters.</p>
+        </div>
+        <div class="card card-gold">
+          <h4>Adobe Garamond</h4>
+          <p style="font-size:0.92rem;">Refined old-style serif for body text, the quintessential "educated" typeface of the era.</p>
+        </div>
+        <div class="card card-gold">
+          <h4>Minion</h4>
+          <p style="font-size:0.92rem;">Another Adobe classic used for elegant body text and sophisticated editorial design.</p>
+        </div>
+        <div class="card card-gold">
+          <h4>Palatino</h4>
+          <p style="font-size:0.92rem;">Warm, humanist serif with calligraphic influences. A staple of refined print design.</p>
+        </div>
+      </div>
+
+      <h3 class="animate-on-scroll">Recommended Web Fonts</h3>
+      <div class="animate-on-scroll" style="overflow-x:auto;">
+        <table class="styled-table">
+          <thead>
+            <tr>
+              <th>Font</th>
+              <th>Style</th>
+              <th>Usage</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="font-name">Cormorant Garamond</span></td>
+              <td>Elegant high-contrast serif</td>
+              <td>Display headlines, hero text, section titles</td>
+            </tr>
+            <tr>
+              <td><span class="font-name">EB Garamond</span></td>
+              <td>Classic old-style serif</td>
+              <td>Body text, long-form content</td>
+            </tr>
+            <tr>
+              <td><span class="font-name">Playfair Display</span></td>
+              <td>High-contrast didone serif</td>
+              <td>Display headlines, pullquotes</td>
+            </tr>
+            <tr>
+              <td><span class="font-name">Cinzel</span></td>
+              <td>Roman capital titling</td>
+              <td>Display titles, classical inscriptional feel</td>
+            </tr>
+            <tr>
+              <td><span class="font-name">Cinzel Decorative</span></td>
+              <td>Ornamental titling</td>
+              <td>Hero text, decorative headings</td>
+            </tr>
+            <tr>
+              <td><span class="font-name">Lora</span></td>
+              <td>Contemporary old-style serif</td>
+              <td>Body text alternative</td>
+            </tr>
+            <tr>
+              <td><span class="font-name">Libre Baskerville</span></td>
+              <td>Transitional serif</td>
+              <td>Body text, balanced formality</td>
+            </tr>
+            <tr>
+              <td><span class="font-name">Spectral</span></td>
+              <td>Elegant text serif</td>
+              <td>Body text, smaller sizes</td>
+            </tr>
+            <tr>
+              <td><span class="font-name">Josefin Sans</span></td>
+              <td>Elegant geometric sans</td>
+              <td>Metadata, labels, small text</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== INTERLUDE BAND ===== -->
+  <div class="hero-band">
+    <h2 class="animate-on-scroll">Restraint & Curation</h2>
+    <p class="animate-on-scroll">Design should feel like entering a well-appointed living room with built-in bookshelves and a fireplace -- warm, inviting, and unmistakably considered.</p>
+  </div>
+
+  <!-- ===== LAYOUT PRINCIPLES ===== -->
+  <div id="layout" class="section section-cream">
+    <div class="section-inner">
+      <div class="section-header animate-on-scroll">
+        <span class="label">Section IV</span>
+        <h2>Layout Principles</h2>
+        <span class="section-header-line"></span>
+      </div>
+
+      <h3 class="animate-on-scroll">Grid & Structure</h3>
+      <div class="animate-on-scroll">
+        <ul class="styled-list">
+          <li><strong>Centered, generous reading column</strong> -- primary content lives in a 680--780px centered column, evoking a well-set book page</li>
+          <li><strong>Classical proportions</strong> -- use golden ratio (1:1.618) relationships for column widths, margins, and spacing decisions</li>
+          <li><strong>Generous whitespace</strong> -- margins and padding are ample, creating a gallery-like sense of breathing room and refinement</li>
+          <li><strong>Symmetrical or gently balanced layouts</strong> -- compositions favor classical balance, whether centered symmetry or carefully weighted asymmetry</li>
+          <li><strong>Horizontal banding</strong> -- sections alternate between cream backgrounds and slightly warmer/cooler variants, creating gentle visual rhythm</li>
+          <li><strong>Fine-line dividers and ornamental rules</strong> -- thin horizontal rules, sometimes with central ornamental motifs, separate sections</li>
+        </ul>
+      </div>
+
+      <h3 class="animate-on-scroll">Section Organization</h3>
+      <div class="grid-golden animate-on-scroll">
+        <div>
+          <div class="botanical-accent">
+            <p>Use <strong>elegant horizontal dividers</strong> between sections -- thin rules with optional center ornaments: classical fleurons, botanical motifs, or simple diamond shapes.</p>
+            <p>Apply <strong>subtle background tone shifts</strong> per section -- alternating between warm cream and slightly cooler ivory prevents visual monotony without jarring contrast.</p>
+            <p>Employ <strong>classical framing devices</strong> -- thin borders, corner ornaments, and subtle shadow boxes for featured content areas.</p>
+          </div>
+        </div>
+        <div>
+          <div class="frame frame-corners" style="text-align:center;">
+            <span class="corner-tr"></span>
+            <span class="corner-bl"></span>
+            <p class="label" style="margin-bottom:0.5rem;">Featured Content</p>
+            <p style="font-family:'Cormorant Garamond',Georgia,serif; font-style:italic; font-weight:300; font-size:1.15rem; color:var(--fr-stone); margin:0;">A classical double-frame with corner ornaments, demonstrating the refined containment that characterizes Frasurbane layouts.</p>
+          </div>
+        </div>
+      </div>
+
+      <h3 class="animate-on-scroll">Responsive Considerations</h3>
+      <div class="card animate-on-scroll" style="border-left: 2px solid var(--fr-sage);">
+        <ul class="styled-list styled-list-leaf">
+          <li>On narrow screens, increase vertical spacing between elements rather than reducing font size</li>
+          <li>Maintain serif body text at no smaller than 16px for readability</li>
+          <li>Let images go full-width on mobile while maintaining generous text margins</li>
+          <li>Stack two-column layouts vertically on mobile, preserving reading order</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== CSS / DESIGN TECHNIQUES ===== -->
+  <div id="techniques" class="section section-ivory">
+    <div class="section-inner">
+      <div class="section-header animate-on-scroll">
+        <span class="label">Section V</span>
+        <h2>CSS & Design Techniques</h2>
+        <span class="section-header-line"></span>
+      </div>
+
+      <p class="animate-on-scroll">The following techniques translate Frasurbane's physical materials and classical aesthetics into web-native CSS. Each demonstrates a key design pattern of the aesthetic.</p>
+
+      <!-- Warm Paper Background -->
+      <div class="technique-card animate-on-scroll">
+        <h4>Warm Paper Background</h4>
+        <p>Parchment-like surfaces achieved through layered radial gradients and a subtle <code>feTurbulence</code> noise overlay. The result evokes aged vellum without mimicking it literally.</p>
+        <div class="grid-3" style="margin-top:1.5rem;">
+          <div class="material-sample material-parchment">
+            <span class="material-name">Parchment</span>
+            <span class="material-label">Radial gradient warmth</span>
+          </div>
+          <div class="material-sample material-linen">
+            <span class="material-name">Linen</span>
+            <span class="material-label">Cross-hatch texture</span>
+          </div>
+          <div class="material-sample material-plaster">
+            <span class="material-name">Tuscan Plaster</span>
+            <span class="material-label">Warm ivory variation</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Ornamental Dividers -->
+      <div class="technique-card animate-on-scroll">
+        <h4>Ornamental Dividers</h4>
+        <p>Thin horizontal rules with central ornaments -- fleurons, botanical motifs, or diamond shapes -- created using <code>::after</code> pseudo-elements with Unicode characters.</p>
+        <div style="padding: 2rem 0;">
+          <hr class="divider divider-on-ivory" style="margin: 1.5rem auto;">
+          <hr class="divider divider-leaf divider-on-ivory" style="margin: 2.5rem auto;">
+          <hr class="divider divider-diamond divider-on-ivory" style="margin: 2.5rem auto;">
+        </div>
+      </div>
+
+      <!-- Classical Frames -->
+      <div class="technique-card animate-on-scroll">
+        <h4>Classical Border Frames</h4>
+        <p>Double borders and corner ornaments evoke gilded frames and classical architectural moldings. Inner borders use <code>::before</code> with <code>inset</code>.</p>
+        <div class="grid-2" style="margin-top:1.5rem;">
+          <div class="frame" style="text-align:center;">
+            <p style="font-family:'Cormorant Garamond',Georgia,serif; font-style:italic; font-size:1.05rem; color:var(--fr-stone); margin:0;">Double border frame</p>
+          </div>
+          <div class="frame frame-corners" style="text-align:center;">
+            <span class="corner-tr"></span>
+            <span class="corner-bl"></span>
+            <p style="font-family:'Cormorant Garamond',Georgia,serif; font-style:italic; font-size:1.05rem; color:var(--fr-stone); margin:0;">Corner ornament frame</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card Variants -->
+      <div class="technique-card animate-on-scroll">
+        <h4>Warm Cards with Subtle Shadows</h4>
+        <p>Cards use warm-tinted shadows (brown-based rgba) and thin fog-colored borders. Hover states subtly deepen the shadow and lift the card.</p>
+        <div class="grid-3" style="margin-top:1.5rem;">
+          <div class="card" style="margin:0; text-align:center;">
+            <p class="label" style="margin-bottom:0.3rem;">Default</p>
+            <p style="font-size:0.9rem; margin:0;">Fog border, warm shadow</p>
+          </div>
+          <div class="card card-accented" style="margin:0; text-align:center;">
+            <p class="label" style="margin-bottom:0.3rem;">Accented</p>
+            <p style="font-size:0.9rem; margin:0;">Terracotta top border</p>
+          </div>
+          <div class="card card-gold" style="margin:0; text-align:center;">
+            <p class="label" style="margin-bottom:0.3rem;">Gold</p>
+            <p style="font-size:0.9rem; margin:0;">Muted gold top rule</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Buttons -->
+      <div class="technique-card animate-on-scroll">
+        <h4>Elegant Buttons</h4>
+        <p>Refined, understated buttons using Josefin Sans with generous letter-spacing. The interaction reversal -- filling with the border color on hover -- feels decisive yet restrained.</p>
+        <div style="margin-top:1.5rem; display:flex; gap:1.5rem; flex-wrap:wrap; align-items:center;">
+          <a href="#" class="btn" style="border-bottom-width:1px;">Explore</a>
+          <a href="#" class="btn btn-warm" style="border-bottom-width:1px;">Discover</a>
+        </div>
+      </div>
+
+      <!-- Nature Image Treatment -->
+      <div class="technique-card animate-on-scroll">
+        <h4>Nature Image Treatment</h4>
+        <p>Photographs receive a warm desaturation filter -- <code>saturate(0.85) contrast(1.05)</code> -- evoking classical photography and warm afternoon light. A subtle sepia variant adds further vintage warmth.</p>
+      </div>
+
+      <!-- Botanical Accent -->
+      <div class="technique-card animate-on-scroll">
+        <h4>Botanical Accent Border</h4>
+        <div class="botanical-accent" style="margin-top:1rem;">
+          <p>A sage-colored vertical line that fades at both ends, evoking the margins of classical botanical illustrations. Created with a <code>linear-gradient</code> on a <code>::before</code> pseudo-element.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== MATERIALS & TEXTURES ===== -->
+  <div class="section section-paper">
+    <div class="section-inner">
+      <div class="section-header animate-on-scroll">
+        <span class="label">Materials</span>
+        <h2>Physical to Digital Translation</h2>
+        <span class="section-header-line"></span>
+      </div>
+
+      <p class="animate-on-scroll" style="text-align:center; max-width:600px; margin:0 auto 2.5rem;">Frasurbane draws its material vocabulary from natural and classical sources. Each physical material has a web-native equivalent.</p>
+
+      <div class="grid-3 animate-on-scroll">
+        <div class="material-sample material-parchment">
+          <span class="material-name">Aged Parchment</span>
+          <span class="material-label">Warm cream + noise overlay</span>
+        </div>
+        <div class="material-sample material-stone">
+          <span class="material-name">Carved Stone</span>
+          <span class="material-label">Gray-cream + thin borders</span>
+        </div>
+        <div class="material-sample material-linen">
+          <span class="material-name">Linen Fabric</span>
+          <span class="material-label">Off-white + texture noise</span>
+        </div>
+        <div class="material-sample material-terracotta">
+          <span class="material-name">Terracotta Tile</span>
+          <span class="material-label">Warm sienna accent</span>
+        </div>
+        <div class="material-sample material-leather">
+          <span class="material-name">Leather Binding</span>
+          <span class="material-label">Deep espresso text</span>
+        </div>
+        <div class="material-sample material-plaster">
+          <span class="material-name">Tuscan Plaster</span>
+          <span class="material-label">Ivory + radial warmth</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== CULTURAL CONTEXT ===== -->
+  <div id="context" class="section section-cream">
+    <div class="section-inner">
+      <div class="section-header animate-on-scroll">
+        <span class="label">Section VI</span>
+        <h2>Cultural References & Influences</h2>
+        <span class="section-header-line"></span>
+      </div>
+
+      <div class="animate-on-scroll">
+        <p>The following define the Frasurbane visual language and serve as design references:</p>
+      </div>
+
+      <div class="grid-2 animate-on-scroll">
+        <div class="card card-gold">
+          <h4>Frasier TV Show</h4>
+          <p style="font-size:0.92rem;"><span class="label" style="display:inline; font-size:0.58rem;">1993--2004</span><br>The namesake. Frasier Crane's apartment epitomizes the aesthetic: classical art, earth-tone fabrics, eclectic but curated furnishings, warm lighting, books, and African sculpture alongside Italian leather.</p>
+        </div>
+        <div class="card card-gold">
+          <h4>Pottery Barn / Crate & Barrel</h4>
+          <p style="font-size:0.92rem;"><span class="label" style="display:inline; font-size:0.58rem;">1990s Catalogs</span><br>Aspirational retail photography of warm, curated interiors with natural materials that defined suburban taste.</p>
+        </div>
+        <div class="card card-gold">
+          <h4>Trajan Typeface</h4>
+          <p style="font-size:0.92rem;"><span class="label" style="display:inline; font-size:0.58rem;">1989, Adobe</span><br>Carol Twombly & Robert Slimbach. The defining display font; classical Roman capitals used on everything from movie posters to upscale branding.</p>
+        </div>
+        <div class="card card-gold">
+          <h4>1990s Bookstore Chains</h4>
+          <p style="font-size:0.92rem;"><span class="label" style="display:inline; font-size:0.58rem;">Barnes & Noble, Borders</span><br>Warm wood, soft lighting, classical-influenced signage, curated atmosphere -- the physical embodiment of Frasurbane retail.</p>
+        </div>
+        <div class="card card-gold">
+          <h4>Janet Jackson's <em>janet.</em></h4>
+          <p style="font-size:0.92rem;"><span class="label" style="display:inline; font-size:0.58rem;">1993, Art Director Len Peltier</span><br>Sophisticated, restrained design marrying classical elegance with contemporary sensibility.</p>
+        </div>
+        <div class="card card-gold">
+          <h4>The New Yorker</h4>
+          <p style="font-size:0.92rem;"><span class="label" style="display:inline; font-size:0.58rem;">Magazine Typography</span><br>Literary serif typesetting, italicized headlines, refined editorial design -- the periodical counterpart.</p>
+        </div>
+      </div>
+
+      <hr class="divider divider-leaf" style="margin: 3rem auto;">
+
+      <h3 class="animate-on-scroll">Design Era Context</h3>
+      <div class="animate-on-scroll">
+        <p>Frasurbane emerged in an era of:</p>
+        <ul class="styled-list">
+          <li><strong>Desktop publishing maturity</strong> -- Adobe fonts and PageMaker/QuarkXPress enabled sophisticated typographic layouts</li>
+          <li><strong>Aspirational consumer culture</strong> -- upscale retail and catalog design projected cultivated taste and lifestyle</li>
+          <li><strong>Nature and ecology aesthetics</strong> -- environmental awareness translated into earthy, organic design motifs</li>
+          <li><strong>Post-Memphis restraint</strong> -- a deliberate pulling-back from Memphis Design's colorful maximalism toward muted, classical elegance</li>
+          <li><strong>Coffee culture and "third places"</strong> -- warm, book-lined interiors reflecting the rise of independent bookstores and coffee shops as cultural spaces</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== RELATED AESTHETICS ===== -->
+  <div class="section section-ivory">
+    <div class="section-wide">
+      <div class="section-header animate-on-scroll">
+        <span class="label">Connections</span>
+        <h2>Related Aesthetics</h2>
+        <span class="section-header-line"></span>
+      </div>
+
+      <div class="grid-3 animate-on-scroll">
+        <div class="aesthetic-card">
+          <h4>Corporate Grunge</h4>
+          <p>Sibling aesthetic; both domesticate grunge, but Corporate Grunge stays dark and gritty while Frasurbane goes warm and refined.</p>
+        </div>
+        <div class="aesthetic-card">
+          <h4>Earth Tones</h4>
+          <p>Shares the muted, natural color palette and serif typography; broader and less classically influenced.</p>
+        </div>
+        <div class="aesthetic-card">
+          <h4>Global Village Coffeehouse</h4>
+          <p>Shares warm palettes and curated atmosphere; leans more multicultural and hand-drawn.</p>
+        </div>
+        <div class="aesthetic-card">
+          <h4>Tuscan Rustic</h4>
+          <p>Shares Mediterranean warmth and natural materials; more explicitly rural Italian in character.</p>
+        </div>
+        <div class="aesthetic-card">
+          <h4>Utopian Scholastic</h4>
+          <p>The "kid version" of Frasurbane; shares classical typography and collaged compositions but adds bright colors.</p>
+        </div>
+        <div class="aesthetic-card">
+          <h4>Memphis Design</h4>
+          <p>Direct predecessor; Frasurbane is the most subdued and sophisticated reaction against Memphis maximalism.</p>
+        </div>
+        <div class="aesthetic-card">
+          <h4>Neoclassical Pomo</h4>
+          <p>Shares the classical motif vocabulary; more overtly architectural and less cozy.</p>
+        </div>
+        <div class="aesthetic-card">
+          <h4>Bon Chic Bon Genre</h4>
+          <p>Shares the affluent, sophisticated target audience and refined taste signaling.</p>
+        </div>
+        <div class="aesthetic-card">
+          <h4>Vaporwave</h4>
+          <p>Digital nostalgia for the same 1990s era; ironically recycles what Frasurbane presented earnestly.</p>
+        </div>
+      </div>
+
+      <div class="animate-on-scroll" style="text-align:center; margin-top:2rem;">
+        <span class="tag">Eco-Beige</span>
+        <span class="tag">Silicon Dreams</span>
+        <span class="tag">Factory Pomo</span>
+        <span class="tag">Mission School</span>
+        <span class="tag tag-sage">Memphis Lite</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== CLOSING BAND ===== -->
+  <div class="hero-band">
+    <div class="acanthus-border" style="display:inline-block;">
+      <h2 class="animate-on-scroll" style="margin-bottom:0.8rem;">Timeless Elegance</h2>
+      <p class="animate-on-scroll">Avoid anything that feels disposable or of-the-moment.<br>Aim for enduring, curated quality.</p>
+    </div>
+  </div>
+
+  <!-- ===== FOOTER ===== -->
+  <footer>
+    <div class="footer-ornament">&loz;</div>
+    <p class="footer-tagline">Crafted with quiet refinement</p>
+    <p style="margin-top:1rem;">Frasurbane Design Reference &middot; A showcase of the aesthetic, built in the aesthetic</p>
+    <p style="margin-top:0.3rem;">c. late 1980s -- mid 1990s &middot; Coined by Evan Collins</p>
+  </footer>
+
+  <!-- ===== SCROLL ANIMATION SCRIPT ===== -->
+  <script>
+    (function() {
+      'use strict';
+
+      // Intersection Observer for scroll animations
+      var observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      }, {
+        threshold: 0.1,
+        rootMargin: '0px 0px -40px 0px'
+      });
+
+      // Observe all animated elements
+      document.querySelectorAll('.animate-on-scroll').forEach(function(el) {
+        observer.observe(el);
+      });
+
+      // Smooth scroll for nav links
+      document.querySelectorAll('nav a[href^="#"]').forEach(function(anchor) {
+        anchor.addEventListener('click', function(e) {
+          var targetId = this.getAttribute('href');
+          if (targetId && targetId !== '#') {
+            e.preventDefault();
+            var target = document.querySelector(targetId);
+            if (target) {
+              var navHeight = document.querySelector('.nav-wrapper').offsetHeight;
+              var targetPosition = target.getBoundingClientRect().top + window.pageYOffset - navHeight - 20;
+              window.scrollTo({
+                top: targetPosition,
+                behavior: 'smooth'
+              });
+            }
+          }
+        });
+      });
+    })();
+  </script>
+</body>
+</html>
