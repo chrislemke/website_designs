@@ -1,0 +1,2426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Manguebeat -- Da Lama ao Caos</title>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Barrio&family=Permanent+Marker&family=Patua+One&family=Bebas+Neue&family=Bungee&family=Stint+Ultra+Expanded&family=Amaranth:wght@400;700&family=Source+Sans+3:wght@400;600;700&family=Lora:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* ===== CUSTOM PROPERTIES ===== */
+    :root {
+      /* Mangrove Earth Tones */
+      --mangue-mud: #4a3728;
+      --mangue-mud-dark: #2e2118;
+      --mangue-mud-light: #6b5340;
+      --mangue-brackish: #2d5a27;
+      --mangue-ochre: #c4943a;
+      --mangue-teal: #1a6b5a;
+
+      /* Carnival Vibrancy */
+      --mangue-red: #d42020;
+      --mangue-gold: #f0b816;
+      --mangue-blue: #1848b0;
+      --mangue-green: #10a848;
+      --mangue-coral: #e85530;
+
+      /* Neutrals */
+      --mangue-white: #f5f0e6;
+      --mangue-off-white: #e8e0d0;
+      --mangue-silver: #a0a8b0;
+      --mangue-black: #1a1410;
+      --mangue-near-black: #231c14;
+
+      /* Functional */
+      --mangue-bg-primary: var(--mangue-black);
+      --mangue-bg-secondary: var(--mangue-mud-dark);
+      --mangue-bg-card: var(--mangue-mud);
+      --mangue-text-primary: var(--mangue-white);
+      --mangue-text-secondary: var(--mangue-off-white);
+      --mangue-text-accent: var(--mangue-gold);
+      --mangue-accent-primary: var(--mangue-red);
+      --mangue-accent-secondary: var(--mangue-coral);
+      --mangue-accent-cool: var(--mangue-teal);
+    }
+
+    /* ===== RESET & BASE ===== */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      overflow-x: hidden;
+    }
+
+    body {
+      background: var(--mangue-bg-primary);
+      color: var(--mangue-text-primary);
+      font-family: 'Source Sans 3', sans-serif;
+      font-weight: 400;
+      letter-spacing: 0.01em;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* ===== GLOBAL NOISE TEXTURE ===== */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0.6;
+    }
+
+    /* ===== TYPOGRAPHY ===== */
+    h1 {
+      font-family: 'Archivo Black', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      color: var(--mangue-gold);
+      text-shadow:
+        3px 3px 0 var(--mangue-red),
+        6px 6px 0 rgba(26, 20, 16, 0.6);
+      line-height: 0.95;
+    }
+
+    h2 {
+      font-family: 'Patua One', serif;
+      color: var(--mangue-coral);
+      letter-spacing: 0.02em;
+      text-shadow: 2px 2px 0 var(--mangue-mud-dark);
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      margin-bottom: 1.5rem;
+    }
+
+    h3 {
+      font-family: 'Bebas Neue', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--mangue-gold);
+      font-size: clamp(1.2rem, 2.5vw, 1.6rem);
+      margin-bottom: 0.75rem;
+    }
+
+    h4 {
+      font-family: 'Amaranth', sans-serif;
+      color: var(--mangue-ochre);
+      font-size: 1.1rem;
+      margin-bottom: 0.5rem;
+    }
+
+    p {
+      margin-bottom: 1rem;
+      color: var(--mangue-off-white);
+    }
+
+    strong {
+      color: var(--mangue-white);
+      font-weight: 700;
+    }
+
+    a {
+      color: var(--mangue-gold);
+      text-decoration: underline;
+      text-decoration-color: var(--mangue-ochre);
+      text-underline-offset: 3px;
+      transition: color 0.2s, text-decoration-color 0.2s;
+    }
+
+    a:hover {
+      color: var(--mangue-coral);
+      text-decoration-color: var(--mangue-coral);
+    }
+
+    /* ===== ANIMATIONS ===== */
+    @keyframes mangue-shimmer {
+      0%   { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+
+    @keyframes crab-walk {
+      0%, 100% { transform: translateX(0) scaleX(1); }
+      25% { transform: translateX(12px) scaleX(1); }
+      50% { transform: translateX(0) scaleX(-1); }
+      75% { transform: translateX(-12px) scaleX(-1); }
+    }
+
+    @keyframes antenna-pulse {
+      0%, 100% { opacity: 0.3; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.5); }
+    }
+
+    @keyframes frevo-spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    @keyframes mud-bubble {
+      0%, 100% { transform: scale(1); opacity: 0.6; }
+      50% { transform: scale(1.4); opacity: 0.2; }
+    }
+
+    @keyframes slide-in-left {
+      from { transform: translateX(-60px); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+
+    @keyframes slide-in-right {
+      from { transform: translateX(60px); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+
+    @keyframes slide-in-up {
+      from { transform: translateY(40px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    @keyframes wave-drift {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-160px); }
+    }
+
+    @keyframes title-reveal {
+      0% { clip-path: inset(0 100% 0 0); }
+      100% { clip-path: inset(0 0% 0 0); }
+    }
+
+    @keyframes glow-pulse {
+      0%, 100% { filter: brightness(1) drop-shadow(0 0 0 transparent); }
+      50% { filter: brightness(1.2) drop-shadow(0 0 20px rgba(240, 184, 22, 0.3)); }
+    }
+
+    .animate-on-scroll {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .animate-on-scroll.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ===== CARNIVAL STRIPE DIVIDER ===== */
+    .carnival-stripe {
+      width: 100%;
+      height: 8px;
+      background: repeating-linear-gradient(
+        90deg,
+        var(--mangue-red) 0px,
+        var(--mangue-red) 40px,
+        var(--mangue-gold) 40px,
+        var(--mangue-gold) 80px,
+        var(--mangue-blue) 80px,
+        var(--mangue-blue) 120px,
+        var(--mangue-green) 120px,
+        var(--mangue-green) 160px
+      );
+      position: relative;
+      z-index: 2;
+    }
+
+    .carnival-bar {
+      width: 100%;
+      height: 24px;
+      background: repeating-linear-gradient(
+        -45deg,
+        var(--mangue-red) 0px,
+        var(--mangue-red) 12px,
+        var(--mangue-gold) 12px,
+        var(--mangue-gold) 24px,
+        var(--mangue-blue) 24px,
+        var(--mangue-blue) 36px,
+        var(--mangue-green) 36px,
+        var(--mangue-green) 48px
+      );
+      box-shadow:
+        0 2px 8px rgba(212, 32, 32, 0.4),
+        0 -2px 8px rgba(240, 184, 22, 0.3);
+      position: relative;
+      z-index: 2;
+      overflow: hidden;
+    }
+
+    .carnival-bar::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        -45deg,
+        var(--mangue-red) 0px,
+        var(--mangue-red) 12px,
+        var(--mangue-gold) 12px,
+        var(--mangue-gold) 24px,
+        var(--mangue-blue) 24px,
+        var(--mangue-blue) 36px,
+        var(--mangue-green) 36px,
+        var(--mangue-green) 48px
+      );
+      animation: wave-drift 3s linear infinite;
+    }
+
+    /* ===== ANTENNA LINE ===== */
+    .antenna-line {
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(
+        90deg,
+        transparent 0%,
+        var(--mangue-silver) 20%,
+        var(--mangue-white) 50%,
+        var(--mangue-silver) 80%,
+        transparent 100%
+      );
+      position: relative;
+      margin: 2rem 0;
+    }
+
+    .antenna-line::after {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: -4px;
+      width: 10px;
+      height: 10px;
+      background: var(--mangue-silver);
+      border-radius: 50%;
+      box-shadow: 0 0 8px var(--mangue-silver), 0 0 20px rgba(160, 168, 176, 0.3);
+      animation: antenna-pulse 3s ease-in-out infinite;
+      transform: translateX(-50%);
+    }
+
+    /* ===== WAVE DIVIDER ===== */
+    .wave-divider {
+      width: 100%;
+      height: 30px;
+      background: var(--mangue-teal);
+      clip-path: polygon(
+        0% 60%, 3% 40%, 7% 55%, 12% 35%, 18% 50%, 24% 30%,
+        30% 55%, 36% 35%, 42% 50%, 48% 30%, 54% 55%, 60% 35%,
+        66% 50%, 72% 30%, 78% 55%, 84% 35%, 90% 50%, 95% 35%,
+        100% 55%, 100% 100%, 0% 100%
+      );
+      opacity: 0.7;
+    }
+
+    /* ===== HERO SECTION ===== */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 4rem 2rem;
+      position: relative;
+      overflow: hidden;
+      background: var(--mangue-black);
+      background-image:
+        radial-gradient(ellipse at 15% 60%, rgba(212, 32, 32, 0.18) 0%, transparent 50%),
+        radial-gradient(ellipse at 75% 20%, rgba(240, 184, 22, 0.14) 0%, transparent 45%),
+        radial-gradient(ellipse at 50% 85%, rgba(24, 72, 176, 0.1) 0%, transparent 50%),
+        radial-gradient(ellipse at 85% 70%, rgba(16, 168, 72, 0.08) 0%, transparent 40%),
+        linear-gradient(180deg, var(--mangue-black) 0%, var(--mangue-mud-dark) 70%, var(--mangue-mud) 100%);
+    }
+
+    /* Mangrove root silhouettes at bottom of hero */
+    .hero::before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 200px;
+      background:
+        radial-gradient(ellipse 8px 100px at 5% 100%, var(--mangue-brackish) 0%, transparent 100%),
+        radial-gradient(ellipse 6px 130px at 12% 100%, var(--mangue-mud-dark) 0%, transparent 100%),
+        radial-gradient(ellipse 10px 90px at 20% 100%, var(--mangue-brackish) 0%, transparent 100%),
+        radial-gradient(ellipse 5px 120px at 28% 100%, var(--mangue-mud) 0%, transparent 100%),
+        radial-gradient(ellipse 8px 110px at 35% 100%, var(--mangue-brackish) 0%, transparent 100%),
+        radial-gradient(ellipse 7px 140px at 42% 100%, var(--mangue-mud-dark) 0%, transparent 100%),
+        radial-gradient(ellipse 9px 85px at 50% 100%, var(--mangue-brackish) 0%, transparent 100%),
+        radial-gradient(ellipse 6px 115px at 58% 100%, var(--mangue-mud) 0%, transparent 100%),
+        radial-gradient(ellipse 11px 95px at 65% 100%, var(--mangue-brackish) 0%, transparent 100%),
+        radial-gradient(ellipse 5px 130px at 72% 100%, var(--mangue-mud-dark) 0%, transparent 100%),
+        radial-gradient(ellipse 8px 100px at 80% 100%, var(--mangue-brackish) 0%, transparent 100%),
+        radial-gradient(ellipse 7px 120px at 88% 100%, var(--mangue-mud) 0%, transparent 100%),
+        radial-gradient(ellipse 9px 90px at 95% 100%, var(--mangue-brackish) 0%, transparent 100%);
+      opacity: 0.4;
+      z-index: 1;
+    }
+
+    /* Tidal shimmer */
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 60px;
+      background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(26, 107, 90, 0.15) 25%,
+        rgba(196, 148, 58, 0.12) 50%,
+        rgba(26, 107, 90, 0.15) 75%,
+        transparent 100%
+      );
+      background-size: 200% 100%;
+      animation: mangue-shimmer 5s ease-in-out infinite;
+      z-index: 1;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 1000px;
+    }
+
+    .hero-pretitle {
+      font-family: 'Bebas Neue', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.3em;
+      color: var(--mangue-silver);
+      font-size: clamp(0.9rem, 2vw, 1.3rem);
+      margin-bottom: 1rem;
+      animation: slide-in-up 0.8s ease both;
+    }
+
+    .hero-title {
+      font-family: 'Barrio', cursive;
+      font-size: clamp(4rem, 14vw, 11rem);
+      color: var(--mangue-red);
+      text-shadow:
+        3px 3px 0 var(--mangue-gold),
+        6px 6px 0 var(--mangue-mud),
+        9px 9px 0 rgba(26, 20, 16, 0.5);
+      line-height: 0.9;
+      letter-spacing: 0.02em;
+      animation: title-reveal 1.2s ease both;
+      margin-bottom: 0.5rem;
+    }
+
+    .hero-subtitle {
+      font-family: 'Archivo Black', sans-serif;
+      font-size: clamp(1rem, 3vw, 2rem);
+      color: var(--mangue-gold);
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      text-shadow: 2px 2px 0 var(--mangue-mud-dark);
+      animation: slide-in-up 0.8s 0.3s ease both;
+    }
+
+    .hero-tagline {
+      font-family: 'Permanent Marker', cursive;
+      font-size: clamp(1rem, 2.5vw, 1.6rem);
+      color: var(--mangue-coral);
+      margin-top: 1.5rem;
+      animation: slide-in-up 0.8s 0.5s ease both;
+    }
+
+    .hero-manifesto {
+      font-family: 'Lora', serif;
+      font-style: italic;
+      color: var(--mangue-off-white);
+      font-size: clamp(0.95rem, 1.5vw, 1.15rem);
+      max-width: 600px;
+      margin: 2rem auto 0;
+      line-height: 1.8;
+      animation: slide-in-up 0.8s 0.7s ease both;
+      opacity: 0.85;
+    }
+
+    /* Floating mud bubbles in hero */
+    .mud-bubbles {
+      position: absolute;
+      bottom: 30px;
+      left: 0;
+      right: 0;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .mud-bubble {
+      position: absolute;
+      border-radius: 50%;
+      background: radial-gradient(circle at 40% 40%, var(--mangue-mud-light), var(--mangue-mud-dark));
+      animation: mud-bubble ease-in-out infinite;
+    }
+
+    /* Antenna SVG in hero */
+    .hero-antenna {
+      position: absolute;
+      top: 15%;
+      right: 8%;
+      z-index: 1;
+      opacity: 0.2;
+      animation: glow-pulse 4s ease-in-out infinite;
+    }
+
+    .hero-antenna svg {
+      width: 80px;
+      height: 120px;
+    }
+
+    /* Crab in hero */
+    .hero-crab {
+      position: absolute;
+      bottom: 60px;
+      left: 10%;
+      z-index: 2;
+      animation: crab-walk 8s ease-in-out infinite;
+    }
+
+    /* ===== CSS CRAB ===== */
+    .crab {
+      display: inline-block;
+      position: relative;
+      width: 50px;
+      height: 32px;
+    }
+
+    .crab-body {
+      width: 50px;
+      height: 32px;
+      background: var(--mangue-coral);
+      border-radius: 50% 50% 35% 35%;
+      position: relative;
+    }
+
+    .crab-body::before {
+      content: '';
+      position: absolute;
+      top: 8px;
+      left: 10px;
+      width: 8px;
+      height: 8px;
+      background: var(--mangue-black);
+      border-radius: 50%;
+      box-shadow: 14px 0 0 var(--mangue-black);
+    }
+
+    .crab-claw {
+      position: absolute;
+      width: 22px;
+      height: 4px;
+      background: var(--mangue-coral);
+      top: 6px;
+      border-radius: 2px;
+    }
+
+    .crab-claw-left {
+      left: -16px;
+      transform: rotate(-30deg);
+    }
+
+    .crab-claw-left::after {
+      content: '';
+      position: absolute;
+      left: -6px;
+      top: -4px;
+      width: 10px;
+      height: 10px;
+      border: 3px solid var(--mangue-coral);
+      border-radius: 50%;
+      border-right-color: transparent;
+      border-bottom-color: transparent;
+      transform: rotate(-20deg);
+    }
+
+    .crab-claw-right {
+      right: -16px;
+      transform: rotate(30deg);
+    }
+
+    .crab-claw-right::after {
+      content: '';
+      position: absolute;
+      right: -6px;
+      top: -4px;
+      width: 10px;
+      height: 10px;
+      border: 3px solid var(--mangue-coral);
+      border-radius: 50%;
+      border-left-color: transparent;
+      border-bottom-color: transparent;
+      transform: rotate(20deg);
+    }
+
+    .crab-legs {
+      position: absolute;
+      bottom: -4px;
+      left: 4px;
+      right: 4px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .crab-leg {
+      width: 3px;
+      height: 10px;
+      background: var(--mangue-coral);
+      border-radius: 0 0 2px 2px;
+      transform-origin: top center;
+    }
+
+    .crab-leg:nth-child(1) { transform: rotate(-15deg); }
+    .crab-leg:nth-child(2) { transform: rotate(-5deg); }
+    .crab-leg:nth-child(3) { transform: rotate(5deg); }
+    .crab-leg:nth-child(4) { transform: rotate(15deg); }
+
+    /* Small inline crab for bullet points */
+    .crab-bullet {
+      display: inline-block;
+      width: 16px;
+      height: 11px;
+      background: var(--mangue-coral);
+      border-radius: 50% 50% 30% 30%;
+      position: relative;
+      margin-right: 8px;
+      vertical-align: middle;
+      flex-shrink: 0;
+    }
+
+    .crab-bullet::before,
+    .crab-bullet::after {
+      content: '';
+      position: absolute;
+      width: 8px;
+      height: 2px;
+      background: var(--mangue-coral);
+      top: 2px;
+      border-radius: 2px;
+    }
+
+    .crab-bullet::before {
+      left: -6px;
+      transform: rotate(-30deg);
+    }
+
+    .crab-bullet::after {
+      right: -6px;
+      transform: rotate(30deg);
+    }
+
+    /* ===== SECTION: INTRO / OVERVIEW ===== */
+    .section-overview {
+      position: relative;
+      padding: 5rem 2rem;
+      background: linear-gradient(
+        180deg,
+        var(--mangue-mud-dark) 0%,
+        var(--mangue-mud) 40%,
+        var(--mangue-mud-dark) 100%
+      );
+    }
+
+    .section-overview::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        radial-gradient(circle, rgba(196, 148, 58, 0.04) 1px, transparent 1px),
+        radial-gradient(circle, rgba(74, 55, 40, 0.06) 1px, transparent 1px);
+      background-size: 4px 4px, 7px 7px;
+      background-position: 0 0, 3px 3px;
+      pointer-events: none;
+      mix-blend-mode: overlay;
+    }
+
+    .section-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .overview-text {
+      font-family: 'Lora', serif;
+      font-size: clamp(1.05rem, 1.8vw, 1.25rem);
+      line-height: 1.9;
+      color: var(--mangue-off-white);
+      max-width: 850px;
+    }
+
+    .overview-text .highlight {
+      color: var(--mangue-gold);
+      font-weight: 700;
+    }
+
+    .overview-text .highlight-red {
+      color: var(--mangue-red);
+      font-weight: 700;
+    }
+
+    .pull-quote {
+      font-family: 'Permanent Marker', cursive;
+      font-size: clamp(1.4rem, 3vw, 2.2rem);
+      color: var(--mangue-gold);
+      border-left: 6px solid var(--mangue-red);
+      padding: 1.5rem 2rem;
+      margin: 2.5rem 0;
+      background: rgba(26, 20, 16, 0.4);
+      position: relative;
+    }
+
+    .pull-quote::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--mangue-red), var(--mangue-gold), transparent);
+    }
+
+    /* ===== SECTION: VISUAL CHARACTERISTICS ===== */
+    .section-visual {
+      padding: 5rem 2rem;
+      position: relative;
+      background: var(--mangue-black);
+      background-image:
+        radial-gradient(ellipse at 20% 30%, rgba(212, 32, 32, 0.08) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 70%, rgba(240, 184, 22, 0.06) 0%, transparent 45%);
+    }
+
+    /* ===== MOTIF GRID ===== */
+    .motif-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .motif-card {
+      background: var(--mangue-mud);
+      border: 3px solid var(--mangue-ochre);
+      border-left: 6px solid var(--mangue-red);
+      border-radius: 2px;
+      padding: 1.8rem;
+      position: relative;
+      overflow: hidden;
+      box-shadow:
+        4px 4px 0 var(--mangue-mud-dark),
+        8px 8px 0 rgba(26, 20, 16, 0.3);
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .motif-card:hover {
+      transform: translate(-3px, -3px);
+      box-shadow:
+        7px 7px 0 var(--mangue-mud-dark),
+        11px 11px 0 rgba(26, 20, 16, 0.3);
+    }
+
+    .motif-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(
+        90deg,
+        var(--mangue-red),
+        var(--mangue-gold),
+        var(--mangue-blue),
+        var(--mangue-green)
+      );
+    }
+
+    .motif-card .motif-icon {
+      font-size: 2.2rem;
+      margin-bottom: 0.8rem;
+      display: block;
+    }
+
+    .motif-card h3 {
+      margin-bottom: 0.5rem;
+    }
+
+    .motif-card p {
+      font-size: 0.95rem;
+      color: var(--mangue-off-white);
+      line-height: 1.6;
+    }
+
+    /* Alternating accent colors on cards */
+    .motif-card:nth-child(2) { border-left-color: var(--mangue-gold); }
+    .motif-card:nth-child(3) { border-left-color: var(--mangue-blue); }
+    .motif-card:nth-child(4) { border-left-color: var(--mangue-green); }
+    .motif-card:nth-child(5) { border-left-color: var(--mangue-coral); }
+    .motif-card:nth-child(6) { border-left-color: var(--mangue-teal); }
+    .motif-card:nth-child(7) { border-left-color: var(--mangue-red); }
+    .motif-card:nth-child(8) { border-left-color: var(--mangue-gold); }
+
+    /* ===== SECTION: COLOR PALETTE ===== */
+    .section-palette {
+      padding: 5rem 2rem;
+      position: relative;
+      background: linear-gradient(
+        180deg,
+        var(--mangue-near-black) 0%,
+        var(--mangue-mud-dark) 50%,
+        var(--mangue-near-black) 100%
+      );
+    }
+
+    .palette-group {
+      margin-bottom: 3rem;
+    }
+
+    .palette-group-title {
+      font-family: 'Permanent Marker', cursive;
+      font-size: 1.3rem;
+      color: var(--mangue-gold);
+      margin-bottom: 1rem;
+      padding-left: 0.5rem;
+      border-left: 4px solid var(--mangue-gold);
+    }
+
+    .color-swatches {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 1rem;
+    }
+
+    .swatch {
+      border-radius: 4px;
+      overflow: hidden;
+      box-shadow: 3px 3px 0 var(--mangue-mud-dark);
+      transition: transform 0.2s ease;
+    }
+
+    .swatch:hover {
+      transform: scale(1.05);
+    }
+
+    .swatch-color {
+      height: 80px;
+      position: relative;
+    }
+
+    .swatch-color::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        radial-gradient(circle, rgba(255,255,255,0.05) 1px, transparent 1px);
+      background-size: 4px 4px;
+      pointer-events: none;
+    }
+
+    .swatch-info {
+      background: var(--mangue-mud);
+      padding: 0.6rem 0.8rem;
+      border: 1px solid var(--mangue-mud-light);
+      border-top: none;
+    }
+
+    .swatch-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 0.85rem;
+      letter-spacing: 0.08em;
+      color: var(--mangue-white);
+      text-transform: uppercase;
+    }
+
+    .swatch-hex {
+      font-family: 'Source Sans 3', monospace;
+      font-size: 0.8rem;
+      color: var(--mangue-silver);
+    }
+
+    /* ===== SECTION: TYPOGRAPHY SHOWCASE ===== */
+    .section-typography {
+      padding: 5rem 2rem;
+      position: relative;
+      background: var(--mangue-black);
+      overflow: hidden;
+    }
+
+    .section-typography::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background:
+        radial-gradient(ellipse at 70% 40%, rgba(232, 85, 48, 0.06) 0%, transparent 50%),
+        radial-gradient(ellipse at 30% 80%, rgba(26, 107, 90, 0.06) 0%, transparent 50%);
+      pointer-events: none;
+    }
+
+    .type-specimens {
+      display: grid;
+      gap: 2.5rem;
+      margin-top: 2rem;
+    }
+
+    .type-specimen {
+      padding: 2rem;
+      background: var(--mangue-mud);
+      border-radius: 2px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .type-specimen::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--mangue-red), var(--mangue-gold), transparent);
+    }
+
+    .type-label {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      color: var(--mangue-silver);
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+
+    .type-sample-barrio {
+      font-family: 'Barrio', cursive;
+      font-size: clamp(2.5rem, 7vw, 5rem);
+      color: var(--mangue-red);
+      text-shadow:
+        2px 2px 0 var(--mangue-gold),
+        4px 4px 0 var(--mangue-mud-dark);
+      line-height: 1;
+    }
+
+    .type-sample-archivo {
+      font-family: 'Archivo Black', sans-serif;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      text-transform: uppercase;
+      color: var(--mangue-gold);
+      text-shadow: 3px 3px 0 var(--mangue-red);
+      line-height: 1;
+      letter-spacing: 0.03em;
+    }
+
+    .type-sample-marker {
+      font-family: 'Permanent Marker', cursive;
+      font-size: clamp(1.5rem, 4vw, 2.5rem);
+      color: var(--mangue-coral);
+      line-height: 1.2;
+    }
+
+    .type-sample-bebas {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--mangue-teal);
+      text-shadow: 2px 2px 0 var(--mangue-mud-dark);
+      line-height: 1;
+    }
+
+    .type-sample-patua {
+      font-family: 'Patua One', serif;
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      color: var(--mangue-coral);
+      text-shadow: 2px 2px 0 var(--mangue-mud-dark);
+      line-height: 1.1;
+    }
+
+    .type-sample-bungee {
+      font-family: 'Bungee', cursive;
+      font-size: clamp(1.5rem, 3.5vw, 2.5rem);
+      color: var(--mangue-blue);
+      text-shadow: 2px 2px 0 var(--mangue-gold);
+      line-height: 1.1;
+    }
+
+    .type-sample-body {
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 1.1rem;
+      color: var(--mangue-off-white);
+      line-height: 1.8;
+      max-width: 600px;
+    }
+
+    .type-sample-lora {
+      font-family: 'Lora', serif;
+      font-size: 1.1rem;
+      color: var(--mangue-off-white);
+      line-height: 1.8;
+      max-width: 600px;
+      font-style: italic;
+    }
+
+    /* ===== SECTION: DESIGN PRINCIPLES ===== */
+    .section-principles {
+      padding: 5rem 2rem;
+      position: relative;
+      background: linear-gradient(
+        180deg,
+        var(--mangue-mud-dark) 0%,
+        var(--mangue-mud) 30%,
+        var(--mangue-mud-dark) 100%
+      );
+    }
+
+    .principles-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+      list-style: none;
+    }
+
+    .principle-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      padding: 1.5rem;
+      background: rgba(26, 20, 16, 0.5);
+      border-left: 4px solid var(--mangue-gold);
+      border-radius: 0 2px 2px 0;
+      transition: border-color 0.3s ease, background 0.3s ease;
+    }
+
+    .principle-item:hover {
+      border-left-color: var(--mangue-coral);
+      background: rgba(74, 55, 40, 0.3);
+    }
+
+    .principle-item:nth-child(2) { border-left-color: var(--mangue-red); }
+    .principle-item:nth-child(2):hover { border-left-color: var(--mangue-gold); }
+    .principle-item:nth-child(3) { border-left-color: var(--mangue-teal); }
+    .principle-item:nth-child(3):hover { border-left-color: var(--mangue-coral); }
+    .principle-item:nth-child(4) { border-left-color: var(--mangue-coral); }
+    .principle-item:nth-child(4):hover { border-left-color: var(--mangue-gold); }
+    .principle-item:nth-child(5) { border-left-color: var(--mangue-blue); }
+    .principle-item:nth-child(5):hover { border-left-color: var(--mangue-coral); }
+    .principle-item:nth-child(6) { border-left-color: var(--mangue-green); }
+    .principle-item:nth-child(6):hover { border-left-color: var(--mangue-gold); }
+    .principle-item:nth-child(7) { border-left-color: var(--mangue-red); }
+    .principle-item:nth-child(7):hover { border-left-color: var(--mangue-teal); }
+
+    .principle-item h4 {
+      font-family: 'Bebas Neue', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--mangue-gold);
+      font-size: 1.15rem;
+      margin-bottom: 0.3rem;
+    }
+
+    .principle-item p {
+      font-size: 0.95rem;
+      color: var(--mangue-off-white);
+      margin-bottom: 0;
+    }
+
+    /* ===== SECTION: SUB-STYLES ===== */
+    .section-substyles {
+      padding: 5rem 2rem;
+      position: relative;
+      background: var(--mangue-black);
+      background-image:
+        radial-gradient(ellipse at 50% 50%, rgba(196, 148, 58, 0.04) 0%, transparent 60%);
+    }
+
+    .substyles-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+
+    .substyle-card {
+      position: relative;
+      overflow: hidden;
+      border-radius: 2px;
+      transition: transform 0.3s ease;
+    }
+
+    .substyle-card:hover {
+      transform: translateY(-4px);
+    }
+
+    .substyle-header {
+      padding: 2rem 1.5rem 1.5rem;
+      position: relative;
+    }
+
+    /* Mangue-Roots */
+    .substyle-roots .substyle-header {
+      background: linear-gradient(135deg, var(--mangue-mud) 0%, var(--mangue-brackish) 100%);
+      border-bottom: 4px solid var(--mangue-gold);
+    }
+
+    .substyle-roots {
+      border: 2px solid var(--mangue-ochre);
+      box-shadow: 4px 4px 0 rgba(45, 90, 39, 0.4);
+    }
+
+    /* Mangue-Cyber */
+    .substyle-cyber .substyle-header {
+      background: linear-gradient(135deg, var(--mangue-near-black) 0%, #1a2a40 100%);
+      border-bottom: 4px solid var(--mangue-silver);
+    }
+
+    .substyle-cyber {
+      border: 2px solid var(--mangue-silver);
+      box-shadow: 4px 4px 0 rgba(24, 72, 176, 0.3);
+    }
+
+    .substyle-cyber .substyle-header::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        repeating-linear-gradient(
+          0deg,
+          transparent,
+          transparent 2px,
+          rgba(160, 168, 176, 0.03) 2px,
+          rgba(160, 168, 176, 0.03) 4px
+        );
+      pointer-events: none;
+    }
+
+    /* Mangue-Street */
+    .substyle-street .substyle-header {
+      background: linear-gradient(135deg, #2a2a2a 0%, var(--mangue-near-black) 100%);
+      border-bottom: 4px solid var(--mangue-coral);
+    }
+
+    .substyle-street {
+      border: 2px solid var(--mangue-coral);
+      box-shadow: 4px 4px 0 rgba(232, 85, 48, 0.3);
+    }
+
+    .substyle-header h3 {
+      font-family: 'Archivo Black', sans-serif;
+      font-size: 1.4rem;
+      margin-bottom: 0;
+    }
+
+    .substyle-body {
+      padding: 1.5rem;
+      background: var(--mangue-mud);
+    }
+
+    .substyle-body ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .substyle-body li {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.5rem;
+      padding: 0.4rem 0;
+      font-size: 0.95rem;
+      color: var(--mangue-off-white);
+      line-height: 1.5;
+    }
+
+    .substyle-body li::before {
+      content: '';
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      background: var(--mangue-gold);
+      border-radius: 50%;
+      margin-top: 0.5rem;
+      flex-shrink: 0;
+    }
+
+    .substyle-cyber .substyle-body li::before {
+      background: var(--mangue-silver);
+      box-shadow: 0 0 4px var(--mangue-silver);
+    }
+
+    .substyle-street .substyle-body li::before {
+      background: var(--mangue-coral);
+    }
+
+    /* ===== SECTION: PRACTITIONERS ===== */
+    .section-practitioners {
+      padding: 5rem 2rem;
+      position: relative;
+      background: linear-gradient(
+        180deg,
+        var(--mangue-mud-dark) 0%,
+        var(--mangue-mud) 50%,
+        var(--mangue-mud-dark) 100%
+      );
+    }
+
+    .practitioners-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .practitioner-card {
+      background: rgba(26, 20, 16, 0.6);
+      border: 2px solid var(--mangue-mud-light);
+      padding: 1.5rem;
+      position: relative;
+      transition: border-color 0.3s ease, background 0.3s ease;
+    }
+
+    .practitioner-card:hover {
+      border-color: var(--mangue-gold);
+      background: rgba(74, 55, 40, 0.3);
+    }
+
+    .practitioner-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 40px;
+      height: 3px;
+      background: var(--mangue-red);
+      transition: width 0.3s ease;
+    }
+
+    .practitioner-card:hover::before {
+      width: 100%;
+    }
+
+    .practitioner-name {
+      font-family: 'Patua One', serif;
+      font-size: 1.15rem;
+      color: var(--mangue-gold);
+      margin-bottom: 0.3rem;
+    }
+
+    .practitioner-role {
+      font-size: 0.9rem;
+      color: var(--mangue-off-white);
+      line-height: 1.5;
+      margin-bottom: 0;
+    }
+
+    /* ===== SECTION: RELATED AESTHETICS ===== */
+    .section-related {
+      padding: 5rem 2rem;
+      position: relative;
+      background: var(--mangue-black);
+      background-image:
+        radial-gradient(ellipse at 30% 40%, rgba(212, 32, 32, 0.05) 0%, transparent 50%),
+        radial-gradient(ellipse at 70% 60%, rgba(240, 184, 22, 0.04) 0%, transparent 50%);
+    }
+
+    .related-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .related-tag {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.6rem 1.2rem;
+      border: 2px solid var(--mangue-ochre);
+      color: var(--mangue-gold);
+      background: rgba(74, 55, 40, 0.3);
+      cursor: default;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .related-tag::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--mangue-red);
+      transform: translateY(100%);
+      transition: transform 0.3s ease;
+      z-index: -1;
+    }
+
+    .related-tag:hover {
+      border-color: var(--mangue-red);
+      color: var(--mangue-white);
+    }
+
+    .related-tag:hover::before {
+      transform: translateY(0);
+    }
+
+    .related-desc {
+      display: block;
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.02em;
+      text-transform: none;
+      color: var(--mangue-silver);
+      margin-top: 2px;
+    }
+
+    .related-tag:hover .related-desc {
+      color: var(--mangue-off-white);
+    }
+
+    /* ===== SECTION: COLLAGE MOSAIC ===== */
+    .section-collage {
+      padding: 3rem 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .collage-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+      gap: 2px;
+      max-width: 100%;
+    }
+
+    .collage-cell {
+      aspect-ratio: 1;
+      transition: transform 0.2s ease, filter 0.2s ease;
+    }
+
+    .collage-cell:hover {
+      transform: scale(1.15);
+      filter: brightness(1.3);
+      z-index: 2;
+      position: relative;
+    }
+
+    /* ===== SECTION: MATERIALS TABLE ===== */
+    .section-materials {
+      padding: 5rem 2rem;
+      position: relative;
+      background: linear-gradient(
+        180deg,
+        var(--mangue-near-black) 0%,
+        var(--mangue-mud-dark) 50%,
+        var(--mangue-near-black) 100%
+      );
+    }
+
+    .materials-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      margin-top: 2rem;
+    }
+
+    .materials-table thead th {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--mangue-gold);
+      padding: 1rem;
+      text-align: left;
+      background: var(--mangue-mud);
+      border-bottom: 3px solid var(--mangue-red);
+    }
+
+    .materials-table tbody td {
+      padding: 0.8rem 1rem;
+      border-bottom: 1px solid var(--mangue-mud-dark);
+      vertical-align: top;
+      font-size: 0.95rem;
+    }
+
+    .materials-table tbody tr {
+      transition: background 0.2s ease;
+    }
+
+    .materials-table tbody tr:hover {
+      background: rgba(74, 55, 40, 0.3);
+    }
+
+    .materials-table tbody td:first-child {
+      font-family: 'Amaranth', sans-serif;
+      color: var(--mangue-ochre);
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .materials-table tbody td:last-child {
+      color: var(--mangue-off-white);
+    }
+
+    /* ===== FOOTER ===== */
+    .footer {
+      padding: 3rem 2rem;
+      text-align: center;
+      position: relative;
+      background: var(--mangue-black);
+    }
+
+    .footer-crab {
+      margin-bottom: 1.5rem;
+    }
+
+    .footer-text {
+      font-family: 'Barrio', cursive;
+      font-size: 1.5rem;
+      color: var(--mangue-mud-light);
+    }
+
+    .footer-sub {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 0.9rem;
+      letter-spacing: 0.15em;
+      color: var(--mangue-mud-light);
+      margin-top: 0.5rem;
+      text-transform: uppercase;
+    }
+
+    /* ===== FREVO UMBRELLA (CSS ART) ===== */
+    .frevo-umbrella {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      z-index: 100;
+      width: 50px;
+      height: 50px;
+      cursor: pointer;
+      animation: frevo-spin 8s linear infinite;
+      opacity: 0.7;
+      transition: opacity 0.3s ease;
+    }
+
+    .frevo-umbrella:hover {
+      opacity: 1;
+      animation-duration: 1s;
+    }
+
+    .frevo-umbrella svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    /* ===== SCROLL PROGRESS BAR ===== */
+    .scroll-progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 4px;
+      background: linear-gradient(
+        90deg,
+        var(--mangue-red),
+        var(--mangue-gold),
+        var(--mangue-green),
+        var(--mangue-blue)
+      );
+      z-index: 10000;
+      width: 0%;
+      transition: width 0.1s linear;
+    }
+
+    /* ===== NAV DOTS ===== */
+    .nav-dots {
+      position: fixed;
+      right: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .nav-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--mangue-mud-light);
+      border: 2px solid var(--mangue-mud-light);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .nav-dot.active {
+      background: var(--mangue-gold);
+      border-color: var(--mangue-gold);
+      box-shadow: 0 0 8px rgba(240, 184, 22, 0.5);
+    }
+
+    .nav-dot:hover {
+      background: var(--mangue-coral);
+      border-color: var(--mangue-coral);
+      transform: scale(1.3);
+    }
+
+    .nav-dot-label {
+      position: absolute;
+      right: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.08em;
+      color: var(--mangue-gold);
+      white-space: nowrap;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+      pointer-events: none;
+      background: var(--mangue-mud);
+      padding: 2px 8px;
+      border-radius: 2px;
+    }
+
+    .nav-dot:hover .nav-dot-label {
+      opacity: 1;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 768px) {
+      .nav-dots {
+        display: none;
+      }
+
+      .frevo-umbrella {
+        width: 36px;
+        height: 36px;
+        bottom: 16px;
+        right: 16px;
+      }
+
+      .hero {
+        min-height: 90vh;
+        padding: 3rem 1.5rem;
+      }
+
+      .hero-crab {
+        display: none;
+      }
+
+      .hero-antenna {
+        display: none;
+      }
+
+      .motif-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .principles-list {
+        grid-template-columns: 1fr;
+      }
+
+      .substyles-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .practitioners-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .materials-table {
+        display: block;
+        overflow-x: auto;
+      }
+
+      .collage-grid {
+        grid-template-columns: repeat(auto-fill, minmax(40px, 1fr));
+      }
+
+      .section-overview,
+      .section-visual,
+      .section-palette,
+      .section-typography,
+      .section-principles,
+      .section-substyles,
+      .section-practitioners,
+      .section-related,
+      .section-materials {
+        padding: 3rem 1.2rem;
+      }
+    }
+
+    @media (min-width: 769px) and (max-width: 1024px) {
+      .motif-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .substyles-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (min-width: 1200px) {
+      .motif-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Scroll Progress Bar -->
+  <div class="scroll-progress" id="scrollProgress"></div>
+
+  <!-- Navigation Dots -->
+  <nav class="nav-dots" id="navDots">
+    <div class="nav-dot active" data-section="hero"><span class="nav-dot-label">Manguebeat</span></div>
+    <div class="nav-dot" data-section="overview"><span class="nav-dot-label">Overview</span></div>
+    <div class="nav-dot" data-section="motifs"><span class="nav-dot-label">Motifs</span></div>
+    <div class="nav-dot" data-section="palette"><span class="nav-dot-label">Palette</span></div>
+    <div class="nav-dot" data-section="typography"><span class="nav-dot-label">Typography</span></div>
+    <div class="nav-dot" data-section="principles"><span class="nav-dot-label">Principles</span></div>
+    <div class="nav-dot" data-section="materials"><span class="nav-dot-label">Materials</span></div>
+    <div class="nav-dot" data-section="substyles"><span class="nav-dot-label">Sub-styles</span></div>
+    <div class="nav-dot" data-section="practitioners"><span class="nav-dot-label">Practitioners</span></div>
+    <div class="nav-dot" data-section="related"><span class="nav-dot-label">Related</span></div>
+  </nav>
+
+  <!-- Spinning Frevo Umbrella -->
+  <div class="frevo-umbrella" title="Frevo Umbrella">
+    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+      <polygon points="50,5 62,45 50,50" fill="#d42020"/>
+      <polygon points="50,5 38,45 50,50" fill="#f0b816"/>
+      <polygon points="95,50 55,62 50,50" fill="#1848b0"/>
+      <polygon points="95,50 55,38 50,50" fill="#10a848"/>
+      <polygon points="50,95 38,55 50,50" fill="#e85530"/>
+      <polygon points="50,95 62,55 50,50" fill="#c4943a"/>
+      <polygon points="5,50 45,38 50,50" fill="#1a6b5a"/>
+      <polygon points="5,50 45,62 50,50" fill="#d42020"/>
+      <circle cx="50" cy="50" r="5" fill="#f5f0e6"/>
+      <line x1="50" y1="50" x2="50" y2="98" stroke="#4a3728" stroke-width="2"/>
+    </svg>
+  </div>
+
+  <!-- ===== HERO SECTION ===== -->
+  <section class="hero" id="hero">
+    <!-- Antenna decoration -->
+    <div class="hero-antenna">
+      <svg viewBox="0 0 80 120" xmlns="http://www.w3.org/2000/svg">
+        <line x1="40" y1="120" x2="40" y2="40" stroke="#a0a8b0" stroke-width="3"/>
+        <ellipse cx="40" cy="25" rx="28" ry="20" fill="none" stroke="#a0a8b0" stroke-width="2" opacity="0.6"/>
+        <ellipse cx="40" cy="30" rx="20" ry="14" fill="none" stroke="#a0a8b0" stroke-width="1.5" opacity="0.4"/>
+        <circle cx="40" cy="38" r="4" fill="#a0a8b0" opacity="0.8"/>
+        <!-- Signal waves -->
+        <path d="M 15 10 Q 20 0, 25 10" fill="none" stroke="#f0b816" stroke-width="1" opacity="0.4"/>
+        <path d="M 10 5 Q 17 -8, 24 5" fill="none" stroke="#f0b816" stroke-width="1" opacity="0.3"/>
+        <path d="M 55 10 Q 60 0, 65 10" fill="none" stroke="#f0b816" stroke-width="1" opacity="0.4"/>
+        <path d="M 56 5 Q 63 -8, 70 5" fill="none" stroke="#f0b816" stroke-width="1" opacity="0.3"/>
+      </svg>
+    </div>
+
+    <!-- Crab -->
+    <div class="hero-crab">
+      <div class="crab">
+        <div class="crab-body">
+          <div class="crab-claw crab-claw-left"></div>
+          <div class="crab-claw crab-claw-right"></div>
+          <div class="crab-legs">
+            <div class="crab-leg"></div>
+            <div class="crab-leg"></div>
+            <div class="crab-leg"></div>
+            <div class="crab-leg"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mud bubbles -->
+    <div class="mud-bubbles">
+      <div class="mud-bubble" style="left: 15%; width: 8px; height: 8px; animation-duration: 4s;"></div>
+      <div class="mud-bubble" style="left: 30%; width: 5px; height: 5px; animation-duration: 5.5s; animation-delay: 1s;"></div>
+      <div class="mud-bubble" style="left: 55%; width: 7px; height: 7px; animation-duration: 3.8s; animation-delay: 2s;"></div>
+      <div class="mud-bubble" style="left: 72%; width: 4px; height: 4px; animation-duration: 6s; animation-delay: 0.5s;"></div>
+      <div class="mud-bubble" style="left: 88%; width: 6px; height: 6px; animation-duration: 4.5s; animation-delay: 1.5s;"></div>
+    </div>
+
+    <div class="hero-content">
+      <p class="hero-pretitle">Recife, Pernambuco -- Brasil -- c. 1991</p>
+      <h1 class="hero-title">Manguebeat</h1>
+      <p class="hero-subtitle">Da Lama ao Caos -- From the Mud to Chaos</p>
+      <p class="hero-tagline">Caranguejos com Cerebro -- Crabs with Brains</p>
+      <p class="hero-manifesto">
+        "A parabolic antenna stuck in the mud, receiving signals from the entire world."<br>
+        A raw, tropical-urban collision aesthetic where mangrove mud meets satellite dishes,
+        Afro-Brazilian carnival vibrancy meets DIY punk grit, and psychedelic folk patterns
+        meet digital-age collage.
+      </p>
+    </div>
+  </section>
+
+  <div class="carnival-bar"></div>
+
+  <!-- ===== COLLAGE MOSAIC ===== -->
+  <section class="section-collage" id="collage">
+    <div class="collage-grid" id="collageGrid"></div>
+  </section>
+
+  <div class="carnival-stripe"></div>
+
+  <!-- ===== OVERVIEW SECTION ===== -->
+  <section class="section-overview" id="overview">
+    <div class="section-inner">
+      <h2 class="animate-on-scroll">The Movement</h2>
+      <div class="overview-text animate-on-scroll">
+        <p>
+          <strong>Manguebeat</strong> (also spelled Mangue Beat or Mangue bit) is a cultural and musical movement
+          that emerged circa <span class="highlight">1991</span> in <span class="highlight-red">Recife, Pernambuco</span>,
+          northeastern Brazil, as a reaction to the cultural and economic stagnation of the city.
+        </p>
+        <p>
+          Founded by musicians <strong>Chico Science</strong> and <strong>Fred Zero Quatro</strong>, the movement
+          fuses <span class="highlight">traditional Pernambucan rhythms</span> -- maracatu, frevo, coco, embolada --
+          with <span class="highlight-red">global contemporary genres</span> -- rock, hip-hop, funk, electronic, raggamuffin.
+        </p>
+      </div>
+
+      <div class="pull-quote animate-on-scroll">
+        "Uma antena parabolica enfiada na lama" -- A parabolic antenna stuck in the mud, receiving signals from the entire world.
+      </div>
+
+      <div class="overview-text animate-on-scroll">
+        <p>
+          Visually, Manguebeat represents a <strong>raw, tropical-urban collision aesthetic</strong> -- mangrove mud meets
+          satellite dishes, Afro-Brazilian carnival vibrancy meets DIY punk grit, and psychedelic folk patterns meet
+          digital-age collage.
+        </p>
+        <p>
+          The movement's manifesto, <span class="highlight">"Caranguejos com Cerebro"</span> (Crabs with Brains, 1992),
+          established the core visual metaphor: a parabolic antenna stuck in the mud, receiving signals from the entire world.
+          This single image -- <em>local organic chaos wired into global modernity</em> -- became the DNA of every
+          Manguebeat design choice that followed.
+        </p>
+      </div>
+
+      <div class="antenna-line"></div>
+    </div>
+  </section>
+
+  <div class="wave-divider"></div>
+
+  <!-- ===== VISUAL CHARACTERISTICS: MOTIFS ===== -->
+  <section class="section-visual" id="motifs">
+    <div class="section-inner">
+      <h2 class="animate-on-scroll">Core Motifs &amp; Symbols</h2>
+      <p class="animate-on-scroll" style="max-width: 700px; margin-bottom: 2rem;">
+        The visual vocabulary of Manguebeat draws from mangrove ecology, carnival procession, street culture,
+        and improvised technology. Each symbol carries the movement's dual identity of tradition and modernity.
+      </p>
+
+      <div class="motif-grid">
+        <div class="motif-card animate-on-scroll">
+          <span class="motif-icon">&#x1F980;</span>
+          <h3>The Crab (Caranguejo)</h3>
+          <p>Central emblem of the movement; represents resilience, mangrove life, and the people of Recife's impoverished waterfront communities.</p>
+        </div>
+        <div class="motif-card animate-on-scroll">
+          <span class="motif-icon">&#x1F4E1;</span>
+          <h3>Parabolic Antenna in Mud</h3>
+          <p>The defining manifesto symbol; a satellite dish planted in mangrove sludge, embodying the fusion of local tradition with global modernity.</p>
+        </div>
+        <div class="motif-card animate-on-scroll">
+          <span class="motif-icon">&#x1F333;</span>
+          <h3>Mangrove Ecosystem</h3>
+          <p>Tangled roots, brackish water, mud flats, tidal zones; the organic chaos of coastal wetlands as foundational imagery.</p>
+        </div>
+        <div class="motif-card animate-on-scroll">
+          <span class="motif-icon">&#x1F3AD;</span>
+          <h3>Maracatu Patterns</h3>
+          <p>Psychedelic visual language drawn from Afro-Brazilian carnival processions: embroidered banners, feathered headdresses, mirrored costumes.</p>
+        </div>
+        <div class="motif-card animate-on-scroll">
+          <span class="motif-icon">&#x2602;</span>
+          <h3>Frevo Umbrellas</h3>
+          <p>Small, colorful spinning umbrellas iconic to Pernambuco carnival, representing energy, movement, and explosive joy.</p>
+        </div>
+        <div class="motif-card animate-on-scroll">
+          <span class="motif-icon">&#x1F4F0;</span>
+          <h3>Collage &amp; Pixelation</h3>
+          <p>The "Da Lama ao Caos" album cover pioneered a collage-mosaic style where each "pixel" is a different layered image fragment.</p>
+        </div>
+        <div class="motif-card animate-on-scroll">
+          <span class="motif-icon">&#x1F3A8;</span>
+          <h3>Graffiti &amp; Street Murals</h3>
+          <p>Urban wall art depicting crabs, mangroves, and movement iconography across the streets and alleys of Recife.</p>
+        </div>
+        <div class="motif-card animate-on-scroll">
+          <span class="motif-icon">&#x1F452;</span>
+          <h3>Straw Hats (Chapeu de Palha)</h3>
+          <p>Traditional Pernambucan headwear, often juxtaposed with modern urban accessories -- a walking symbol of the collision aesthetic.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="carnival-stripe"></div>
+
+  <!-- ===== COLOR PALETTE SECTION ===== -->
+  <section class="section-palette" id="palette">
+    <div class="section-inner">
+      <h2 class="animate-on-scroll">Color Palette</h2>
+      <p class="animate-on-scroll" style="max-width: 700px; margin-bottom: 2rem;">
+        The Manguebeat palette draws from two sources: the <strong>earthy, organic tones of the mangrove</strong>
+        (mud brown, brackish green, murky water) and the <strong>explosive vibrancy of Pernambucan carnival</strong>
+        (maracatu reds, golds, blues; frevo primary colors).
+      </p>
+
+      <div class="palette-group animate-on-scroll">
+        <h4 class="palette-group-title">Mangrove Earth Tones</h4>
+        <div class="color-swatches">
+          <div class="swatch">
+            <div class="swatch-color" style="background-color: #4a3728;"></div>
+            <div class="swatch-info">
+              <div class="swatch-name">Mangrove Mud</div>
+              <div class="swatch-hex">#4A3728</div>
+            </div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background-color: #2e2118;"></div>
+            <div class="swatch-info">
+              <div class="swatch-name">Mud Dark</div>
+              <div class="swatch-hex">#2E2118</div>
+            </div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background-color: #6b5340;"></div>
+            <div class="swatch-info">
+              <div class="swatch-name">Mud Light</div>
+              <div class="swatch-hex">#6B5340</div>
+            </div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background-color: #2d5a27;"></div>
+            <div class="swatch-info">
+              <div class="swatch-name">Brackish Green</div>
+              <div class="swatch-hex">#2D5A27</div>
+            </div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background-color: #c4943a;"></div>
+            <div class="swatch-info">
+              <div class="swatch-name">Silty Ochre</div>
+              <div class="swatch-hex">#C4943A</div>
+            </div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background-color: #1a6b5a;"></div>
+            <div class="swatch-info">
+              <div class="swatch-name">Tidal Teal</div>
+              <div class="swatch-hex">#1A6B5A</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="palette-group animate-on-scroll">
+        <h4 class="palette-group-title">Carnival Vibrancy</h4>
+        <div class="color-swatches">
+          <div class="swatch">
+            <div class="swatch-color" style="background-color: #d42020;"></div>
+            <div class="swatch-info">
+              <div class="swatch-name">Maracatu Red</div>
+              <div class="swatch-hex">#D42020</div>
+            </div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background-color: #f0b816;"></div>
+            <div class="swatch-info">
+              <div class="swatch-name">Carnival Gold</div>
+              <div class="swatch-hex">#F0B816</div>
+            </div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background-color: #1848b0;"></div>
+            <div class="swatch-info">
+              <div class="swatch-name">Royal Blue</div>
+              <div class="swatch-hex">#1848B0</div>
+            </div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background-color: #10a848;"></div>
+            <div class="swatch-info">
+              <div class="swatch-name">Emerald Green</div>
+              <div class="swatch-hex">#10A848</div>
+            </div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background-color: #e85530;"></div>
+            <div class="swatch-info">
+              <div class="swatch-name">Crab Coral</div>
+              <div class="swatch-hex">#E85530</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="palette-group animate-on-scroll">
+        <h4 class="palette-group-title">Neutrals &amp; Accents</h4>
+        <div class="color-swatches">
+          <div class="swatch">
+            <div class="swatch-color" style="background-color: #f5f0e6;"></div>
+            <div class="swatch-info">
+              <div class="swatch-name">Frevo White</div>
+              <div class="swatch-hex">#F5F0E6</div>
+            </div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background-color: #e8e0d0;"></div>
+            <div class="swatch-info">
+              <div class="swatch-name">Off-White</div>
+              <div class="swatch-hex">#E8E0D0</div>
+            </div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background-color: #a0a8b0;"></div>
+            <div class="swatch-info">
+              <div class="swatch-name">Antenna Silver</div>
+              <div class="swatch-hex">#A0A8B0</div>
+            </div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background-color: #1a1410;"></div>
+            <div class="swatch-info">
+              <div class="swatch-name">Deep Black-Brown</div>
+              <div class="swatch-hex">#1A1410</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="antenna-line"></div>
+
+      <div class="animate-on-scroll" style="margin-top: 2rem;">
+        <h3>Color Usage Approaches</h3>
+        <ul style="list-style: none; padding: 0; margin-top: 1rem;">
+          <li style="display: flex; align-items: flex-start; gap: 0.75rem; margin-bottom: 0.8rem;">
+            <span class="crab-bullet"></span>
+            <span><strong>Earth-grounded vibrancy</strong> -- vibrant carnival colors always anchored by dark, muddy earth tones underneath</span>
+          </li>
+          <li style="display: flex; align-items: flex-start; gap: 0.75rem; margin-bottom: 0.8rem;">
+            <span class="crab-bullet"></span>
+            <span><strong>Warm dominance</strong> -- reds, golds, oranges, and corals dominate; cooler blues and greens serve as contrast accents</span>
+          </li>
+          <li style="display: flex; align-items: flex-start; gap: 0.75rem; margin-bottom: 0.8rem;">
+            <span class="crab-bullet"></span>
+            <span><strong>High saturation on dark grounds</strong> -- bright, saturated colors placed against deep brown-black backgrounds (not pure black -- use warm dark tones)</span>
+          </li>
+          <li style="display: flex; align-items: flex-start; gap: 0.75rem; margin-bottom: 0.8rem;">
+            <span class="crab-bullet"></span>
+            <span><strong>Mud gradient</strong> -- use gradients that transition from dark mud to brackish green, evoking the mangrove waterline</span>
+          </li>
+          <li style="display: flex; align-items: flex-start; gap: 0.75rem; margin-bottom: 0.8rem;">
+            <span class="crab-bullet"></span>
+            <span><strong>Carnival bursts</strong> -- moments of full-spectrum primary color used sparingly for maximum impact</span>
+          </li>
+          <li style="display: flex; align-items: flex-start; gap: 0.75rem; margin-bottom: 0.8rem;">
+            <span class="crab-bullet"></span>
+            <span><strong>Gold as connective tissue</strong> -- carnival gold/amber used for borders, highlights, and linking elements</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <div class="carnival-bar"></div>
+
+  <!-- ===== TYPOGRAPHY SECTION ===== -->
+  <section class="section-typography" id="typography">
+    <div class="section-inner">
+      <h2 class="animate-on-scroll">Typography</h2>
+      <p class="animate-on-scroll" style="max-width: 700px; margin-bottom: 1rem;">
+        Manguebeat typography fuses raw, hand-painted street art lettering with bold, condensed display type.
+        Irregular, organic letterforms with stencil and spray-paint textures. Mixed case, mixed styles --
+        combining script, sans-serif, and decorative faces in a single composition.
+      </p>
+
+      <div class="type-specimens">
+        <div class="type-specimen animate-on-scroll">
+          <div class="type-label">Barrio -- Hero / Display Text</div>
+          <div class="type-sample-barrio">Da Lama ao Caos</div>
+        </div>
+
+        <div class="type-specimen animate-on-scroll">
+          <div class="type-label">Archivo Black -- Primary Headlines</div>
+          <div class="type-sample-archivo">Caranguejos com Cerebro</div>
+        </div>
+
+        <div class="type-specimen animate-on-scroll">
+          <div class="type-label">Permanent Marker -- Street Art Subheadings</div>
+          <div class="type-sample-marker">Mangrove mud meets satellite dishes</div>
+        </div>
+
+        <div class="type-specimen animate-on-scroll">
+          <div class="type-label">Bebas Neue -- Section Headers</div>
+          <div class="type-sample-bebas">Nacao Zumbi &bull; Mundo Livre S/A</div>
+        </div>
+
+        <div class="type-specimen animate-on-scroll">
+          <div class="type-label">Patua One -- Secondary Headings</div>
+          <div class="type-sample-patua">Afro-Brazilian carnival vibrancy meets DIY punk grit</div>
+        </div>
+
+        <div class="type-specimen animate-on-scroll">
+          <div class="type-label">Bungee -- Accent / Label Text</div>
+          <div class="type-sample-bungee">Recife Pernambuco</div>
+        </div>
+
+        <div class="type-specimen animate-on-scroll">
+          <div class="type-label">Source Sans 3 -- Body Text</div>
+          <div class="type-sample-body">The movement fuses traditional Pernambucan rhythms -- maracatu, frevo, coco, embolada -- with global contemporary genres. Visually, it represents a raw, tropical-urban collision aesthetic.</div>
+        </div>
+
+        <div class="type-specimen animate-on-scroll">
+          <div class="type-label">Lora -- Body Text Alternative (Longer Passages)</div>
+          <div class="type-sample-lora">"Founded by musicians Chico Science and Fred Zero Quatro, the movement emerged as a reaction to the cultural and economic stagnation of Recife, channeling the mangrove ecosystem as both metaphor and manifesto."</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="wave-divider"></div>
+
+  <!-- ===== DESIGN PRINCIPLES SECTION ===== -->
+  <section class="section-principles" id="principles">
+    <div class="section-inner">
+      <h2 class="animate-on-scroll">Design Principles</h2>
+
+      <div class="principles-list">
+        <div class="principle-item animate-on-scroll">
+          <div>
+            <h4>Collision of Tradition &amp; Technology</h4>
+            <p>Deliberate juxtaposition of folk/organic elements with digital/electronic elements. The antenna in the mud.</p>
+          </div>
+        </div>
+        <div class="principle-item animate-on-scroll">
+          <div>
+            <h4>Raw, Unpolished Texture</h4>
+            <p>Gritty, muddy, DIY quality; not clean or corporate. Visible grain, rough edges, imperfection as virtue.</p>
+          </div>
+        </div>
+        <div class="principle-item animate-on-scroll">
+          <div>
+            <h4>Tropical Maximalism</h4>
+            <p>Dense, vibrant, saturated compositions drawing from carnival excess. Fill the space with energy and color.</p>
+          </div>
+        </div>
+        <div class="principle-item animate-on-scroll">
+          <div>
+            <h4>Anti-Elitist, Resourceful Aesthetic</h4>
+            <p>Thrifted, repurposed, and improvised visual language. Beauty through resourcefulness, not budget.</p>
+          </div>
+        </div>
+        <div class="principle-item animate-on-scroll">
+          <div>
+            <h4>Cultural Layering</h4>
+            <p>Afro-Brazilian, Indigenous, Portuguese colonial, and global pop culture references stacked together in dense collage.</p>
+          </div>
+        </div>
+        <div class="principle-item animate-on-scroll">
+          <div>
+            <h4>Ecological Grounding</h4>
+            <p>Persistent references to mangrove ecosystems, water, mud, and organic life. The earth beneath everything.</p>
+          </div>
+        </div>
+        <div class="principle-item animate-on-scroll">
+          <div>
+            <h4>Urban-Rural Tension</h4>
+            <p>City grit meets coastal nature; concrete meets mangrove. The friction between worlds generates the energy.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="carnival-stripe"></div>
+
+  <!-- ===== MATERIALS TABLE ===== -->
+  <section class="section-materials" id="materials">
+    <div class="section-inner">
+      <h2 class="animate-on-scroll">Materials &amp; Textures</h2>
+      <p class="animate-on-scroll" style="max-width: 700px; margin-bottom: 1rem;">
+        Physical Manguebeat materials and their web equivalents -- translating the tactile world of mangrove mud,
+        carnival embroidery, and street concrete into digital design language.
+      </p>
+
+      <div class="animate-on-scroll" style="overflow-x: auto;">
+        <table class="materials-table">
+          <thead>
+            <tr>
+              <th>Physical Material</th>
+              <th>Web Equivalent</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Mangrove mud, silt</td>
+              <td>Dark warm-brown backgrounds with grain/noise texture overlay</td>
+            </tr>
+            <tr>
+              <td>Brackish tidal water</td>
+              <td>Teal-green gradients, subtle shimmer animations</td>
+            </tr>
+            <tr>
+              <td>Maracatu banners</td>
+              <td>Bold red/gold border accents, decorative stripe patterns</td>
+            </tr>
+            <tr>
+              <td>Frevo umbrellas</td>
+              <td>Rotating color elements, carnival stripe dividers</td>
+            </tr>
+            <tr>
+              <td>Street graffiti</td>
+              <td>Rough textures, hand-drawn fonts, offset layering</td>
+            </tr>
+            <tr>
+              <td>Album cover collage</td>
+              <td>CSS grid mosaics, overlapping image layers</td>
+            </tr>
+            <tr>
+              <td>Straw hat weave</td>
+              <td>Subtle crosshatch or woven background patterns</td>
+            </tr>
+            <tr>
+              <td>Satellite dish metal</td>
+              <td>Metallic silver gradients, antenna-line accents</td>
+            </tr>
+            <tr>
+              <td>Carnival sequins</td>
+              <td>Shimmer animations, reflective highlights</td>
+            </tr>
+            <tr>
+              <td>Concert flyer print</td>
+              <td>Bold type, limited color blocks, visible print texture</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <div class="carnival-bar"></div>
+
+  <!-- ===== SUB-STYLES SECTION ===== -->
+  <section class="section-substyles" id="substyles">
+    <div class="section-inner">
+      <h2 class="animate-on-scroll">Sub-styles &amp; Variations</h2>
+
+      <div class="substyles-grid">
+        <div class="substyle-card substyle-roots animate-on-scroll">
+          <div class="substyle-header">
+            <h3>Mangue-Roots</h3>
+            <p style="font-family: 'Permanent Marker', cursive; color: var(--mangue-gold); font-size: 0.95rem;">Traditional Focus</p>
+          </div>
+          <div class="substyle-body">
+            <ul>
+              <li>Emphasis on maracatu and frevo visual traditions</li>
+              <li>Richer earth tones, less technology reference</li>
+              <li>Embroidery-inspired borders and ornamentation</li>
+              <li>Carnival costume colors dominate: deep red, royal blue, gold</li>
+              <li>Handcraft textures and woven patterns</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="substyle-card substyle-cyber animate-on-scroll">
+          <div class="substyle-header">
+            <h3 style="color: var(--mangue-silver);">Mangue-Cyber</h3>
+            <p style="font-family: 'Permanent Marker', cursive; color: var(--mangue-silver); font-size: 0.95rem;">Afrociberdelia</p>
+          </div>
+          <div class="substyle-body">
+            <ul>
+              <li>Named after Chico Science's second album "Afrociberdelia"</li>
+              <li>Stronger technology and digital references</li>
+              <li>Pixelation and collage effects</li>
+              <li>Satellite and antenna motifs more prominent</li>
+              <li>Glitch and data-moshing visual effects blended with organic textures</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="substyle-card substyle-street animate-on-scroll">
+          <div class="substyle-header">
+            <h3 style="color: var(--mangue-coral);">Mangue-Street</h3>
+            <p style="font-family: 'Permanent Marker', cursive; color: var(--mangue-coral); font-size: 0.95rem;">Urban Graffiti</p>
+          </div>
+          <div class="substyle-body">
+            <ul>
+              <li>Graffiti and mural art dominant</li>
+              <li>Spray-paint textures and stencil typography</li>
+              <li>Concrete and urban surfaces as backgrounds</li>
+              <li>Hip-hop visual culture influence</li>
+              <li>Black and white photography mixed with color splashes</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="wave-divider"></div>
+
+  <!-- ===== PRACTITIONERS SECTION ===== -->
+  <section class="section-practitioners" id="practitioners">
+    <div class="section-inner">
+      <h2 class="animate-on-scroll">Notable Visual Practitioners</h2>
+
+      <div class="practitioners-grid">
+        <div class="practitioner-card animate-on-scroll">
+          <div class="practitioner-name">Chico Science</div>
+          <p class="practitioner-role">Movement founder; his personal style (straw hat + sunglasses + printed shirts) became the iconic Manguebeat look.</p>
+        </div>
+        <div class="practitioner-card animate-on-scroll">
+          <div class="practitioner-name">Fred Zero Quatro</div>
+          <p class="practitioner-role">Mundo Livre S/A frontman; co-author of the manifesto; shaped the movement's conceptual visual identity.</p>
+        </div>
+        <div class="practitioner-card animate-on-scroll">
+          <div class="practitioner-name">Hilton Lacerda</div>
+          <p class="practitioner-role">Director and designer of the "Da Lama ao Caos" album cover; key visual architect of the collage-mosaic style.</p>
+        </div>
+        <div class="practitioner-card animate-on-scroll">
+          <div class="practitioner-name">Jorge du Peixe</div>
+          <p class="practitioner-role">Nacao Zumbi percussionist; graffiti artist and designer who shaped the movement's visual identity on the streets.</p>
+        </div>
+        <div class="practitioner-card animate-on-scroll">
+          <div class="practitioner-name">Ayode Franca</div>
+          <p class="practitioner-role">Black artist/illustrator from Pernambuco; visual language exploring local popular culture and Afro-Brazilian archetypes.</p>
+        </div>
+        <div class="practitioner-card animate-on-scroll">
+          <div class="practitioner-name">Kboco</div>
+          <p class="practitioner-role">Recife graffiti artist; signature style influenced by African, Mayan, and Indigenous Brazilian design traditions.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="carnival-stripe"></div>
+
+  <!-- ===== RELATED AESTHETICS SECTION ===== -->
+  <section class="section-related" id="related">
+    <div class="section-inner">
+      <h2 class="animate-on-scroll">Related Aesthetics</h2>
+      <p class="animate-on-scroll" style="max-width: 700px; margin-bottom: 1rem;">
+        Manguebeat exists within a constellation of movements that share its energy, its roots, or its methods.
+        Each connection illuminates a different facet of the Manguebeat identity.
+      </p>
+
+      <div class="related-tags animate-on-scroll">
+        <div class="related-tag">
+          Psychedelia
+          <span class="related-desc">Swirling patterns, saturated colors</span>
+        </div>
+        <div class="related-tag">
+          Hip-Hop
+          <span class="related-desc">Graffiti, street wear, bold type</span>
+        </div>
+        <div class="related-tag">
+          Rave
+          <span class="related-desc">Electronic crossover, color intensity</span>
+        </div>
+        <div class="related-tag">
+          Funk
+          <span class="related-desc">Afro-Brazilian rhythmic culture</span>
+        </div>
+        <div class="related-tag">
+          DIY Punk
+          <span class="related-desc">Raw, hand-made, anti-establishment</span>
+        </div>
+        <div class="related-tag">
+          Tropical
+          <span class="related-desc">Lush vegetation, warm colors</span>
+        </div>
+        <div class="related-tag">
+          Afrofuturism
+          <span class="related-desc">African diaspora + technology</span>
+        </div>
+        <div class="related-tag">
+          Chicha
+          <span class="related-desc">South American folk-urban fusion</span>
+        </div>
+        <div class="related-tag">
+          Graffiti Pop
+          <span class="related-desc">Street art, bold graphic language</span>
+        </div>
+        <div class="related-tag">
+          Lowbrow
+          <span class="related-desc">Outsider art, popular culture</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="carnival-bar"></div>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="footer-crab">
+      <div class="crab" style="margin: 0 auto;">
+        <div class="crab-body">
+          <div class="crab-claw crab-claw-left"></div>
+          <div class="crab-claw crab-claw-right"></div>
+          <div class="crab-legs">
+            <div class="crab-leg"></div>
+            <div class="crab-leg"></div>
+            <div class="crab-leg"></div>
+            <div class="crab-leg"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-text">Manguebeat</div>
+    <p class="footer-sub">Da Lama ao Caos -- Recife, Pernambuco, Brasil</p>
+    <div class="antenna-line" style="margin-top: 2rem;"></div>
+    <p style="font-size: 0.8rem; color: var(--mangue-mud-light); margin-top: 1.5rem;">
+      A design aesthetic showcase -- Caranguejos com Cerebro since 1991
+    </p>
+  </footer>
+
+  <div class="carnival-stripe"></div>
+
+  <!-- ===== JAVASCRIPT ===== -->
+  <script>
+    // === Scroll Progress Bar ===
+    function updateScrollProgress() {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const scrollPercent = (scrollTop / docHeight) * 100;
+      document.getElementById('scrollProgress').style.width = scrollPercent + '%';
+    }
+
+    // === Scroll-triggered animations ===
+    function handleScrollAnimations() {
+      const elements = document.querySelectorAll('.animate-on-scroll');
+      const windowHeight = window.innerHeight;
+
+      elements.forEach((el, index) => {
+        const rect = el.getBoundingClientRect();
+        if (rect.top < windowHeight * 0.88) {
+          // Stagger animations slightly
+          const delay = (index % 4) * 80;
+          setTimeout(() => {
+            el.classList.add('visible');
+          }, delay);
+        }
+      });
+    }
+
+    // === Navigation dots active state ===
+    function updateNavDots() {
+      const sections = document.querySelectorAll('section[id]');
+      const dots = document.querySelectorAll('.nav-dot');
+      const scrollPos = window.scrollY + window.innerHeight / 3;
+
+      let currentSection = '';
+
+      sections.forEach(section => {
+        const top = section.offsetTop;
+        const height = section.offsetHeight;
+        if (scrollPos >= top && scrollPos < top + height) {
+          currentSection = section.getAttribute('id');
+        }
+      });
+
+      dots.forEach(dot => {
+        dot.classList.remove('active');
+        if (dot.dataset.section === currentSection) {
+          dot.classList.add('active');
+        }
+      });
+    }
+
+    // === Nav dot click navigation ===
+    document.querySelectorAll('.nav-dot').forEach(dot => {
+      dot.addEventListener('click', () => {
+        const sectionId = dot.dataset.section;
+        const section = document.getElementById(sectionId);
+        if (section) {
+          section.scrollIntoView({ behavior: 'smooth' });
+        }
+      });
+    });
+
+    // === Collage mosaic generator ===
+    function generateCollage() {
+      const grid = document.getElementById('collageGrid');
+      if (!grid) return;
+
+      const colors = [
+        '#4a3728', '#2e2118', '#6b5340', '#2d5a27', '#c4943a', '#1a6b5a',
+        '#d42020', '#f0b816', '#1848b0', '#10a848', '#e85530',
+        '#1a1410', '#231c14', '#a0a8b0',
+        '#3a2a1c', '#1d4a1f', '#a87830', '#156050',
+        '#b01818', '#d0a010', '#143890', '#0c8838', '#c04828'
+      ];
+
+      const count = Math.floor(window.innerWidth / 62) * 2;
+
+      for (let i = 0; i < count; i++) {
+        const cell = document.createElement('div');
+        cell.className = 'collage-cell';
+
+        // Random color or gradient
+        if (Math.random() > 0.4) {
+          const c1 = colors[Math.floor(Math.random() * colors.length)];
+          const c2 = colors[Math.floor(Math.random() * colors.length)];
+          const angle = Math.floor(Math.random() * 360);
+          cell.style.background = `linear-gradient(${angle}deg, ${c1}, ${c2})`;
+        } else {
+          cell.style.background = colors[Math.floor(Math.random() * colors.length)];
+        }
+
+        // Occasional noise overlay
+        if (Math.random() > 0.7) {
+          cell.style.backgroundImage += `, radial-gradient(circle, rgba(255,255,255,0.08) 1px, transparent 1px)`;
+          cell.style.backgroundSize = '4px 4px';
+        }
+
+        grid.appendChild(cell);
+      }
+    }
+
+    // === Combined scroll handler with throttle ===
+    let ticking = false;
+    function onScroll() {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          updateScrollProgress();
+          handleScrollAnimations();
+          updateNavDots();
+          ticking = false;
+        });
+        ticking = true;
+      }
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+
+    // === Initialize ===
+    document.addEventListener('DOMContentLoaded', () => {
+      generateCollage();
+      handleScrollAnimations();
+      updateScrollProgress();
+      updateNavDots();
+    });
+
+    // Regenerate collage on resize
+    let resizeTimeout;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(() => {
+        const grid = document.getElementById('collageGrid');
+        if (grid) {
+          grid.innerHTML = '';
+          generateCollage();
+        }
+      }, 300);
+    });
+  </script>
+</body>
+</html>

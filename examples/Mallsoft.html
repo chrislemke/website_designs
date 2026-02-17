@@ -1,0 +1,2377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MALLSOFT -- A Design Aesthetic</title>
+  <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,300;0,400;0,600;0,700&family=DM+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Comfortaa:wght@400;500;600;700&family=Montserrat:wght@500;600;700;800&family=Quicksand:wght@400;500;600;700&family=Righteous&family=Lobster+Two:ital,wght@0,400;0,700;1,400&family=Bungee+Shade&display=swap" rel="stylesheet">
+  <style>
+    /* ============================================
+       MALLSOFT DESIGN SYSTEM
+       ============================================ */
+    :root {
+      /* Neon pinks */
+      --mall-pink: #ff6b9d;
+      --mall-pink-hot: #ff3f8e;
+      --mall-pink-soft: #f8bbd0;
+      --mall-pink-blush: #fde4ec;
+      --mall-magenta: #e91e8c;
+
+      /* Teals and mints */
+      --mall-teal: #26c6da;
+      --mall-teal-deep: #00897b;
+      --mall-mint: #80cbc4;
+      --mall-mint-bright: #a7ffeb;
+      --mall-cyan: #00bcd4;
+
+      /* Purples */
+      --mall-lavender: #ce93d8;
+      --mall-purple: #ba68c8;
+      --mall-purple-soft: #e1bee7;
+      --mall-purple-deep: #7b1fa2;
+
+      /* Warm neutrals */
+      --mall-white: #faf9f7;
+      --mall-cream: #fff8e1;
+      --mall-champagne: #f5e6cc;
+      --mall-gold: #ffd54f;
+      --mall-gold-deep: #ffc107;
+
+      /* Cool neutrals */
+      --mall-gray: #e0dcd8;
+      --mall-gray-cool: #cfd8dc;
+      --mall-chrome: #b0bec5;
+      --mall-fluorescent: #fafafa;
+
+      /* Darks */
+      --mall-dark: #1a1a2e;
+      --mall-dark-blue: #16213e;
+      --mall-text: #37343d;
+      --mall-text-light: #6d6875;
+
+      /* Neon glows */
+      --mall-glow-pink: rgba(255, 107, 157, 0.4);
+      --mall-glow-teal: rgba(38, 198, 218, 0.4);
+      --mall-glow-purple: rgba(186, 104, 200, 0.35);
+      --mall-glow-pink-strong: rgba(255, 63, 142, 0.6);
+      --mall-glow-teal-strong: rgba(0, 188, 212, 0.5);
+
+      /* Transparency / overlay */
+      --mall-glass: rgba(255, 255, 255, 0.15);
+      --mall-glass-warm: rgba(255, 248, 225, 0.2);
+      --mall-glass-border: rgba(255, 255, 255, 0.25);
+      --mall-shadow: rgba(0, 0, 0, 0.15);
+      --mall-shadow-deep: rgba(0, 0, 0, 0.3);
+      --mall-flicker: rgba(255, 255, 255, 0.08);
+
+      /* Functional mappings */
+      --mall-bg-primary: var(--mall-white);
+      --mall-bg-secondary: var(--mall-cream);
+      --mall-accent: var(--mall-pink);
+      --mall-accent-secondary: var(--mall-teal);
+    }
+
+    /* ============================================
+       RESET & BASE
+       ============================================ */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: linear-gradient(
+        180deg,
+        #faf9f7 0%,
+        #fff8e1 15%,
+        #fde4ec 40%,
+        #f3e5f5 65%,
+        #fff8e1 85%,
+        #faf9f7 100%
+      );
+      color: var(--mall-text);
+      font-family: 'DM Sans', 'Poppins', sans-serif;
+      font-weight: 400;
+      letter-spacing: 0.01em;
+      line-height: 1.7;
+      min-height: 100vh;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* ============================================
+       VHS SCAN-LINE OVERLAY
+       ============================================ */
+    body::after {
+      content: '';
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        rgba(0, 0, 0, 0.018) 0px,
+        rgba(0, 0, 0, 0.018) 1px,
+        transparent 1px,
+        transparent 3px
+      );
+      pointer-events: none;
+      z-index: 9999;
+      mix-blend-mode: multiply;
+    }
+
+    /* ============================================
+       FLUORESCENT FLICKER OVERLAY
+       ============================================ */
+    .flicker-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: var(--mall-fluorescent);
+      opacity: 0;
+      pointer-events: none;
+      z-index: 9998;
+      animation: fluorescent-flicker 6s ease-in-out infinite;
+    }
+
+    @keyframes fluorescent-flicker {
+      0%, 90%, 93%, 96%, 100% { opacity: 0; }
+      91% { opacity: 0.025; }
+      94% { opacity: 0.05; }
+    }
+
+    /* ============================================
+       TYPOGRAPHY
+       ============================================ */
+    h1, h2, h3, h4 {
+      font-family: 'Josefin Sans', 'Montserrat', sans-serif;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      color: var(--mall-text);
+    }
+
+    h2 {
+      font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+    }
+
+    h3 {
+      font-size: clamp(1.1rem, 2vw, 1.4rem);
+    }
+
+    p {
+      color: var(--mall-text-light);
+      max-width: 680px;
+    }
+
+    a {
+      color: var(--mall-pink);
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    a:hover {
+      color: var(--mall-pink-hot);
+    }
+
+    /* ============================================
+       MEMPHIS GEOMETRIC DECORATIONS
+       ============================================ */
+    .memphis-deco {
+      position: fixed;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .memphis-triangle {
+      width: 0; height: 0;
+      border-left: 28px solid transparent;
+      border-right: 28px solid transparent;
+      border-bottom: 48px solid var(--mall-pink-soft);
+      opacity: 0.18;
+    }
+
+    .memphis-triangle--1 { top: 8%; left: 4%; transform: rotate(18deg); }
+    .memphis-triangle--2 { top: 42%; right: 5%; transform: rotate(-30deg); border-bottom-color: var(--mall-mint); opacity: 0.14; }
+    .memphis-triangle--3 { top: 72%; left: 7%; transform: rotate(45deg); border-bottom-color: var(--mall-lavender); opacity: 0.12; }
+
+    .memphis-circle {
+      border-radius: 50%;
+      border: 3.5px solid var(--mall-lavender);
+      opacity: 0.13;
+    }
+
+    .memphis-circle--1 { width: 55px; height: 55px; top: 22%; right: 9%; }
+    .memphis-circle--2 { width: 38px; height: 38px; bottom: 30%; left: 6%; border-color: var(--mall-teal); opacity: 0.16; }
+    .memphis-circle--3 { width: 70px; height: 70px; top: 58%; right: 3%; border-color: var(--mall-gold); opacity: 0.1; }
+
+    .memphis-squiggle {
+      width: 100px;
+      height: 30px;
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 30'%3E%3Cpath d='M0 15 Q12.5 0 25 15 Q37.5 30 50 15 Q62.5 0 75 15 Q87.5 30 100 15' fill='none' stroke='%23ce93d8' stroke-width='2.5'/%3E%3C/svg%3E") no-repeat;
+      background-size: contain;
+      opacity: 0.15;
+    }
+
+    .memphis-squiggle--1 { top: 15%; right: 14%; transform: rotate(12deg); }
+    .memphis-squiggle--2 { bottom: 18%; left: 3%; transform: rotate(-5deg); }
+
+    .memphis-zigzag {
+      width: 90px;
+      height: 18px;
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 90 18'%3E%3Cpolyline points='0,9 10,0 20,9 30,0 40,9 50,0 60,9 70,0 80,9 90,0' fill='none' stroke='%2380cbc4' stroke-width='2'/%3E%3C/svg%3E") no-repeat;
+      background-size: contain;
+      opacity: 0.15;
+    }
+
+    .memphis-zigzag--1 { top: 35%; left: 2%; transform: rotate(-10deg); }
+    .memphis-zigzag--2 { bottom: 45%; right: 6%; transform: rotate(8deg); }
+
+    .memphis-dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      opacity: 0.2;
+    }
+
+    .memphis-dot--1 { top: 28%; left: 12%; background: var(--mall-pink); }
+    .memphis-dot--2 { top: 50%; right: 15%; background: var(--mall-teal); }
+    .memphis-dot--3 { bottom: 22%; left: 15%; background: var(--mall-gold); }
+    .memphis-dot--4 { top: 65%; left: 3%; background: var(--mall-lavender); width: 10px; height: 10px; }
+
+    /* ============================================
+       NAVIGATION
+       ============================================ */
+    .mall-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 2.5rem;
+      padding: 1rem 2rem;
+      background: rgba(250, 249, 247, 0.75);
+      backdrop-filter: blur(18px) saturate(1.3);
+      -webkit-backdrop-filter: blur(18px) saturate(1.3);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+      transition: all 0.4s ease;
+    }
+
+    .mall-nav.scrolled {
+      background: rgba(250, 249, 247, 0.92);
+      box-shadow: 0 2px 20px rgba(0, 0, 0, 0.06);
+    }
+
+    .mall-nav__brand {
+      font-family: 'Righteous', sans-serif;
+      font-size: 1.1rem;
+      color: var(--mall-pink);
+      letter-spacing: 0.08em;
+      text-shadow: 0 0 12px var(--mall-glow-pink);
+      position: absolute;
+      left: 2rem;
+    }
+
+    .mall-nav__link {
+      font-family: 'Montserrat', 'Josefin Sans', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--mall-text-light);
+      text-decoration: none;
+      padding: 0.4rem 0;
+      position: relative;
+      transition: color 0.3s ease;
+    }
+
+    .mall-nav__link::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 2px;
+      background: var(--mall-pink);
+      box-shadow: 0 0 6px var(--mall-glow-pink);
+      border-radius: 1px;
+      transition: width 0.3s ease;
+    }
+
+    .mall-nav__link:hover {
+      color: var(--mall-pink);
+    }
+
+    .mall-nav__link:hover::after {
+      width: 100%;
+    }
+
+    /* ============================================
+       HERO SECTION -- GRAND ENTRANCE
+       ============================================ */
+    .hero {
+      position: relative;
+      text-align: center;
+      padding: 10rem 2rem 6rem;
+      overflow: hidden;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Skylight radial glow from above */
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -15%;
+      left: 25%;
+      width: 50%;
+      height: 65%;
+      background: radial-gradient(
+        ellipse at center,
+        rgba(255, 248, 225, 0.55) 0%,
+        rgba(253, 228, 236, 0.2) 50%,
+        transparent 75%
+      );
+      pointer-events: none;
+    }
+
+    /* Fountain decorative ring */
+    .hero__fountain {
+      position: absolute;
+      bottom: 8%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 280px;
+      height: 280px;
+      border-radius: 50%;
+      background: radial-gradient(
+        circle at 50% 50%,
+        rgba(38, 198, 218, 0.08) 0%,
+        rgba(38, 198, 218, 0.04) 35%,
+        rgba(38, 198, 218, 0.01) 60%,
+        transparent 80%
+      );
+      border: 1.5px solid rgba(38, 198, 218, 0.08);
+      pointer-events: none;
+    }
+
+    .hero__fountain::before,
+    .hero__fountain::after {
+      content: '';
+      position: absolute;
+      border-radius: 50%;
+      border: 1px solid rgba(38, 198, 218, 0.06);
+    }
+
+    .hero__fountain::before {
+      top: 22%; left: 22%; right: 22%; bottom: 22%;
+      animation: ripple 4s ease-out infinite;
+    }
+
+    .hero__fountain::after {
+      top: 40%; left: 40%; right: 40%; bottom: 40%;
+      border-color: rgba(38, 198, 218, 0.1);
+      animation: ripple 4s ease-out 1.5s infinite;
+    }
+
+    @keyframes ripple {
+      0% { transform: scale(0.85); opacity: 0.7; }
+      100% { transform: scale(1.3); opacity: 0; }
+    }
+
+    .hero__kicker {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--mall-chrome);
+      margin-bottom: 2rem;
+      position: relative;
+      z-index: 2;
+      opacity: 0;
+      animation: fadeSlideUp 0.8s ease 0.3s forwards;
+    }
+
+    .hero__title {
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: clamp(3.2rem, 8vw, 7rem);
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      line-height: 1.05;
+      color: var(--mall-pink);
+      text-shadow:
+        0 0 10px var(--mall-glow-pink),
+        0 0 40px var(--mall-glow-pink),
+        0 0 80px var(--mall-glow-pink-strong),
+        0 2px 4px var(--mall-shadow);
+      position: relative;
+      z-index: 2;
+      opacity: 0;
+      animation: neonOn 1.2s ease 0.6s forwards;
+    }
+
+    @keyframes neonOn {
+      0% { opacity: 0; text-shadow: none; filter: brightness(0.5); }
+      40% { opacity: 0.7; text-shadow: 0 0 4px var(--mall-glow-pink); filter: brightness(0.8); }
+      55% { opacity: 0.3; text-shadow: none; filter: brightness(0.6); }
+      70% { opacity: 1; text-shadow: 0 0 10px var(--mall-glow-pink), 0 0 40px var(--mall-glow-pink); filter: brightness(1); }
+      80% { opacity: 0.85; text-shadow: 0 0 6px var(--mall-glow-pink); }
+      100% {
+        opacity: 1;
+        text-shadow:
+          0 0 10px var(--mall-glow-pink),
+          0 0 40px var(--mall-glow-pink),
+          0 0 80px var(--mall-glow-pink-strong),
+          0 2px 4px var(--mall-shadow);
+        filter: brightness(1);
+      }
+    }
+
+    .hero__subtitle {
+      font-family: 'Comfortaa', sans-serif;
+      font-size: clamp(1rem, 2.2vw, 1.35rem);
+      font-weight: 400;
+      color: var(--mall-text-light);
+      margin-top: 1.8rem;
+      max-width: 640px;
+      position: relative;
+      z-index: 2;
+      opacity: 0;
+      animation: fadeSlideUp 0.8s ease 1.2s forwards;
+    }
+
+    .hero__neon-divider {
+      width: min(55%, 400px);
+      margin: 2.5rem auto 0;
+      border: none;
+      height: 2px;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        var(--mall-pink) 20%,
+        var(--mall-teal) 50%,
+        var(--mall-lavender) 80%,
+        transparent
+      );
+      border-radius: 1px;
+      box-shadow:
+        0 0 8px var(--mall-glow-pink),
+        0 0 16px var(--mall-glow-teal);
+      position: relative;
+      z-index: 2;
+      opacity: 0;
+      animation: fadeIn 1s ease 1.6s forwards;
+    }
+
+    .hero__scroll-hint {
+      position: absolute;
+      bottom: 3rem;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.6rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--mall-chrome);
+      opacity: 0;
+      animation: fadeIn 1s ease 2.2s forwards, floatDown 2.5s ease-in-out 3s infinite;
+      z-index: 2;
+    }
+
+    .hero__scroll-hint::after {
+      content: '';
+      display: block;
+      width: 1px;
+      height: 28px;
+      background: linear-gradient(180deg, var(--mall-chrome), transparent);
+      margin: 0.6rem auto 0;
+    }
+
+    @keyframes floatDown {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(6px); }
+    }
+
+    @keyframes fadeSlideUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    /* ============================================
+       SECTION STYLES
+       ============================================ */
+    .section {
+      position: relative;
+      z-index: 1;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 4rem 2rem 5rem;
+    }
+
+    .section__header {
+      text-align: center;
+      margin-bottom: 3.5rem;
+    }
+
+    .section__kicker {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--mall-teal);
+      margin-bottom: 0.8rem;
+    }
+
+    .section__title {
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--mall-text);
+    }
+
+    .section__title--neon-pink {
+      color: var(--mall-pink);
+      text-shadow:
+        0 0 7px var(--mall-glow-pink),
+        0 0 20px var(--mall-glow-pink);
+    }
+
+    .section__title--neon-teal {
+      color: var(--mall-teal);
+      text-shadow:
+        0 0 7px var(--mall-glow-teal),
+        0 0 20px var(--mall-glow-teal);
+    }
+
+    .section__title--neon-purple {
+      color: var(--mall-lavender);
+      text-shadow:
+        0 0 7px var(--mall-glow-purple),
+        0 0 20px var(--mall-glow-purple);
+    }
+
+    .section__description {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 1.05rem;
+      color: var(--mall-text-light);
+      max-width: 620px;
+      margin: 1.2rem auto 0;
+      line-height: 1.8;
+      text-align: center;
+    }
+
+    /* Neon divider under section headers */
+    .section__divider {
+      width: min(40%, 220px);
+      margin: 1.5rem auto 0;
+      border: none;
+      height: 2px;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        var(--mall-pink) 20%,
+        var(--mall-teal) 50%,
+        var(--mall-lavender) 80%,
+        transparent
+      );
+      border-radius: 1px;
+      box-shadow:
+        0 0 6px var(--mall-glow-pink),
+        0 0 10px var(--mall-glow-teal);
+    }
+
+    /* ============================================
+       TERRAZZO SECTION BACKGROUND
+       ============================================ */
+    .terrazzo-section {
+      background-color: #f5f0eb;
+      background-image:
+        radial-gradient(circle 3px at 15% 25%, #f8bbd0 1.5px, transparent 2px),
+        radial-gradient(circle 2px at 45% 60%, #b0bec5 1px, transparent 1.5px),
+        radial-gradient(circle 4px at 70% 20%, #e1bee7 2px, transparent 3px),
+        radial-gradient(circle 2.5px at 30% 80%, #80cbc4 1.2px, transparent 2px),
+        radial-gradient(circle 3px at 85% 45%, #ffd54f 1.5px, transparent 2px),
+        radial-gradient(circle 2px at 55% 35%, #d7ccc8 1px, transparent 1.5px),
+        radial-gradient(circle 3.5px at 10% 70%, #f48fb1 1.8px, transparent 2.5px),
+        radial-gradient(circle 2px at 90% 75%, #ce93d8 1px, transparent 1.5px),
+        radial-gradient(circle 3px at 40% 10%, #cfd8dc 1.5px, transparent 2px),
+        radial-gradient(circle 2.5px at 65% 85%, #80cbc4 1.2px, transparent 2px);
+      padding: 5rem 0;
+      margin: 0 -50vw;
+      width: 100vw;
+      position: relative;
+      left: 50%;
+    }
+
+    .terrazzo-section .section {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    /* ============================================
+       INTRO GLASS PANEL
+       ============================================ */
+    .intro-panel {
+      background: rgba(255, 255, 255, 0.25);
+      backdrop-filter: blur(18px) saturate(1.2);
+      -webkit-backdrop-filter: blur(18px) saturate(1.2);
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      border-radius: 18px;
+      padding: 3.5rem 3rem;
+      max-width: 820px;
+      margin: 0 auto;
+      position: relative;
+      box-shadow:
+        0 8px 40px rgba(0, 0, 0, 0.06),
+        inset 0 1px 0 rgba(255, 255, 255, 0.5);
+    }
+
+    .intro-panel p {
+      font-size: 1.08rem;
+      line-height: 1.85;
+      color: var(--mall-text);
+      max-width: none;
+      text-align: center;
+    }
+
+    .intro-panel p + p {
+      margin-top: 1.2rem;
+    }
+
+    .intro-panel .accent-text {
+      color: var(--mall-pink);
+      font-weight: 500;
+    }
+
+    .intro-panel .accent-text--teal {
+      color: var(--mall-teal-deep);
+      font-weight: 500;
+    }
+
+    /* ============================================
+       STOREFRONT CARDS
+       ============================================ */
+    .storefront-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+
+    .storefront {
+      background: linear-gradient(
+        180deg,
+        var(--mall-white) 0%,
+        #f5f0eb 100%
+      );
+      border: 1px solid rgba(0, 0, 0, 0.05);
+      border-radius: 16px;
+      padding: 2.2rem 2rem;
+      position: relative;
+      overflow: hidden;
+      box-shadow:
+        0 4px 24px rgba(0, 0, 0, 0.05),
+        0 1px 3px rgba(0, 0, 0, 0.03);
+      transition: box-shadow 0.35s ease, transform 0.35s ease;
+    }
+
+    .storefront::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(
+        90deg,
+        var(--mall-pink) 0%,
+        var(--mall-teal) 50%,
+        var(--mall-lavender) 100%
+      );
+    }
+
+    .storefront:hover {
+      transform: translateY(-4px);
+      box-shadow:
+        0 12px 35px rgba(0, 0, 0, 0.08),
+        0 0 25px var(--mall-glow-pink);
+    }
+
+    .storefront--teal::before {
+      background: linear-gradient(90deg, var(--mall-teal), var(--mall-mint), var(--mall-teal));
+    }
+
+    .storefront--teal:hover {
+      box-shadow:
+        0 12px 35px rgba(0, 0, 0, 0.08),
+        0 0 25px var(--mall-glow-teal);
+    }
+
+    .storefront--purple::before {
+      background: linear-gradient(90deg, var(--mall-lavender), var(--mall-purple-soft), var(--mall-lavender));
+    }
+
+    .storefront--purple:hover {
+      box-shadow:
+        0 12px 35px rgba(0, 0, 0, 0.08),
+        0 0 25px var(--mall-glow-purple);
+    }
+
+    .storefront--gold::before {
+      background: linear-gradient(90deg, var(--mall-gold), var(--mall-champagne), var(--mall-gold));
+    }
+
+    .storefront__icon {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      display: block;
+    }
+
+    .storefront__title {
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 0.8rem;
+      color: var(--mall-text);
+    }
+
+    .storefront__text {
+      font-size: 0.92rem;
+      line-height: 1.75;
+      color: var(--mall-text-light);
+      max-width: none;
+    }
+
+    /* ============================================
+       COLOR PALETTE SHOWCASE
+       ============================================ */
+    .palette-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: center;
+      margin-top: 2rem;
+    }
+
+    .palette-swatch {
+      width: 90px;
+      height: 110px;
+      border-radius: 14px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+      padding-bottom: 10px;
+      position: relative;
+      overflow: hidden;
+      box-shadow:
+        0 4px 16px rgba(0, 0, 0, 0.08),
+        inset 0 -30px 30px rgba(0, 0, 0, 0.04);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: default;
+    }
+
+    .palette-swatch:hover {
+      transform: translateY(-3px) scale(1.04);
+      box-shadow:
+        0 8px 24px rgba(0, 0, 0, 0.12),
+        inset 0 -30px 30px rgba(0, 0, 0, 0.04);
+    }
+
+    .palette-swatch__label {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.52rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.9);
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+      text-align: center;
+      line-height: 1.3;
+    }
+
+    .palette-swatch__label--dark {
+      color: rgba(55, 52, 61, 0.7);
+      text-shadow: none;
+    }
+
+    .palette-swatch__hex {
+      font-family: 'DM Sans', monospace;
+      font-size: 0.5rem;
+      color: rgba(255, 255, 255, 0.7);
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+      margin-top: 2px;
+    }
+
+    .palette-swatch__hex--dark {
+      color: rgba(55, 52, 61, 0.5);
+      text-shadow: none;
+    }
+
+    .palette-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .palette-group__label {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--mall-text-light);
+      text-align: center;
+      margin-bottom: 0.8rem;
+    }
+
+    /* ============================================
+       TYPOGRAPHY SHOWCASE
+       ============================================ */
+    .type-showcase {
+      display: flex;
+      flex-direction: column;
+      gap: 2.5rem;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .type-specimen {
+      background: rgba(255, 255, 255, 0.3);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 16px;
+      padding: 2.2rem 2.5rem;
+      text-align: left;
+    }
+
+    .type-specimen__meta {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.6rem;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--mall-chrome);
+      margin-bottom: 0.6rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .type-specimen__meta-role {
+      color: var(--mall-pink);
+    }
+
+    .type-specimen--display .type-specimen__sample {
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--mall-pink);
+      text-shadow:
+        0 0 10px var(--mall-glow-pink),
+        0 0 40px var(--mall-glow-pink);
+      line-height: 1.15;
+    }
+
+    .type-specimen--heading .type-specimen__sample {
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      color: var(--mall-text);
+      line-height: 1.3;
+    }
+
+    .type-specimen--body .type-specimen__sample {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 1rem;
+      font-weight: 400;
+      letter-spacing: 0.01em;
+      color: var(--mall-text-light);
+      line-height: 1.8;
+    }
+
+    .type-specimen--directory .type-specimen__sample {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--mall-chrome);
+    }
+
+    .type-specimen--friendly .type-specimen__sample {
+      font-family: 'Comfortaa', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+      color: var(--mall-teal-deep);
+    }
+
+    .type-specimen--script .type-specimen__sample {
+      font-family: 'Lobster Two', cursive;
+      font-size: 1.6rem;
+      font-weight: 400;
+      font-style: italic;
+      color: var(--mall-lavender);
+    }
+
+    .type-specimen--bungee .type-specimen__sample {
+      font-family: 'Bungee Shade', cursive;
+      font-size: clamp(1.4rem, 3.5vw, 2.2rem);
+      color: var(--mall-pink);
+      letter-spacing: 0.04em;
+    }
+
+    /* ============================================
+       MOTIFS SECTION
+       ============================================ */
+    .motifs-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.2rem;
+      max-width: 900px;
+      margin: 2rem auto 0;
+    }
+
+    .motif-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.9rem;
+      padding: 1.2rem 1.4rem;
+      background: rgba(255, 255, 255, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      border-radius: 12px;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      transition: background 0.3s ease;
+    }
+
+    .motif-item:hover {
+      background: rgba(255, 255, 255, 0.35);
+    }
+
+    .motif-item__icon {
+      flex-shrink: 0;
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      background: var(--mall-pink-blush);
+    }
+
+    .motif-item__text {
+      font-size: 0.88rem;
+      color: var(--mall-text);
+      line-height: 1.5;
+      max-width: none;
+    }
+
+    .motif-item__text strong {
+      color: var(--mall-text);
+      font-weight: 600;
+    }
+
+    /* ============================================
+       VARIANT CARDS
+       ============================================ */
+    .variants-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 1.8rem;
+      margin-top: 2.5rem;
+    }
+
+    .variant-card {
+      border-radius: 16px;
+      padding: 2rem 1.8rem;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.35s ease;
+    }
+
+    .variant-card:hover {
+      transform: translateY(-3px);
+    }
+
+    .variant-card--golden {
+      background: linear-gradient(160deg, #fff8e1, #fde4ec);
+      border: 1px solid rgba(255, 213, 79, 0.2);
+      box-shadow: 0 4px 20px rgba(255, 213, 79, 0.1);
+    }
+
+    .variant-card--dead {
+      background: linear-gradient(160deg, #1a1a2e, #16213e);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+    }
+
+    .variant-card--dead .variant-card__title,
+    .variant-card--dead .variant-card__text {
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    .variant-card--dead .variant-card__title {
+      color: var(--mall-pink);
+      text-shadow: 0 0 12px var(--mall-glow-pink);
+      animation: neon-flicker 4s infinite;
+    }
+
+    .variant-card--food {
+      background: linear-gradient(160deg, #fff8e1, #ffecb3);
+      border: 1px solid rgba(255, 193, 7, 0.15);
+      box-shadow: 0 4px 20px rgba(255, 152, 0, 0.08);
+    }
+
+    .variant-card--mallwave {
+      background: linear-gradient(160deg, #f3e5f5, #e1bee7);
+      border: 1px solid rgba(206, 147, 216, 0.2);
+      box-shadow: 0 4px 20px rgba(186, 104, 200, 0.08);
+    }
+
+    .variant-card__title {
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--mall-text);
+      margin-bottom: 0.7rem;
+    }
+
+    .variant-card__text {
+      font-size: 0.88rem;
+      line-height: 1.7;
+      color: var(--mall-text-light);
+      max-width: none;
+    }
+
+    @keyframes neon-flicker {
+      0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+        text-shadow:
+          0 0 7px var(--mall-glow-pink),
+          0 0 20px var(--mall-glow-pink),
+          0 0 42px var(--mall-glow-pink-strong);
+        opacity: 1;
+      }
+      20%, 24%, 55% {
+        text-shadow: none;
+        opacity: 0.6;
+      }
+    }
+
+    /* ============================================
+       RELATED AESTHETICS TABLE
+       ============================================ */
+    .related-table-wrap {
+      max-width: 800px;
+      margin: 2.5rem auto 0;
+      overflow-x: auto;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.25);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .related-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+    }
+
+    .related-table thead th {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--mall-text-light);
+      padding: 1.2rem 1.5rem;
+      text-align: left;
+      border-bottom: 2px solid var(--mall-pink-soft);
+    }
+
+    .related-table tbody td {
+      padding: 1rem 1.5rem;
+      vertical-align: top;
+      border-bottom: 1px solid rgba(224, 220, 216, 0.4);
+    }
+
+    .related-table tbody tr:last-child td {
+      border-bottom: none;
+    }
+
+    .related-table tbody tr:hover {
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    .related-table .aesthetic-name {
+      font-family: 'Josefin Sans', sans-serif;
+      font-weight: 600;
+      color: var(--mall-text);
+      white-space: nowrap;
+    }
+
+    .related-table .aesthetic-desc {
+      color: var(--mall-text-light);
+      line-height: 1.6;
+    }
+
+    /* ============================================
+       NEON BORDER BOX
+       ============================================ */
+    .neon-box {
+      border: 2px solid var(--mall-pink);
+      border-radius: 16px;
+      padding: 2.5rem;
+      box-shadow:
+        0 0 8px var(--mall-glow-pink),
+        0 0 24px var(--mall-glow-pink),
+        inset 0 0 8px var(--mall-glow-pink);
+      max-width: 700px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .neon-box--teal {
+      border-color: var(--mall-teal);
+      box-shadow:
+        0 0 8px var(--mall-glow-teal),
+        0 0 24px var(--mall-glow-teal),
+        inset 0 0 8px var(--mall-glow-teal);
+    }
+
+    .neon-box__title {
+      font-family: 'Righteous', sans-serif;
+      font-size: clamp(1.3rem, 3vw, 1.8rem);
+      color: var(--mall-pink);
+      text-shadow:
+        0 0 7px var(--mall-glow-pink),
+        0 0 20px var(--mall-glow-pink);
+      margin-bottom: 1rem;
+    }
+
+    .neon-box--teal .neon-box__title {
+      color: var(--mall-teal);
+      text-shadow:
+        0 0 7px var(--mall-glow-teal),
+        0 0 20px var(--mall-glow-teal);
+    }
+
+    .neon-box__text {
+      font-size: 0.95rem;
+      color: var(--mall-text-light);
+      line-height: 1.75;
+      max-width: none;
+    }
+
+    /* ============================================
+       PRINCIPLES LIST
+       ============================================ */
+    .principles-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.8rem;
+      max-width: 900px;
+      margin: 2.5rem auto 0;
+    }
+
+    .principle-item {
+      text-align: left;
+      padding: 1.8rem;
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 14px;
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+    }
+
+    .principle-item__title {
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--mall-text);
+      margin-bottom: 0.5rem;
+    }
+
+    .principle-item__text {
+      font-size: 0.88rem;
+      color: var(--mall-text-light);
+      line-height: 1.7;
+      max-width: none;
+    }
+
+    /* ============================================
+       BRANDS MARQUEE
+       ============================================ */
+    .brands-strip {
+      overflow: hidden;
+      padding: 2rem 0;
+      position: relative;
+    }
+
+    .brands-strip::before,
+    .brands-strip::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 80px;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .brands-strip::before {
+      left: 0;
+      background: linear-gradient(90deg, #f5f0eb, transparent);
+    }
+
+    .brands-strip::after {
+      right: 0;
+      background: linear-gradient(-90deg, #f5f0eb, transparent);
+    }
+
+    .brands-track {
+      display: flex;
+      gap: 3rem;
+      animation: marquee 30s linear infinite;
+      width: max-content;
+    }
+
+    .brands-track:hover {
+      animation-play-state: paused;
+    }
+
+    .brand-tag {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--mall-text-light);
+      white-space: nowrap;
+      padding: 0.5rem 1.2rem;
+      border: 1px solid var(--mall-gray);
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.4);
+      transition: all 0.3s ease;
+      cursor: default;
+    }
+
+    .brand-tag:hover {
+      border-color: var(--mall-pink-soft);
+      color: var(--mall-pink);
+      background: rgba(255, 255, 255, 0.7);
+    }
+
+    @keyframes marquee {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ============================================
+       MATERIALS TABLE
+       ============================================ */
+    .materials-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.2rem;
+      margin-top: 2rem;
+    }
+
+    .material-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem 1.3rem;
+      background: rgba(255, 255, 255, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      border-radius: 12px;
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+    }
+
+    .material-item__arrow {
+      color: var(--mall-pink);
+      font-size: 1.2rem;
+      flex-shrink: 0;
+    }
+
+    .material-item__physical {
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      color: var(--mall-text);
+      min-width: 90px;
+    }
+
+    .material-item__web {
+      font-size: 0.82rem;
+      color: var(--mall-text-light);
+      line-height: 1.5;
+    }
+
+    /* ============================================
+       FOOTER
+       ============================================ */
+    .mall-footer {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 4rem 2rem 3rem;
+      background: linear-gradient(180deg, transparent 0%, rgba(26, 26, 46, 0.03) 100%);
+    }
+
+    .mall-footer__neon {
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: clamp(1.6rem, 4vw, 2.5rem);
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--mall-pink);
+      text-shadow:
+        0 0 10px var(--mall-glow-pink),
+        0 0 40px var(--mall-glow-pink),
+        0 0 80px var(--mall-glow-pink-strong);
+      margin-bottom: 1rem;
+    }
+
+    .mall-footer__text {
+      font-family: 'Comfortaa', sans-serif;
+      font-size: 0.9rem;
+      color: var(--mall-text-light);
+      max-width: 500px;
+      margin: 0 auto;
+      line-height: 1.7;
+    }
+
+    .mall-footer__chrome-line {
+      width: 60px;
+      height: 2px;
+      background: linear-gradient(90deg, var(--mall-chrome), var(--mall-gray-cool), var(--mall-chrome));
+      margin: 2rem auto 1.5rem;
+      border-radius: 1px;
+    }
+
+    .mall-footer__byline {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.58rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--mall-chrome);
+    }
+
+    /* ============================================
+       MALL BUTTON
+       ============================================ */
+    .mall-btn {
+      display: inline-block;
+      padding: 0.75rem 2rem;
+      border-radius: 8px;
+      border: 2px solid var(--mall-pink);
+      background: transparent;
+      color: var(--mall-pink);
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .mall-btn:hover {
+      background: var(--mall-pink);
+      color: var(--mall-white);
+      box-shadow:
+        0 0 12px var(--mall-glow-pink),
+        0 0 30px var(--mall-glow-pink);
+    }
+
+    .mall-btn--teal {
+      border-color: var(--mall-teal);
+      color: var(--mall-teal);
+    }
+
+    .mall-btn--teal:hover {
+      background: var(--mall-teal);
+      color: var(--mall-white);
+      box-shadow:
+        0 0 12px var(--mall-glow-teal),
+        0 0 30px var(--mall-glow-teal);
+    }
+
+    /* ============================================
+       SCROLL REVEAL ANIMATIONS
+       ============================================ */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+
+    /* ============================================
+       ESCALATOR DIVIDER
+       ============================================ */
+    .escalator-divider {
+      width: 100%;
+      max-width: 300px;
+      height: 12px;
+      margin: 3rem auto;
+      background: repeating-linear-gradient(
+        -45deg,
+        var(--mall-gray-cool) 0px,
+        var(--mall-gray-cool) 2px,
+        transparent 2px,
+        transparent 8px
+      );
+      border-radius: 6px;
+      opacity: 0.35;
+    }
+
+    /* ============================================
+       RESPONSIVE
+       ============================================ */
+    @media (max-width: 768px) {
+      .mall-nav {
+        gap: 1.2rem;
+        padding: 0.8rem 1rem;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .mall-nav__brand {
+        position: static;
+        width: 100%;
+        text-align: center;
+        font-size: 0.95rem;
+      }
+
+      .mall-nav__link {
+        font-size: 0.62rem;
+        letter-spacing: 0.1em;
+      }
+
+      .hero {
+        padding: 8rem 1.5rem 4rem;
+        min-height: 85vh;
+      }
+
+      .section {
+        padding: 3rem 1.2rem 4rem;
+      }
+
+      .intro-panel {
+        padding: 2rem 1.5rem;
+      }
+
+      .storefront-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .palette-swatch {
+        width: 70px;
+        height: 90px;
+      }
+
+      .type-specimen {
+        padding: 1.5rem;
+      }
+
+      .variants-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .motifs-list {
+        grid-template-columns: 1fr;
+      }
+
+      .principles-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .materials-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .memphis-deco {
+        display: none;
+      }
+
+      .hero__fountain {
+        width: 180px;
+        height: 180px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero__title {
+        letter-spacing: 0.06em;
+      }
+
+      .palette-row {
+        gap: 0.6rem;
+      }
+
+      .palette-swatch {
+        width: 56px;
+        height: 76px;
+      }
+
+      .palette-swatch__label {
+        font-size: 0.42rem;
+      }
+
+      .palette-swatch__hex {
+        font-size: 0.4rem;
+      }
+
+      .related-table-wrap {
+        border-radius: 12px;
+      }
+
+      .related-table thead th,
+      .related-table tbody td {
+        padding: 0.8rem 1rem;
+      }
+    }
+
+    /* ============================================
+       PALM PLANTER DECORATION
+       ============================================ */
+    .palm-planter {
+      position: relative;
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: linear-gradient(145deg, var(--mall-mint), var(--mall-teal-deep));
+      opacity: 0.2;
+      display: inline-block;
+      margin: 0 0.5rem;
+    }
+
+    /* ============================================
+       PRINT STYLES
+       ============================================ */
+    @media print {
+      .flicker-overlay,
+      .memphis-deco,
+      body::after,
+      .mall-nav {
+        display: none !important;
+      }
+
+      body {
+        background: white;
+        color: #333;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Fluorescent flicker overlay -->
+  <div class="flicker-overlay"></div>
+
+  <!-- Memphis Design geometric decorations -->
+  <div class="memphis-deco memphis-triangle memphis-triangle--1"></div>
+  <div class="memphis-deco memphis-triangle memphis-triangle--2"></div>
+  <div class="memphis-deco memphis-triangle memphis-triangle--3"></div>
+  <div class="memphis-deco memphis-circle memphis-circle--1"></div>
+  <div class="memphis-deco memphis-circle memphis-circle--2"></div>
+  <div class="memphis-deco memphis-circle memphis-circle--3"></div>
+  <div class="memphis-deco memphis-squiggle memphis-squiggle--1"></div>
+  <div class="memphis-deco memphis-squiggle memphis-squiggle--2"></div>
+  <div class="memphis-deco memphis-zigzag memphis-zigzag--1"></div>
+  <div class="memphis-deco memphis-zigzag memphis-zigzag--2"></div>
+  <div class="memphis-deco memphis-dot memphis-dot--1"></div>
+  <div class="memphis-deco memphis-dot memphis-dot--2"></div>
+  <div class="memphis-deco memphis-dot memphis-dot--3"></div>
+  <div class="memphis-deco memphis-dot memphis-dot--4"></div>
+
+  <!-- ========================================
+       NAVIGATION
+       ======================================== -->
+  <nav class="mall-nav" id="mallNav">
+    <span class="mall-nav__brand">MALLSOFT</span>
+    <a href="#overview" class="mall-nav__link">Overview</a>
+    <a href="#motifs" class="mall-nav__link">Motifs</a>
+    <a href="#palette" class="mall-nav__link">Palette</a>
+    <a href="#typography" class="mall-nav__link">Type</a>
+    <a href="#principles" class="mall-nav__link">Principles</a>
+    <a href="#variants" class="mall-nav__link">Variants</a>
+    <a href="#materials" class="mall-nav__link">Materials</a>
+    <a href="#related" class="mall-nav__link">Related</a>
+  </nav>
+
+  <!-- ========================================
+       HERO -- GRAND ENTRANCE
+       ======================================== -->
+  <header class="hero">
+    <div class="hero__fountain"></div>
+    <p class="hero__kicker">A Vaporwave Subgenre &middot; Design Aesthetic Reference</p>
+    <h1 class="hero__title">Mallsoft</h1>
+    <p class="hero__subtitle">
+      The atmosphere, architecture, and sensory experience of late 20th-century shopping malls -- captured in pixels, light, and reverb.
+    </p>
+    <hr class="hero__neon-divider">
+    <div class="hero__scroll-hint">Explore the atrium</div>
+  </header>
+
+  <!-- ========================================
+       OVERVIEW
+       ======================================== -->
+  <div class="section" id="overview">
+    <div class="section__header reveal">
+      <p class="section__kicker">Level 1 &middot; Directory</p>
+      <h2 class="section__title">Welcome to the Mall</h2>
+      <hr class="section__divider">
+    </div>
+
+    <div class="intro-panel reveal">
+      <p>
+        Mallsoft is a design aesthetic rooted in the <span class="accent-text">atmosphere, architecture, and sensory experience of late 20th-century shopping malls</span> -- particularly the American indoor mega-mall of the 1980s and 1990s. It captures two emotional poles simultaneously: the <strong>golden-era mall</strong>, bustling with shoppers under bright fluorescent lights, and the <strong>dead mall</strong>, a hauntingly vacant space of flickering lights, shuttered storefronts, and physical decay.
+      </p>
+      <p>
+        The aesthetic is a subgenre of <span class="accent-text--teal">Vaporwave</span>, inheriting its nostalgic, anti-capitalist, and liminal qualities but focusing them entirely on the <strong>commercial architecture of consumerism</strong> -- massive glass atriums, multi-level walkways, indoor fountains, potted palms, food courts, and neon signage. Visually, Mallsoft oscillates between warm pastel comfort and eerie, reverb-soaked emptiness, evoking the feeling of wandering an enclosed commercial world that exists outside of natural time.
+      </p>
+    </div>
+  </div>
+
+  <div class="escalator-divider"></div>
+
+  <!-- ========================================
+       CORE MOTIFS
+       ======================================== -->
+  <div class="section" id="motifs">
+    <div class="section__header reveal">
+      <p class="section__kicker">Visual Language</p>
+      <h2 class="section__title section__title--neon-pink">Core Motifs</h2>
+      <hr class="section__divider">
+    </div>
+
+    <div class="motifs-list">
+      <div class="motif-item reveal reveal-delay-1">
+        <div class="motif-item__icon">&#9651;</div>
+        <p class="motif-item__text"><strong>Glass Atriums</strong> -- soaring ceilings with skylights, exposed structural steel, and cascading natural light filtered through tinted glass</p>
+      </div>
+      <div class="motif-item reveal reveal-delay-1">
+        <div class="motif-item__icon">&#8645;</div>
+        <p class="motif-item__text"><strong>Multi-Level Walkways</strong> -- tiered open-plan architecture with railings, balconies, and visible circulation paths</p>
+      </div>
+      <div class="motif-item reveal reveal-delay-2">
+        <div class="motif-item__icon">&#9675;</div>
+        <p class="motif-item__text"><strong>Indoor Fountains</strong> -- decorative pools, cascading waterfalls, coin-filled basins as central gathering points</p>
+      </div>
+      <div class="motif-item reveal reveal-delay-2">
+        <div class="motif-item__icon">&#9752;</div>
+        <p class="motif-item__text"><strong>Tropical Plants</strong> -- large palms, ficus trees, and ferns in oversized planters lining corridors</p>
+      </div>
+      <div class="motif-item reveal reveal-delay-3">
+        <div class="motif-item__icon">&#10038;</div>
+        <p class="motif-item__text"><strong>Neon Signage</strong> -- glowing tube neon in pink, teal, and purple; backlit acrylic signs; fluorescent tube lighting</p>
+      </div>
+      <div class="motif-item reveal reveal-delay-3">
+        <div class="motif-item__icon">&#9670;</div>
+        <p class="motif-item__text"><strong>Memphis Design</strong> -- bold geometric shapes, zigzag lines, squiggly patterns, terrazzo-inspired textures, playful postmodern ornamentation</p>
+      </div>
+      <div class="motif-item reveal reveal-delay-4">
+        <div class="motif-item__icon">&#9632;</div>
+        <p class="motif-item__text"><strong>Terrazzo Flooring</strong> -- speckled composite surfaces in muted pinks, grays, and creams with irregular chip patterns</p>
+      </div>
+      <div class="motif-item reveal reveal-delay-4">
+        <div class="motif-item__icon">&#9724;</div>
+        <p class="motif-item__text"><strong>Food Court Imagery</strong> -- orange plastic seating, menu boards with backlit transparencies, branded fast-food typography</p>
+      </div>
+      <div class="motif-item reveal reveal-delay-4">
+        <div class="motif-item__icon">&#9711;</div>
+        <p class="motif-item__text"><strong>Reflective Surfaces</strong> -- polished marble, mirrored columns, chrome railings, and glass storefronts creating layered visual depth</p>
+      </div>
+      <div class="motif-item reveal reveal-delay-4">
+        <div class="motif-item__icon">&#9618;</div>
+        <p class="motif-item__text"><strong>VHS Filters</strong> -- grain, washed-out color, soft focus, and chromatic aberration to evoke reconstructed or half-remembered spaces</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================
+       COLOR PALETTE
+       ======================================== -->
+  <div class="terrazzo-section" id="palette">
+    <div class="section">
+      <div class="section__header reveal">
+        <p class="section__kicker">The Neon Spectrum</p>
+        <h2 class="section__title section__title--neon-teal">Color Palette</h2>
+        <p class="section__description">
+          Pink-teal-purple triad in constant interplay. Neon against neutral. Pastel fields with neon punctuation. Warm off-white base, never pure white.
+        </p>
+        <hr class="section__divider">
+      </div>
+
+      <!-- Neon Pinks -->
+      <div class="palette-group reveal">
+        <p class="palette-group__label">Neon Pinks</p>
+        <div class="palette-row">
+          <div class="palette-swatch" style="background: #ff6b9d;">
+            <span class="palette-swatch__label">Neon Pink</span>
+            <span class="palette-swatch__hex">#FF6B9D</span>
+          </div>
+          <div class="palette-swatch" style="background: #ff3f8e;">
+            <span class="palette-swatch__label">Hot Pink</span>
+            <span class="palette-swatch__hex">#FF3F8E</span>
+          </div>
+          <div class="palette-swatch" style="background: #e91e8c;">
+            <span class="palette-swatch__label">Magenta</span>
+            <span class="palette-swatch__hex">#E91E8C</span>
+          </div>
+          <div class="palette-swatch" style="background: #f8bbd0;">
+            <span class="palette-swatch__label palette-swatch__label--dark">Soft Pink</span>
+            <span class="palette-swatch__hex palette-swatch__hex--dark">#F8BBD0</span>
+          </div>
+          <div class="palette-swatch" style="background: #fde4ec;">
+            <span class="palette-swatch__label palette-swatch__label--dark">Blush</span>
+            <span class="palette-swatch__hex palette-swatch__hex--dark">#FDE4EC</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Teals & Mints -->
+      <div class="palette-group reveal">
+        <p class="palette-group__label">Teals & Mints</p>
+        <div class="palette-row">
+          <div class="palette-swatch" style="background: #26c6da;">
+            <span class="palette-swatch__label">Mall Teal</span>
+            <span class="palette-swatch__hex">#26C6DA</span>
+          </div>
+          <div class="palette-swatch" style="background: #00bcd4;">
+            <span class="palette-swatch__label">Cyan</span>
+            <span class="palette-swatch__hex">#00BCD4</span>
+          </div>
+          <div class="palette-swatch" style="background: #00897b;">
+            <span class="palette-swatch__label">Deep Teal</span>
+            <span class="palette-swatch__hex">#00897B</span>
+          </div>
+          <div class="palette-swatch" style="background: #80cbc4;">
+            <span class="palette-swatch__label palette-swatch__label--dark">Mint</span>
+            <span class="palette-swatch__hex palette-swatch__hex--dark">#80CBC4</span>
+          </div>
+          <div class="palette-swatch" style="background: #a7ffeb;">
+            <span class="palette-swatch__label palette-swatch__label--dark">Bright Mint</span>
+            <span class="palette-swatch__hex palette-swatch__hex--dark">#A7FFEB</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Purples -->
+      <div class="palette-group reveal">
+        <p class="palette-group__label">Purples</p>
+        <div class="palette-row">
+          <div class="palette-swatch" style="background: #7b1fa2;">
+            <span class="palette-swatch__label">Deep Purple</span>
+            <span class="palette-swatch__hex">#7B1FA2</span>
+          </div>
+          <div class="palette-swatch" style="background: #ba68c8;">
+            <span class="palette-swatch__label">Purple</span>
+            <span class="palette-swatch__hex">#BA68C8</span>
+          </div>
+          <div class="palette-swatch" style="background: #ce93d8;">
+            <span class="palette-swatch__label">Lavender</span>
+            <span class="palette-swatch__hex">#CE93D8</span>
+          </div>
+          <div class="palette-swatch" style="background: #e1bee7;">
+            <span class="palette-swatch__label palette-swatch__label--dark">Soft Purple</span>
+            <span class="palette-swatch__hex palette-swatch__hex--dark">#E1BEE7</span>
+          </div>
+          <div class="palette-swatch" style="background: #f3e5f5;">
+            <span class="palette-swatch__label palette-swatch__label--dark">Pale Purple</span>
+            <span class="palette-swatch__hex palette-swatch__hex--dark">#F3E5F5</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Neutrals & Metallics -->
+      <div class="palette-group reveal">
+        <p class="palette-group__label">Neutrals & Metallics</p>
+        <div class="palette-row">
+          <div class="palette-swatch" style="background: #faf9f7; border: 1px solid rgba(0,0,0,0.06);">
+            <span class="palette-swatch__label palette-swatch__label--dark">Mall White</span>
+            <span class="palette-swatch__hex palette-swatch__hex--dark">#FAF9F7</span>
+          </div>
+          <div class="palette-swatch" style="background: #fff8e1; border: 1px solid rgba(0,0,0,0.06);">
+            <span class="palette-swatch__label palette-swatch__label--dark">Cream</span>
+            <span class="palette-swatch__hex palette-swatch__hex--dark">#FFF8E1</span>
+          </div>
+          <div class="palette-swatch" style="background: #e0dcd8;">
+            <span class="palette-swatch__label palette-swatch__label--dark">Terrazzo</span>
+            <span class="palette-swatch__hex palette-swatch__hex--dark">#E0DCD8</span>
+          </div>
+          <div class="palette-swatch" style="background: linear-gradient(160deg, #eceff1, #b0bec5, #78909c);">
+            <span class="palette-swatch__label">Chrome</span>
+            <span class="palette-swatch__hex">#B0BEC5</span>
+          </div>
+          <div class="palette-swatch" style="background: #ffd54f;">
+            <span class="palette-swatch__label palette-swatch__label--dark">Gold</span>
+            <span class="palette-swatch__hex palette-swatch__hex--dark">#FFD54F</span>
+          </div>
+          <div class="palette-swatch" style="background: #1a1a2e;">
+            <span class="palette-swatch__label">VHS Black</span>
+            <span class="palette-swatch__hex">#1A1A2E</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="escalator-divider"></div>
+
+  <!-- ========================================
+       TYPOGRAPHY
+       ======================================== -->
+  <div class="section" id="typography">
+    <div class="section__header reveal">
+      <p class="section__kicker">Signage & Lettering</p>
+      <h2 class="section__title section__title--neon-purple">Typography</h2>
+      <p class="section__description">
+        1980s-90s commercial signage, department store branding, and Memphis Design influence. Geometric sans-serifs, wide display faces, and neon sign quality.
+      </p>
+      <hr class="section__divider">
+    </div>
+
+    <div class="type-showcase">
+      <div class="type-specimen type-specimen--display reveal">
+        <div class="type-specimen__meta">
+          <span>Josefin Sans 700</span>
+          <span class="type-specimen__meta-role">Neon Display</span>
+        </div>
+        <div class="type-specimen__sample">
+          Now Entering the Atrium
+        </div>
+      </div>
+
+      <div class="type-specimen type-specimen--bungee reveal">
+        <div class="type-specimen__meta">
+          <span>Bungee Shade</span>
+          <span class="type-specimen__meta-role">Memphis Special</span>
+        </div>
+        <div class="type-specimen__sample">
+          Grand Opening
+        </div>
+      </div>
+
+      <div class="type-specimen type-specimen--heading reveal">
+        <div class="type-specimen__meta">
+          <span>Josefin Sans 700</span>
+          <span class="type-specimen__meta-role">Headings</span>
+        </div>
+        <div class="type-specimen__sample">
+          Glass Atriums & Neon Signs
+        </div>
+      </div>
+
+      <div class="type-specimen type-specimen--body reveal">
+        <div class="type-specimen__meta">
+          <span>DM Sans 400</span>
+          <span class="type-specimen__meta-role">Body Text</span>
+        </div>
+        <div class="type-specimen__sample">
+          The escalator hums softly as you ascend past shuttered storefronts and potted ferns. Somewhere above, a skylight filters the afternoon sun through tinted glass, casting the corridor in a warm amber glow. The fountain in the central atrium sends faint echoes through the empty walkways.
+        </div>
+      </div>
+
+      <div class="type-specimen type-specimen--directory reveal">
+        <div class="type-specimen__meta">
+          <span>Montserrat 600</span>
+          <span class="type-specimen__meta-role">Directory / Wayfinding</span>
+        </div>
+        <div class="type-specimen__sample">
+          Level 2 &nbsp;&middot;&nbsp; Food Court &nbsp;&middot;&nbsp; Restrooms &nbsp;&middot;&nbsp; Cinema &nbsp;&middot;&nbsp; Parking &nbsp;&middot;&nbsp; Directory
+        </div>
+      </div>
+
+      <div class="type-specimen type-specimen--friendly reveal">
+        <div class="type-specimen__meta">
+          <span>Comfortaa 500</span>
+          <span class="type-specimen__meta-role">Promotions & Callouts</span>
+        </div>
+        <div class="type-specimen__sample">
+          Enjoy your stay. The mall never closes.
+        </div>
+      </div>
+
+      <div class="type-specimen type-specimen--script reveal">
+        <div class="type-specimen__meta">
+          <span>Lobster Two Italic</span>
+          <span class="type-specimen__meta-role">Boutique / Decorative</span>
+        </div>
+        <div class="type-specimen__sample">
+          Le Petit Jardin &middot; Cinnamon Swirl Cafe &middot; Crystal Boutique
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="escalator-divider"></div>
+
+  <!-- ========================================
+       DESIGN PRINCIPLES
+       ======================================== -->
+  <div class="section" id="principles">
+    <div class="section__header reveal">
+      <p class="section__kicker">Architectural Philosophy</p>
+      <h2 class="section__title">Design Principles</h2>
+      <hr class="section__divider">
+    </div>
+
+    <div class="principles-grid">
+      <div class="principle-item reveal reveal-delay-1">
+        <h3 class="principle-item__title">Nostalgia as Primary Emotion</h3>
+        <p class="principle-item__text">Every element should trigger a half-remembered sensory memory of being in a mall as a child.</p>
+      </div>
+      <div class="principle-item reveal reveal-delay-1">
+        <h3 class="principle-item__title">Liminality & Transit</h3>
+        <p class="principle-item__text">The spaces depicted are not destinations but passages -- corridors, escalators, walkways between stores.</p>
+      </div>
+      <div class="principle-item reveal reveal-delay-2">
+        <h3 class="principle-item__title">Comfort Alongside Unease</h3>
+        <p class="principle-item__text">Warmth and familiarity coexist with a subtle sense of emptiness and abandonment.</p>
+      </div>
+      <div class="principle-item reveal reveal-delay-2">
+        <h3 class="principle-item__title">Enclosed Artificiality</h3>
+        <p class="principle-item__text">No natural sky, no outside. The mall is a self-contained universe with its own climate and lighting.</p>
+      </div>
+      <div class="principle-item reveal reveal-delay-3">
+        <h3 class="principle-item__title">Hyper-Consumerism Made Ambient</h3>
+        <p class="principle-item__text">Brand logos, store signage, and product displays exist as environmental texture rather than active selling.</p>
+      </div>
+      <div class="principle-item reveal reveal-delay-3">
+        <h3 class="principle-item__title">Cavernous Spatial Acoustics</h3>
+        <p class="principle-item__text">Visual design should suggest reverberant, echo-filled spaces -- large open volumes with distant walls.</p>
+      </div>
+      <div class="principle-item reveal reveal-delay-4">
+        <h3 class="principle-item__title">Temporal Displacement</h3>
+        <p class="principle-item__text">The era is deliberately vague, somewhere in 1985-2002, with no specific anchoring.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================
+       LAYOUT SHOWCASE
+       ======================================== -->
+  <div class="section">
+    <div class="section__header reveal">
+      <p class="section__kicker">Spatial Composition</p>
+      <h2 class="section__title section__title--neon-teal">Layout Principles</h2>
+      <hr class="section__divider">
+    </div>
+
+    <div class="storefront-grid">
+      <div class="storefront reveal reveal-delay-1">
+        <span class="storefront__icon">&#9645;</span>
+        <h3 class="storefront__title">Wide Open Compositions</h3>
+        <p class="storefront__text">Layouts should feel spacious and airy, like a mall atrium. Generous whitespace represents the cavernous interior. Centered content corridors flow down a central axis.</p>
+      </div>
+      <div class="storefront storefront--teal reveal reveal-delay-2">
+        <span class="storefront__icon">&#9638;</span>
+        <h3 class="storefront__title">Multi-Level Hierarchy</h3>
+        <p class="storefront__text">Use layered elements -- cards overlapping, elements at different z-depths -- to evoke the tiered, multi-story architecture of the mall.</p>
+      </div>
+      <div class="storefront storefront--purple reveal reveal-delay-3">
+        <span class="storefront__icon">&#9670;</span>
+        <h3 class="storefront__title">Memphis-Influenced Asymmetry</h3>
+        <p class="storefront__text">Occasional off-center elements, diagonal lines, and unexpected placements inspired by Memphis Design break the grid with playful postmodern energy.</p>
+      </div>
+      <div class="storefront storefront--gold reveal reveal-delay-1">
+        <span class="storefront__icon">&#9713;</span>
+        <h3 class="storefront__title">Storefront Card Grid</h3>
+        <p class="storefront__text">2-3 column grids of cards referencing storefront windows lining a corridor. Each card is a "storefront" with its own identity and neon accent strip.</p>
+      </div>
+      <div class="storefront reveal reveal-delay-2">
+        <span class="storefront__icon">&#9680;</span>
+        <h3 class="storefront__title">Frosted Glass Panels</h3>
+        <p class="storefront__text">Semi-transparent backgrounds with backdrop blur for content grouping -- referencing skylight-filtered light through glass railings.</p>
+      </div>
+      <div class="storefront storefront--teal reveal reveal-delay-3">
+        <span class="storefront__icon">&#9711;</span>
+        <h3 class="storefront__title">Generous Spatial Rhythm</h3>
+        <p class="storefront__text">3-5rem between sections. Soft rounded corners (12-20px). Visible negative space as the open atrium floor. The mall has vast corridors, not cramped aisles.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="escalator-divider"></div>
+
+  <!-- ========================================
+       VARIANTS
+       ======================================== -->
+  <div class="section" id="variants">
+    <div class="section__header reveal">
+      <p class="section__kicker">Four Expressions</p>
+      <h2 class="section__title section__title--neon-pink">Subgenres</h2>
+      <p class="section__description">
+        Mallsoft manifests in distinct moods, from the warm optimism of the golden era to the liminal eeriness of abandonment.
+      </p>
+      <hr class="section__divider">
+    </div>
+
+    <div class="variants-grid">
+      <div class="variant-card variant-card--golden reveal reveal-delay-1">
+        <h3 class="variant-card__title">Golden-Era Mall</h3>
+        <p class="variant-card__text">Bright, bustling, warm. Neon signage glowing, fountains running, shoppers present. Optimistic and nostalgic -- the mall at its zenith.</p>
+      </div>
+      <div class="variant-card variant-card--dead reveal reveal-delay-2">
+        <h3 class="variant-card__title">Dead Mall</h3>
+        <p class="variant-card__text">Dark, vacant, decaying. Flickering fluorescents, empty corridors, water-stained ceilings. Liminal and eerie -- the mall after hours, after years.</p>
+      </div>
+      <div class="variant-card variant-card--food reveal reveal-delay-3">
+        <h3 class="variant-card__title">Food Court</h3>
+        <p class="variant-card__text">Focused on the communal eating area. Orange and red warm tones, backlit menus, plastic seating, branded typography. The heart of the mall.</p>
+      </div>
+      <div class="variant-card variant-card--mallwave reveal reveal-delay-4">
+        <h3 class="variant-card__title">Mallwave</h3>
+        <p class="variant-card__text">The musical subgenre made visual. VHS-filtered mall footage, washed-out pastel palettes, lo-fi grain. Sound and image blur together.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================
+       NEON HIGHLIGHT BOX
+       ======================================== -->
+  <div class="section">
+    <div class="neon-box reveal">
+      <h3 class="neon-box__title">The Mall Never Closes</h3>
+      <p class="neon-box__text">
+        Somewhere between 1985 and 2002, there exists a mall that is always open. The fountains run perpetually. The neon signs hum in three colors. The escalators carry no one, ascending forever into a skylight that filters light from no particular sun. You have been here before. You will be here again.
+      </p>
+    </div>
+  </div>
+
+  <div class="escalator-divider"></div>
+
+  <!-- ========================================
+       MATERIALS & TEXTURES
+       ======================================== -->
+  <div class="section" id="materials">
+    <div class="section__header reveal">
+      <p class="section__kicker">Physical to Digital</p>
+      <h2 class="section__title section__title--neon-teal">Materials & Textures</h2>
+      <p class="section__description">
+        How real-world mall surfaces translate into web design techniques.
+      </p>
+      <hr class="section__divider">
+    </div>
+
+    <div class="materials-grid">
+      <div class="material-item reveal">
+        <span class="material-item__physical">Terrazzo Floor</span>
+        <span class="material-item__arrow">&rarr;</span>
+        <span class="material-item__web">Speckled radial-gradient in muted pinks, grays, mints on cream</span>
+      </div>
+      <div class="material-item reveal">
+        <span class="material-item__physical">Neon Tubes</span>
+        <span class="material-item__arrow">&rarr;</span>
+        <span class="material-item__web">Multi-layered text-shadow glows with animated flicker</span>
+      </div>
+      <div class="material-item reveal">
+        <span class="material-item__physical">Frosted Glass</span>
+        <span class="material-item__arrow">&rarr;</span>
+        <span class="material-item__web">Semi-transparent background + backdrop-filter: blur()</span>
+      </div>
+      <div class="material-item reveal">
+        <span class="material-item__physical">Chrome Railing</span>
+        <span class="material-item__arrow">&rarr;</span>
+        <span class="material-item__web">Tight linear gradient simulating metallic reflection</span>
+      </div>
+      <div class="material-item reveal">
+        <span class="material-item__physical">Skylight</span>
+        <span class="material-item__arrow">&rarr;</span>
+        <span class="material-item__web">Top-down radial-gradient with warm white center</span>
+      </div>
+      <div class="material-item reveal">
+        <span class="material-item__physical">Mall Fountain</span>
+        <span class="material-item__arrow">&rarr;</span>
+        <span class="material-item__web">Concentric teal circles with ripple scale animation</span>
+      </div>
+      <div class="material-item reveal">
+        <span class="material-item__physical">VHS Footage</span>
+        <span class="material-item__arrow">&rarr;</span>
+        <span class="material-item__web">Scan-line overlay via repeating-linear-gradient + saturate filter</span>
+      </div>
+      <div class="material-item reveal">
+        <span class="material-item__physical">Fluorescent Light</span>
+        <span class="material-item__arrow">&rarr;</span>
+        <span class="material-item__web">Bright warm-tint background with flicker animation overlay</span>
+      </div>
+      <div class="material-item reveal">
+        <span class="material-item__physical">Memphis Tile</span>
+        <span class="material-item__arrow">&rarr;</span>
+        <span class="material-item__web">Bold geometric shapes as decorative overlays at low opacity</span>
+      </div>
+      <div class="material-item reveal">
+        <span class="material-item__physical">Escalator</span>
+        <span class="material-item__arrow">&rarr;</span>
+        <span class="material-item__web">Diagonal hatched pattern via repeating-linear-gradient in chrome</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================
+       BRANDS MARQUEE
+       ======================================== -->
+  <div class="terrazzo-section">
+    <div class="section" style="padding-top: 2rem; padding-bottom: 2rem;">
+      <div class="section__header reveal">
+        <p class="section__kicker">Cultural References</p>
+        <h2 class="section__title">Associated Brands & Spaces</h2>
+      </div>
+
+      <div class="brands-strip reveal">
+        <div class="brands-track" id="brandsTrack">
+          <span class="brand-tag">Kmart</span>
+          <span class="brand-tag">Sears</span>
+          <span class="brand-tag">JCPenney</span>
+          <span class="brand-tag">The Gap</span>
+          <span class="brand-tag">Orange Julius</span>
+          <span class="brand-tag">Sbarro</span>
+          <span class="brand-tag">Panda Express</span>
+          <span class="brand-tag">Victor Gruen</span>
+          <span class="brand-tag">Dan Bell's Dead Mall Series</span>
+          <span class="brand-tag">Mall of America</span>
+          <span class="brand-tag">West Edmonton Mall</span>
+          <span class="brand-tag">Southdale Center</span>
+          <span class="brand-tag">Vaporwave Mall Compilations</span>
+          <!-- Duplicate for seamless loop -->
+          <span class="brand-tag">Kmart</span>
+          <span class="brand-tag">Sears</span>
+          <span class="brand-tag">JCPenney</span>
+          <span class="brand-tag">The Gap</span>
+          <span class="brand-tag">Orange Julius</span>
+          <span class="brand-tag">Sbarro</span>
+          <span class="brand-tag">Panda Express</span>
+          <span class="brand-tag">Victor Gruen</span>
+          <span class="brand-tag">Dan Bell's Dead Mall Series</span>
+          <span class="brand-tag">Mall of America</span>
+          <span class="brand-tag">West Edmonton Mall</span>
+          <span class="brand-tag">Southdale Center</span>
+          <span class="brand-tag">Vaporwave Mall Compilations</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="escalator-divider"></div>
+
+  <!-- ========================================
+       RELATED AESTHETICS
+       ======================================== -->
+  <div class="section" id="related">
+    <div class="section__header reveal">
+      <p class="section__kicker">Adjacent Worlds</p>
+      <h2 class="section__title section__title--neon-purple">Related Aesthetics</h2>
+      <p class="section__description">
+        Mallsoft sits within a constellation of overlapping visual and cultural movements.
+      </p>
+      <hr class="section__divider">
+    </div>
+
+    <div class="related-table-wrap reveal">
+      <table class="related-table">
+        <thead>
+          <tr>
+            <th>Aesthetic</th>
+            <th>Relationship</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="aesthetic-name">Vaporwave</td>
+            <td class="aesthetic-desc">Parent aesthetic; Mallsoft focuses Vaporwave's nostalgia and anti-capitalism on commercial retail architecture</td>
+          </tr>
+          <tr>
+            <td class="aesthetic-name">Liminal Space</td>
+            <td class="aesthetic-desc">Shares the fascination with empty, transitional, between-purpose spaces; dead malls are quintessential liminal spaces</td>
+          </tr>
+          <tr>
+            <td class="aesthetic-name">After Hours</td>
+            <td class="aesthetic-desc">Shares the mood of being in a commercial space outside normal operating hours; empty, quiet, uncanny</td>
+          </tr>
+          <tr>
+            <td class="aesthetic-name">Memphis Design</td>
+            <td class="aesthetic-desc">Direct visual influence; the geometric patterns, bold colors, and playful postmodern ornamentation of 80s mall interiors</td>
+          </tr>
+          <tr>
+            <td class="aesthetic-name">Corporate</td>
+            <td class="aesthetic-desc">Shares fascination with commercial environments; Mallsoft adds warmth and nostalgia where Corporate is cold</td>
+          </tr>
+          <tr>
+            <td class="aesthetic-name">Retrowave</td>
+            <td class="aesthetic-desc">Shares 80s nostalgia and neon palette; Retrowave is automotive/nightlife while Mallsoft is retail/daytime</td>
+          </tr>
+          <tr>
+            <td class="aesthetic-name">Y2K Futurism</td>
+            <td class="aesthetic-desc">Shares late-90s commercial optimism; Y2K is more chrome and digital, Mallsoft is more pastel and architectural</td>
+          </tr>
+          <tr>
+            <td class="aesthetic-name">Frasurbane</td>
+            <td class="aesthetic-desc">Shares the late-80s/90s suburban commercial aesthetic and warm interior design sensibility</td>
+          </tr>
+          <tr>
+            <td class="aesthetic-name">Seapunk</td>
+            <td class="aesthetic-desc">Shares aquatic motifs (mall fountains) and teal color emphasis</td>
+          </tr>
+          <tr>
+            <td class="aesthetic-name">Cleancore</td>
+            <td class="aesthetic-desc">Shares the emphasis on maintained, organized commercial interiors (golden-era variant)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ========================================
+       CLOSING NEON BOX
+       ======================================== -->
+  <div class="section">
+    <div class="neon-box neon-box--teal reveal">
+      <h3 class="neon-box__title">Design Reference Complete</h3>
+      <p class="neon-box__text">
+        This page is itself an implementation of the Mallsoft design system -- warm off-white backgrounds, neon pink-teal-purple accents, terrazzo textures, frosted glass panels, Memphis geometric decorations, storefront cards, VHS scan-line overlays, fluorescent flicker effects, and the typography of 1990s retail signage. Every element you see is a technique from the system it describes.
+      </p>
+    </div>
+  </div>
+
+  <!-- ========================================
+       FOOTER
+       ======================================== -->
+  <footer class="mall-footer">
+    <div class="mall-footer__neon reveal">Thank You for Visiting</div>
+    <p class="mall-footer__text reveal">
+      Please visit the directory kiosk on Level 1 for a complete store listing. The food court closes at 9pm. The mall closes never.
+    </p>
+    <div class="mall-footer__chrome-line"></div>
+    <p class="mall-footer__byline">Mallsoft Design System &middot; A Vaporwave Subgenre &middot; Est. 1985-2002</p>
+  </footer>
+
+  <!-- ========================================
+       JAVASCRIPT
+       ======================================== -->
+  <script>
+    // ---- Scroll Reveal ----
+    (function() {
+      var reveals = document.querySelectorAll('.reveal');
+      var observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      }, {
+        threshold: 0.12,
+        rootMargin: '0px 0px -40px 0px'
+      });
+
+      reveals.forEach(function(el) {
+        observer.observe(el);
+      });
+    })();
+
+    // ---- Nav scroll styling ----
+    (function() {
+      var nav = document.getElementById('mallNav');
+      var scrolled = false;
+
+      window.addEventListener('scroll', function() {
+        var isScrolled = window.scrollY > 60;
+        if (isScrolled !== scrolled) {
+          scrolled = isScrolled;
+          if (scrolled) {
+            nav.classList.add('scrolled');
+          } else {
+            nav.classList.remove('scrolled');
+          }
+        }
+      }, { passive: true });
+    })();
+
+    // ---- Smooth scroll for nav links ----
+    (function() {
+      var links = document.querySelectorAll('.mall-nav__link');
+      links.forEach(function(link) {
+        link.addEventListener('click', function(e) {
+          var href = this.getAttribute('href');
+          if (href && href.startsWith('#')) {
+            e.preventDefault();
+            var target = document.querySelector(href);
+            if (target) {
+              var navHeight = document.querySelector('.mall-nav').offsetHeight;
+              var top = target.getBoundingClientRect().top + window.pageYOffset - navHeight - 20;
+              window.scrollTo({ top: top, behavior: 'smooth' });
+            }
+          }
+        });
+      });
+    })();
+
+    // ---- Parallax for Memphis decorations ----
+    (function() {
+      var decos = document.querySelectorAll('.memphis-deco');
+      var ticking = false;
+
+      window.addEventListener('scroll', function() {
+        if (!ticking) {
+          requestAnimationFrame(function() {
+            var scrollY = window.scrollY;
+            decos.forEach(function(deco, i) {
+              var speed = 0.02 + (i % 5) * 0.008;
+              var direction = i % 2 === 0 ? 1 : -1;
+              deco.style.transform = deco.style.transform
+                ? deco.style.transform.replace(/translateY\([^)]*\)/, 'translateY(' + (scrollY * speed * direction) + 'px)')
+                : 'translateY(' + (scrollY * speed * direction) + 'px)';
+            });
+            ticking = false;
+          });
+          ticking = true;
+        }
+      }, { passive: true });
+    })();
+  </script>
+</body>
+</html>
