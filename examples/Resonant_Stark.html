@@ -1,0 +1,1763 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Resonant Stark -- Design Aesthetic</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@100;200;300;400&family=Outfit:wght@100;200;300;400&display=swap" rel="stylesheet">
+  <style>
+    /* ========================================
+       CSS Custom Properties -- Resonant Stark
+       ======================================== */
+    :root {
+      /* Backgrounds */
+      --stark-bg-primary: #FAFAFA;
+      --stark-bg-alt: #F5F5F0;
+      --stark-bg-subtle: #F0EEEB;
+      --stark-bg-surface: #E8E4E0;
+      --stark-bg-muted: #D4D0CC;
+
+      /* Text */
+      --stark-text-primary: #1A1A18;
+      --stark-text-secondary: #6A6864;
+      --stark-text-tertiary: #9A9894;
+      --stark-text-faint: #B8B4B0;
+
+      /* Accent -- Terracotta */
+      --stark-accent: #C4836A;
+      --stark-accent-hover: #B07058;
+      --stark-accent-faded: rgba(196, 131, 106, 0.12);
+      --stark-accent-glow: rgba(196, 131, 106, 0.06);
+
+      /* Alternate accents */
+      --stark-accent-sage: #8BA888;
+      --stark-accent-clay: #A08060;
+
+      /* Borders */
+      --stark-border: #E8E4E0;
+      --stark-border-faint: #F0EEEB;
+      --stark-border-visible: #D0CCC8;
+
+      /* Shadows */
+      --stark-shadow-subtle: rgba(26, 26, 24, 0.04);
+      --stark-shadow-medium: rgba(26, 26, 24, 0.08);
+
+      /* Transitions */
+      --stark-transition-fast: 0.3s ease;
+      --stark-transition-base: 0.5s ease;
+      --stark-transition-slow: 0.8s ease;
+      --stark-transition-glacial: 1.2s ease;
+
+      /* Spacing */
+      --stark-space-xs: 0.5rem;
+      --stark-space-sm: 1rem;
+      --stark-space-md: 2rem;
+      --stark-space-lg: 4rem;
+      --stark-space-xl: 8rem;
+      --stark-space-2xl: 12rem;
+    }
+
+    /* ========================================
+       Reset & Base
+       ======================================== */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--stark-bg-primary);
+      color: var(--stark-text-secondary);
+      font-family: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-weight: 300;
+      font-size: 17px;
+      line-height: 1.8;
+      letter-spacing: 0.01em;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overflow-x: hidden;
+    }
+
+    ::selection {
+      background: var(--stark-accent-faded);
+      color: var(--stark-text-primary);
+    }
+
+    /* ========================================
+       Navigation
+       ======================================== */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: var(--stark-space-md) var(--stark-space-lg);
+      max-width: 1600px;
+      margin: 0 auto;
+      background: rgba(250, 250, 250, 0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+    }
+
+    .nav-logo {
+      font-family: 'Sora', sans-serif;
+      font-weight: 200;
+      font-size: 0.85rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--stark-text-primary);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: var(--stark-space-md);
+      list-style: none;
+    }
+
+    .nav-link {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 300;
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--stark-text-tertiary);
+      text-decoration: none;
+      border: none;
+      position: relative;
+      transition:
+        letter-spacing var(--stark-transition-base),
+        color var(--stark-transition-fast);
+    }
+
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 0.5px;
+      background: var(--stark-accent);
+      transition: width var(--stark-transition-base);
+    }
+
+    .nav-link:hover {
+      letter-spacing: 0.15em;
+      color: var(--stark-text-primary);
+    }
+
+    .nav-link:hover::after {
+      width: 100%;
+    }
+
+    /* ========================================
+       Hero Section
+       ======================================== */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 0 var(--stark-space-lg) var(--stark-space-xl);
+      max-width: 1600px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 20%;
+      right: 8%;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(
+        ellipse at center,
+        var(--stark-accent-glow) 0%,
+        transparent 70%
+      );
+      pointer-events: none;
+      opacity: 0.8;
+    }
+
+    .hero-label {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 300;
+      font-size: 0.7rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--stark-text-faint);
+      margin-bottom: var(--stark-space-lg);
+    }
+
+    .hero h1 {
+      font-family: 'Sora', sans-serif;
+      font-weight: 100;
+      font-size: clamp(3.2rem, 8vw, 7.5rem);
+      line-height: 1.06;
+      letter-spacing: -0.025em;
+      color: var(--stark-text-primary);
+      max-width: 14em;
+      margin-bottom: var(--stark-space-md);
+    }
+
+    .hero h1 span {
+      color: var(--stark-accent);
+      font-weight: 100;
+    }
+
+    .hero-subtitle {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 200;
+      font-size: 1.2rem;
+      line-height: 1.9;
+      color: var(--stark-text-tertiary);
+      max-width: 34em;
+      margin-bottom: var(--stark-space-lg);
+    }
+
+    .hero-scroll-hint {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.8rem;
+      font-family: 'Outfit', sans-serif;
+      font-weight: 300;
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--stark-text-faint);
+      text-decoration: none;
+      border: none;
+      transition: color var(--stark-transition-fast);
+    }
+
+    .hero-scroll-hint:hover {
+      color: var(--stark-accent);
+    }
+
+    .scroll-line {
+      display: inline-block;
+      width: 40px;
+      height: 0.5px;
+      background: var(--stark-border-visible);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .scroll-line::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: var(--stark-accent);
+      animation: scrollLineSlide 2.4s ease-in-out infinite;
+    }
+
+    @keyframes scrollLineSlide {
+      0% { left: -100%; }
+      50% { left: 100%; }
+      100% { left: 100%; }
+    }
+
+    /* ========================================
+       Divider
+       ======================================== */
+    .divider {
+      height: 0.5px;
+      border: none;
+      background: linear-gradient(
+        90deg,
+        transparent 0%,
+        var(--stark-border-visible) 25%,
+        var(--stark-border-visible) 75%,
+        transparent 100%
+      );
+      max-width: 30%;
+      margin: var(--stark-space-xl) auto;
+    }
+
+    .divider--short {
+      max-width: 60px;
+      margin: var(--stark-space-lg) 0;
+      background: var(--stark-border-visible);
+    }
+
+    .divider--accent {
+      max-width: 40px;
+      background: var(--stark-accent);
+      opacity: 0.4;
+    }
+
+    /* ========================================
+       Section Base
+       ======================================== */
+    .section {
+      padding: var(--stark-space-xl) var(--stark-space-lg);
+      max-width: 1600px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 300;
+      font-size: 0.68rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--stark-text-faint);
+      margin-bottom: var(--stark-space-lg);
+      display: block;
+    }
+
+    .section h2 {
+      font-family: 'Sora', sans-serif;
+      font-weight: 200;
+      font-size: clamp(1.8rem, 4.5vw, 3.4rem);
+      line-height: 1.18;
+      letter-spacing: 0.01em;
+      color: var(--stark-text-primary);
+      max-width: 18em;
+      margin-bottom: var(--stark-space-md);
+    }
+
+    .section h3 {
+      font-family: 'Sora', sans-serif;
+      font-weight: 300;
+      font-size: clamp(1.1rem, 2vw, 1.4rem);
+      line-height: 1.4;
+      letter-spacing: 0.02em;
+      color: var(--stark-text-primary);
+      margin-bottom: var(--stark-space-sm);
+    }
+
+    .section p {
+      font-weight: 300;
+      font-size: 1.0625rem;
+      line-height: 1.85;
+      color: var(--stark-text-secondary);
+      max-width: 38em;
+      margin-bottom: 1.5em;
+    }
+
+    .section p:last-child {
+      margin-bottom: 0;
+    }
+
+    /* ========================================
+       Philosophy (Opening Section)
+       ======================================== */
+    .philosophy {
+      padding-top: var(--stark-space-2xl);
+    }
+
+    .philosophy-content {
+      max-width: 36em;
+      margin-left: 12%;
+    }
+
+    .philosophy-lead {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 200;
+      font-size: 1.3rem;
+      line-height: 2;
+      color: var(--stark-text-secondary);
+      max-width: 34em;
+    }
+
+    /* ========================================
+       Characteristics Cards
+       ======================================== */
+    .characteristics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: var(--stark-space-lg);
+      padding-top: var(--stark-space-lg);
+    }
+
+    .char-card {
+      padding: var(--stark-space-lg);
+      border: 0.5px solid var(--stark-border);
+      opacity: 0.82;
+      transform: translateY(0);
+      transition:
+        opacity var(--stark-transition-base),
+        transform var(--stark-transition-base),
+        border-color var(--stark-transition-base),
+        box-shadow var(--stark-transition-base);
+    }
+
+    .char-card:hover {
+      opacity: 1;
+      transform: translateY(-3px);
+      border-color: var(--stark-border-visible);
+      box-shadow: 0 12px 48px var(--stark-shadow-subtle);
+    }
+
+    .char-card-number {
+      font-family: 'Sora', sans-serif;
+      font-weight: 100;
+      font-size: 3.8rem;
+      line-height: 1;
+      color: var(--stark-text-faint);
+      margin-bottom: var(--stark-space-sm);
+      transition: color var(--stark-transition-slow);
+    }
+
+    .char-card:hover .char-card-number {
+      color: var(--stark-accent);
+    }
+
+    .char-card h3 {
+      font-family: 'Sora', sans-serif;
+      font-weight: 300;
+      font-size: 1.05rem;
+      letter-spacing: 0.02em;
+      color: var(--stark-text-primary);
+      margin-bottom: var(--stark-space-xs);
+    }
+
+    .char-card p {
+      font-size: 0.92rem;
+      line-height: 1.75;
+      color: var(--stark-text-tertiary);
+      max-width: none;
+      margin-bottom: 0;
+    }
+
+    /* ========================================
+       Palette Showcase
+       ======================================== */
+    .palette-section {
+      background: linear-gradient(
+        180deg,
+        var(--stark-bg-primary) 0%,
+        var(--stark-bg-alt) 40%,
+        var(--stark-bg-primary) 100%
+      );
+    }
+
+    .palette-intro {
+      max-width: 36em;
+      margin-bottom: var(--stark-space-xl);
+    }
+
+    .palette-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: var(--stark-space-md);
+    }
+
+    .swatch {
+      transition:
+        transform var(--stark-transition-base),
+        box-shadow var(--stark-transition-base);
+    }
+
+    .swatch:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px var(--stark-shadow-subtle);
+    }
+
+    .swatch-color {
+      width: 100%;
+      aspect-ratio: 3 / 2;
+      border: 0.5px solid var(--stark-border);
+      margin-bottom: var(--stark-space-sm);
+    }
+
+    .swatch-name {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 300;
+      font-size: 0.82rem;
+      color: var(--stark-text-primary);
+      letter-spacing: 0.01em;
+      margin-bottom: 2px;
+    }
+
+    .swatch-hex {
+      font-family: 'Sora', sans-serif;
+      font-weight: 300;
+      font-size: 0.7rem;
+      letter-spacing: 0.06em;
+      color: var(--stark-text-tertiary);
+    }
+
+    /* ========================================
+       Typography Showcase
+       ======================================== */
+    .type-showcase {
+      padding-top: var(--stark-space-2xl);
+    }
+
+    .type-samples {
+      padding-top: var(--stark-space-lg);
+    }
+
+    .type-sample {
+      padding: var(--stark-space-lg) 0;
+      border-bottom: 0.5px solid var(--stark-border-faint);
+    }
+
+    .type-sample:last-child {
+      border-bottom: none;
+    }
+
+    .type-sample-label {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 300;
+      font-size: 0.65rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--stark-text-faint);
+      margin-bottom: var(--stark-space-sm);
+      display: flex;
+      align-items: baseline;
+      gap: var(--stark-space-sm);
+    }
+
+    .type-sample-label .type-meta {
+      font-size: 0.6rem;
+      letter-spacing: 0.06em;
+      color: var(--stark-text-faint);
+      text-transform: none;
+      opacity: 0.7;
+    }
+
+    .type-display {
+      font-family: 'Sora', sans-serif;
+      font-weight: 100;
+      font-size: clamp(3rem, 7vw, 6rem);
+      line-height: 1.08;
+      letter-spacing: -0.02em;
+      color: var(--stark-text-primary);
+    }
+
+    .type-heading {
+      font-family: 'Sora', sans-serif;
+      font-weight: 200;
+      font-size: clamp(1.6rem, 3.5vw, 2.8rem);
+      line-height: 1.2;
+      letter-spacing: 0.02em;
+      color: var(--stark-text-primary);
+    }
+
+    .type-subheading {
+      font-family: 'Sora', sans-serif;
+      font-weight: 300;
+      font-size: clamp(1.1rem, 2vw, 1.5rem);
+      line-height: 1.4;
+      letter-spacing: 0.03em;
+      color: var(--stark-text-primary);
+    }
+
+    .type-body-sample {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 300;
+      font-size: 1.0625rem;
+      line-height: 1.85;
+      color: var(--stark-text-secondary);
+      max-width: 36em;
+    }
+
+    .type-label-sample {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 300;
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--stark-text-tertiary);
+    }
+
+    /* ========================================
+       Principles -- Feature Layout
+       ======================================== */
+    .principles-list {
+      padding-top: var(--stark-space-lg);
+    }
+
+    .principle {
+      display: grid;
+      grid-template-columns: 80px 1fr;
+      gap: var(--stark-space-lg);
+      padding: var(--stark-space-lg) 0;
+      border-bottom: 0.5px solid var(--stark-border-faint);
+      align-items: start;
+    }
+
+    .principle:last-child {
+      border-bottom: none;
+    }
+
+    .principle-num {
+      font-family: 'Sora', sans-serif;
+      font-weight: 100;
+      font-size: 2.6rem;
+      line-height: 1;
+      color: var(--stark-text-faint);
+      transition: color var(--stark-transition-slow);
+    }
+
+    .principle:hover .principle-num {
+      color: var(--stark-accent);
+    }
+
+    .principle-content h3 {
+      font-family: 'Sora', sans-serif;
+      font-weight: 300;
+      font-size: 1.15rem;
+      letter-spacing: 0.02em;
+      color: var(--stark-text-primary);
+      margin-bottom: var(--stark-space-xs);
+    }
+
+    .principle-content p {
+      font-size: 0.95rem;
+      line-height: 1.8;
+      color: var(--stark-text-tertiary);
+      max-width: 40em;
+      margin-bottom: 0;
+    }
+
+    /* ========================================
+       Motifs -- Split Layout
+       ======================================== */
+    .motifs-section {
+      background: linear-gradient(
+        180deg,
+        var(--stark-bg-primary) 0%,
+        var(--stark-bg-alt) 50%,
+        var(--stark-bg-primary) 100%
+      );
+    }
+
+    .motif-feature {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--stark-space-xl);
+      align-items: center;
+      padding: var(--stark-space-xl) 0;
+    }
+
+    .motif-feature:nth-child(even) {
+      direction: rtl;
+    }
+
+    .motif-feature:nth-child(even) > * {
+      direction: ltr;
+    }
+
+    .motif-text {
+      padding-right: var(--stark-space-lg);
+    }
+
+    .motif-feature:nth-child(even) .motif-text {
+      padding-right: 0;
+      padding-left: var(--stark-space-lg);
+    }
+
+    .motif-visual {
+      aspect-ratio: 4 / 3;
+      background: var(--stark-bg-alt);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Visual demos inside motif boxes */
+    .motif-demo-whitespace {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: flex-end;
+      padding: 15% 20%;
+    }
+
+    .motif-demo-whitespace .demo-block {
+      width: 60px;
+      height: 4px;
+      background: var(--stark-text-faint);
+      opacity: 0.4;
+    }
+
+    .motif-demo-micro {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    .motif-demo-micro .demo-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--stark-text-faint);
+      transition:
+        background var(--stark-transition-base),
+        transform var(--stark-transition-base),
+        box-shadow var(--stark-transition-base);
+    }
+
+    .motif-visual:hover .demo-dot {
+      background: var(--stark-accent);
+      transform: scale(1.5);
+      box-shadow: 0 0 20px var(--stark-accent-faded);
+    }
+
+    .motif-demo-micro .demo-dot:nth-child(2) {
+      transition-delay: 0.1s;
+    }
+
+    .motif-demo-micro .demo-dot:nth-child(3) {
+      transition-delay: 0.2s;
+    }
+
+    .motif-demo-reveal {
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+      width: 60%;
+    }
+
+    .motif-demo-reveal .demo-line {
+      height: 2px;
+      background: var(--stark-border-visible);
+      transform-origin: left;
+      opacity: 0.3;
+    }
+
+    .motif-demo-reveal .demo-line:nth-child(1) { width: 100%; }
+    .motif-demo-reveal .demo-line:nth-child(2) { width: 75%; }
+    .motif-demo-reveal .demo-line:nth-child(3) { width: 50%; }
+    .motif-demo-reveal .demo-line:nth-child(4) { width: 30%; }
+
+    .motif-visual:hover .demo-line {
+      opacity: 0.7;
+      background: var(--stark-accent);
+      transition: all var(--stark-transition-slow);
+    }
+
+    .motif-visual:hover .demo-line:nth-child(2) { transition-delay: 0.12s; }
+    .motif-visual:hover .demo-line:nth-child(3) { transition-delay: 0.24s; }
+    .motif-visual:hover .demo-line:nth-child(4) { transition-delay: 0.36s; }
+
+    /* ========================================
+       Materials Table
+       ======================================== */
+    .materials-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: var(--stark-space-lg);
+    }
+
+    .materials-table th,
+    .materials-table td {
+      text-align: left;
+      padding: var(--stark-space-sm) var(--stark-space-md) var(--stark-space-sm) 0;
+      border-bottom: 0.5px solid var(--stark-border-faint);
+      font-weight: 300;
+      vertical-align: top;
+    }
+
+    .materials-table th {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 300;
+      font-size: 0.68rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--stark-text-faint);
+      padding-bottom: var(--stark-space-sm);
+    }
+
+    .materials-table td {
+      font-size: 0.92rem;
+      line-height: 1.7;
+      color: var(--stark-text-secondary);
+    }
+
+    .materials-table td:first-child {
+      color: var(--stark-text-primary);
+      font-weight: 300;
+      white-space: nowrap;
+      padding-right: var(--stark-space-lg);
+    }
+
+    .materials-table tr {
+      transition: background var(--stark-transition-fast);
+    }
+
+    .materials-table tbody tr:hover {
+      background: var(--stark-accent-glow);
+    }
+
+    /* ========================================
+       Related Aesthetics
+       ======================================== */
+    .related-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: var(--stark-space-md);
+      padding-top: var(--stark-space-lg);
+    }
+
+    .related-card {
+      padding: var(--stark-space-md) var(--stark-space-md) var(--stark-space-md) var(--stark-space-md);
+      border-left: 0.5px solid var(--stark-border);
+      transition:
+        border-color var(--stark-transition-base),
+        padding-left var(--stark-transition-base);
+    }
+
+    .related-card:hover {
+      border-color: var(--stark-accent);
+      padding-left: calc(var(--stark-space-md) + 4px);
+    }
+
+    .related-card h3 {
+      font-family: 'Sora', sans-serif;
+      font-weight: 300;
+      font-size: 1rem;
+      letter-spacing: 0.02em;
+      color: var(--stark-text-primary);
+      margin-bottom: var(--stark-space-xs);
+    }
+
+    .related-card p {
+      font-size: 0.88rem;
+      line-height: 1.7;
+      color: var(--stark-text-tertiary);
+      max-width: none;
+      margin-bottom: 0;
+    }
+
+    /* ========================================
+       Implementation Notes
+       ======================================== */
+    .notes-section {
+      background: linear-gradient(
+        180deg,
+        var(--stark-bg-primary) 0%,
+        var(--stark-bg-alt) 50%,
+        var(--stark-bg-primary) 100%
+      );
+    }
+
+    .note-item {
+      display: grid;
+      grid-template-columns: 32px 1fr;
+      gap: var(--stark-space-md);
+      padding: var(--stark-space-md) 0;
+      border-bottom: 0.5px solid var(--stark-border-faint);
+      align-items: start;
+    }
+
+    .note-item:last-child {
+      border-bottom: none;
+    }
+
+    .note-marker {
+      font-family: 'Sora', sans-serif;
+      font-weight: 100;
+      font-size: 1.2rem;
+      color: var(--stark-accent);
+      opacity: 0.6;
+      line-height: 1.8;
+    }
+
+    .note-text {
+      font-size: 0.95rem;
+      line-height: 1.8;
+      color: var(--stark-text-secondary);
+      max-width: 42em;
+    }
+
+    .note-text em {
+      font-style: normal;
+      color: var(--stark-text-primary);
+    }
+
+    /* ========================================
+       Interactive Demo Section
+       ======================================== */
+    .demo-section {
+      padding-top: var(--stark-space-2xl);
+      padding-bottom: var(--stark-space-2xl);
+    }
+
+    .demo-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--stark-space-lg);
+      padding-top: var(--stark-space-lg);
+      align-items: flex-start;
+    }
+
+    .demo-item {
+      flex: 1;
+      min-width: 240px;
+    }
+
+    .demo-item-label {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 300;
+      font-size: 0.65rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--stark-text-faint);
+      margin-bottom: var(--stark-space-sm);
+    }
+
+    /* Button demos */
+    .stark-button {
+      display: inline-block;
+      padding: 0.8rem 2.8rem;
+      font-family: 'Outfit', sans-serif;
+      font-weight: 300;
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--stark-text-secondary);
+      background: transparent;
+      border: 0.5px solid var(--stark-border-visible);
+      cursor: pointer;
+      text-decoration: none;
+      transition:
+        color var(--stark-transition-fast),
+        border-color var(--stark-transition-base),
+        background var(--stark-transition-base),
+        letter-spacing var(--stark-transition-base);
+    }
+
+    .stark-button:hover {
+      color: var(--stark-accent);
+      border-color: var(--stark-accent);
+      background: var(--stark-accent-glow);
+      letter-spacing: 0.14em;
+    }
+
+    .stark-button:focus-visible {
+      outline: 1px solid var(--stark-accent-faded);
+      outline-offset: 4px;
+    }
+
+    /* Link demo */
+    .stark-link-demo {
+      color: var(--stark-text-secondary);
+      text-decoration: none;
+      position: relative;
+      font-size: 1rem;
+      transition: color var(--stark-transition-fast);
+    }
+
+    .stark-link-demo::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 0;
+      height: 0.5px;
+      background: var(--stark-accent);
+      transition: width var(--stark-transition-base);
+    }
+
+    .stark-link-demo:hover {
+      color: var(--stark-accent);
+    }
+
+    .stark-link-demo:hover::after {
+      width: 100%;
+    }
+
+    /* Stat demo */
+    .stat-number {
+      font-family: 'Sora', sans-serif;
+      font-weight: 100;
+      font-size: clamp(4rem, 10vw, 7rem);
+      line-height: 1;
+      color: var(--stark-text-primary);
+      letter-spacing: -0.03em;
+      opacity: 0.9;
+    }
+
+    .stat-label {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 300;
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--stark-text-tertiary);
+      margin-top: var(--stark-space-xs);
+    }
+
+    /* ========================================
+       Quote / Pull-out
+       ======================================== */
+    .pull-quote {
+      padding: var(--stark-space-xl) var(--stark-space-lg);
+      max-width: 1600px;
+      margin: 0 auto;
+      text-align: center;
+      position: relative;
+    }
+
+    .pull-quote::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 500px;
+      height: 300px;
+      transform: translate(-50%, -50%);
+      background: radial-gradient(
+        ellipse at center,
+        var(--stark-accent-glow) 0%,
+        transparent 70%
+      );
+      pointer-events: none;
+    }
+
+    .pull-quote blockquote {
+      font-family: 'Sora', sans-serif;
+      font-weight: 100;
+      font-size: clamp(1.6rem, 3.5vw, 2.8rem);
+      line-height: 1.4;
+      letter-spacing: 0.01em;
+      color: var(--stark-text-primary);
+      max-width: 20em;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .pull-quote cite {
+      display: block;
+      font-family: 'Outfit', sans-serif;
+      font-style: normal;
+      font-weight: 300;
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--stark-text-faint);
+      margin-top: var(--stark-space-md);
+    }
+
+    /* ========================================
+       Footer
+       ======================================== */
+    footer {
+      padding: var(--stark-space-xl) var(--stark-space-lg) var(--stark-space-lg);
+      max-width: 1600px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      border-top: 0.5px solid var(--stark-border);
+    }
+
+    footer p {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.72rem;
+      letter-spacing: 0.06em;
+      color: var(--stark-text-faint);
+      max-width: none;
+      margin-bottom: 0;
+    }
+
+    footer .footer-tagline {
+      font-family: 'Sora', sans-serif;
+      font-weight: 200;
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    /* ========================================
+       Scroll Reveal Animations
+       ======================================== */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition:
+        opacity var(--stark-transition-slow),
+        transform var(--stark-transition-slow);
+    }
+
+    .reveal.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .reveal-delay-1 { transition-delay: 0.12s; }
+    .reveal-delay-2 { transition-delay: 0.24s; }
+    .reveal-delay-3 { transition-delay: 0.36s; }
+    .reveal-delay-4 { transition-delay: 0.48s; }
+    .reveal-delay-5 { transition-delay: 0.60s; }
+
+    /* Slow reveal for hero */
+    .reveal-glacial {
+      opacity: 0;
+      transform: translateY(36px);
+      transition:
+        opacity var(--stark-transition-glacial),
+        transform var(--stark-transition-glacial);
+    }
+
+    .reveal-glacial.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ========================================
+       Reduced Motion
+       ======================================== */
+    @media (prefers-reduced-motion: reduce) {
+      .reveal,
+      .reveal-glacial {
+        opacity: 1;
+        transform: none;
+        transition: none;
+      }
+      *, *::before, *::after {
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+      }
+      html {
+        scroll-behavior: auto;
+      }
+    }
+
+    /* ========================================
+       Responsive
+       ======================================== */
+    @media (max-width: 1024px) {
+      .motif-feature {
+        grid-template-columns: 1fr;
+        gap: var(--stark-space-lg);
+      }
+      .motif-feature:nth-child(even) {
+        direction: ltr;
+      }
+      .motif-text {
+        padding-right: 0;
+      }
+      .motif-feature:nth-child(even) .motif-text {
+        padding-left: 0;
+      }
+      .philosophy-content {
+        margin-left: 0;
+      }
+    }
+
+    @media (max-width: 768px) {
+      nav {
+        padding: var(--stark-space-sm) var(--stark-space-md);
+      }
+      .nav-links {
+        gap: var(--stark-space-sm);
+      }
+      .hero {
+        padding: 0 var(--stark-space-md) var(--stark-space-lg);
+      }
+      .section {
+        padding: var(--stark-space-lg) var(--stark-space-md);
+      }
+      .pull-quote {
+        padding: var(--stark-space-lg) var(--stark-space-md);
+      }
+      .characteristics-grid {
+        grid-template-columns: 1fr;
+      }
+      .palette-grid {
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+        gap: var(--stark-space-sm);
+      }
+      .principle {
+        grid-template-columns: 48px 1fr;
+        gap: var(--stark-space-sm);
+      }
+      .principle-num {
+        font-size: 1.8rem;
+      }
+      .materials-table td:first-child {
+        white-space: normal;
+      }
+      .demo-row {
+        flex-direction: column;
+      }
+      .related-grid {
+        grid-template-columns: 1fr;
+      }
+      footer {
+        flex-direction: column;
+        gap: var(--stark-space-sm);
+        align-items: flex-start;
+      }
+      .divider {
+        max-width: 50%;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero h1 {
+        font-size: clamp(2.4rem, 10vw, 3.5rem);
+      }
+      .section h2 {
+        font-size: clamp(1.5rem, 6vw, 2rem);
+      }
+      .stat-number {
+        font-size: 4rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav>
+    <span class="nav-logo">Resonant Stark</span>
+    <ul class="nav-links">
+      <li><a href="#philosophy" class="nav-link">Philosophy</a></li>
+      <li><a href="#characteristics" class="nav-link">Visual</a></li>
+      <li><a href="#palette" class="nav-link">Palette</a></li>
+      <li><a href="#typography" class="nav-link">Type</a></li>
+      <li><a href="#principles" class="nav-link">Principles</a></li>
+    </ul>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <span class="hero-label reveal-glacial">Design Aesthetic Reference</span>
+    <h1 class="reveal-glacial" style="transition-delay: 0.2s;">Resonant <span>Stark</span></h1>
+    <p class="hero-subtitle reveal-glacial" style="transition-delay: 0.5s;">Purpose-driven minimalism with emotional subtlety. Ultra-clean layouts where every element earns its place, with warmth injected through micro-interactions and tonal shifts.</p>
+    <a href="#philosophy" class="hero-scroll-hint reveal-glacial" style="transition-delay: 0.8s;">
+      <span class="scroll-line"></span>
+      Scroll to explore
+    </a>
+  </section>
+
+  <hr class="divider">
+
+  <!-- Philosophy -->
+  <section class="section philosophy" id="philosophy">
+    <div class="philosophy-content">
+      <span class="section-label reveal">Core Philosophy</span>
+      <h2 class="reveal reveal-delay-1">Stillness that vibrates with intention</h2>
+      <hr class="divider--short divider--accent reveal reveal-delay-2">
+      <p class="philosophy-lead reveal reveal-delay-2">Resonant Stark draws from the lineage of Swiss and International design and Japanese Ma -- the philosophy of negative space -- but rejects the coldness often associated with minimalism.</p>
+      <p class="reveal reveal-delay-3">The defining quality is resonance: a sense that the sparse visual field vibrates with intention, that the whitespace is not empty but charged. Ultra-thin typography floats in vast fields of near-white, borders dissolve to single pixels or vanish entirely, and color appears only as a whisper -- a muted terracotta link, a sage hover state.</p>
+      <p class="reveal reveal-delay-4">Movement is the emotional medium: elements fade in on scroll with glacial smoothness, letter-spacing expands imperceptibly on hover, opacity shifts hint at depth beneath the surface. The result is design that feels like a held breath -- still, precise, and quietly alive.</p>
+    </div>
+  </section>
+
+  <!-- Pull Quote -->
+  <div class="pull-quote">
+    <blockquote class="reveal">
+      Design that feels like a held breath -- still, precise, and quietly alive.
+    </blockquote>
+    <cite class="reveal reveal-delay-1">Resonant Stark</cite>
+  </div>
+
+  <hr class="divider">
+
+  <!-- Visual Characteristics -->
+  <section class="section" id="characteristics">
+    <span class="section-label reveal">Visual Characteristics</span>
+    <h2 class="reveal reveal-delay-1">The anatomy of<br>charged emptiness</h2>
+
+    <div class="characteristics-grid">
+      <div class="char-card reveal">
+        <div class="char-card-number">01</div>
+        <h3>Vast Whitespace</h3>
+        <p>80% or more of the page is negative space. Content floats in open fields with deliberate, asymmetric placement. Emptiness is the primary compositional tool.</p>
+      </div>
+      <div class="char-card reveal reveal-delay-1">
+        <div class="char-card-number">02</div>
+        <h3>Ultra-Thin Typography</h3>
+        <p>Font weights of 100 to 300 dominate, with large display sizes of 4 to 8rem that make thinness feel monumental rather than fragile.</p>
+      </div>
+      <div class="char-card reveal reveal-delay-2">
+        <div class="char-card-number">03</div>
+        <h3>Near-Monochrome Palette</h3>
+        <p>Backgrounds range from warm whites to cream. Text from near-black to warm gray. Color is nearly absent, appearing only as a momentary whisper.</p>
+      </div>
+      <div class="char-card reveal reveal-delay-3">
+        <div class="char-card-number">04</div>
+        <h3>Micro-Interactions</h3>
+        <p>Subtle opacity shifts, gentle translates, letter-spacing expansion, and color transitions that reward attention. The interface responds to presence.</p>
+      </div>
+      <div class="char-card reveal reveal-delay-4">
+        <div class="char-card-number">05</div>
+        <h3>Smooth Reveals</h3>
+        <p>Scroll-triggered fade-ins with long durations of 0.6 to 1.2 seconds. Content emerges rather than appears, creating a meditative pace.</p>
+      </div>
+      <div class="char-card reveal reveal-delay-5">
+        <div class="char-card-number">06</div>
+        <h3>Emotional Restraint</h3>
+        <p>The palette leans warm -- cream whites, warm grays -- rather than clinical blue-whites, maintaining human presence within the minimalism.</p>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- Color Palette -->
+  <section class="section palette-section" id="palette">
+    <span class="section-label reveal">Color Palette</span>
+    <h2 class="reveal reveal-delay-1">Extreme restraint,<br>atmospheric warmth</h2>
+    <div class="palette-intro">
+      <p class="reveal reveal-delay-2">The Resonant Stark palette is defined by near-whites and warm grays. Color appears only as a momentary accent -- not pure white but warm off-whites that soften the screen, not pure black but warm near-blacks that maintain human presence.</p>
+    </div>
+
+    <div class="palette-grid">
+      <div class="swatch reveal">
+        <div class="swatch-color" style="background: #FAFAFA;"></div>
+        <div class="swatch-name">Warm White</div>
+        <div class="swatch-hex">#FAFAFA</div>
+      </div>
+      <div class="swatch reveal reveal-delay-1">
+        <div class="swatch-color" style="background: #F5F5F0;"></div>
+        <div class="swatch-name">Cream White</div>
+        <div class="swatch-hex">#F5F5F0</div>
+      </div>
+      <div class="swatch reveal reveal-delay-1">
+        <div class="swatch-color" style="background: #F0EEEB;"></div>
+        <div class="swatch-name">Warm Snow</div>
+        <div class="swatch-hex">#F0EEEB</div>
+      </div>
+      <div class="swatch reveal reveal-delay-2">
+        <div class="swatch-color" style="background: #E8E4E0;"></div>
+        <div class="swatch-name">Light Warm Gray</div>
+        <div class="swatch-hex">#E8E4E0</div>
+      </div>
+      <div class="swatch reveal reveal-delay-2">
+        <div class="swatch-color" style="background: #D4D0CC;"></div>
+        <div class="swatch-name">Mid Warm Gray</div>
+        <div class="swatch-hex">#D4D0CC</div>
+      </div>
+      <div class="swatch reveal reveal-delay-3">
+        <div class="swatch-color" style="background: #D0CCC8;"></div>
+        <div class="swatch-name">Pale Gray</div>
+        <div class="swatch-hex">#D0CCC8</div>
+      </div>
+      <div class="swatch reveal reveal-delay-3">
+        <div class="swatch-color" style="background: #1A1A18;"></div>
+        <div class="swatch-name">Near Black</div>
+        <div class="swatch-hex">#1A1A18</div>
+      </div>
+      <div class="swatch reveal reveal-delay-3">
+        <div class="swatch-color" style="background: #6A6864;"></div>
+        <div class="swatch-name">Dark Warm Gray</div>
+        <div class="swatch-hex">#6A6864</div>
+      </div>
+      <div class="swatch reveal reveal-delay-4">
+        <div class="swatch-color" style="background: #9A9894;"></div>
+        <div class="swatch-name">Mid Gray</div>
+        <div class="swatch-hex">#9A9894</div>
+      </div>
+      <div class="swatch reveal reveal-delay-4">
+        <div class="swatch-color" style="background: #C4836A;"></div>
+        <div class="swatch-name">Muted Terracotta</div>
+        <div class="swatch-hex">#C4836A</div>
+      </div>
+      <div class="swatch reveal reveal-delay-4">
+        <div class="swatch-color" style="background: #8BA888;"></div>
+        <div class="swatch-name">Sage Green</div>
+        <div class="swatch-hex">#8BA888</div>
+      </div>
+      <div class="swatch reveal reveal-delay-5">
+        <div class="swatch-color" style="background: #A08060;"></div>
+        <div class="swatch-name">Warm Clay</div>
+        <div class="swatch-hex">#A08060</div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- Typography -->
+  <section class="section type-showcase" id="typography">
+    <span class="section-label reveal">Typography</span>
+    <h2 class="reveal reveal-delay-1">Thinness at scale,<br>fragility made monumental</h2>
+    <p class="reveal reveal-delay-2">Resonant Stark typography relies on extreme thinness at large scale. The contradiction between fragility and monumentality creates visual tension. No bold text -- emphasis achieved through size, spacing, opacity, or accent color rather than weight.</p>
+
+    <div class="type-samples">
+      <div class="type-sample reveal">
+        <div class="type-sample-label">
+          Display Heading
+          <span class="type-meta">Sora Thin 100 / -0.02em tracking</span>
+        </div>
+        <div class="type-display">Charged silence</div>
+      </div>
+
+      <div class="type-sample reveal">
+        <div class="type-sample-label">
+          Section Heading
+          <span class="type-meta">Sora ExtraLight 200 / 0.02em tracking</span>
+        </div>
+        <div class="type-heading">Every element earns its place</div>
+      </div>
+
+      <div class="type-sample reveal">
+        <div class="type-sample-label">
+          Subheading
+          <span class="type-meta">Sora Light 300 / 0.03em tracking</span>
+        </div>
+        <div class="type-subheading">Warmth injected through micro-interactions and tonal shifts</div>
+      </div>
+
+      <div class="type-sample reveal">
+        <div class="type-sample-label">
+          Body Text
+          <span class="type-meta">Outfit Light 300 / 1.85 line-height</span>
+        </div>
+        <div class="type-body-sample">Ultra-thin typography floats in vast fields of near-white, borders dissolve to single pixels or vanish entirely, and color appears only as a whisper. Movement is the emotional medium: elements fade in on scroll with glacial smoothness.</div>
+      </div>
+
+      <div class="type-sample reveal">
+        <div class="type-sample-label">
+          Label / Caption
+          <span class="type-meta">Outfit Light 300 / uppercase / 0.12em tracking</span>
+        </div>
+        <div class="type-label-sample">Section Label -- Gallery Caption -- Navigation Item</div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- Key Design Motifs -->
+  <section class="section motifs-section" id="motifs">
+    <span class="section-label reveal">Key Design Motifs</span>
+    <h2 class="reveal reveal-delay-1">The vocabulary of resonance</h2>
+
+    <div class="motif-feature">
+      <div class="motif-text reveal">
+        <h3>Whitespace as Primary Material</h3>
+        <p>The dominant design material. 80% or more negative space in any given viewport. Asymmetric placement with unequal margins creating visual tension and movement. Sections separated by 6 to 12rem of whitespace rather than borders or background changes. Every area of whitespace is a deliberate design decision, not leftover space.</p>
+      </div>
+      <div class="motif-visual reveal reveal-delay-1">
+        <div class="motif-demo-whitespace">
+          <div class="demo-block"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="motif-feature">
+      <div class="motif-text reveal">
+        <h3>Micro-Interactions</h3>
+        <p>The "resonance" quality -- the sense that the interface responds to attention. Opacity shifts from 0.7 to 1.0 on hover. Gentle 2 to 4 pixel upward shifts suggesting weightlessness. Letter-spacing that breathes wider on hover. Accent color emerging from initially colorless states. All interactions use 0.3 to 0.8 second ease transitions.</p>
+      </div>
+      <div class="motif-visual reveal reveal-delay-1">
+        <div class="motif-demo-micro">
+          <div class="demo-dot"></div>
+          <div class="demo-dot"></div>
+          <div class="demo-dot"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="motif-feature">
+      <div class="motif-text reveal">
+        <h3>Scroll-Triggered Reveals</h3>
+        <p>Content emerges into view with restrained, purposeful animations. Fade-in from below with 20 to 30 pixel upward translation. Staggered timing with 100 to 150 millisecond delays between sequential elements. Long durations of 0.6 to 1.2 seconds creating a meditative pace. Once-only animations with smooth easing -- never elastic or bouncy.</p>
+      </div>
+      <div class="motif-visual reveal reveal-delay-1">
+        <div class="motif-demo-reveal">
+          <div class="demo-line"></div>
+          <div class="demo-line"></div>
+          <div class="demo-line"></div>
+          <div class="demo-line"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- Layout Principles -->
+  <section class="section" id="principles">
+    <span class="section-label reveal">Layout Principles</span>
+    <h2 class="reveal reveal-delay-1">Space as structure,<br>silence as rhythm</h2>
+
+    <div class="principles-list">
+      <div class="principle reveal">
+        <div class="principle-num">01</div>
+        <div class="principle-content">
+          <h3>Single-Column Dominance</h3>
+          <p>Content flows in one column, typically 600 to 800 pixels wide, centered or offset on the page. Horizontal layouts used sparingly and always with generous 4 to 8rem gaps.</p>
+        </div>
+      </div>
+      <div class="principle reveal reveal-delay-1">
+        <div class="principle-num">02</div>
+        <div class="principle-content">
+          <h3>Vast Vertical Spacing</h3>
+          <p>Sections separated by 8 to 16rem, creating a rhythm of content and emptiness. Content blocks limited to 32 to 40em for optimal reading line length.</p>
+        </div>
+      </div>
+      <div class="principle reveal reveal-delay-1">
+        <div class="principle-num">03</div>
+        <div class="principle-content">
+          <h3>Asymmetric Placement</h3>
+          <p>Content containers offset from center with 60/40 or 70/30 splits, avoiding symmetry's static quality. The underlying grid exists but is never visible.</p>
+        </div>
+      </div>
+      <div class="principle reveal reveal-delay-2">
+        <div class="principle-num">04</div>
+        <div class="principle-content">
+          <h3>Full-Viewport Heroes</h3>
+          <p>Opening sections use 100vh with content placed in the lower third or center. Progressive disclosure through scrolling rather than presenting content all at once.</p>
+        </div>
+      </div>
+      <div class="principle reveal reveal-delay-2">
+        <div class="principle-num">05</div>
+        <div class="principle-content">
+          <h3>Minimal Navigation</h3>
+          <p>Navigation reduced to essential links, often a single word or logo, positioned with vast surrounding space. Borders replaced by whitespace as the primary structural divider.</p>
+        </div>
+      </div>
+      <div class="principle reveal reveal-delay-3">
+        <div class="principle-num">06</div>
+        <div class="principle-content">
+          <h3>Mobile Preservation</h3>
+          <p>On smaller screens, whitespace proportions are maintained or increased, not compressed. Use clamp() for responsive typography, CSS Grid with large gap values, and prefers-reduced-motion for accessibility.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- Interactive Elements Demo -->
+  <section class="section demo-section">
+    <span class="section-label reveal">Interactive Elements</span>
+    <h2 class="reveal reveal-delay-1">Touch, hover, feel</h2>
+    <p class="reveal reveal-delay-2">Every interactive element responds with restraint. Hover over these elements to experience the micro-interactions that give Resonant Stark its sense of quiet aliveness.</p>
+
+    <div class="demo-row">
+      <div class="demo-item reveal reveal-delay-2">
+        <div class="demo-item-label">Button</div>
+        <button class="stark-button">Explore</button>
+      </div>
+      <div class="demo-item reveal reveal-delay-3">
+        <div class="demo-item-label">Animated Link</div>
+        <a href="#" class="stark-link-demo" onclick="return false;">Understated underline from left</a>
+      </div>
+      <div class="demo-item reveal reveal-delay-4">
+        <div class="demo-item-label">Statistic</div>
+        <div class="stat-number">80%</div>
+        <div class="stat-label">Negative space</div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- Materials Table -->
+  <section class="section">
+    <span class="section-label reveal">Materials and Textures</span>
+    <h2 class="reveal reveal-delay-1">Physical metaphors<br>for the digital surface</h2>
+
+    <table class="materials-table reveal reveal-delay-2">
+      <thead>
+        <tr>
+          <th>Physical Reference</th>
+          <th>Web Equivalent</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Matte white museum wall</td>
+          <td>Near-white background with no texture, gradient, or pattern; content floats on pure surface</td>
+        </tr>
+        <tr>
+          <td>Thin pencil line on paper</td>
+          <td>0.5px borders in warm gray; barely visible structural lines that suggest rather than define</td>
+        </tr>
+        <tr>
+          <td>Natural linen or cotton</td>
+          <td>Warm off-white backgrounds with optional subtle noise texture at 1 to 2% opacity</td>
+        </tr>
+        <tr>
+          <td>Japanese Ma</td>
+          <td>Vast padding and margin between sections; whitespace as active design element</td>
+        </tr>
+        <tr>
+          <td>Gallery exhibition labels</td>
+          <td>Small uppercase text at 0.75rem, 300 weight, 0.12em tracking in tertiary gray</td>
+        </tr>
+        <tr>
+          <td>Frosted glass panel</td>
+          <td>Background with backdrop-filter blur and near-white semi-transparent fill for overlays</td>
+        </tr>
+        <tr>
+          <td>Warm halogen gallery light</td>
+          <td>Subtle radial gradient glow in faint accent color behind focal content</td>
+        </tr>
+        <tr>
+          <td>Pressed letterpress</td>
+          <td>Text in near-black at thin weight that feels subtly pressed into the white surface</td>
+        </tr>
+        <tr>
+          <td>Silk ribbon bookmark</td>
+          <td>Accent color used as a single thin line marking a focal point</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <hr class="divider">
+
+  <!-- Related Aesthetics -->
+  <section class="section">
+    <span class="section-label reveal">Related Aesthetics</span>
+    <h2 class="reveal reveal-delay-1">Lineage and neighbors</h2>
+
+    <div class="related-grid">
+      <div class="related-card reveal">
+        <h3>Minimalism</h3>
+        <p>Direct ancestor. Resonant Stark adds emotional warmth and micro-interaction to minimalism's structural restraint.</p>
+      </div>
+      <div class="related-card reveal reveal-delay-1">
+        <h3>Japandi</h3>
+        <p>Parallel philosophy combining Japanese Ma with Scandinavian warmth. Resonant Stark is the digital expression.</p>
+      </div>
+      <div class="related-card reveal reveal-delay-1">
+        <h3>Swiss International</h3>
+        <p>Shares grid discipline and typographic focus, softened with warm tones and organic animation.</p>
+      </div>
+      <div class="related-card reveal reveal-delay-2">
+        <h3>Flat Design</h3>
+        <p>Shares rejection of ornamentation and skeuomorphism, but uses depth through subtle shadow and animation.</p>
+      </div>
+      <div class="related-card reveal reveal-delay-2">
+        <h3>Wabi-Sabi</h3>
+        <p>Both find beauty in restraint and imperfection. Resonant Stark allows slight asymmetry and organic warmth.</p>
+      </div>
+      <div class="related-card reveal reveal-delay-3">
+        <h3>Kinfolk</h3>
+        <p>Shares warm minimalist photography and generous whitespace, but Resonant Stark is more architecturally rigorous.</p>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- Implementation Notes -->
+  <section class="section notes-section">
+    <span class="section-label reveal">Implementation Notes</span>
+    <h2 class="reveal reveal-delay-1">Building with care</h2>
+
+    <div style="padding-top: var(--stark-space-md);">
+      <div class="note-item reveal">
+        <span class="note-marker">/</span>
+        <div class="note-text"><em>Warm minimalism, not cold minimalism.</em> Avoid pure white backgrounds, blue-gray palettes, or sharp geometric precision. The warmth comes from off-white tones, warm grays, and organic transition timing.</div>
+      </div>
+      <div class="note-item reveal reveal-delay-1">
+        <span class="note-marker">/</span>
+        <div class="note-text"><em>Whitespace is the primary design element.</em> Resist the urge to fill empty space. If a layout does not feel uncomfortably sparse during development, there is not enough whitespace.</div>
+      </div>
+      <div class="note-item reveal reveal-delay-1">
+        <span class="note-marker">/</span>
+        <div class="note-text"><em>Micro-interactions are essential.</em> Without hover effects and scroll reveals, the aesthetic collapses into plain emptiness. The subtle animations make the design feel alive rather than abandoned.</div>
+      </div>
+      <div class="note-item reveal reveal-delay-2">
+        <span class="note-marker">/</span>
+        <div class="note-text"><em>Ultra-thin fonts require anti-aliasing.</em> Always use -webkit-font-smoothing: antialiased and test at multiple screen densities. Thin fonts can vanish on low-DPI displays.</div>
+      </div>
+      <div class="note-item reveal reveal-delay-2">
+        <span class="note-marker">/</span>
+        <div class="note-text"><em>One accent color maximum.</em> Multiple accent colors destroy the near-monochrome restraint. If the accent feels prominent, it is overused.</div>
+      </div>
+      <div class="note-item reveal reveal-delay-3">
+        <span class="note-marker">/</span>
+        <div class="note-text"><em>Respect prefers-reduced-motion.</em> The scroll and hover animations are central to the aesthetic, but accessibility requires honoring motion preferences with immediate fallbacks.</div>
+      </div>
+      <div class="note-item reveal reveal-delay-3">
+        <span class="note-marker">/</span>
+        <div class="note-text"><em>Performance creates presence.</em> Thin fonts, smooth transitions, and vast whitespace create an expectation of speed and polish. Any layout shift or janky animation shatters the illusion.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Closing Quote -->
+  <div class="pull-quote" style="padding-top: var(--stark-space-2xl); padding-bottom: var(--stark-space-xl);">
+    <blockquote class="reveal">
+      The pause that gives weight to what follows.
+    </blockquote>
+    <cite class="reveal reveal-delay-1">The essence of resonance</cite>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <p>Resonant Stark -- Design Reference</p>
+    <p class="footer-tagline">Purpose-driven minimalism</p>
+  </footer>
+
+  <!-- JavaScript: Scroll-triggered Reveals -->
+  <script>
+    (function () {
+      // Intersection Observer for scroll-triggered reveals
+      const revealObserver = new IntersectionObserver(
+        function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('is-visible');
+              revealObserver.unobserve(entry.target);
+            }
+          });
+        },
+        {
+          threshold: 0.12,
+          rootMargin: '0px 0px -50px 0px'
+        }
+      );
+
+      // Observe all reveal elements
+      var revealElements = document.querySelectorAll('.reveal, .reveal-glacial');
+      revealElements.forEach(function (el) {
+        revealObserver.observe(el);
+      });
+
+      // Smooth scroll for anchor links
+      document.querySelectorAll('a[href^="#"]').forEach(function (anchor) {
+        anchor.addEventListener('click', function (e) {
+          var targetId = this.getAttribute('href');
+          if (targetId === '#') return;
+          var target = document.querySelector(targetId);
+          if (target) {
+            e.preventDefault();
+            target.scrollIntoView({
+              behavior: 'smooth',
+              block: 'start'
+            });
+          }
+        });
+      });
+
+      // Subtle parallax on hero glow
+      var hero = document.querySelector('.hero');
+      if (hero) {
+        window.addEventListener('scroll', function () {
+          var scrollY = window.pageYOffset;
+          if (scrollY < window.innerHeight) {
+            var opacity = 1 - (scrollY / window.innerHeight) * 0.6;
+            hero.style.setProperty('--hero-opacity', Math.max(opacity, 0.3));
+          }
+        }, { passive: true });
+      }
+    })();
+  </script>
+
+</body>
+</html>

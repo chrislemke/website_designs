@@ -1,0 +1,2072 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Raw Industrial -- Design Aesthetic</title>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&family=Barlow+Condensed:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* =============================================
+       RAW INDUSTRIAL -- CSS CUSTOM PROPERTIES
+       ============================================= */
+    :root {
+      /* Concrete tones */
+      --ri-concrete: #a8a29e;
+      --ri-concrete-light: #c4bfb9;
+      --ri-concrete-warm: #8d8680;
+
+      /* Dark tones */
+      --ri-charcoal: #2c2c2c;
+      --ri-dark-iron: #1e1e1e;
+
+      /* Brick tones */
+      --ri-brick: #9b4b3a;
+      --ri-brick-aged: #7a3f32;
+      --ri-mortar: #c4aa8d;
+
+      /* Wood tones */
+      --ri-oak: #8b6f4e;
+      --ri-timber: #a67c52;
+      --ri-plank: #5e4b3b;
+
+      /* Metal tones */
+      --ri-gunmetal: #4a4a4f;
+      --ri-steel: #6e6e73;
+      --ri-copper: #8b6b4a;
+      --ri-patina: #5c7a6b;
+
+      /* Light tones */
+      --ri-dusty-white: #e8e3dd;
+      --ri-cream: #f0ebe3;
+      --ri-linen: #d9d0c5;
+
+      /* Accent */
+      --ri-edison: #d4a44c;
+
+      /* Functional assignments */
+      --ri-bg-primary: var(--ri-cream);
+      --ri-bg-secondary: var(--ri-concrete-light);
+      --ri-bg-surface: var(--ri-concrete);
+      --ri-bg-dark: var(--ri-charcoal);
+      --ri-bg-deep: var(--ri-dark-iron);
+      --ri-text-primary: var(--ri-charcoal);
+      --ri-text-secondary: var(--ri-gunmetal);
+      --ri-text-muted: var(--ri-concrete-warm);
+      --ri-text-on-dark: var(--ri-dusty-white);
+      --ri-accent-warm: var(--ri-brick);
+      --ri-accent-wood: var(--ri-oak);
+      --ri-accent-metal: var(--ri-steel);
+      --ri-accent-glow: var(--ri-edison);
+      --ri-border: var(--ri-mortar);
+      --ri-border-dark: var(--ri-gunmetal);
+    }
+
+    /* =============================================
+       RESET & BASE
+       ============================================= */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+      background: var(--ri-bg-primary);
+      color: var(--ri-text-primary);
+      font-family: 'Barlow', 'DM Sans', sans-serif;
+      font-weight: 400;
+      font-size: 1rem;
+      line-height: 1.75;
+      letter-spacing: 0.01em;
+      overflow-x: hidden;
+    }
+
+    /* Global concrete noise overlay */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      opacity: 0.03;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size: 256px 256px;
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    img { max-width: 100%; display: block; }
+
+    a {
+      color: var(--ri-brick);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(155, 75, 58, 0.3);
+      transition: color 0.2s, border-color 0.2s;
+    }
+    a:hover {
+      color: var(--ri-brick-aged);
+      border-bottom-color: var(--ri-brick-aged);
+    }
+
+    /* =============================================
+       TYPOGRAPHY
+       ============================================= */
+    h1, h2 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      line-height: 1.1;
+      color: var(--ri-charcoal);
+    }
+
+    h3, h4 {
+      font-family: 'Barlow', 'DM Sans', sans-serif;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      color: var(--ri-gunmetal);
+    }
+
+    .ri-display {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: clamp(2.5rem, 7vw, 6rem);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      line-height: 1.0;
+    }
+
+    .ri-label {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.72rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--ri-concrete-warm);
+    }
+
+    .ri-mono {
+      font-family: 'IBM Plex Mono', monospace;
+    }
+
+    /* =============================================
+       ANIMATIONS
+       ============================================= */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes slideInLeft {
+      from {
+        opacity: 0;
+        transform: translateX(-40px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes revealWidth {
+      from { width: 0; }
+      to { width: 100%; }
+    }
+
+    @keyframes flickerGlow {
+      0%, 100% { opacity: 0.08; }
+      10% { opacity: 0.06; }
+      20% { opacity: 0.09; }
+      30% { opacity: 0.07; }
+      50% { opacity: 0.1; }
+      60% { opacity: 0.06; }
+      80% { opacity: 0.08; }
+      90% { opacity: 0.1; }
+    }
+
+    @keyframes pulseDim {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.7; }
+    }
+
+    .anim-fade-up {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .anim-fade-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .anim-slide-left {
+      opacity: 0;
+      transform: translateX(-40px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .anim-slide-left.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    /* =============================================
+       NAVIGATION
+       ============================================= */
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      background: rgba(30, 30, 30, 0.92);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--ri-gunmetal);
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 56px;
+      transition: transform 0.3s ease;
+    }
+
+    .nav-logo {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 1.1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--ri-dusty-white);
+      border: none;
+    }
+    .nav-logo:hover { color: var(--ri-edison); border: none; }
+    .nav-logo span { color: var(--ri-brick); }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.68rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--ri-concrete-warm);
+      border: none;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover {
+      color: var(--ri-edison);
+      border: none;
+    }
+
+    /* =============================================
+       HERO SECTION
+       ============================================= */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 8rem 2rem 6rem;
+      background: var(--ri-dark-iron);
+      overflow: hidden;
+    }
+
+    /* Concrete texture on hero */
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-color: var(--ri-dark-iron);
+      background-image:
+        url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.08'/%3E%3C/svg%3E");
+      background-size: 512px 512px;
+      opacity: 1;
+    }
+
+    /* Edison bulb glow -- flickering */
+    .hero-glow {
+      position: absolute;
+      top: -5%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 600px;
+      height: 500px;
+      background: radial-gradient(
+        ellipse at center,
+        rgba(212, 164, 76, 0.1) 0%,
+        rgba(212, 164, 76, 0.04) 35%,
+        transparent 65%
+      );
+      pointer-events: none;
+      animation: flickerGlow 8s ease-in-out infinite;
+      z-index: 1;
+    }
+
+    /* Hanging wire / pendant */
+    .hero-pendant {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 2px;
+      height: 120px;
+      background: linear-gradient(180deg, var(--ri-gunmetal), var(--ri-steel));
+      z-index: 2;
+    }
+    .hero-pendant::after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 40% 35%, var(--ri-edison), #b08930);
+      box-shadow: 0 0 20px rgba(212, 164, 76, 0.4), 0 0 60px rgba(212, 164, 76, 0.15);
+      animation: pulseDim 4s ease-in-out infinite;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 3;
+      max-width: 900px;
+    }
+
+    .hero-tagline {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.72rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--ri-concrete-warm);
+      margin-bottom: 2rem;
+      animation: fadeIn 1s ease 0.3s both;
+    }
+
+    .hero h1 {
+      font-size: clamp(3rem, 9vw, 7rem);
+      color: var(--ri-dusty-white);
+      line-height: 0.95;
+      margin-bottom: 1.5rem;
+      animation: fadeInUp 0.8s ease 0.5s both;
+    }
+    .hero h1 .accent {
+      color: var(--ri-brick);
+      display: block;
+    }
+
+    .hero-sub {
+      font-family: 'Barlow', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 400;
+      line-height: 1.7;
+      color: var(--ri-concrete);
+      max-width: 620px;
+      margin: 0 auto 2.5rem;
+      animation: fadeInUp 0.8s ease 0.7s both;
+    }
+
+    .hero-meta {
+      display: flex;
+      gap: 3rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      animation: fadeInUp 0.8s ease 0.9s both;
+    }
+
+    .hero-meta-item {
+      text-align: center;
+    }
+
+    .hero-meta-value {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: var(--ri-edison);
+      letter-spacing: 0.02em;
+      line-height: 1.1;
+    }
+
+    .hero-meta-label {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.62rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--ri-steel);
+      margin-top: 0.25rem;
+    }
+
+    /* Scroll indicator */
+    .scroll-indicator {
+      position: absolute;
+      bottom: 2.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 3;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      animation: fadeIn 1s ease 1.2s both;
+    }
+
+    .scroll-indicator span {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.6rem;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--ri-steel);
+    }
+
+    .scroll-line {
+      width: 1px;
+      height: 32px;
+      background: linear-gradient(180deg, var(--ri-steel), transparent);
+      animation: pulseDim 2s ease-in-out infinite;
+    }
+
+    /* =============================================
+       PIPE DIVIDER
+       ============================================= */
+    .pipe-divider {
+      height: 8px;
+      position: relative;
+      background: linear-gradient(
+        180deg,
+        rgba(255,255,255,0.08) 0%,
+        var(--ri-steel) 20%,
+        var(--ri-gunmetal) 50%,
+        #363636 80%,
+        rgba(0,0,0,0.15) 100%
+      );
+      border-radius: 4px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.12), 0 -1px 0 rgba(255,255,255,0.04);
+    }
+
+    .pipe-divider::before,
+    .pipe-divider::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 14px;
+      height: 14px;
+      background: radial-gradient(
+        circle at 40% 40%,
+        var(--ri-linen),
+        var(--ri-steel) 50%,
+        var(--ri-gunmetal)
+      );
+      border-radius: 50%;
+      border: 1px solid rgba(0,0,0,0.2);
+      box-shadow: 0 1px 2px rgba(0,0,0,0.3);
+    }
+    .pipe-divider::before { left: 15%; }
+    .pipe-divider::after { right: 15%; }
+
+    /* =============================================
+       MORTAR DIVIDER
+       ============================================= */
+    .mortar-divider {
+      border: none;
+      height: 2px;
+      background: var(--ri-mortar);
+      opacity: 0.4;
+      margin: 0;
+    }
+
+    /* =============================================
+       SECTION: OVERVIEW
+       ============================================= */
+    .section {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 5rem 2rem;
+    }
+
+    .section-header {
+      margin-bottom: 2.5rem;
+    }
+
+    .section-number {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.68rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: var(--ri-concrete-warm);
+      margin-bottom: 0.75rem;
+      display: block;
+    }
+
+    .section h2 {
+      font-size: clamp(1.6rem, 4vw, 2.5rem);
+      margin-bottom: 0.5rem;
+    }
+
+    .section-intro {
+      font-size: 1.1rem;
+      line-height: 1.8;
+      color: var(--ri-text-secondary);
+      max-width: 750px;
+    }
+
+    /* =============================================
+       CONCRETE BACKGROUND SECTION
+       ============================================= */
+    .concrete-bg {
+      background-color: var(--ri-concrete-light);
+      background-image:
+        url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E"),
+        radial-gradient(circle at 30% 70%, rgba(139, 111, 78, 0.03) 0%, transparent 50%),
+        radial-gradient(circle at 70% 30%, rgba(74, 74, 79, 0.03) 0%, transparent 50%);
+    }
+
+    /* =============================================
+       BRICK BACKGROUND SECTION
+       ============================================= */
+    .brick-bg {
+      background-color: #8B5C4A;
+      background-image:
+        repeating-linear-gradient(
+          0deg,
+          transparent 0px, transparent 28px,
+          var(--ri-mortar) 28px, var(--ri-mortar) 32px
+        ),
+        repeating-linear-gradient(
+          90deg,
+          transparent 0px, transparent 60px,
+          var(--ri-mortar) 60px, var(--ri-mortar) 64px
+        ),
+        radial-gradient(ellipse at 20% 50%, rgba(155, 75, 58, 0.4) 0%, transparent 50%),
+        radial-gradient(ellipse at 70% 30%, rgba(122, 63, 50, 0.3) 0%, transparent 50%),
+        url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E");
+    }
+
+    /* =============================================
+       WOOD BACKGROUND SECTION
+       ============================================= */
+    .wood-bg {
+      background-color: var(--ri-oak);
+      background-image:
+        repeating-linear-gradient(
+          90deg,
+          transparent 0px, transparent 3px,
+          rgba(255, 255, 255, 0.03) 3px, rgba(255, 255, 255, 0.03) 4px,
+          transparent 4px, transparent 10px
+        ),
+        repeating-linear-gradient(
+          88deg,
+          transparent 0px, transparent 20px,
+          rgba(0, 0, 0, 0.04) 20px, rgba(0, 0, 0, 0.04) 22px,
+          transparent 22px, transparent 50px
+        ),
+        linear-gradient(
+          90deg,
+          rgba(166, 124, 82, 0.3) 0%,
+          rgba(139, 111, 78, 0.1) 30%,
+          rgba(166, 124, 82, 0.2) 60%,
+          rgba(94, 75, 59, 0.15) 100%
+        );
+    }
+
+    /* =============================================
+       DARK SECTION
+       ============================================= */
+    .dark-bg {
+      background: var(--ri-charcoal);
+      color: var(--ri-dusty-white);
+    }
+    .dark-bg h2 { color: var(--ri-dusty-white); }
+    .dark-bg h3 { color: var(--ri-linen); }
+    .dark-bg p { color: var(--ri-linen); }
+    .dark-bg .section-intro { color: var(--ri-concrete); }
+
+    .deep-bg {
+      background: var(--ri-dark-iron);
+      color: var(--ri-dusty-white);
+    }
+    .deep-bg h2 { color: var(--ri-dusty-white); }
+
+    /* =============================================
+       INDUSTRIAL PANELS
+       ============================================= */
+    .ri-panel {
+      background: var(--ri-cream);
+      border: 1px solid var(--ri-mortar);
+      padding: 2rem;
+      position: relative;
+      box-shadow:
+        0 2px 8px rgba(0,0,0,0.06),
+        inset 0 1px 0 rgba(255,255,255,0.6);
+    }
+
+    .ri-panel::before,
+    .ri-panel::after {
+      content: '';
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      background: radial-gradient(
+        circle at 35% 35%,
+        var(--ri-linen),
+        var(--ri-steel) 60%,
+        var(--ri-gunmetal)
+      );
+      border-radius: 50%;
+      border: 1px solid rgba(0,0,0,0.12);
+    }
+    .ri-panel::before { top: 12px; left: 12px; }
+    .ri-panel::after { top: 12px; right: 12px; }
+
+    .ri-panel h3 {
+      margin-bottom: 0.75rem;
+      font-size: 1.05rem;
+    }
+    .ri-panel p {
+      color: var(--ri-text-secondary);
+      font-size: 0.95rem;
+      line-height: 1.7;
+    }
+
+    .ri-panel-dark {
+      background: var(--ri-charcoal);
+      border: 1px solid var(--ri-gunmetal);
+      padding: 2rem;
+      color: var(--ri-dusty-white);
+      position: relative;
+      box-shadow:
+        0 4px 12px rgba(0,0,0,0.25),
+        inset 0 1px 0 rgba(255,255,255,0.04);
+    }
+    .ri-panel-dark h3 { color: var(--ri-dusty-white); }
+    .ri-panel-dark p { color: var(--ri-linen); }
+
+    /* =============================================
+       METAL RACK GRID
+       ============================================= */
+    .ri-rack {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 0;
+      border: 2px solid var(--ri-gunmetal);
+    }
+
+    .ri-rack-item {
+      padding: 2rem;
+      border: 1px solid var(--ri-gunmetal);
+      background: var(--ri-cream);
+      position: relative;
+      transition: background 0.3s ease;
+    }
+    .ri-rack-item:hover {
+      background: var(--ri-dusty-white);
+    }
+
+    .ri-rack-item::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(180deg, var(--ri-steel) 0%, var(--ri-gunmetal) 100%);
+    }
+
+    .ri-rack-item .ri-label {
+      margin-bottom: 0.75rem;
+      display: block;
+    }
+
+    .ri-rack-item h3 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 600;
+      font-size: 1.15rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--ri-charcoal);
+      margin-bottom: 0.5rem;
+    }
+
+    .ri-rack-item p {
+      font-size: 0.9rem;
+      color: var(--ri-text-secondary);
+      line-height: 1.65;
+    }
+
+    /* =============================================
+       DESIGN PRINCIPLES LIST
+       ============================================= */
+    .principles-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-top: 2.5rem;
+    }
+
+    .principle-item {
+      display: flex;
+      gap: 1.25rem;
+      align-items: flex-start;
+    }
+
+    .principle-icon {
+      flex-shrink: 0;
+      width: 40px;
+      height: 40px;
+      background: var(--ri-charcoal);
+      border: 1px solid var(--ri-gunmetal);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    .principle-icon::after {
+      content: '';
+      width: 12px;
+      height: 12px;
+      background: radial-gradient(circle at 40% 40%, var(--ri-edison), var(--ri-copper));
+      border-radius: 50%;
+    }
+
+    .principle-text h4 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--ri-charcoal);
+      margin-bottom: 0.25rem;
+    }
+
+    .principle-text p {
+      font-size: 0.9rem;
+      color: var(--ri-text-secondary);
+      line-height: 1.6;
+    }
+
+    /* =============================================
+       COLOR PALETTE DISPLAY
+       ============================================= */
+    .palette-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 1px;
+      background: var(--ri-gunmetal);
+      border: 2px solid var(--ri-gunmetal);
+      margin-top: 2.5rem;
+    }
+
+    .palette-swatch {
+      padding: 0;
+      background: var(--ri-cream);
+    }
+
+    .palette-color {
+      height: 72px;
+      transition: transform 0.2s ease;
+    }
+    .palette-swatch:hover .palette-color {
+      transform: scaleY(1.1);
+      transform-origin: top;
+    }
+
+    .palette-info {
+      padding: 0.75rem 0.75rem 0.85rem;
+    }
+
+    .palette-name {
+      font-family: 'Barlow', sans-serif;
+      font-weight: 600;
+      font-size: 0.78rem;
+      color: var(--ri-charcoal);
+      margin-bottom: 0.15rem;
+    }
+
+    .palette-hex {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.65rem;
+      font-weight: 500;
+      color: var(--ri-concrete-warm);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    /* =============================================
+       TYPOGRAPHY SHOWCASE
+       ============================================= */
+    .type-showcase {
+      margin-top: 2.5rem;
+    }
+
+    .type-row {
+      padding: 2rem 0;
+      border-bottom: 1px solid var(--ri-mortar);
+    }
+    .type-row:last-child { border-bottom: none; }
+
+    .type-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 0.75rem;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .type-font-name {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.68rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--ri-brick);
+    }
+
+    .type-font-use {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.62rem;
+      color: var(--ri-concrete-warm);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .type-sample-display {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      line-height: 1.05;
+      color: var(--ri-charcoal);
+    }
+
+    .type-sample-body {
+      font-family: 'Barlow', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 400;
+      line-height: 1.75;
+      color: var(--ri-text-secondary);
+    }
+
+    .type-sample-mono {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.85rem;
+      font-weight: 400;
+      line-height: 1.7;
+      color: var(--ri-text-secondary);
+      letter-spacing: 0.02em;
+    }
+
+    /* =============================================
+       WINDOW FRAME
+       ============================================= */
+    .ri-window-frame {
+      border: 3px solid var(--ri-charcoal);
+      padding: 1.5rem;
+      background: var(--ri-cream);
+      position: relative;
+      margin-top: 2.5rem;
+    }
+
+    .ri-window-frame::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 3px;
+      height: 100%;
+      background: var(--ri-charcoal);
+      z-index: 1;
+    }
+
+    .ri-window-frame::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 0;
+      transform: translateY(-50%);
+      width: 100%;
+      height: 3px;
+      background: var(--ri-charcoal);
+      z-index: 1;
+    }
+
+    .window-pane {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3px;
+    }
+
+    .window-pane-cell {
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .window-pane-cell h4 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--ri-brick);
+    }
+
+    .window-pane-cell p {
+      font-size: 0.85rem;
+      color: var(--ri-text-secondary);
+      line-height: 1.6;
+    }
+
+    /* =============================================
+       RELATED AESTHETICS -- NAMEPLATE TAGS
+       ============================================= */
+    .nameplate-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-top: 2rem;
+    }
+
+    .nameplate {
+      background: var(--ri-dark-iron);
+      border: 1px solid var(--ri-gunmetal);
+      padding: 0.6rem 1.2rem;
+      position: relative;
+      transition: border-color 0.2s ease, background 0.2s ease;
+    }
+    .nameplate:hover {
+      border-color: var(--ri-brick);
+      background: var(--ri-charcoal);
+    }
+
+    .nameplate-title {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.7rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--ri-dusty-white);
+      margin-bottom: 0.2rem;
+    }
+
+    .nameplate-desc {
+      font-family: 'Barlow', sans-serif;
+      font-size: 0.72rem;
+      color: var(--ri-concrete-warm);
+      line-height: 1.4;
+    }
+
+    /* =============================================
+       INDUSTRIAL BUTTONS
+       ============================================= */
+    .ri-button {
+      display: inline-block;
+      padding: 0.75rem 2rem;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 600;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--ri-dusty-white);
+      background: var(--ri-charcoal);
+      border: 1px solid var(--ri-gunmetal);
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+    }
+    .ri-button:hover {
+      background: var(--ri-brick);
+      border-color: var(--ri-brick-aged);
+      box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+      color: var(--ri-dusty-white);
+    }
+    .ri-button:active {
+      transform: translateY(1px);
+      box-shadow: 0 1px 2px rgba(0,0,0,0.15);
+    }
+
+    .ri-button--light {
+      background: var(--ri-cream);
+      color: var(--ri-charcoal);
+      border-color: var(--ri-mortar);
+    }
+    .ri-button--light:hover {
+      background: var(--ri-dusty-white);
+      border-color: var(--ri-brick);
+      color: var(--ri-brick);
+    }
+
+    /* =============================================
+       STAT BAR
+       ============================================= */
+    .stat-bar {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 0;
+      border: 2px solid var(--ri-gunmetal);
+      text-align: center;
+    }
+
+    .stat-item {
+      padding: 2rem 1rem;
+      border-right: 1px solid var(--ri-gunmetal);
+      position: relative;
+    }
+    .stat-item:last-child { border-right: none; }
+
+    .stat-value {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 700;
+      color: var(--ri-brick);
+      letter-spacing: 0.02em;
+      line-height: 1.1;
+    }
+
+    .stat-label {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.62rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--ri-concrete-warm);
+      margin-top: 0.4rem;
+    }
+
+    /* =============================================
+       INFLUENCE TABLE
+       ============================================= */
+    .influence-list {
+      margin-top: 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .influence-row {
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      border-bottom: 1px solid var(--ri-mortar);
+      padding: 1.25rem 0;
+      transition: background 0.2s ease;
+    }
+    .influence-row:first-child {
+      border-top: 1px solid var(--ri-mortar);
+    }
+    .influence-row:hover {
+      background: rgba(196, 170, 141, 0.08);
+    }
+
+    .influence-name {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 600;
+      font-size: 0.95rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--ri-charcoal);
+      padding-right: 1rem;
+    }
+
+    .influence-desc {
+      font-size: 0.9rem;
+      color: var(--ri-text-secondary);
+      line-height: 1.6;
+    }
+
+    /* =============================================
+       BRICK SECTION TEXT
+       ============================================= */
+    .brick-section-inner {
+      max-width: 700px;
+      margin: 0 auto;
+      text-align: center;
+      padding: 5rem 2rem;
+      position: relative;
+    }
+
+    .brick-section-inner h2 {
+      color: var(--ri-cream);
+      font-size: clamp(1.6rem, 4vw, 2.5rem);
+      margin-bottom: 1rem;
+    }
+
+    .brick-section-inner p {
+      color: var(--ri-linen);
+      font-size: 1.05rem;
+      line-height: 1.75;
+      margin-bottom: 1.5rem;
+    }
+
+    /* =============================================
+       EDISON GLOW SECTION (QUOTE)
+       ============================================= */
+    .quote-section {
+      text-align: center;
+      padding: 5rem 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .quote-glow {
+      position: absolute;
+      top: -20%;
+      left: 25%;
+      width: 50%;
+      height: 60%;
+      background: radial-gradient(
+        ellipse at center,
+        rgba(212, 164, 76, 0.08) 0%,
+        rgba(212, 164, 76, 0.03) 40%,
+        transparent 70%
+      );
+      pointer-events: none;
+      animation: flickerGlow 6s ease-in-out infinite;
+    }
+
+    .quote-text {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: clamp(1.4rem, 3.5vw, 2.2rem);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      line-height: 1.25;
+      color: var(--ri-dusty-white);
+      max-width: 700px;
+      margin: 0 auto 1rem;
+      position: relative;
+      z-index: 1;
+    }
+    .quote-text .highlight {
+      color: var(--ri-edison);
+      text-shadow: 0 0 20px rgba(212, 164, 76, 0.15);
+    }
+
+    .quote-attr {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--ri-steel);
+      position: relative;
+      z-index: 1;
+    }
+
+    /* =============================================
+       MATERIALS TABLE
+       ============================================= */
+    .materials-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 2rem;
+      font-size: 0.88rem;
+    }
+
+    .materials-table thead th {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.68rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--ri-concrete-warm);
+      text-align: left;
+      padding: 1rem 1rem 0.75rem;
+      border-bottom: 2px solid var(--ri-gunmetal);
+    }
+
+    .materials-table tbody td {
+      padding: 0.85rem 1rem;
+      border-bottom: 1px solid var(--ri-mortar);
+      vertical-align: top;
+      color: var(--ri-text-secondary);
+      line-height: 1.55;
+    }
+
+    .materials-table tbody td:first-child {
+      font-family: 'Barlow', sans-serif;
+      font-weight: 600;
+      color: var(--ri-charcoal);
+      white-space: nowrap;
+      padding-right: 2rem;
+    }
+
+    .materials-table tbody tr:hover {
+      background: rgba(196, 170, 141, 0.06);
+    }
+
+    /* =============================================
+       FOOTER
+       ============================================= */
+    .footer {
+      text-align: center;
+      padding: 3rem 2rem;
+      background: var(--ri-dark-iron);
+      border-top: 1px solid var(--ri-gunmetal);
+    }
+
+    .footer-brand {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 1.3rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--ri-steel);
+      margin-bottom: 0.5rem;
+    }
+    .footer-brand span { color: var(--ri-brick); }
+
+    .footer p {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ri-concrete-warm);
+    }
+
+    /* =============================================
+       RESPONSIVE
+       ============================================= */
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+
+      .hero { padding: 7rem 1.5rem 5rem; min-height: 90vh; }
+      .hero-meta { gap: 2rem; }
+
+      .section { padding: 3.5rem 1.5rem; }
+
+      .influence-row {
+        grid-template-columns: 1fr;
+        gap: 0.25rem;
+      }
+
+      .window-pane {
+        grid-template-columns: 1fr;
+      }
+      .ri-window-frame::before { display: none; }
+      .ri-window-frame::after {
+        top: 50%;
+      }
+
+      .stat-bar {
+        grid-template-columns: 1fr 1fr;
+      }
+      .stat-item { border-bottom: 1px solid var(--ri-gunmetal); }
+
+      .brick-section-inner { padding: 3.5rem 1.5rem; }
+      .quote-section { padding: 3.5rem 1.5rem; }
+    }
+
+    @media (max-width: 480px) {
+      .hero h1 { font-size: 2.5rem; }
+      .palette-grid { grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); }
+      .stat-bar { grid-template-columns: 1fr; }
+      .principles-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVIGATION -->
+  <nav class="nav" id="nav">
+    <a href="#" class="nav-logo">Raw <span>/</span> Industrial</a>
+    <ul class="nav-links">
+      <li><a href="#overview">Overview</a></li>
+      <li><a href="#visual">Visual</a></li>
+      <li><a href="#palette">Palette</a></li>
+      <li><a href="#typography">Type</a></li>
+      <li><a href="#materials">Materials</a></li>
+      <li><a href="#influences">Lineage</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <header class="hero" id="top">
+    <div class="hero-pendant"></div>
+    <div class="hero-glow"></div>
+    <div class="hero-content">
+      <p class="hero-tagline">Design Aesthetic Reference</p>
+      <h1>Raw<br><span class="accent">Industrial</span></h1>
+      <p class="hero-sub">Old factories, warehouses, and industrial spaces -- converted, celebrated, and lived in. Structural honesty as the primary decorative principle.</p>
+      <div class="hero-meta">
+        <div class="hero-meta-item">
+          <div class="hero-meta-value">2008+</div>
+          <div class="hero-meta-label">Era of popularity</div>
+        </div>
+        <div class="hero-meta-item">
+          <div class="hero-meta-value">19</div>
+          <div class="hero-meta-label">Color tokens</div>
+        </div>
+        <div class="hero-meta-item">
+          <div class="hero-meta-value">10</div>
+          <div class="hero-meta-label">Recommended fonts</div>
+        </div>
+        <div class="hero-meta-item">
+          <div class="hero-meta-value">9</div>
+          <div class="hero-meta-label">Design principles</div>
+        </div>
+      </div>
+    </div>
+    <div class="scroll-indicator">
+      <span>Scroll</span>
+      <div class="scroll-line"></div>
+    </div>
+  </header>
+
+  <div class="pipe-divider"></div>
+
+  <!-- OVERVIEW -->
+  <section class="section" id="overview">
+    <div class="section-header anim-fade-up">
+      <span class="section-number">Section 01 -- Overview</span>
+      <h2>What Is Raw Industrial?</h2>
+    </div>
+    <p class="section-intro anim-fade-up">Raw Industrial is an interior design and visual aesthetic that draws inspiration from old factories, warehouses, and industrial spaces -- particularly those converted into residential or commercial use. Gaining popularity in the late 2000s and throughout the 2010s, it incorporates elements such as exposed brick, weathered wood, visible building systems, industrial lighting fixtures, and concrete.</p>
+
+    <div class="ri-panel anim-fade-up" style="margin-top: 2.5rem;">
+      <h3 style="color: var(--ri-brick);">The Core Philosophy</h3>
+      <p>The result is an environment that celebrates <strong>rawness, functionality, urbanity, repurposed spaces, and industrial heritage</strong> -- creating an unfinished or warehouse-like atmosphere where structural honesty is the primary decorative principle. Unlike polished minimalism, Raw Industrial finds beauty in the imperfect, the utilitarian, and the visibly aged -- surfaces that show their history and construction that refuses to hide behind drywall.</p>
+    </div>
+  </section>
+
+  <hr class="mortar-divider">
+
+  <!-- VISUAL CHARACTERISTICS -->
+  <section class="section concrete-bg" id="visual" style="max-width: 100%; padding-left: 0; padding-right: 0;">
+    <div style="max-width: 1000px; margin: 0 auto; padding: 0 2rem;">
+      <div class="section-header anim-fade-up">
+        <span class="section-number">Section 02 -- Visual Characteristics</span>
+        <h2>Core Motifs & Elements</h2>
+      </div>
+      <p class="section-intro anim-fade-up" style="margin-bottom: 2.5rem;">The visual language of Raw Industrial is built from the honest materials and functional elements of converted warehouse spaces. Every surface tells a story of its original purpose.</p>
+    </div>
+
+    <div class="ri-rack anim-fade-up" style="max-width: 1000px; margin: 0 auto;">
+      <div class="ri-rack-item">
+        <span class="ri-label">Element 01</span>
+        <h3>Exposed Brick Walls</h3>
+        <p>The signature Raw Industrial surface -- aged, irregular, warm-toned masonry left uncovered as a feature wall or throughout the space.</p>
+      </div>
+      <div class="ri-rack-item">
+        <span class="ri-label">Element 02</span>
+        <h3>Visible Building Systems</h3>
+        <p>Plumbing, HVAC, conduits, and structural elements displayed rather than concealed. Function becomes ornament.</p>
+      </div>
+      <div class="ri-rack-item">
+        <span class="ri-label">Element 03</span>
+        <h3>Concrete Surfaces</h3>
+        <p>Raw or polished concrete flooring, walls, and countertops with natural variation, patching, and subtle imperfections.</p>
+      </div>
+      <div class="ri-rack-item">
+        <span class="ri-label">Element 04</span>
+        <h3>Reclaimed Wood</h3>
+        <p>Rough-sawn timber, salvaged planks, and aged lumber with visible grain, nail holes, and patina from decades of use.</p>
+      </div>
+      <div class="ri-rack-item">
+        <span class="ri-label">Element 05</span>
+        <h3>Metal Fixtures & Accents</h3>
+        <p>Iron, steel, copper, and brushed metal in lighting, hardware, shelving, and structural elements throughout the space.</p>
+      </div>
+      <div class="ri-rack-item">
+        <span class="ri-label">Element 06</span>
+        <h3>Industrial Lighting</h3>
+        <p>Pendant lights with metal shades, Edison bulbs, cage lights, gooseneck lamps, and bare-filament fixtures.</p>
+      </div>
+      <div class="ri-rack-item">
+        <span class="ri-label">Element 07</span>
+        <h3>Exposed Beams</h3>
+        <p>Wooden or steel structural beams left visible, emphasizing the skeletal framework of the space above.</p>
+      </div>
+      <div class="ri-rack-item">
+        <span class="ri-label">Element 08</span>
+        <h3>Factory Windows</h3>
+        <p>Oversized factory-style windows with thin metal frames, flooding the space with natural light.</p>
+      </div>
+      <div class="ri-rack-item">
+        <span class="ri-label">Element 09</span>
+        <h3>Open Floor Plans</h3>
+        <p>Expansive, loft-like layouts with minimal partition walls. Distinct areas defined by furniture placement rather than walls.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- LIGHTING & ATMOSPHERE (QUOTE) -->
+  <div class="deep-bg quote-section">
+    <div class="quote-glow"></div>
+    <p class="quote-text">
+      <span class="highlight">Warm artificial lighting</span> counterbalances the coolness of concrete and metal -- Edison-style filament bulbs, directional fixtures creating pools of light against <span class="highlight">textured surfaces</span>, emphasizing material depth
+    </p>
+    <p class="quote-attr">-- Lighting & Atmosphere Principle</p>
+  </div>
+
+  <div class="pipe-divider"></div>
+
+  <!-- DESIGN PRINCIPLES -->
+  <section class="section" id="principles">
+    <div class="section-header anim-fade-up">
+      <span class="section-number">Section 03 -- Design Principles</span>
+      <h2>Guiding Principles</h2>
+    </div>
+    <p class="section-intro anim-fade-up">Nine foundational principles define the Raw Industrial approach to space, surface, and structure.</p>
+
+    <div class="principles-grid">
+      <div class="principle-item anim-fade-up">
+        <div class="principle-icon"></div>
+        <div class="principle-text">
+          <h4>Structural Honesty</h4>
+          <p>Never conceal what was meant to be hidden. Celebrate pipes, beams, wiring, and raw surfaces.</p>
+        </div>
+      </div>
+      <div class="principle-item anim-fade-up">
+        <div class="principle-icon"></div>
+        <div class="principle-text">
+          <h4>Material Authenticity</h4>
+          <p>Use real materials -- actual brick, genuine wood, true metal -- or faithfully simulate their aged, imperfect character.</p>
+        </div>
+      </div>
+      <div class="principle-item anim-fade-up">
+        <div class="principle-icon"></div>
+        <div class="principle-text">
+          <h4>Rawness Over Refinement</h4>
+          <p>Surfaces should show grain, wear, patina, and imperfection. Nothing should look freshly manufactured.</p>
+        </div>
+      </div>
+      <div class="principle-item anim-fade-up">
+        <div class="principle-icon"></div>
+        <div class="principle-text">
+          <h4>Functionality as Beauty</h4>
+          <p>Utilitarian objects and industrial hardware serve as decoration. Form follows function literally.</p>
+        </div>
+      </div>
+      <div class="principle-item anim-fade-up">
+        <div class="principle-icon"></div>
+        <div class="principle-text">
+          <h4>Open Spatial Flow</h4>
+          <p>Minimal barriers between zones. Furniture and lighting define areas within large open volumes.</p>
+        </div>
+      </div>
+      <div class="principle-item anim-fade-up">
+        <div class="principle-icon"></div>
+        <div class="principle-text">
+          <h4>Warm-Cool Tension</h4>
+          <p>Warm wood and brick tones balance cold concrete and metal for visual and emotional equilibrium.</p>
+        </div>
+      </div>
+      <div class="principle-item anim-fade-up">
+        <div class="principle-icon"></div>
+        <div class="principle-text">
+          <h4>Restrained Color Palette</h4>
+          <p>Let materials speak through their natural tones rather than applied color.</p>
+        </div>
+      </div>
+      <div class="principle-item anim-fade-up">
+        <div class="principle-icon"></div>
+        <div class="principle-text">
+          <h4>Heritage & Repurposing</h4>
+          <p>Honor the industrial past of a space or material. Show the history of use and age.</p>
+        </div>
+      </div>
+      <div class="principle-item anim-fade-up">
+        <div class="principle-icon"></div>
+        <div class="principle-text">
+          <h4>Texture Over Decoration</h4>
+          <p>Minimalism of decoration, maximalism of texture. Few decorative objects, but every surface is richly tactile.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="mortar-divider">
+
+  <!-- COLOR PALETTE -->
+  <section class="section" id="palette" style="max-width: 100%; padding-left: 0; padding-right: 0;">
+    <div style="max-width: 1000px; margin: 0 auto; padding: 0 2rem;">
+      <div class="section-header anim-fade-up">
+        <span class="section-number">Section 04 -- Color Palette</span>
+        <h2>Material-Driven Colors</h2>
+      </div>
+      <p class="section-intro anim-fade-up">A natural, material-driven palette built from the inherent colors of core materials: brick, concrete, wood, and metal. Color is never applied decoratively -- it emerges from the materials themselves.</p>
+    </div>
+
+    <!-- Palette by group -->
+    <div style="max-width: 1000px; margin: 0 auto; padding: 0 2rem;">
+
+      <p class="ri-label anim-fade-up" style="margin-top: 2.5rem; margin-bottom: 0.75rem;">Concrete Tones</p>
+      <div class="palette-grid anim-fade-up" style="margin-top: 0;">
+        <div class="palette-swatch">
+          <div class="palette-color" style="background: #a8a29e;"></div>
+          <div class="palette-info">
+            <div class="palette-name">Raw Concrete</div>
+            <div class="palette-hex">#A8A29E</div>
+          </div>
+        </div>
+        <div class="palette-swatch">
+          <div class="palette-color" style="background: #c4bfb9;"></div>
+          <div class="palette-info">
+            <div class="palette-name">Pale Concrete</div>
+            <div class="palette-hex">#C4BFB9</div>
+          </div>
+        </div>
+        <div class="palette-swatch">
+          <div class="palette-color" style="background: #8d8680;"></div>
+          <div class="palette-info">
+            <div class="palette-name">Warm Concrete</div>
+            <div class="palette-hex">#8D8680</div>
+          </div>
+        </div>
+      </div>
+
+      <p class="ri-label anim-fade-up" style="margin-top: 2rem; margin-bottom: 0.75rem;">Dark Tones</p>
+      <div class="palette-grid anim-fade-up" style="margin-top: 0;">
+        <div class="palette-swatch">
+          <div class="palette-color" style="background: #2c2c2c;"></div>
+          <div class="palette-info">
+            <div class="palette-name">Charcoal</div>
+            <div class="palette-hex">#2C2C2C</div>
+          </div>
+        </div>
+        <div class="palette-swatch">
+          <div class="palette-color" style="background: #1e1e1e;"></div>
+          <div class="palette-info">
+            <div class="palette-name">Dark Iron</div>
+            <div class="palette-hex">#1E1E1E</div>
+          </div>
+        </div>
+      </div>
+
+      <p class="ri-label anim-fade-up" style="margin-top: 2rem; margin-bottom: 0.75rem;">Brick Tones</p>
+      <div class="palette-grid anim-fade-up" style="margin-top: 0;">
+        <div class="palette-swatch">
+          <div class="palette-color" style="background: #9b4b3a;"></div>
+          <div class="palette-info">
+            <div class="palette-name">Exposed Brick</div>
+            <div class="palette-hex">#9B4B3A</div>
+          </div>
+        </div>
+        <div class="palette-swatch">
+          <div class="palette-color" style="background: #7a3f32;"></div>
+          <div class="palette-info">
+            <div class="palette-name">Aged Brick</div>
+            <div class="palette-hex">#7A3F32</div>
+          </div>
+        </div>
+        <div class="palette-swatch">
+          <div class="palette-color" style="background: #c4aa8d;"></div>
+          <div class="palette-info">
+            <div class="palette-name">Mortar Tan</div>
+            <div class="palette-hex">#C4AA8D</div>
+          </div>
+        </div>
+      </div>
+
+      <p class="ri-label anim-fade-up" style="margin-top: 2rem; margin-bottom: 0.75rem;">Wood Tones</p>
+      <div class="palette-grid anim-fade-up" style="margin-top: 0;">
+        <div class="palette-swatch">
+          <div class="palette-color" style="background: #8b6f4e;"></div>
+          <div class="palette-info">
+            <div class="palette-name">Weathered Oak</div>
+            <div class="palette-hex">#8B6F4E</div>
+          </div>
+        </div>
+        <div class="palette-swatch">
+          <div class="palette-color" style="background: #a67c52;"></div>
+          <div class="palette-info">
+            <div class="palette-name">Honey Timber</div>
+            <div class="palette-hex">#A67C52</div>
+          </div>
+        </div>
+        <div class="palette-swatch">
+          <div class="palette-color" style="background: #5e4b3b;"></div>
+          <div class="palette-info">
+            <div class="palette-name">Reclaimed Plank</div>
+            <div class="palette-hex">#5E4B3B</div>
+          </div>
+        </div>
+      </div>
+
+      <p class="ri-label anim-fade-up" style="margin-top: 2rem; margin-bottom: 0.75rem;">Metal Tones</p>
+      <div class="palette-grid anim-fade-up" style="margin-top: 0;">
+        <div class="palette-swatch">
+          <div class="palette-color" style="background: #4a4a4f;"></div>
+          <div class="palette-info">
+            <div class="palette-name">Gunmetal</div>
+            <div class="palette-hex">#4A4A4F</div>
+          </div>
+        </div>
+        <div class="palette-swatch">
+          <div class="palette-color" style="background: #6e6e73;"></div>
+          <div class="palette-info">
+            <div class="palette-name">Brushed Steel</div>
+            <div class="palette-hex">#6E6E73</div>
+          </div>
+        </div>
+        <div class="palette-swatch">
+          <div class="palette-color" style="background: #8b6b4a;"></div>
+          <div class="palette-info">
+            <div class="palette-name">Aged Copper</div>
+            <div class="palette-hex">#8B6B4A</div>
+          </div>
+        </div>
+        <div class="palette-swatch">
+          <div class="palette-color" style="background: #5c7a6b;"></div>
+          <div class="palette-info">
+            <div class="palette-name">Patina Green</div>
+            <div class="palette-hex">#5C7A6B</div>
+          </div>
+        </div>
+      </div>
+
+      <p class="ri-label anim-fade-up" style="margin-top: 2rem; margin-bottom: 0.75rem;">Light Tones & Accent</p>
+      <div class="palette-grid anim-fade-up" style="margin-top: 0;">
+        <div class="palette-swatch">
+          <div class="palette-color" style="background: #e8e3dd;"></div>
+          <div class="palette-info">
+            <div class="palette-name">Dusty White</div>
+            <div class="palette-hex">#E8E3DD</div>
+          </div>
+        </div>
+        <div class="palette-swatch">
+          <div class="palette-color" style="background: #f0ebe3;"></div>
+          <div class="palette-info">
+            <div class="palette-name">Warm Cream</div>
+            <div class="palette-hex">#F0EBE3</div>
+          </div>
+        </div>
+        <div class="palette-swatch">
+          <div class="palette-color" style="background: #d9d0c5;"></div>
+          <div class="palette-info">
+            <div class="palette-name">Linen</div>
+            <div class="palette-hex">#D9D0C5</div>
+          </div>
+        </div>
+        <div class="palette-swatch">
+          <div class="palette-color" style="background: #d4a44c;"></div>
+          <div class="palette-info">
+            <div class="palette-name">Edison Amber</div>
+            <div class="palette-hex">#D4A44C</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Color Approaches -->
+    <div style="max-width: 1000px; margin: 0 auto; padding: 0 2rem;">
+      <div class="ri-panel anim-fade-up" style="margin-top: 3rem;">
+        <h3 style="color: var(--ri-brick); margin-bottom: 1rem;">Color Approach Summary</h3>
+        <p style="margin-bottom: 0.5rem;"><strong>Material-first palette</strong> -- every color maps to a real material: concrete gray, brick red, wood brown, metal dark.</p>
+        <p style="margin-bottom: 0.5rem;"><strong>Neutral-dominant with warm undertones</strong> -- the base is cool gray, but warmth bleeds through from brick, wood, and amber lighting.</p>
+        <p style="margin-bottom: 0.5rem;"><strong>No saturated or synthetic colors</strong> -- nothing that could not plausibly exist in an old factory.</p>
+        <p style="margin-bottom: 0.5rem;"><strong>Tonal variation over color variety</strong> -- richness through many shades of gray-brown rather than new hue families.</p>
+        <p><strong>Warm accent restraint</strong> -- brick and wood tones are warm but never hot; copper and amber are used sparingly for glow.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- STAT BAR -->
+  <div class="dark-bg" style="padding: 0;">
+    <div class="stat-bar anim-fade-up" style="max-width: 1000px; margin: 0 auto; border-left: none; border-right: none; border-color: var(--ri-gunmetal); background: var(--ri-charcoal);">
+      <div class="stat-item" style="border-color: var(--ri-gunmetal);">
+        <div class="stat-value" style="color: var(--ri-edison);">6</div>
+        <div class="stat-label">Color groups</div>
+      </div>
+      <div class="stat-item" style="border-color: var(--ri-gunmetal);">
+        <div class="stat-value" style="color: var(--ri-edison);">19</div>
+        <div class="stat-label">Named colors</div>
+      </div>
+      <div class="stat-item" style="border-color: var(--ri-gunmetal);">
+        <div class="stat-value" style="color: var(--ri-edison);">37</div>
+        <div class="stat-label">CSS variables</div>
+      </div>
+      <div class="stat-item" style="border-color: var(--ri-gunmetal);">
+        <div class="stat-value" style="color: var(--ri-edison);">0</div>
+        <div class="stat-label">Synthetic hues</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="pipe-divider"></div>
+
+  <!-- TYPOGRAPHY -->
+  <section class="section" id="typography">
+    <div class="section-header anim-fade-up">
+      <span class="section-number">Section 05 -- Typography</span>
+      <h2>Industrial Type System</h2>
+    </div>
+    <p class="section-intro anim-fade-up">Typography drawn from factory signage, utilitarian labeling, and engineering documentation. The type should feel practical, functional, and slightly worn -- as if stamped into metal, stenciled onto crates, or printed on warehouse manifests.</p>
+
+    <div class="type-showcase">
+      <div class="type-row anim-fade-up">
+        <div class="type-meta">
+          <span class="type-font-name">Barlow Condensed / 700</span>
+          <span class="type-font-use">Display Headlines, Section Titles</span>
+        </div>
+        <div class="type-sample-display">Structural Honesty<br>In Every Surface</div>
+      </div>
+
+      <div class="type-row anim-fade-up">
+        <div class="type-meta">
+          <span class="type-font-name">Barlow / 400</span>
+          <span class="type-font-use">Primary Body Text</span>
+        </div>
+        <div class="type-sample-body">Clean, slightly condensed, with industrial precision. Barlow serves as the primary body text -- functional and unpretentious, with geometric clarity that reads effortlessly at any size. Its open letterforms and even spacing make long passages comfortable while maintaining the utilitarian character essential to the aesthetic.</div>
+      </div>
+
+      <div class="type-row anim-fade-up">
+        <div class="type-meta">
+          <span class="type-font-name">IBM Plex Mono / 500</span>
+          <span class="type-font-use">Labels, Metadata, Technical Text</span>
+        </div>
+        <div class="type-sample-mono">SECTION_ID: 05 // TYPEFACE_COUNT: 10 // STATUS: ACTIVE<br>Engineering-document clarity with mechanical spacing. Every character occupies the same width -- like characters stamped from a single die onto metal plates.</div>
+      </div>
+    </div>
+
+    <!-- Font pairing in window frame -->
+    <div class="ri-window-frame anim-fade-up">
+      <div class="window-pane">
+        <div class="window-pane-cell">
+          <h4>Pairing 01</h4>
+          <p><strong>Barlow Condensed (600)</strong> + Barlow (400)<br>Cohesive industrial family, signage-to-document feel</p>
+        </div>
+        <div class="window-pane-cell">
+          <h4>Pairing 02</h4>
+          <p><strong>Oswald (600)</strong> + DM Sans (400)<br>Bold factory headers with clean modern body text</p>
+        </div>
+        <div class="window-pane-cell">
+          <h4>Pairing 03</h4>
+          <p><strong>Archivo (700)</strong> + Work Sans (400)<br>Strong structural headings with warm readable body</p>
+        </div>
+        <div class="window-pane-cell">
+          <h4>Pairing 04</h4>
+          <p><strong>Roboto Condensed (700)</strong> + IBM Plex Mono (400)<br>Utilitarian headlines with technical-document body</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BRICK ACCENT SECTION -->
+  <div class="brick-bg">
+    <div class="brick-section-inner">
+      <span class="ri-label anim-fade-up" style="color: var(--ri-linen); opacity: 0.7; display: block; margin-bottom: 1rem;">Material Surface</span>
+      <h2 class="anim-fade-up">Exposed Brick</h2>
+      <p class="anim-fade-up">The signature warm element of Raw Industrial design. Aged, irregular, warm-toned masonry provides counterbalance to cool concrete and metal surfaces. Mortar lines create a subtle grid -- structural and honest. The brick wall is never decorative wallpaper; it is the real wall, stripped bare, wearing its century-old patina with quiet authority.</p>
+    </div>
+  </div>
+
+  <hr class="mortar-divider">
+
+  <!-- LAYOUT PRINCIPLES -->
+  <section class="section">
+    <div class="section-header anim-fade-up">
+      <span class="section-number">Section 06 -- Layout Principles</span>
+      <h2>Spatial Organization</h2>
+    </div>
+    <p class="section-intro anim-fade-up">The layout reflects the open, expansive character of converted warehouse spaces -- generous breathing room, clear structural grids, and material-change dividers between zones.</p>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 2.5rem;">
+      <div class="ri-panel anim-fade-up">
+        <h3 style="color: var(--ri-brick);">Grid & Structure</h3>
+        <p style="margin-bottom: 0.5rem;">Open, expansive layouts reflecting loft-like open floor plans. Wide content areas up to 1100-1400px to evoke warehouse scale.</p>
+        <p>Full-bleed material sections extend edge-to-edge. Horizontal zoning mirrors functional zones of industrial spaces.</p>
+      </div>
+      <div class="ri-panel anim-fade-up">
+        <h3 style="color: var(--ri-brick);">Section Organization</h3>
+        <p style="margin-bottom: 0.5rem;">Material-change dividers between sections -- shifting from concrete to wood to brick creates natural breaks without decorative separators.</p>
+        <p>Exposed-structure dividers: thin metal pipe lines, bolt-head accents, and visible beam elements.</p>
+      </div>
+    </div>
+
+    <div class="ri-panel-dark anim-fade-up" style="margin-top: 1.5rem;">
+      <h3 style="color: var(--ri-edison); margin-bottom: 0.75rem;">Spatial Characteristics</h3>
+      <p style="margin-bottom: 0.5rem;"><strong style="color: var(--ri-dusty-white);">Light-dominant overall</strong> -- unlike Industrial Gothic, Raw Industrial tends toward lighter tones; concrete and cream dominate over black.</p>
+      <p style="margin-bottom: 0.5rem;"><strong style="color: var(--ri-dusty-white);">Textured but not distressed</strong> -- surfaces have character but are not deliberately damaged or decayed.</p>
+      <p style="margin-bottom: 0.5rem;"><strong style="color: var(--ri-dusty-white);">Minimal rounded corners</strong> -- prefer square or slightly rounded (2-4px) corners; sharp angles reflect industrial construction.</p>
+      <p><strong style="color: var(--ri-dusty-white);">Depth through layering</strong> -- subtle shadows and material overlap suggest physical depth without dramatic drop shadows.</p>
+    </div>
+  </section>
+
+  <div class="pipe-divider"></div>
+
+  <!-- MATERIALS TABLE -->
+  <section class="section" id="materials">
+    <div class="section-header anim-fade-up">
+      <span class="section-number">Section 07 -- Materials & Textures</span>
+      <h2>Physical to Digital Translation</h2>
+    </div>
+    <p class="section-intro anim-fade-up">Every physical material in Raw Industrial design has a web equivalent -- translating tactile reality into CSS techniques that preserve the essential character of each surface.</p>
+
+    <div class="anim-fade-up" style="overflow-x: auto;">
+      <table class="materials-table">
+        <thead>
+          <tr>
+            <th>Physical Material</th>
+            <th>Web Equivalent</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Exposed brick wall</td>
+            <td>Warm brown-red background with CSS repeating gradient mortar lines and noise overlay</td>
+          </tr>
+          <tr>
+            <td>Poured concrete</td>
+            <td>Cool gray background with subtle fractal noise texture at low opacity</td>
+          </tr>
+          <tr>
+            <td>Weathered wood planks</td>
+            <td>Warm brown background with fine linear gradient grain lines</td>
+          </tr>
+          <tr>
+            <td>Steel pipe</td>
+            <td>Narrow rounded div with cylindrical gradient (highlight-to-shadow)</td>
+          </tr>
+          <tr>
+            <td>Metal bolt / rivet</td>
+            <td>Small radial-gradient circle with offset highlight and border</td>
+          </tr>
+          <tr>
+            <td>Reclaimed wood shelf</td>
+            <td>Card element with wood-grain background, darker bottom border as shadow</td>
+          </tr>
+          <tr>
+            <td>Metal racking</td>
+            <td>Grid layout with gunmetal borders on all cells</td>
+          </tr>
+          <tr>
+            <td>Edison bulb</td>
+            <td>Amber radial gradient glow positioned at the top of sections</td>
+          </tr>
+          <tr>
+            <td>Factory window</td>
+            <td>Thick-bordered frame with internal mullion lines dividing the pane</td>
+          </tr>
+          <tr>
+            <td>Corrugated metal</td>
+            <td>Tight repeating linear-gradient alternating light and dark strips</td>
+          </tr>
+          <tr>
+            <td>Aged copper patina</td>
+            <td>Subtle green-tinted metallic accent on borders or decorative elements</td>
+          </tr>
+          <tr>
+            <td>Metal nameplate</td>
+            <td>Small panel with dark background, monospaced uppercase text, thin border</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- WOOD ACCENT SECTION -->
+  <div class="wood-bg">
+    <div class="brick-section-inner">
+      <span class="ri-label anim-fade-up" style="color: var(--ri-cream); opacity: 0.8; display: block; margin-bottom: 1rem;">Material Surface</span>
+      <h2 class="anim-fade-up" style="color: var(--ri-cream);">Weathered Wood</h2>
+      <p class="anim-fade-up" style="color: var(--ri-cream); opacity: 0.9;">Reclaimed timber carries the marks of its previous life -- nail holes, saw marks, and the gentle darkening of age. As a web background, wood grain translates into fine linear gradients with tonal variation, providing organic warmth that softens the harder edges of concrete and metal throughout the composition.</p>
+    </div>
+  </div>
+
+  <hr class="mortar-divider">
+
+  <!-- INFLUENCES -->
+  <section class="section" id="influences">
+    <div class="section-header anim-fade-up">
+      <span class="section-number">Section 08 -- Influences & Lineage</span>
+      <h2>Design Heritage</h2>
+    </div>
+    <p class="section-intro anim-fade-up">Raw Industrial draws from a rich lineage of architectural movements, design philosophies, and cultural shifts that celebrate honest materials and functional beauty.</p>
+
+    <div class="influence-list anim-fade-up">
+      <div class="influence-row">
+        <div class="influence-name">Warehouse Architecture</div>
+        <div class="influence-desc">Open floor plans, exposed structure, large windows, functional spaces designed for work and production.</div>
+      </div>
+      <div class="influence-row">
+        <div class="influence-name">Loft Living Movement</div>
+        <div class="influence-desc">Residential conversion of industrial spaces; living within raw architecture, embracing the bones of the building.</div>
+      </div>
+      <div class="influence-row">
+        <div class="influence-name">Utilitarian Design</div>
+        <div class="influence-desc">Function dictates form. Beauty found in practical objects and honest materials that serve their purpose without pretense.</div>
+      </div>
+      <div class="influence-row">
+        <div class="influence-name">Arts & Crafts</div>
+        <div class="influence-desc">Celebration of material authenticity and visible craftsmanship -- the hand of the maker evident in the finished work.</div>
+      </div>
+      <div class="influence-row">
+        <div class="influence-name">Scandinavian Minimalism</div>
+        <div class="influence-desc">Restraint, functionality, and natural materials -- filtered through an industrial lens and toughened by urban context.</div>
+      </div>
+      <div class="influence-row">
+        <div class="influence-name">Reclamation Movement</div>
+        <div class="influence-desc">Repurposed materials, salvaged fixtures, and honoring the history of objects that carry the patina of their previous lives.</div>
+      </div>
+      <div class="influence-row">
+        <div class="influence-name">Urban Renewal</div>
+        <div class="influence-desc">Converting derelict spaces into desirable ones. Finding potential in decay and transforming industrial infrastructure into habitable beauty.</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="pipe-divider"></div>
+
+  <!-- RELATED AESTHETICS -->
+  <section class="section dark-bg" id="related" style="max-width: 100%; padding-left: 0; padding-right: 0;">
+    <div style="max-width: 1000px; margin: 0 auto; padding: 0 2rem;">
+      <div class="section-header anim-fade-up">
+        <span class="section-number" style="color: var(--ri-steel);">Section 09 -- Related Aesthetics</span>
+        <h2>Neighboring Territories</h2>
+      </div>
+      <p class="section-intro anim-fade-up">Raw Industrial exists within a family of related design aesthetics -- each sharing certain material or philosophical DNA while diverging in mood, intent, and execution.</p>
+
+      <div class="nameplate-grid anim-fade-up">
+        <div class="nameplate">
+          <div class="nameplate-title">Brutalism</div>
+          <div class="nameplate-desc">Shares raw concrete and structural honesty, but more imposing and monolithic</div>
+        </div>
+        <div class="nameplate">
+          <div class="nameplate-title">Corporate Grunge</div>
+          <div class="nameplate-desc">Both use rough textures and earthy tones, but deliberately distressed and darker</div>
+        </div>
+        <div class="nameplate">
+          <div class="nameplate-title">Graffiti Pop</div>
+          <div class="nameplate-desc">Can coexist in urban spaces, adding color and street art energy</div>
+        </div>
+        <div class="nameplate">
+          <div class="nameplate-title">Industrial Decay</div>
+          <div class="nameplate-desc">Close sibling focused on abandonment; Raw Industrial is restored and livable</div>
+        </div>
+        <div class="nameplate">
+          <div class="nameplate-title">Industrial Gothic</div>
+          <div class="nameplate-desc">Shares industrial vocabulary but dark, menacing, and atmospheric</div>
+        </div>
+        <div class="nameplate">
+          <div class="nameplate-title">Shabby Chic</div>
+          <div class="nameplate-desc">Both value aged surfaces, but feminine and decorative versus utilitarian</div>
+        </div>
+        <div class="nameplate">
+          <div class="nameplate-title">Urbancore</div>
+          <div class="nameplate-desc">Shares urban setting and industrial references; broader, includes street culture</div>
+        </div>
+        <div class="nameplate">
+          <div class="nameplate-title">Japandi</div>
+          <div class="nameplate-desc">Both value natural materials and restraint; adds Japanese minimalism and softer forms</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-brand">Raw <span>/</span> Industrial</div>
+    <p>Structural integrity / material honesty / function as form</p>
+    <p style="margin-top: 0.75rem; opacity: 0.5;">Design aesthetic reference -- built from raw materials</p>
+  </footer>
+
+  <!-- JAVASCRIPT: Scroll-triggered animations -->
+  <script>
+    // Intersection Observer for scroll animations
+    (function() {
+      const animElements = document.querySelectorAll('.anim-fade-up, .anim-slide-left');
+
+      if ('IntersectionObserver' in window) {
+        const observer = new IntersectionObserver(function(entries) {
+          entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+              // Stagger children if they are sibling anim elements
+              const el = entry.target;
+              el.classList.add('visible');
+              observer.unobserve(el);
+            }
+          });
+        }, {
+          threshold: 0.1,
+          rootMargin: '0px 0px -40px 0px'
+        });
+
+        animElements.forEach(function(el, index) {
+          // Add staggered delay based on position within parent
+          const siblings = el.parentElement.querySelectorAll('.anim-fade-up, .anim-slide-left');
+          let siblingIndex = 0;
+          siblings.forEach(function(sib, i) {
+            if (sib === el) siblingIndex = i;
+          });
+          el.style.transitionDelay = (siblingIndex * 0.08) + 's';
+          observer.observe(el);
+        });
+      } else {
+        // Fallback: show everything
+        animElements.forEach(function(el) {
+          el.classList.add('visible');
+        });
+      }
+    })();
+
+    // Nav hide/show on scroll
+    (function() {
+      let lastScroll = 0;
+      const nav = document.getElementById('nav');
+      const scrollThreshold = 80;
+
+      window.addEventListener('scroll', function() {
+        const currentScroll = window.pageYOffset;
+
+        if (currentScroll <= scrollThreshold) {
+          nav.style.transform = 'translateY(0)';
+          return;
+        }
+
+        if (currentScroll > lastScroll && currentScroll > 200) {
+          // Scrolling down
+          nav.style.transform = 'translateY(-100%)';
+        } else {
+          // Scrolling up
+          nav.style.transform = 'translateY(0)';
+        }
+
+        lastScroll = currentScroll;
+      }, { passive: true });
+    })();
+
+    // Smooth anchor scrolling
+    document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
+      anchor.addEventListener('click', function(e) {
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          e.preventDefault();
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,2440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Recession Pop -- Party Through the Crisis</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&family=Orbitron:wght@500;700;900&family=Exo+2:wght@400;600;700&family=Poppins:wght@400;600&family=Audiowide&display=swap" rel="stylesheet">
+  <style>
+    /* ============================================
+       RECESSION POP -- CSS CUSTOM PROPERTIES
+    ============================================ */
+    :root {
+      /* Backgrounds */
+      --recession-black: #0a0a0f;
+      --recession-night: #0b0b1a;
+      --recession-dark-purple: #120020;
+
+      /* Primary neons */
+      --recession-magenta: #ff00ff;
+      --recession-hot-pink: #ff0090;
+      --recession-blue: #00bfff;
+      --recession-electric-blue: #0080ff;
+      --recession-lime: #39ff14;
+
+      /* Secondary neons */
+      --recession-purple: #9b30ff;
+      --recession-yellow: #ffff00;
+      --recession-orange: #ff6b00;
+
+      /* Metallics */
+      --recession-silver: #c0c0c0;
+      --recession-chrome: #e0e0e8;
+
+      /* Text */
+      --recession-text: #f0f0ff;
+      --recession-text-dim: #8888aa;
+
+      /* Functional mappings */
+      --recession-bg-primary: var(--recession-black);
+      --recession-bg-secondary: var(--recession-night);
+      --recession-accent-primary: var(--recession-magenta);
+      --recession-accent-secondary: var(--recession-blue);
+      --recession-accent-tertiary: var(--recession-lime);
+      --recession-border: var(--recession-magenta);
+    }
+
+    /* ============================================
+       RESET & BASE
+    ============================================ */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--recession-black);
+      background-image:
+        radial-gradient(ellipse at 20% 10%, rgba(255, 0, 255, 0.07) 0%, transparent 50%),
+        radial-gradient(ellipse at 85% 50%, rgba(0, 191, 255, 0.05) 0%, transparent 50%),
+        radial-gradient(ellipse at 40% 90%, rgba(57, 255, 20, 0.04) 0%, transparent 40%),
+        radial-gradient(ellipse at 70% 20%, rgba(155, 48, 255, 0.04) 0%, transparent 45%);
+      background-attachment: fixed;
+      color: var(--recession-text);
+      font-family: 'Poppins', 'Exo 2', sans-serif;
+      font-weight: 400;
+      font-size: 1.05rem;
+      line-height: 1.7;
+      min-height: 100vh;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      letter-spacing: 0.01em;
+    }
+
+    /* ============================================
+       TYPOGRAPHY
+    ============================================ */
+    h1, h2, h3, h4 {
+      font-family: 'Montserrat', 'Exo 2', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      line-height: 1.15;
+    }
+
+    h1 {
+      font-size: clamp(3rem, 8vw, 7rem);
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      color: var(--recession-text);
+      text-shadow:
+        0 0 10px var(--recession-magenta),
+        0 0 20px var(--recession-magenta),
+        0 0 40px rgba(255, 0, 255, 0.5),
+        0 0 80px rgba(255, 0, 255, 0.25);
+    }
+
+    h2 {
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 700;
+      color: var(--recession-blue);
+      text-shadow:
+        0 0 7px var(--recession-blue),
+        0 0 15px rgba(0, 191, 255, 0.4);
+    }
+
+    h3 {
+      font-size: clamp(1.2rem, 2.5vw, 1.6rem);
+      font-weight: 700;
+      color: var(--recession-lime);
+      text-shadow:
+        0 0 7px var(--recession-lime),
+        0 0 15px rgba(57, 255, 20, 0.3);
+      letter-spacing: 0.04em;
+    }
+
+    a {
+      color: var(--recession-hot-pink);
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    a:hover {
+      color: var(--recession-magenta);
+      text-shadow: 0 0 8px var(--recession-magenta);
+    }
+
+    /* ============================================
+       AMBIENT BOKEH LIGHTS (fixed background)
+    ============================================ */
+    .bokeh {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(100px);
+      opacity: 0.07;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .bokeh--1 {
+      width: 500px; height: 500px;
+      background: var(--recession-magenta);
+      top: -10%; right: -8%;
+      animation: bokeh-drift-1 20s ease-in-out infinite alternate;
+    }
+
+    .bokeh--2 {
+      width: 400px; height: 400px;
+      background: var(--recession-blue);
+      bottom: 5%; left: -10%;
+      animation: bokeh-drift-2 25s ease-in-out infinite alternate;
+    }
+
+    .bokeh--3 {
+      width: 350px; height: 350px;
+      background: var(--recession-lime);
+      top: 45%; right: 5%;
+      animation: bokeh-drift-3 18s ease-in-out infinite alternate;
+    }
+
+    .bokeh--4 {
+      width: 300px; height: 300px;
+      background: var(--recession-purple);
+      top: 70%; left: 20%;
+      animation: bokeh-drift-4 22s ease-in-out infinite alternate;
+    }
+
+    .bokeh--5 {
+      width: 250px; height: 250px;
+      background: var(--recession-orange);
+      top: 15%; left: 35%;
+      animation: bokeh-drift-5 30s ease-in-out infinite alternate;
+      opacity: 0.04;
+    }
+
+    @keyframes bokeh-drift-1 {
+      0% { transform: translate(0, 0); }
+      100% { transform: translate(-60px, 80px); }
+    }
+    @keyframes bokeh-drift-2 {
+      0% { transform: translate(0, 0); }
+      100% { transform: translate(70px, -50px); }
+    }
+    @keyframes bokeh-drift-3 {
+      0% { transform: translate(0, 0); }
+      100% { transform: translate(-40px, -60px); }
+    }
+    @keyframes bokeh-drift-4 {
+      0% { transform: translate(0, 0); }
+      100% { transform: translate(50px, 40px); }
+    }
+    @keyframes bokeh-drift-5 {
+      0% { transform: translate(0, 0); }
+      100% { transform: translate(-30px, 50px); }
+    }
+
+    /* ============================================
+       SPARKLE PARTICLES (canvas-like JS-driven)
+    ============================================ */
+    #sparkle-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* ============================================
+       LAYOUT CONTAINERS
+    ============================================ */
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      position: relative;
+      z-index: 2;
+    }
+
+    section {
+      padding: 5rem 0;
+      position: relative;
+    }
+
+    /* ============================================
+       HERO SECTION
+    ============================================ */
+    .hero {
+      text-align: center;
+      padding: 10rem 2rem 6rem;
+      position: relative;
+      overflow: hidden;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Massive lens flare behind hero title */
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 15%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(
+        circle,
+        rgba(255, 255, 255, 0.2) 0%,
+        rgba(255, 0, 255, 0.1) 15%,
+        rgba(0, 191, 255, 0.06) 35%,
+        rgba(155, 48, 255, 0.03) 55%,
+        transparent 70%
+      );
+      pointer-events: none;
+      animation: lens-flare-pulse 4s ease-in-out infinite;
+    }
+
+    /* Horizontal light streak */
+    .hero::after {
+      content: '';
+      position: absolute;
+      top: 48%;
+      left: -10%;
+      width: 120%;
+      height: 2px;
+      background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0.05) 15%,
+        rgba(255, 0, 255, 0.15) 35%,
+        rgba(255, 255, 255, 0.4) 50%,
+        rgba(0, 191, 255, 0.15) 65%,
+        rgba(255, 255, 255, 0.05) 85%,
+        transparent 100%
+      );
+      pointer-events: none;
+      mix-blend-mode: screen;
+      animation: light-streak-drift 8s ease-in-out infinite;
+    }
+
+    @keyframes lens-flare-pulse {
+      0%, 100% { opacity: 0.7; transform: translateX(-50%) scale(1); }
+      50% { opacity: 1; transform: translateX(-50%) scale(1.1); }
+    }
+
+    @keyframes light-streak-drift {
+      0%, 100% { top: 48%; opacity: 0.6; }
+      50% { top: 46%; opacity: 1; }
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 3;
+    }
+
+    .hero-label {
+      font-family: 'Orbitron', 'Audiowide', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--recession-silver);
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: fade-in-up 0.8s ease-out 0.2s forwards;
+    }
+
+    .hero h1 {
+      opacity: 0;
+      animation: hero-title-in 1s ease-out 0.5s forwards;
+    }
+
+    .hero-subtitle {
+      font-family: 'Exo 2', sans-serif;
+      font-size: clamp(1rem, 2.5vw, 1.4rem);
+      font-weight: 400;
+      color: var(--recession-text-dim);
+      margin-top: 1.2rem;
+      letter-spacing: 0.03em;
+      opacity: 0;
+      animation: fade-in-up 0.8s ease-out 0.9s forwards;
+    }
+
+    .hero-era {
+      font-family: 'Orbitron', sans-serif;
+      font-size: clamp(0.9rem, 1.5vw, 1.1rem);
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      margin-top: 2rem;
+      opacity: 0;
+      animation: fade-in-up 0.8s ease-out 1.1s forwards, recession-color-cycle 6s ease-in-out 2s infinite;
+    }
+
+    .hero-scroll-hint {
+      position: absolute;
+      bottom: 3rem;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--recession-text-dim);
+      opacity: 0;
+      animation: fade-in-up 0.8s ease-out 1.5s forwards, float-hint 2.5s ease-in-out 2.3s infinite;
+    }
+
+    .hero-scroll-hint::after {
+      content: '';
+      display: block;
+      width: 1px;
+      height: 30px;
+      background: linear-gradient(to bottom, var(--recession-magenta), transparent);
+      margin: 0.8rem auto 0;
+    }
+
+    @keyframes float-hint {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(8px); }
+    }
+
+    @keyframes hero-title-in {
+      0% { opacity: 0; transform: translateY(30px) scale(0.95); filter: blur(8px); }
+      100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+    }
+
+    @keyframes fade-in-up {
+      0% { opacity: 0; transform: translateY(20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ============================================
+       NEON GRADIENT DIVIDERS
+    ============================================ */
+    .neon-divider {
+      width: 70%;
+      margin: 0 auto;
+      border: none;
+      height: 2px;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        var(--recession-magenta) 20%,
+        var(--recession-blue) 50%,
+        var(--recession-lime) 80%,
+        transparent
+      );
+      filter: drop-shadow(0 0 6px rgba(255, 0, 255, 0.5));
+      position: relative;
+      z-index: 2;
+    }
+
+    .neon-divider--magenta {
+      background: linear-gradient(
+        90deg,
+        transparent,
+        var(--recession-magenta) 30%,
+        var(--recession-hot-pink) 70%,
+        transparent
+      );
+    }
+
+    .neon-divider--blue {
+      background: linear-gradient(
+        90deg,
+        transparent,
+        var(--recession-electric-blue) 30%,
+        var(--recession-blue) 70%,
+        transparent
+      );
+      filter: drop-shadow(0 0 6px rgba(0, 191, 255, 0.5));
+    }
+
+    /* ============================================
+       GLASS PANELS
+    ============================================ */
+    .glass-panel {
+      background: rgba(10, 10, 15, 0.75);
+      backdrop-filter: blur(16px) saturate(1.2);
+      -webkit-backdrop-filter: blur(16px) saturate(1.2);
+      border: 1px solid rgba(255, 0, 255, 0.15);
+      border-radius: 8px;
+      padding: 2.5rem;
+      position: relative;
+      overflow: hidden;
+      box-shadow:
+        0 0 15px rgba(255, 0, 255, 0.08),
+        inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    }
+
+    .glass-panel::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 10%;
+      right: 10%;
+      height: 1px;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        var(--recession-magenta),
+        var(--recession-blue),
+        transparent
+      );
+    }
+
+    .glass-panel--blue {
+      border-color: rgba(0, 191, 255, 0.15);
+      box-shadow:
+        0 0 15px rgba(0, 191, 255, 0.08),
+        inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    }
+
+    .glass-panel--blue::before {
+      background: linear-gradient(
+        90deg,
+        transparent,
+        var(--recession-blue),
+        var(--recession-lime),
+        transparent
+      );
+    }
+
+    .glass-panel--lime {
+      border-color: rgba(57, 255, 20, 0.15);
+      box-shadow:
+        0 0 15px rgba(57, 255, 20, 0.08),
+        inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    }
+
+    .glass-panel--lime::before {
+      background: linear-gradient(
+        90deg,
+        transparent,
+        var(--recession-lime),
+        var(--recession-yellow),
+        transparent
+      );
+    }
+
+    /* Light sweep animation on panels */
+    .glass-panel--sweep {
+      overflow: hidden;
+    }
+
+    .glass-panel--sweep::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -30%;
+      width: 20%;
+      height: 100%;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.06),
+        transparent
+      );
+      transform: skewX(-15deg);
+      animation: recession-light-sweep 6s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    @keyframes recession-light-sweep {
+      0% { left: -30%; }
+      100% { left: 130%; }
+    }
+
+    /* ============================================
+       OVERVIEW SECTION (intro description)
+    ============================================ */
+    .overview {
+      text-align: center;
+    }
+
+    .overview .lead-text {
+      font-size: clamp(1.1rem, 2vw, 1.35rem);
+      color: var(--recession-text);
+      line-height: 1.8;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .overview .lead-text em {
+      font-style: normal;
+      color: var(--recession-hot-pink);
+      text-shadow: 0 0 6px rgba(255, 0, 144, 0.3);
+    }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      justify-content: center;
+      margin-top: 2rem;
+    }
+
+    .tag {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 0.4rem 1.2rem;
+      border: 1px solid rgba(255, 0, 255, 0.3);
+      border-radius: 2px;
+      color: var(--recession-silver);
+      background: rgba(255, 0, 255, 0.05);
+      transition: all 0.3s ease;
+    }
+
+    .tag:hover {
+      border-color: var(--recession-magenta);
+      color: var(--recession-magenta);
+      box-shadow: 0 0 10px rgba(255, 0, 255, 0.2);
+      transform: translateY(-2px);
+    }
+
+    .tag--blue {
+      border-color: rgba(0, 191, 255, 0.3);
+      background: rgba(0, 191, 255, 0.05);
+    }
+
+    .tag--blue:hover {
+      border-color: var(--recession-blue);
+      color: var(--recession-blue);
+      box-shadow: 0 0 10px rgba(0, 191, 255, 0.2);
+    }
+
+    .tag--lime {
+      border-color: rgba(57, 255, 20, 0.3);
+      background: rgba(57, 255, 20, 0.05);
+    }
+
+    .tag--lime:hover {
+      border-color: var(--recession-lime);
+      color: var(--recession-lime);
+      box-shadow: 0 0 10px rgba(57, 255, 20, 0.2);
+    }
+
+    /* ============================================
+       SECTION HEADERS
+    ============================================ */
+    .section-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .section-header h2 {
+      margin-bottom: 0.6rem;
+    }
+
+    .section-header .section-label {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--recession-text-dim);
+      display: block;
+      margin-bottom: 0.8rem;
+    }
+
+    /* ============================================
+       VISUAL CHARACTERISTICS GRID
+    ============================================ */
+    .characteristics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .char-card {
+      background: rgba(10, 10, 20, 0.6);
+      border: 1px solid rgba(255, 0, 255, 0.1);
+      border-radius: 6px;
+      padding: 1.8rem;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.4s ease;
+    }
+
+    .char-card:hover {
+      border-color: rgba(255, 0, 255, 0.3);
+      box-shadow: 0 0 20px rgba(255, 0, 255, 0.1);
+      transform: translateY(-4px);
+    }
+
+    .char-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--recession-magenta), var(--recession-blue));
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+
+    .char-card:hover::before {
+      opacity: 1;
+    }
+
+    .char-icon {
+      font-size: 1.8rem;
+      margin-bottom: 0.8rem;
+      display: block;
+    }
+
+    .char-card h4 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--recession-magenta);
+      text-shadow: 0 0 5px rgba(255, 0, 255, 0.3);
+      margin-bottom: 0.5rem;
+    }
+
+    .char-card p {
+      font-size: 0.9rem;
+      color: var(--recession-text-dim);
+      line-height: 1.6;
+    }
+
+    .char-card:nth-child(even) h4 {
+      color: var(--recession-blue);
+      text-shadow: 0 0 5px rgba(0, 191, 255, 0.3);
+    }
+
+    .char-card:nth-child(3n) h4 {
+      color: var(--recession-lime);
+      text-shadow: 0 0 5px rgba(57, 255, 20, 0.3);
+    }
+
+    /* ============================================
+       COLOR PALETTE DISPLAY
+    ============================================ */
+    .palette-section {
+      margin-top: 2rem;
+    }
+
+    .palette-group {
+      margin-bottom: 2.5rem;
+    }
+
+    .palette-group h3 {
+      margin-bottom: 1.2rem;
+      text-align: center;
+    }
+
+    .palette-swatches {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: center;
+    }
+
+    .swatch {
+      width: 120px;
+      text-align: center;
+      transition: transform 0.3s ease;
+    }
+
+    .swatch:hover {
+      transform: scale(1.08);
+    }
+
+    .swatch-color {
+      width: 100%;
+      height: 70px;
+      border-radius: 6px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .swatch-color::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, transparent 50%);
+      pointer-events: none;
+    }
+
+    .swatch-neon .swatch-color {
+      box-shadow: 0 0 15px currentColor;
+    }
+
+    .swatch-label {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.6rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--recession-text-dim);
+      margin-top: 0.5rem;
+      display: block;
+    }
+
+    .swatch-hex {
+      font-family: 'Exo 2', monospace;
+      font-size: 0.75rem;
+      color: var(--recession-silver);
+      margin-top: 0.2rem;
+      display: block;
+    }
+
+    /* ============================================
+       TYPOGRAPHY SHOWCASE
+    ============================================ */
+    .type-showcase {
+      text-align: center;
+    }
+
+    .type-sample {
+      margin: 2.5rem 0;
+      padding: 2rem 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    }
+
+    .type-sample:last-child {
+      border-bottom: none;
+    }
+
+    .type-sample-label {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.6rem;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--recession-text-dim);
+      margin-bottom: 0.8rem;
+      display: block;
+    }
+
+    .type-montserrat-display {
+      font-family: 'Montserrat', sans-serif;
+      font-size: clamp(2.5rem, 6vw, 5rem);
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      background: linear-gradient(135deg, #ff00ff, #00bfff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      filter: drop-shadow(0 0 20px rgba(255, 0, 255, 0.3));
+    }
+
+    .type-orbitron-display {
+      font-family: 'Orbitron', sans-serif;
+      font-size: clamp(1.5rem, 3.5vw, 2.5rem);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--recession-lime);
+      text-shadow:
+        0 0 7px var(--recession-lime),
+        0 0 15px rgba(57, 255, 20, 0.4);
+    }
+
+    .type-exo-display {
+      font-family: 'Exo 2', sans-serif;
+      font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      color: var(--recession-blue);
+      text-shadow: 0 0 10px rgba(0, 191, 255, 0.3);
+    }
+
+    .type-body-sample {
+      font-family: 'Poppins', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 400;
+      color: var(--recession-text-dim);
+      line-height: 1.7;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .type-audiowide-display {
+      font-family: 'Audiowide', sans-serif;
+      font-size: clamp(1rem, 2vw, 1.4rem);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--recession-silver);
+      text-shadow: 0 0 5px rgba(192, 192, 192, 0.3);
+    }
+
+    /* Chrome text effect */
+    .chrome-text {
+      background: linear-gradient(
+        180deg,
+        #ffffff 0%,
+        #d4d4d4 25%,
+        #888888 50%,
+        #d4d4d4 75%,
+        #ffffff 100%
+      );
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
+    }
+
+    /* ============================================
+       DESIGN ELEMENTS SHOWCASE
+    ============================================ */
+    .elements-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+
+    .element-demo {
+      background: rgba(10, 10, 20, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 8px;
+      padding: 2rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      min-height: 200px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Lens Flare Demo */
+    .demo-lens-flare {
+      position: relative;
+    }
+
+    .lens-flare-effect {
+      position: absolute;
+      width: 200px;
+      height: 200px;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: radial-gradient(
+        circle,
+        rgba(255, 255, 255, 0.6) 0%,
+        rgba(255, 0, 255, 0.25) 15%,
+        rgba(0, 191, 255, 0.12) 35%,
+        transparent 60%
+      );
+      pointer-events: none;
+      mix-blend-mode: screen;
+      animation: lens-flare-pulse 3s ease-in-out infinite;
+    }
+
+    .lens-flare-streak {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0.08) 20%,
+        rgba(255, 255, 255, 0.5) 50%,
+        rgba(255, 255, 255, 0.08) 80%,
+        transparent 100%
+      );
+      mix-blend-mode: screen;
+    }
+
+    /* Neon Glow Demo */
+    .demo-neon-glow .neon-text {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 2rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      color: var(--recession-magenta);
+      text-shadow:
+        0 0 7px var(--recession-magenta),
+        0 0 10px var(--recession-magenta),
+        0 0 21px var(--recession-magenta),
+        0 0 42px rgba(255, 0, 255, 0.5),
+        0 0 82px rgba(255, 0, 255, 0.2);
+      animation: neon-flicker 4s ease-in-out infinite;
+    }
+
+    @keyframes neon-flicker {
+      0%, 100% { opacity: 1; }
+      92% { opacity: 1; }
+      93% { opacity: 0.7; }
+      94% { opacity: 1; }
+      96% { opacity: 0.8; }
+      97% { opacity: 1; }
+    }
+
+    /* Laser Beams Demo */
+    .demo-lasers {
+      overflow: hidden;
+    }
+
+    .laser-beam {
+      position: absolute;
+      height: 1px;
+      width: 150%;
+      pointer-events: none;
+    }
+
+    .laser-beam--1 {
+      top: 20%;
+      left: -25%;
+      transform: rotate(25deg);
+      background: linear-gradient(90deg, transparent, var(--recession-magenta), transparent);
+      box-shadow: 0 0 8px var(--recession-magenta);
+      animation: laser-scan-1 5s ease-in-out infinite;
+    }
+
+    .laser-beam--2 {
+      top: 60%;
+      left: -25%;
+      transform: rotate(-15deg);
+      background: linear-gradient(90deg, transparent, var(--recession-blue), transparent);
+      box-shadow: 0 0 8px var(--recession-blue);
+      animation: laser-scan-2 7s ease-in-out infinite;
+    }
+
+    .laser-beam--3 {
+      top: 40%;
+      left: -25%;
+      transform: rotate(10deg);
+      background: linear-gradient(90deg, transparent, var(--recession-lime), transparent);
+      box-shadow: 0 0 8px var(--recession-lime);
+      animation: laser-scan-3 6s ease-in-out infinite;
+    }
+
+    @keyframes laser-scan-1 {
+      0%, 100% { top: 20%; opacity: 0.8; }
+      50% { top: 40%; opacity: 1; }
+    }
+    @keyframes laser-scan-2 {
+      0%, 100% { top: 60%; opacity: 0.6; }
+      50% { top: 30%; opacity: 1; }
+    }
+    @keyframes laser-scan-3 {
+      0%, 100% { top: 40%; opacity: 0.5; }
+      50% { top: 70%; opacity: 0.9; }
+    }
+
+    /* Disco Ball Demo */
+    .demo-disco-ball .disco-grid {
+      display: grid;
+      grid-template-columns: repeat(8, 1fr);
+      gap: 2px;
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      overflow: hidden;
+      margin: 0 auto;
+      animation: disco-rotate 10s linear infinite;
+    }
+
+    .disco-grid .disco-cell {
+      background: rgba(192, 192, 192, 0.2);
+      animation: disco-shimmer 2s ease-in-out infinite;
+    }
+
+    .disco-grid .disco-cell:nth-child(3n) {
+      animation-delay: 0.3s;
+      background: rgba(255, 0, 255, 0.3);
+    }
+
+    .disco-grid .disco-cell:nth-child(5n) {
+      animation-delay: 0.7s;
+      background: rgba(0, 191, 255, 0.3);
+    }
+
+    .disco-grid .disco-cell:nth-child(7n) {
+      animation-delay: 1.1s;
+      background: rgba(57, 255, 20, 0.3);
+    }
+
+    @keyframes disco-shimmer {
+      0%, 100% { opacity: 0.3; }
+      50% { opacity: 1; }
+    }
+
+    @keyframes disco-rotate {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Holographic Demo */
+    .demo-holographic .holo-surface {
+      width: 160px;
+      height: 100px;
+      border-radius: 6px;
+      background: linear-gradient(
+        135deg,
+        #ff00ff 0%,
+        #00bfff 25%,
+        #39ff14 50%,
+        #ffff00 75%,
+        #ff00ff 100%
+      );
+      background-size: 300% 300%;
+      animation: holo-shift 4s ease-in-out infinite;
+      opacity: 0.8;
+      margin: 0 auto;
+      box-shadow: 0 0 20px rgba(255, 0, 255, 0.2);
+    }
+
+    @keyframes holo-shift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* Diagonal stripes demo */
+    .demo-stripes {
+      background:
+        repeating-linear-gradient(
+          -45deg,
+          transparent 0px,
+          transparent 10px,
+          rgba(255, 0, 255, 0.08) 10px,
+          rgba(255, 0, 255, 0.08) 20px
+        );
+    }
+
+    .element-demo-label {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--recession-silver);
+      position: relative;
+      z-index: 2;
+      margin-top: 1rem;
+    }
+
+    /* ============================================
+       CULTURAL REFERENCES
+    ============================================ */
+    .cultural-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .cultural-card {
+      background: rgba(10, 10, 20, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 6px;
+      padding: 1.5rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.4s ease;
+    }
+
+    .cultural-card:hover {
+      transform: translateY(-4px) rotate(-0.5deg);
+      border-color: rgba(255, 0, 255, 0.3);
+      box-shadow: 0 0 20px rgba(255, 0, 255, 0.1);
+    }
+
+    .cultural-card .cultural-name {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--recession-text);
+      margin-bottom: 0.3rem;
+    }
+
+    .cultural-card .cultural-desc {
+      font-size: 0.78rem;
+      color: var(--recession-text-dim);
+      line-height: 1.5;
+    }
+
+    .cultural-card:nth-child(1) .cultural-name { color: var(--recession-magenta); text-shadow: 0 0 5px rgba(255, 0, 255, 0.3); }
+    .cultural-card:nth-child(2) .cultural-name { color: var(--recession-lime); text-shadow: 0 0 5px rgba(57, 255, 20, 0.3); }
+    .cultural-card:nth-child(3) .cultural-name { color: var(--recession-blue); text-shadow: 0 0 5px rgba(0, 191, 255, 0.3); }
+    .cultural-card:nth-child(4) .cultural-name { color: var(--recession-purple); text-shadow: 0 0 5px rgba(155, 48, 255, 0.3); }
+    .cultural-card:nth-child(5) .cultural-name { color: var(--recession-yellow); text-shadow: 0 0 5px rgba(255, 255, 0, 0.3); }
+    .cultural-card:nth-child(6) .cultural-name { color: var(--recession-orange); text-shadow: 0 0 5px rgba(255, 107, 0, 0.3); }
+    .cultural-card:nth-child(7) .cultural-name { color: var(--recession-hot-pink); text-shadow: 0 0 5px rgba(255, 0, 144, 0.3); }
+    .cultural-card:nth-child(8) .cultural-name { color: var(--recession-lime); text-shadow: 0 0 5px rgba(57, 255, 20, 0.3); }
+    .cultural-card:nth-child(9) .cultural-name { color: var(--recession-blue); text-shadow: 0 0 5px rgba(0, 191, 255, 0.3); }
+    .cultural-card:nth-child(10) .cultural-name { color: var(--recession-magenta); text-shadow: 0 0 5px rgba(255, 0, 255, 0.3); }
+    .cultural-card:nth-child(11) .cultural-name { color: var(--recession-purple); text-shadow: 0 0 5px rgba(155, 48, 255, 0.3); }
+
+    /* ============================================
+       RELATED AESTHETICS TABLE
+    ============================================ */
+    .related-table-wrapper {
+      overflow-x: auto;
+      margin-top: 2rem;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 0, 255, 0.12);
+    }
+
+    .related-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+
+    .related-table thead th {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--recession-magenta);
+      text-shadow: 0 0 5px rgba(255, 0, 255, 0.3);
+      padding: 1rem 1.2rem;
+      text-align: left;
+      background: rgba(255, 0, 255, 0.06);
+      border-bottom: 1px solid rgba(255, 0, 255, 0.15);
+    }
+
+    .related-table tbody td {
+      padding: 0.9rem 1.2rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      color: var(--recession-text-dim);
+      vertical-align: top;
+    }
+
+    .related-table tbody tr:hover {
+      background: rgba(255, 0, 255, 0.03);
+    }
+
+    .related-table tbody td:first-child {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      color: var(--recession-blue);
+      text-shadow: 0 0 4px rgba(0, 191, 255, 0.2);
+      white-space: nowrap;
+    }
+
+    .related-table tbody tr:last-child td {
+      border-bottom: none;
+    }
+
+    /* ============================================
+       LAYOUT PRINCIPLES SECTION
+    ============================================ */
+    .principles-list {
+      list-style: none;
+      padding: 0;
+      margin: 1.5rem 0;
+    }
+
+    .principles-list li {
+      padding: 0.8rem 0 0.8rem 2rem;
+      position: relative;
+      color: var(--recession-text-dim);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+      font-size: 0.95rem;
+    }
+
+    .principles-list li:last-child {
+      border-bottom: none;
+    }
+
+    .principles-list li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 8px;
+      height: 8px;
+      background: var(--recession-magenta);
+      border-radius: 50%;
+      box-shadow: 0 0 6px var(--recession-magenta), 0 0 12px rgba(255, 0, 255, 0.3);
+    }
+
+    .principles-list li:nth-child(even)::before {
+      background: var(--recession-blue);
+      box-shadow: 0 0 6px var(--recession-blue), 0 0 12px rgba(0, 191, 255, 0.3);
+    }
+
+    .principles-list li:nth-child(3n)::before {
+      background: var(--recession-lime);
+      box-shadow: 0 0 6px var(--recession-lime), 0 0 12px rgba(57, 255, 20, 0.3);
+    }
+
+    .principles-list li strong {
+      color: var(--recession-text);
+    }
+
+    /* ============================================
+       NEON BUTTONS
+    ============================================ */
+    .neon-btn {
+      display: inline-block;
+      padding: 0.8rem 2.5rem;
+      border: 2px solid var(--recession-magenta);
+      border-radius: 2px;
+      background: transparent;
+      color: var(--recession-text);
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-decoration: none;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      box-shadow:
+        0 0 5px rgba(255, 0, 255, 0.3),
+        inset 0 0 5px rgba(255, 0, 255, 0.1);
+      transition: all 0.3s ease;
+    }
+
+    .neon-btn:hover {
+      background: var(--recession-magenta);
+      color: #000;
+      text-shadow: none;
+      box-shadow:
+        0 0 10px var(--recession-magenta),
+        0 0 30px rgba(255, 0, 255, 0.4),
+        0 0 60px rgba(255, 0, 255, 0.2);
+    }
+
+    .neon-btn--blue {
+      border-color: var(--recession-blue);
+      box-shadow:
+        0 0 5px rgba(0, 191, 255, 0.3),
+        inset 0 0 5px rgba(0, 191, 255, 0.1);
+    }
+
+    .neon-btn--blue:hover {
+      background: var(--recession-blue);
+      box-shadow:
+        0 0 10px var(--recession-blue),
+        0 0 30px rgba(0, 191, 255, 0.4),
+        0 0 60px rgba(0, 191, 255, 0.2);
+    }
+
+    /* ============================================
+       MATERIALS TABLE
+    ============================================ */
+    .materials-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .material-card {
+      background: rgba(10, 10, 20, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 6px;
+      padding: 1.2rem 1.5rem;
+      transition: all 0.3s ease;
+    }
+
+    .material-card:hover {
+      border-color: rgba(0, 191, 255, 0.2);
+      box-shadow: 0 0 12px rgba(0, 191, 255, 0.08);
+    }
+
+    .material-physical {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--recession-chrome);
+      margin-bottom: 0.3rem;
+    }
+
+    .material-web {
+      font-size: 0.82rem;
+      color: var(--recession-text-dim);
+      line-height: 1.5;
+    }
+
+    /* ============================================
+       ANIMATION SHOWCASE
+    ============================================ */
+    @keyframes recession-color-cycle {
+      0% { color: var(--recession-magenta); text-shadow: 0 0 10px var(--recession-magenta); }
+      33% { color: var(--recession-blue); text-shadow: 0 0 10px var(--recession-blue); }
+      66% { color: var(--recession-lime); text-shadow: 0 0 10px var(--recession-lime); }
+      100% { color: var(--recession-magenta); text-shadow: 0 0 10px var(--recession-magenta); }
+    }
+
+    @keyframes recession-pulse {
+      0%, 100% {
+        box-shadow:
+          0 0 5px var(--recession-magenta),
+          0 0 15px rgba(255, 0, 255, 0.3);
+      }
+      50% {
+        box-shadow:
+          0 0 10px var(--recession-magenta),
+          0 0 30px rgba(255, 0, 255, 0.5),
+          0 0 60px rgba(255, 0, 255, 0.2);
+      }
+    }
+
+    .pulse-demo {
+      width: 80px;
+      height: 80px;
+      border: 2px solid var(--recession-magenta);
+      border-radius: 50%;
+      animation: recession-pulse 2.5s ease-in-out infinite;
+      margin: 0 auto;
+    }
+
+    .color-cycle-demo {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      animation: recession-color-cycle 6s ease-in-out infinite;
+    }
+
+    /* ============================================
+       DIAGONAL COMPOSITION STRIP
+    ============================================ */
+    .diagonal-strip {
+      width: 100%;
+      height: 120px;
+      position: relative;
+      overflow: hidden;
+      margin: 4rem 0;
+      z-index: 2;
+    }
+
+    .diagonal-strip-inner {
+      position: absolute;
+      top: -20px;
+      left: -5%;
+      width: 110%;
+      height: 160px;
+      background: linear-gradient(135deg,
+        var(--recession-magenta) 0%,
+        var(--recession-purple) 25%,
+        var(--recession-electric-blue) 50%,
+        var(--recession-blue) 75%,
+        var(--recession-lime) 100%
+      );
+      transform: rotate(-2deg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .diagonal-strip-text {
+      font-family: 'Montserrat', sans-serif;
+      font-size: clamp(1.5rem, 4vw, 3rem);
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--recession-black);
+      white-space: nowrap;
+      position: relative;
+      z-index: 2;
+    }
+
+    .diagonal-strip-inner::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent 0px,
+        transparent 4px,
+        rgba(0, 0, 0, 0.15) 4px,
+        rgba(0, 0, 0, 0.15) 6px
+      );
+      pointer-events: none;
+    }
+
+    /* ============================================
+       FOOTER
+    ============================================ */
+    .footer {
+      text-align: center;
+      padding: 4rem 2rem 3rem;
+      position: relative;
+      z-index: 2;
+    }
+
+    .footer-text {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--recession-text-dim);
+    }
+
+    .footer-era {
+      font-family: 'Montserrat', sans-serif;
+      font-size: clamp(1.2rem, 3vw, 2rem);
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-top: 0.8rem;
+      background: linear-gradient(135deg, #ff00ff, #00bfff, #39ff14);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      filter: drop-shadow(0 0 10px rgba(255, 0, 255, 0.2));
+    }
+
+    /* ============================================
+       SPOTLIGHT EFFECTS ON SECTIONS
+    ============================================ */
+    .spotlight-section {
+      position: relative;
+    }
+
+    .spotlight-section::before {
+      content: '';
+      position: absolute;
+      top: -50px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 200%;
+      height: 300px;
+      background: radial-gradient(
+        ellipse at 50% 0%,
+        rgba(255, 0, 255, 0.08) 0%,
+        rgba(0, 191, 255, 0.04) 30%,
+        transparent 60%
+      );
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ============================================
+       SCROLL REVEAL ANIMATION
+    ============================================ */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+
+    /* ============================================
+       RESPONSIVE
+    ============================================ */
+    @media (max-width: 768px) {
+      .hero {
+        padding: 7rem 1.5rem 4rem;
+        min-height: 90vh;
+      }
+
+      .container {
+        padding: 0 1.2rem;
+      }
+
+      section {
+        padding: 3.5rem 0;
+      }
+
+      .glass-panel {
+        padding: 1.8rem;
+      }
+
+      .characteristics-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .elements-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .cultural-grid {
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      }
+
+      .materials-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .swatch {
+        width: 90px;
+      }
+
+      .swatch-color {
+        height: 55px;
+      }
+
+      .diagonal-strip {
+        height: 80px;
+      }
+
+      .diagonal-strip-inner {
+        height: 120px;
+      }
+
+      .neon-divider {
+        width: 85%;
+      }
+
+      .related-table {
+        font-size: 0.8rem;
+      }
+
+      .related-table thead th,
+      .related-table tbody td {
+        padding: 0.7rem 0.8rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero {
+        padding: 5rem 1rem 3rem;
+        min-height: 80vh;
+      }
+
+      .palette-swatches {
+        gap: 0.5rem;
+      }
+
+      .swatch {
+        width: 70px;
+      }
+
+      .swatch-color {
+        height: 45px;
+      }
+
+      .swatch-label {
+        font-size: 0.5rem;
+      }
+
+      .swatch-hex {
+        font-size: 0.6rem;
+      }
+
+      .tag-row {
+        gap: 0.5rem;
+      }
+
+      .tag {
+        font-size: 0.6rem;
+        padding: 0.3rem 0.8rem;
+      }
+    }
+
+    /* ============================================
+       RAINBOW BORDER ACCENT (used on key panels)
+    ============================================ */
+    .rainbow-border {
+      border: 2px solid transparent;
+      background-image:
+        linear-gradient(var(--recession-black), var(--recession-black)),
+        linear-gradient(135deg, #ff00ff, #00bfff, #39ff14, #ffff00, #ff00ff);
+      background-origin: border-box;
+      background-clip: padding-box, border-box;
+    }
+
+    /* ============================================
+       STROBE FLASH (subtle, for one section bg)
+    ============================================ */
+    @keyframes strobe-subtle {
+      0%, 96%, 100% { opacity: 0; }
+      97% { opacity: 0.03; }
+      98% { opacity: 0; }
+      99% { opacity: 0.02; }
+    }
+
+    .strobe-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: white;
+      pointer-events: none;
+      animation: strobe-subtle 8s linear infinite;
+      z-index: 0;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Ambient neon bokeh lights -->
+  <div class="bokeh bokeh--1"></div>
+  <div class="bokeh bokeh--2"></div>
+  <div class="bokeh bokeh--3"></div>
+  <div class="bokeh bokeh--4"></div>
+  <div class="bokeh bokeh--5"></div>
+
+  <!-- Sparkle canvas (JS-driven) -->
+  <canvas id="sparkle-canvas"></canvas>
+
+  <!-- ============================================
+       HERO
+  ============================================ -->
+  <header class="hero">
+    <div class="hero-content">
+      <span class="hero-label">Design Aesthetic Showcase</span>
+      <h1>Recession Pop</h1>
+      <p class="hero-subtitle">Neon-saturated, hyper-produced, and unapologetically maximalist escapism for the dancefloor</p>
+      <p class="hero-era">2008 &mdash; 2013</p>
+    </div>
+    <div class="hero-scroll-hint">Scroll to Explore</div>
+  </header>
+
+  <hr class="neon-divider">
+
+  <!-- ============================================
+       OVERVIEW / DESCRIPTION
+  ============================================ -->
+  <section class="overview spotlight-section">
+    <div class="container">
+      <div class="glass-panel glass-panel--sweep reveal">
+        <p class="lead-text">
+          Recession Pop is the visual and musical aesthetic that emerged during the Great Recession as <em>cathartic escapism</em> from economic hardship and anxiety. It is maximalist, futuristic, and often avant-garde &mdash; a hyper-produced, neon-saturated visual language built for the dancefloor. The design sensibility draws from electropop music culture, MySpace-era graphic design, and club-oriented spectacle, prioritizing high energy, visual excess, and relentless optimism. Everything is glossy, glittering, and deliberately over-the-top, offering a defiant <em>&ldquo;party through the crisis&rdquo;</em> attitude expressed through bold neon color, asymmetric geometry, digital lens flares, and metallic finishes.
+        </p>
+        <div class="tag-row" style="margin-top: 1.8rem;">
+          <span class="tag">Also Known As: Electropop 08</span>
+          <span class="tag tag--blue">Era: 2008&ndash;2013</span>
+          <span class="tag tag--lime">Origin: 2009 Irish Independent</span>
+          <span class="tag">Revived: TikTok 2024</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="neon-divider neon-divider--blue">
+
+  <!-- ============================================
+       VISUAL CHARACTERISTICS
+  ============================================ -->
+  <section class="spotlight-section">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-label">Defining the Look</span>
+        <h2>Visual Characteristics</h2>
+      </div>
+      <div class="characteristics-grid">
+        <div class="char-card reveal reveal-delay-1">
+          <span class="char-icon">&#9733;</span>
+          <h4>Neon Saturation</h4>
+          <p>Neon-saturated colors at high contrast against black or dark backgrounds, pushed to maximum intensity.</p>
+        </div>
+        <div class="char-card reveal reveal-delay-2">
+          <span class="char-icon">&#10024;</span>
+          <h4>Glitter &amp; Sparkle</h4>
+          <p>Excessive glitter, sparkle, and metallic finishes on every surface &mdash; sequins, confetti, and chrome excess.</p>
+        </div>
+        <div class="char-card reveal reveal-delay-3">
+          <span class="char-icon">&#9681;</span>
+          <h4>Lens Flares &amp; Glow</h4>
+          <p>Lens flares, light leaks, and digital glow effects layered throughout, simulating stage and club lighting.</p>
+        </div>
+        <div class="char-card reveal reveal-delay-1">
+          <span class="char-icon">&#9674;</span>
+          <h4>Asymmetric Geometry</h4>
+          <p>Asymmetrical shapes and diagonal compositions creating dynamic energy and visual tension.</p>
+        </div>
+        <div class="char-card reveal reveal-delay-2">
+          <span class="char-icon">&#9670;</span>
+          <h4>Glossy &amp; Reflective</h4>
+          <p>Glossy, reflective surfaces suggesting nightclub and stage lighting with metallic chrome accents.</p>
+        </div>
+        <div class="char-card reveal reveal-delay-3">
+          <span class="char-icon">&#10070;</span>
+          <h4>Holographic &amp; Iridescent</h4>
+          <p>Holographic and iridescent color-shifting effects with rainbow-spectrum reflections on surfaces.</p>
+        </div>
+        <div class="char-card reveal reveal-delay-1">
+          <span class="char-icon">&#9788;</span>
+          <h4>Star Bursts &amp; Explosions</h4>
+          <p>Star burst and light explosion effects radiating from focal points with maximum visual impact.</p>
+        </div>
+        <div class="char-card reveal reveal-delay-2">
+          <span class="char-icon">&#9775;</span>
+          <h4>MySpace-Era Graphics</h4>
+          <p>Layered textures, sparkle overlays, saturated photo filters, and custom CSS excess from the social media era.</p>
+        </div>
+        <div class="char-card reveal reveal-delay-3">
+          <span class="char-icon">&#10020;</span>
+          <h4>Maximalist Composition</h4>
+          <p>Hyper-produced compositions designed for maximum visual impact. Nothing is static, calm, or understated.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Diagonal strip break -->
+  <div class="diagonal-strip">
+    <div class="diagonal-strip-inner">
+      <span class="diagonal-strip-text">Party Through the Crisis &bull; Neon Dreams &bull; Dancefloor Escapism &bull; Maximum Excess</span>
+    </div>
+  </div>
+
+  <!-- ============================================
+       COLOR PALETTE
+  ============================================ -->
+  <section class="spotlight-section">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-label">Chromatic Identity</span>
+        <h2>Color Palette</h2>
+      </div>
+
+      <div class="palette-section">
+        <!-- Primary Neons -->
+        <div class="palette-group reveal">
+          <h3>Primary Neons</h3>
+          <div class="palette-swatches">
+            <div class="swatch swatch-neon" style="color: #ff00ff;">
+              <div class="swatch-color" style="background: #ff00ff;"></div>
+              <span class="swatch-label">Magenta</span>
+              <span class="swatch-hex">#FF00FF</span>
+            </div>
+            <div class="swatch swatch-neon" style="color: #ff0090;">
+              <div class="swatch-color" style="background: #ff0090;"></div>
+              <span class="swatch-label">Hot Pink</span>
+              <span class="swatch-hex">#FF0090</span>
+            </div>
+            <div class="swatch swatch-neon" style="color: #00bfff;">
+              <div class="swatch-color" style="background: #00bfff;"></div>
+              <span class="swatch-label">Electric Blue</span>
+              <span class="swatch-hex">#00BFFF</span>
+            </div>
+            <div class="swatch swatch-neon" style="color: #0080ff;">
+              <div class="swatch-color" style="background: #0080ff;"></div>
+              <span class="swatch-label">Deep Blue</span>
+              <span class="swatch-hex">#0080FF</span>
+            </div>
+            <div class="swatch swatch-neon" style="color: #39ff14;">
+              <div class="swatch-color" style="background: #39ff14;"></div>
+              <span class="swatch-label">Lime Green</span>
+              <span class="swatch-hex">#39FF14</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Secondary Neons -->
+        <div class="palette-group reveal">
+          <h3>Secondary Neons</h3>
+          <div class="palette-swatches">
+            <div class="swatch swatch-neon" style="color: #9b30ff;">
+              <div class="swatch-color" style="background: #9b30ff;"></div>
+              <span class="swatch-label">Purple</span>
+              <span class="swatch-hex">#9B30FF</span>
+            </div>
+            <div class="swatch swatch-neon" style="color: #ffff00;">
+              <div class="swatch-color" style="background: #ffff00;"></div>
+              <span class="swatch-label">Neon Yellow</span>
+              <span class="swatch-hex">#FFFF00</span>
+            </div>
+            <div class="swatch swatch-neon" style="color: #ff6b00;">
+              <div class="swatch-color" style="background: #ff6b00;"></div>
+              <span class="swatch-label">Neon Orange</span>
+              <span class="swatch-hex">#FF6B00</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Neutrals & Metallics -->
+        <div class="palette-group reveal">
+          <h3 style="color: var(--recession-silver); text-shadow: 0 0 7px rgba(192,192,192,0.4);">Neutrals &amp; Metallics</h3>
+          <div class="palette-swatches">
+            <div class="swatch">
+              <div class="swatch-color" style="background: #0a0a0f; border-color: rgba(255,255,255,0.15);"></div>
+              <span class="swatch-label">Black</span>
+              <span class="swatch-hex">#0A0A0F</span>
+            </div>
+            <div class="swatch">
+              <div class="swatch-color" style="background: #0b0b1a; border-color: rgba(255,255,255,0.15);"></div>
+              <span class="swatch-label">Night Blue</span>
+              <span class="swatch-hex">#0B0B1A</span>
+            </div>
+            <div class="swatch">
+              <div class="swatch-color" style="background: #120020; border-color: rgba(255,255,255,0.15);"></div>
+              <span class="swatch-label">Dark Purple</span>
+              <span class="swatch-hex">#120020</span>
+            </div>
+            <div class="swatch">
+              <div class="swatch-color" style="background: linear-gradient(135deg, #d4d4d4, #888, #d4d4d4);"></div>
+              <span class="swatch-label">Silver</span>
+              <span class="swatch-hex">#C0C0C0</span>
+            </div>
+            <div class="swatch">
+              <div class="swatch-color" style="background: linear-gradient(135deg, #fff, #e0e0e8, #fff);"></div>
+              <span class="swatch-label">Chrome</span>
+              <span class="swatch-hex">#E0E0E8</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Color Usage Principles -->
+        <div class="glass-panel glass-panel--blue reveal" style="margin-top: 2.5rem;">
+          <h3 style="margin-bottom: 1rem; color: var(--recession-blue);">Color Usage Principles</h3>
+          <ul class="principles-list">
+            <li><strong>Dark base, neon explosion</strong> &mdash; near-black backgrounds so neon colors pop with maximum intensity</li>
+            <li><strong>Magenta dominates</strong> &mdash; hot pink / magenta is the signature color of the era, seen in everything from Lady Gaga to Ke$ha branding</li>
+            <li><strong>Blue and lime as co-primaries</strong> &mdash; electric blue and lime green share equal weight with magenta, cycling through compositions</li>
+            <li><strong>Purple as depth color</strong> &mdash; used in gradients and background areas to add richness without competing with primaries</li>
+            <li><strong>Silver and chrome for futurism</strong> &mdash; metallic tones add the sci-fi edge that distinguishes Recession Pop from generic neon</li>
+            <li><strong>Multi-color neon gradients</strong> &mdash; magenta-to-blue, blue-to-lime, and full rainbow neon gradients are signature</li>
+            <li><strong>No muted tones</strong> &mdash; everything is pushed to maximum saturation; pastels and earth tones are antithetical</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="neon-divider neon-divider--magenta">
+
+  <!-- ============================================
+       TYPOGRAPHY
+  ============================================ -->
+  <section class="spotlight-section">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-label">Lettering &amp; Type</span>
+        <h2>Typography</h2>
+      </div>
+
+      <div class="glass-panel reveal" style="margin-bottom: 2rem;">
+        <p style="text-align: center; color: var(--recession-text-dim); font-size: 0.95rem;">
+          Recession Pop typography is <strong style="color: var(--recession-text);">bold, geometric, futuristic, and maximalist</strong>. Text should feel like it belongs on a nightclub flyer, electropop album cover, or MySpace profile. Clean geometric sans-serifs dominate, but always at bold or ultra-bold weights for display impact.
+        </p>
+      </div>
+
+      <div class="type-showcase">
+        <!-- Montserrat -->
+        <div class="type-sample reveal">
+          <span class="type-sample-label">Montserrat &mdash; Primary Display</span>
+          <div class="type-montserrat-display">Neon Dreams</div>
+        </div>
+
+        <!-- Orbitron -->
+        <div class="type-sample reveal">
+          <span class="type-sample-label">Orbitron &mdash; Futuristic Accents</span>
+          <div class="type-orbitron-display">Electropop 08</div>
+        </div>
+
+        <!-- Chrome Text -->
+        <div class="type-sample reveal">
+          <span class="type-sample-label">Chrome Metallic Effect</span>
+          <div class="type-montserrat-display chrome-text" style="font-size: clamp(2rem, 5vw, 4rem);">Silver Future</div>
+        </div>
+
+        <!-- Exo 2 -->
+        <div class="type-sample reveal">
+          <span class="type-sample-label">Exo 2 &mdash; Headlines &amp; Body</span>
+          <div class="type-exo-display">Futuristic with good readability across weights</div>
+        </div>
+
+        <!-- Audiowide -->
+        <div class="type-sample reveal">
+          <span class="type-sample-label">Audiowide &mdash; Tech Labels</span>
+          <div class="type-audiowide-display">Club Poster Energy</div>
+        </div>
+
+        <!-- Poppins Body -->
+        <div class="type-sample reveal">
+          <span class="type-sample-label">Poppins &mdash; Body Text</span>
+          <div class="type-body-sample">Body text uses geometric sans-serif faces at regular weight, maintaining readability while preserving the modern, clean energy of the aesthetic. Poppins provides versatile geometric character for all body and UI contexts.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="neon-divider">
+
+  <!-- ============================================
+       KEY DESIGN ELEMENTS & MOTIFS
+  ============================================ -->
+  <section class="spotlight-section">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-label">Signature Motifs</span>
+        <h2>Key Design Elements</h2>
+      </div>
+
+      <div class="elements-grid">
+        <!-- Lens Flare -->
+        <div class="element-demo demo-lens-flare reveal reveal-delay-1">
+          <div class="lens-flare-effect"></div>
+          <div class="lens-flare-streak"></div>
+          <span class="element-demo-label">Lens Flare</span>
+        </div>
+
+        <!-- Neon Glow -->
+        <div class="element-demo demo-neon-glow reveal reveal-delay-2">
+          <div class="neon-text">Glow</div>
+          <span class="element-demo-label">Neon Glow Text</span>
+        </div>
+
+        <!-- Laser Beams -->
+        <div class="element-demo demo-lasers reveal reveal-delay-3">
+          <div class="laser-beam laser-beam--1"></div>
+          <div class="laser-beam laser-beam--2"></div>
+          <div class="laser-beam laser-beam--3"></div>
+          <span class="element-demo-label">Laser Beams</span>
+        </div>
+
+        <!-- Disco Ball -->
+        <div class="element-demo demo-disco-ball reveal reveal-delay-1">
+          <div class="disco-grid">
+            <div class="disco-cell"></div><div class="disco-cell"></div><div class="disco-cell"></div><div class="disco-cell"></div><div class="disco-cell"></div><div class="disco-cell"></div><div class="disco-cell"></div><div class="disco-cell"></div>
+            <div class="disco-cell"></div><div class="disco-cell"></div><div class="disco-cell"></div><div class="disco-cell"></div><div class="disco-cell"></div><div class="disco-cell"></div><div class="disco-cell"></div><div class="disco-cell"></div>
+            <div class="disco-cell"></div><div class="disco-cell"></div><div class="disco-cell"></div><div class="disco-cell"></div><div class="disco-cell"></div><div class="disco-cell"></div><div class="disco-cell"></div><div class="disco-cell"></div>
+            <div class="disco-cell"></div><div class="disco-cell"></div><div class="disco-cell"></div><div class="disco-cell"></div><div class="disco-cell"></div><div class="disco-cell"></div><div class="disco-cell"></div><div class="disco-cell"></div>
+            <div class="disco-cell"></div><div class="disco-cell"></div><div class="disco-cell"></div><div class="disco-cell"></div><div class="disco-cell"></div><div class="disco-cell"></div><div class="disco-cell"></div><div class="disco-cell"></div>
+            <div class="disco-cell"></div><div class="disco-cell"></div><div class="disco-cell"></div><div class="disco-cell"></div><div class="disco-cell"></div><div class="disco-cell"></div><div class="disco-cell"></div><div class="disco-cell"></div>
+            <div class="disco-cell"></div><div class="disco-cell"></div><div class="disco-cell"></div><div class="disco-cell"></div><div class="disco-cell"></div><div class="disco-cell"></div><div class="disco-cell"></div><div class="disco-cell"></div>
+            <div class="disco-cell"></div><div class="disco-cell"></div><div class="disco-cell"></div><div class="disco-cell"></div><div class="disco-cell"></div><div class="disco-cell"></div><div class="disco-cell"></div><div class="disco-cell"></div>
+          </div>
+          <span class="element-demo-label">Disco Ball</span>
+        </div>
+
+        <!-- Holographic -->
+        <div class="element-demo demo-holographic reveal reveal-delay-2">
+          <div class="holo-surface"></div>
+          <span class="element-demo-label">Holographic Surface</span>
+        </div>
+
+        <!-- Diagonal Stripes -->
+        <div class="element-demo demo-stripes reveal reveal-delay-3">
+          <div class="strobe-overlay"></div>
+          <span class="element-demo-label">Diagonal Stripes + Strobe</span>
+        </div>
+
+        <!-- Pulse animation -->
+        <div class="element-demo reveal reveal-delay-1">
+          <div class="pulse-demo"></div>
+          <span class="element-demo-label">Pulsing Neon Glow</span>
+        </div>
+
+        <!-- Color Cycling -->
+        <div class="element-demo reveal reveal-delay-2">
+          <div class="color-cycle-demo">Color Cycle</div>
+          <span class="element-demo-label">Color Cycling Accent</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="neon-divider neon-divider--blue">
+
+  <!-- ============================================
+       LAYOUT PRINCIPLES
+  ============================================ -->
+  <section class="spotlight-section">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-label">Spatial Composition</span>
+        <h2>Layout Principles</h2>
+      </div>
+
+      <div class="glass-panel glass-panel--lime glass-panel--sweep reveal" style="margin-bottom: 2rem;">
+        <h3 style="margin-bottom: 1rem;">Structure</h3>
+        <ul class="principles-list">
+          <li><strong>Dark, immersive backgrounds</strong> &mdash; the page should feel like stepping into a nightclub with blacklight and neon</li>
+          <li><strong>Center-stage focal points</strong> &mdash; key content commands attention like a performer under a spotlight</li>
+          <li><strong>Asymmetric diagonal energy</strong> &mdash; elements tilted 10&ndash;30 degrees, breaking rigid horizontal/vertical grids</li>
+          <li><strong>Layered depth</strong> &mdash; overlapping neon glows, lens flares, and sparkle effects creating visual richness</li>
+          <li><strong>Generous dark space</strong> &mdash; let black breathing room surround neon elements so they glow with full intensity</li>
+          <li><strong>Full-bleed neon gradients</strong> &mdash; section backgrounds that sweep across the entire viewport width</li>
+        </ul>
+      </div>
+
+      <div class="glass-panel reveal">
+        <h3 style="margin-bottom: 1rem; color: var(--recession-magenta); text-shadow: 0 0 7px rgba(255,0,255,0.3);">Section Organization</h3>
+        <ul class="principles-list">
+          <li>Use <strong>neon gradient dividers</strong> between sections &mdash; glowing lines that pulse with color</li>
+          <li>Apply <strong>frosted dark glass panels</strong> for content grouping &mdash; semi-transparent dark surfaces with neon border accents</li>
+          <li>Create <strong>hierarchy through neon color assignment</strong> &mdash; magenta for primary, blue for secondary, lime for tertiary</li>
+          <li>Employ <strong>spotlight effects</strong> on featured content &mdash; radial gradients suggesting stage lighting from above</li>
+          <li>Allow <strong>light leak effects to bleed across sections</strong> &mdash; lens flares and glow that ignore container boundaries</li>
+          <li>Group content in <strong>dynamic, off-kilter arrangements</strong> rather than strict grids</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <hr class="neon-divider">
+
+  <!-- ============================================
+       ANIMATION & MOTION
+  ============================================ -->
+  <section class="spotlight-section">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-label">Movement &amp; Energy</span>
+        <h2>Animation &amp; Motion</h2>
+      </div>
+
+      <div class="glass-panel glass-panel--blue reveal">
+        <ul class="principles-list">
+          <li><strong>Pulsing neon glow</strong> &mdash; rhythmic brightening and dimming of neon elements, simulating club lighting</li>
+          <li><strong>Sparkle twinkle</strong> &mdash; glitter particles fading in and out at staggered intervals</li>
+          <li><strong>Lens flare drift</strong> &mdash; slow lateral movement of light streak effects across the viewport</li>
+          <li><strong>Color cycling</strong> &mdash; gradual hue rotation through magenta, blue, and lime on accent elements</li>
+          <li><strong>Strobe flash</strong> &mdash; rapid, brief opacity bursts on backgrounds for high-energy sections</li>
+          <li><strong>Diagonal sweep</strong> &mdash; colored light bars sliding across elements at 45-degree angles</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Diagonal strip break -->
+  <div class="diagonal-strip">
+    <div class="diagonal-strip-inner" style="transform: rotate(2deg); background: linear-gradient(135deg, var(--recession-blue) 0%, var(--recession-lime) 50%, var(--recession-yellow) 100%);">
+      <span class="diagonal-strip-text">Glossy &bull; Glittering &bull; Over-the-Top &bull; Defiant Optimism</span>
+    </div>
+  </div>
+
+  <!-- ============================================
+       MATERIALS & TEXTURES
+  ============================================ -->
+  <section class="spotlight-section">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-label">Physical to Digital</span>
+        <h2>Materials &amp; Textures</h2>
+      </div>
+
+      <div class="materials-grid">
+        <div class="material-card reveal reveal-delay-1">
+          <div class="material-physical">Glitter / Sequins</div>
+          <div class="material-web">Fine sparkle particles via box-shadow point lights or pseudo-element star shapes, animated twinkle</div>
+        </div>
+        <div class="material-card reveal reveal-delay-2">
+          <div class="material-physical">Chrome / Silver Metal</div>
+          <div class="material-web">Tight vertical linear gradient from white through gray to dark-gray, simulating metallic reflection</div>
+        </div>
+        <div class="material-card reveal reveal-delay-3">
+          <div class="material-physical">Holographic Foil</div>
+          <div class="material-web">Multi-color gradient with hue-rotate animation or rainbow gradient at low opacity</div>
+        </div>
+        <div class="material-card reveal reveal-delay-4">
+          <div class="material-physical">Disco Ball Mirrors</div>
+          <div class="material-web">Faceted grid of small squares with varying brightness, reflective highlight spots</div>
+        </div>
+        <div class="material-card reveal reveal-delay-1">
+          <div class="material-physical">Blacklight Surface</div>
+          <div class="material-web">Dark purple-black background with neon elements at high saturation, mix-blend-mode: screen</div>
+        </div>
+        <div class="material-card reveal reveal-delay-2">
+          <div class="material-physical">Laser Beams</div>
+          <div class="material-web">Thin neon-colored lines (1-2px) at sharp diagonal angles with matching box-shadow glow</div>
+        </div>
+        <div class="material-card reveal reveal-delay-3">
+          <div class="material-physical">Strobe Light</div>
+          <div class="material-web">Rapid opacity keyframes (0.1s interval) on white overlay for brief flash effect</div>
+        </div>
+        <div class="material-card reveal reveal-delay-4">
+          <div class="material-physical">Shutter Shades</div>
+          <div class="material-web">Repeating-linear-gradient horizontal stripes at 4-6px intervals over images</div>
+        </div>
+        <div class="material-card reveal reveal-delay-1">
+          <div class="material-physical">LED Light Strip</div>
+          <div class="material-web">Thin border with neon box-shadow glow, optionally animated color cycling</div>
+        </div>
+        <div class="material-card reveal reveal-delay-2">
+          <div class="material-physical">Stage Fog / Haze</div>
+          <div class="material-web">Large blurred radial gradients at very low opacity layered behind content</div>
+        </div>
+        <div class="material-card reveal reveal-delay-3">
+          <div class="material-physical">Metallic Lycra</div>
+          <div class="material-web">Glossy gradient surfaces with bright specular highlight streaks</div>
+        </div>
+        <div class="material-card reveal reveal-delay-4">
+          <div class="material-physical">Neon Signage</div>
+          <div class="material-web">Text with layered text-shadow in matching hue at increasing blur radii</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="neon-divider neon-divider--magenta">
+
+  <!-- ============================================
+       CULTURAL REFERENCES
+  ============================================ -->
+  <section class="spotlight-section">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-label">Icons &amp; Influences</span>
+        <h2>Cultural References</h2>
+      </div>
+
+      <div class="cultural-grid">
+        <div class="cultural-card reveal reveal-delay-1">
+          <div class="cultural-name">Lady Gaga</div>
+          <div class="cultural-desc">The definitive Recession Pop visual icon; chrome bodysuits, neon stage design, avant-garde maximalism</div>
+        </div>
+        <div class="cultural-card reveal reveal-delay-2">
+          <div class="cultural-name">Ke$ha</div>
+          <div class="cultural-desc">Glitter-drenched, trashy-glamorous party aesthetic with neon and metallic excess</div>
+        </div>
+        <div class="cultural-card reveal reveal-delay-3">
+          <div class="cultural-name">LMFAO</div>
+          <div class="cultural-desc">&ldquo;Party Rock Anthem&rdquo; visual language of neon, shutter shades, and electro-club spectacle</div>
+        </div>
+        <div class="cultural-card reveal reveal-delay-4">
+          <div class="cultural-name">Nicki Minaj</div>
+          <div class="cultural-desc">Bold color blocking, futuristic wigs, hyper-saturated visual identity</div>
+        </div>
+        <div class="cultural-card reveal reveal-delay-1">
+          <div class="cultural-name">Katy Perry</div>
+          <div class="cultural-desc">Candy-neon maximalism, playful futurism</div>
+        </div>
+        <div class="cultural-card reveal reveal-delay-2">
+          <div class="cultural-name">Black Eyed Peas</div>
+          <div class="cultural-desc">&ldquo;Boom Boom Pow&rdquo; era LED suits, digital-futuristic stage design</div>
+        </div>
+        <div class="cultural-card reveal reveal-delay-3">
+          <div class="cultural-name">Rihanna</div>
+          <div class="cultural-desc">&ldquo;Only Girl in the World&rdquo; era, neon-lit club visuals</div>
+        </div>
+        <div class="cultural-card reveal reveal-delay-4">
+          <div class="cultural-name">La Roux</div>
+          <div class="cultural-desc">Asymmetrical hair, synth-pop visual minimalism with neon accent</div>
+        </div>
+        <div class="cultural-card reveal reveal-delay-1">
+          <div class="cultural-name">MySpace Culture</div>
+          <div class="cultural-desc">Layered sparkle GIFs, glitter backgrounds, neon color schemes, custom CSS excess</div>
+        </div>
+        <div class="cultural-card reveal reveal-delay-2">
+          <div class="cultural-name">EDM Stage Design</div>
+          <div class="cultural-desc">Laser grids, LED walls, fog machines, strobe lighting</div>
+        </div>
+        <div class="cultural-card reveal reveal-delay-3">
+          <div class="cultural-name">Cartoon Network</div>
+          <div class="cultural-desc">&ldquo;Noods&rdquo; and &ldquo;CHECK it&rdquo; eras &mdash; related Avantropop branding using geometric neons</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="neon-divider neon-divider--blue">
+
+  <!-- ============================================
+       RELATED AESTHETICS
+  ============================================ -->
+  <section class="spotlight-section">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-label">Aesthetic Constellation</span>
+        <h2>Related Aesthetics</h2>
+      </div>
+
+      <div class="related-table-wrapper reveal">
+        <table class="related-table">
+          <thead>
+            <tr>
+              <th>Aesthetic</th>
+              <th>Relationship</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Avantropop</td>
+              <td>Graphic design sub-style; shares geometric neon sensibility but focused on broadcast/motion graphics</td>
+            </tr>
+            <tr>
+              <td>McBling</td>
+              <td>Predecessor era (mid-2000s); shares maximalism and party energy but with more bling/hip-hop and less electro-futurism</td>
+            </tr>
+            <tr>
+              <td>Indie Sleaze</td>
+              <td>Contemporary; the lo-fi, grungy counterpart &mdash; same party energy, opposite production values</td>
+            </tr>
+            <tr>
+              <td>Scene</td>
+              <td>Overlapping subculture; shares neon colors, asymmetric hair, MySpace culture, and electro influence</td>
+            </tr>
+            <tr>
+              <td>Bloghouse</td>
+              <td>Musical predecessor; electro-house club culture that fed into Recession Pop&rsquo;s sonic and visual identity</td>
+            </tr>
+            <tr>
+              <td>Frutiger Aero</td>
+              <td>Contemporary mainstream; optimistic and glossy but nature-focused and corporate vs. nightclub and rebellious</td>
+            </tr>
+            <tr>
+              <td>Dark Aero</td>
+              <td>Shares the glossy-on-dark formula and neon accents; the tech/UI cousin of the club aesthetic</td>
+            </tr>
+            <tr>
+              <td>Hyperpop</td>
+              <td>Spiritual successor; takes the hyper-produced maximalism even further into digital excess</td>
+            </tr>
+            <tr>
+              <td>Electroclash</td>
+              <td>Earlier influence (2001&ndash;2004); electro-punk aesthetic that laid groundwork for the neon-and-black palette</td>
+            </tr>
+            <tr>
+              <td>Flat Design</td>
+              <td>Direct successor; the minimalist correction that replaced Recession Pop&rsquo;s maximalism starting ~2013</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <hr class="neon-divider">
+
+  <!-- ============================================
+       FOOTER
+  ============================================ -->
+  <footer class="footer">
+    <div class="footer-text">Aesthetic Showcase</div>
+    <div class="footer-era">Recession Pop &bull; 2008&ndash;2013</div>
+    <p style="margin-top: 1.5rem; font-size: 0.82rem; color: var(--recession-text-dim);">
+      Maximalist, futuristic, and unapologetically over-the-top &mdash; a defiant &ldquo;party through the crisis&rdquo; attitude.
+    </p>
+  </footer>
+
+  <!-- ============================================
+       JAVASCRIPT: Sparkle Particles + Scroll Reveal
+  ============================================ -->
+  <script>
+    // ---- SPARKLE PARTICLE SYSTEM ----
+    (function() {
+      const canvas = document.getElementById('sparkle-canvas');
+      const ctx = canvas.getContext('2d');
+      let particles = [];
+      const PARTICLE_COUNT = 60;
+      const colors = [
+        'rgba(255, 0, 255, ',
+        'rgba(0, 191, 255, ',
+        'rgba(57, 255, 20, ',
+        'rgba(255, 255, 255, ',
+        'rgba(255, 255, 0, ',
+        'rgba(155, 48, 255, ',
+        'rgba(255, 0, 144, '
+      ];
+
+      function resize() {
+        canvas.width = window.innerWidth;
+        canvas.height = document.documentElement.scrollHeight;
+      }
+
+      function createParticle() {
+        const color = colors[Math.floor(Math.random() * colors.length)];
+        return {
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          size: Math.random() * 2.5 + 0.5,
+          color: color,
+          alpha: Math.random() * 0.6 + 0.1,
+          alphaDir: (Math.random() > 0.5 ? 1 : -1) * (Math.random() * 0.015 + 0.005),
+          twinkleSpeed: Math.random() * 0.02 + 0.005,
+          driftX: (Math.random() - 0.5) * 0.15,
+          driftY: (Math.random() - 0.5) * 0.1
+        };
+      }
+
+      function init() {
+        resize();
+        particles = [];
+        for (let i = 0; i < PARTICLE_COUNT; i++) {
+          particles.push(createParticle());
+        }
+      }
+
+      function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        for (let p of particles) {
+          // Update alpha for twinkle
+          p.alpha += p.alphaDir;
+          if (p.alpha >= 0.8 || p.alpha <= 0.05) {
+            p.alphaDir *= -1;
+          }
+
+          // Slow drift
+          p.x += p.driftX;
+          p.y += p.driftY;
+
+          // Wrap around
+          if (p.x < 0) p.x = canvas.width;
+          if (p.x > canvas.width) p.x = 0;
+          if (p.y < 0) p.y = canvas.height;
+          if (p.y > canvas.height) p.y = 0;
+
+          // Draw sparkle: a small cross/star shape
+          ctx.save();
+          ctx.globalAlpha = Math.max(0, Math.min(1, p.alpha));
+          ctx.fillStyle = p.color + '1)';
+
+          // Center dot
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+          ctx.fill();
+
+          // Cross arms for star sparkle effect
+          if (p.size > 1.2) {
+            ctx.strokeStyle = p.color + (p.alpha * 0.6) + ')';
+            ctx.lineWidth = 0.5;
+
+            ctx.beginPath();
+            ctx.moveTo(p.x - p.size * 3, p.y);
+            ctx.lineTo(p.x + p.size * 3, p.y);
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.moveTo(p.x, p.y - p.size * 3);
+            ctx.lineTo(p.x, p.y + p.size * 3);
+            ctx.stroke();
+          }
+
+          ctx.restore();
+        }
+        requestAnimationFrame(draw);
+      }
+
+      window.addEventListener('resize', function() {
+        resize();
+      });
+
+      // Recalculate canvas height on scroll to account for full page
+      let resizeTimer;
+      window.addEventListener('scroll', function() {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(function() {
+          const newHeight = document.documentElement.scrollHeight;
+          if (canvas.height !== newHeight) {
+            canvas.height = newHeight;
+          }
+        }, 200);
+      });
+
+      init();
+      draw();
+    })();
+
+    // ---- SCROLL REVEAL ----
+    (function() {
+      const reveals = document.querySelectorAll('.reveal');
+      const observerOptions = {
+        root: null,
+        rootMargin: '0px 0px -60px 0px',
+        threshold: 0.1
+      };
+
+      const observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, observerOptions);
+
+      reveals.forEach(function(el) {
+        observer.observe(el);
+      });
+    })();
+  </script>
+</body>
+</html>
