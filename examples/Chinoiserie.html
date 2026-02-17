@@ -1,0 +1,2115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chinoiserie - A Design Aesthetic Showcase</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Cinzel:wght@400;700&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+  <style>
+    /* ============================================
+       CSS CUSTOM PROPERTIES
+       ============================================ */
+    :root {
+      --chinoiserie-lacquer-red: #B22234;
+      --chinoiserie-imperial-blue: #1B3A5C;
+      --chinoiserie-porcelain: #F5F0E8;
+      --chinoiserie-gilt-gold: #C9A84C;
+      --chinoiserie-jade: #2E8B57;
+      --chinoiserie-ink: #1A1A1A;
+      --chinoiserie-plum: #6B2D5B;
+      --chinoiserie-celadon: #ACE1AF;
+      --chinoiserie-ivory: #FFF8DC;
+      --chinoiserie-cinnabar: #E34234;
+
+      --gold-glow: rgba(201, 168, 76, 0.35);
+      --blue-shadow: rgba(27, 58, 92, 0.15);
+      --section-padding: 80px 60px;
+    }
+
+    /* ============================================
+       RESET & BASE
+       ============================================ */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 1.125rem;
+      line-height: 1.75;
+      color: var(--chinoiserie-ink);
+      background: var(--chinoiserie-porcelain);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overflow-x: hidden;
+    }
+
+    /* ============================================
+       KEYFRAME ANIMATIONS
+       ============================================ */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes shimmer {
+      0% { background-position: -200% center; }
+      100% { background-position: 200% center; }
+    }
+
+    @keyframes floatGentle {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      25% { transform: translateY(-8px) rotate(1deg); }
+      75% { transform: translateY(4px) rotate(-0.5deg); }
+    }
+
+    @keyframes branchSway {
+      0%, 100% { transform: rotate(0deg) translateX(0); }
+      30% { transform: rotate(1.5deg) translateX(3px); }
+      70% { transform: rotate(-1deg) translateX(-2px); }
+    }
+
+    @keyframes craneFly {
+      0% { transform: translate(0, 0) rotate(0deg); opacity: 0.6; }
+      25% { transform: translate(15px, -20px) rotate(2deg); opacity: 0.8; }
+      50% { transform: translate(30px, -10px) rotate(-1deg); opacity: 0.7; }
+      75% { transform: translate(45px, -25px) rotate(1.5deg); opacity: 0.9; }
+      100% { transform: translate(60px, -5px) rotate(0deg); opacity: 0.6; }
+    }
+
+    @keyframes goldPulse {
+      0%, 100% { opacity: 0.4; }
+      50% { opacity: 0.8; }
+    }
+
+    @keyframes unfurlLine {
+      from { width: 0; }
+      to { width: 100%; }
+    }
+
+    @keyframes petalDrift {
+      0% { transform: translate(0, 0) rotate(0deg); opacity: 0; }
+      10% { opacity: 0.7; }
+      90% { opacity: 0.5; }
+      100% { transform: translate(var(--drift-x, 80px), var(--drift-y, 200px)) rotate(var(--drift-r, 180deg)); opacity: 0; }
+    }
+
+    @keyframes inkReveal {
+      from { clip-path: inset(0 100% 0 0); }
+      to { clip-path: inset(0 0 0 0); }
+    }
+
+    @keyframes swatchGlow {
+      0%, 100% { box-shadow: 0 2px 10px rgba(0,0,0,0.15); }
+      50% { box-shadow: 0 4px 20px var(--gold-glow); }
+    }
+
+    /* ============================================
+       NAVIGATION
+       ============================================ */
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      background: var(--chinoiserie-imperial-blue);
+      border-bottom: 3px solid var(--chinoiserie-gilt-gold);
+      padding: 16px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      animation: fadeInDown 0.8s ease-out;
+      backdrop-filter: blur(10px);
+    }
+
+    .nav-brand {
+      color: var(--chinoiserie-gilt-gold);
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .nav-brand .brand-icon {
+      font-size: 1.4rem;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--chinoiserie-ivory);
+      font-family: 'Cinzel', serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: color 0.3s ease;
+      position: relative;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 1px;
+      background: var(--chinoiserie-gilt-gold);
+      transition: width 0.3s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--chinoiserie-gilt-gold);
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    /* Mobile nav toggle */
+    .nav-toggle {
+      display: none;
+      background: none;
+      border: 1px solid var(--chinoiserie-gilt-gold);
+      color: var(--chinoiserie-gilt-gold);
+      padding: 6px 12px;
+      font-family: 'Cinzel', serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+
+    /* ============================================
+       HERO SECTION
+       ============================================ */
+    .hero {
+      margin-top: 55px;
+      background: var(--chinoiserie-imperial-blue);
+      color: var(--chinoiserie-porcelain);
+      padding: 120px 40px 100px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      min-height: 85vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* Radial golden glow */
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 120%;
+      height: 120%;
+      background: radial-gradient(ellipse at center, rgba(201,168,76,0.07) 0%, rgba(201,168,76,0.03) 30%, transparent 65%);
+      pointer-events: none;
+    }
+
+    /* Subtle texture overlay */
+    .hero::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-image:
+        repeating-linear-gradient(
+          0deg,
+          transparent,
+          transparent 2px,
+          rgba(201,168,76,0.015) 2px,
+          rgba(201,168,76,0.015) 3px
+        );
+      pointer-events: none;
+    }
+
+    /* SVG decorative motifs in hero */
+    .hero-motif {
+      position: absolute;
+      pointer-events: none;
+      opacity: 0.12;
+    }
+
+    .hero-motif--left {
+      left: -20px;
+      bottom: 40px;
+      width: 320px;
+      height: 400px;
+      animation: branchSway 8s ease-in-out infinite;
+    }
+
+    .hero-motif--right {
+      right: 20px;
+      top: 80px;
+      width: 200px;
+      height: 260px;
+      animation: branchSway 10s ease-in-out infinite reverse;
+    }
+
+    .hero-motif--crane {
+      right: 15%;
+      top: 20%;
+      width: 80px;
+      animation: craneFly 12s ease-in-out infinite;
+    }
+
+    .hero-motif--crane-2 {
+      left: 18%;
+      top: 30%;
+      width: 60px;
+      animation: craneFly 15s ease-in-out infinite 3s;
+      transform: scaleX(-1);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 800px;
+    }
+
+    .hero-eyebrow {
+      font-family: 'Cinzel', serif;
+      font-size: 0.8rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--chinoiserie-gilt-gold);
+      margin-bottom: 24px;
+      animation: fadeIn 1s ease-out 0.2s both;
+    }
+
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.8rem, 6vw, 5rem);
+      font-weight: 700;
+      color: var(--chinoiserie-gilt-gold);
+      line-height: 1.15;
+      margin-bottom: 24px;
+      animation: fadeInUp 1s ease-out 0.4s both;
+      background: linear-gradient(135deg, var(--chinoiserie-gilt-gold) 0%, #e6d4a0 40%, var(--chinoiserie-gilt-gold) 60%, #a88a3a 100%);
+      background-size: 300% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: fadeInUp 1s ease-out 0.4s both, shimmer 6s linear infinite 1.5s;
+    }
+
+    .hero-subtitle {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.1rem, 2vw, 1.4rem);
+      font-weight: 400;
+      font-style: italic;
+      color: rgba(245,240,232,0.8);
+      max-width: 600px;
+      margin: 0 auto 40px;
+      line-height: 1.8;
+      animation: fadeInUp 1s ease-out 0.6s both;
+    }
+
+    .hero-divider {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      margin-bottom: 40px;
+      animation: fadeIn 1s ease-out 0.8s both;
+    }
+
+    .hero-divider::before,
+    .hero-divider::after {
+      content: '';
+      width: 80px;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--chinoiserie-gilt-gold), transparent);
+    }
+
+    .hero-divider-symbol {
+      color: var(--chinoiserie-gilt-gold);
+      font-size: 1.5rem;
+      line-height: 1;
+    }
+
+    .hero-scroll {
+      animation: fadeInUp 1s ease-out 1s both;
+    }
+
+    .hero-scroll a {
+      display: inline-block;
+      color: var(--chinoiserie-ivory);
+      font-family: 'Cinzel', serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border: 1px solid rgba(201,168,76,0.4);
+      padding: 12px 32px;
+      transition: all 0.4s ease;
+    }
+
+    .hero-scroll a:hover {
+      background: rgba(201,168,76,0.15);
+      border-color: var(--chinoiserie-gilt-gold);
+      color: var(--chinoiserie-gilt-gold);
+    }
+
+    /* Floating petals in hero */
+    .petal {
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      border-radius: 50% 0 50% 0;
+      opacity: 0;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .petal--1 {
+      background: rgba(178, 34, 52, 0.25);
+      top: 15%; left: 10%;
+      --drift-x: 120px; --drift-y: 300px; --drift-r: 220deg;
+      animation: petalDrift 10s ease-in-out infinite;
+    }
+    .petal--2 {
+      background: rgba(201, 168, 76, 0.2);
+      top: 25%; right: 20%;
+      --drift-x: -80px; --drift-y: 250px; --drift-r: -180deg;
+      animation: petalDrift 12s ease-in-out infinite 2s;
+      width: 8px; height: 8px;
+    }
+    .petal--3 {
+      background: rgba(172, 225, 175, 0.15);
+      top: 10%; left: 45%;
+      --drift-x: 50px; --drift-y: 280px; --drift-r: 150deg;
+      animation: petalDrift 14s ease-in-out infinite 4s;
+      width: 10px; height: 10px;
+    }
+    .petal--4 {
+      background: rgba(178, 34, 52, 0.18);
+      top: 20%; right: 35%;
+      --drift-x: -100px; --drift-y: 220px; --drift-r: -200deg;
+      animation: petalDrift 11s ease-in-out infinite 1s;
+      width: 14px; height: 14px;
+    }
+    .petal--5 {
+      background: rgba(201, 168, 76, 0.15);
+      top: 5%; left: 70%;
+      --drift-x: -60px; --drift-y: 350px; --drift-r: 260deg;
+      animation: petalDrift 16s ease-in-out infinite 5s;
+    }
+
+    /* ============================================
+       ORNAMENTAL DIVIDER
+       ============================================ */
+    .ornament-divider {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin: 0;
+      padding: 0 40px;
+    }
+
+    .ornament-divider::before,
+    .ornament-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--chinoiserie-gilt-gold), transparent);
+    }
+
+    .ornament-divider span {
+      color: var(--chinoiserie-gilt-gold);
+      font-size: 1.4rem;
+      line-height: 1;
+    }
+
+    /* ============================================
+       SECTION TITLES
+       ============================================ */
+    .section-header {
+      text-align: center;
+      margin-bottom: 50px;
+    }
+
+    .section-eyebrow {
+      font-family: 'Cinzel', serif;
+      font-size: 0.72rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--chinoiserie-gilt-gold);
+      margin-bottom: 12px;
+      display: block;
+    }
+
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: clamp(2rem, 4vw, 2.8rem);
+      color: var(--chinoiserie-lacquer-red);
+      margin-bottom: 16px;
+      line-height: 1.2;
+    }
+
+    .section-subtitle {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 1.15rem;
+      color: var(--chinoiserie-imperial-blue);
+      max-width: 550px;
+      margin: 0 auto;
+      opacity: 0.8;
+    }
+
+    /* ============================================
+       OVERVIEW SECTION
+       ============================================ */
+    .overview {
+      padding: var(--section-padding);
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .overview-body {
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 50px;
+      align-items: start;
+    }
+
+    .overview-text {
+      font-size: 1.15rem;
+      line-height: 1.85;
+      color: var(--chinoiserie-ink);
+    }
+
+    .overview-text p + p {
+      margin-top: 1.2em;
+    }
+
+    .overview-text .dropcap::first-letter {
+      font-family: 'Playfair Display', serif;
+      font-size: 4.2rem;
+      font-weight: 700;
+      float: left;
+      line-height: 0.85;
+      margin-right: 10px;
+      margin-top: 6px;
+      color: var(--chinoiserie-lacquer-red);
+    }
+
+    .overview-aside {
+      background: var(--chinoiserie-ivory);
+      border: 2px solid var(--chinoiserie-gilt-gold);
+      border-radius: 4px;
+      padding: 36px;
+      position: relative;
+    }
+
+    .overview-aside::before {
+      content: '';
+      position: absolute;
+      top: 8px; left: 8px; right: 8px; bottom: 8px;
+      border: 1px solid var(--chinoiserie-gilt-gold);
+      border-radius: 2px;
+      pointer-events: none;
+    }
+
+    .overview-aside h3 {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: 1.3rem;
+      color: var(--chinoiserie-lacquer-red);
+      margin-bottom: 16px;
+      text-align: center;
+    }
+
+    .overview-aside ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .overview-aside li {
+      padding: 8px 0;
+      border-bottom: 1px solid rgba(201,168,76,0.2);
+      font-family: 'EB Garamond', serif;
+      font-size: 1rem;
+      color: var(--chinoiserie-ink);
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+    }
+
+    .overview-aside li:last-child {
+      border-bottom: none;
+    }
+
+    .overview-aside li .motif-icon {
+      color: var(--chinoiserie-gilt-gold);
+      font-size: 0.9rem;
+      flex-shrink: 0;
+    }
+
+    /* ============================================
+       COLOR PALETTE SECTION
+       ============================================ */
+    .palette-section {
+      background: var(--chinoiserie-imperial-blue);
+      padding: var(--section-padding);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .palette-section::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: radial-gradient(ellipse at 20% 50%, rgba(201,168,76,0.06) 0%, transparent 50%),
+                  radial-gradient(ellipse at 80% 50%, rgba(107,45,91,0.08) 0%, transparent 50%);
+      pointer-events: none;
+    }
+
+    .palette-section .section-title {
+      color: var(--chinoiserie-gilt-gold);
+    }
+
+    .palette-section .section-subtitle {
+      color: rgba(245,240,232,0.7);
+    }
+
+    .palette-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 24px;
+      max-width: 1000px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .swatch {
+      text-align: center;
+      transition: transform 0.4s ease;
+    }
+
+    .swatch:hover {
+      transform: translateY(-6px);
+    }
+
+    .swatch-color {
+      width: 100%;
+      aspect-ratio: 1;
+      border-radius: 4px;
+      border: 2px solid rgba(201,168,76,0.3);
+      margin-bottom: 14px;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .swatch:hover .swatch-color {
+      border-color: var(--chinoiserie-gilt-gold);
+      box-shadow: 0 6px 24px rgba(0,0,0,0.3);
+    }
+
+    .swatch-color::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, transparent 50%, rgba(0,0,0,0.1) 100%);
+      pointer-events: none;
+    }
+
+    .swatch-name {
+      font-family: 'Playfair Display', serif;
+      font-weight: 500;
+      font-size: 0.95rem;
+      color: var(--chinoiserie-porcelain);
+      margin-bottom: 4px;
+    }
+
+    .swatch-hex {
+      font-family: 'EB Garamond', serif;
+      font-size: 0.85rem;
+      color: rgba(245,240,232,0.55);
+      letter-spacing: 0.04em;
+    }
+
+    .swatch-role {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 0.82rem;
+      color: rgba(245,240,232,0.45);
+      margin-top: 4px;
+    }
+
+    /* ============================================
+       VISUAL CHARACTERISTICS
+       ============================================ */
+    .characteristics {
+      padding: var(--section-padding);
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .traits-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+    }
+
+    .trait-card {
+      background: var(--chinoiserie-ivory);
+      border: 2px solid var(--chinoiserie-gilt-gold);
+      border-radius: 4px;
+      padding: 32px;
+      position: relative;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .trait-card::before {
+      content: '';
+      position: absolute;
+      top: 7px; left: 7px; right: 7px; bottom: 7px;
+      border: 1px solid rgba(201,168,76,0.4);
+      border-radius: 2px;
+      pointer-events: none;
+    }
+
+    .trait-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 30px var(--blue-shadow);
+    }
+
+    .trait-icon {
+      font-size: 1.8rem;
+      margin-bottom: 14px;
+      display: block;
+    }
+
+    .trait-card h3 {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: 1.2rem;
+      color: var(--chinoiserie-lacquer-red);
+      margin-bottom: 10px;
+    }
+
+    .trait-card p {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.05rem;
+      line-height: 1.7;
+      color: var(--chinoiserie-ink);
+      opacity: 0.85;
+    }
+
+    /* ============================================
+       DESIGN PRINCIPLES
+       ============================================ */
+    .principles {
+      background:
+        linear-gradient(135deg, rgba(27,58,92,0.03) 0%, transparent 50%),
+        var(--chinoiserie-porcelain);
+      padding: var(--section-padding);
+    }
+
+    .principles-container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .principle-item {
+      display: flex;
+      gap: 24px;
+      align-items: flex-start;
+      padding: 24px 0;
+      border-bottom: 1px solid rgba(201,168,76,0.2);
+    }
+
+    .principle-item:last-child {
+      border-bottom: none;
+    }
+
+    .principle-number {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: 2rem;
+      color: var(--chinoiserie-gilt-gold);
+      line-height: 1;
+      flex-shrink: 0;
+      width: 50px;
+      opacity: 0.6;
+    }
+
+    .principle-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.15rem;
+      line-height: 1.75;
+      color: var(--chinoiserie-ink);
+    }
+
+    .principle-text strong {
+      color: var(--chinoiserie-imperial-blue);
+      font-weight: 600;
+    }
+
+    /* ============================================
+       TYPOGRAPHY SECTION
+       ============================================ */
+    .typography-section {
+      background: var(--chinoiserie-ink);
+      padding: var(--section-padding);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .typography-section::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background:
+        repeating-linear-gradient(
+          90deg,
+          transparent,
+          transparent 60px,
+          rgba(201,168,76,0.02) 60px,
+          rgba(201,168,76,0.02) 61px
+        );
+      pointer-events: none;
+    }
+
+    .typography-section .section-title {
+      color: var(--chinoiserie-gilt-gold);
+    }
+
+    .typography-section .section-subtitle {
+      color: rgba(245,240,232,0.6);
+    }
+
+    .type-showcase {
+      max-width: 1000px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .type-specimen {
+      background: rgba(245,240,232,0.04);
+      border: 1px solid rgba(201,168,76,0.2);
+      border-radius: 4px;
+      padding: 32px;
+      transition: border-color 0.3s ease;
+    }
+
+    .type-specimen:hover {
+      border-color: rgba(201,168,76,0.5);
+    }
+
+    .type-specimen-label {
+      font-family: 'Cinzel', serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--chinoiserie-gilt-gold);
+      margin-bottom: 16px;
+      display: block;
+    }
+
+    .type-specimen-sample {
+      margin-bottom: 14px;
+    }
+
+    .type-specimen-info {
+      font-family: 'EB Garamond', serif;
+      font-size: 0.9rem;
+      color: rgba(245,240,232,0.5);
+      line-height: 1.6;
+    }
+
+    .specimen-playfair {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: var(--chinoiserie-porcelain);
+      line-height: 1.3;
+    }
+
+    .specimen-cormorant {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem;
+      font-weight: 400;
+      color: var(--chinoiserie-porcelain);
+      line-height: 1.6;
+      font-style: italic;
+    }
+
+    .specimen-cinzel {
+      font-family: 'Cinzel', serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--chinoiserie-gilt-gold);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      line-height: 1.8;
+    }
+
+    .specimen-eb {
+      font-family: 'EB Garamond', serif;
+      font-size: 1.35rem;
+      font-weight: 400;
+      color: rgba(245,240,232,0.85);
+      line-height: 1.75;
+    }
+
+    /* Font pairing table */
+    .pairing-table {
+      max-width: 800px;
+      margin: 50px auto 0;
+      border-collapse: collapse;
+      width: 100%;
+      position: relative;
+      z-index: 1;
+    }
+
+    .pairing-table thead th {
+      font-family: 'Cinzel', serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--chinoiserie-gilt-gold);
+      padding: 12px 16px;
+      text-align: left;
+      border-bottom: 2px solid rgba(201,168,76,0.3);
+    }
+
+    .pairing-table tbody td {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1rem;
+      color: rgba(245,240,232,0.75);
+      padding: 14px 16px;
+      border-bottom: 1px solid rgba(201,168,76,0.1);
+    }
+
+    .pairing-table tbody tr:hover td {
+      color: var(--chinoiserie-porcelain);
+      background: rgba(201,168,76,0.05);
+    }
+
+    /* ============================================
+       LAYOUT PRINCIPLES
+       ============================================ */
+    .layout-section {
+      padding: var(--section-padding);
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .layout-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 30px;
+    }
+
+    .layout-card {
+      background: var(--chinoiserie-ivory);
+      border: 2px solid var(--chinoiserie-gilt-gold);
+      border-radius: 4px;
+      padding: 28px 24px;
+      position: relative;
+      text-align: center;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .layout-card::before {
+      content: '';
+      position: absolute;
+      top: 6px; left: 6px; right: 6px; bottom: 6px;
+      border: 1px solid rgba(201,168,76,0.35);
+      border-radius: 2px;
+      pointer-events: none;
+    }
+
+    .layout-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 6px 24px var(--blue-shadow);
+    }
+
+    .layout-card-icon {
+      font-size: 2rem;
+      margin-bottom: 12px;
+      display: block;
+    }
+
+    .layout-card h3 {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: var(--chinoiserie-lacquer-red);
+      margin-bottom: 10px;
+    }
+
+    .layout-card p {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1rem;
+      line-height: 1.65;
+      color: var(--chinoiserie-ink);
+      opacity: 0.8;
+    }
+
+    /* ============================================
+       CSS TECHNIQUES SHOWCASE
+       ============================================ */
+    .techniques {
+      background: var(--chinoiserie-imperial-blue);
+      padding: var(--section-padding);
+      position: relative;
+    }
+
+    .techniques::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: radial-gradient(circle at 70% 30%, rgba(201,168,76,0.05) 0%, transparent 40%);
+      pointer-events: none;
+    }
+
+    .techniques .section-title {
+      color: var(--chinoiserie-gilt-gold);
+    }
+
+    .techniques .section-subtitle {
+      color: rgba(245,240,232,0.6);
+    }
+
+    .techniques-grid {
+      max-width: 1000px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 36px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Demo card */
+    .demo-card {
+      background: var(--chinoiserie-porcelain);
+      border: 2px solid var(--chinoiserie-gilt-gold);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .demo-card-header {
+      font-family: 'Cinzel', serif;
+      font-size: 0.68rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--chinoiserie-gilt-gold);
+      padding: 14px 24px;
+      background: rgba(27,58,92,0.06);
+      border-bottom: 1px solid rgba(201,168,76,0.25);
+    }
+
+    .demo-card-body {
+      padding: 28px;
+    }
+
+    /* Live ornamental card demo */
+    .live-ornamental-card {
+      background: var(--chinoiserie-ivory);
+      border: 2px solid var(--chinoiserie-gilt-gold);
+      border-radius: 4px;
+      padding: 32px;
+      position: relative;
+      box-shadow: 0 4px 20px rgba(27,58,92,0.12);
+    }
+
+    .live-ornamental-card::before {
+      content: '';
+      position: absolute;
+      top: 8px; left: 8px; right: 8px; bottom: 8px;
+      border: 1px solid var(--chinoiserie-gilt-gold);
+      border-radius: 2px;
+      pointer-events: none;
+    }
+
+    .live-ornamental-card h4 {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: 1.2rem;
+      color: var(--chinoiserie-lacquer-red);
+      margin-bottom: 8px;
+    }
+
+    .live-ornamental-card p {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1rem;
+      line-height: 1.7;
+      color: var(--chinoiserie-ink);
+    }
+
+    /* Live button demos */
+    .button-row {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .live-button {
+      background: var(--chinoiserie-lacquer-red);
+      color: var(--chinoiserie-ivory);
+      border: 2px solid var(--chinoiserie-gilt-gold);
+      padding: 14px 36px;
+      font-family: 'Playfair Display', serif;
+      font-weight: 500;
+      font-size: 0.95rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .live-button:hover {
+      background: var(--chinoiserie-ink);
+      border-color: var(--chinoiserie-gilt-gold);
+      box-shadow: 0 0 16px rgba(201,168,76,0.4);
+    }
+
+    .live-button--secondary {
+      background: var(--chinoiserie-imperial-blue);
+    }
+
+    .live-button--secondary:hover {
+      background: var(--chinoiserie-plum);
+    }
+
+    /* Live divider demo */
+    .live-divider {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin: 20px 0;
+    }
+
+    .live-divider::before,
+    .live-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--chinoiserie-gilt-gold), transparent);
+    }
+
+    .live-divider span {
+      color: var(--chinoiserie-gilt-gold);
+      font-size: 1.25rem;
+    }
+
+    /* Live nav demo */
+    .live-nav {
+      background: var(--chinoiserie-imperial-blue);
+      border-bottom: 3px solid var(--chinoiserie-gilt-gold);
+      padding: 14px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-radius: 4px 4px 0 0;
+    }
+
+    .live-nav a {
+      color: var(--chinoiserie-ivory);
+      font-family: 'Cinzel', serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .live-nav a:hover {
+      color: var(--chinoiserie-gilt-gold);
+    }
+
+    .live-nav-links {
+      display: flex;
+      gap: 18px;
+    }
+
+    /* ============================================
+       DO'S AND DON'TS
+       ============================================ */
+    .dos-donts {
+      padding: var(--section-padding);
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .dos-donts-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+    }
+
+    .dos-column, .donts-column {
+      background: var(--chinoiserie-ivory);
+      border: 2px solid var(--chinoiserie-gilt-gold);
+      border-radius: 4px;
+      padding: 36px;
+      position: relative;
+    }
+
+    .dos-column::before, .donts-column::before {
+      content: '';
+      position: absolute;
+      top: 8px; left: 8px; right: 8px; bottom: 8px;
+      border: 1px solid rgba(201,168,76,0.35);
+      border-radius: 2px;
+      pointer-events: none;
+    }
+
+    .dos-column h3, .donts-column h3 {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: 1.4rem;
+      margin-bottom: 20px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid rgba(201,168,76,0.3);
+    }
+
+    .dos-column h3 {
+      color: var(--chinoiserie-jade);
+    }
+
+    .donts-column h3 {
+      color: var(--chinoiserie-lacquer-red);
+    }
+
+    .dos-column ul, .donts-column ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .dos-column li, .donts-column li {
+      padding: 10px 0;
+      padding-left: 28px;
+      position: relative;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.05rem;
+      line-height: 1.65;
+      color: var(--chinoiserie-ink);
+      border-bottom: 1px solid rgba(201,168,76,0.1);
+    }
+
+    .dos-column li:last-child, .donts-column li:last-child {
+      border-bottom: none;
+    }
+
+    .dos-column li::before {
+      content: '\2713';
+      position: absolute;
+      left: 0;
+      top: 10px;
+      color: var(--chinoiserie-jade);
+      font-weight: 700;
+      font-size: 1.1rem;
+    }
+
+    .donts-column li::before {
+      content: '\2717';
+      position: absolute;
+      left: 0;
+      top: 10px;
+      color: var(--chinoiserie-lacquer-red);
+      font-weight: 700;
+      font-size: 1.1rem;
+    }
+
+    /* ============================================
+       RELATED AESTHETICS
+       ============================================ */
+    .related {
+      background:
+        linear-gradient(180deg, var(--chinoiserie-porcelain) 0%, rgba(27,58,92,0.05) 100%);
+      padding: var(--section-padding);
+    }
+
+    .related-grid {
+      max-width: 1000px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .related-card {
+      background: var(--chinoiserie-ivory);
+      border: 1px solid rgba(201,168,76,0.4);
+      border-radius: 4px;
+      padding: 24px;
+      text-align: center;
+      transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .related-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--chinoiserie-gilt-gold);
+      box-shadow: 0 6px 20px var(--blue-shadow);
+    }
+
+    .related-card h3 {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: 1.15rem;
+      color: var(--chinoiserie-imperial-blue);
+      margin-bottom: 10px;
+    }
+
+    .related-card p {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.95rem;
+      line-height: 1.6;
+      color: var(--chinoiserie-ink);
+      opacity: 0.75;
+    }
+
+    /* ============================================
+       FOOTER
+       ============================================ */
+    .footer {
+      background: var(--chinoiserie-ink);
+      padding: 50px 40px 40px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .footer::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg,
+        transparent,
+        var(--chinoiserie-gilt-gold),
+        var(--chinoiserie-lacquer-red),
+        var(--chinoiserie-gilt-gold),
+        transparent
+      );
+    }
+
+    .footer-ornament {
+      color: var(--chinoiserie-gilt-gold);
+      font-size: 1.6rem;
+      margin-bottom: 20px;
+      display: block;
+      opacity: 0.6;
+    }
+
+    .footer-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 1.15rem;
+      color: rgba(245,240,232,0.5);
+      max-width: 500px;
+      margin: 0 auto 20px;
+      line-height: 1.7;
+    }
+
+    .footer-label {
+      font-family: 'Cinzel', serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(201,168,76,0.4);
+    }
+
+    /* ============================================
+       SCROLL ANIMATIONS (JS-driven)
+       ============================================ */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+    .reveal-delay-5 { transition-delay: 0.5s; }
+    .reveal-delay-6 { transition-delay: 0.6s; }
+
+    /* ============================================
+       RESPONSIVE DESIGN
+       ============================================ */
+    @media (max-width: 1024px) {
+      :root {
+        --section-padding: 60px 40px;
+      }
+
+      .palette-grid {
+        grid-template-columns: repeat(5, 1fr);
+        gap: 16px;
+      }
+
+      .layout-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .related-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 768px) {
+      :root {
+        --section-padding: 50px 24px;
+      }
+
+      .nav {
+        padding: 14px 20px;
+      }
+
+      .nav-links {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: var(--chinoiserie-imperial-blue);
+        border-bottom: 2px solid var(--chinoiserie-gilt-gold);
+        flex-direction: column;
+        padding: 16px 20px;
+        gap: 14px;
+      }
+
+      .nav-links.open {
+        display: flex;
+      }
+
+      .nav-toggle {
+        display: block;
+      }
+
+      .hero {
+        padding: 80px 24px 60px;
+        min-height: 70vh;
+      }
+
+      .hero-motif--left,
+      .hero-motif--right,
+      .hero-motif--crane,
+      .hero-motif--crane-2 {
+        display: none;
+      }
+
+      .overview-body {
+        grid-template-columns: 1fr;
+      }
+
+      .palette-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .traits-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .type-showcase {
+        grid-template-columns: 1fr;
+      }
+
+      .techniques-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .dos-donts-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .layout-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .related-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .pairing-table {
+        font-size: 0.9rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      :root {
+        --section-padding: 40px 18px;
+      }
+
+      .hero h1 {
+        font-size: 2.2rem;
+      }
+
+      .palette-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+      }
+
+      .swatch-role {
+        display: none;
+      }
+
+      .button-row {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ========== NAVIGATION ========== -->
+  <nav class="nav">
+    <a href="#" class="nav-brand">
+      <span class="brand-icon">&#x2766;</span>
+      Chinoiserie
+    </a>
+    <button class="nav-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')">Menu</button>
+    <ul class="nav-links">
+      <li><a href="#overview">Overview</a></li>
+      <li><a href="#palette">Palette</a></li>
+      <li><a href="#characteristics">Traits</a></li>
+      <li><a href="#typography">Typography</a></li>
+      <li><a href="#layout">Layout</a></li>
+      <li><a href="#techniques">Techniques</a></li>
+      <li><a href="#guidelines">Guidelines</a></li>
+    </ul>
+  </nav>
+
+  <!-- ========== HERO ========== -->
+  <header class="hero">
+    <!-- Floating petals -->
+    <div class="petal petal--1"></div>
+    <div class="petal petal--2"></div>
+    <div class="petal petal--3"></div>
+    <div class="petal petal--4"></div>
+    <div class="petal petal--5"></div>
+
+    <!-- SVG decorative branch (left) -->
+    <svg class="hero-motif hero-motif--left" viewBox="0 0 320 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M20 400 Q40 350 30 300 Q20 250 50 200 Q80 150 60 100 Q50 60 70 20" stroke="#C9A84C" stroke-width="2" fill="none"/>
+      <path d="M50 200 Q90 190 110 160" stroke="#C9A84C" stroke-width="1.5" fill="none"/>
+      <path d="M30 300 Q70 280 90 250" stroke="#C9A84C" stroke-width="1.5" fill="none"/>
+      <circle cx="110" cy="155" r="12" fill="none" stroke="#C9A84C" stroke-width="1"/>
+      <circle cx="115" cy="148" r="8" fill="none" stroke="#C9A84C" stroke-width="0.8"/>
+      <circle cx="90" cy="245" r="10" fill="none" stroke="#C9A84C" stroke-width="1"/>
+      <circle cx="95" cy="240" r="6" fill="none" stroke="#C9A84C" stroke-width="0.8"/>
+      <path d="M60 100 Q100 90 130 110" stroke="#C9A84C" stroke-width="1.2" fill="none"/>
+      <circle cx="132" cy="112" r="14" fill="none" stroke="#C9A84C" stroke-width="1"/>
+      <circle cx="138" cy="106" r="9" fill="none" stroke="#C9A84C" stroke-width="0.7"/>
+      <!-- Leaves -->
+      <ellipse cx="80" cy="170" rx="15" ry="6" transform="rotate(-30 80 170)" fill="none" stroke="#C9A84C" stroke-width="0.8"/>
+      <ellipse cx="55" cy="260" rx="13" ry="5" transform="rotate(20 55 260)" fill="none" stroke="#C9A84C" stroke-width="0.8"/>
+      <ellipse cx="45" cy="140" rx="12" ry="5" transform="rotate(-45 45 140)" fill="none" stroke="#C9A84C" stroke-width="0.8"/>
+    </svg>
+
+    <!-- SVG decorative branch (right) -->
+    <svg class="hero-motif hero-motif--right" viewBox="0 0 200 260" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M180 260 Q170 210 180 170 Q190 130 170 90 Q155 50 170 10" stroke="#C9A84C" stroke-width="1.8" fill="none"/>
+      <path d="M170 90 Q130 80 110 100" stroke="#C9A84C" stroke-width="1.2" fill="none"/>
+      <circle cx="106" cy="103" r="10" fill="none" stroke="#C9A84C" stroke-width="0.9"/>
+      <path d="M180 170 Q140 165 120 180" stroke="#C9A84C" stroke-width="1.2" fill="none"/>
+      <circle cx="117" cy="183" r="11" fill="none" stroke="#C9A84C" stroke-width="0.9"/>
+      <circle cx="112" cy="178" r="7" fill="none" stroke="#C9A84C" stroke-width="0.6"/>
+      <ellipse cx="150" cy="130" rx="12" ry="5" transform="rotate(30 150 130)" fill="none" stroke="#C9A84C" stroke-width="0.7"/>
+      <ellipse cx="160" cy="55" rx="10" ry="4" transform="rotate(-20 160 55)" fill="none" stroke="#C9A84C" stroke-width="0.7"/>
+    </svg>
+
+    <!-- SVG crane silhouettes -->
+    <svg class="hero-motif hero-motif--crane" viewBox="0 0 80 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M10 50 Q20 30 40 25 Q55 22 60 10 M40 25 Q50 35 65 40 M40 25 Q30 35 25 45" stroke="#C9A84C" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      <circle cx="62" cy="8" r="2" fill="#C9A84C"/>
+    </svg>
+
+    <svg class="hero-motif hero-motif--crane-2" viewBox="0 0 80 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M10 50 Q20 30 40 25 Q55 22 60 10 M40 25 Q50 35 65 40 M40 25 Q30 35 25 45" stroke="#C9A84C" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      <circle cx="62" cy="8" r="2" fill="#C9A84C"/>
+    </svg>
+
+    <div class="hero-content">
+      <p class="hero-eyebrow">A Design Aesthetic Showcase</p>
+      <h1>Chinoiserie</h1>
+      <p class="hero-subtitle">
+        European decorative art reimagining East Asian motifs through a lens of
+        lacquer-red, gilt-blue, jade-green, and gold on delicate toile patterns.
+      </p>
+      <div class="hero-divider">
+        <div class="hero-divider-symbol">&#x2766;</div>
+      </div>
+      <div class="hero-scroll">
+        <a href="#overview">Explore the Aesthetic</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ========== OVERVIEW ========== -->
+  <section id="overview" class="overview">
+    <div class="section-header reveal">
+      <span class="section-eyebrow">Origins &amp; Essence</span>
+      <h2 class="section-title">Overview</h2>
+      <p class="section-subtitle">From porcelain chambers to digital screens</p>
+    </div>
+
+    <div class="overview-body">
+      <div class="overview-text reveal reveal-delay-1">
+        <p class="dropcap">Chinoiserie is a European decorative art style that interprets and reimagines East Asian motifs through a Western lens. Originating in the 17th and 18th centuries, it draws on pagodas, exotic birds, blooming branches, dragons, and landscape vignettes rendered in lacquer-red, gilt-blue, jade-green, and gold on delicate toile patterns.</p>
+        <p>In digital design, Chinoiserie translates into richly ornamental compositions that balance intricate illustrative detail with structured elegance, evoking the hand-painted porcelain, lacquerware, and wallpaper panels that defined the style's golden age.</p>
+        <p>The aesthetic thrives on the tension between meticulous ornamentation and deliberate restraint -- every gilt border, every brushstroke flourish, every carefully placed motif serves the larger composition while rewarding close inspection with exquisite detail.</p>
+      </div>
+
+      <aside class="overview-aside reveal reveal-delay-2">
+        <h3>Signature Motifs</h3>
+        <ul>
+          <li><span class="motif-icon">&#x273F;</span> Pagodas &amp; pavilions</li>
+          <li><span class="motif-icon">&#x2766;</span> Cranes in flight</li>
+          <li><span class="motif-icon">&#x273F;</span> Peonies &amp; cherry blossoms</li>
+          <li><span class="motif-icon">&#x2766;</span> Bamboo groves</li>
+          <li><span class="motif-icon">&#x273F;</span> Koi fish &amp; lotus ponds</li>
+          <li><span class="motif-icon">&#x2766;</span> Mythical dragons</li>
+          <li><span class="motif-icon">&#x273F;</span> Landscape vignettes</li>
+          <li><span class="motif-icon">&#x2766;</span> Willow-pattern scenes</li>
+        </ul>
+      </aside>
+    </div>
+  </section>
+
+  <div class="ornament-divider"><span>&#x2767;</span></div>
+
+  <!-- ========== COLOR PALETTE ========== -->
+  <section id="palette" class="palette-section">
+    <div class="section-header reveal">
+      <span class="section-eyebrow" style="color: rgba(201,168,76,0.7);">Lacquer &amp; Porcelain</span>
+      <h2 class="section-title">Color Palette</h2>
+      <p class="section-subtitle">Ten colors drawn from lacquerware, porcelain, and silk traditions</p>
+    </div>
+
+    <div class="palette-grid">
+      <div class="swatch reveal reveal-delay-1">
+        <div class="swatch-color" style="background: #B22234;"></div>
+        <div class="swatch-name">Lacquer Red</div>
+        <div class="swatch-hex">#B22234</div>
+        <div class="swatch-role">Primary accent</div>
+      </div>
+      <div class="swatch reveal reveal-delay-1">
+        <div class="swatch-color" style="background: #1B3A5C;"></div>
+        <div class="swatch-name">Imperial Blue</div>
+        <div class="swatch-hex">#1B3A5C</div>
+        <div class="swatch-role">Deep background</div>
+      </div>
+      <div class="swatch reveal reveal-delay-2">
+        <div class="swatch-color" style="background: #F5F0E8;"></div>
+        <div class="swatch-name">Porcelain White</div>
+        <div class="swatch-hex">#F5F0E8</div>
+        <div class="swatch-role">Light background</div>
+      </div>
+      <div class="swatch reveal reveal-delay-2">
+        <div class="swatch-color" style="background: #C9A84C;"></div>
+        <div class="swatch-name">Gilt Gold</div>
+        <div class="swatch-hex">#C9A84C</div>
+        <div class="swatch-role">Borders &amp; accents</div>
+      </div>
+      <div class="swatch reveal reveal-delay-3">
+        <div class="swatch-color" style="background: #2E8B57;"></div>
+        <div class="swatch-name">Jade Green</div>
+        <div class="swatch-hex">#2E8B57</div>
+        <div class="swatch-role">Secondary accent</div>
+      </div>
+      <div class="swatch reveal reveal-delay-3">
+        <div class="swatch-color" style="background: #1A1A1A;"></div>
+        <div class="swatch-name">Ink Black</div>
+        <div class="swatch-hex">#1A1A1A</div>
+        <div class="swatch-role">Body text</div>
+      </div>
+      <div class="swatch reveal reveal-delay-4">
+        <div class="swatch-color" style="background: #6B2D5B;"></div>
+        <div class="swatch-name">Plum</div>
+        <div class="swatch-hex">#6B2D5B</div>
+        <div class="swatch-role">Tertiary accent</div>
+      </div>
+      <div class="swatch reveal reveal-delay-4">
+        <div class="swatch-color" style="background: #ACE1AF;"></div>
+        <div class="swatch-name">Celadon</div>
+        <div class="swatch-hex">#ACE1AF</div>
+        <div class="swatch-role">Soft highlight</div>
+      </div>
+      <div class="swatch reveal reveal-delay-5">
+        <div class="swatch-color" style="background: #FFF8DC;"></div>
+        <div class="swatch-name">Warm Ivory</div>
+        <div class="swatch-hex">#FFF8DC</div>
+        <div class="swatch-role">Card backgrounds</div>
+      </div>
+      <div class="swatch reveal reveal-delay-5">
+        <div class="swatch-color" style="background: #E34234;"></div>
+        <div class="swatch-name">Cinnabar</div>
+        <div class="swatch-hex">#E34234</div>
+        <div class="swatch-role">Call-to-action</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== VISUAL CHARACTERISTICS ========== -->
+  <section id="characteristics" class="characteristics">
+    <div class="section-header reveal">
+      <span class="section-eyebrow">Defining Features</span>
+      <h2 class="section-title">Visual Characteristics</h2>
+      <p class="section-subtitle">The core design traits that define the Chinoiserie aesthetic</p>
+    </div>
+
+    <div class="traits-grid">
+      <div class="trait-card reveal reveal-delay-1">
+        <span class="trait-icon">&#x2740;</span>
+        <h3>Ornate Illustrative Motifs</h3>
+        <p>Pagodas, cranes, peonies, cherry blossoms, bamboo, koi fish, and mythical dragons rendered in a decorative, slightly fantastical style.</p>
+      </div>
+      <div class="trait-card reveal reveal-delay-2">
+        <span class="trait-icon">&#x2756;</span>
+        <h3>Toile-Pattern Backgrounds</h3>
+        <p>Repeating scenic vignettes on solid-color grounds, reminiscent of hand-blocked wallpaper and porcelain transfers.</p>
+      </div>
+      <div class="trait-card reveal reveal-delay-3">
+        <span class="trait-icon">&#x2726;</span>
+        <h3>Rich Lacquer Surfaces</h3>
+        <p>Deep reds, blacks, and midnight blues that evoke Asian lacquerware with a high-gloss or matte satin finish.</p>
+      </div>
+      <div class="trait-card reveal reveal-delay-1">
+        <span class="trait-icon">&#x2736;</span>
+        <h3>Gilt Accents</h3>
+        <p>Gold leaf borders, frames, and filigree detailing that add opulence to panels and typography.</p>
+      </div>
+      <div class="trait-card reveal reveal-delay-2">
+        <span class="trait-icon">&#x2767;</span>
+        <h3>Asymmetric Natural Compositions</h3>
+        <p>Branches extending from one edge, birds in flight, and cascading floral arrangements that create organic movement.</p>
+      </div>
+      <div class="trait-card reveal reveal-delay-3">
+        <span class="trait-icon">&#x270E;</span>
+        <h3>Hand-Painted Texture</h3>
+        <p>Brushstroke-quality illustrations with visible variation, avoiding sterile vector perfection.</p>
+      </div>
+      <div class="trait-card reveal reveal-delay-1" style="grid-column: span 2;">
+        <span class="trait-icon">&#x2750;</span>
+        <h3>Framed Panels &amp; Cartouches</h3>
+        <p>Content presented within ornamental borders and shaped frames inspired by Rococo chinoiserie furniture. Double-border treatments with gilt inner and outer lines create the impression of mounted artwork.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="ornament-divider"><span>&#x2766;</span></div>
+
+  <!-- ========== DESIGN PRINCIPLES ========== -->
+  <section class="principles">
+    <div class="principles-container">
+      <div class="section-header reveal">
+        <span class="section-eyebrow">Guiding Philosophy</span>
+        <h2 class="section-title">Design Principles</h2>
+        <p class="section-subtitle">Rules of composition for the Chinoiserie aesthetic</p>
+      </div>
+
+      <div class="principle-item reveal reveal-delay-1">
+        <span class="principle-number">I</span>
+        <p class="principle-text"><strong>Balance ornament with negative space</strong> to prevent visual overload. The beauty of Chinoiserie lies in knowing when to stop.</p>
+      </div>
+      <div class="principle-item reveal reveal-delay-2">
+        <span class="principle-number">II</span>
+        <p class="principle-text"><strong>Layer motifs at varying opacities</strong> for depth without clutter. Background elements at 10-15% opacity create atmosphere while foreground details command attention.</p>
+      </div>
+      <div class="principle-item reveal reveal-delay-3">
+        <span class="principle-number">III</span>
+        <p class="principle-text"><strong>Use gold sparingly as an accent</strong>, not a dominant surface color. Applied to borders, dividers, and small typographic details, it reads as luxurious. Applied broadly, it reads as gaudy.</p>
+      </div>
+      <div class="principle-item reveal reveal-delay-4">
+        <span class="principle-number">IV</span>
+        <p class="principle-text"><strong>Treat the background as a decorative surface</strong>, not an afterthought. Subtle textures, gradient washes, and faint pattern overlays transform flat backgrounds into living surfaces.</p>
+      </div>
+      <div class="principle-item reveal reveal-delay-5">
+        <span class="principle-number">V</span>
+        <p class="principle-text"><strong>Maintain a sense of curated exoticism</strong> rather than ethnographic accuracy. The aesthetic is a European fantasy of the East, filtered through Rococo sensibilities.</p>
+      </div>
+      <div class="principle-item reveal reveal-delay-6">
+        <span class="principle-number">VI</span>
+        <p class="principle-text"><strong>Allow asymmetry in illustration</strong> while keeping layout structure symmetrical. The organic motifs dance freely within a disciplined architectural grid.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== TYPOGRAPHY ========== -->
+  <section id="typography" class="typography-section">
+    <div class="section-header reveal">
+      <span class="section-eyebrow" style="color: rgba(201,168,76,0.7);">Serifs &amp; Engraving</span>
+      <h2 class="section-title">Typography</h2>
+      <p class="section-subtitle">Typefaces that evoke the engraved lettering of porcelain marks and lacquerware inscriptions</p>
+    </div>
+
+    <div class="type-showcase">
+      <div class="type-specimen reveal reveal-delay-1">
+        <span class="type-specimen-label">Display Heading</span>
+        <div class="type-specimen-sample specimen-playfair">
+          Playfair Display
+        </div>
+        <p class="type-specimen-info">
+          Weights 400, 500, 700 &middot; High-contrast serifs evoke engraved lettering.
+          Ideal for display headings and hero titles.
+        </p>
+      </div>
+
+      <div class="type-specimen reveal reveal-delay-2">
+        <span class="type-specimen-label">Body Text</span>
+        <div class="type-specimen-sample specimen-cormorant">
+          Cormorant Garamond
+        </div>
+        <p class="type-specimen-info">
+          Weights 400, 500, 600 &middot; Elegant old-style serif with refined proportions.
+          Primary body text and subheadings.
+        </p>
+      </div>
+
+      <div class="type-specimen reveal reveal-delay-3">
+        <span class="type-specimen-label">Navigation &amp; Labels</span>
+        <div class="type-specimen-sample specimen-cinzel">
+          Cinzel Capitals
+        </div>
+        <p class="type-specimen-info">
+          Weights 400, 700 &middot; Antiquarian capitals for labels and navigation.
+          Paired with wide letter-spacing for authority.
+        </p>
+      </div>
+
+      <div class="type-specimen reveal reveal-delay-4">
+        <span class="type-specimen-label">Refined Alternative</span>
+        <div class="type-specimen-sample specimen-eb">
+          EB Garamond, a refined body text alternative with classical proportions
+        </div>
+        <p class="type-specimen-info">
+          Weights 400, 500, 600 &middot; When a subtler body voice is needed,
+          EB Garamond offers a quieter elegance.
+        </p>
+      </div>
+    </div>
+
+    <!-- Font pairing table -->
+    <table class="pairing-table reveal">
+      <thead>
+        <tr>
+          <th>Heading</th>
+          <th>Body</th>
+          <th>Mood</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Playfair Display 700</td>
+          <td>Cormorant Garamond 400</td>
+          <td>Classic luxury, editorial</td>
+        </tr>
+        <tr>
+          <td>Cinzel 700</td>
+          <td>EB Garamond 400</td>
+          <td>Antiquarian, museum-catalog</td>
+        </tr>
+        <tr>
+          <td>Playfair Display 500</td>
+          <td>Noto Serif SC 400</td>
+          <td>East-meets-West fusion</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ========== LAYOUT PRINCIPLES ========== -->
+  <section id="layout" class="layout-section">
+    <div class="section-header reveal">
+      <span class="section-eyebrow">Spatial Composition</span>
+      <h2 class="section-title">Layout Principles</h2>
+      <p class="section-subtitle">Structuring content like framed porcelain panels</p>
+    </div>
+
+    <div class="layout-grid">
+      <div class="layout-card reveal reveal-delay-1">
+        <span class="layout-card-icon">&#x2750;</span>
+        <h3>Framed Panel Structure</h3>
+        <p>Content sections enclosed in ornamental borders with gold-accented corner flourishes, mimicking lacquerware trays and porcelain panel paintings.</p>
+      </div>
+      <div class="layout-card reveal reveal-delay-2">
+        <span class="layout-card-icon">&#x2225;</span>
+        <h3>Central Axis Symmetry</h3>
+        <p>Main content aligned on a central vertical axis while decorative motifs flow asymmetrically around it.</p>
+      </div>
+      <div class="layout-card reveal reveal-delay-3">
+        <span class="layout-card-icon">&#x25A1;</span>
+        <h3>Generous Margins</h3>
+        <p>Wide margins (60-80px) create the impression of a mounted print or framed artwork.</p>
+      </div>
+      <div class="layout-card reveal reveal-delay-1">
+        <span class="layout-card-icon">&#x2043;</span>
+        <h3>Ornamental Dividers</h3>
+        <p>Illustrative dividers -- bamboo stalks, floral garlands, wave patterns -- instead of plain horizontal rules.</p>
+      </div>
+      <div class="layout-card reveal reveal-delay-2">
+        <span class="layout-card-icon">&#x2689;</span>
+        <h3>Sidebar Vignettes</h3>
+        <p>Smaller illustrative scenes or motif panels flanking main content, recalling scenic borders on chinoiserie wallpaper.</p>
+      </div>
+      <div class="layout-card reveal reveal-delay-3">
+        <span class="layout-card-icon">&#x21C4;</span>
+        <h3>Responsive Approach</h3>
+        <p>On narrow screens, collapse decorative sidebars into header/footer ornaments; maintain framed panels but reduce border complexity.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="ornament-divider"><span>&#x273F;</span></div>
+
+  <!-- ========== CSS TECHNIQUES ========== -->
+  <section id="techniques" class="techniques">
+    <div class="section-header reveal">
+      <span class="section-eyebrow" style="color: rgba(201,168,76,0.7);">Implementation Patterns</span>
+      <h2 class="section-title">CSS Techniques</h2>
+      <p class="section-subtitle">Live demonstrations of the core component patterns</p>
+    </div>
+
+    <div class="techniques-grid">
+      <!-- Ornamental Card Demo -->
+      <div class="demo-card reveal reveal-delay-1">
+        <div class="demo-card-header">Ornamental Card</div>
+        <div class="demo-card-body">
+          <div class="live-ornamental-card">
+            <h4>Blue Willow</h4>
+            <p>Landscape vignettes painted in cobalt on ivory porcelain, depicting bridges, pavilions, and weeping willows along a tranquil riverbank.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Button Demo -->
+      <div class="demo-card reveal reveal-delay-2">
+        <div class="demo-card-header">Lacquer Buttons</div>
+        <div class="demo-card-body">
+          <div class="button-row">
+            <button class="live-button">Explore</button>
+            <button class="live-button live-button--secondary">Discover</button>
+          </div>
+          <p style="margin-top: 16px; font-size: 0.95rem; opacity: 0.6; font-style: italic;">Hover to see the lacquer-to-ink transition</p>
+        </div>
+      </div>
+
+      <!-- Divider Demo -->
+      <div class="demo-card reveal reveal-delay-3">
+        <div class="demo-card-header">Decorative Divider</div>
+        <div class="demo-card-body">
+          <p style="text-align: center; font-style: italic; opacity: 0.7; margin-bottom: 8px;">Content above</p>
+          <div class="live-divider"><span>&#x2766;</span></div>
+          <p style="text-align: center; font-style: italic; opacity: 0.7; margin-top: 8px;">Content below</p>
+        </div>
+      </div>
+
+      <!-- Navigation Demo -->
+      <div class="demo-card reveal reveal-delay-4">
+        <div class="demo-card-header">Navigation Bar</div>
+        <div class="demo-card-body" style="padding: 0;">
+          <div class="live-nav">
+            <a href="#" style="font-family: 'Playfair Display', serif; font-size: 0.95rem; color: #C9A84C;">Chinoiserie</a>
+            <div class="live-nav-links">
+              <a href="#">Collection</a>
+              <a href="#">Gallery</a>
+              <a href="#">About</a>
+            </div>
+          </div>
+          <div style="padding: 20px 24px; background: rgba(27,58,92,0.04);">
+            <p style="font-size: 0.95rem; opacity: 0.6; font-style: italic; text-align: center;">Hover links to see gold transition</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== DO'S AND DON'TS ========== -->
+  <section id="guidelines" class="dos-donts">
+    <div class="section-header reveal">
+      <span class="section-eyebrow">Craftsmanship</span>
+      <h2 class="section-title">Design Guidelines</h2>
+      <p class="section-subtitle">Principles to honor and pitfalls to avoid</p>
+    </div>
+
+    <div class="dos-donts-grid">
+      <div class="dos-column reveal reveal-delay-1">
+        <h3>Do</h3>
+        <ul>
+          <li>Use rich, saturated colors drawn from lacquerware and porcelain traditions</li>
+          <li>Include ornamental borders and frames around key content panels</li>
+          <li>Pair serif typography with generous spacing for an editorial, curated feel</li>
+          <li>Use gold accents for borders, dividers, and small typographic details</li>
+          <li>Let illustrative motifs serve as decorative elements alongside functional content</li>
+          <li>Maintain a sense of refined luxury through material textures and layering</li>
+        </ul>
+      </div>
+      <div class="donts-column reveal reveal-delay-2">
+        <h3>Don't</h3>
+        <ul>
+          <li>Overwhelm the layout with competing ornamental patterns in every section</li>
+          <li>Use garish neon colors; the palette should feel antique and refined</li>
+          <li>Apply gold to large surface areas -- it reads as gaudy rather than luxurious</li>
+          <li>Mix Chinoiserie motifs with incompatible aesthetics like grunge or brutalism</li>
+          <li>Use sans-serif fonts for primary headings; serifs are essential to the period feel</li>
+          <li>Reduce illustrations to clip-art quality; maintain hand-painted texture quality</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <div class="ornament-divider"><span>&#x2767;</span></div>
+
+  <!-- ========== RELATED AESTHETICS ========== -->
+  <section class="related">
+    <div class="section-header reveal">
+      <span class="section-eyebrow">Aesthetic Neighbors</span>
+      <h2 class="section-title">Related Aesthetics</h2>
+      <p class="section-subtitle">Styles that share kinship with Chinoiserie</p>
+    </div>
+
+    <div class="related-grid">
+      <div class="related-card reveal reveal-delay-1">
+        <h3>Art Nouveau</h3>
+        <p>Shares organic flowing lines and natural motifs but with a European botanical focus rather than East Asian imagery.</p>
+      </div>
+      <div class="related-card reveal reveal-delay-2">
+        <h3>Baroque</h3>
+        <p>Both embrace ornamental opulence and gilt detailing; Baroque is heavier and more symmetrical.</p>
+      </div>
+      <div class="related-card reveal reveal-delay-3">
+        <h3>Rococo</h3>
+        <p>The historical partner of Chinoiserie; both share playful ornament, pastel-and-gilt palettes, and asymmetric flourishes.</p>
+      </div>
+      <div class="related-card reveal reveal-delay-1">
+        <h3>Art Deco</h3>
+        <p>Shares geometric luxury and gold accents but replaces organic motifs with angular, machine-age patterns.</p>
+      </div>
+      <div class="related-card reveal reveal-delay-2">
+        <h3>Maximalism</h3>
+        <p>Chinoiserie is inherently maximalist in its decorative density; related in spirit but distinct in cultural reference.</p>
+      </div>
+      <div class="related-card reveal reveal-delay-3">
+        <h3>Japandi</h3>
+        <p>Opposite approach -- minimalist Japanese-Scandinavian fusion versus Chinoiserie's ornamental European fantasy of Asia.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== FOOTER ========== -->
+  <footer class="footer">
+    <span class="footer-ornament">&#x2766; &#x273F; &#x2766;</span>
+    <p class="footer-text">
+      "The Porcelain Garden" -- a showcase of the Chinoiserie design aesthetic,
+      rendered entirely in HTML and CSS as a self-contained reference.
+    </p>
+    <p class="footer-label">Chinoiserie Design System</p>
+  </footer>
+
+  <!-- ========== SCROLL REVEAL SCRIPT ========== -->
+  <script>
+    // Intersection Observer for scroll-triggered reveal animations
+    (function() {
+      const revealElements = document.querySelectorAll('.reveal');
+
+      if ('IntersectionObserver' in window) {
+        const observer = new IntersectionObserver(function(entries) {
+          entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('visible');
+              observer.unobserve(entry.target);
+            }
+          });
+        }, {
+          threshold: 0.12,
+          rootMargin: '0px 0px -40px 0px'
+        });
+
+        revealElements.forEach(function(el) {
+          observer.observe(el);
+        });
+      } else {
+        // Fallback: reveal everything immediately
+        revealElements.forEach(function(el) {
+          el.classList.add('visible');
+        });
+      }
+    })();
+
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        var target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+        // Close mobile nav if open
+        document.querySelector('.nav-links').classList.remove('open');
+      });
+    });
+
+    // Parallax-like subtle effect on hero (performance-safe)
+    var hero = document.querySelector('.hero');
+    var heroContent = document.querySelector('.hero-content');
+    var ticking = false;
+
+    window.addEventListener('scroll', function() {
+      if (!ticking) {
+        window.requestAnimationFrame(function() {
+          var scrolled = window.pageYOffset;
+          var heroHeight = hero.offsetHeight;
+          if (scrolled < heroHeight) {
+            var opacity = 1 - (scrolled / heroHeight) * 0.6;
+            var translateY = scrolled * 0.2;
+            heroContent.style.opacity = opacity;
+            heroContent.style.transform = 'translateY(' + translateY + 'px)';
+          }
+          ticking = false;
+        });
+        ticking = true;
+      }
+    });
+  </script>
+</body>
+</html>

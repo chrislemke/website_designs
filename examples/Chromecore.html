@@ -1,0 +1,2052 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chromecore -- Y2K Futurism Design Aesthetic</title>
+  <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@200;300;400;600&family=Orbitron:wght@400;500;700;900&family=Rajdhani:wght@300;400;500;600&family=Inter:wght@300;400;500&family=Michroma&display=swap" rel="stylesheet">
+  <style>
+    /* ===== CSS CUSTOM PROPERTIES ===== */
+    :root {
+      --chrome-silver: #c0c0c0;
+      --chrome-light: #e8e8e8;
+      --chrome-bright: #f5f5f5;
+      --chrome-mid: #a0a0a0;
+      --chrome-dark: #71797e;
+      --chrome-deep: #484848;
+      --chrome-black: #1c1c1c;
+      --chrome-charcoal: #2d2d2d;
+      --chrome-white: #f0f0f0;
+      --chrome-blue: #0080ff;
+      --chrome-blue-light: #4da6ff;
+      --chrome-blue-glow: rgba(0, 128, 255, 0.3);
+      --chrome-holo-pink: #e8d5f5;
+      --chrome-holo-blue: #d5eaf5;
+      --chrome-holo-green: #d5f5e0;
+      --chrome-bg-primary: var(--chrome-black);
+      --chrome-bg-secondary: var(--chrome-charcoal);
+      --chrome-bg-surface: var(--chrome-deep);
+      --chrome-text-primary: var(--chrome-white);
+      --chrome-text-secondary: var(--chrome-silver);
+      --chrome-accent: var(--chrome-blue);
+      --chrome-border: var(--chrome-mid);
+    }
+
+    /* ===== RESET & BASE ===== */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      overflow-x: hidden;
+    }
+
+    body {
+      background: var(--chrome-black);
+      color: var(--chrome-text-secondary);
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+      letter-spacing: 0.02em;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* ===== TYPOGRAPHY ===== */
+    h1, h2, h3, h4 {
+      font-family: 'Exo 2', sans-serif;
+      font-weight: 300;
+      letter-spacing: 0.1em;
+      color: var(--chrome-white);
+    }
+
+    h2 {
+      font-size: clamp(1.5rem, 3vw, 2.2rem);
+      margin-bottom: 1rem;
+    }
+
+    h3 {
+      font-size: clamp(1.1rem, 2vw, 1.4rem);
+      margin-bottom: 0.75rem;
+      color: var(--chrome-light);
+    }
+
+    p {
+      margin-bottom: 1rem;
+      max-width: 70ch;
+    }
+
+    a {
+      color: var(--chrome-blue-light);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    a:hover {
+      color: var(--chrome-blue);
+      text-shadow: 0 0 8px var(--chrome-blue-glow);
+    }
+
+    /* ===== KEYFRAME ANIMATIONS ===== */
+    @keyframes holo-shift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    @keyframes chrome-shine {
+      0% { transform: translateX(-150%) rotate(15deg); }
+      100% { transform: translateX(250%) rotate(15deg); }
+    }
+
+    @keyframes disc-spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    @keyframes pulse-glow {
+      0%, 100% { box-shadow: 0 0 4px var(--chrome-blue-glow), 0 0 12px rgba(0,128,255,0.1); }
+      50% { box-shadow: 0 0 8px var(--chrome-blue-glow), 0 0 24px rgba(0,128,255,0.2); }
+    }
+
+    @keyframes float-up {
+      from {
+        opacity: 0;
+        transform: translateY(40px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fade-in {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes scan-line {
+      0% { top: -2px; }
+      100% { top: 100%; }
+    }
+
+    @keyframes shimmer-text {
+      0% { background-position: -200% center; }
+      100% { background-position: 200% center; }
+    }
+
+    /* ===== GLOBAL LAYOUT ===== */
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    section {
+      padding: 5rem 0;
+      position: relative;
+    }
+
+    /* ===== CHROME DIVIDER ===== */
+    .chrome-divider {
+      width: 60%;
+      max-width: 400px;
+      margin: 0 auto;
+      border: none;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--chrome-blue) 20%, var(--chrome-blue) 80%, transparent);
+      opacity: 0.6;
+    }
+
+    .chrome-divider--wide {
+      width: 80%;
+      max-width: 700px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--chrome-mid) 20%, var(--chrome-mid) 80%, transparent);
+      opacity: 0.4;
+    }
+
+    /* ===== NAVIGATION ===== */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      background: rgba(28, 28, 28, 0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(160, 160, 160, 0.12);
+      padding: 0 2rem;
+      animation: fade-in 0.6s ease both;
+    }
+
+    nav .nav-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 56px;
+    }
+
+    nav .nav-logo {
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 700;
+      font-size: 0.85rem;
+      letter-spacing: 0.2em;
+      background: linear-gradient(180deg, #ffffff 0%, #a0a0a0 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    nav .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    nav .nav-links a {
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 500;
+      font-size: 0.75rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--chrome-mid);
+      transition: color 0.25s ease;
+      position: relative;
+    }
+
+    nav .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 1px;
+      background: var(--chrome-blue);
+      transition: width 0.3s ease;
+    }
+
+    nav .nav-links a:hover {
+      color: var(--chrome-white);
+      text-shadow: none;
+    }
+
+    nav .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    /* ===== HERO SECTION ===== */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 8rem 2rem 6rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Ambient glow behind hero */
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 700px;
+      height: 700px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(0, 128, 255, 0.06) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    /* Spinning disc decoration */
+    .hero-disc {
+      position: absolute;
+      width: 500px;
+      height: 500px;
+      border-radius: 50%;
+      opacity: 0.04;
+      pointer-events: none;
+      animation: disc-spin 40s linear infinite;
+    }
+
+    .hero-disc--1 {
+      top: 10%;
+      right: -15%;
+      background: conic-gradient(
+        from 0deg,
+        var(--chrome-holo-pink),
+        var(--chrome-holo-blue),
+        var(--chrome-holo-green),
+        #f5f0d5,
+        #f5d5e0,
+        var(--chrome-holo-pink)
+      );
+    }
+
+    .hero-disc--2 {
+      bottom: 5%;
+      left: -18%;
+      width: 400px;
+      height: 400px;
+      background: conic-gradient(
+        from 180deg,
+        var(--chrome-holo-blue),
+        var(--chrome-holo-green),
+        var(--chrome-holo-pink),
+        #d5d5f5,
+        var(--chrome-holo-blue)
+      );
+      animation-direction: reverse;
+      animation-duration: 50s;
+    }
+
+    /* CD-style ring inside disc */
+    .hero-disc::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 30%;
+      height: 30%;
+      border-radius: 50%;
+      background: var(--chrome-black);
+    }
+
+    .hero-label {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--chrome-mid);
+      margin-bottom: 2rem;
+      animation: float-up 0.8s ease both;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .hero-label .led {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--chrome-blue);
+      animation: pulse-glow 2s ease-in-out infinite;
+    }
+
+    .hero-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: clamp(3rem, 8vw, 7rem);
+      font-weight: 900;
+      letter-spacing: 0.12em;
+      line-height: 1.05;
+      margin-bottom: 1.5rem;
+      background: linear-gradient(
+        180deg,
+        #ffffff 0%,
+        #e0e0e0 15%,
+        #a0a0a0 40%,
+        #555555 55%,
+        #b0b0b0 70%,
+        #e8e8e8 85%,
+        #ffffff 100%
+      );
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: float-up 0.8s ease 0.15s both;
+      position: relative;
+    }
+
+    .hero-subtitle {
+      font-family: 'Exo 2', sans-serif;
+      font-weight: 200;
+      font-size: clamp(1rem, 2.5vw, 1.5rem);
+      letter-spacing: 0.15em;
+      color: var(--chrome-silver);
+      margin-bottom: 2.5rem;
+      animation: float-up 0.8s ease 0.3s both;
+    }
+
+    .hero-tagline {
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+      font-size: clamp(0.85rem, 1.5vw, 1rem);
+      color: var(--chrome-dark);
+      max-width: 560px;
+      line-height: 1.8;
+      animation: float-up 0.8s ease 0.45s both;
+    }
+
+    .hero-year {
+      display: inline-block;
+      margin-top: 3rem;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 400;
+      letter-spacing: 0.5em;
+      color: var(--chrome-deep);
+      animation: float-up 0.8s ease 0.6s both;
+    }
+
+    /* ===== SECTION HEADER PATTERN ===== */
+    .section-header {
+      text-align: center;
+      margin-bottom: 3.5rem;
+    }
+
+    .section-header .section-number {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.6rem;
+      letter-spacing: 0.5em;
+      color: var(--chrome-blue);
+      opacity: 0.6;
+      display: block;
+      margin-bottom: 0.75rem;
+    }
+
+    .section-header h2 {
+      background: linear-gradient(180deg, #ffffff 0%, #c0c0c0 50%, #808080 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .section-header .section-desc {
+      margin-top: 1rem;
+      font-size: 0.9rem;
+      color: var(--chrome-dark);
+      max-width: 520px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* ===== CHROME CARDS ===== */
+    .chrome-card {
+      background: linear-gradient(160deg, #333333 0%, #252525 100%);
+      border: 1px solid rgba(160, 160, 160, 0.15);
+      border-radius: 16px;
+      padding: 2rem;
+      position: relative;
+      overflow: hidden;
+      box-shadow:
+        0 4px 24px rgba(0, 0, 0, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.04);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .chrome-card:hover {
+      transform: translateY(-2px);
+      box-shadow:
+        0 8px 32px rgba(0, 0, 0, 0.6),
+        inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    }
+
+    /* Glossy top edge */
+    .chrome-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 10%;
+      right: 10%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+      pointer-events: none;
+    }
+
+    /* Shine sweep on hover */
+    .chrome-card::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 40%;
+      height: 200%;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.03),
+        transparent
+      );
+      transform: rotate(15deg);
+      pointer-events: none;
+      transition: none;
+    }
+
+    .chrome-card:hover::after {
+      animation: chrome-shine 0.7s ease forwards;
+    }
+
+    /* ===== VISUAL CHARACTERISTICS ===== */
+    .visual-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .motif-card {
+      padding: 1.75rem;
+    }
+
+    .motif-card .motif-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      margin-bottom: 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .motif-card .motif-icon--chrome {
+      background: linear-gradient(135deg, #d0d0d0 0%, #808080 50%, #c0c0c0 100%);
+      box-shadow: inset 0 1px 2px rgba(255,255,255,0.5), inset 0 -1px 2px rgba(0,0,0,0.2);
+    }
+
+    .motif-card .motif-icon--blue {
+      background: linear-gradient(135deg, #0080ff 0%, #004488 100%);
+      box-shadow: 0 0 12px rgba(0, 128, 255, 0.2);
+    }
+
+    .motif-card .motif-icon--holo {
+      background: linear-gradient(135deg, var(--chrome-holo-pink), var(--chrome-holo-blue), var(--chrome-holo-green));
+      background-size: 200% 200%;
+      animation: holo-shift 5s ease-in-out infinite;
+    }
+
+    .motif-card .motif-icon--dark {
+      background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
+      border: 1px solid rgba(160,160,160,0.2);
+    }
+
+    .motif-card h3 {
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 600;
+      font-size: 0.95rem;
+      letter-spacing: 0.08em;
+    }
+
+    .motif-card p {
+      font-size: 0.85rem;
+      color: var(--chrome-dark);
+      line-height: 1.65;
+    }
+
+    /* ===== COLOR PALETTE SECTION ===== */
+    .palette-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 1.25rem;
+      margin-bottom: 3rem;
+    }
+
+    .color-swatch {
+      border-radius: 14px;
+      overflow: hidden;
+      background: linear-gradient(160deg, #333333, #252525);
+      border: 1px solid rgba(160, 160, 160, 0.12);
+      transition: transform 0.25s ease;
+    }
+
+    .color-swatch:hover {
+      transform: scale(1.03);
+    }
+
+    .color-swatch .swatch-color {
+      height: 80px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Gloss overlay on swatch */
+    .color-swatch .swatch-color::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 50%;
+      background: linear-gradient(180deg, rgba(255,255,255,0.2), transparent);
+      pointer-events: none;
+    }
+
+    .color-swatch .swatch-info {
+      padding: 0.85rem 1rem;
+    }
+
+    .color-swatch .swatch-name {
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 600;
+      font-size: 0.8rem;
+      letter-spacing: 0.06em;
+      color: var(--chrome-light);
+      display: block;
+      margin-bottom: 0.2rem;
+    }
+
+    .color-swatch .swatch-hex {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.6rem;
+      letter-spacing: 0.1em;
+      color: var(--chrome-dark);
+    }
+
+    /* Scheme tags */
+    .scheme-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      justify-content: center;
+      margin-top: 2rem;
+    }
+
+    .scheme-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1.25rem;
+      border-radius: 100px;
+      border: 1px solid rgba(160,160,160,0.2);
+      background: rgba(45,45,45,0.6);
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--chrome-silver);
+    }
+
+    .scheme-tag .tag-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    /* ===== TYPOGRAPHY SHOWCASE ===== */
+    .typo-showcase {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .typo-specimen {
+      padding: 2.5rem 2rem;
+      text-align: left;
+    }
+
+    .typo-specimen .typo-label {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 500;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--chrome-blue);
+      opacity: 0.7;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .typo-specimen .typo-label::before {
+      content: '';
+      width: 16px;
+      height: 1px;
+      background: var(--chrome-blue);
+      opacity: 0.5;
+    }
+
+    .typo-sample-display {
+      font-family: 'Orbitron', sans-serif;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      line-height: 1.15;
+      background: linear-gradient(
+        180deg,
+        #ffffff 0%,
+        #c0c0c0 40%,
+        #606060 55%,
+        #c0c0c0 70%,
+        #ffffff 100%
+      );
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 0.5rem;
+    }
+
+    .typo-sample-heading {
+      font-family: 'Exo 2', sans-serif;
+      font-weight: 300;
+      font-size: clamp(1.3rem, 3vw, 2rem);
+      letter-spacing: 0.1em;
+      color: var(--chrome-white);
+      margin-bottom: 0.5rem;
+    }
+
+    .typo-sample-body {
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+      font-size: 0.95rem;
+      letter-spacing: 0.02em;
+      line-height: 1.75;
+      color: var(--chrome-silver);
+      max-width: 55ch;
+    }
+
+    .typo-sample-label {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--chrome-mid);
+    }
+
+    .typo-sample-michroma {
+      font-family: 'Michroma', sans-serif;
+      font-size: clamp(1.3rem, 3.5vw, 2.5rem);
+      letter-spacing: 0.18em;
+      color: var(--chrome-light);
+      margin-bottom: 0.5rem;
+    }
+
+    .typo-meta {
+      margin-top: 1rem;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--chrome-deep);
+    }
+
+    /* Font grid */
+    .font-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+      margin-top: 2.5rem;
+    }
+
+    .font-card {
+      padding: 1.5rem;
+      text-align: center;
+    }
+
+    .font-card .font-name {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--chrome-blue-light);
+      margin-bottom: 0.6rem;
+    }
+
+    .font-card .font-preview {
+      font-size: 1.5rem;
+      color: var(--chrome-white);
+      margin-bottom: 0.5rem;
+      line-height: 1.3;
+    }
+
+    .font-card .font-usage {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      color: var(--chrome-deep);
+      text-transform: uppercase;
+    }
+
+    /* ===== LAYOUT PRINCIPLES ===== */
+    .layout-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+
+    .layout-card {
+      padding: 2rem;
+      text-align: left;
+    }
+
+    .layout-card h3 {
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 600;
+      font-size: 0.9rem;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.75rem;
+    }
+
+    .layout-card p {
+      font-size: 0.85rem;
+      color: var(--chrome-dark);
+      line-height: 1.65;
+    }
+
+    .layout-visual {
+      margin-top: 1.25rem;
+      height: 60px;
+      border-radius: 8px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Mini visual representations */
+    .layout-visual--grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 4px;
+    }
+
+    .layout-visual--grid span {
+      background: linear-gradient(135deg, #3a3a3a, #2a2a2a);
+      border: 1px solid rgba(160,160,160,0.1);
+      border-radius: 4px;
+    }
+
+    .layout-visual--center {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .layout-visual--center span {
+      width: 60%;
+      height: 60%;
+      background: linear-gradient(135deg, #3a3a3a, #2a2a2a);
+      border: 1px solid rgba(160,160,160,0.1);
+      border-radius: 6px;
+    }
+
+    .layout-visual--depth {
+      perspective: 200px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .layout-visual--depth span {
+      width: 50%;
+      height: 70%;
+      background: linear-gradient(135deg, #404040, #2a2a2a);
+      border: 1px solid rgba(160,160,160,0.15);
+      border-radius: 6px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+      transform: rotateX(5deg);
+    }
+
+    .layout-visual--space {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 20%;
+    }
+
+    .layout-visual--space span {
+      width: 20%;
+      height: 50%;
+      background: linear-gradient(135deg, #3a3a3a, #2a2a2a);
+      border: 1px solid rgba(160,160,160,0.1);
+      border-radius: 4px;
+    }
+
+    /* ===== CSS TECHNIQUES ===== */
+    .techniques-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .technique-card {
+      padding: 0;
+      overflow: hidden;
+    }
+
+    .technique-preview {
+      height: 120px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .technique-preview--chrome-gradient {
+      background: linear-gradient(
+        180deg,
+        #e8e8e8 0%,
+        #c0c0c0 20%,
+        #808080 45%,
+        #a0a0a0 55%,
+        #d4d4d4 80%,
+        #f0f0f0 100%
+      );
+    }
+
+    .technique-preview--brushed {
+      background:
+        repeating-linear-gradient(
+          90deg,
+          transparent,
+          transparent 2px,
+          rgba(255, 255, 255, 0.04) 2px,
+          rgba(255, 255, 255, 0.04) 4px
+        ),
+        linear-gradient(180deg, #b0b0b0 0%, #909090 50%, #b8b8b8 100%);
+    }
+
+    .technique-preview--holographic {
+      background: linear-gradient(
+        135deg,
+        #e8d5f5 0%,
+        #d5eaf5 20%,
+        #d5f5e0 40%,
+        #f5f0d5 60%,
+        #f5d5e0 80%,
+        #d5d5f5 100%
+      );
+      background-size: 200% 200%;
+      animation: holo-shift 5s ease-in-out infinite;
+    }
+
+    .technique-preview--blue-glow {
+      background: var(--chrome-charcoal);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .technique-preview--blue-glow .glow-element {
+      width: 60%;
+      height: 40px;
+      border-radius: 100px;
+      background: linear-gradient(180deg, #d0d0d0, #a0a0a0);
+      box-shadow:
+        0 0 12px rgba(0, 128, 255, 0.4),
+        0 0 30px rgba(0, 128, 255, 0.15);
+    }
+
+    .technique-preview--panel {
+      background: linear-gradient(
+        90deg,
+        #909090 0%,
+        #d0d0d0 25%,
+        #f0f0f0 50%,
+        #d0d0d0 75%,
+        #909090 100%
+      );
+    }
+
+    .technique-preview--bevel {
+      background: var(--chrome-charcoal);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .technique-preview--bevel .bevel-element {
+      width: 70%;
+      height: 50px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #d0d0d0, #a0a0a0, #c8c8c8);
+      border: 1px solid #a0a0a0;
+      box-shadow:
+        inset 1px 1px 0 rgba(255, 255, 255, 0.5),
+        inset -1px -1px 0 rgba(0, 0, 0, 0.2),
+        0 2px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    .technique-info {
+      padding: 1.5rem;
+    }
+
+    .technique-info h3 {
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 600;
+      font-size: 0.85rem;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.5rem;
+    }
+
+    .technique-info p {
+      font-size: 0.8rem;
+      color: var(--chrome-dark);
+      line-height: 1.6;
+    }
+
+    /* ===== MATERIALS TABLE ===== */
+    .materials-table-wrap {
+      overflow-x: auto;
+      border-radius: 14px;
+      border: 1px solid rgba(160,160,160,0.12);
+      background: linear-gradient(160deg, #2e2e2e, #222222);
+    }
+
+    .materials-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+    }
+
+    .materials-table thead {
+      background: rgba(0,0,0,0.3);
+    }
+
+    .materials-table th {
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 600;
+      font-size: 0.7rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--chrome-blue-light);
+      padding: 1rem 1.5rem;
+      text-align: left;
+      border-bottom: 1px solid rgba(160,160,160,0.1);
+    }
+
+    .materials-table td {
+      padding: 0.85rem 1.5rem;
+      border-bottom: 1px solid rgba(160,160,160,0.06);
+      color: var(--chrome-silver);
+      vertical-align: top;
+    }
+
+    .materials-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .materials-table tr:hover td {
+      background: rgba(255,255,255,0.015);
+    }
+
+    .materials-table .mat-physical {
+      font-weight: 400;
+      color: var(--chrome-light);
+    }
+
+    .materials-table .mat-web {
+      color: var(--chrome-dark);
+    }
+
+    /* ===== ERA PRODUCTS ===== */
+    .era-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.25rem;
+    }
+
+    .era-product {
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .era-product .product-year {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      color: var(--chrome-blue);
+      opacity: 0.6;
+    }
+
+    .era-product .product-name {
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 600;
+      font-size: 0.95rem;
+      letter-spacing: 0.06em;
+      color: var(--chrome-white);
+    }
+
+    .era-product .product-desc {
+      font-size: 0.8rem;
+      color: var(--chrome-dark);
+      line-height: 1.55;
+    }
+
+    /* ===== RELATED AESTHETICS ===== */
+    .related-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.25rem;
+    }
+
+    .related-card {
+      padding: 1.5rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+
+    .related-card .related-indicator {
+      width: 3px;
+      height: 40px;
+      border-radius: 2px;
+      background: linear-gradient(180deg, var(--chrome-blue), transparent);
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .related-card .related-name {
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 600;
+      font-size: 0.9rem;
+      letter-spacing: 0.06em;
+      color: var(--chrome-light);
+      margin-bottom: 0.3rem;
+    }
+
+    .related-card .related-desc {
+      font-size: 0.8rem;
+      color: var(--chrome-dark);
+      line-height: 1.6;
+    }
+
+    /* ===== DESIGN PRINCIPLES ===== */
+    .principles-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .principle-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 1.5rem;
+      text-align: left;
+    }
+
+    .principle-number {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 400;
+      letter-spacing: 0.1em;
+      color: var(--chrome-blue);
+      opacity: 0.5;
+      flex-shrink: 0;
+      padding-top: 0.15rem;
+      width: 24px;
+    }
+
+    .principle-content h3 {
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 600;
+      font-size: 0.95rem;
+      letter-spacing: 0.06em;
+      margin-bottom: 0.35rem;
+    }
+
+    .principle-content p {
+      font-size: 0.85rem;
+      color: var(--chrome-dark);
+      line-height: 1.6;
+    }
+
+    /* ===== WEB REFERENCES ===== */
+    .web-refs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: center;
+      margin-top: 2.5rem;
+    }
+
+    .web-ref-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.6rem 1.5rem;
+      border-radius: 100px;
+      border: 1px solid rgba(160, 160, 160, 0.15);
+      background: linear-gradient(180deg, rgba(60,60,60,0.6), rgba(40,40,40,0.6));
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      color: var(--chrome-silver);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.04),
+        0 2px 6px rgba(0,0,0,0.3);
+      transition: all 0.25s ease;
+      cursor: default;
+    }
+
+    .web-ref-pill:hover {
+      border-color: rgba(0, 128, 255, 0.3);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.04),
+        0 2px 8px rgba(0, 128, 255, 0.15);
+    }
+
+    .web-ref-pill .pill-year {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.55rem;
+      color: var(--chrome-deep);
+    }
+
+    /* ===== CHROME BUTTON ===== */
+    .chrome-button {
+      display: inline-block;
+      padding: 0.65rem 2.2rem;
+      border-radius: 100px;
+      border: 1px solid var(--chrome-mid);
+      background: linear-gradient(180deg, #d0d0d0 0%, #a0a0a0 100%);
+      color: var(--chrome-black);
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      cursor: pointer;
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.5),
+        0 2px 4px rgba(0, 0, 0, 0.3);
+      transition: all 0.25s ease;
+      text-decoration: none;
+    }
+
+    .chrome-button:hover {
+      background: linear-gradient(180deg, #e0e0e0 0%, #b0b0b0 100%);
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.6),
+        0 2px 12px rgba(0, 128, 255, 0.3);
+      color: var(--chrome-black);
+      text-shadow: none;
+    }
+
+    /* ===== FOOTER ===== */
+    footer {
+      padding: 4rem 2rem 3rem;
+      text-align: center;
+      border-top: 1px solid rgba(160, 160, 160, 0.08);
+    }
+
+    footer .footer-logo {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 400;
+      letter-spacing: 0.3em;
+      background: linear-gradient(180deg, #808080, #484848);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 1rem;
+    }
+
+    footer p {
+      font-size: 0.75rem;
+      color: var(--chrome-deep);
+      letter-spacing: 0.05em;
+      margin: 0 auto;
+    }
+
+    footer .footer-years {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.55rem;
+      letter-spacing: 0.3em;
+      color: var(--chrome-deep);
+      margin-top: 1.5rem;
+      opacity: 0.6;
+    }
+
+    /* ===== SCROLL REVEAL ===== */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+
+    /* ===== AMBIENT BACKGROUND ELEMENTS ===== */
+    .ambient-line {
+      position: absolute;
+      width: 1px;
+      height: 100%;
+      top: 0;
+      background: linear-gradient(180deg, transparent, rgba(160,160,160,0.04), transparent);
+      pointer-events: none;
+    }
+
+    .ambient-line--1 { left: 10%; }
+    .ambient-line--2 { left: 50%; }
+    .ambient-line--3 { right: 10%; }
+
+    /* ===== SCROLL INDICATOR ===== */
+    .scroll-indicator {
+      position: absolute;
+      bottom: 3rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      animation: float-up 0.8s ease 0.8s both;
+    }
+
+    .scroll-indicator .scroll-line {
+      width: 1px;
+      height: 40px;
+      position: relative;
+      overflow: hidden;
+      background: rgba(160,160,160,0.1);
+    }
+
+    .scroll-indicator .scroll-line::after {
+      content: '';
+      position: absolute;
+      top: -100%;
+      left: 0;
+      width: 1px;
+      height: 100%;
+      background: linear-gradient(180deg, transparent, var(--chrome-blue));
+      animation: scan-line 2s ease-in-out infinite;
+    }
+
+    .scroll-indicator span {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.55rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--chrome-deep);
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 768px) {
+      nav .nav-links {
+        gap: 1rem;
+      }
+
+      nav .nav-links a {
+        font-size: 0.65rem;
+        letter-spacing: 0.12em;
+      }
+
+      .layout-grid {
+        grid-template-columns: 1fr;
+      }
+
+      section {
+        padding: 3.5rem 0;
+      }
+
+      .hero {
+        padding: 7rem 1.5rem 5rem;
+        min-height: auto;
+      }
+
+      .container {
+        padding: 0 1.25rem;
+      }
+
+      .palette-grid {
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      }
+
+      .visual-grid,
+      .techniques-grid,
+      .era-grid,
+      .related-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 480px) {
+      nav .nav-links {
+        gap: 0.6rem;
+      }
+
+      nav .nav-links a {
+        font-size: 0.6rem;
+        letter-spacing: 0.08em;
+      }
+
+      .hero-title {
+        letter-spacing: 0.06em;
+      }
+
+      .palette-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .font-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== NAVIGATION ===== -->
+  <nav>
+    <div class="nav-inner">
+      <div class="nav-logo">CHROMECORE</div>
+      <ul class="nav-links">
+        <li><a href="#visual">Visual</a></li>
+        <li><a href="#palette">Palette</a></li>
+        <li><a href="#typography">Type</a></li>
+        <li><a href="#layout">Layout</a></li>
+        <li><a href="#techniques">CSS</a></li>
+        <li><a href="#products">Era</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ===== HERO ===== -->
+  <section class="hero">
+    <div class="hero-disc hero-disc--1"></div>
+    <div class="hero-disc hero-disc--2"></div>
+
+    <div class="hero-label">
+      <span class="led"></span>
+      Y2K Futurism / Design Reference
+    </div>
+
+    <h1 class="hero-title">CHROMECORE</h1>
+
+    <p class="hero-subtitle">sleek. reflective. optimistic.</p>
+
+    <p class="hero-tagline">
+      A design aesthetic born from the chrome-plated technological optimism of 1999--2006.
+      Metallic surfaces, molded curves, and the gleam of a future that felt within reach.
+    </p>
+
+    <span class="hero-year">1999 -- 2006</span>
+
+    <div class="scroll-indicator">
+      <div class="scroll-line"></div>
+      <span>Scroll</span>
+    </div>
+  </section>
+
+  <!-- ===== VISUAL CHARACTERISTICS ===== -->
+  <section id="visual">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-number">01</span>
+        <h2>Visual Characteristics</h2>
+        <p class="section-desc">Core motifs and patterns that define the Chromecore aesthetic -- shiny, reflective, and engineered to gleam.</p>
+      </div>
+
+      <div class="visual-grid">
+        <div class="chrome-card motif-card reveal reveal-delay-1">
+          <div class="motif-icon motif-icon--chrome"></div>
+          <h3>Reflective Metallic Surfaces</h3>
+          <p>Chrome, brushed steel, and bead-blasted metal finishes. Every surface catches light and throws it back.</p>
+        </div>
+
+        <div class="chrome-card motif-card reveal reveal-delay-2">
+          <div class="motif-icon motif-icon--chrome"></div>
+          <h3>Molded Curves &amp; Organic Shapes</h3>
+          <p>Smooth, rounded product forms typical of early-2000s industrial design. Soft geometry meeting hard metal.</p>
+        </div>
+
+        <div class="chrome-card motif-card reveal reveal-delay-3">
+          <div class="motif-icon motif-icon--holo"></div>
+          <h3>CD/DVD Circular Elements</h3>
+          <p>Disc shapes, holographic rainbow reflections, spindle motifs. The physical media era as visual language.</p>
+        </div>
+
+        <div class="chrome-card motif-card reveal reveal-delay-1">
+          <div class="motif-icon motif-icon--chrome"></div>
+          <h3>Bright, Lustrous Surfaces</h3>
+          <p>No dirt, no grain, no imperfection. Everything gleams with factory-fresh perfection.</p>
+        </div>
+
+        <div class="chrome-card motif-card reveal reveal-delay-2">
+          <div class="motif-icon motif-icon--blue"></div>
+          <h3>Translucent &amp; Frosted Materials</h3>
+          <p>Semi-transparent plastics paired with chrome accents -- the iMac-era design language of revealing inner workings.</p>
+        </div>
+
+        <div class="chrome-card motif-card reveal reveal-delay-3">
+          <div class="motif-icon motif-icon--dark"></div>
+          <h3>Geometric Precision</h3>
+          <p>Clean product edges, precise radii, engineered-looking forms. Silver plastic designed to look like polished metal.</p>
+        </div>
+      </div>
+
+      <!-- Design Principles -->
+      <div style="margin-top: 4rem;">
+        <h3 style="text-align: center; font-family: 'Rajdhani', sans-serif; font-weight: 500; font-size: 0.7rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--chrome-blue); opacity: 0.6; margin-bottom: 2rem;" class="reveal">Design Principles</h3>
+
+        <div class="principles-list">
+          <div class="principle-item reveal reveal-delay-1">
+            <span class="principle-number">01</span>
+            <div class="principle-content">
+              <h3>Sleek Minimalism with Metallic Emphasis</h3>
+              <p>Form follows function, but everything is chrome. The object is the ornament.</p>
+            </div>
+          </div>
+          <div class="principle-item reveal reveal-delay-2">
+            <span class="principle-number">02</span>
+            <div class="principle-content">
+              <h3>Technological Optimism</h3>
+              <p>Design conveys progress, speed, and the digital future. The millennium promised everything.</p>
+            </div>
+          </div>
+          <div class="principle-item reveal reveal-delay-3">
+            <span class="principle-number">03</span>
+            <div class="principle-content">
+              <h3>Cool-Toned Palette Dominance</h3>
+              <p>Silver, gray, white, and blue over warm tones. A world seen through chrome-tinted glasses.</p>
+            </div>
+          </div>
+          <div class="principle-item reveal reveal-delay-4">
+            <span class="principle-number">04</span>
+            <div class="principle-content">
+              <h3>High Contrast Reflections</h3>
+              <p>Bright highlights against dark chrome surfaces. The drama of light on metal.</p>
+            </div>
+          </div>
+          <div class="principle-item reveal reveal-delay-1">
+            <span class="principle-number">05</span>
+            <div class="principle-content">
+              <h3>Symmetrical, Centered Compositions</h3>
+              <p>Balanced layouts reflecting precision engineering. Clean, uncluttered surfaces where negative space enhances the gleam.</p>
+            </div>
+          </div>
+          <div class="principle-item reveal reveal-delay-2">
+            <span class="principle-number">06</span>
+            <div class="principle-content">
+              <h3>Futuristic Without Being Alien</h3>
+              <p>Grounded in real consumer products, not sci-fi fantasy. The future you could buy at Best Buy.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="chrome-divider--wide">
+
+  <!-- ===== COLOR PALETTE ===== -->
+  <section id="palette">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-number">02</span>
+        <h2>Color Palette</h2>
+        <p class="section-desc">Silver-dominant monochromatic palette -- gradients from dark steel to bright chrome, punctuated by electric blue.</p>
+      </div>
+
+      <div class="palette-grid reveal">
+        <div class="color-swatch">
+          <div class="swatch-color" style="background: linear-gradient(135deg, #c0c0c0, #d4d4d4);"></div>
+          <div class="swatch-info">
+            <span class="swatch-name">Chrome Silver</span>
+            <span class="swatch-hex">#C0C0C0 / #D4D4D4</span>
+          </div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch-color" style="background: linear-gradient(135deg, #71797E, #808B96);"></div>
+          <div class="swatch-info">
+            <span class="swatch-name">Polished Steel</span>
+            <span class="swatch-hex">#71797E / #808B96</span>
+          </div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch-color" style="background: linear-gradient(135deg, #F0F0F0, #FFFFFF);"></div>
+          <div class="swatch-info">
+            <span class="swatch-name">Bright Highlight</span>
+            <span class="swatch-hex">#F0F0F0 / #FFFFFF</span>
+          </div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch-color" style="background: linear-gradient(135deg, #484848, #36454F);"></div>
+          <div class="swatch-info">
+            <span class="swatch-name">Deep Chrome</span>
+            <span class="swatch-hex">#484848 / #36454F</span>
+          </div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch-color" style="background: linear-gradient(135deg, #0080FF, #4DA6FF);"></div>
+          <div class="swatch-info">
+            <span class="swatch-name">Electric Blue</span>
+            <span class="swatch-hex">#0080FF / #4DA6FF</span>
+          </div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch-color" style="background: linear-gradient(135deg, #1C1C1C, #2D2D2D);"></div>
+          <div class="swatch-info">
+            <span class="swatch-name">Charcoal Black</span>
+            <span class="swatch-hex">#1C1C1C / #2D2D2D</span>
+          </div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch-color" style="background: linear-gradient(135deg, #E8D5F5, #D5EAF5, #D5F5E0); background-size: 200% 200%; animation: holo-shift 5s ease-in-out infinite;"></div>
+          <div class="swatch-info">
+            <span class="swatch-name">Holographic Tint</span>
+            <span class="swatch-hex">#E8D5F5 / #D5EAF5</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Primary scheme tags -->
+      <div class="scheme-row reveal">
+        <div class="scheme-tag">
+          <span class="tag-dot" style="background: linear-gradient(135deg, #c0c0c0, #d4d4d4);"></span>
+          Base -- Silver, Chromatic Gray
+        </div>
+        <div class="scheme-tag">
+          <span class="tag-dot" style="background: #ffffff; box-shadow: 0 0 4px rgba(255,255,255,0.3);"></span>
+          Primary Accent -- Bright Silver
+        </div>
+        <div class="scheme-tag">
+          <span class="tag-dot" style="background: #1c1c1c; border: 1px solid rgba(160,160,160,0.3);"></span>
+          Contrast -- Black, Charcoal
+        </div>
+        <div class="scheme-tag">
+          <span class="tag-dot" style="background: linear-gradient(135deg, #0080ff, #4da6ff); box-shadow: 0 0 6px rgba(0,128,255,0.3);"></span>
+          Secondary -- Electric Blue
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="chrome-divider">
+
+  <!-- ===== TYPOGRAPHY ===== -->
+  <section id="typography">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-number">03</span>
+        <h2>Typography</h2>
+        <p class="section-desc">Clean, geometric sans-serif typefaces reflecting early-2000s digital futurism. Precision over impact.</p>
+      </div>
+
+      <div class="typo-showcase">
+        <!-- Display specimen -->
+        <div class="chrome-card typo-specimen reveal">
+          <div class="typo-label">Display / Hero Text</div>
+          <div class="typo-sample-display">CHROMECORE</div>
+          <div class="typo-meta">Orbitron 700 -- Geometric, square, tech-forward. Letter-spacing 0.12em.</div>
+        </div>
+
+        <!-- Wide display specimen -->
+        <div class="chrome-card typo-specimen reveal">
+          <div class="typo-label">Wide Display</div>
+          <div class="typo-sample-michroma">DIGITAL FUTURE</div>
+          <div class="typo-meta">Michroma -- Wide, futuristic display. Letter-spacing 0.18em. For large headlines only.</div>
+        </div>
+
+        <!-- Heading specimen -->
+        <div class="chrome-card typo-specimen reveal">
+          <div class="typo-label">Headlines &amp; Subheadings</div>
+          <div class="typo-sample-heading">Sleek, Reflective, Optimistic</div>
+          <div class="typo-meta">Exo 2 Light 300 -- Geometric, futuristic sans. Letter-spacing 0.1em.</div>
+        </div>
+
+        <!-- Body specimen -->
+        <div class="chrome-card typo-specimen reveal">
+          <div class="typo-label">Body Text</div>
+          <p class="typo-sample-body">Chromecore encapsulates fashion, hardware design, and furnishings shining with technological optimism, characterized by shiny graphics and textures with a metal chrome, bead blast, or stainless steel finish.</p>
+          <div class="typo-meta">Inter Light 300 -- Clean, neutral, modern. Letter-spacing 0.02em. Line-height 1.7.</div>
+        </div>
+
+        <!-- Label specimen -->
+        <div class="chrome-card typo-specimen reveal">
+          <div class="typo-label">Technical Labels &amp; UI Elements</div>
+          <div class="typo-sample-label">System Status: Active &nbsp;&bull;&nbsp; Model: CR-2000 &nbsp;&bull;&nbsp; Firmware: v3.1.4</div>
+          <div class="typo-meta">Rajdhani 500 -- Light, technical, semi-condensed. Letter-spacing 0.22em. Uppercase.</div>
+        </div>
+      </div>
+
+      <!-- Font grid -->
+      <div class="font-grid reveal">
+        <div class="chrome-card font-card">
+          <div class="font-name">Exo 2</div>
+          <div class="font-preview" style="font-family: 'Exo 2', sans-serif; font-weight: 300; letter-spacing: 0.08em;">Aa Bb Cc 123</div>
+          <div class="font-usage">Headlines, Display</div>
+        </div>
+        <div class="chrome-card font-card">
+          <div class="font-name">Orbitron</div>
+          <div class="font-preview" style="font-family: 'Orbitron', sans-serif; font-weight: 400; letter-spacing: 0.1em;">Aa Bb Cc 123</div>
+          <div class="font-usage">Feature Titles, Numbers</div>
+        </div>
+        <div class="chrome-card font-card">
+          <div class="font-name">Rajdhani</div>
+          <div class="font-preview" style="font-family: 'Rajdhani', sans-serif; font-weight: 400; letter-spacing: 0.06em;">Aa Bb Cc 123</div>
+          <div class="font-usage">Subheadings, UI</div>
+        </div>
+        <div class="chrome-card font-card">
+          <div class="font-name">Inter</div>
+          <div class="font-preview" style="font-family: 'Inter', sans-serif; font-weight: 300; letter-spacing: 0.02em;">Aa Bb Cc 123</div>
+          <div class="font-usage">Body Text</div>
+        </div>
+        <div class="chrome-card font-card">
+          <div class="font-name">Michroma</div>
+          <div class="font-preview" style="font-family: 'Michroma', sans-serif; letter-spacing: 0.1em; font-size: 1.2rem;">Aa Bb Cc 123</div>
+          <div class="font-usage">Large Display</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="chrome-divider--wide">
+
+  <!-- ===== LAYOUT PRINCIPLES ===== -->
+  <section id="layout">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-number">04</span>
+        <h2>Layout Principles</h2>
+        <p class="section-desc">Precision-engineered placement. Centered compositions. Chrome surfaces need room to breathe and reflect.</p>
+      </div>
+
+      <div class="layout-grid">
+        <div class="chrome-card layout-card reveal reveal-delay-1">
+          <h3>Clean Modular Grids</h3>
+          <p>Precision-engineered placement, no chaos. Content organized in clean, repeatable modules.</p>
+          <div class="layout-visual layout-visual--grid">
+            <span></span><span></span><span></span>
+            <span></span><span></span><span></span>
+          </div>
+        </div>
+
+        <div class="chrome-card layout-card reveal reveal-delay-2">
+          <h3>Centered Compositions</h3>
+          <p>Content gravitates toward the center axis. Balanced layouts reflecting precision engineering.</p>
+          <div class="layout-visual layout-visual--center">
+            <span></span>
+          </div>
+        </div>
+
+        <div class="chrome-card layout-card reveal reveal-delay-3">
+          <h3>Layered Depth</h3>
+          <p>Elements appear to float above reflective surfaces. Cards, panels, and buttons exist in three-dimensional space.</p>
+          <div class="layout-visual layout-visual--depth">
+            <span></span>
+          </div>
+        </div>
+
+        <div class="chrome-card layout-card reveal reveal-delay-4">
+          <h3>Generous Negative Space</h3>
+          <p>Chrome surfaces need room to breathe and reflect. Emptiness is a feature, not a gap.</p>
+          <div class="layout-visual layout-visual--space">
+            <span></span><span></span>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top: 3rem; text-align: center;" class="reveal">
+        <p style="font-size: 0.8rem; color: var(--chrome-dark); margin: 0 auto; max-width: 50ch;">
+          Rounded-rectangle containers -- the universal shape of 2000s product design. Pill-shaped buttons and tags. Subtle metallic dividers between sections. Hierarchy through luminance: brighter chrome equals more important.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <hr class="chrome-divider">
+
+  <!-- ===== CSS TECHNIQUES ===== -->
+  <section id="techniques">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-number">05</span>
+        <h2>CSS / Design Techniques</h2>
+        <p class="section-desc">Web implementations of physical chrome materials -- multi-stop gradients, glossy overlays, beveled edges, and holographic shimmer.</p>
+      </div>
+
+      <div class="techniques-grid">
+        <div class="chrome-card technique-card reveal reveal-delay-1">
+          <div class="technique-preview technique-preview--chrome-gradient"></div>
+          <div class="technique-info">
+            <h3>Chrome Metallic Gradient</h3>
+            <p>Vertical multi-stop gradient simulating cylindrical chrome reflection. Alternating bright-to-dark-to-bright stops create the illusion of a curved reflective surface.</p>
+          </div>
+        </div>
+
+        <div class="chrome-card technique-card reveal reveal-delay-2">
+          <div class="technique-preview technique-preview--brushed"></div>
+          <div class="technique-info">
+            <h3>Brushed Steel Texture</h3>
+            <p>Fine repeating-linear-gradient overlay on a base gradient. Creates directional brush marks visible at the pixel level, mimicking real bead-blasted metal.</p>
+          </div>
+        </div>
+
+        <div class="chrome-card technique-card reveal reveal-delay-3">
+          <div class="technique-preview technique-preview--panel"></div>
+          <div class="technique-info">
+            <h3>Chrome Panel</h3>
+            <p>Horizontal gradient simulating a flat chrome panel. Symmetric light-dark-light pattern with bright center creates the illusion of a wide, flat reflective surface.</p>
+          </div>
+        </div>
+
+        <div class="chrome-card technique-card reveal reveal-delay-1">
+          <div class="technique-preview technique-preview--holographic"></div>
+          <div class="technique-info">
+            <h3>Holographic / CD Rainbow</h3>
+            <p>Animated iridescent gradient at low opacity with mix-blend-mode: screen. Simulates the rainbow refraction of CD/DVD surfaces -- the signature shimmer of the era.</p>
+          </div>
+        </div>
+
+        <div class="chrome-card technique-card reveal reveal-delay-2">
+          <div class="technique-preview technique-preview--blue-glow">
+            <div class="glow-element"></div>
+          </div>
+          <div class="technique-info">
+            <h3>Blue Accent Glow</h3>
+            <p>Electric blue box-shadow for interactive elements. Mimics the LED indicator lights found on every piece of 2000s consumer electronics.</p>
+          </div>
+        </div>
+
+        <div class="chrome-card technique-card reveal reveal-delay-3">
+          <div class="technique-preview technique-preview--bevel">
+            <div class="bevel-element"></div>
+          </div>
+          <div class="technique-info">
+            <h3>Chrome Bevel &amp; Frame</h3>
+            <p>Inset box-shadows with opposing light/dark edges create a 3D beveled metal appearance. Combined with border-radius for the device bezel look.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Materials Table -->
+      <div style="margin-top: 4rem;" class="reveal">
+        <h3 style="text-align: center; font-family: 'Rajdhani', sans-serif; font-weight: 500; font-size: 0.7rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--chrome-blue); opacity: 0.6; margin-bottom: 1.5rem;">Materials &amp; Textures</h3>
+
+        <div class="materials-table-wrap">
+          <table class="materials-table">
+            <thead>
+              <tr>
+                <th>Physical Material</th>
+                <th>Web Equivalent</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="mat-physical">Polished Chrome</td>
+                <td class="mat-web">Multi-stop silver linear gradient with bright center highlight</td>
+              </tr>
+              <tr>
+                <td class="mat-physical">Brushed Steel / Bead-Blasted Metal</td>
+                <td class="mat-web">Directional gradient with fine repeating-linear-gradient texture overlay</td>
+              </tr>
+              <tr>
+                <td class="mat-physical">Silver Plastic</td>
+                <td class="mat-web">Flat silver-gray with subtle single-direction gradient</td>
+              </tr>
+              <tr>
+                <td class="mat-physical">Frosted / Translucent Plastic</td>
+                <td class="mat-web">Semi-transparent white overlay with backdrop-filter: blur()</td>
+              </tr>
+              <tr>
+                <td class="mat-physical">CD / DVD Surface</td>
+                <td class="mat-web">Iridescent rainbow gradient at low opacity with mix-blend-mode: screen</td>
+              </tr>
+              <tr>
+                <td class="mat-physical">High-Gloss Black Plastic</td>
+                <td class="mat-web">Near-black background with glossy white gradient overlay on top half</td>
+              </tr>
+              <tr>
+                <td class="mat-physical">Blue LED Indicator</td>
+                <td class="mat-web">Small element with box-shadow blue glow and border-radius: 50%</td>
+              </tr>
+              <tr>
+                <td class="mat-physical">Rubber Grip Sections</td>
+                <td class="mat-web">Dark matte areas with no gradient, slight border-radius</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="chrome-divider--wide">
+
+  <!-- ===== ERA PRODUCTS ===== -->
+  <section id="products">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-number">06</span>
+        <h2>Era-Defining Products</h2>
+        <p class="section-desc">The objects that define the Chromecore visual language -- each one a chrome-plated artifact of millennium-era optimism.</p>
+      </div>
+
+      <div class="era-grid">
+        <div class="chrome-card era-product reveal reveal-delay-1">
+          <span class="product-year">1999</span>
+          <span class="product-name">Sony Aibo ERS-111</span>
+          <span class="product-desc">Robotic dog with silver-chrome shell. The future as a pet.</span>
+        </div>
+        <div class="chrome-card era-product reveal reveal-delay-2">
+          <span class="product-year">2003</span>
+          <span class="product-name">Game Boy Advance SP</span>
+          <span class="product-desc">Compact chrome-silver gaming device. A clamshell mirror in your pocket.</span>
+        </div>
+        <div class="chrome-card era-product reveal reveal-delay-3">
+          <span class="product-year">2003</span>
+          <span class="product-name">Sony Walkman D-NE1</span>
+          <span class="product-desc">Slim chrome disc player. Music made physical and reflective.</span>
+        </div>
+        <div class="chrome-card era-product reveal reveal-delay-4">
+          <span class="product-year">2003</span>
+          <span class="product-name">Nokia N-Gage</span>
+          <span class="product-desc">Silver gaming phone hybrid. The convergence device before convergence.</span>
+        </div>
+        <div class="chrome-card era-product reveal reveal-delay-1">
+          <span class="product-year">2004</span>
+          <span class="product-name">Motorola RAZR V3</span>
+          <span class="product-desc">Ultra-thin clamshell phone with brushed metal finish. Peak industrial design.</span>
+        </div>
+        <div class="chrome-card era-product reveal reveal-delay-2">
+          <span class="product-year">2004</span>
+          <span class="product-name">Nintendo DS</span>
+          <span class="product-desc">Silver dual-screen handheld with chrome hinges. Two screens of the future.</span>
+        </div>
+        <div class="chrome-card era-product reveal reveal-delay-3">
+          <span class="product-year">2005</span>
+          <span class="product-name">Game Boy Micro</span>
+          <span class="product-desc">Tiny, all-metal gaming device. Chrome distilled to its smallest form.</span>
+        </div>
+        <div class="chrome-card era-product reveal reveal-delay-4">
+          <span class="product-year">2005</span>
+          <span class="product-name">Nokia 8800</span>
+          <span class="product-desc">Polished stainless steel phone. Communication as luxury object.</span>
+        </div>
+      </div>
+
+      <!-- Web References -->
+      <div style="margin-top: 4rem; text-align: center;" class="reveal">
+        <h3 style="font-family: 'Rajdhani', sans-serif; font-weight: 500; font-size: 0.7rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--chrome-blue); opacity: 0.6; margin-bottom: 1.5rem;">Web Design References</h3>
+        <p style="font-size: 0.85rem; color: var(--chrome-dark); margin: 0 auto 1.5rem; max-width: 45ch;">
+          Early 2000s Flash-based websites that pioneered the Chromecore digital aesthetic, built on Adobe Flash and Geocities platforms.
+        </p>
+        <div class="web-refs">
+          <div class="web-ref-pill">2Advanced Studios v3 <span class="pill-year">2001</span></div>
+          <div class="web-ref-pill">Space X <span class="pill-year">2002</span></div>
+          <div class="web-ref-pill">Loyal Digital Studios <span class="pill-year">2001</span></div>
+          <div class="web-ref-pill">Design Insites <span class="pill-year">2001</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="chrome-divider">
+
+  <!-- ===== RELATED AESTHETICS ===== -->
+  <section id="related">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-number">07</span>
+        <h2>Related Aesthetics</h2>
+        <p class="section-desc">Chromecore exists within a constellation of overlapping Y2K-era design movements.</p>
+      </div>
+
+      <div class="related-grid">
+        <div class="chrome-card related-card reveal reveal-delay-1">
+          <div class="related-indicator"></div>
+          <div>
+            <div class="related-name">Y2K Futurism</div>
+            <div class="related-desc">Parent aesthetic. Chromecore is a direct subgenre -- the metallic branch of millennium-era optimism.</div>
+          </div>
+        </div>
+        <div class="chrome-card related-card reveal reveal-delay-2">
+          <div class="related-indicator"></div>
+          <div>
+            <div class="related-name">Frutiger Aero</div>
+            <div class="related-desc">Overlapping. Shares gloss and transparency but adds nature imagery and broader color.</div>
+          </div>
+        </div>
+        <div class="chrome-card related-card reveal reveal-delay-3">
+          <div class="related-indicator"></div>
+          <div>
+            <div class="related-name">Retrofuturism</div>
+            <div class="related-desc">Broader category. Chromecore is a specific era expression within the wider retrofuturist canon.</div>
+          </div>
+        </div>
+        <div class="chrome-card related-card reveal reveal-delay-1">
+          <div class="related-indicator"></div>
+          <div>
+            <div class="related-name">Cybersigilism</div>
+            <div class="related-desc">Contemporary. Shares metallic and tech themes with more edge and darkness.</div>
+          </div>
+        </div>
+        <div class="chrome-card related-card reveal reveal-delay-2">
+          <div class="related-indicator"></div>
+          <div>
+            <div class="related-name">Metalheart</div>
+            <div class="related-desc">Related. Focuses more on heavy metal textures and darkness where Chromecore stays sleek.</div>
+          </div>
+        </div>
+        <div class="chrome-card related-card reveal reveal-delay-3">
+          <div class="related-indicator"></div>
+          <div>
+            <div class="related-name">Technozen</div>
+            <div class="related-desc">Related. Shares clean tech aesthetic with a more calm and minimal approach.</div>
+          </div>
+        </div>
+        <div class="chrome-card related-card reveal reveal-delay-4">
+          <div class="related-indicator"></div>
+          <div>
+            <div class="related-name">Mizuiro</div>
+            <div class="related-desc">Related. Shares cool blue tones and clean tech surfaces with a Japanese design sensibility.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer>
+    <div class="footer-logo">CHROMECORE</div>
+    <p>A Y2K Futurism subgenre. Metallic surfaces, technological optimism, and the gleam of a chrome-plated future.</p>
+    <div class="footer-years">1999 -- 2006</div>
+  </footer>
+
+  <!-- ===== AMBIENT VERTICAL LINES ===== -->
+  <div class="ambient-line ambient-line--1" aria-hidden="true"></div>
+  <div class="ambient-line ambient-line--2" aria-hidden="true"></div>
+  <div class="ambient-line ambient-line--3" aria-hidden="true"></div>
+
+  <!-- ===== SCROLL REVEAL JS ===== -->
+  <script>
+    (function() {
+      const reveals = document.querySelectorAll('.reveal');
+
+      function checkReveal() {
+        const windowHeight = window.innerHeight;
+        const revealPoint = 80;
+
+        reveals.forEach(function(el) {
+          const elementTop = el.getBoundingClientRect().top;
+          if (elementTop < windowHeight - revealPoint) {
+            el.classList.add('visible');
+          }
+        });
+      }
+
+      window.addEventListener('scroll', checkReveal, { passive: true });
+      window.addEventListener('resize', checkReveal, { passive: true });
+
+      // Initial check
+      checkReveal();
+    })();
+  </script>
+</body>
+</html>
