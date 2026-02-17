@@ -1,0 +1,2127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>POP ART -- The Design Aesthetic</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Bungee&family=Permanent+Marker&family=Oswald:wght@400;700&family=Anton&family=Luckiest+Guy&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* ============================================
+       CSS CUSTOM PROPERTIES -- Pop Art Palette
+       ============================================ */
+    :root {
+      --pop-red: #ff0033;
+      --pop-yellow: #ffd600;
+      --pop-blue: #0057e7;
+      --pop-pink: #ff69b4;
+      --pop-cyan: #00bfff;
+      --pop-orange: #ff6600;
+      --pop-green: #00cc44;
+      --pop-purple: #8b00ff;
+      --pop-black: #000000;
+      --pop-white: #ffffff;
+      --pop-cream: #fff8e1;
+      --pop-gray: #e8e8e8;
+      --pop-red-dark: #cc0029;
+      --pop-blue-dark: #0044b8;
+      --pop-yellow-dark: #ccaa00;
+    }
+
+    /* ============================================
+       RESET & BASE
+       ============================================ */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--pop-white);
+      color: var(--pop-black);
+      font-family: 'Open Sans', sans-serif;
+      font-weight: 400;
+      font-size: 1rem;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'Bangers', 'Impact', cursive;
+      font-weight: 400;
+      color: var(--pop-black);
+      line-height: 1.1;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    img { max-width: 100%; }
+
+    /* ============================================
+       ANIMATIONS
+       ============================================ */
+    @keyframes popIn {
+      0% { transform: scale(0) rotate(-12deg); opacity: 0; }
+      60% { transform: scale(1.15) rotate(3deg); opacity: 1; }
+      100% { transform: scale(1) rotate(0deg); opacity: 1; }
+    }
+
+    @keyframes slideUp {
+      from { transform: translateY(60px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    @keyframes slideInLeft {
+      from { transform: translateX(-80px); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+
+    @keyframes slideInRight {
+      from { transform: translateX(80px); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+
+    @keyframes pulseGrow {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.06); }
+    }
+
+    @keyframes wobble {
+      0%, 100% { transform: rotate(0deg); }
+      25% { transform: rotate(-3deg); }
+      75% { transform: rotate(3deg); }
+    }
+
+    @keyframes dotShift {
+      0% { background-position: 0 0; }
+      100% { background-position: 16px 16px; }
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    @keyframes typeReveal {
+      from { width: 0; }
+      to { width: 100%; }
+    }
+
+    @keyframes colorCycle {
+      0% { color: var(--pop-red); }
+      16% { color: var(--pop-orange); }
+      33% { color: var(--pop-yellow); }
+      50% { color: var(--pop-green); }
+      66% { color: var(--pop-blue); }
+      83% { color: var(--pop-purple); }
+      100% { color: var(--pop-red); }
+    }
+
+    @keyframes floatBubble {
+      0%, 100% { transform: translateY(0) rotate(-1deg); }
+      50% { transform: translateY(-12px) rotate(1deg); }
+    }
+
+    @keyframes starSpin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    .animate-on-scroll {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .animate-on-scroll.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ============================================
+       NAVIGATION
+       ============================================ */
+    .pop-nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--pop-yellow);
+      border-bottom: 5px solid var(--pop-black);
+      padding: 16px 40px;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .pop-nav__logo {
+      font-family: 'Bangers', cursive;
+      font-size: 2.4rem;
+      color: var(--pop-red);
+      -webkit-text-stroke: 2px var(--pop-black);
+      paint-order: stroke fill;
+      letter-spacing: 0.06em;
+      transition: transform 0.2s ease;
+    }
+
+    .pop-nav__logo:hover {
+      transform: scale(1.1) rotate(-3deg);
+    }
+
+    .pop-nav__links {
+      display: flex;
+      gap: 28px;
+      list-style: none;
+    }
+
+    .pop-nav__links a {
+      font-family: 'Bangers', cursive;
+      font-size: 1.15rem;
+      color: var(--pop-black);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      position: relative;
+      transition: color 0.2s ease, transform 0.2s ease;
+    }
+
+    .pop-nav__links a::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: -4px;
+      width: 0;
+      height: 4px;
+      background: var(--pop-red);
+      transition: width 0.3s ease;
+    }
+
+    .pop-nav__links a:hover {
+      color: var(--pop-red);
+      transform: scale(1.1);
+    }
+
+    .pop-nav__links a:hover::after {
+      width: 100%;
+    }
+
+    .nav-toggle {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 4px;
+    }
+
+    .nav-toggle span {
+      display: block;
+      width: 28px;
+      height: 4px;
+      background: var(--pop-black);
+      border-radius: 0;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+
+    /* ============================================
+       HERO SECTION
+       ============================================ */
+    .pop-hero {
+      position: relative;
+      padding: 100px 40px 120px;
+      overflow: hidden;
+      background-image: radial-gradient(circle, var(--pop-cyan) 18%, transparent 18%);
+      background-size: 16px 16px;
+      background-color: var(--pop-cream);
+      border-bottom: 6px solid var(--pop-black);
+      animation: dotShift 4s linear infinite;
+    }
+
+    .pop-hero__inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 60px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .pop-hero__content {
+      flex: 1.2;
+    }
+
+    .pop-hero__title {
+      font-family: 'Bungee', cursive;
+      font-size: clamp(3rem, 8vw, 6.5rem);
+      color: var(--pop-red);
+      -webkit-text-stroke: 3px var(--pop-black);
+      paint-order: stroke fill;
+      margin-bottom: 1.5rem;
+      line-height: 0.95;
+      animation: slideInLeft 0.8s ease forwards;
+    }
+
+    .pop-hero__title span {
+      display: inline-block;
+      color: var(--pop-yellow);
+    }
+
+    .pop-hero__subtitle {
+      font-size: 1.25rem;
+      max-width: 520px;
+      margin-bottom: 2rem;
+      line-height: 1.6;
+      animation: slideUp 0.8s ease 0.3s forwards;
+      opacity: 0;
+    }
+
+    .pop-hero__visual {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 24px;
+      animation: slideInRight 0.8s ease 0.2s forwards;
+      opacity: 0;
+    }
+
+    .pop-hero__starburst {
+      position: absolute;
+      top: 20px;
+      right: 80px;
+      width: 160px;
+      height: 160px;
+      background: var(--pop-yellow);
+      clip-path: polygon(
+        50% 0%, 61% 15%, 78% 5%, 75% 25%,
+        95% 28%, 83% 42%, 100% 50%, 83% 58%,
+        95% 72%, 75% 75%, 78% 95%, 61% 85%,
+        50% 100%, 39% 85%, 22% 95%, 25% 75%,
+        5% 72%, 17% 58%, 0% 50%, 17% 42%,
+        5% 28%, 25% 25%, 22% 5%, 39% 15%
+      );
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Bangers', cursive;
+      font-size: 1.3rem;
+      text-transform: uppercase;
+      text-align: center;
+      animation: popIn 0.6s ease 0.8s forwards, pulseGrow 2s ease-in-out 1.4s infinite;
+      opacity: 0;
+      z-index: 3;
+      line-height: 1.1;
+    }
+
+    /* ============================================
+       SPEECH BUBBLES
+       ============================================ */
+    .speech-bubble {
+      background: var(--pop-white);
+      border: 4px solid var(--pop-black);
+      border-radius: 24px;
+      padding: 24px 28px;
+      position: relative;
+      max-width: 360px;
+      animation: floatBubble 3s ease-in-out infinite;
+    }
+
+    .speech-bubble::after {
+      content: '';
+      position: absolute;
+      bottom: -24px;
+      left: 40px;
+      width: 0;
+      height: 0;
+      border: 12px solid transparent;
+      border-top-color: var(--pop-black);
+    }
+
+    .speech-bubble::before {
+      content: '';
+      position: absolute;
+      bottom: -16px;
+      left: 44px;
+      width: 0;
+      height: 0;
+      border: 8px solid transparent;
+      border-top-color: var(--pop-white);
+      z-index: 1;
+    }
+
+    .speech-bubble p {
+      font-family: 'Bangers', cursive;
+      font-size: 1.5rem;
+      text-transform: uppercase;
+      line-height: 1.3;
+      letter-spacing: 0.02em;
+    }
+
+    .speech-bubble--pink {
+      background: var(--pop-pink);
+    }
+
+    .speech-bubble--pink::before {
+      border-top-color: var(--pop-pink);
+    }
+
+    .thought-bubble {
+      background: var(--pop-white);
+      border: 4px solid var(--pop-black);
+      border-radius: 50%;
+      padding: 30px 34px;
+      position: relative;
+      max-width: 280px;
+      text-align: center;
+    }
+
+    .thought-bubble::after {
+      content: '';
+      position: absolute;
+      bottom: -18px;
+      left: 30px;
+      width: 16px;
+      height: 16px;
+      background: var(--pop-white);
+      border: 4px solid var(--pop-black);
+      border-radius: 50%;
+    }
+
+    .thought-bubble::before {
+      content: '';
+      position: absolute;
+      bottom: -34px;
+      left: 20px;
+      width: 10px;
+      height: 10px;
+      background: var(--pop-white);
+      border: 3px solid var(--pop-black);
+      border-radius: 50%;
+    }
+
+    .thought-bubble p {
+      font-family: 'Bangers', cursive;
+      font-size: 1.2rem;
+      text-transform: uppercase;
+      line-height: 1.3;
+    }
+
+    /* ============================================
+       POP BUTTON
+       ============================================ */
+    .pop-btn {
+      display: inline-block;
+      background: var(--pop-red);
+      color: var(--pop-white);
+      border: 4px solid var(--pop-black);
+      border-radius: 0;
+      padding: 14px 36px;
+      font-family: 'Bangers', cursive;
+      font-size: 1.3rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      cursor: pointer;
+      position: relative;
+      transition: transform 0.1s ease;
+    }
+
+    .pop-btn::after {
+      content: '';
+      position: absolute;
+      top: 4px;
+      left: 4px;
+      right: -4px;
+      bottom: -4px;
+      background: var(--pop-black);
+      z-index: -1;
+      transition: all 0.1s ease;
+    }
+
+    .pop-btn:hover {
+      transform: translate(-2px, -2px);
+    }
+
+    .pop-btn:hover::after {
+      top: 6px;
+      left: 6px;
+    }
+
+    .pop-btn:active {
+      transform: translate(2px, 2px);
+    }
+
+    .pop-btn:active::after {
+      top: 0;
+      left: 0;
+    }
+
+    .pop-btn--blue { background: var(--pop-blue); }
+    .pop-btn--yellow { background: var(--pop-yellow); color: var(--pop-black); }
+    .pop-btn--pink { background: var(--pop-pink); }
+    .pop-btn--orange { background: var(--pop-orange); }
+    .pop-btn--green { background: var(--pop-green); }
+
+    /* ============================================
+       INTRO / ABOUT SECTION
+       ============================================ */
+    .pop-intro {
+      background: var(--pop-blue);
+      border-bottom: 6px solid var(--pop-black);
+      padding: 80px 40px;
+      position: relative;
+    }
+
+    .pop-intro__inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: center;
+    }
+
+    .pop-intro__text h2 {
+      font-family: 'Anton', sans-serif;
+      font-size: clamp(2.2rem, 5vw, 3.5rem);
+      color: var(--pop-yellow);
+      -webkit-text-stroke: 2px var(--pop-black);
+      paint-order: stroke fill;
+      margin-bottom: 1.2rem;
+    }
+
+    .pop-intro__text p {
+      color: var(--pop-white);
+      font-size: 1.1rem;
+      line-height: 1.7;
+      margin-bottom: 1rem;
+    }
+
+    .pop-intro__visual {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .warhol-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      border: 5px solid var(--pop-black);
+      width: 100%;
+      max-width: 360px;
+    }
+
+    .warhol-grid__cell {
+      aspect-ratio: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 3px solid var(--pop-black);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .warhol-grid__cell:nth-child(1) { background: var(--pop-red); }
+    .warhol-grid__cell:nth-child(2) { background: var(--pop-yellow); }
+    .warhol-grid__cell:nth-child(3) { background: var(--pop-cyan); }
+    .warhol-grid__cell:nth-child(4) { background: var(--pop-pink); }
+
+    .warhol-grid__cell .star-icon {
+      font-size: 3.5rem;
+      filter: drop-shadow(2px 2px 0 var(--pop-black));
+      transition: transform 0.3s ease;
+    }
+
+    .warhol-grid__cell:hover .star-icon {
+      transform: scale(1.3) rotate(15deg);
+    }
+
+    /* ============================================
+       VISUAL CHARACTERISTICS -- Comic Panel Grid
+       ============================================ */
+    .pop-characteristics {
+      background: var(--pop-cream);
+      background-image: radial-gradient(circle, var(--pop-yellow) 15%, transparent 15%);
+      background-size: 20px 20px;
+      border-bottom: 6px solid var(--pop-black);
+      padding: 80px 40px;
+    }
+
+    .pop-characteristics__inner {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .pop-characteristics__title {
+      font-family: 'Bungee', cursive;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      color: var(--pop-red);
+      -webkit-text-stroke: 2px var(--pop-black);
+      paint-order: stroke fill;
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .comic-panel-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+    }
+
+    .comic-panel {
+      border: 5px solid var(--pop-black);
+      padding: 28px;
+      position: relative;
+      transition: transform 0.2s ease;
+    }
+
+    .comic-panel::after {
+      content: '';
+      position: absolute;
+      top: 6px;
+      left: 6px;
+      right: -6px;
+      bottom: -6px;
+      background: var(--pop-black);
+      z-index: -1;
+      transition: all 0.2s ease;
+    }
+
+    .comic-panel:hover {
+      transform: translate(-3px, -3px);
+    }
+
+    .comic-panel:hover::after {
+      top: 9px;
+      left: 9px;
+    }
+
+    .comic-panel:nth-child(1) { background: var(--pop-pink); }
+    .comic-panel:nth-child(2) { background: var(--pop-cyan); }
+    .comic-panel:nth-child(3) { background: var(--pop-yellow); }
+    .comic-panel:nth-child(4) { background: var(--pop-green); }
+    .comic-panel:nth-child(5) { background: var(--pop-orange); }
+    .comic-panel:nth-child(6) { background: var(--pop-purple); }
+    .comic-panel:nth-child(7) { background: var(--pop-red); }
+    .comic-panel:nth-child(8) { background: var(--pop-blue); }
+    .comic-panel:nth-child(9) { background: var(--pop-pink); }
+    .comic-panel:nth-child(10) { background: var(--pop-yellow); }
+
+    .comic-panel__icon {
+      font-size: 2.4rem;
+      margin-bottom: 10px;
+      display: block;
+      filter: drop-shadow(2px 2px 0 rgba(0,0,0,0.3));
+    }
+
+    .comic-panel h3 {
+      font-family: 'Bangers', cursive;
+      font-size: 1.5rem;
+      margin-bottom: 8px;
+      color: var(--pop-black);
+      letter-spacing: 0.03em;
+    }
+
+    .comic-panel p {
+      font-size: 0.95rem;
+      line-height: 1.5;
+      color: var(--pop-black);
+    }
+
+    .comic-panel:nth-child(6) h3,
+    .comic-panel:nth-child(7) h3,
+    .comic-panel:nth-child(8) h3 {
+      color: var(--pop-white);
+    }
+
+    .comic-panel:nth-child(6) p,
+    .comic-panel:nth-child(7) p,
+    .comic-panel:nth-child(8) p {
+      color: var(--pop-white);
+    }
+
+    /* ============================================
+       DESIGN PRINCIPLES
+       ============================================ */
+    .pop-principles {
+      background: var(--pop-red);
+      border-bottom: 6px solid var(--pop-black);
+      padding: 80px 40px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .pop-principles__dots {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image: radial-gradient(circle, rgba(0,0,0,0.15) 20%, transparent 20%);
+      background-size: 24px 24px;
+      pointer-events: none;
+    }
+
+    .pop-principles__inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .pop-principles__title {
+      font-family: 'Anton', sans-serif;
+      font-size: clamp(2.2rem, 5vw, 3.5rem);
+      color: var(--pop-white);
+      -webkit-text-stroke: 2px var(--pop-black);
+      paint-order: stroke fill;
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .principles-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 24px;
+    }
+
+    .principle-card {
+      background: var(--pop-white);
+      border: 5px solid var(--pop-black);
+      padding: 28px;
+      position: relative;
+    }
+
+    .principle-card::after {
+      content: '';
+      position: absolute;
+      top: 6px;
+      left: 6px;
+      right: -6px;
+      bottom: -6px;
+      background: var(--pop-black);
+      z-index: -1;
+    }
+
+    .principle-card__number {
+      font-family: 'Bungee', cursive;
+      font-size: 2.5rem;
+      color: var(--pop-red);
+      -webkit-text-stroke: 1px var(--pop-black);
+      paint-order: stroke fill;
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+
+    .principle-card h3 {
+      font-family: 'Bangers', cursive;
+      font-size: 1.3rem;
+      margin-bottom: 8px;
+    }
+
+    .principle-card p {
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+
+    /* ============================================
+       COLOR PALETTE SECTION
+       ============================================ */
+    .pop-palette {
+      background: var(--pop-white);
+      border-bottom: 6px solid var(--pop-black);
+      padding: 80px 40px;
+    }
+
+    .pop-palette__inner {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .pop-palette__title {
+      font-family: 'Bungee', cursive;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      color: var(--pop-blue);
+      -webkit-text-stroke: 2px var(--pop-black);
+      paint-order: stroke fill;
+      text-align: center;
+      margin-bottom: 16px;
+    }
+
+    .pop-palette__subtitle {
+      text-align: center;
+      font-size: 1.1rem;
+      margin-bottom: 48px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .color-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 16px;
+    }
+
+    .color-swatch {
+      border: 4px solid var(--pop-black);
+      position: relative;
+      transition: transform 0.2s ease;
+      overflow: hidden;
+    }
+
+    .color-swatch::after {
+      content: '';
+      position: absolute;
+      top: 4px;
+      left: 4px;
+      right: -4px;
+      bottom: -4px;
+      background: var(--pop-black);
+      z-index: -1;
+      transition: all 0.2s ease;
+    }
+
+    .color-swatch:hover {
+      transform: translate(-2px, -2px) scale(1.03);
+    }
+
+    .color-swatch:hover::after {
+      top: 6px;
+      left: 6px;
+    }
+
+    .color-swatch__color {
+      height: 120px;
+      border-bottom: 4px solid var(--pop-black);
+    }
+
+    .color-swatch__info {
+      background: var(--pop-white);
+      padding: 12px 14px;
+    }
+
+    .color-swatch__name {
+      font-family: 'Bangers', cursive;
+      font-size: 1.1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    .color-swatch__hex {
+      font-family: 'Open Sans', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #555;
+      text-transform: uppercase;
+    }
+
+    /* ============================================
+       TYPOGRAPHY SHOWCASE
+       ============================================ */
+    .pop-typography {
+      background: var(--pop-yellow);
+      background-image: radial-gradient(circle, var(--pop-orange) 12%, transparent 12%);
+      background-size: 18px 18px;
+      border-bottom: 6px solid var(--pop-black);
+      padding: 80px 40px;
+    }
+
+    .pop-typography__inner {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .pop-typography__title {
+      font-family: 'Luckiest Guy', cursive;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      color: var(--pop-red);
+      -webkit-text-stroke: 2px var(--pop-black);
+      paint-order: stroke fill;
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .font-showcase {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+    }
+
+    .font-card {
+      background: var(--pop-white);
+      border: 5px solid var(--pop-black);
+      padding: 28px;
+      position: relative;
+      transition: transform 0.2s ease;
+    }
+
+    .font-card::after {
+      content: '';
+      position: absolute;
+      top: 5px;
+      left: 5px;
+      right: -5px;
+      bottom: -5px;
+      background: var(--pop-black);
+      z-index: -1;
+    }
+
+    .font-card:hover {
+      transform: translate(-2px, -2px);
+    }
+
+    .font-card__label {
+      font-family: 'Open Sans', sans-serif;
+      font-weight: 700;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      background: var(--pop-black);
+      color: var(--pop-white);
+      display: inline-block;
+      padding: 4px 10px;
+      margin-bottom: 14px;
+    }
+
+    .font-card__sample {
+      font-size: 2rem;
+      margin-bottom: 8px;
+      line-height: 1.2;
+      text-transform: uppercase;
+    }
+
+    .font-card__name {
+      font-family: 'Open Sans', sans-serif;
+      font-size: 0.85rem;
+      color: #666;
+    }
+
+    .font-card--bangers .font-card__sample { font-family: 'Bangers', cursive; }
+    .font-card--bungee .font-card__sample { font-family: 'Bungee', cursive; color: var(--pop-blue); }
+    .font-card--marker .font-card__sample { font-family: 'Permanent Marker', cursive; color: var(--pop-red); }
+    .font-card--oswald .font-card__sample { font-family: 'Oswald', sans-serif; font-weight: 700; color: var(--pop-purple); }
+    .font-card--anton .font-card__sample { font-family: 'Anton', sans-serif; color: var(--pop-orange); }
+    .font-card--luckiest .font-card__sample { font-family: 'Luckiest Guy', cursive; color: var(--pop-green); }
+
+    /* ============================================
+       DOS AND DONTS
+       ============================================ */
+    .pop-rules {
+      background: var(--pop-black);
+      border-bottom: 6px solid var(--pop-red);
+      padding: 80px 40px;
+    }
+
+    .pop-rules__inner {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .pop-rules__title {
+      font-family: 'Bungee', cursive;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      color: var(--pop-yellow);
+      -webkit-text-stroke: 2px var(--pop-white);
+      paint-order: stroke fill;
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .rules-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+    }
+
+    .rules-column h3 {
+      font-family: 'Bangers', cursive;
+      font-size: 2rem;
+      margin-bottom: 20px;
+      text-align: center;
+      padding: 12px;
+      border: 4px solid var(--pop-black);
+    }
+
+    .rules-column--do h3 {
+      background: var(--pop-green);
+      color: var(--pop-black);
+    }
+
+    .rules-column--dont h3 {
+      background: var(--pop-red);
+      color: var(--pop-white);
+    }
+
+    .rules-column ul {
+      list-style: none;
+    }
+
+    .rules-column li {
+      background: var(--pop-white);
+      border: 3px solid var(--pop-black);
+      padding: 14px 18px;
+      margin-bottom: 10px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      position: relative;
+      padding-left: 44px;
+      transition: transform 0.2s ease;
+    }
+
+    .rules-column li:hover {
+      transform: translateX(4px);
+    }
+
+    .rules-column li::before {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 1.2rem;
+      font-weight: 700;
+    }
+
+    .rules-column--do li::before {
+      content: '\2713';
+      color: var(--pop-green);
+    }
+
+    .rules-column--dont li::before {
+      content: '\2717';
+      color: var(--pop-red);
+    }
+
+    /* ============================================
+       RELATED AESTHETICS
+       ============================================ */
+    .pop-related {
+      background: var(--pop-pink);
+      background-image: radial-gradient(circle, rgba(255,255,255,0.3) 15%, transparent 15%);
+      background-size: 14px 14px;
+      border-bottom: 6px solid var(--pop-black);
+      padding: 80px 40px;
+    }
+
+    .pop-related__inner {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .pop-related__title {
+      font-family: 'Anton', sans-serif;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      color: var(--pop-black);
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .related-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+    }
+
+    .related-card {
+      background: var(--pop-white);
+      border: 4px solid var(--pop-black);
+      padding: 24px;
+      position: relative;
+      transition: transform 0.2s ease;
+    }
+
+    .related-card::after {
+      content: '';
+      position: absolute;
+      top: 5px;
+      left: 5px;
+      right: -5px;
+      bottom: -5px;
+      background: var(--pop-black);
+      z-index: -1;
+      transition: all 0.2s ease;
+    }
+
+    .related-card:hover {
+      transform: translate(-3px, -3px);
+    }
+
+    .related-card:hover::after {
+      top: 8px;
+      left: 8px;
+    }
+
+    .related-card h3 {
+      font-family: 'Bangers', cursive;
+      font-size: 1.3rem;
+      margin-bottom: 8px;
+      color: var(--pop-red);
+    }
+
+    .related-card p {
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+
+    /* ============================================
+       CTA / STARBURST SECTION
+       ============================================ */
+    .pop-cta {
+      background: var(--pop-purple);
+      border-bottom: 6px solid var(--pop-black);
+      padding: 100px 40px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .pop-cta__dots {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-image: radial-gradient(circle, rgba(255,255,255,0.15) 20%, transparent 20%);
+      background-size: 20px 20px;
+      pointer-events: none;
+    }
+
+    .pop-cta__inner {
+      position: relative;
+      z-index: 1;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .pop-cta__starburst {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 260px;
+      height: 260px;
+      background: var(--pop-yellow);
+      clip-path: polygon(
+        50% 0%, 61% 15%, 78% 5%, 75% 25%,
+        95% 28%, 83% 42%, 100% 50%, 83% 58%,
+        95% 72%, 75% 75%, 78% 95%, 61% 85%,
+        50% 100%, 39% 85%, 22% 95%, 25% 75%,
+        5% 72%, 17% 58%, 0% 50%, 17% 42%,
+        5% 28%, 25% 25%, 22% 5%, 39% 15%
+      );
+      margin-bottom: 32px;
+      animation: wobble 2s ease-in-out infinite;
+    }
+
+    .pop-cta__starburst span {
+      font-family: 'Bungee', cursive;
+      font-size: 1.6rem;
+      text-transform: uppercase;
+      text-align: center;
+      line-height: 1.1;
+      color: var(--pop-black);
+      padding: 20px;
+    }
+
+    .pop-cta h2 {
+      font-family: 'Bungee', cursive;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      color: var(--pop-white);
+      -webkit-text-stroke: 2px var(--pop-black);
+      paint-order: stroke fill;
+      margin-bottom: 16px;
+    }
+
+    .pop-cta p {
+      color: var(--pop-white);
+      font-size: 1.2rem;
+      margin-bottom: 32px;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* ============================================
+       CSS TECHNIQUES SECTION
+       ============================================ */
+    .pop-techniques {
+      background: var(--pop-cyan);
+      border-bottom: 6px solid var(--pop-black);
+      padding: 80px 40px;
+    }
+
+    .pop-techniques__inner {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .pop-techniques__title {
+      font-family: 'Bungee', cursive;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      color: var(--pop-black);
+      text-align: center;
+      margin-bottom: 16px;
+    }
+
+    .pop-techniques__subtitle {
+      text-align: center;
+      font-size: 1.05rem;
+      margin-bottom: 48px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .techniques-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+    }
+
+    .technique-demo {
+      border: 5px solid var(--pop-black);
+      overflow: hidden;
+      position: relative;
+      background: var(--pop-white);
+    }
+
+    .technique-demo::after {
+      content: '';
+      position: absolute;
+      top: 5px;
+      left: 5px;
+      right: -5px;
+      bottom: -5px;
+      background: var(--pop-black);
+      z-index: -1;
+    }
+
+    .technique-demo__preview {
+      height: 180px;
+      border-bottom: 4px solid var(--pop-black);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .technique-demo__preview--dots-cyan {
+      background-image: radial-gradient(circle, var(--pop-cyan) 20%, transparent 20%);
+      background-size: 12px 12px;
+      background-color: var(--pop-white);
+    }
+
+    .technique-demo__preview--dots-pink {
+      background-image: radial-gradient(circle, var(--pop-pink) 18%, transparent 18%);
+      background-size: 14px 14px;
+      background-color: var(--pop-white);
+    }
+
+    .technique-demo__preview--dots-yellow {
+      background-image: radial-gradient(circle, var(--pop-yellow) 25%, transparent 25%);
+      background-size: 20px 20px;
+      background-color: var(--pop-cream);
+    }
+
+    .technique-demo__preview--panel {
+      background: var(--pop-pink);
+    }
+
+    .technique-demo__preview--panel .mini-panel {
+      width: 120px;
+      height: 90px;
+      background: var(--pop-white);
+      border: 4px solid var(--pop-black);
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Bangers', cursive;
+      font-size: 1.2rem;
+      text-transform: uppercase;
+    }
+
+    .technique-demo__preview--panel .mini-panel::after {
+      content: '';
+      position: absolute;
+      top: 5px; left: 5px; right: -5px; bottom: -5px;
+      background: var(--pop-black);
+      z-index: -1;
+    }
+
+    .technique-demo__preview--starburst {
+      background: var(--pop-orange);
+    }
+
+    .technique-demo__preview--starburst .mini-star {
+      width: 120px;
+      height: 120px;
+      background: var(--pop-yellow);
+      clip-path: polygon(
+        50% 0%, 61% 15%, 78% 5%, 75% 25%,
+        95% 28%, 83% 42%, 100% 50%, 83% 58%,
+        95% 72%, 75% 75%, 78% 95%, 61% 85%,
+        50% 100%, 39% 85%, 22% 95%, 25% 75%,
+        5% 72%, 17% 58%, 0% 50%, 17% 42%,
+        5% 28%, 25% 25%, 22% 5%, 39% 15%
+      );
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Bangers', cursive;
+      font-size: 1.1rem;
+      text-transform: uppercase;
+      animation: pulseGrow 2s ease-in-out infinite;
+    }
+
+    .technique-demo__preview--bubble {
+      background: var(--pop-blue);
+    }
+
+    .technique-demo__preview--bubble .mini-bubble {
+      background: var(--pop-white);
+      border: 3px solid var(--pop-black);
+      border-radius: 18px;
+      padding: 14px 18px;
+      font-family: 'Bangers', cursive;
+      text-transform: uppercase;
+      font-size: 0.95rem;
+      position: relative;
+    }
+
+    .technique-demo__preview--bubble .mini-bubble::after {
+      content: '';
+      position: absolute;
+      bottom: -14px;
+      left: 20px;
+      border: 7px solid transparent;
+      border-top-color: var(--pop-black);
+    }
+
+    .technique-demo__info {
+      padding: 20px;
+    }
+
+    .technique-demo__info h3 {
+      font-family: 'Bangers', cursive;
+      font-size: 1.2rem;
+      margin-bottom: 6px;
+    }
+
+    .technique-demo__info p {
+      font-size: 0.88rem;
+      line-height: 1.4;
+      color: #444;
+    }
+
+    /* ============================================
+       FOOTER
+       ============================================ */
+    .pop-footer {
+      background: var(--pop-black);
+      padding: 60px 40px 40px;
+      text-align: center;
+      position: relative;
+    }
+
+    .pop-footer__logo {
+      font-family: 'Bungee', cursive;
+      font-size: 2.5rem;
+      animation: colorCycle 4s linear infinite;
+      margin-bottom: 16px;
+    }
+
+    .pop-footer__tagline {
+      font-family: 'Bangers', cursive;
+      font-size: 1.3rem;
+      color: var(--pop-yellow);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+    }
+
+    .pop-footer__divider {
+      width: 80px;
+      height: 5px;
+      background: var(--pop-red);
+      margin: 0 auto 24px;
+    }
+
+    .pop-footer p {
+      color: var(--pop-gray);
+      font-size: 0.9rem;
+    }
+
+    .pop-footer__colors {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 24px;
+    }
+
+    .pop-footer__color-dot {
+      width: 16px;
+      height: 16px;
+      border-radius: 0;
+      border: 2px solid var(--pop-white);
+    }
+
+    /* ============================================
+       BACK TO TOP BUTTON
+       ============================================ */
+    .back-to-top {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 56px;
+      height: 56px;
+      background: var(--pop-yellow);
+      border: 4px solid var(--pop-black);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Bangers', cursive;
+      font-size: 1.4rem;
+      cursor: pointer;
+      z-index: 999;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease, transform 0.2s ease;
+    }
+
+    .back-to-top::after {
+      content: '';
+      position: absolute;
+      top: 4px; left: 4px; right: -4px; bottom: -4px;
+      background: var(--pop-black);
+      z-index: -1;
+    }
+
+    .back-to-top.visible {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .back-to-top:hover {
+      transform: translate(-2px, -2px);
+    }
+
+    /* ============================================
+       RESPONSIVE
+       ============================================ */
+    @media (max-width: 900px) {
+      .pop-intro__inner {
+        grid-template-columns: 1fr;
+      }
+
+      .pop-intro__visual {
+        order: -1;
+      }
+
+      .rules-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .pop-hero__starburst {
+        width: 120px;
+        height: 120px;
+        font-size: 1rem;
+        top: 10px;
+        right: 20px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .pop-hero__inner {
+        flex-direction: column;
+        gap: 30px;
+      }
+
+      .pop-hero {
+        padding: 60px 24px 80px;
+      }
+
+      .pop-nav {
+        padding: 14px 20px;
+      }
+
+      .pop-nav__links {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: var(--pop-yellow);
+        flex-direction: column;
+        gap: 0;
+        border-bottom: 5px solid var(--pop-black);
+      }
+
+      .pop-nav__links.open {
+        display: flex;
+      }
+
+      .pop-nav__links li {
+        border-top: 3px solid var(--pop-black);
+      }
+
+      .pop-nav__links a {
+        display: block;
+        padding: 14px 20px;
+        font-size: 1.3rem;
+      }
+
+      .nav-toggle {
+        display: flex;
+      }
+
+      .pop-characteristics,
+      .pop-principles,
+      .pop-palette,
+      .pop-typography,
+      .pop-rules,
+      .pop-related,
+      .pop-techniques,
+      .pop-cta {
+        padding: 60px 20px;
+      }
+
+      .comic-panel-grid,
+      .font-showcase,
+      .color-grid,
+      .techniques-grid,
+      .related-grid,
+      .principles-list {
+        grid-template-columns: 1fr;
+      }
+
+      .warhol-grid {
+        max-width: 260px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .pop-hero__title {
+        font-size: clamp(2.2rem, 10vw, 3.5rem);
+      }
+
+      .pop-hero__starburst {
+        width: 100px;
+        height: 100px;
+        font-size: 0.85rem;
+        top: 5px;
+        right: 10px;
+      }
+
+      .speech-bubble p {
+        font-size: 1.2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- ============================================
+       NAVIGATION
+       ============================================ -->
+  <nav class="pop-nav" id="nav">
+    <a href="#" class="pop-nav__logo">POP ART!</a>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+    <ul class="pop-nav__links" id="navLinks">
+      <li><a href="#about">About</a></li>
+      <li><a href="#characteristics">Traits</a></li>
+      <li><a href="#principles">Principles</a></li>
+      <li><a href="#palette">Colors</a></li>
+      <li><a href="#typography">Type</a></li>
+      <li><a href="#techniques">CSS</a></li>
+      <li><a href="#rules">Rules</a></li>
+      <li><a href="#related">Related</a></li>
+    </ul>
+  </nav>
+
+  <!-- ============================================
+       HERO SECTION
+       ============================================ -->
+  <section class="pop-hero">
+    <div class="pop-hero__starburst">WOW!<br>POP ART!</div>
+    <div class="pop-hero__inner">
+      <div class="pop-hero__content">
+        <h1 class="pop-hero__title">Mass Culture<br>Meets <span>Fine Art</span></h1>
+        <p class="pop-hero__subtitle">Ben-Day dots, comic-book bold outlines, saturated commercial imagery a la Warhol and Lichtenstein. Pop Art emerged in the 1950s-60s as a reaction against the elitism of abstract expressionism, elevating advertising, comic strips, consumer products, and celebrity culture into fine art.</p>
+        <a href="#characteristics" class="pop-btn">Explore the Aesthetic!</a>
+      </div>
+      <div class="pop-hero__visual">
+        <div class="speech-bubble">
+          <p>This design is incredible! Bold colors and thick outlines everywhere!</p>
+        </div>
+        <div class="thought-bubble" style="margin-top: 40px; margin-left: 60px;">
+          <p>Art is what you can get away with...</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       ABOUT / INTRO SECTION
+       ============================================ -->
+  <section class="pop-intro" id="about">
+    <div class="pop-intro__inner">
+      <div class="pop-intro__text">
+        <h2>What Is Pop Art?</h2>
+        <p>Pop Art is a mass-culture celebration: Ben-Day dots, comic-book bold outlines, saturated commercial imagery. In digital design, it translates to high-energy compositions with halftone dot patterns, thick black outlines, speech bubbles, and unapologetically bold, saturated color palettes drawn from commercial printing.</p>
+        <p>Every surface is a canvas. Every shape gets a thick black border. Every color screams at full saturation. This is design that refuses to whisper -- it grabs you by the collar and demands your attention.</p>
+        <a href="#characteristics" class="pop-btn pop-btn--yellow" style="margin-top: 12px;">See the Traits</a>
+      </div>
+      <div class="pop-intro__visual">
+        <div class="warhol-grid animate-on-scroll">
+          <div class="warhol-grid__cell">
+            <span class="star-icon">&#9733;</span>
+          </div>
+          <div class="warhol-grid__cell">
+            <span class="star-icon">&#9733;</span>
+          </div>
+          <div class="warhol-grid__cell">
+            <span class="star-icon">&#9733;</span>
+          </div>
+          <div class="warhol-grid__cell">
+            <span class="star-icon">&#9733;</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       VISUAL CHARACTERISTICS
+       ============================================ -->
+  <section class="pop-characteristics" id="characteristics">
+    <div class="pop-characteristics__inner">
+      <h2 class="pop-characteristics__title">Core Visual Traits</h2>
+      <div class="comic-panel-grid">
+        <div class="comic-panel animate-on-scroll">
+          <span class="comic-panel__icon">&#9679;&#9679;&#9679;</span>
+          <h3>Ben-Day Dots</h3>
+          <p>The signature motif: colored dots in regular grids simulate mass-produced comic and advertisement printing.</p>
+        </div>
+        <div class="comic-panel animate-on-scroll">
+          <span class="comic-panel__icon">&#9646;</span>
+          <h3>Thick Black Outlines</h3>
+          <p>Every shape and panel is enclosed in heavy black contour lines (3-6px), mimicking comic-book inking.</p>
+        </div>
+        <div class="comic-panel animate-on-scroll">
+          <span class="comic-panel__icon">&#127912;</span>
+          <h3>Saturated Colors</h3>
+          <p>CMYK-inspired primaries and secondaries at maximum saturation. Nothing is muted or subtle -- ever.</p>
+        </div>
+        <div class="comic-panel animate-on-scroll">
+          <span class="comic-panel__icon">&#9638;&#9638;</span>
+          <h3>Comic Panels</h3>
+          <p>Content organized in rectangular panels with gutters, reminiscent of comic strip grids and sequential art.</p>
+        </div>
+        <div class="comic-panel animate-on-scroll">
+          <span class="comic-panel__icon">&#128172;</span>
+          <h3>Speech Bubbles</h3>
+          <p>Text in dialogue balloons with pointer tails and thought clouds -- the voice of Pop Art typography.</p>
+        </div>
+        <div class="comic-panel animate-on-scroll">
+          <span class="comic-panel__icon">&#128257;</span>
+          <h3>Repetition</h3>
+          <p>Warhol-style repeated images with color variations. A single motif iterated across a grid transforms the mundane into the iconic.</p>
+        </div>
+        <div class="comic-panel animate-on-scroll">
+          <span class="comic-panel__icon">&#9632;</span>
+          <h3>Flat Color Fills</h3>
+          <p>No gradients. Color applied in solid, uniform blocks like screen-printed posters. Clean, bold, immediate.</p>
+        </div>
+        <div class="comic-panel animate-on-scroll">
+          <span class="comic-panel__icon">A!</span>
+          <h3>Pop Typography</h3>
+          <p>Bold, condensed, uppercase display type with exaggerated impact. Comic-book lettering that shouts, never whispers.</p>
+        </div>
+        <div class="comic-panel animate-on-scroll">
+          <span class="comic-panel__icon">&#36;</span>
+          <h3>Commercial Imagery</h3>
+          <p>Soup cans, dollar signs, lips, stars, product labels -- all treated as graphic art elements with ironic reverence.</p>
+        </div>
+        <div class="comic-panel animate-on-scroll">
+          <span class="comic-panel__icon">&#9681;</span>
+          <h3>High Contrast</h3>
+          <p>Stark juxtapositions of complementary colors and black outlines for maximum visual punch and impact.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       DESIGN PRINCIPLES
+       ============================================ -->
+  <section class="pop-principles" id="principles">
+    <div class="pop-principles__dots"></div>
+    <div class="pop-principles__inner">
+      <h2 class="pop-principles__title">Design Principles</h2>
+      <div class="principles-list">
+        <div class="principle-card animate-on-scroll">
+          <div class="principle-card__number">01</div>
+          <h3>Embrace Popular Culture</h3>
+          <p>Embrace commercial aesthetics without ironic distance. The ordinary becomes extraordinary through bold presentation.</p>
+        </div>
+        <div class="principle-card animate-on-scroll">
+          <div class="principle-card__number">02</div>
+          <h3>Bold Visual Language</h3>
+          <p>Use immediate, bold visual language that communicates at a glance. If you have to explain it, it is not loud enough.</p>
+        </div>
+        <div class="principle-card animate-on-scroll">
+          <div class="principle-card__number">03</div>
+          <h3>Maximum Saturation</h3>
+          <p>Favor maximum saturation and contrast over subtlety and nuance. Full chroma, no exceptions, no compromises.</p>
+        </div>
+        <div class="principle-card animate-on-scroll">
+          <div class="principle-card__number">04</div>
+          <h3>Every Surface is Canvas</h3>
+          <p>Treat every surface as a potential canvas for pattern and color. Backgrounds are never empty -- they are opportunities.</p>
+        </div>
+        <div class="principle-card animate-on-scroll">
+          <div class="principle-card__number">05</div>
+          <h3>Repetition is Power</h3>
+          <p>Repetition transforms the mundane into the iconic. One image is art; the same image repeated is Pop Art.</p>
+        </div>
+        <div class="principle-card animate-on-scroll">
+          <div class="principle-card__number">06</div>
+          <h3>Typography Shouts</h3>
+          <p>Typography is as loud as the imagery. Text shouts, it does not whisper. Letters are graphic weapons of impact.</p>
+        </div>
+        <div class="principle-card animate-on-scroll">
+          <div class="principle-card__number">07</div>
+          <h3>Comic-Book Grid</h3>
+          <p>The grid is borrowed from comics and commercial printing, not from Swiss design. Irregular, energetic, dramatic.</p>
+        </div>
+        <div class="principle-card animate-on-scroll">
+          <div class="principle-card__number">08</div>
+          <h3>More Is More</h3>
+          <p>Density, color, and energy fill every available space. Pop Art is maximalist by nature -- restraint is for other aesthetics.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       COLOR PALETTE
+       ============================================ -->
+  <section class="pop-palette" id="palette">
+    <div class="pop-palette__inner">
+      <h2 class="pop-palette__title">Color Palette</h2>
+      <p class="pop-palette__subtitle">The Pop Art palette derives from CMYK process printing and the limited color separations of 1960s comic books. Every color at full saturation -- no exceptions.</p>
+      <div class="color-grid">
+        <div class="color-swatch animate-on-scroll">
+          <div class="color-swatch__color" style="background: #ff0033;"></div>
+          <div class="color-swatch__info">
+            <div class="color-swatch__name">Pop Red</div>
+            <div class="color-swatch__hex">#FF0033</div>
+          </div>
+        </div>
+        <div class="color-swatch animate-on-scroll">
+          <div class="color-swatch__color" style="background: #ffd600;"></div>
+          <div class="color-swatch__info">
+            <div class="color-swatch__name">Pop Yellow</div>
+            <div class="color-swatch__hex">#FFD600</div>
+          </div>
+        </div>
+        <div class="color-swatch animate-on-scroll">
+          <div class="color-swatch__color" style="background: #0057e7;"></div>
+          <div class="color-swatch__info">
+            <div class="color-swatch__name">Pop Blue</div>
+            <div class="color-swatch__hex">#0057E7</div>
+          </div>
+        </div>
+        <div class="color-swatch animate-on-scroll">
+          <div class="color-swatch__color" style="background: #ff69b4;"></div>
+          <div class="color-swatch__info">
+            <div class="color-swatch__name">Pop Pink</div>
+            <div class="color-swatch__hex">#FF69B4</div>
+          </div>
+        </div>
+        <div class="color-swatch animate-on-scroll">
+          <div class="color-swatch__color" style="background: #00bfff;"></div>
+          <div class="color-swatch__info">
+            <div class="color-swatch__name">Pop Cyan</div>
+            <div class="color-swatch__hex">#00BFFF</div>
+          </div>
+        </div>
+        <div class="color-swatch animate-on-scroll">
+          <div class="color-swatch__color" style="background: #ff6600;"></div>
+          <div class="color-swatch__info">
+            <div class="color-swatch__name">Pop Orange</div>
+            <div class="color-swatch__hex">#FF6600</div>
+          </div>
+        </div>
+        <div class="color-swatch animate-on-scroll">
+          <div class="color-swatch__color" style="background: #00cc44;"></div>
+          <div class="color-swatch__info">
+            <div class="color-swatch__name">Pop Green</div>
+            <div class="color-swatch__hex">#00CC44</div>
+          </div>
+        </div>
+        <div class="color-swatch animate-on-scroll">
+          <div class="color-swatch__color" style="background: #8b00ff;"></div>
+          <div class="color-swatch__info">
+            <div class="color-swatch__name">Deep Purple</div>
+            <div class="color-swatch__hex">#8B00FF</div>
+          </div>
+        </div>
+        <div class="color-swatch animate-on-scroll">
+          <div class="color-swatch__color" style="background: #000000;"></div>
+          <div class="color-swatch__info">
+            <div class="color-swatch__name">Pure Black</div>
+            <div class="color-swatch__hex">#000000</div>
+          </div>
+        </div>
+        <div class="color-swatch animate-on-scroll">
+          <div class="color-swatch__color" style="background: #ffffff; border-bottom: 4px solid #000;"></div>
+          <div class="color-swatch__info">
+            <div class="color-swatch__name">Pure White</div>
+            <div class="color-swatch__hex">#FFFFFF</div>
+          </div>
+        </div>
+        <div class="color-swatch animate-on-scroll">
+          <div class="color-swatch__color" style="background: #e8e8e8;"></div>
+          <div class="color-swatch__info">
+            <div class="color-swatch__name">Halftone Gray</div>
+            <div class="color-swatch__hex">#E8E8E8</div>
+          </div>
+        </div>
+        <div class="color-swatch animate-on-scroll">
+          <div class="color-swatch__color" style="background: #fff8e1;"></div>
+          <div class="color-swatch__info">
+            <div class="color-swatch__name">Cream</div>
+            <div class="color-swatch__hex">#FFF8E1</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       TYPOGRAPHY SHOWCASE
+       ============================================ -->
+  <section class="pop-typography" id="typography">
+    <div class="pop-typography__inner">
+      <h2 class="pop-typography__title">Typography</h2>
+      <div class="font-showcase">
+        <div class="font-card font-card--bangers animate-on-scroll">
+          <span class="font-card__label">Display / Headlines</span>
+          <div class="font-card__sample">Bangers</div>
+          <div class="font-card__name">Classic comic-book display. The essential Pop Art heading font.</div>
+        </div>
+        <div class="font-card font-card--bungee animate-on-scroll">
+          <span class="font-card__label">Hero Text</span>
+          <div class="font-card__sample">Bungee</div>
+          <div class="font-card__name">Ultra-bold display for hero sections and large statements.</div>
+        </div>
+        <div class="font-card font-card--marker animate-on-scroll">
+          <span class="font-card__label">Callouts</span>
+          <div class="font-card__sample">Permanent Marker</div>
+          <div class="font-card__name">Hand-lettered marker feel for informal callouts and labels.</div>
+        </div>
+        <div class="font-card font-card--oswald animate-on-scroll">
+          <span class="font-card__label">Subheadings</span>
+          <div class="font-card__sample">Oswald Bold</div>
+          <div class="font-card__name">Condensed gothic for subheadings, navigation, and UI.</div>
+        </div>
+        <div class="font-card font-card--anton animate-on-scroll">
+          <span class="font-card__label">Impact Display</span>
+          <div class="font-card__sample">Anton</div>
+          <div class="font-card__name">Impact-style condensed for oversized poster-style headings.</div>
+        </div>
+        <div class="font-card font-card--luckiest animate-on-scroll">
+          <span class="font-card__label">Playful Display</span>
+          <div class="font-card__sample">Luckiest Guy</div>
+          <div class="font-card__name">Rounded comic display for fun headlines and badge text.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       CSS TECHNIQUES
+       ============================================ -->
+  <section class="pop-techniques" id="techniques">
+    <div class="pop-techniques__inner">
+      <h2 class="pop-techniques__title">CSS Techniques</h2>
+      <p class="pop-techniques__subtitle">Key CSS patterns that bring the Pop Art aesthetic to life in digital design. Every technique uses only CSS -- no images required.</p>
+      <div class="techniques-grid">
+        <div class="technique-demo animate-on-scroll">
+          <div class="technique-demo__preview technique-demo__preview--dots-cyan"></div>
+          <div class="technique-demo__info">
+            <h3>Ben-Day Dots (Cyan)</h3>
+            <p>radial-gradient with small circles repeated via background-size. The signature Pop Art texture.</p>
+          </div>
+        </div>
+        <div class="technique-demo animate-on-scroll">
+          <div class="technique-demo__preview technique-demo__preview--dots-pink"></div>
+          <div class="technique-demo__info">
+            <h3>Ben-Day Dots (Pink)</h3>
+            <p>Same technique, different color. Swap the radial-gradient color for instant palette variation.</p>
+          </div>
+        </div>
+        <div class="technique-demo animate-on-scroll">
+          <div class="technique-demo__preview technique-demo__preview--dots-yellow"></div>
+          <div class="technique-demo__info">
+            <h3>Large Halftone (Yellow)</h3>
+            <p>Larger background-size and dot percentage for a bolder, more visible halftone pattern.</p>
+          </div>
+        </div>
+        <div class="technique-demo animate-on-scroll">
+          <div class="technique-demo__preview technique-demo__preview--panel">
+            <div class="mini-panel">Panel!</div>
+          </div>
+          <div class="technique-demo__info">
+            <h3>Comic Panel + Shadow</h3>
+            <p>Thick border with ::after pseudo-element offset for comic-book depth and dimension.</p>
+          </div>
+        </div>
+        <div class="technique-demo animate-on-scroll">
+          <div class="technique-demo__preview technique-demo__preview--starburst">
+            <div class="mini-star">POW!</div>
+          </div>
+          <div class="technique-demo__info">
+            <h3>Starburst Shape</h3>
+            <p>CSS clip-path polygon creating the classic explosion/starburst callout shape.</p>
+          </div>
+        </div>
+        <div class="technique-demo animate-on-scroll">
+          <div class="technique-demo__preview technique-demo__preview--bubble">
+            <div class="mini-bubble">Holy CSS!</div>
+          </div>
+          <div class="technique-demo__info">
+            <h3>Speech Bubble</h3>
+            <p>border-radius with ::after border-trick triangle for the classic dialogue tail.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       DOS AND DONTS
+       ============================================ -->
+  <section class="pop-rules" id="rules">
+    <div class="pop-rules__inner">
+      <h2 class="pop-rules__title">Dos & Don'ts</h2>
+      <div class="rules-grid">
+        <div class="rules-column rules-column--do animate-on-scroll">
+          <h3>DO</h3>
+          <ul>
+            <li>Use Ben-Day dot patterns as backgrounds and texture fills</li>
+            <li>Apply thick black outlines (3-6px) to every major element</li>
+            <li>Use saturated, high-chroma colors at maximum intensity</li>
+            <li>Create comic-panel grid layouts with visible borders</li>
+            <li>Use comic-book display fonts for headlines and callouts</li>
+            <li>Include speech bubbles and starburst shapes for emphasis</li>
+            <li>Repeat visual motifs Warhol-style across grids</li>
+            <li>Make every section visually distinct with its own color scheme</li>
+          </ul>
+        </div>
+        <div class="rules-column rules-column--dont animate-on-scroll">
+          <h3>DON'T</h3>
+          <ul>
+            <li>Use muted, pastel, or desaturated colors</li>
+            <li>Remove the black outlines -- they are essential</li>
+            <li>Use elegant, thin, or serif typefaces for headings</li>
+            <li>Leave large areas of empty whitespace</li>
+            <li>Apply gradients or smooth transitions between colors</li>
+            <li>Use photos without halftone treatment or bold outlines</li>
+            <li>Create subtle, restrained hover effects</li>
+            <li>Mix Pop Art with minimalist or Swiss-style layouts</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       RELATED AESTHETICS
+       ============================================ -->
+  <section class="pop-related" id="related">
+    <div class="pop-related__inner">
+      <h2 class="pop-related__title">Related Aesthetics</h2>
+      <div class="related-grid">
+        <div class="related-card animate-on-scroll">
+          <h3>Memphis Design</h3>
+          <p>1980s successor sharing bold color and geometric pattern, adding postmodern irony and squiggles.</p>
+        </div>
+        <div class="related-card animate-on-scroll">
+          <h3>Neubrutalism</h3>
+          <p>Contemporary relative with thick outlines and bold colors, but raw, unpolished intentional ugliness.</p>
+        </div>
+        <div class="related-card animate-on-scroll">
+          <h3>Flat Design</h3>
+          <p>Shares solid color fills and no gradients, but strips away expressive energy and ornament.</p>
+        </div>
+        <div class="related-card animate-on-scroll">
+          <h3>Ligne Claire</h3>
+          <p>European comic-art sibling with uniform-weight outlines and flat color, more refined and narrative-driven.</p>
+        </div>
+        <div class="related-card animate-on-scroll">
+          <h3>Superflat Pop</h3>
+          <p>Takashi Murakami's fusion of Pop Art with anime and otaku culture -- Japanese contemporary response.</p>
+        </div>
+        <div class="related-card animate-on-scroll">
+          <h3>Gen Z Maximalism</h3>
+          <p>Contemporary spiritual descendant sharing the more-is-more philosophy and saturated color palette.</p>
+        </div>
+        <div class="related-card animate-on-scroll">
+          <h3>Colorful Pop</h3>
+          <p>Direct digital adaptation of Pop Art principles for modern interfaces and branding.</p>
+        </div>
+        <div class="related-card animate-on-scroll">
+          <h3>Wacky Pomo</h3>
+          <p>Postmodern cousin sharing irreverence and bold graphics, adding more chaos and deconstruction.</p>
+        </div>
+        <div class="related-card animate-on-scroll">
+          <h3>Corporate Memphis</h3>
+          <p>Shares flat illustration but corporate-sanitized. Pop Art's rebellious energy drained for brand safety.</p>
+        </div>
+        <div class="related-card animate-on-scroll">
+          <h3>Graffiti Pop</h3>
+          <p>Street-art evolution bringing Pop Art's bold graphics into urban, spray-painted contexts.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       CTA SECTION
+       ============================================ -->
+  <section class="pop-cta">
+    <div class="pop-cta__dots"></div>
+    <div class="pop-cta__inner">
+      <div class="pop-cta__starburst">
+        <span>More<br>Is<br>More!</span>
+      </div>
+      <h2>Ready to Make Some Noise?</h2>
+      <p>Pop Art is not just a style -- it is a philosophy. Bold, immediate, unapologetic. Every pixel at full saturation. Every element outlined in black. Every surface alive with pattern and color.</p>
+      <a href="#" class="pop-btn pop-btn--yellow">Get Started!</a>
+    </div>
+  </section>
+
+  <!-- ============================================
+       FOOTER
+       ============================================ -->
+  <footer class="pop-footer">
+    <div class="pop-footer__logo">POP ART</div>
+    <div class="pop-footer__tagline">Warhol Would Approve.</div>
+    <div class="pop-footer__divider"></div>
+    <p>Mass-culture celebration elevated to fine art.<br>Bold colors. Thick outlines. Ben-Day dots. Comic-book energy.</p>
+    <div class="pop-footer__colors">
+      <div class="pop-footer__color-dot" style="background: var(--pop-red);"></div>
+      <div class="pop-footer__color-dot" style="background: var(--pop-yellow);"></div>
+      <div class="pop-footer__color-dot" style="background: var(--pop-blue);"></div>
+      <div class="pop-footer__color-dot" style="background: var(--pop-pink);"></div>
+      <div class="pop-footer__color-dot" style="background: var(--pop-cyan);"></div>
+      <div class="pop-footer__color-dot" style="background: var(--pop-orange);"></div>
+      <div class="pop-footer__color-dot" style="background: var(--pop-green);"></div>
+      <div class="pop-footer__color-dot" style="background: var(--pop-purple);"></div>
+    </div>
+  </footer>
+
+  <!-- Back to Top Button -->
+  <button class="back-to-top" id="backToTop" aria-label="Back to top">&#9650;</button>
+
+  <!-- ============================================
+       JAVASCRIPT
+       ============================================ -->
+  <script>
+    // Mobile nav toggle
+    const navToggle = document.getElementById('navToggle');
+    const navLinks = document.getElementById('navLinks');
+
+    navToggle.addEventListener('click', () => {
+      navLinks.classList.toggle('open');
+      const spans = navToggle.querySelectorAll('span');
+      if (navLinks.classList.contains('open')) {
+        spans[0].style.transform = 'rotate(45deg) translate(6px, 6px)';
+        spans[1].style.opacity = '0';
+        spans[2].style.transform = 'rotate(-45deg) translate(6px, -6px)';
+      } else {
+        spans[0].style.transform = 'none';
+        spans[1].style.opacity = '1';
+        spans[2].style.transform = 'none';
+      }
+    });
+
+    // Close mobile nav when a link is clicked
+    navLinks.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        navLinks.classList.remove('open');
+        const spans = navToggle.querySelectorAll('span');
+        spans[0].style.transform = 'none';
+        spans[1].style.opacity = '1';
+        spans[2].style.transform = 'none';
+      });
+    });
+
+    // Scroll-triggered animations
+    const observerOptions = {
+      threshold: 0.15,
+      rootMargin: '0px 0px -40px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry, index) => {
+        if (entry.isIntersecting) {
+          // Add staggered delay for siblings
+          const parent = entry.target.parentElement;
+          const siblings = parent.querySelectorAll('.animate-on-scroll');
+          let delay = 0;
+          siblings.forEach((sib, i) => {
+            if (sib === entry.target) {
+              delay = i * 0.08;
+            }
+          });
+          entry.target.style.transitionDelay = delay + 's';
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
+
+    document.querySelectorAll('.animate-on-scroll').forEach(el => {
+      observer.observe(el);
+    });
+
+    // Back to top button
+    const backToTop = document.getElementById('backToTop');
+
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 600) {
+        backToTop.classList.add('visible');
+      } else {
+        backToTop.classList.remove('visible');
+      }
+    });
+
+    backToTop.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // Add pop animation on card hover (extra visual feedback)
+    document.querySelectorAll('.comic-panel, .color-swatch, .related-card, .font-card').forEach(el => {
+      el.addEventListener('mouseenter', () => {
+        el.style.zIndex = '10';
+      });
+      el.addEventListener('mouseleave', () => {
+        el.style.zIndex = '';
+      });
+    });
+  </script>
+</body>
+</html>

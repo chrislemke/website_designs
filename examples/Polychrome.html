@@ -1,0 +1,1948 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Polychrome -- Chromatic Expression in Fluid Form</title>
+  <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@200;300;400;600&family=Montserrat:wght@300;400;500;600&family=Poppins:wght@300;400;500&family=Quicksand:wght@400;500;600&family=Josefin+Sans:wght@200;300;400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      /* Background tones */
+      --poly-white: #ffffff;
+      --poly-soft-white: #f7f7f7;
+      --poly-mist: #ebebeb;
+      --poly-light-gray: #d0d0d0;
+      --poly-medium-gray: #888888;
+      --poly-dark: #1a1a2e;
+      --poly-black: #0a0a0a;
+
+      /* Primary chromatic accents */
+      --poly-magenta: #e91e8c;
+      --poly-pink: #ff2d7b;
+      --poly-fuchsia: #c2185b;
+      --poly-cobalt: #1565c0;
+      --poly-cyan: #00bcd4;
+      --poly-sky: #42a5f5;
+      --poly-emerald: #00c853;
+      --poly-teal: #009688;
+      --poly-yellow: #ffd600;
+      --poly-amber: #ff8f00;
+      --poly-orange: #ff5722;
+      --poly-violet: #7b1fa2;
+      --poly-lavender: #ab47bc;
+      --poly-coral: #ff7043;
+      --poly-chartreuse: #c6ff00;
+
+      /* Translucent variants for layering and glow */
+      --poly-glow-magenta: rgba(233, 30, 140, 0.5);
+      --poly-glow-cyan: rgba(0, 188, 212, 0.5);
+      --poly-glow-cobalt: rgba(21, 101, 192, 0.5);
+      --poly-glow-emerald: rgba(0, 200, 83, 0.5);
+      --poly-glow-violet: rgba(123, 31, 162, 0.5);
+      --poly-glow-yellow: rgba(255, 214, 0, 0.5);
+      --poly-glow-orange: rgba(255, 87, 34, 0.4);
+
+      /* Mist / diffusion variants */
+      --poly-mist-magenta: rgba(233, 30, 140, 0.15);
+      --poly-mist-cyan: rgba(0, 188, 212, 0.15);
+      --poly-mist-cobalt: rgba(21, 101, 192, 0.12);
+      --poly-mist-emerald: rgba(0, 200, 83, 0.12);
+      --poly-mist-violet: rgba(123, 31, 162, 0.12);
+      --poly-mist-yellow: rgba(255, 214, 0, 0.12);
+
+      /* Functional mappings */
+      --poly-bg-primary: var(--poly-white);
+      --poly-bg-secondary: var(--poly-soft-white);
+      --poly-bg-surface: var(--poly-mist);
+      --poly-text-primary: var(--poly-dark);
+      --poly-text-secondary: #444444;
+      --poly-text-muted: var(--poly-medium-gray);
+      --poly-accent-1: var(--poly-magenta);
+      --poly-accent-2: var(--poly-cobalt);
+      --poly-accent-3: var(--poly-cyan);
+      --poly-border: var(--poly-light-gray);
+    }
+
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--poly-white);
+      color: var(--poly-text-secondary);
+      font-family: 'Poppins', sans-serif;
+      font-weight: 300;
+      font-size: 1rem;
+      line-height: 1.75;
+      letter-spacing: 0.01em;
+      overflow-x: hidden;
+    }
+
+    /* ============================================================
+       HERO SECTION
+       ============================================================ */
+
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 4rem 2rem;
+      overflow: hidden;
+      background: var(--poly-white);
+    }
+
+    /* Ink-in-water background -- multiple radial gradient blooms */
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: -20%;
+      background:
+        radial-gradient(ellipse 30% 38% at 15% 30%, var(--poly-glow-magenta) 0%, transparent 70%),
+        radial-gradient(ellipse 35% 30% at 75% 20%, var(--poly-glow-cobalt) 0%, transparent 65%),
+        radial-gradient(ellipse 24% 34% at 50% 80%, var(--poly-glow-cyan) 0%, transparent 60%),
+        radial-gradient(ellipse 26% 32% at 85% 65%, var(--poly-glow-violet) 0%, transparent 65%),
+        radial-gradient(ellipse 22% 26% at 25% 75%, var(--poly-glow-emerald) 0%, transparent 60%),
+        radial-gradient(ellipse 18% 20% at 60% 40%, var(--poly-glow-yellow) 0%, transparent 55%),
+        radial-gradient(ellipse 20% 24% at 40% 15%, var(--poly-glow-orange) 0%, transparent 58%);
+      filter: blur(50px);
+      pointer-events: none;
+      z-index: 0;
+      animation: hero-ink-breathe 16s ease-in-out infinite;
+    }
+
+    @keyframes hero-ink-breathe {
+      0%   { transform: scale(1) rotate(0deg); opacity: 1; }
+      50%  { transform: scale(1.05) rotate(1deg); opacity: 0.85; }
+      100% { transform: scale(1) rotate(0deg); opacity: 1; }
+    }
+
+    /* Floating decorative blobs in hero */
+    .hero-blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(60px);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .hero-blob--1 {
+      width: 220px;
+      height: 280px;
+      background: var(--poly-magenta);
+      top: 10%;
+      left: 5%;
+      opacity: 0.3;
+      animation: poly-drift-1 14s ease-in-out infinite;
+    }
+
+    .hero-blob--2 {
+      width: 280px;
+      height: 220px;
+      background: var(--poly-cobalt);
+      top: 15%;
+      right: 8%;
+      opacity: 0.25;
+      animation: poly-drift-2 18s ease-in-out infinite;
+    }
+
+    .hero-blob--3 {
+      width: 200px;
+      height: 200px;
+      background: var(--poly-emerald);
+      bottom: 15%;
+      left: 15%;
+      opacity: 0.2;
+      animation: poly-drift-3 12s ease-in-out infinite;
+    }
+
+    .hero-blob--4 {
+      width: 180px;
+      height: 240px;
+      background: var(--poly-violet);
+      bottom: 20%;
+      right: 12%;
+      opacity: 0.25;
+      animation: poly-drift-1 16s ease-in-out infinite reverse;
+    }
+
+    .hero-blob--5 {
+      width: 160px;
+      height: 160px;
+      background: var(--poly-yellow);
+      top: 55%;
+      left: 50%;
+      transform: translateX(-50%);
+      opacity: 0.2;
+      animation: poly-drift-2 20s ease-in-out infinite;
+    }
+
+    @keyframes poly-drift-1 {
+      0%   { transform: translateX(0) translateY(0) scale(1); }
+      33%  { transform: translateX(25px) translateY(-15px) scale(1.08); }
+      66%  { transform: translateX(-15px) translateY(20px) scale(0.95); }
+      100% { transform: translateX(0) translateY(0) scale(1); }
+    }
+
+    @keyframes poly-drift-2 {
+      0%   { transform: translateX(0) translateY(0) scale(1); }
+      50%  { transform: translateX(-30px) translateY(-20px) scale(1.12); }
+      100% { transform: translateX(0) translateY(0) scale(1); }
+    }
+
+    @keyframes poly-drift-3 {
+      0%   { transform: translateX(0) translateY(0) scale(1); }
+      40%  { transform: translateX(20px) translateY(15px) scale(1.1); }
+      70%  { transform: translateX(-10px) translateY(-8px) scale(0.97); }
+      100% { transform: translateX(0) translateY(0) scale(1); }
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 900px;
+    }
+
+    .hero-label {
+      font-family: 'Quicksand', 'Poppins', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--poly-text-muted);
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: fade-up 0.8s ease-out 0.3s forwards;
+    }
+
+    .hero h1 {
+      font-family: 'Raleway', sans-serif;
+      font-weight: 200;
+      font-size: clamp(3rem, 9vw, 7rem);
+      letter-spacing: 0.06em;
+      line-height: 1.05;
+      color: var(--poly-dark);
+      opacity: 0;
+      animation: fade-up 1s ease-out 0.5s forwards;
+    }
+
+    .hero h1 .chromatic {
+      background: linear-gradient(
+        90deg,
+        var(--poly-magenta) 0%,
+        var(--poly-orange) 15%,
+        var(--poly-yellow) 30%,
+        var(--poly-emerald) 45%,
+        var(--poly-cyan) 60%,
+        var(--poly-cobalt) 75%,
+        var(--poly-violet) 90%,
+        var(--poly-magenta) 100%
+      );
+      background-size: 200% 100%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-weight: 300;
+      animation: fade-up 1s ease-out 0.5s forwards, poly-hue-shift 8s linear 1.5s infinite;
+      opacity: 0;
+    }
+
+    @keyframes poly-hue-shift {
+      0%   { background-position: 0% 50%; }
+      100% { background-position: 200% 50%; }
+    }
+
+    .hero-subtitle {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 300;
+      font-size: clamp(1rem, 2vw, 1.3rem);
+      color: var(--poly-text-secondary);
+      margin-top: 1.8rem;
+      letter-spacing: 0.03em;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      opacity: 0;
+      animation: fade-up 0.8s ease-out 0.9s forwards;
+    }
+
+    .gradient-divider {
+      height: 3px;
+      width: 140px;
+      margin: 2rem auto;
+      border: none;
+      border-radius: 2px;
+      background: linear-gradient(
+        90deg,
+        var(--poly-magenta),
+        var(--poly-orange),
+        var(--poly-yellow),
+        var(--poly-emerald),
+        var(--poly-cyan),
+        var(--poly-cobalt),
+        var(--poly-violet)
+      );
+      opacity: 0;
+      animation: fade-up 0.8s ease-out 0.7s forwards;
+    }
+
+    .hero-scroll-hint {
+      position: absolute;
+      bottom: 2.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 1;
+      opacity: 0;
+      animation: fade-up 0.8s ease-out 1.4s forwards, gentle-bounce 2.5s ease-in-out 2.2s infinite;
+    }
+
+    .hero-scroll-hint svg {
+      width: 28px;
+      height: 28px;
+      stroke: var(--poly-medium-gray);
+      stroke-width: 1.5;
+      fill: none;
+    }
+
+    @keyframes gentle-bounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50%      { transform: translateX(-50%) translateY(8px); }
+    }
+
+    @keyframes fade-up {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ============================================================
+       NAVIGATION BAR
+       ============================================================ */
+
+    .nav-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      padding: 1.2rem 2.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+      transition: background 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .nav-bar.scrolled {
+      background: rgba(255, 255, 255, 0.92);
+      box-shadow: 0 2px 20px rgba(0, 0, 0, 0.06);
+    }
+
+    .nav-logo {
+      font-family: 'Raleway', sans-serif;
+      font-weight: 300;
+      font-size: 1.25rem;
+      letter-spacing: 0.08em;
+      color: var(--poly-dark);
+      text-decoration: none;
+      border: none;
+    }
+
+    .nav-logo span {
+      background: linear-gradient(135deg, var(--poly-magenta), var(--poly-violet), var(--poly-cobalt));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-weight: 400;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: 'Quicksand', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--poly-text-muted);
+      text-decoration: none;
+      border: none;
+      transition: color 0.25s ease;
+      position: relative;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--poly-magenta), var(--poly-cobalt));
+      border-radius: 2px;
+      transition: width 0.3s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--poly-dark);
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    /* ============================================================
+       GLOBAL SECTION STYLES
+       ============================================================ */
+
+    .section {
+      position: relative;
+      padding: 6rem 2rem;
+      overflow: hidden;
+    }
+
+    .section-inner {
+      max-width: 960px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+    }
+
+    .section-label {
+      font-family: 'Quicksand', 'Poppins', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--poly-text-muted);
+      margin-bottom: 0.8rem;
+    }
+
+    .section h2 {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 500;
+      font-size: clamp(1.6rem, 4vw, 2.6rem);
+      letter-spacing: 0.04em;
+      color: var(--poly-dark);
+      margin-bottom: 1.2rem;
+      line-height: 1.2;
+    }
+
+    .section h2 .accent {
+      color: var(--poly-cobalt);
+    }
+
+    .section-lead {
+      font-size: 1.08rem;
+      color: var(--poly-text-secondary);
+      max-width: 680px;
+      margin-bottom: 2.5rem;
+      line-height: 1.85;
+    }
+
+    /* ============================================================
+       ABOUT SECTION
+       ============================================================ */
+
+    #about {
+      background: var(--poly-soft-white);
+    }
+
+    #about::before {
+      content: '';
+      position: absolute;
+      top: -60px;
+      left: 0;
+      right: 0;
+      height: 120px;
+      background: linear-gradient(to bottom, var(--poly-white), var(--poly-soft-white));
+      z-index: 1;
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin-top: 1rem;
+    }
+
+    .about-card {
+      background: rgba(255, 255, 255, 0.75);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      border-radius: 16px;
+      padding: 2rem 2rem 2.2rem;
+      box-shadow:
+        0 8px 32px rgba(0, 0, 0, 0.04),
+        inset 0 1px 0 rgba(255, 255, 255, 0.9);
+      transition: transform 0.35s ease, box-shadow 0.35s ease;
+    }
+
+    .about-card:hover {
+      transform: translateY(-4px);
+      box-shadow:
+        0 16px 48px rgba(0, 0, 0, 0.08),
+        inset 0 1px 0 rgba(255, 255, 255, 0.9);
+    }
+
+    .about-card h3 {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 500;
+      font-size: 1.15rem;
+      letter-spacing: 0.03em;
+      margin-bottom: 0.6rem;
+    }
+
+    .about-card h3.color-magenta { color: var(--poly-magenta); }
+    .about-card h3.color-cobalt { color: var(--poly-cobalt); }
+    .about-card h3.color-emerald { color: var(--poly-emerald); }
+    .about-card h3.color-violet { color: var(--poly-violet); }
+
+    .about-card p {
+      font-size: 0.92rem;
+      line-height: 1.75;
+      color: var(--poly-text-secondary);
+    }
+
+    /* Decorative ambient mist behind about cards */
+    .about-ambient {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 600px;
+      height: 400px;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .about-ambient::before,
+    .about-ambient::after {
+      content: '';
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+    }
+
+    .about-ambient::before {
+      width: 350px;
+      height: 300px;
+      background: var(--poly-mist-magenta);
+      top: 0;
+      left: 0;
+    }
+
+    .about-ambient::after {
+      width: 300px;
+      height: 350px;
+      background: var(--poly-mist-cobalt);
+      bottom: 0;
+      right: 0;
+    }
+
+    /* ============================================================
+       VISUAL CHARACTERISTICS SECTION
+       ============================================================ */
+
+    #motifs {
+      background: var(--poly-white);
+    }
+
+    .motif-list {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .motif-item {
+      position: relative;
+      padding: 1.8rem 1.5rem;
+      border-radius: 14px;
+      background: var(--poly-soft-white);
+      border: 1px solid var(--poly-mist);
+      transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+      overflow: hidden;
+    }
+
+    .motif-item::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      border-radius: 14px 14px 0 0;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .motif-item:nth-child(1)::before { background: var(--poly-magenta); }
+    .motif-item:nth-child(2)::before { background: var(--poly-cobalt); }
+    .motif-item:nth-child(3)::before { background: var(--poly-cyan); }
+    .motif-item:nth-child(4)::before { background: var(--poly-emerald); }
+    .motif-item:nth-child(5)::before { background: var(--poly-violet); }
+    .motif-item:nth-child(6)::before { background: var(--poly-orange); }
+    .motif-item:nth-child(7)::before { background: var(--poly-yellow); }
+    .motif-item:nth-child(8)::before { background: var(--poly-coral); }
+    .motif-item:nth-child(9)::before { background: var(--poly-lavender); }
+
+    .motif-item:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.07);
+      border-color: transparent;
+    }
+
+    .motif-item:hover::before {
+      opacity: 1;
+    }
+
+    .motif-item h4 {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 500;
+      font-size: 0.95rem;
+      letter-spacing: 0.02em;
+      color: var(--poly-dark);
+      margin-bottom: 0.5rem;
+    }
+
+    .motif-item p {
+      font-size: 0.85rem;
+      line-height: 1.7;
+      color: var(--poly-text-muted);
+    }
+
+    /* ============================================================
+       DESIGN PRINCIPLES SECTION
+       ============================================================ */
+
+    #principles {
+      background: var(--poly-black);
+      color: var(--poly-soft-white);
+    }
+
+    #principles .section-label {
+      color: var(--poly-medium-gray);
+    }
+
+    #principles h2 {
+      color: var(--poly-soft-white);
+    }
+
+    #principles .section-lead {
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    /* Dark section ink-in-water effect -- glowing mode */
+    .dark-ink-bg {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .dark-ink-bg .glow-blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      mix-blend-mode: screen;
+      opacity: 0.5;
+    }
+
+    .dark-ink-bg .glow-blob:nth-child(1) {
+      width: 400px; height: 350px;
+      background: var(--poly-magenta);
+      top: -10%; left: -5%;
+      animation: poly-drift-1 18s ease-in-out infinite;
+    }
+
+    .dark-ink-bg .glow-blob:nth-child(2) {
+      width: 350px; height: 400px;
+      background: var(--poly-cobalt);
+      top: 20%; right: -8%;
+      animation: poly-drift-2 22s ease-in-out infinite;
+    }
+
+    .dark-ink-bg .glow-blob:nth-child(3) {
+      width: 300px; height: 300px;
+      background: var(--poly-cyan);
+      bottom: -5%; left: 30%;
+      animation: poly-drift-3 16s ease-in-out infinite;
+    }
+
+    .dark-ink-bg .glow-blob:nth-child(4) {
+      width: 250px; height: 300px;
+      background: var(--poly-violet);
+      top: 50%; left: 10%;
+      animation: poly-drift-1 20s ease-in-out infinite reverse;
+    }
+
+    .dark-ink-bg .glow-blob:nth-child(5) {
+      width: 200px; height: 220px;
+      background: var(--poly-emerald);
+      bottom: 15%; right: 15%;
+      animation: poly-drift-2 14s ease-in-out infinite;
+    }
+
+    .principles-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .principle-card {
+      background: rgba(26, 26, 46, 0.6);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      border-radius: 16px;
+      padding: 2rem;
+      box-shadow:
+        0 8px 32px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.04);
+      transition: transform 0.3s ease, border-color 0.3s ease;
+    }
+
+    .principle-card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(255, 255, 255, 0.15);
+    }
+
+    .principle-card .principle-num {
+      font-family: 'Raleway', sans-serif;
+      font-weight: 200;
+      font-size: 2.2rem;
+      line-height: 1;
+      margin-bottom: 0.8rem;
+      background: linear-gradient(135deg, var(--poly-magenta), var(--poly-cyan));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .principle-card h4 {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 500;
+      font-size: 1rem;
+      color: var(--poly-soft-white);
+      margin-bottom: 0.5rem;
+      letter-spacing: 0.02em;
+    }
+
+    .principle-card p {
+      font-size: 0.88rem;
+      line-height: 1.7;
+      color: rgba(255, 255, 255, 0.55);
+    }
+
+    /* ============================================================
+       COLOR PALETTE SECTION
+       ============================================================ */
+
+    #palette {
+      background: var(--poly-white);
+    }
+
+    .palette-showcase {
+      margin-top: 2rem;
+    }
+
+    .palette-row {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .palette-row-label {
+      width: 100%;
+      font-family: 'Quicksand', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--poly-text-muted);
+      margin-bottom: 0.3rem;
+    }
+
+    .swatch {
+      flex: 1;
+      min-width: 80px;
+      max-width: 140px;
+      height: 80px;
+      border-radius: 12px;
+      position: relative;
+      cursor: default;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+      overflow: hidden;
+    }
+
+    .swatch:hover {
+      transform: translateY(-4px) scale(1.05);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+    }
+
+    .swatch-info {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 0.4rem 0.6rem;
+      background: rgba(0, 0, 0, 0.45);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      opacity: 0;
+      transition: opacity 0.25s ease;
+    }
+
+    .swatch:hover .swatch-info {
+      opacity: 1;
+    }
+
+    .swatch-info .swatch-name {
+      font-family: 'Quicksand', sans-serif;
+      font-size: 0.62rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      color: rgba(255, 255, 255, 0.95);
+      display: block;
+      line-height: 1.2;
+    }
+
+    .swatch-info .swatch-hex {
+      font-family: 'Poppins', monospace;
+      font-size: 0.6rem;
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    /* Background swatches with visible borders */
+    .swatch-light {
+      border: 1px solid var(--poly-mist);
+    }
+
+    /* ============================================================
+       INTERACTIVE INK-DROP DEMO
+       ============================================================ */
+
+    #demo {
+      background: var(--poly-soft-white);
+      text-align: center;
+    }
+
+    #demo .section-lead {
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .ink-canvas {
+      position: relative;
+      width: 100%;
+      max-width: 800px;
+      height: 420px;
+      margin: 2rem auto 0;
+      border-radius: 20px;
+      background: var(--poly-white);
+      overflow: hidden;
+      cursor: crosshair;
+      box-shadow:
+        0 12px 48px rgba(0, 0, 0, 0.06),
+        inset 0 0 0 1px rgba(0, 0, 0, 0.04);
+    }
+
+    .ink-canvas-hint {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-family: 'Quicksand', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      color: var(--poly-light-gray);
+      text-transform: uppercase;
+      pointer-events: none;
+      transition: opacity 0.5s ease;
+    }
+
+    .ink-canvas-hint.hidden {
+      opacity: 0;
+    }
+
+    .ink-drop {
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+      animation: ink-bloom 2.5s ease-out forwards;
+    }
+
+    @keyframes ink-bloom {
+      0% {
+        transform: scale(0);
+        opacity: 0.7;
+        filter: blur(2px);
+      }
+      40% {
+        opacity: 0.5;
+        filter: blur(15px);
+      }
+      100% {
+        transform: scale(1);
+        opacity: 0.15;
+        filter: blur(40px);
+      }
+    }
+
+    .canvas-clear-btn {
+      display: inline-block;
+      margin-top: 1.2rem;
+      padding: 0.6rem 1.8rem;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--poly-text-muted);
+      background: transparent;
+      border: 1.5px solid var(--poly-light-gray);
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .canvas-clear-btn:hover {
+      color: var(--poly-magenta);
+      border-color: var(--poly-magenta);
+    }
+
+    /* ============================================================
+       TYPOGRAPHY SECTION
+       ============================================================ */
+
+    #typography {
+      background: var(--poly-white);
+    }
+
+    .type-specimens {
+      margin-top: 2.5rem;
+    }
+
+    .type-specimen {
+      margin-bottom: 3rem;
+      padding-bottom: 3rem;
+      border-bottom: 1px solid var(--poly-mist);
+    }
+
+    .type-specimen:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .type-meta {
+      display: flex;
+      align-items: baseline;
+      gap: 1.2rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .type-meta .type-name {
+      font-family: 'Quicksand', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--poly-magenta);
+    }
+
+    .type-meta .type-weight {
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.72rem;
+      color: var(--poly-text-muted);
+      letter-spacing: 0.04em;
+    }
+
+    .type-sample-raleway {
+      font-family: 'Raleway', sans-serif;
+      font-weight: 200;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      letter-spacing: 0.06em;
+      line-height: 1.15;
+      color: var(--poly-dark);
+    }
+
+    .type-sample-montserrat {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 500;
+      font-size: clamp(1.4rem, 3vw, 2.2rem);
+      letter-spacing: 0.04em;
+      line-height: 1.25;
+      color: var(--poly-dark);
+    }
+
+    .type-sample-poppins {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 300;
+      font-size: 1.05rem;
+      line-height: 1.85;
+      color: var(--poly-text-secondary);
+      max-width: 620px;
+    }
+
+    .type-sample-quicksand {
+      font-family: 'Quicksand', sans-serif;
+      font-weight: 500;
+      font-size: 0.88rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--poly-text-muted);
+    }
+
+    /* Gradient display text specimen */
+    .type-gradient-demo {
+      font-family: 'Raleway', sans-serif;
+      font-weight: 300;
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      letter-spacing: 0.04em;
+      line-height: 1.15;
+      background: linear-gradient(
+        135deg,
+        var(--poly-magenta) 0%,
+        var(--poly-violet) 25%,
+        var(--poly-cobalt) 50%,
+        var(--poly-cyan) 75%,
+        var(--poly-emerald) 100%
+      );
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* ============================================================
+       CULTURAL REFERENCES SECTION
+       ============================================================ */
+
+    #culture {
+      background: var(--poly-soft-white);
+    }
+
+    .culture-list {
+      list-style: none;
+      margin-top: 1.5rem;
+    }
+
+    .culture-list li {
+      padding: 1.2rem 0;
+      border-bottom: 1px solid var(--poly-mist);
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+
+    .culture-list li:last-child {
+      border-bottom: none;
+    }
+
+    .culture-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      margin-top: 0.55rem;
+    }
+
+    .culture-list li:nth-child(1) .culture-dot { background: var(--poly-magenta); }
+    .culture-list li:nth-child(2) .culture-dot { background: var(--poly-cobalt); }
+    .culture-list li:nth-child(3) .culture-dot { background: var(--poly-cyan); }
+    .culture-list li:nth-child(4) .culture-dot { background: var(--poly-emerald); }
+    .culture-list li:nth-child(5) .culture-dot { background: var(--poly-violet); }
+    .culture-list li:nth-child(6) .culture-dot { background: var(--poly-orange); }
+    .culture-list li:nth-child(7) .culture-dot { background: var(--poly-yellow); }
+
+    .culture-list li strong {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 500;
+      color: var(--poly-dark);
+    }
+
+    .culture-list li span {
+      font-size: 0.92rem;
+      color: var(--poly-text-secondary);
+      line-height: 1.65;
+    }
+
+    /* ============================================================
+       RELATED AESTHETICS SECTION
+       ============================================================ */
+
+    #related {
+      background: var(--poly-white);
+    }
+
+    .related-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .related-tag {
+      padding: 1rem 1.2rem;
+      border-radius: 12px;
+      background: var(--poly-soft-white);
+      border: 1px solid var(--poly-mist);
+      text-align: center;
+      transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+    }
+
+    .related-tag:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+      border-color: transparent;
+    }
+
+    .related-tag h4 {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 500;
+      font-size: 0.85rem;
+      color: var(--poly-dark);
+      margin-bottom: 0.3rem;
+    }
+
+    .related-tag p {
+      font-size: 0.72rem;
+      line-height: 1.5;
+      color: var(--poly-text-muted);
+    }
+
+    /* ============================================================
+       MERGING COLORS DEMO (in principles)
+       ============================================================ */
+
+    .merge-demo {
+      position: relative;
+      width: 280px;
+      height: 280px;
+      margin: 2rem auto 0;
+    }
+
+    .merge-blob-a, .merge-blob-b, .merge-blob-c {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(35px);
+      opacity: 0.6;
+    }
+
+    .merge-blob-a {
+      width: 160px; height: 160px;
+      background: var(--poly-magenta);
+      top: 15%; left: 10%;
+      animation: poly-merge-a 8s ease-in-out infinite;
+    }
+
+    .merge-blob-b {
+      width: 180px; height: 180px;
+      background: var(--poly-cobalt);
+      top: 20%; left: 30%;
+      animation: poly-merge-b 8s ease-in-out infinite;
+    }
+
+    .merge-blob-c {
+      width: 140px; height: 140px;
+      background: var(--poly-emerald);
+      top: 40%; left: 25%;
+      animation: poly-merge-a 10s ease-in-out infinite reverse;
+    }
+
+    @keyframes poly-merge-a {
+      0%   { transform: translate(0, 0) scale(1); }
+      50%  { transform: translate(30px, 15px) scale(1.1); }
+      100% { transform: translate(0, 0) scale(1); }
+    }
+
+    @keyframes poly-merge-b {
+      0%   { transform: translate(0, 0) scale(1); }
+      50%  { transform: translate(-25px, -12px) scale(1.05); }
+      100% { transform: translate(0, 0) scale(1); }
+    }
+
+    /* ============================================================
+       FOOTER
+       ============================================================ */
+
+    .footer {
+      position: relative;
+      padding: 4rem 2rem;
+      text-align: center;
+      background: var(--poly-dark);
+      color: rgba(255, 255, 255, 0.5);
+      overflow: hidden;
+    }
+
+    .footer::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(
+        90deg,
+        var(--poly-magenta),
+        var(--poly-orange),
+        var(--poly-yellow),
+        var(--poly-emerald),
+        var(--poly-cyan),
+        var(--poly-cobalt),
+        var(--poly-violet),
+        var(--poly-magenta)
+      );
+      background-size: 200% 100%;
+      animation: poly-hue-shift 6s linear infinite;
+    }
+
+    .footer-title {
+      font-family: 'Raleway', sans-serif;
+      font-weight: 200;
+      font-size: 2rem;
+      letter-spacing: 0.1em;
+      color: var(--poly-soft-white);
+      margin-bottom: 0.5rem;
+    }
+
+    .footer-title span {
+      background: linear-gradient(
+        135deg,
+        var(--poly-magenta),
+        var(--poly-cyan),
+        var(--poly-emerald)
+      );
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-weight: 300;
+    }
+
+    .footer p {
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.85rem;
+      color: rgba(255, 255, 255, 0.35);
+      margin-top: 0.3rem;
+    }
+
+    .footer-label {
+      font-family: 'Quicksand', sans-serif;
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.25);
+      margin-top: 2rem;
+    }
+
+    /* ============================================================
+       SCROLL-TRIGGERED ANIMATIONS
+       ============================================================ */
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+    .reveal-delay-5 { transition-delay: 0.5s; }
+    .reveal-delay-6 { transition-delay: 0.6s; }
+    .reveal-delay-7 { transition-delay: 0.7s; }
+    .reveal-delay-8 { transition-delay: 0.8s; }
+
+    /* ============================================================
+       FLOW DIVIDERS
+       ============================================================ */
+
+    .flow-divider {
+      position: relative;
+      height: 80px;
+      margin-top: -40px;
+      background: transparent;
+      overflow: visible;
+      z-index: 3;
+      pointer-events: none;
+    }
+
+    .flow-divider svg {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 80px;
+    }
+
+    /* ============================================================
+       RESPONSIVE DESIGN
+       ============================================================ */
+
+    @media (max-width: 900px) {
+      .about-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .motif-list {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .principles-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .related-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .nav-links {
+        display: none;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .section {
+        padding: 4rem 1.5rem;
+      }
+
+      .motif-list {
+        grid-template-columns: 1fr;
+      }
+
+      .related-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        padding: 3rem 1.5rem;
+      }
+
+      .palette-row {
+        gap: 0.6rem;
+      }
+
+      .swatch {
+        min-width: 55px;
+        height: 60px;
+      }
+
+      .ink-canvas {
+        height: 300px;
+      }
+
+      .merge-demo {
+        width: 220px;
+        height: 220px;
+      }
+    }
+
+    /* ============================================================
+       REDUCED MOTION
+       ============================================================ */
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ====== NAVIGATION ====== -->
+  <nav class="nav-bar" id="navbar">
+    <a href="#" class="nav-logo">Poly<span>chrome</span></a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#motifs">Motifs</a></li>
+      <li><a href="#principles">Principles</a></li>
+      <li><a href="#palette">Palette</a></li>
+      <li><a href="#demo">Ink Drop</a></li>
+      <li><a href="#typography">Type</a></li>
+      <li><a href="#culture">Culture</a></li>
+    </ul>
+  </nav>
+
+  <!-- ====== HERO ====== -->
+  <header class="hero" id="hero">
+    <div class="hero-blob hero-blob--1"></div>
+    <div class="hero-blob hero-blob--2"></div>
+    <div class="hero-blob hero-blob--3"></div>
+    <div class="hero-blob hero-blob--4"></div>
+    <div class="hero-blob hero-blob--5"></div>
+
+    <div class="hero-content">
+      <p class="hero-label">Design Aesthetic Reference</p>
+      <h1>Poly<span class="chromatic">chrome</span></h1>
+      <hr class="gradient-divider">
+      <p class="hero-subtitle">
+        Multi-colored expression through liquid ink, paint explosions,
+        and colors merging in fluid, organic form.
+      </p>
+    </div>
+
+    <div class="hero-scroll-hint">
+      <svg viewBox="0 0 24 24">
+        <polyline points="7 13 12 18 17 13"></polyline>
+        <line x1="12" y1="6" x2="12" y2="18"></line>
+      </svg>
+    </div>
+  </header>
+
+  <!-- ====== ABOUT ====== -->
+  <section class="section" id="about">
+    <div class="about-ambient"></div>
+    <div class="section-inner">
+      <p class="section-label reveal">Aesthetic Overview</p>
+      <h2 class="reveal reveal-delay-1">Controlled Chaos at the Moment of<br>Maximum <span class="accent">Chromatic Intensity</span></h2>
+      <p class="section-lead reveal reveal-delay-2">
+        Polychrome is a graphic design aesthetic that originated in the early 2010s. It is characterized by liquid ink splatters, paint explosions, and colors merging and blurring together. The visual style is defined by colors flowing together in abstract designs over simple, clean backgrounds.
+      </p>
+      <p class="section-lead reveal reveal-delay-3">
+        The name references multi-colored expression -- from the Greek <em>poly</em> (many) and <em>chroma</em> (color). Unlike aesthetics that constrain their palette, Polychrome celebrates the full chromatic spectrum rendered through organic, fluid media: ink dispersing in water, smoke formations, oil mixing, and paint detonations. The mood is simultaneously elegant and explosive -- controlled chaos captured at the moment of maximum chromatic intensity.
+      </p>
+
+      <div class="about-grid">
+        <div class="about-card reveal reveal-delay-3">
+          <h3 class="color-magenta">Ink in Water</h3>
+          <p>The signature Polychrome image: vivid inks dropped into water, photographed or rendered as they bloom, tendril, and diffuse outward in organic plumes.</p>
+        </div>
+        <div class="about-card reveal reveal-delay-4">
+          <h3 class="color-cobalt">Paint Explosions</h3>
+          <p>High-speed captures or simulations of paint bursting outward, frozen at peak dispersal with trailing droplets and filaments.</p>
+        </div>
+        <div class="about-card reveal reveal-delay-5">
+          <h3 class="color-emerald">Smoke and Vapor</h3>
+          <p>Colored smoke billowing and curling against neutral backgrounds, soft-edged and atmospheric, creating depth and movement.</p>
+        </div>
+        <div class="about-card reveal reveal-delay-6">
+          <h3 class="color-violet">Chromatic Blending</h3>
+          <p>Two or more saturated hues meeting and blending at their boundaries, creating smooth gradients and unexpected intermediate tones.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== VISUAL CHARACTERISTICS ====== -->
+  <section class="section" id="motifs">
+    <div class="section-inner">
+      <p class="section-label reveal">Visual Characteristics</p>
+      <h2 class="reveal reveal-delay-1">Core Motifs <span class="accent">and Patterns</span></h2>
+      <p class="section-lead reveal reveal-delay-2">
+        The visual language of Polychrome is built on organic, fluid forms where color itself is the subject. There is no figurative imagery -- only chromatic expression.
+      </p>
+
+      <div class="motif-list">
+        <div class="motif-item reveal reveal-delay-1">
+          <h4>Liquid Ink in Water</h4>
+          <p>Vivid inks bloom, tendril, and diffuse outward in organic plumes -- the signature Polychrome image.</p>
+        </div>
+        <div class="motif-item reveal reveal-delay-2">
+          <h4>Paint Explosions</h4>
+          <p>Paint bursting outward, frozen at peak dispersal with trailing droplets and fine filaments.</p>
+        </div>
+        <div class="motif-item reveal reveal-delay-3">
+          <h4>Color Merging</h4>
+          <p>Saturated hues meeting and blending, creating smooth gradients and unexpected intermediate tones.</p>
+        </div>
+        <div class="motif-item reveal reveal-delay-4">
+          <h4>Smoke Formations</h4>
+          <p>Colored smoke billowing and curling against neutral backgrounds, soft-edged and atmospheric.</p>
+        </div>
+        <div class="motif-item reveal reveal-delay-5">
+          <h4>Oil and Liquid Mixing</h4>
+          <p>Swirling patterns of immiscible liquids creating marbled, organic, and unpredictable color fields.</p>
+        </div>
+        <div class="motif-item reveal reveal-delay-6">
+          <h4>Ink Splatters and Drips</h4>
+          <p>Paint flung, dripped, or splashed, leaving irregular organic marks with satellite droplets.</p>
+        </div>
+        <div class="motif-item reveal reveal-delay-7">
+          <h4>Abstract Flowing Forms</h4>
+          <p>Non-representational compositions where color itself is the content, with no figurative elements.</p>
+        </div>
+        <div class="motif-item reveal reveal-delay-8">
+          <h4>Tendrils and Filaments</h4>
+          <p>Fine thread-like extensions of color reaching into surrounding space, a hallmark of ink dispersal.</p>
+        </div>
+        <div class="motif-item reveal reveal-delay-8">
+          <h4>Soft-Focus Chromatic Fields</h4>
+          <p>Large areas of gently blurred color creating atmospheric, almost gaseous expanses of pure hue.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== DESIGN PRINCIPLES ====== -->
+  <section class="section" id="principles">
+    <div class="dark-ink-bg">
+      <div class="glow-blob"></div>
+      <div class="glow-blob"></div>
+      <div class="glow-blob"></div>
+      <div class="glow-blob"></div>
+      <div class="glow-blob"></div>
+    </div>
+
+    <div class="section-inner">
+      <p class="section-label reveal">Design Philosophy</p>
+      <h2 class="reveal reveal-delay-1">Design Principles</h2>
+      <p class="section-lead reveal reveal-delay-2">
+        Polychrome balances organic unpredictability with compositional intention. Each principle guides the creation of work that feels both spontaneous and masterfully composed.
+      </p>
+
+      <div class="principles-grid">
+        <div class="principle-card reveal reveal-delay-2">
+          <div class="principle-num">01</div>
+          <h4>Color as Subject</h4>
+          <p>The colors themselves are the content. No figurative imagery, no characters, no objects -- only chromatic expression in its purest form.</p>
+        </div>
+        <div class="principle-card reveal reveal-delay-3">
+          <div class="principle-num">02</div>
+          <h4>Simple Backgrounds</h4>
+          <p>Clean, neutral backdrops -- white, off-white, or deep black -- allow polychromatic elements to dominate without competition.</p>
+        </div>
+        <div class="principle-card reveal reveal-delay-4">
+          <div class="principle-num">03</div>
+          <h4>Organic Unpredictability</h4>
+          <p>Forms should feel natural, fluid, and somewhat uncontrollable, as if the medium has a will of its own.</p>
+        </div>
+        <div class="principle-card reveal reveal-delay-5">
+          <div class="principle-num">04</div>
+          <h4>Maximum Saturation at Core</h4>
+          <p>Colors are most vivid and intense at their origin points, diffusing and softening as they radiate outward to the edges.</p>
+        </div>
+        <div class="principle-card reveal reveal-delay-6">
+          <div class="principle-num">05</div>
+          <h4>Balanced Chromatic Chaos</h4>
+          <p>While forms appear spontaneous, the overall composition maintains visual balance through careful color weight distribution.</p>
+        </div>
+        <div class="principle-card reveal reveal-delay-7">
+          <div class="principle-num">06</div>
+          <h4>Depth Through Transparency</h4>
+          <p>Layered translucent color fields create the illusion of depth, with colors showing through one another at their intersections.</p>
+        </div>
+        <div class="principle-card reveal reveal-delay-7">
+          <div class="principle-num">07</div>
+          <h4>Frozen Motion</h4>
+          <p>Compositions capture a single instant of dynamic fluid movement, conveying immense energy within perfect stillness.</p>
+        </div>
+        <div class="principle-card reveal reveal-delay-8">
+          <div class="principle-num">08</div>
+          <h4>Negative Space as Breathing Room</h4>
+          <p>Generous areas of clean background provide contrast and let the chromatic elements resonate with full intensity.</p>
+        </div>
+      </div>
+
+      <div class="merge-demo reveal reveal-delay-4">
+        <div class="merge-blob-a"></div>
+        <div class="merge-blob-b"></div>
+        <div class="merge-blob-c"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== COLOR PALETTE ====== -->
+  <section class="section" id="palette">
+    <div class="section-inner">
+      <p class="section-label reveal">Chromatic Spectrum</p>
+      <h2 class="reveal reveal-delay-1">Color <span class="accent">Palette</span></h2>
+      <p class="section-lead reveal reveal-delay-2">
+        Unlike most design aesthetics, Polychrome does not restrict itself to a limited color scheme. The entire visible spectrum is available and encouraged -- rendered through organic, fluid media for maximum luminosity.
+      </p>
+
+      <div class="palette-showcase reveal reveal-delay-3">
+        <div class="palette-row">
+          <span class="palette-row-label">Background Tones</span>
+          <div class="swatch swatch-light" style="background: #ffffff;">
+            <div class="swatch-info"><span class="swatch-name">Pure White</span><span class="swatch-hex">#FFFFFF</span></div>
+          </div>
+          <div class="swatch swatch-light" style="background: #f7f7f7;">
+            <div class="swatch-info"><span class="swatch-name">Soft White</span><span class="swatch-hex">#F7F7F7</span></div>
+          </div>
+          <div class="swatch swatch-light" style="background: #ebebeb;">
+            <div class="swatch-info"><span class="swatch-name">Light Mist</span><span class="swatch-hex">#EBEBEB</span></div>
+          </div>
+          <div class="swatch" style="background: #0a0a0a;">
+            <div class="swatch-info"><span class="swatch-name">Void Black</span><span class="swatch-hex">#0A0A0A</span></div>
+          </div>
+          <div class="swatch" style="background: #1a1a2e;">
+            <div class="swatch-info"><span class="swatch-name">Deep Ink</span><span class="swatch-hex">#1A1A2E</span></div>
+          </div>
+        </div>
+
+        <div class="palette-row">
+          <span class="palette-row-label">Warm Accents</span>
+          <div class="swatch" style="background: #e91e8c;">
+            <div class="swatch-info"><span class="swatch-name">Vivid Magenta</span><span class="swatch-hex">#E91E8C</span></div>
+          </div>
+          <div class="swatch" style="background: #ff2d7b;">
+            <div class="swatch-info"><span class="swatch-name">Hot Pink</span><span class="swatch-hex">#FF2D7B</span></div>
+          </div>
+          <div class="swatch" style="background: #c2185b;">
+            <div class="swatch-info"><span class="swatch-name">Deep Fuchsia</span><span class="swatch-hex">#C2185B</span></div>
+          </div>
+          <div class="swatch" style="background: #ff5722;">
+            <div class="swatch-info"><span class="swatch-name">Hot Orange</span><span class="swatch-hex">#FF5722</span></div>
+          </div>
+          <div class="swatch" style="background: #ff8f00;">
+            <div class="swatch-info"><span class="swatch-name">Amber Orange</span><span class="swatch-hex">#FF8F00</span></div>
+          </div>
+          <div class="swatch" style="background: #ff7043;">
+            <div class="swatch-info"><span class="swatch-name">Coral</span><span class="swatch-hex">#FF7043</span></div>
+          </div>
+        </div>
+
+        <div class="palette-row">
+          <span class="palette-row-label">Cool Accents</span>
+          <div class="swatch" style="background: #1565c0;">
+            <div class="swatch-info"><span class="swatch-name">Cobalt Blue</span><span class="swatch-hex">#1565C0</span></div>
+          </div>
+          <div class="swatch" style="background: #00bcd4;">
+            <div class="swatch-info"><span class="swatch-name">Electric Cyan</span><span class="swatch-hex">#00BCD4</span></div>
+          </div>
+          <div class="swatch" style="background: #42a5f5;">
+            <div class="swatch-info"><span class="swatch-name">Sky Blue</span><span class="swatch-hex">#42A5F5</span></div>
+          </div>
+          <div class="swatch" style="background: #00c853;">
+            <div class="swatch-info"><span class="swatch-name">Emerald Green</span><span class="swatch-hex">#00C853</span></div>
+          </div>
+          <div class="swatch" style="background: #009688;">
+            <div class="swatch-info"><span class="swatch-name">Teal</span><span class="swatch-hex">#009688</span></div>
+          </div>
+        </div>
+
+        <div class="palette-row">
+          <span class="palette-row-label">Purple and Bright Accents</span>
+          <div class="swatch" style="background: #7b1fa2;">
+            <div class="swatch-info"><span class="swatch-name">Deep Violet</span><span class="swatch-hex">#7B1FA2</span></div>
+          </div>
+          <div class="swatch" style="background: #ab47bc;">
+            <div class="swatch-info"><span class="swatch-name">Lavender</span><span class="swatch-hex">#AB47BC</span></div>
+          </div>
+          <div class="swatch" style="background: #ffd600;">
+            <div class="swatch-info"><span class="swatch-name">Golden Yellow</span><span class="swatch-hex">#FFD600</span></div>
+          </div>
+          <div class="swatch" style="background: #c6ff00;">
+            <div class="swatch-info"><span class="swatch-name">Chartreuse</span><span class="swatch-hex">#C6FF00</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="about-grid reveal reveal-delay-4" style="margin-top: 3rem;">
+        <div class="about-card">
+          <h3 class="color-magenta">Full-Spectrum Freedom</h3>
+          <p>The entire visible spectrum is available and encouraged. Saturation follows a gradient from core to edge -- colors blaze at their centers and soften as they diffuse outward.</p>
+        </div>
+        <div class="about-card">
+          <h3 class="color-cobalt">Translucent Layering</h3>
+          <p>Overlapping semi-transparent color fields naturally generate intermediate colors at their intersections. Even where colors blend, results remain clean and luminous -- no muddy tones.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== INTERACTIVE INK DROP DEMO ====== -->
+  <section class="section" id="demo">
+    <div class="section-inner">
+      <p class="section-label reveal">Interactive</p>
+      <h2 class="reveal reveal-delay-1">Ink <span class="accent">Drop</span> Canvas</h2>
+      <p class="section-lead reveal reveal-delay-2">
+        Click anywhere on the canvas below to drop ink into water. Each click blooms a random color from the Polychrome palette, dispersing and diffusing just like real ink in water.
+      </p>
+
+      <div class="ink-canvas reveal reveal-delay-3" id="inkCanvas">
+        <span class="ink-canvas-hint" id="canvasHint">Click to drop ink</span>
+      </div>
+      <button class="canvas-clear-btn reveal reveal-delay-4" id="clearCanvas">Clear Canvas</button>
+    </div>
+  </section>
+
+  <!-- ====== TYPOGRAPHY ====== -->
+  <section class="section" id="typography">
+    <div class="section-inner">
+      <p class="section-label reveal">Typographic System</p>
+      <h2 class="reveal reveal-delay-1">Typography</h2>
+      <p class="section-lead reveal reveal-delay-2">
+        Polychrome typography is clean, modern, and subordinate to the chromatic visual elements. Light to medium weights feel airy and refined. Color-accented headings pick up hues from the palette, while body text stays neutral and legible.
+      </p>
+
+      <div class="type-specimens">
+        <div class="type-specimen reveal reveal-delay-3">
+          <div class="type-meta">
+            <span class="type-name">Raleway</span>
+            <span class="type-weight">Extra Light 200</span>
+          </div>
+          <div class="type-sample-raleway">Chromatic Intensity</div>
+        </div>
+
+        <div class="type-specimen reveal reveal-delay-4">
+          <div class="type-meta">
+            <span class="type-name">Raleway</span>
+            <span class="type-weight">Light 300 -- Gradient</span>
+          </div>
+          <div class="type-gradient-demo">Fluid Spectrum</div>
+        </div>
+
+        <div class="type-specimen reveal reveal-delay-5">
+          <div class="type-meta">
+            <span class="type-name">Montserrat</span>
+            <span class="type-weight">Medium 500</span>
+          </div>
+          <div class="type-sample-montserrat">Section Headings and Navigation</div>
+        </div>
+
+        <div class="type-specimen reveal reveal-delay-6">
+          <div class="type-meta">
+            <span class="type-name">Poppins</span>
+            <span class="type-weight">Light 300</span>
+          </div>
+          <div class="type-sample-poppins">Body text is set in Poppins at a light weight for an airy, refined feel. The generous line-height of 1.75 creates comfortable reading rhythm, while subtle letterspacing ensures the text breathes alongside the spacious compositions of the Polychrome aesthetic.</div>
+        </div>
+
+        <div class="type-specimen reveal reveal-delay-7">
+          <div class="type-meta">
+            <span class="type-name">Quicksand</span>
+            <span class="type-weight">Medium 500</span>
+          </div>
+          <div class="type-sample-quicksand">Labels, Captions, and Category Tags</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== CULTURAL REFERENCES ====== -->
+  <section class="section" id="culture">
+    <div class="section-inner">
+      <p class="section-label reveal">Origins and Influence</p>
+      <h2 class="reveal reveal-delay-1">Cultural <span class="accent">References</span></h2>
+      <p class="section-lead reveal reveal-delay-2">
+        The following define the Polychrome visual language and serve as design references, tracing the aesthetic from music album art to high-speed photography to the ubiquitous smartphone wallpaper.
+      </p>
+
+      <ul class="culture-list reveal reveal-delay-3">
+        <li>
+          <div class="culture-dot"></div>
+          <span><strong>Koan Sound -- "Polychrome" album</strong> (2018) -- The album artwork exemplifies the aesthetic's signature fluid color explosions and gave the aesthetic its name.</span>
+        </li>
+        <li>
+          <div class="culture-dot"></div>
+          <span><strong>Arturia "Polychrome" synthesizer</strong> (2018) -- Music software branding that embodies the multi-colored fluid visual language.</span>
+        </li>
+        <li>
+          <div class="culture-dot"></div>
+          <span><strong>High-speed paint photography</strong> -- Artists like Fabian Oefner capturing millisecond paint explosions in vivid color.</span>
+        </li>
+        <li>
+          <div class="culture-dot"></div>
+          <span><strong>Alberto Seveso</strong> -- Digital/photographic artist famous for ink-in-water photography with vibrant, swirling color plumes.</span>
+        </li>
+        <li>
+          <div class="culture-dot"></div>
+          <span><strong>Stock photography and design resources</strong> -- Ink-in-water and color smoke imagery became a dominant trend on Shutterstock, iStock, and Behance in the 2010s.</span>
+        </li>
+        <li>
+          <div class="culture-dot"></div>
+          <span><strong>Music festival visuals</strong> -- EDM and electronic music events adopted swirling color and smoke aesthetics for stage visuals and promotional materials.</span>
+        </li>
+        <li>
+          <div class="culture-dot"></div>
+          <span><strong>Smartphone wallpaper art</strong> -- The aesthetic became widely popularized through default device wallpapers featuring colorful fluid abstractions.</span>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ====== RELATED AESTHETICS ====== -->
+  <section class="section" id="related">
+    <div class="section-inner">
+      <p class="section-label reveal">Aesthetic Connections</p>
+      <h2 class="reveal reveal-delay-1">Related <span class="accent">Aesthetics</span></h2>
+
+      <div class="related-grid reveal reveal-delay-2">
+        <div class="related-tag">
+          <h4>Hexatron</h4>
+          <p>Shares abstract digital composition but uses geometric forms rather than organic fluids.</p>
+        </div>
+        <div class="related-tag">
+          <h4>Metalheart</h4>
+          <p>Shares abstract composition but uses metallic surfaces and dark backgrounds.</p>
+        </div>
+        <div class="related-tag">
+          <h4>Fitness Splatter</h4>
+          <p>Shares ink splatter motifs but applies them to athletic subjects with neon-on-black.</p>
+        </div>
+        <div class="related-tag">
+          <h4>Colorful Pop</h4>
+          <p>Shares maximum color saturation but is illustrative and maximalist rather than abstract.</p>
+        </div>
+        <div class="related-tag">
+          <h4>Frutiger Aero</h4>
+          <p>Shares clean backgrounds and organic forms but uses photorealistic nature imagery.</p>
+        </div>
+        <div class="related-tag">
+          <h4>Glassmorphism</h4>
+          <p>Shares frosted glass and translucent layering but lacks vivid chromatic expression.</p>
+        </div>
+        <div class="related-tag">
+          <h4>Vaporwave</h4>
+          <p>Both use vivid color but Vaporwave is nostalgic, digital, and grid-based.</p>
+        </div>
+        <div class="related-tag">
+          <h4>Acid Design</h4>
+          <p>Both celebrate vivid color and abstract forms but Acid uses distortion and warping.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== FOOTER ====== -->
+  <footer class="footer">
+    <div class="footer-title">Poly<span>chrome</span></div>
+    <p>Many colors, one expression. Controlled chaos at maximum chromatic intensity.</p>
+    <div class="footer-label">Design Aesthetic Reference</div>
+  </footer>
+
+  <!-- ====== JAVASCRIPT ====== -->
+  <script>
+    // ---- Scroll-triggered reveal animations ----
+    (function() {
+      const reveals = document.querySelectorAll('.reveal');
+      const observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      }, {
+        threshold: 0.12,
+        rootMargin: '0px 0px -40px 0px'
+      });
+
+      reveals.forEach(function(el) {
+        observer.observe(el);
+      });
+    })();
+
+    // ---- Navbar scroll effect ----
+    (function() {
+      var navbar = document.getElementById('navbar');
+      window.addEventListener('scroll', function() {
+        if (window.scrollY > 60) {
+          navbar.classList.add('scrolled');
+        } else {
+          navbar.classList.remove('scrolled');
+        }
+      });
+    })();
+
+    // ---- Interactive ink drop canvas ----
+    (function() {
+      var canvas = document.getElementById('inkCanvas');
+      var hint = document.getElementById('canvasHint');
+      var clearBtn = document.getElementById('clearCanvas');
+      var dropCount = 0;
+
+      var colors = [
+        '#e91e8c', '#ff2d7b', '#c2185b',
+        '#1565c0', '#00bcd4', '#42a5f5',
+        '#00c853', '#009688',
+        '#ffd600', '#ff8f00', '#ff5722',
+        '#7b1fa2', '#ab47bc',
+        '#ff7043', '#c6ff00'
+      ];
+
+      function createInkDrop(x, y) {
+        var drop = document.createElement('div');
+        drop.className = 'ink-drop';
+        var color = colors[Math.floor(Math.random() * colors.length)];
+        var size = 100 + Math.random() * 200;
+        drop.style.width = size + 'px';
+        drop.style.height = size + 'px';
+        drop.style.left = (x - size / 2) + 'px';
+        drop.style.top = (y - size / 2) + 'px';
+        drop.style.background = 'radial-gradient(ellipse at center, ' + color + ' 0%, ' + color + '88 30%, ' + color + '22 60%, transparent 75%)';
+        canvas.appendChild(drop);
+        dropCount++;
+
+        if (dropCount === 1 && hint) {
+          hint.classList.add('hidden');
+        }
+      }
+
+      canvas.addEventListener('click', function(e) {
+        var rect = canvas.getBoundingClientRect();
+        var x = e.clientX - rect.left;
+        var y = e.clientY - rect.top;
+        createInkDrop(x, y);
+        // Occasionally add a second smaller satellite drop
+        if (Math.random() > 0.4) {
+          var offsetX = x + (Math.random() - 0.5) * 80;
+          var offsetY = y + (Math.random() - 0.5) * 80;
+          setTimeout(function() { createInkDrop(offsetX, offsetY); }, 100 + Math.random() * 200);
+        }
+      });
+
+      // Support touch events for mobile
+      canvas.addEventListener('touchstart', function(e) {
+        e.preventDefault();
+        var rect = canvas.getBoundingClientRect();
+        var touch = e.touches[0];
+        var x = touch.clientX - rect.left;
+        var y = touch.clientY - rect.top;
+        createInkDrop(x, y);
+      }, { passive: false });
+
+      clearBtn.addEventListener('click', function() {
+        var drops = canvas.querySelectorAll('.ink-drop');
+        drops.forEach(function(d) { d.remove(); });
+        dropCount = 0;
+        if (hint) {
+          hint.classList.remove('hidden');
+        }
+      });
+    })();
+
+    // ---- Smooth scroll for anchor links ----
+    document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        var target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+  </script>
+</body>
+</html>
