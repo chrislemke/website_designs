@@ -1,0 +1,2458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Coastal Style -- Design Reference</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500&family=Josefin+Sans:wght@300;400;500&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Lora:ital,wght@0,400;0,500;1,400&family=Playfair+Display:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Raleway:wght@200;300;400;500&family=Seaweed+Script&family=Source+Sans+3:wght@300;400;500;600&family=Nunito:wght@300;400;500;600&family=Original+Surfer&display=swap" rel="stylesheet">
+  <style>
+    /* ================================================
+       CSS Custom Properties -- Coastal Palette
+       ================================================ */
+    :root {
+      /* Backgrounds */
+      --coastal-white: #ffffff;
+      --coastal-linen: #f5f0e8;
+      --coastal-sand: #e2d7b0;
+      --coastal-mist: #d0e2f2;
+
+      /* Blues */
+      --coastal-ocean: #297685;
+      --coastal-sky: #bbd0db;
+      --coastal-navy: #1b3a4b;
+      --coastal-seafoam: #64b5c1;
+      --coastal-aqua: #c9f1f2;
+
+      /* Neutrals */
+      --coastal-driftwood: #847968;
+      --coastal-pebble: #afbcc5;
+      --coastal-clay: #8c6b4d;
+
+      /* Warm accents */
+      --coastal-coral: #f29f5a;
+      --coastal-seaglass: #a8d5ba;
+
+      /* Functional aliases */
+      --coastal-bg-primary: var(--coastal-white);
+      --coastal-bg-secondary: var(--coastal-linen);
+      --coastal-bg-accent: var(--coastal-mist);
+      --coastal-text-primary: var(--coastal-navy);
+      --coastal-text-secondary: var(--coastal-driftwood);
+      --coastal-accent: var(--coastal-ocean);
+      --coastal-accent-light: var(--coastal-sky);
+      --coastal-border: var(--coastal-pebble);
+      --coastal-cta: var(--coastal-coral);
+    }
+
+    /* ================================================
+       Reset & Base
+       ================================================ */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      overflow-x: hidden;
+    }
+
+    body {
+      background: var(--coastal-white);
+      color: var(--coastal-driftwood);
+      font-family: 'Source Sans 3', 'Nunito', sans-serif;
+      font-weight: 400;
+      font-size: 1.05rem;
+      line-height: 1.8;
+      letter-spacing: 0.01em;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3, h4 {
+      font-family: 'Playfair Display', 'Lora', Georgia, serif;
+      color: var(--coastal-navy);
+      font-weight: 400;
+      letter-spacing: 0.02em;
+      line-height: 1.3;
+    }
+
+    a {
+      color: var(--coastal-ocean);
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    a:hover {
+      color: var(--coastal-navy);
+    }
+
+    img { max-width: 100%; display: block; }
+
+    /* ================================================
+       Keyframe Animations
+       ================================================ */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(40px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes gentleFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    @keyframes waveDrift {
+      0% { transform: translateX(0); }
+      50% { transform: translateX(-25px); }
+      100% { transform: translateX(0); }
+    }
+
+    @keyframes shimmer {
+      0% { background-position: -200% center; }
+      100% { background-position: 200% center; }
+    }
+
+    @keyframes tidePulse {
+      0%, 100% { opacity: 0.4; transform: scale(1); }
+      50% { opacity: 0.7; transform: scale(1.05); }
+    }
+
+    @keyframes compassSpin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes gentleRock {
+      0%, 100% { transform: rotate(-2deg); }
+      50% { transform: rotate(2deg); }
+    }
+
+    /* ================================================
+       Reveal-on-scroll utility
+       ================================================ */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                  transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+    .reveal-delay-5 { transition-delay: 0.5s; }
+    .reveal-delay-6 { transition-delay: 0.6s; }
+
+    /* ================================================
+       Navigation
+       ================================================ */
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      padding: 1.2rem 2.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: background 0.4s ease, box-shadow 0.4s ease, padding 0.4s ease;
+    }
+
+    .nav.scrolled {
+      background: rgba(255, 255, 255, 0.88);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      box-shadow: 0 1px 20px rgba(27, 58, 75, 0.08);
+      padding: 0.8rem 2.5rem;
+    }
+
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.35rem;
+      font-weight: 400;
+      color: var(--coastal-navy);
+      letter-spacing: 0.04em;
+    }
+
+    .nav-logo span {
+      font-family: 'Seaweed Script', cursive;
+      color: var(--coastal-ocean);
+      font-size: 1.1em;
+      margin-right: 0.15em;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2.2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: 'Josefin Sans', sans-serif;
+      text-transform: uppercase;
+      font-size: 0.78rem;
+      letter-spacing: 0.14em;
+      font-weight: 400;
+      color: var(--coastal-driftwood);
+      position: relative;
+      padding-bottom: 2px;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 0;
+      height: 1.5px;
+      background: var(--coastal-ocean);
+      transition: width 0.35s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--coastal-ocean);
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    .nav-hamburger {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      flex-direction: column;
+      gap: 5px;
+      padding: 4px;
+    }
+
+    .nav-hamburger span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--coastal-navy);
+      border-radius: 2px;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+
+    /* ================================================
+       Hero Section
+       ================================================ */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 8rem 2rem 4rem;
+      background: linear-gradient(
+        180deg,
+        var(--coastal-mist) 0%,
+        var(--coastal-sky) 35%,
+        #d6e8ef 60%,
+        var(--coastal-white) 100%
+      );
+      overflow: hidden;
+    }
+
+    /* Animated background circles (water reflections) */
+    .hero-orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(60px);
+      pointer-events: none;
+      animation: tidePulse 8s ease-in-out infinite;
+    }
+
+    .hero-orb-1 {
+      width: 500px;
+      height: 500px;
+      background: rgba(100, 181, 193, 0.15);
+      top: -10%;
+      left: -5%;
+      animation-delay: 0s;
+    }
+
+    .hero-orb-2 {
+      width: 400px;
+      height: 400px;
+      background: rgba(187, 208, 219, 0.2);
+      top: 20%;
+      right: -8%;
+      animation-delay: 3s;
+    }
+
+    .hero-orb-3 {
+      width: 300px;
+      height: 300px;
+      background: rgba(168, 213, 186, 0.12);
+      bottom: 15%;
+      left: 15%;
+      animation-delay: 5s;
+    }
+
+    .hero-tagline {
+      font-family: 'Seaweed Script', cursive;
+      font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+      color: var(--coastal-ocean);
+      margin-bottom: 1rem;
+      animation: fadeIn 1.2s ease both;
+      animation-delay: 0.3s;
+    }
+
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3rem, 8vw, 6.5rem);
+      font-weight: 300;
+      letter-spacing: 0.04em;
+      line-height: 1.08;
+      color: var(--coastal-navy);
+      margin-bottom: 1.5rem;
+      animation: fadeInUp 1s ease both;
+      animation-delay: 0.5s;
+    }
+
+    .hero-title em {
+      font-style: italic;
+      color: var(--coastal-ocean);
+    }
+
+    .hero-subtitle {
+      font-family: 'Josefin Sans', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      font-size: clamp(0.75rem, 1.5vw, 0.92rem);
+      color: var(--coastal-driftwood);
+      font-weight: 300;
+      max-width: 600px;
+      margin-bottom: 2.5rem;
+      animation: fadeInUp 1s ease both;
+      animation-delay: 0.8s;
+    }
+
+    .hero-compass {
+      width: 48px;
+      height: 48px;
+      margin-top: 2rem;
+      opacity: 0.35;
+      animation: compassSpin 30s linear infinite, fadeIn 1.5s ease both;
+      animation-delay: 1.5s, 1.5s;
+    }
+
+    .hero-scroll-hint {
+      position: absolute;
+      bottom: 2.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      animation: fadeIn 1.2s ease both, gentleFloat 3s ease-in-out infinite;
+      animation-delay: 2s, 2s;
+    }
+
+    .hero-scroll-hint span {
+      font-family: 'Josefin Sans', sans-serif;
+      text-transform: uppercase;
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      color: var(--coastal-pebble);
+    }
+
+    .scroll-line {
+      width: 1px;
+      height: 40px;
+      background: linear-gradient(to bottom, var(--coastal-pebble), transparent);
+    }
+
+    /* ================================================
+       Wave Dividers
+       ================================================ */
+    .wave-divider {
+      display: block;
+      width: 100%;
+      height: auto;
+      margin-top: -1px;
+    }
+
+    .wave-divider-flip {
+      transform: scaleY(-1);
+      margin-bottom: -1px;
+    }
+
+    /* ================================================
+       Section Utility
+       ================================================ */
+    .section-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    .section-wide {
+      padding: 6rem 0;
+    }
+
+    .section-accent {
+      background: var(--coastal-linen);
+      position: relative;
+    }
+
+    .section-mist {
+      background: var(--coastal-mist);
+      position: relative;
+    }
+
+    .section-sand {
+      background: linear-gradient(180deg, var(--coastal-white) 0%, var(--coastal-linen) 50%, var(--coastal-sand) 100%);
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+
+    .section-header h2 {
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 400;
+      margin-bottom: 0.8rem;
+    }
+
+    .section-header .script-accent {
+      font-family: 'Seaweed Script', cursive;
+      font-size: 1.15rem;
+      color: var(--coastal-ocean);
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+
+    .section-header p {
+      max-width: 620px;
+      margin: 0 auto;
+      color: var(--coastal-driftwood);
+      font-size: 1.05rem;
+    }
+
+    /* Rope divider */
+    .rope-divider {
+      height: 0;
+      border: none;
+      border-top: 3px solid var(--coastal-sand);
+      border-bottom: 1px solid var(--coastal-sand);
+      margin: 3rem auto;
+      width: 80px;
+      position: relative;
+    }
+
+    .rope-divider::before {
+      content: '';
+      position: absolute;
+      top: -8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 16px;
+      height: 16px;
+      border: 2px solid var(--coastal-sand);
+      border-radius: 50%;
+      background: var(--coastal-white);
+    }
+
+    .section-accent .rope-divider::before {
+      background: var(--coastal-linen);
+    }
+
+    /* ================================================
+       Introduction / About Section
+       ================================================ */
+    .intro-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    .intro-text h3 {
+      font-size: 1.6rem;
+      margin-bottom: 1rem;
+    }
+
+    .intro-text p {
+      margin-bottom: 1rem;
+      font-size: 1.05rem;
+    }
+
+    .intro-text p:last-child {
+      margin-bottom: 0;
+    }
+
+    .intro-visual {
+      position: relative;
+      display: flex;
+      justify-content: center;
+    }
+
+    .intro-visual-card {
+      position: relative;
+      width: 100%;
+      max-width: 420px;
+      aspect-ratio: 3 / 4;
+      background: linear-gradient(
+        160deg,
+        var(--coastal-sky) 0%,
+        var(--coastal-mist) 40%,
+        var(--coastal-aqua) 70%,
+        var(--coastal-seafoam) 100%
+      );
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 16px 48px rgba(27, 58, 75, 0.12);
+    }
+
+    .intro-visual-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+      opacity: 0.5;
+      pointer-events: none;
+    }
+
+    .intro-visual-card .deco-shell {
+      position: absolute;
+      bottom: 2rem;
+      right: 2rem;
+      font-size: 5rem;
+      opacity: 0.15;
+      color: var(--coastal-navy);
+      animation: gentleRock 6s ease-in-out infinite;
+    }
+
+    .intro-visual-card .deco-text {
+      position: absolute;
+      top: 2.5rem;
+      left: 2.5rem;
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      font-weight: 300;
+      color: var(--coastal-navy);
+      opacity: 0.7;
+      line-height: 1.2;
+    }
+
+    .intro-visual-card .deco-text em {
+      font-style: italic;
+      display: block;
+      font-size: 1.3rem;
+      font-family: 'Seaweed Script', cursive;
+      color: var(--coastal-ocean);
+      margin-top: 0.3rem;
+    }
+
+    /* ================================================
+       Visual Characteristics Cards
+       ================================================ */
+    .char-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+
+    .char-card {
+      background: var(--coastal-white);
+      border-radius: 14px;
+      padding: 2.2rem 2rem;
+      box-shadow:
+        0 2px 8px rgba(27, 58, 75, 0.05),
+        0 8px 24px rgba(27, 58, 75, 0.04);
+      border: 1px solid rgba(175, 188, 197, 0.25);
+      transition: box-shadow 0.4s ease, transform 0.4s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .char-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--coastal-sky), var(--coastal-seafoam), var(--coastal-ocean));
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+
+    .char-card:hover {
+      box-shadow:
+        0 4px 12px rgba(27, 58, 75, 0.08),
+        0 16px 40px rgba(27, 58, 75, 0.07);
+      transform: translateY(-4px);
+    }
+
+    .char-card:hover::before {
+      opacity: 1;
+    }
+
+    .char-card-icon {
+      font-size: 1.8rem;
+      margin-bottom: 1rem;
+      display: inline-block;
+    }
+
+    .char-card h3 {
+      font-size: 1.15rem;
+      font-family: 'Libre Baskerville', serif;
+      margin-bottom: 0.6rem;
+      color: var(--coastal-navy);
+    }
+
+    .char-card p {
+      font-size: 0.95rem;
+      line-height: 1.7;
+      color: var(--coastal-driftwood);
+    }
+
+    /* ================================================
+       Color Palette Section
+       ================================================ */
+    .palette-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(155px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .color-swatch {
+      border-radius: 14px;
+      overflow: hidden;
+      background: var(--coastal-white);
+      box-shadow: 0 2px 12px rgba(27, 58, 75, 0.06);
+      border: 1px solid rgba(175, 188, 197, 0.2);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .color-swatch:hover {
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 8px 24px rgba(27, 58, 75, 0.1);
+    }
+
+    .swatch-fill {
+      height: 100px;
+      transition: transform 0.3s ease;
+    }
+
+    .color-swatch:hover .swatch-fill {
+      transform: scale(1.05);
+    }
+
+    .swatch-info {
+      padding: 0.9rem 1rem;
+    }
+
+    .swatch-name {
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      color: var(--coastal-navy);
+      display: block;
+      margin-bottom: 0.15rem;
+    }
+
+    .swatch-hex {
+      font-family: 'Source Sans 3', monospace;
+      font-size: 0.78rem;
+      color: var(--coastal-pebble);
+      letter-spacing: 0.04em;
+    }
+
+    .swatch-usage {
+      font-size: 0.72rem;
+      color: var(--coastal-driftwood);
+      margin-top: 0.25rem;
+      line-height: 1.4;
+      display: block;
+    }
+
+    /* ================================================
+       Typography Showcase
+       ================================================ */
+    .type-showcase {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+    }
+
+    .type-specimen {
+      background: var(--coastal-white);
+      border-radius: 14px;
+      padding: 2.5rem;
+      box-shadow: 0 2px 16px rgba(27, 58, 75, 0.05);
+      border: 1px solid rgba(175, 188, 197, 0.2);
+    }
+
+    .type-label {
+      font-family: 'Josefin Sans', sans-serif;
+      text-transform: uppercase;
+      font-size: 0.7rem;
+      letter-spacing: 0.16em;
+      color: var(--coastal-ocean);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .type-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--coastal-sky);
+    }
+
+    .type-display {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.8rem;
+      font-weight: 300;
+      color: var(--coastal-navy);
+      line-height: 1.2;
+      margin-bottom: 0.5rem;
+    }
+
+    .type-serif {
+      font-family: 'Libre Baskerville', serif;
+      font-size: 1.3rem;
+      color: var(--coastal-navy);
+      line-height: 1.5;
+      margin-bottom: 0.3rem;
+    }
+
+    .type-body {
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 1.05rem;
+      color: var(--coastal-driftwood);
+      line-height: 1.8;
+    }
+
+    .type-script {
+      font-family: 'Seaweed Script', cursive;
+      font-size: 2rem;
+      color: var(--coastal-ocean);
+    }
+
+    .type-nav-demo {
+      font-family: 'Josefin Sans', sans-serif;
+      text-transform: uppercase;
+      font-size: 0.82rem;
+      letter-spacing: 0.14em;
+      color: var(--coastal-driftwood);
+    }
+
+    .type-handwritten {
+      font-family: 'Caveat', cursive;
+      font-size: 1.6rem;
+      color: var(--coastal-clay);
+    }
+
+    .type-surfer {
+      font-family: 'Original Surfer', cursive;
+      font-size: 1.4rem;
+      color: var(--coastal-seafoam);
+    }
+
+    .type-meta {
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--coastal-pebble);
+      margin-top: 0.6rem;
+    }
+
+    /* Font table */
+    .font-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 2rem;
+    }
+
+    .font-table th {
+      font-family: 'Josefin Sans', sans-serif;
+      text-transform: uppercase;
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      color: var(--coastal-ocean);
+      text-align: left;
+      padding: 0.8rem 1rem;
+      border-bottom: 2px solid var(--coastal-sky);
+      font-weight: 400;
+    }
+
+    .font-table td {
+      padding: 0.9rem 1rem;
+      border-bottom: 1px solid rgba(175, 188, 197, 0.2);
+      vertical-align: middle;
+    }
+
+    .font-table .font-preview {
+      font-size: 1.2rem;
+      color: var(--coastal-navy);
+    }
+
+    .font-table .font-usage {
+      font-size: 0.85rem;
+      color: var(--coastal-driftwood);
+    }
+
+    .font-table .font-style {
+      font-size: 0.8rem;
+      color: var(--coastal-pebble);
+      font-family: 'Source Sans 3', sans-serif;
+    }
+
+    /* ================================================
+       Layout Principles
+       ================================================ */
+    .layout-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+    }
+
+    .layout-card {
+      background: var(--coastal-white);
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 2px 12px rgba(27, 58, 75, 0.06);
+      border: 1px solid rgba(175, 188, 197, 0.2);
+      transition: transform 0.35s ease, box-shadow 0.35s ease;
+    }
+
+    .layout-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 28px rgba(27, 58, 75, 0.1);
+    }
+
+    .layout-card-visual {
+      height: 140px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .layout-card-content {
+      padding: 1.5rem 1.6rem;
+    }
+
+    .layout-card-content h3 {
+      font-size: 1.05rem;
+      font-family: 'Libre Baskerville', serif;
+      margin-bottom: 0.5rem;
+    }
+
+    .layout-card-content p {
+      font-size: 0.9rem;
+      line-height: 1.65;
+      color: var(--coastal-driftwood);
+    }
+
+    /* Layout card visuals */
+    .lv-spacious {
+      background: var(--coastal-mist);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1.5rem;
+      padding: 1.5rem;
+    }
+
+    .lv-spacious div {
+      width: 50px;
+      height: 50px;
+      background: var(--coastal-white);
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(27, 58, 75, 0.08);
+    }
+
+    .lv-wide {
+      background: linear-gradient(135deg, var(--coastal-sky), var(--coastal-seafoam));
+      display: flex;
+      align-items: flex-end;
+      padding: 0 1.5rem;
+    }
+
+    .lv-wide div {
+      flex: 1;
+      background: rgba(255,255,255,0.5);
+      border-radius: 8px 8px 0 0;
+      margin: 0 0.3rem;
+    }
+
+    .lv-wide div:nth-child(1) { height: 40%; }
+    .lv-wide div:nth-child(2) { height: 70%; }
+    .lv-wide div:nth-child(3) { height: 55%; }
+
+    .lv-cards {
+      background: var(--coastal-linen);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.6rem;
+      padding: 1.2rem;
+    }
+
+    .lv-cards div {
+      background: var(--coastal-white);
+      border-radius: 6px;
+      box-shadow: 0 1px 4px rgba(27,58,75,0.06);
+    }
+
+    .lv-wave {
+      background: var(--coastal-sky);
+      position: relative;
+    }
+
+    .lv-wave::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 40px;
+      background: var(--coastal-white);
+      clip-path: ellipse(55% 100% at 50% 100%);
+    }
+
+    .lv-asymmetric {
+      background: var(--coastal-mist);
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 0.5rem;
+      padding: 1rem;
+    }
+
+    .lv-asymmetric div {
+      background: rgba(255,255,255,0.6);
+      border-radius: 6px;
+    }
+
+    .lv-hero {
+      background: linear-gradient(180deg, var(--coastal-mist) 0%, var(--coastal-white) 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .lv-hero div:first-child {
+      width: 60%;
+      height: 12px;
+      background: var(--coastal-navy);
+      opacity: 0.2;
+      border-radius: 6px;
+      margin-bottom: 0.5rem;
+    }
+
+    .lv-hero div:last-child {
+      width: 35%;
+      height: 8px;
+      background: var(--coastal-ocean);
+      opacity: 0.3;
+      border-radius: 4px;
+    }
+
+    /* ================================================
+       CSS Techniques Section
+       ================================================ */
+    .technique-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2.5rem;
+    }
+
+    .technique-demo {
+      background: var(--coastal-linen);
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid rgba(175, 188, 197, 0.25);
+    }
+
+    .technique-preview {
+      height: 200px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .technique-info {
+      padding: 1.5rem 1.8rem;
+      background: var(--coastal-white);
+    }
+
+    .technique-info h3 {
+      font-size: 1.1rem;
+      font-family: 'Libre Baskerville', serif;
+      margin-bottom: 0.4rem;
+    }
+
+    .technique-info p {
+      font-size: 0.9rem;
+      line-height: 1.6;
+      color: var(--coastal-driftwood);
+    }
+
+    .technique-tag {
+      display: inline-block;
+      font-family: 'Josefin Sans', sans-serif;
+      text-transform: uppercase;
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      background: var(--coastal-aqua);
+      color: var(--coastal-navy);
+      padding: 0.25rem 0.65rem;
+      border-radius: 20px;
+      margin-top: 0.6rem;
+    }
+
+    /* Technique previews */
+    .tp-gradient {
+      background: linear-gradient(180deg, var(--coastal-mist) 0%, var(--coastal-sky) 40%, var(--coastal-seafoam) 100%);
+    }
+
+    .tp-glass {
+      background: linear-gradient(135deg, var(--coastal-sky), var(--coastal-seafoam));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+
+    .tp-glass-panel {
+      background: rgba(255, 255, 255, 0.55);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      border-radius: 12px;
+      padding: 1.5rem 2rem;
+      text-align: center;
+      width: 80%;
+    }
+
+    .tp-glass-panel span {
+      font-family: 'Playfair Display', serif;
+      color: var(--coastal-navy);
+      font-size: 1.1rem;
+    }
+
+    .tp-stripes {
+      background: repeating-linear-gradient(
+        0deg,
+        var(--coastal-white) 0px,
+        var(--coastal-white) 12px,
+        var(--coastal-navy) 12px,
+        var(--coastal-navy) 14px
+      );
+      opacity: 0.6;
+    }
+
+    .tp-texture {
+      background: var(--coastal-sand);
+      position: relative;
+    }
+
+    .tp-texture::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+      opacity: 0.6;
+    }
+
+    .tp-texture .washed-text {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Playfair Display', serif;
+      font-size: 2.5rem;
+      font-weight: 300;
+      color: var(--coastal-driftwood);
+      text-shadow: 0 1px 0 rgba(255, 255, 255, 0.6);
+      opacity: 0.6;
+    }
+
+    /* ================================================
+       Materials Table
+       ================================================ */
+    .materials-table-wrapper {
+      background: var(--coastal-white);
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 2px 16px rgba(27, 58, 75, 0.05);
+      border: 1px solid rgba(175, 188, 197, 0.2);
+    }
+
+    .materials-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .materials-table th {
+      font-family: 'Josefin Sans', sans-serif;
+      text-transform: uppercase;
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      color: var(--coastal-ocean);
+      text-align: left;
+      padding: 1.1rem 1.5rem;
+      background: var(--coastal-mist);
+      font-weight: 400;
+    }
+
+    .materials-table td {
+      padding: 1rem 1.5rem;
+      border-bottom: 1px solid rgba(175, 188, 197, 0.15);
+      font-size: 0.95rem;
+      vertical-align: top;
+    }
+
+    .materials-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .materials-table tr:hover td {
+      background: rgba(201, 241, 242, 0.12);
+    }
+
+    .material-name {
+      font-family: 'Libre Baskerville', serif;
+      color: var(--coastal-navy);
+      font-weight: 400;
+      font-size: 0.95rem;
+    }
+
+    /* ================================================
+       Sub-styles Section
+       ================================================ */
+    .substyle-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+    }
+
+    .substyle-card {
+      border-radius: 16px;
+      overflow: hidden;
+      position: relative;
+      min-height: 380px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 2rem;
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+      cursor: default;
+    }
+
+    .substyle-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 16px 48px rgba(27, 58, 75, 0.15);
+    }
+
+    .substyle-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+    }
+
+    .substyle-card > * {
+      position: relative;
+      z-index: 2;
+    }
+
+    .substyle-card h3 {
+      font-size: 1.5rem;
+      color: var(--coastal-white);
+      margin-bottom: 0.6rem;
+    }
+
+    .substyle-card p {
+      color: rgba(255, 255, 255, 0.85);
+      font-size: 0.92rem;
+      line-height: 1.6;
+    }
+
+    .substyle-hamptons {
+      background: linear-gradient(160deg, var(--coastal-navy) 0%, #2a5068 50%, var(--coastal-ocean) 100%);
+    }
+
+    .substyle-hamptons::before {
+      background: repeating-linear-gradient(
+        0deg,
+        transparent 0px,
+        transparent 18px,
+        rgba(255,255,255,0.04) 18px,
+        rgba(255,255,255,0.04) 20px
+      );
+    }
+
+    .substyle-med {
+      background: linear-gradient(160deg, #2a5068 0%, var(--coastal-ocean) 50%, var(--coastal-seafoam) 100%);
+    }
+
+    .substyle-med::before {
+      background: radial-gradient(ellipse at 70% 20%, rgba(242,159,90,0.2) 0%, transparent 60%);
+    }
+
+    .substyle-modern {
+      background: linear-gradient(160deg, var(--coastal-driftwood) 0%, #6b7b6a 50%, var(--coastal-pebble) 100%);
+    }
+
+    .substyle-modern::before {
+      background: linear-gradient(180deg, transparent 40%, rgba(0,0,0,0.15) 100%);
+    }
+
+    .substyle-tag {
+      display: inline-block;
+      font-family: 'Josefin Sans', sans-serif;
+      text-transform: uppercase;
+      font-size: 0.62rem;
+      letter-spacing: 0.14em;
+      background: rgba(255,255,255,0.18);
+      color: var(--coastal-white);
+      padding: 0.3rem 0.7rem;
+      border-radius: 20px;
+      margin-bottom: 0.8rem;
+      backdrop-filter: blur(4px);
+    }
+
+    /* ================================================
+       Related Aesthetics
+       ================================================ */
+    .related-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 1.2rem;
+    }
+
+    .related-chip {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      background: var(--coastal-white);
+      border-radius: 12px;
+      padding: 1.1rem 1.3rem;
+      box-shadow: 0 1px 6px rgba(27, 58, 75, 0.05);
+      border: 1px solid rgba(175, 188, 197, 0.2);
+      transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    }
+
+    .related-chip:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 16px rgba(27, 58, 75, 0.08);
+      border-color: var(--coastal-sky);
+    }
+
+    .related-chip-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .related-chip-info strong {
+      display: block;
+      font-family: 'Libre Baskerville', serif;
+      font-size: 0.9rem;
+      font-weight: 400;
+      color: var(--coastal-navy);
+      margin-bottom: 0.15rem;
+    }
+
+    .related-chip-info span {
+      font-size: 0.8rem;
+      color: var(--coastal-driftwood);
+      line-height: 1.4;
+    }
+
+    /* ================================================
+       Design Principles Section
+       ================================================ */
+    .principles-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .principle-item {
+      display: flex;
+      gap: 1.2rem;
+      align-items: flex-start;
+      padding: 1.5rem;
+      background: var(--coastal-white);
+      border-radius: 12px;
+      box-shadow: 0 1px 8px rgba(27, 58, 75, 0.04);
+      border: 1px solid rgba(175, 188, 197, 0.2);
+      transition: transform 0.3s ease;
+    }
+
+    .principle-item:hover {
+      transform: translateX(4px);
+    }
+
+    .principle-number {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      font-weight: 300;
+      color: var(--coastal-sky);
+      line-height: 1;
+      flex-shrink: 0;
+      width: 40px;
+    }
+
+    .principle-item h4 {
+      font-family: 'Libre Baskerville', serif;
+      font-size: 0.95rem;
+      margin-bottom: 0.3rem;
+    }
+
+    .principle-item p {
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+
+    /* ================================================
+       Buttons Showcase
+       ================================================ */
+    .btn-showcase {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      align-items: center;
+      justify-content: center;
+      padding: 3rem 0;
+    }
+
+    .coastal-btn-primary {
+      background: var(--coastal-ocean);
+      color: var(--coastal-white);
+      border: none;
+      padding: 0.8rem 2.2rem;
+      border-radius: 8px;
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 0.88rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    }
+
+    .coastal-btn-primary:hover {
+      background: var(--coastal-navy);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 16px rgba(41, 118, 133, 0.3);
+    }
+
+    .coastal-btn-secondary {
+      background: transparent;
+      color: var(--coastal-ocean);
+      border: 2px solid var(--coastal-ocean);
+      padding: 0.72rem 2rem;
+      border-radius: 8px;
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 0.88rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .coastal-btn-secondary:hover {
+      background: var(--coastal-ocean);
+      color: var(--coastal-white);
+    }
+
+    .coastal-btn-cta {
+      background: var(--coastal-coral);
+      color: var(--coastal-white);
+      border: none;
+      padding: 0.85rem 2.4rem;
+      border-radius: 24px;
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 0.9rem;
+      letter-spacing: 0.06em;
+      cursor: pointer;
+      transition: background 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+    }
+
+    .coastal-btn-cta:hover {
+      background: #e08a45;
+      box-shadow: 0 4px 20px rgba(242, 159, 90, 0.4);
+      transform: translateY(-2px);
+    }
+
+    /* ================================================
+       Footer
+       ================================================ */
+    .footer {
+      background: var(--coastal-navy);
+      color: rgba(255, 255, 255, 0.6);
+      padding: 4rem 2rem 2.5rem;
+      text-align: center;
+      position: relative;
+    }
+
+    .footer-content {
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .footer h3 {
+      font-family: 'Playfair Display', serif;
+      color: var(--coastal-white);
+      font-size: 1.6rem;
+      font-weight: 300;
+      margin-bottom: 0.5rem;
+    }
+
+    .footer .script-text {
+      font-family: 'Seaweed Script', cursive;
+      color: var(--coastal-seafoam);
+      font-size: 1.15rem;
+      margin-bottom: 1.5rem;
+      display: block;
+    }
+
+    .footer p {
+      font-size: 0.9rem;
+      line-height: 1.7;
+      margin-bottom: 2rem;
+    }
+
+    .footer-divider {
+      width: 60px;
+      height: 1px;
+      background: rgba(255,255,255,0.15);
+      margin: 2rem auto 1.5rem;
+    }
+
+    .footer-copy {
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      opacity: 0.4;
+    }
+
+    /* ================================================
+       Back to Top
+       ================================================ */
+    .back-to-top {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--coastal-ocean);
+      color: var(--coastal-white);
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 16px rgba(27, 58, 75, 0.2);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s ease, transform 0.3s ease, background 0.3s ease;
+      z-index: 999;
+    }
+
+    .back-to-top.visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .back-to-top:hover {
+      background: var(--coastal-navy);
+      transform: translateY(-3px);
+    }
+
+    .back-to-top svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    /* ================================================
+       Responsive
+       ================================================ */
+    @media (max-width: 1024px) {
+      .substyle-cards {
+        grid-template-columns: 1fr;
+      }
+      .substyle-card {
+        min-height: 280px;
+      }
+      .layout-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+      }
+      .nav-hamburger {
+        display: flex;
+      }
+      .intro-grid {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+      }
+      .intro-visual {
+        order: -1;
+      }
+      .type-showcase {
+        grid-template-columns: 1fr;
+      }
+      .technique-grid {
+        grid-template-columns: 1fr;
+      }
+      .layout-grid {
+        grid-template-columns: 1fr;
+      }
+      .section-wide {
+        padding: 4rem 0;
+      }
+      .hero {
+        padding: 7rem 1.5rem 4rem;
+      }
+      .palette-grid {
+        grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+        gap: 1rem;
+      }
+      .swatch-fill {
+        height: 75px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .char-grid {
+        grid-template-columns: 1fr;
+      }
+      .palette-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .principles-list {
+        grid-template-columns: 1fr;
+      }
+      .related-grid {
+        grid-template-columns: 1fr;
+      }
+      .nav {
+        padding: 1rem 1.2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ========== NAVIGATION ========== -->
+  <nav class="nav" id="mainNav">
+    <div class="nav-logo"><span>~</span> Coastal Style</div>
+    <ul class="nav-links">
+      <li><a href="#visuals">Visuals</a></li>
+      <li><a href="#palette">Palette</a></li>
+      <li><a href="#typography">Type</a></li>
+      <li><a href="#layout">Layout</a></li>
+      <li><a href="#techniques">Techniques</a></li>
+      <li><a href="#substyles">Variations</a></li>
+    </ul>
+    <button class="nav-hamburger" aria-label="Menu" onclick="document.querySelector('.nav-links').classList.toggle('mobile-open')">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- ========== HERO ========== -->
+  <header class="hero" id="hero">
+    <div class="hero-orb hero-orb-1"></div>
+    <div class="hero-orb hero-orb-2"></div>
+    <div class="hero-orb hero-orb-3"></div>
+
+    <p class="hero-tagline">A Design Reference</p>
+    <h1 class="hero-title">Coastal <em>Style</em></h1>
+    <p class="hero-subtitle">Light, airy, and inspired by the sea -- integrating elements of ocean, sand, and sky into every detail</p>
+
+    <!-- Compass Rose SVG -->
+    <svg class="hero-compass" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="50" cy="50" r="46" stroke="#1b3a4b" stroke-width="1" opacity="0.3"/>
+      <polygon points="50,8 54,44 50,38 46,44" fill="#297685" opacity="0.6"/>
+      <polygon points="50,92 46,56 50,62 54,56" fill="#afbcc5" opacity="0.4"/>
+      <polygon points="8,50 44,46 38,50 44,54" fill="#afbcc5" opacity="0.4"/>
+      <polygon points="92,50 56,54 62,50 56,46" fill="#afbcc5" opacity="0.4"/>
+      <circle cx="50" cy="50" r="3" fill="#297685" opacity="0.5"/>
+    </svg>
+
+    <div class="hero-scroll-hint">
+      <span>Explore</span>
+      <div class="scroll-line"></div>
+    </div>
+  </header>
+
+  <!-- Wave divider: hero -> intro -->
+  <svg class="wave-divider" viewBox="0 0 1440 100" preserveAspectRatio="none">
+    <path d="M0,50 C240,100 480,0 720,50 C960,100 1200,0 1440,50 L1440,100 L0,100 Z" fill="#f5f0e8"/>
+  </svg>
+
+  <!-- ========== INTRODUCTION ========== -->
+  <section class="section-accent section-wide" id="about">
+    <div class="section-container">
+      <div class="intro-grid reveal">
+        <div class="intro-text">
+          <h3>The Feeling of Being by the Sea</h3>
+          <p>
+            Coastal Style draws inspiration from shoreline environments -- the Hamptons, Western France, and the Mediterranean coast. It emphasizes <strong>natural light, open spaces, and relaxed elegance</strong>, with a palette pulled directly from the shore: sky, sea, sand, driftwood, and weathered stone.
+          </p>
+          <p>
+            The approach is casual yet polished, favoring soft, diffused visual weight over hard edges and heavy shadows. Indoor-outdoor flow, layered neutrals with blue accents, and an emphasis on natural materials define its character.
+          </p>
+          <hr class="rope-divider">
+          <p style="font-family: 'Caveat', cursive; font-size: 1.35rem; color: var(--coastal-clay);">
+            This page is both a reference for and a demonstration of the Coastal Style aesthetic.
+          </p>
+        </div>
+        <div class="intro-visual">
+          <div class="intro-visual-card">
+            <div class="deco-text">
+              Sky, Sea,<br>Sand
+              <em>& Driftwood</em>
+            </div>
+            <div class="deco-shell">&#x1F41A;</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Wave divider -->
+  <svg class="wave-divider wave-divider-flip" viewBox="0 0 1440 80" preserveAspectRatio="none">
+    <path d="M0,40 C360,80 720,0 1080,40 C1260,60 1380,50 1440,40 L1440,80 L0,80 Z" fill="#f5f0e8"/>
+  </svg>
+
+  <!-- ========== VISUAL CHARACTERISTICS ========== -->
+  <section class="section-wide" id="visuals">
+    <div class="section-container">
+      <div class="section-header reveal">
+        <span class="script-accent">Motifs &amp; Patterns</span>
+        <h2>Visual Characteristics</h2>
+        <p>Nautical elements, marine life, stripes, wave forms, and natural textures combine to evoke the shoreline.</p>
+      </div>
+
+      <div class="char-grid">
+        <div class="char-card reveal reveal-delay-1">
+          <div class="char-card-icon">&#9875;</div>
+          <h3>Nautical Elements</h3>
+          <p>Anchors, lifebuoys, ship wheels, compass roses, and rope knots bring maritime tradition to every design.</p>
+        </div>
+        <div class="char-card reveal reveal-delay-2">
+          <div class="char-card-icon">&#x1F41A;</div>
+          <h3>Marine Life</h3>
+          <p>Seashells, starfish, coral, seahorses, and fish silhouettes add organic coastal character.</p>
+        </div>
+        <div class="char-card reveal reveal-delay-3">
+          <div class="char-card-icon">&#x2261;</div>
+          <h3>Nautical Stripes</h3>
+          <p>Horizontal or vertical stripe patterns, particularly navy and white, channel classic seaside style.</p>
+        </div>
+        <div class="char-card reveal reveal-delay-4">
+          <div class="char-card-icon">&#x223F;</div>
+          <h3>Wave Patterns</h3>
+          <p>Undulating, organic wave forms serve as borders, dividers, and background textures throughout.</p>
+        </div>
+        <div class="char-card reveal reveal-delay-5">
+          <div class="char-card-icon">&#x25CE;</div>
+          <h3>Natural Textures</h3>
+          <p>Woven fibers, rope, driftwood grain, linen weave, and sand ripples bring tactile warmth to surfaces.</p>
+        </div>
+        <div class="char-card reveal reveal-delay-6">
+          <div class="char-card-icon">&#x2600;</div>
+          <h3>Weathered Finishes</h3>
+          <p>Sun-bleached, salt-worn, and naturally aged surfaces convey the passage of time by the coast.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== DESIGN PRINCIPLES ========== -->
+  <section class="section-accent section-wide" id="principles">
+    <div class="section-container">
+      <div class="section-header reveal">
+        <span class="script-accent">Guiding Philosophy</span>
+        <h2>Design Principles</h2>
+      </div>
+
+      <div class="principles-list">
+        <div class="principle-item reveal reveal-delay-1">
+          <div class="principle-number">01</div>
+          <div>
+            <h4>Light &amp; Airy Composition</h4>
+            <p>Abundant whitespace evoking open skies and wide beaches. Let content breathe.</p>
+          </div>
+        </div>
+        <div class="principle-item reveal reveal-delay-2">
+          <div class="principle-number">02</div>
+          <div>
+            <h4>Casual, Relaxed Elegance</h4>
+            <p>Polished but never stiff or overly formal. Approachable sophistication.</p>
+          </div>
+        </div>
+        <div class="principle-item reveal reveal-delay-3">
+          <div class="principle-number">03</div>
+          <div>
+            <h4>Indoor-Outdoor Flow</h4>
+            <p>Blurred boundaries between content sections, seamless transitions throughout.</p>
+          </div>
+        </div>
+        <div class="principle-item reveal reveal-delay-4">
+          <div class="principle-number">04</div>
+          <div>
+            <h4>Layered Neutrals with Blue Accents</h4>
+            <p>A restrained base palette punctuated by ocean tones for anchoring.</p>
+          </div>
+        </div>
+        <div class="principle-item reveal reveal-delay-5">
+          <div class="principle-number">05</div>
+          <div>
+            <h4>Soft, Diffused Visual Weight</h4>
+            <p>Avoid hard edges and heavy shadows in favor of gentle gradients and subtle depth.</p>
+          </div>
+        </div>
+        <div class="principle-item reveal reveal-delay-6">
+          <div class="principle-number">06</div>
+          <div>
+            <h4>Natural Material Emphasis</h4>
+            <p>Textures and patterns drawn from organic, coastal materials ground the design.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Wave divider -->
+  <svg class="wave-divider wave-divider-flip" viewBox="0 0 1440 80" preserveAspectRatio="none">
+    <path d="M0,30 C180,80 360,0 540,50 C720,100 900,10 1080,40 C1200,60 1350,30 1440,50 L1440,80 L0,80 Z" fill="#f5f0e8"/>
+  </svg>
+
+  <!-- ========== COLOR PALETTE ========== -->
+  <section class="section-wide" id="palette">
+    <div class="section-container">
+      <div class="section-header reveal">
+        <span class="script-accent">Shoreline Hues</span>
+        <h2>Color Palette</h2>
+        <p>Drawn from the coast itself -- crisp whites, ocean blues, warm sands, and sunset corals create a harmonious, inviting scheme.</p>
+      </div>
+
+      <div class="palette-grid">
+        <div class="color-swatch reveal reveal-delay-1">
+          <div class="swatch-fill" style="background: #FFFFFF; border-bottom: 1px solid rgba(175,188,197,0.2);"></div>
+          <div class="swatch-info">
+            <span class="swatch-name">Crisp White</span>
+            <span class="swatch-hex">#FFFFFF</span>
+            <span class="swatch-usage">Primary backgrounds</span>
+          </div>
+        </div>
+        <div class="color-swatch reveal reveal-delay-1">
+          <div class="swatch-fill" style="background: #F5F0E8;"></div>
+          <div class="swatch-info">
+            <span class="swatch-name">Linen White</span>
+            <span class="swatch-hex">#F5F0E8</span>
+            <span class="swatch-usage">Warm background, cards</span>
+          </div>
+        </div>
+        <div class="color-swatch reveal reveal-delay-2">
+          <div class="swatch-fill" style="background: #E2D7B0;"></div>
+          <div class="swatch-info">
+            <span class="swatch-name">Sand</span>
+            <span class="swatch-hex">#E2D7B0</span>
+            <span class="swatch-usage">Secondary fills, footer</span>
+          </div>
+        </div>
+        <div class="color-swatch reveal reveal-delay-2">
+          <div class="swatch-fill" style="background: #D0E2F2;"></div>
+          <div class="swatch-info">
+            <span class="swatch-name">Saltwater Mist</span>
+            <span class="swatch-hex">#D0E2F2</span>
+            <span class="swatch-usage">Hero sections, washes</span>
+          </div>
+        </div>
+        <div class="color-swatch reveal reveal-delay-3">
+          <div class="swatch-fill" style="background: #BBD0DB;"></div>
+          <div class="swatch-info">
+            <span class="swatch-name">Sky Blue</span>
+            <span class="swatch-hex">#BBD0DB</span>
+            <span class="swatch-usage">Hover states, highlights</span>
+          </div>
+        </div>
+        <div class="color-swatch reveal reveal-delay-3">
+          <div class="swatch-fill" style="background: #C9F1F2;"></div>
+          <div class="swatch-info">
+            <span class="swatch-name">Light Aqua</span>
+            <span class="swatch-hex">#C9F1F2</span>
+            <span class="swatch-usage">Tinted backgrounds</span>
+          </div>
+        </div>
+        <div class="color-swatch reveal reveal-delay-4">
+          <div class="swatch-fill" style="background: #64B5C1;"></div>
+          <div class="swatch-info">
+            <span class="swatch-name">Seafoam</span>
+            <span class="swatch-hex">#64B5C1</span>
+            <span class="swatch-usage">Badges, decorative</span>
+          </div>
+        </div>
+        <div class="color-swatch reveal reveal-delay-4">
+          <div class="swatch-fill" style="background: #297685;"></div>
+          <div class="swatch-info">
+            <span class="swatch-name">Ocean Blue</span>
+            <span class="swatch-hex">#297685</span>
+            <span class="swatch-usage">Primary accent, links</span>
+          </div>
+        </div>
+        <div class="color-swatch reveal reveal-delay-5">
+          <div class="swatch-fill" style="background: #1B3A4B;"></div>
+          <div class="swatch-info">
+            <span class="swatch-name">Deep Navy</span>
+            <span class="swatch-hex">#1B3A4B</span>
+            <span class="swatch-usage">Dark text, headers</span>
+          </div>
+        </div>
+        <div class="color-swatch reveal reveal-delay-5">
+          <div class="swatch-fill" style="background: #847968;"></div>
+          <div class="swatch-info">
+            <span class="swatch-name">Driftwood</span>
+            <span class="swatch-hex">#847968</span>
+            <span class="swatch-usage">Body text, muted UI</span>
+          </div>
+        </div>
+        <div class="color-swatch reveal reveal-delay-6">
+          <div class="swatch-fill" style="background: #AFBCC5;"></div>
+          <div class="swatch-info">
+            <span class="swatch-name">Pebble Gray</span>
+            <span class="swatch-hex">#AFBCC5</span>
+            <span class="swatch-usage">Borders, dividers</span>
+          </div>
+        </div>
+        <div class="color-swatch reveal reveal-delay-6">
+          <div class="swatch-fill" style="background: #F29F5A;"></div>
+          <div class="swatch-info">
+            <span class="swatch-name">Coral Sunset</span>
+            <span class="swatch-hex">#F29F5A</span>
+            <span class="swatch-usage">CTA, warm accent</span>
+          </div>
+        </div>
+        <div class="color-swatch reveal reveal-delay-6">
+          <div class="swatch-fill" style="background: #A8D5BA;"></div>
+          <div class="swatch-info">
+            <span class="swatch-name">Sea Glass</span>
+            <span class="swatch-hex">#A8D5BA</span>
+            <span class="swatch-usage">Success, tertiary</span>
+          </div>
+        </div>
+        <div class="color-swatch reveal reveal-delay-6">
+          <div class="swatch-fill" style="background: #8C6B4D;"></div>
+          <div class="swatch-info">
+            <span class="swatch-name">Coastal Clay</span>
+            <span class="swatch-hex">#8C6B4D</span>
+            <span class="swatch-usage">Earthy accent</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Palette Approach Notes -->
+      <div class="reveal" style="margin-top: 3rem; max-width: 720px; margin-left: auto; margin-right: auto; text-align: center;">
+        <p style="font-size: 0.95rem; color: var(--coastal-driftwood); line-height: 1.75;">
+          <strong style="color: var(--coastal-navy);">Approach:</strong> Let white and cream dominate for an airy feel. Use blue sparingly but consistently as the signature accent. Ground the palette with warm neutrals (sand, driftwood, clay), and apply coral or sunset orange minimally for energy on calls-to-action. Layer opacity with translucent blues and seafoams for overlays.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Wave divider -->
+  <svg class="wave-divider" viewBox="0 0 1440 80" preserveAspectRatio="none">
+    <path d="M0,30 C240,80 480,0 720,40 C960,80 1200,10 1440,40 L1440,80 L0,80 Z" fill="#d0e2f2"/>
+  </svg>
+
+  <!-- ========== TYPOGRAPHY ========== -->
+  <section class="section-mist section-wide" id="typography">
+    <div class="section-container">
+      <div class="section-header reveal">
+        <span class="script-accent">Breezy Letterforms</span>
+        <h2>Typography</h2>
+        <p>Clean, open letterforms with generous spacing. Light weights. Rounded terminals. Serif headings with sans-serif body text.</p>
+      </div>
+
+      <div class="type-showcase">
+        <div class="type-specimen reveal reveal-delay-1">
+          <div class="type-label">Display &amp; Headlines</div>
+          <div class="type-display">Coastal Light</div>
+          <div class="type-meta">Playfair Display -- 300 weight, 0.04em tracking</div>
+          <div style="height: 1.5rem;"></div>
+          <div class="type-serif">Subheadings in Libre Baskerville</div>
+          <div class="type-meta">Libre Baskerville -- 400 weight, classic serif</div>
+          <div style="height: 1.5rem;"></div>
+          <div class="type-body">Body text uses Source Sans 3 for modern coastal readability. Light to regular weights avoid dense, heavy type, favoring a breezy feel with relaxed letter-spacing and generous line height.</div>
+          <div class="type-meta">Source Sans 3 -- 400 weight, 1.8 line-height</div>
+        </div>
+
+        <div class="type-specimen reveal reveal-delay-2">
+          <div class="type-label">Decorative &amp; UI</div>
+          <div class="type-script">Seaweed Script for accents</div>
+          <div class="type-meta">Script fonts -- used sparingly for decorative moments</div>
+          <div style="height: 1.2rem;"></div>
+          <div class="type-handwritten">Caveat for informal annotations</div>
+          <div class="type-meta">Casual handwritten -- labels and notes</div>
+          <div style="height: 1.2rem;"></div>
+          <div class="type-surfer">Original Surfer for fun badges</div>
+          <div class="type-meta">Retro surf display -- accent text only</div>
+          <div style="height: 1.2rem;"></div>
+          <div class="type-nav-demo">Navigation &middot; Josefin Sans</div>
+          <div class="type-meta">Josefin Sans -- uppercase, 0.14em spacing</div>
+          <div style="height: 1.2rem;"></div>
+          <div style="font-family: 'Raleway', sans-serif; font-weight: 200; font-size: 1.3rem; color: var(--coastal-navy); letter-spacing: 0.06em;">Raleway for thin elegance</div>
+          <div class="type-meta">Raleway -- 200 weight, geometric subtlety</div>
+        </div>
+      </div>
+
+      <!-- Font reference table -->
+      <div class="reveal" style="margin-top: 3rem;">
+        <div class="materials-table-wrapper">
+          <table class="font-table">
+            <thead>
+              <tr>
+                <th>Font</th>
+                <th>Style</th>
+                <th>Usage</th>
+                <th>Preview</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="font-preview" style="font-family: 'Playfair Display', serif;">Playfair Display</td>
+                <td class="font-style">Elegant transitional serif</td>
+                <td class="font-usage">Headlines, hero text</td>
+                <td class="font-preview" style="font-family: 'Playfair Display', serif; font-weight: 300;">Aa Bb Cc</td>
+              </tr>
+              <tr>
+                <td class="font-preview" style="font-family: 'Libre Baskerville', serif;">Libre Baskerville</td>
+                <td class="font-style">Classic, readable serif</td>
+                <td class="font-usage">Subheadings, pull quotes</td>
+                <td class="font-preview" style="font-family: 'Libre Baskerville', serif;">Aa Bb Cc</td>
+              </tr>
+              <tr>
+                <td class="font-preview" style="font-family: 'Lora', serif;">Lora</td>
+                <td class="font-style">Brushed, calligraphic serif</td>
+                <td class="font-usage">Headlines, feature titles</td>
+                <td class="font-preview" style="font-family: 'Lora', serif;">Aa Bb Cc</td>
+              </tr>
+              <tr>
+                <td class="font-preview" style="font-family: 'Source Sans 3', sans-serif;">Source Sans 3</td>
+                <td class="font-style">Clean, humanist sans-serif</td>
+                <td class="font-usage">Body text, UI elements</td>
+                <td class="font-preview" style="font-family: 'Source Sans 3', sans-serif;">Aa Bb Cc</td>
+              </tr>
+              <tr>
+                <td class="font-preview" style="font-family: 'Nunito', sans-serif;">Nunito</td>
+                <td class="font-style">Rounded, friendly sans-serif</td>
+                <td class="font-usage">Body text, navigation</td>
+                <td class="font-preview" style="font-family: 'Nunito', sans-serif;">Aa Bb Cc</td>
+              </tr>
+              <tr>
+                <td class="font-preview" style="font-family: 'Josefin Sans', sans-serif;">Josefin Sans</td>
+                <td class="font-style">Vintage geometric sans</td>
+                <td class="font-usage">Display text, captions</td>
+                <td class="font-preview" style="font-family: 'Josefin Sans', sans-serif;">Aa Bb Cc</td>
+              </tr>
+              <tr>
+                <td class="font-preview" style="font-family: 'Seaweed Script', cursive;">Seaweed Script</td>
+                <td class="font-style">Flowing coastal script</td>
+                <td class="font-usage">Decorative accents, taglines</td>
+                <td class="font-preview" style="font-family: 'Seaweed Script', cursive;">Aa Bb Cc</td>
+              </tr>
+              <tr>
+                <td class="font-preview" style="font-family: 'Caveat', cursive;">Caveat</td>
+                <td class="font-style">Casual handwritten</td>
+                <td class="font-usage">Annotations, informal labels</td>
+                <td class="font-preview" style="font-family: 'Caveat', cursive;">Aa Bb Cc</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Wave divider -->
+  <svg class="wave-divider wave-divider-flip" viewBox="0 0 1440 80" preserveAspectRatio="none">
+    <path d="M0,20 C180,70 360,10 540,40 C720,70 900,10 1080,50 C1260,80 1380,30 1440,40 L1440,80 L0,80 Z" fill="#d0e2f2"/>
+  </svg>
+
+  <!-- ========== LAYOUT PRINCIPLES ========== -->
+  <section class="section-wide" id="layout">
+    <div class="section-container">
+      <div class="section-header reveal">
+        <span class="script-accent">Structure &amp; Space</span>
+        <h2>Layout Principles</h2>
+        <p>Open layouts with generous padding, asymmetric balance, full-width heroes, rounded cards, and wave-shaped section dividers.</p>
+      </div>
+
+      <div class="layout-grid">
+        <div class="layout-card reveal reveal-delay-1">
+          <div class="layout-card-visual lv-spacious">
+            <div></div><div></div><div></div>
+          </div>
+          <div class="layout-card-content">
+            <h3>Open &amp; Spacious</h3>
+            <p>Generous padding and margin throughout. Let content breathe like open skies and wide beaches.</p>
+          </div>
+        </div>
+
+        <div class="layout-card reveal reveal-delay-2">
+          <div class="layout-card-visual lv-wide">
+            <div></div><div></div><div></div>
+          </div>
+          <div class="layout-card-content">
+            <h3>Wide Containers</h3>
+            <p>Max-width of 1100--1400px with ample side margins for comfortable, expansive reading.</p>
+          </div>
+        </div>
+
+        <div class="layout-card reveal reveal-delay-3">
+          <div class="layout-card-visual lv-cards">
+            <div></div><div></div><div></div><div></div>
+          </div>
+          <div class="layout-card-content">
+            <h3>Card-Based Content</h3>
+            <p>Rounded-corner cards with soft shadows for grouping. Like smooth pebbles on the shore.</p>
+          </div>
+        </div>
+
+        <div class="layout-card reveal reveal-delay-4">
+          <div class="layout-card-visual lv-wave"></div>
+          <div class="layout-card-content">
+            <h3>Wave Dividers</h3>
+            <p>SVG curves and clip-paths separate content blocks organically, echoing the shoreline.</p>
+          </div>
+        </div>
+
+        <div class="layout-card reveal reveal-delay-5">
+          <div class="layout-card-visual lv-asymmetric">
+            <div></div><div></div>
+          </div>
+          <div class="layout-card-content">
+            <h3>Asymmetric Balance</h3>
+            <p>Natural, organic placement rather than rigid symmetry. Horizontal flow like a shoreline.</p>
+          </div>
+        </div>
+
+        <div class="layout-card reveal reveal-delay-6">
+          <div class="layout-card-visual lv-hero">
+            <div></div><div></div>
+          </div>
+          <div class="layout-card-content">
+            <h3>Full-Width Heroes</h3>
+            <p>Large gradient washes spanning the viewport. Hierarchy through weight and color, not density.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Wave divider -->
+  <svg class="wave-divider" viewBox="0 0 1440 80" preserveAspectRatio="none">
+    <path d="M0,50 C360,0 720,80 1080,30 C1260,10 1380,40 1440,20 L1440,80 L0,80 Z" fill="#f5f0e8"/>
+  </svg>
+
+  <!-- ========== CSS TECHNIQUES ========== -->
+  <section class="section-accent section-wide" id="techniques">
+    <div class="section-container">
+      <div class="section-header reveal">
+        <span class="script-accent">Craftsmanship</span>
+        <h2>CSS &amp; Design Techniques</h2>
+        <p>Gradients, glass effects, nautical stripes, weathered textures, and translucent overlays bring the coastal aesthetic to life in code.</p>
+      </div>
+
+      <div class="technique-grid">
+        <div class="technique-demo reveal reveal-delay-1">
+          <div class="technique-preview tp-gradient"></div>
+          <div class="technique-info">
+            <h3>Ocean Gradient Hero</h3>
+            <p>Sky-to-sea gradient using mist, sky blue, and seafoam. Subtle sand-to-white for content sections.</p>
+            <span class="technique-tag">linear-gradient</span>
+          </div>
+        </div>
+
+        <div class="technique-demo reveal reveal-delay-2">
+          <div class="technique-preview tp-glass">
+            <div class="tp-glass-panel">
+              <span>Sea Glass Effect</span>
+            </div>
+          </div>
+          <div class="technique-info">
+            <h3>Frosted Glass Panel</h3>
+            <p>Translucent white with backdrop-filter blur. Evokes found sea glass -- smooth, luminous, worn by the tide.</p>
+            <span class="technique-tag">backdrop-filter</span>
+          </div>
+        </div>
+
+        <div class="technique-demo reveal reveal-delay-3">
+          <div class="technique-preview tp-stripes"></div>
+          <div class="technique-info">
+            <h3>Nautical Stripe Pattern</h3>
+            <p>Repeating linear gradient creates classic navy-and-white ticking stripes. Maritime tradition in pure CSS.</p>
+            <span class="technique-tag">repeating-linear-gradient</span>
+          </div>
+        </div>
+
+        <div class="technique-demo reveal reveal-delay-4">
+          <div class="technique-preview tp-texture">
+            <div class="washed-text">Driftwood</div>
+          </div>
+          <div class="technique-info">
+            <h3>Weathered Texture &amp; Washed Text</h3>
+            <p>SVG turbulence noise for linen grain. Bleached text with white text-shadow for a sun-worn feel.</p>
+            <span class="technique-tag">feTurbulence</span>
+            <span class="technique-tag">text-shadow</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Button showcase -->
+      <div class="reveal" style="margin-top: 3rem;">
+        <h3 style="text-align: center; font-size: 1.2rem; margin-bottom: 0.5rem;">Button Styles</h3>
+        <p style="text-align: center; font-size: 0.92rem; color: var(--coastal-driftwood); margin-bottom: 1.5rem;">Ocean primary, outlined secondary, and warm coral call-to-action.</p>
+        <div class="btn-showcase">
+          <button class="coastal-btn-primary">Ocean Primary</button>
+          <button class="coastal-btn-secondary">Outlined Secondary</button>
+          <button class="coastal-btn-cta">Coral Sunset CTA</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Wave divider -->
+  <svg class="wave-divider wave-divider-flip" viewBox="0 0 1440 80" preserveAspectRatio="none">
+    <path d="M0,40 C240,0 480,80 720,30 C960,80 1200,0 1440,50 L1440,80 L0,80 Z" fill="#f5f0e8"/>
+  </svg>
+
+  <!-- ========== MATERIALS TABLE ========== -->
+  <section class="section-wide" id="materials">
+    <div class="section-container">
+      <div class="section-header reveal">
+        <span class="script-accent">Physical to Digital</span>
+        <h2>Materials &amp; Textures</h2>
+        <p>How coastal materials translate into web design equivalents.</p>
+      </div>
+
+      <div class="materials-table-wrapper reveal">
+        <table class="materials-table">
+          <thead>
+            <tr>
+              <th>Physical Material</th>
+              <th>Web Equivalent</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="material-name">Weathered Driftwood</td>
+              <td>Muted taupe/gray backgrounds, subtle grain texture overlays</td>
+            </tr>
+            <tr>
+              <td class="material-name">White-Washed Wood</td>
+              <td>Off-white backgrounds with faint horizontal striping patterns</td>
+            </tr>
+            <tr>
+              <td class="material-name">Linen / Cotton Fabric</td>
+              <td>Light textured backgrounds, canvas noise via background-image</td>
+            </tr>
+            <tr>
+              <td class="material-name">Woven Rattan / Wicker</td>
+              <td>Crosshatch or woven SVG pattern overlays at low opacity</td>
+            </tr>
+            <tr>
+              <td class="material-name">Sea Glass</td>
+              <td>Frosted glass backdrop-filter: blur() effects with translucent tints</td>
+            </tr>
+            <tr>
+              <td class="material-name">Smooth Pebbles</td>
+              <td>Rounded corners, gentle shadows, muted gray palette</td>
+            </tr>
+            <tr>
+              <td class="material-name">Sand</td>
+              <td>Warm beige gradients, grainy texture backgrounds</td>
+            </tr>
+            <tr>
+              <td class="material-name">Rope / Jute</td>
+              <td>Thick decorative borders, knotted divider elements</td>
+            </tr>
+            <tr>
+              <td class="material-name">Ceramic / Pottery</td>
+              <td>Rounded card shapes with earthy shadow tones</td>
+            </tr>
+            <tr>
+              <td class="material-name">Sheer White Curtain</td>
+              <td>Semi-transparent white overlays, soft veil effects</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- Wave divider -->
+  <svg class="wave-divider" viewBox="0 0 1440 100" preserveAspectRatio="none">
+    <path d="M0,60 C360,110 720,10 1080,60 C1260,90 1380,70 1440,50 L1440,100 L0,100 Z" fill="#d0e2f2"/>
+  </svg>
+
+  <!-- ========== SUB-STYLES ========== -->
+  <section class="section-mist section-wide" id="substyles">
+    <div class="section-container">
+      <div class="section-header reveal">
+        <span class="script-accent">Variations</span>
+        <h2>Sub-styles &amp; Variations</h2>
+        <p>Coastal Style branches into distinct regional and tonal interpretations.</p>
+      </div>
+
+      <div class="substyle-cards">
+        <div class="substyle-card substyle-hamptons reveal reveal-delay-1">
+          <span class="substyle-tag">Classic</span>
+          <h3>Hamptons Style</h3>
+          <p>Expansive, luminous, and comfortable. Crisp white and navy blue dominate. Tailored, preppy refinement with ticking stripes and premium natural materials.</p>
+        </div>
+
+        <div class="substyle-card substyle-med reveal reveal-delay-2">
+          <span class="substyle-tag">Warm</span>
+          <h3>Mediterranean Coastal</h3>
+          <p>Lagoon colors meet ochre and terracotta. Arched shapes, botanical motifs, and wrought-iron accents evoke the sun-drenched shores of Southern Europe.</p>
+        </div>
+
+        <div class="substyle-card substyle-modern reveal reveal-delay-3">
+          <span class="substyle-tag">Contemporary</span>
+          <h3>Modern Coastal</h3>
+          <p>California-casual with clean lines. Avoids overt beach themes. Neutral-dominant with subtle blue accents, woven textures, and generous whitespace.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Wave divider -->
+  <svg class="wave-divider wave-divider-flip" viewBox="0 0 1440 80" preserveAspectRatio="none">
+    <path d="M0,30 C240,70 480,10 720,50 C960,80 1200,20 1440,40 L1440,80 L0,80 Z" fill="#d0e2f2"/>
+  </svg>
+
+  <!-- ========== RELATED AESTHETICS ========== -->
+  <section class="section-wide" id="related">
+    <div class="section-container">
+      <div class="section-header reveal">
+        <span class="script-accent">Adjacent Worlds</span>
+        <h2>Related Aesthetics</h2>
+        <p>Coastal Style shares sensibilities with neighboring design movements.</p>
+      </div>
+
+      <div class="related-grid">
+        <div class="related-chip reveal reveal-delay-1">
+          <div class="related-chip-dot" style="background: var(--coastal-navy);"></div>
+          <div class="related-chip-info">
+            <strong>Nautical</strong>
+            <span>Maritime tradition, navy/red/white palette</span>
+          </div>
+        </div>
+        <div class="related-chip reveal reveal-delay-1">
+          <div class="related-chip-dot" style="background: var(--coastal-sand);"></div>
+          <div class="related-chip-info">
+            <strong>Coastal Grandmother</strong>
+            <span>Relaxed, warm, Nancy Meyers-inspired</span>
+          </div>
+        </div>
+        <div class="related-chip reveal reveal-delay-2">
+          <div class="related-chip-dot" style="background: var(--coastal-coral);"></div>
+          <div class="related-chip-info">
+            <strong>Coastal Cowgirl</strong>
+            <span>Fusion of coastal and western motifs</span>
+          </div>
+        </div>
+        <div class="related-chip reveal reveal-delay-2">
+          <div class="related-chip-dot" style="background: #1a2a35;"></div>
+          <div class="related-chip-info">
+            <strong>Dark Nautical</strong>
+            <span>Moody inversion, deep navy and black</span>
+          </div>
+        </div>
+        <div class="related-chip reveal reveal-delay-3">
+          <div class="related-chip-dot" style="background: var(--coastal-pebble);"></div>
+          <div class="related-chip-info">
+            <strong>Minimalism</strong>
+            <span>Clean space, decluttered composition</span>
+          </div>
+        </div>
+        <div class="related-chip reveal reveal-delay-3">
+          <div class="related-chip-dot" style="background: #c4b89a;"></div>
+          <div class="related-chip-info">
+            <strong>Scandinavian Design</strong>
+            <span>Light palettes, natural materials, simplicity</span>
+          </div>
+        </div>
+        <div class="related-chip reveal reveal-delay-4">
+          <div class="related-chip-dot" style="background: #d4a5b0;"></div>
+          <div class="related-chip-info">
+            <strong>Shabby Chic</strong>
+            <span>Weathered finishes, soft pastel palette</span>
+          </div>
+        </div>
+        <div class="related-chip reveal reveal-delay-4">
+          <div class="related-chip-dot" style="background: var(--coastal-clay);"></div>
+          <div class="related-chip-info">
+            <strong>Rustic</strong>
+            <span>Natural wood, organic textures, handcrafted</span>
+          </div>
+        </div>
+        <div class="related-chip reveal reveal-delay-5">
+          <div class="related-chip-dot" style="background: var(--coastal-seaglass);"></div>
+          <div class="related-chip-info">
+            <strong>Tropical</strong>
+            <span>Warm-climate, bolder colors, botanical</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Wave divider into footer -->
+  <svg class="wave-divider" viewBox="0 0 1440 80" preserveAspectRatio="none">
+    <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#1b3a4b"/>
+  </svg>
+
+  <!-- ========== FOOTER ========== -->
+  <footer class="footer">
+    <div class="footer-content">
+      <h3>Coastal Style</h3>
+      <span class="script-text">Light, airy, inspired by the sea</span>
+      <p>
+        An aesthetic that integrates elements of ocean and beach environments into design. Drawn from the Hamptons, Western France, and the Mediterranean coast -- emphasizing natural light, open spaces, and relaxed elegance.
+      </p>
+      <div class="footer-divider"></div>
+      <p class="footer-copy">Design Reference &middot; Coastal Style</p>
+    </div>
+  </footer>
+
+  <!-- Back to top -->
+  <button class="back-to-top" id="backToTop" aria-label="Back to top" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="18 15 12 9 6 15"></polyline>
+    </svg>
+  </button>
+
+  <!-- ========== JAVASCRIPT ========== -->
+  <script>
+    // Scroll-based reveal
+    (function() {
+      const reveals = document.querySelectorAll('.reveal');
+      const observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      }, {
+        threshold: 0.12,
+        rootMargin: '0px 0px -40px 0px'
+      });
+
+      reveals.forEach(function(el) {
+        observer.observe(el);
+      });
+    })();
+
+    // Nav scroll effect
+    (function() {
+      var nav = document.getElementById('mainNav');
+      var lastScroll = 0;
+
+      window.addEventListener('scroll', function() {
+        var scrollY = window.pageYOffset || document.documentElement.scrollTop;
+        if (scrollY > 80) {
+          nav.classList.add('scrolled');
+        } else {
+          nav.classList.remove('scrolled');
+        }
+        lastScroll = scrollY;
+      }, { passive: true });
+    })();
+
+    // Back to top button
+    (function() {
+      var btn = document.getElementById('backToTop');
+      window.addEventListener('scroll', function() {
+        var scrollY = window.pageYOffset || document.documentElement.scrollTop;
+        if (scrollY > 600) {
+          btn.classList.add('visible');
+        } else {
+          btn.classList.remove('visible');
+        }
+      }, { passive: true });
+    })();
+
+    // Smooth scroll for nav links
+    document.querySelectorAll('.nav-links a').forEach(function(link) {
+      link.addEventListener('click', function(e) {
+        var href = this.getAttribute('href');
+        if (href && href.startsWith('#')) {
+          e.preventDefault();
+          var target = document.querySelector(href);
+          if (target) {
+            var navHeight = document.getElementById('mainNav').offsetHeight;
+            var top = target.getBoundingClientRect().top + window.pageYOffset - navHeight - 20;
+            window.scrollTo({ top: top, behavior: 'smooth' });
+          }
+          // Close mobile menu if open
+          document.querySelector('.nav-links').classList.remove('mobile-open');
+        }
+      });
+    });
+  </script>
+
+  <!-- Mobile nav styles (injected to keep CSS organized) -->
+  <style>
+    @media (max-width: 768px) {
+      .nav-links.mobile-open {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: rgba(255,255,255,0.95);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        padding: 1.5rem 2rem 2rem;
+        gap: 1.2rem;
+        box-shadow: 0 8px 24px rgba(27,58,75,0.08);
+      }
+    }
+  </style>
+</body>
+</html>

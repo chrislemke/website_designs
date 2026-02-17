@@ -1,0 +1,2384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cluttercore -- The Beautiful Mess</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Lora:ital,wght@0,400;0,600;1,400&family=Nunito:wght@400;600;700&family=Quicksand:wght@500;600;700&family=Caveat:wght@400;700&family=Patrick+Hand&family=DM+Serif+Display:ital@0;1&family=Indie+Flower&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <style>
+    /* ============================================
+       CLUTTERCORE DESIGN SYSTEM
+       The Beautiful Mess -- Every Object Tells a Story
+       ============================================ */
+
+    :root {
+      /* Warm base tones */
+      --clutter-cream: #f5f0e6;
+      --clutter-ivory: #fff8ee;
+      --clutter-paper: #ede4d3;
+      --clutter-parchment: #e8dcca;
+
+      /* Warm accents */
+      --clutter-terracotta: #c8614c;
+      --clutter-mustard: #d4a843;
+      --clutter-burnt-orange: #cc6b30;
+      --clutter-dusty-rose: #c48b8b;
+
+      /* Cool accents */
+      --clutter-teal: #3d8b8b;
+      --clutter-sage: #8da47e;
+      --clutter-periwinkle: #7080b8;
+      --clutter-plum: #7b5078;
+
+      /* Rich / deep tones */
+      --clutter-burgundy: #803040;
+      --clutter-forest: #2e5e3e;
+      --clutter-navy: #2a3a5c;
+      --clutter-brown: #5c3d2e;
+
+      /* Bright pops */
+      --clutter-cherry: #b83240;
+      --clutter-cobalt: #2e5ba8;
+      --clutter-sunflower: #e5c040;
+      --clutter-magenta: #b8388e;
+
+      /* Functional mappings */
+      --clutter-bg-primary: var(--clutter-cream);
+      --clutter-bg-secondary: var(--clutter-paper);
+      --clutter-bg-card: var(--clutter-ivory);
+      --clutter-text-primary: var(--clutter-brown);
+      --clutter-text-secondary: #6b5a4a;
+      --clutter-text-heading: var(--clutter-burgundy);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: var(--clutter-cream);
+      color: var(--clutter-text-primary);
+      font-family: 'Nunito', 'Quicksand', sans-serif;
+      font-weight: 400;
+      font-size: 1rem;
+      line-height: 1.7;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Paper grain texture on body */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    /* Warm color washes on background */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        radial-gradient(ellipse at 15% 20%, rgba(212, 168, 67, 0.07) 0%, transparent 50%),
+        radial-gradient(ellipse at 85% 15%, rgba(141, 164, 126, 0.06) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 80%, rgba(196, 139, 139, 0.06) 0%, transparent 50%),
+        radial-gradient(ellipse at 10% 90%, rgba(61, 139, 139, 0.05) 0%, transparent 40%),
+        radial-gradient(ellipse at 90% 60%, rgba(123, 80, 120, 0.05) 0%, transparent 40%);
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    /* ============================================
+       TYPOGRAPHY
+       ============================================ */
+
+    h1, h2, h3 {
+      font-family: 'Playfair Display', 'DM Serif Display', Georgia, serif;
+      font-weight: 700;
+      color: var(--clutter-text-heading);
+      line-height: 1.2;
+    }
+
+    h1 { font-size: clamp(2.2rem, 5vw, 4rem); }
+    h2 { font-size: clamp(1.6rem, 3.5vw, 2.5rem); }
+    h3 { font-size: clamp(1.2rem, 2.5vw, 1.8rem); }
+
+    .handwritten {
+      font-family: 'Caveat', 'Patrick Hand', cursive;
+      font-size: 1.3em;
+      color: var(--clutter-terracotta);
+      transform: rotate(-2deg);
+      display: inline-block;
+    }
+
+    .label-text {
+      font-family: 'Quicksand', 'Nunito', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--clutter-text-secondary);
+    }
+
+    .quote-text {
+      font-family: 'Lora', 'Crimson Pro', serif;
+      font-style: italic;
+      font-size: 1.3rem;
+      line-height: 1.5;
+      color: var(--clutter-plum);
+    }
+
+    a {
+      color: var(--clutter-teal);
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    a:hover { color: var(--clutter-plum); }
+
+    /* ============================================
+       HERO SECTION -- The Grand Entrance
+       ============================================ */
+
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 4rem 2rem;
+      overflow: hidden;
+      background: var(--clutter-paper);
+      background-image:
+        radial-gradient(circle at 20% 30%, rgba(196, 139, 139, 0.15) 8px, transparent 8px),
+        radial-gradient(circle at 60% 70%, rgba(141, 164, 126, 0.12) 6px, transparent 6px),
+        radial-gradient(circle at 80% 20%, rgba(212, 168, 67, 0.1) 5px, transparent 5px),
+        radial-gradient(circle at 40% 80%, rgba(123, 80, 120, 0.1) 7px, transparent 7px),
+        radial-gradient(circle at 90% 50%, rgba(200, 97, 76, 0.08) 6px, transparent 6px);
+      background-size: 200px 200px;
+    }
+
+    /* Scattered decorative elements around hero */
+    .hero-decor {
+      position: absolute;
+      font-size: 2rem;
+      opacity: 0;
+      pointer-events: none;
+      animation: floatIn 0.8s ease forwards;
+    }
+
+    @keyframes floatIn {
+      from { opacity: 0; transform: translateY(20px) scale(0.8); }
+      to { opacity: 0.5; transform: translateY(0) scale(1); }
+    }
+
+    .hero-title {
+      font-family: 'DM Serif Display', 'Playfair Display', serif;
+      font-size: clamp(3rem, 8vw, 7rem);
+      font-weight: 400;
+      color: var(--clutter-burgundy);
+      line-height: 1;
+      margin-bottom: 0.5rem;
+      position: relative;
+      animation: heroReveal 1s ease forwards;
+      opacity: 0;
+    }
+
+    @keyframes heroReveal {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero-title .accent-letter {
+      color: var(--clutter-terracotta);
+      font-style: italic;
+    }
+
+    .hero-subtitle {
+      font-family: 'Caveat', cursive;
+      font-size: clamp(1.4rem, 3vw, 2.4rem);
+      color: var(--clutter-terracotta);
+      transform: rotate(-3deg);
+      display: inline-block;
+      margin-top: 0.5rem;
+      animation: heroReveal 1s 0.3s ease forwards;
+      opacity: 0;
+      position: relative;
+    }
+
+    .hero-subtitle::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      right: 0;
+      height: 8px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 8'%3E%3Cpath d='M0 6 Q12.5 0 25 6 T50 6 T75 6 T100 6' fill='none' stroke='%23c8614c' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: repeat-x;
+      background-size: 100px 8px;
+      opacity: 0.6;
+    }
+
+    .hero-description {
+      max-width: 700px;
+      font-size: 1.15rem;
+      color: var(--clutter-text-secondary);
+      margin-top: 2rem;
+      animation: heroReveal 1s 0.6s ease forwards;
+      opacity: 0;
+      line-height: 1.8;
+    }
+
+    .hero-description strong {
+      color: var(--clutter-burgundy);
+      font-weight: 700;
+    }
+
+    .hero-description em {
+      font-family: 'Lora', serif;
+      color: var(--clutter-plum);
+    }
+
+    /* Washi tape strips on hero */
+    .washi {
+      position: absolute;
+      height: 28px;
+      opacity: 0.55;
+      z-index: 2;
+    }
+
+    .washi-1 {
+      width: 140px;
+      background: var(--clutter-mustard);
+      top: 8%;
+      left: 5%;
+      transform: rotate(-12deg);
+      animation: fadeSlide 0.6s 1s ease forwards;
+      opacity: 0;
+    }
+
+    .washi-2 {
+      width: 110px;
+      background: repeating-linear-gradient(
+        90deg,
+        var(--clutter-teal),
+        var(--clutter-teal) 4px,
+        rgba(255,255,255,0.4) 4px,
+        rgba(255,255,255,0.4) 8px
+      );
+      top: 15%;
+      right: 8%;
+      transform: rotate(8deg);
+      animation: fadeSlide 0.6s 1.2s ease forwards;
+      opacity: 0;
+    }
+
+    .washi-3 {
+      width: 100px;
+      background: var(--clutter-dusty-rose);
+      bottom: 12%;
+      left: 10%;
+      transform: rotate(5deg);
+      animation: fadeSlide 0.6s 1.4s ease forwards;
+      opacity: 0;
+    }
+
+    .washi-4 {
+      width: 120px;
+      background: repeating-linear-gradient(
+        90deg,
+        var(--clutter-sage),
+        var(--clutter-sage) 3px,
+        rgba(255,255,255,0.3) 3px,
+        rgba(255,255,255,0.3) 6px
+      );
+      bottom: 18%;
+      right: 6%;
+      transform: rotate(-7deg);
+      animation: fadeSlide 0.6s 1.6s ease forwards;
+      opacity: 0;
+    }
+
+    @keyframes fadeSlide {
+      from { opacity: 0; transform: translateX(-20px) rotate(var(--r, -5deg)); }
+      to { opacity: 0.55; }
+    }
+
+    /* Scroll indicator */
+    .scroll-hint {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      animation: heroReveal 1s 1.5s ease forwards, bounce 2s 2.5s infinite;
+      opacity: 0;
+      font-family: 'Caveat', cursive;
+      color: var(--clutter-dusty-rose);
+      font-size: 1.2rem;
+      text-align: center;
+    }
+
+    .scroll-hint span {
+      display: block;
+      font-size: 1.6rem;
+      margin-top: 0.3rem;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(8px); }
+    }
+
+    /* ============================================
+       NAVIGATION -- Sticky pinboard style
+       ============================================ */
+
+    .nav-bar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--clutter-parchment);
+      border-bottom: 3px solid var(--clutter-dusty-rose);
+      padding: 0.6rem 1rem;
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 0 3px 12px rgba(92, 61, 46, 0.12);
+    }
+
+    .nav-bar a {
+      display: inline-block;
+      padding: 0.3rem 0.9rem;
+      font-family: 'Quicksand', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      border-radius: 100px;
+      transition: all 0.3s ease;
+      color: var(--clutter-brown);
+      text-decoration: none;
+    }
+
+    .nav-bar a:nth-child(6n+1) { background: rgba(200, 97, 76, 0.15); }
+    .nav-bar a:nth-child(6n+2) { background: rgba(61, 139, 139, 0.15); }
+    .nav-bar a:nth-child(6n+3) { background: rgba(212, 168, 67, 0.15); }
+    .nav-bar a:nth-child(6n+4) { background: rgba(141, 164, 126, 0.15); }
+    .nav-bar a:nth-child(6n+5) { background: rgba(123, 80, 120, 0.15); }
+    .nav-bar a:nth-child(6n+6) { background: rgba(196, 139, 139, 0.15); }
+
+    .nav-bar a:hover {
+      transform: translateY(-2px) rotate(-1deg);
+      box-shadow: 1px 2px 6px rgba(92, 61, 46, 0.15);
+    }
+
+    .nav-bar a:nth-child(odd):hover { transform: translateY(-2px) rotate(1deg); }
+
+    /* ============================================
+       SECTION STYLES
+       ============================================ */
+
+    section {
+      padding: 4rem 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .section-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-title {
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      margin-bottom: 0.3rem;
+      position: relative;
+      display: inline-block;
+    }
+
+    .section-annotation {
+      font-family: 'Caveat', cursive;
+      font-size: 1.1rem;
+      color: var(--clutter-terracotta);
+      display: block;
+      transform: rotate(-2deg);
+      margin-bottom: 2rem;
+      margin-left: 1rem;
+    }
+
+    /* ============================================
+       VISUAL CHARACTERISTICS -- Pinboard Section
+       ============================================ */
+
+    .pinboard-section {
+      background-color: #c4a56e;
+      background-image:
+        radial-gradient(circle at 15% 25%, rgba(180, 140, 80, 0.4) 0%, transparent 40%),
+        radial-gradient(circle at 85% 75%, rgba(160, 120, 60, 0.3) 0%, transparent 40%),
+        repeating-linear-gradient(
+          45deg,
+          transparent,
+          transparent 3px,
+          rgba(0,0,0,0.02) 3px,
+          rgba(0,0,0,0.02) 4px
+        );
+      border-top: 8px solid var(--clutter-brown);
+      border-bottom: 8px solid var(--clutter-brown);
+    }
+
+    .pinboard-section .section-title {
+      color: var(--clutter-ivory);
+      text-shadow: 1px 2px 4px rgba(0,0,0,0.2);
+    }
+
+    .pinboard-section .section-annotation {
+      color: var(--clutter-sunflower);
+    }
+
+    .pinned-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 2rem;
+    }
+
+    .pinned-card {
+      background: var(--clutter-ivory);
+      padding: 1.5rem 1.5rem 1.5rem;
+      position: relative;
+      box-shadow: 2px 4px 12px rgba(0,0,0,0.18);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .pinned-card:nth-child(4n+1) { transform: rotate(-2deg); }
+    .pinned-card:nth-child(4n+2) { transform: rotate(1.5deg); }
+    .pinned-card:nth-child(4n+3) { transform: rotate(-0.8deg); }
+    .pinned-card:nth-child(4n+4) { transform: rotate(2.2deg); }
+
+    .pinned-card:hover {
+      transform: rotate(0deg) scale(1.03);
+      box-shadow: 4px 8px 24px rgba(0,0,0,0.25);
+      z-index: 5;
+    }
+
+    /* Push pin */
+    .pinned-card::before {
+      content: '';
+      position: absolute;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      top: -6px;
+      left: calc(50% - 8px);
+      z-index: 4;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.3), inset 0 -1px 2px rgba(0,0,0,0.2), inset 0 1px 1px rgba(255,255,255,0.3);
+    }
+
+    .pinned-card:nth-child(4n+1)::before { background: radial-gradient(circle at 40% 40%, #e85050, #c03030); }
+    .pinned-card:nth-child(4n+2)::before { background: radial-gradient(circle at 40% 40%, #50b0e8, #3090c0); }
+    .pinned-card:nth-child(4n+3)::before { background: radial-gradient(circle at 40% 40%, #e8d050, #c0b030); }
+    .pinned-card:nth-child(4n+4)::before { background: radial-gradient(circle at 40% 40%, #60c860, #40a040); }
+
+    .pinned-card h3 {
+      font-size: 1.15rem;
+      margin-bottom: 0.5rem;
+      margin-top: 0.5rem;
+    }
+
+    .pinned-card p {
+      font-size: 0.92rem;
+      line-height: 1.6;
+      color: var(--clutter-text-secondary);
+    }
+
+    .pinned-card .card-emoji {
+      font-size: 1.8rem;
+      display: block;
+      margin-bottom: 0.3rem;
+    }
+
+    /* ============================================
+       DESIGN PRINCIPLES -- Patchwork Section
+       ============================================ */
+
+    .principles-section {
+      background:
+        linear-gradient(45deg, rgba(200, 97, 76, 0.08) 25%, transparent 25%),
+        linear-gradient(-45deg, rgba(141, 164, 126, 0.08) 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, rgba(123, 80, 120, 0.08) 75%),
+        linear-gradient(-45deg, transparent 75%, rgba(61, 139, 139, 0.08) 75%),
+        var(--clutter-cream);
+      background-size: 60px 60px;
+      background-position: 0 0, 0 30px, 30px -30px, 30px 0;
+    }
+
+    .principles-grid {
+      columns: 2 340px;
+      column-gap: 2rem;
+    }
+
+    .principle-item {
+      break-inside: avoid;
+      margin-bottom: 1.5rem;
+      display: inline-block;
+      width: 100%;
+      background: var(--clutter-bg-card);
+      border-left: 5px solid;
+      padding: 1.2rem 1.5rem;
+      border-radius: 0 8px 8px 0;
+      box-shadow: 2px 3px 8px rgba(92, 61, 46, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      position: relative;
+    }
+
+    .principle-item:hover {
+      transform: translateX(4px);
+      box-shadow: 3px 5px 14px rgba(92, 61, 46, 0.18);
+    }
+
+    .principle-item:nth-child(8n+1) { border-left-color: var(--clutter-terracotta); }
+    .principle-item:nth-child(8n+2) { border-left-color: var(--clutter-teal); }
+    .principle-item:nth-child(8n+3) { border-left-color: var(--clutter-mustard); }
+    .principle-item:nth-child(8n+4) { border-left-color: var(--clutter-sage); }
+    .principle-item:nth-child(8n+5) { border-left-color: var(--clutter-plum); }
+    .principle-item:nth-child(8n+6) { border-left-color: var(--clutter-burnt-orange); }
+    .principle-item:nth-child(8n+7) { border-left-color: var(--clutter-cobalt); }
+    .principle-item:nth-child(8n+8) { border-left-color: var(--clutter-cherry); }
+
+    .principle-item h3 {
+      font-size: 1.05rem;
+      margin-bottom: 0.3rem;
+    }
+
+    .principle-item p {
+      font-size: 0.9rem;
+      color: var(--clutter-text-secondary);
+      line-height: 1.6;
+    }
+
+    /* ============================================
+       COLOR PALETTE -- Shelf Display
+       ============================================ */
+
+    .palette-section {
+      background: var(--clutter-paper);
+    }
+
+    .palette-shelf {
+      position: relative;
+      padding: 2rem 0 3rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .palette-shelf::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: -2rem;
+      right: -2rem;
+      height: 22px;
+      background: linear-gradient(180deg, #8b6b4a 0%, #7a5c3c 40%, #6b4d30 100%);
+      border-radius: 0 0 3px 3px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.15);
+    }
+
+    .palette-shelf-label {
+      font-family: 'Caveat', cursive;
+      font-size: 1.3rem;
+      color: var(--clutter-text-secondary);
+      margin-bottom: 1rem;
+      display: block;
+    }
+
+    .palette-row {
+      display: flex;
+      gap: 1rem;
+      align-items: flex-end;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .color-pot {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.4rem;
+      transition: transform 0.3s ease;
+      cursor: default;
+    }
+
+    .color-pot:hover {
+      transform: translateY(-6px);
+    }
+
+    .color-swatch {
+      width: 64px;
+      height: 72px;
+      border-radius: 8px 8px 50% 50%;
+      box-shadow: 2px 3px 8px rgba(0,0,0,0.15), inset 0 -8px 12px rgba(0,0,0,0.08);
+      border: 2px solid rgba(255,255,255,0.4);
+      position: relative;
+    }
+
+    .color-swatch::after {
+      content: '';
+      position: absolute;
+      top: 6px;
+      left: 8px;
+      width: 12px;
+      height: 8px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.25);
+    }
+
+    .color-name {
+      font-family: 'Caveat', cursive;
+      font-size: 0.85rem;
+      color: var(--clutter-text-secondary);
+      text-align: center;
+      max-width: 80px;
+    }
+
+    .color-hex {
+      font-family: 'Quicksand', monospace;
+      font-size: 0.65rem;
+      font-weight: 600;
+      color: var(--clutter-text-secondary);
+      opacity: 0.7;
+    }
+
+    /* ============================================
+       TYPOGRAPHY SECTION -- Gallery Wall
+       ============================================ */
+
+    .typography-section {
+      background: var(--clutter-cream);
+      background-image:
+        radial-gradient(ellipse at 30% 40%, rgba(196, 139, 139, 0.08) 0%, transparent 50%),
+        radial-gradient(ellipse at 70% 60%, rgba(61, 139, 139, 0.06) 0%, transparent 50%);
+    }
+
+    .font-gallery {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      grid-auto-rows: 50px;
+      gap: 1rem;
+      padding: 1rem 0;
+    }
+
+    .font-frame {
+      background: #fff;
+      padding: 1.2rem;
+      box-shadow: 2px 3px 10px rgba(0,0,0,0.12);
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease, z-index 0s;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .font-frame:hover {
+      transform: rotate(0deg) scale(1.04) !important;
+      box-shadow: 4px 6px 20px rgba(0,0,0,0.22);
+      z-index: 10;
+    }
+
+    .font-frame .font-label {
+      font-family: 'Quicksand', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--clutter-text-secondary);
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+
+    .font-frame .font-sample {
+      line-height: 1.3;
+    }
+
+    .font-frame .font-usage {
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.72rem;
+      color: var(--clutter-dusty-rose);
+      margin-top: auto;
+      padding-top: 0.5rem;
+    }
+
+    /* Frame placements -- gallery wall style */
+    .font-frame:nth-child(1) {
+      grid-column: 1 / 6;
+      grid-row: 1 / 4;
+      border: 5px solid var(--clutter-brown);
+      transform: rotate(-1.5deg);
+    }
+    .font-frame:nth-child(2) {
+      grid-column: 5 / 9;
+      grid-row: 1 / 3;
+      border: 3px solid var(--clutter-dusty-rose);
+      transform: rotate(1deg);
+    }
+    .font-frame:nth-child(3) {
+      grid-column: 9 / 13;
+      grid-row: 1 / 4;
+      border: 6px solid var(--clutter-brown);
+      box-shadow: inset 0 0 0 2px var(--clutter-mustard), 2px 3px 10px rgba(0,0,0,0.12);
+      transform: rotate(-0.8deg);
+    }
+    .font-frame:nth-child(4) {
+      grid-column: 1 / 4;
+      grid-row: 4 / 7;
+      border: 3px solid var(--clutter-sage);
+      transform: rotate(2deg);
+    }
+    .font-frame:nth-child(5) {
+      grid-column: 4 / 8;
+      grid-row: 3 / 7;
+      border: 4px solid var(--clutter-plum);
+      transform: rotate(-1deg);
+    }
+    .font-frame:nth-child(6) {
+      grid-column: 8 / 13;
+      grid-row: 4 / 6;
+      border: 3px solid var(--clutter-terracotta);
+      transform: rotate(1.5deg);
+    }
+    .font-frame:nth-child(7) {
+      grid-column: 1 / 5;
+      grid-row: 7 / 9;
+      border: 4px solid var(--clutter-teal);
+      transform: rotate(0.8deg);
+    }
+    .font-frame:nth-child(8) {
+      grid-column: 5 / 9;
+      grid-row: 7 / 10;
+      border: 5px solid var(--clutter-burnt-orange);
+      transform: rotate(-2deg);
+    }
+    .font-frame:nth-child(9) {
+      grid-column: 9 / 13;
+      grid-row: 6 / 9;
+      border: 3px solid var(--clutter-navy);
+      transform: rotate(1.2deg);
+    }
+    .font-frame:nth-child(10) {
+      grid-column: 3 / 7;
+      grid-row: 10 / 12;
+      border: 4px dashed var(--clutter-dusty-rose);
+      transform: rotate(-1.5deg);
+    }
+
+    /* ============================================
+       LAYOUT PRINCIPLES -- Masonry
+       ============================================ */
+
+    .layout-section {
+      background: var(--clutter-parchment);
+      background-image:
+        repeating-linear-gradient(
+          0deg,
+          transparent,
+          transparent 40px,
+          rgba(92, 61, 46, 0.03) 40px,
+          rgba(92, 61, 46, 0.03) 41px
+        );
+    }
+
+    .layout-masonry {
+      columns: 3 280px;
+      column-gap: 1.5rem;
+    }
+
+    .layout-card {
+      break-inside: avoid;
+      margin-bottom: 1.5rem;
+      display: inline-block;
+      width: 100%;
+      background: var(--clutter-bg-card);
+      border: 2px solid var(--clutter-dusty-rose);
+      border-radius: 6px;
+      padding: 1.4rem;
+      position: relative;
+      box-shadow: 2px 3px 8px rgba(92, 61, 46, 0.12);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .layout-card:hover {
+      transform: rotate(0deg) translateY(-3px);
+      box-shadow: 3px 6px 16px rgba(92, 61, 46, 0.2);
+      z-index: 2;
+    }
+
+    .layout-card:nth-child(odd) { transform: rotate(-0.8deg); }
+    .layout-card:nth-child(even) { transform: rotate(0.6deg); }
+    .layout-card:nth-child(3n) { transform: rotate(-0.3deg); }
+
+    .layout-card h3 {
+      font-size: 1.05rem;
+      margin-bottom: 0.4rem;
+    }
+
+    .layout-card p {
+      font-size: 0.9rem;
+      color: var(--clutter-text-secondary);
+      line-height: 1.6;
+    }
+
+    /* Tape decorations on some layout cards */
+    .layout-card .tape {
+      position: absolute;
+      width: 90px;
+      height: 24px;
+      opacity: 0.6;
+      z-index: 3;
+      top: -10px;
+      left: calc(50% - 45px);
+    }
+
+    .tape-mustard { background: var(--clutter-mustard); transform: rotate(-4deg); }
+    .tape-rose { background: var(--clutter-dusty-rose); transform: rotate(3deg); }
+    .tape-sage {
+      background: repeating-linear-gradient(90deg, var(--clutter-sage), var(--clutter-sage) 3px, rgba(255,255,255,0.3) 3px, rgba(255,255,255,0.3) 6px);
+      transform: rotate(-6deg);
+    }
+    .tape-teal { background: var(--clutter-teal); transform: rotate(2deg); }
+
+    /* ============================================
+       CSS TECHNIQUES -- Interactive Demo Cards
+       ============================================ */
+
+    .techniques-section {
+      background: var(--clutter-cream);
+    }
+
+    .techniques-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+
+    .technique-card {
+      background: var(--clutter-bg-card);
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 2px 4px 12px rgba(92, 61, 46, 0.14);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .technique-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 4px 8px 24px rgba(92, 61, 46, 0.22);
+    }
+
+    .technique-card .demo-area {
+      height: 160px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .technique-card .card-body {
+      padding: 1.2rem 1.5rem;
+    }
+
+    .technique-card h3 {
+      font-size: 1.05rem;
+      margin-bottom: 0.3rem;
+    }
+
+    .technique-card p {
+      font-size: 0.88rem;
+      color: var(--clutter-text-secondary);
+      line-height: 1.6;
+    }
+
+    /* Demo: Corkboard */
+    .demo-corkboard {
+      background-color: #c4a56e;
+      background-image:
+        radial-gradient(circle at 15% 25%, rgba(180, 140, 80, 0.4) 0%, transparent 40%),
+        radial-gradient(circle at 85% 75%, rgba(160, 120, 60, 0.3) 0%, transparent 40%),
+        repeating-linear-gradient(45deg, transparent, transparent 3px, rgba(0,0,0,0.02) 3px, rgba(0,0,0,0.02) 4px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      padding: 1rem;
+    }
+
+    .demo-corkboard .mini-note {
+      background: var(--clutter-ivory);
+      padding: 0.5rem 0.8rem;
+      font-family: 'Caveat', cursive;
+      font-size: 0.9rem;
+      box-shadow: 2px 3px 8px rgba(0,0,0,0.18);
+      position: relative;
+    }
+
+    .demo-corkboard .mini-note::before {
+      content: '';
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      position: absolute;
+      top: -4px;
+      left: calc(50% - 5px);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.3), inset 0 1px 1px rgba(255,255,255,0.3);
+    }
+
+    .demo-corkboard .mini-note:nth-child(1) { transform: rotate(-5deg); }
+    .demo-corkboard .mini-note:nth-child(1)::before { background: radial-gradient(circle at 40% 40%, #e85050, #c03030); }
+    .demo-corkboard .mini-note:nth-child(2) { transform: rotate(3deg); }
+    .demo-corkboard .mini-note:nth-child(2)::before { background: radial-gradient(circle at 40% 40%, #50b0e8, #3090c0); }
+    .demo-corkboard .mini-note:nth-child(3) { transform: rotate(-2deg); }
+    .demo-corkboard .mini-note:nth-child(3)::before { background: radial-gradient(circle at 40% 40%, #60c860, #40a040); }
+
+    /* Demo: Gallery Wall */
+    .demo-gallery {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-template-rows: repeat(3, 1fr);
+      gap: 0.4rem;
+      padding: 1rem;
+      background: var(--clutter-paper);
+    }
+
+    .demo-gallery .g-item {
+      border: 2px solid var(--clutter-brown);
+      background: #fff;
+      padding: 3px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      transition: transform 0.3s, z-index 0s;
+    }
+
+    .demo-gallery .g-item:hover {
+      transform: scale(1.1) rotate(0deg) !important;
+      z-index: 5;
+      box-shadow: 3px 4px 12px rgba(0,0,0,0.2);
+    }
+
+    .demo-gallery .g-item:nth-child(1) { grid-column: 1/3; grid-row: 1/3; transform: rotate(-2deg); }
+    .demo-gallery .g-item:nth-child(2) { grid-column: 3/4; grid-row: 1/2; transform: rotate(1deg); }
+    .demo-gallery .g-item:nth-child(3) { grid-column: 4/5; grid-row: 1/3; transform: rotate(-1deg); }
+    .demo-gallery .g-item:nth-child(4) { grid-column: 2/4; grid-row: 2/4; transform: rotate(1.5deg); }
+    .demo-gallery .g-item:nth-child(5) { grid-column: 1/2; grid-row: 3/4; transform: rotate(-0.5deg); }
+    .demo-gallery .g-item:nth-child(6) { grid-column: 4/5; grid-row: 3/4; transform: rotate(2deg); }
+
+    /* Demo: Washi Tape */
+    .demo-washi {
+      background: var(--clutter-ivory);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      padding: 1rem;
+    }
+
+    .washi-strip {
+      height: 26px;
+      border-radius: 1px;
+      opacity: 0.7;
+    }
+
+    .demo-washi .washi-strip:nth-child(1) { width: 80%; background: var(--clutter-mustard); transform: rotate(-2deg); }
+    .demo-washi .washi-strip:nth-child(2) {
+      width: 70%;
+      background: repeating-linear-gradient(90deg, var(--clutter-teal), var(--clutter-teal) 4px, rgba(255,255,255,0.4) 4px, rgba(255,255,255,0.4) 8px);
+      transform: rotate(1deg);
+    }
+    .demo-washi .washi-strip:nth-child(3) { width: 85%; background: var(--clutter-dusty-rose); transform: rotate(-3deg); }
+    .demo-washi .washi-strip:nth-child(4) {
+      width: 65%;
+      background: repeating-linear-gradient(90deg, var(--clutter-sage), var(--clutter-sage) 3px, rgba(255,255,255,0.3) 3px, rgba(255,255,255,0.3) 6px);
+      transform: rotate(2deg);
+    }
+
+    /* Demo: Stickers */
+    .demo-stickers {
+      background:
+        linear-gradient(45deg, rgba(200, 97, 76, 0.08) 25%, transparent 25%),
+        linear-gradient(-45deg, rgba(141, 164, 126, 0.08) 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, rgba(123, 80, 120, 0.08) 75%),
+        linear-gradient(-45deg, transparent 75%, rgba(61, 139, 139, 0.08) 75%),
+        var(--clutter-cream);
+      background-size: 40px 40px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 0.8rem;
+      padding: 1.5rem;
+    }
+
+    .sticker {
+      display: inline-block;
+      padding: 0.35rem 0.9rem;
+      font-family: 'Quicksand', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      border-radius: 100px;
+      box-shadow: 1px 2px 4px rgba(0,0,0,0.1);
+      transition: transform 0.2s ease;
+    }
+
+    .sticker:hover { transform: scale(1.1) rotate(0deg) !important; }
+
+    .sticker-warm { background: var(--clutter-terracotta); color: #fff; transform: rotate(-3deg); }
+    .sticker-cool { background: var(--clutter-teal); color: #fff; transform: rotate(2deg); }
+    .sticker-bright { background: var(--clutter-sunflower); color: var(--clutter-brown); transform: rotate(-5deg); }
+    .sticker-outlined { background: transparent; border: 2px dashed var(--clutter-dusty-rose); color: var(--clutter-dusty-rose); transform: rotate(4deg); }
+    .sticker-plum { background: var(--clutter-plum); color: #fff; transform: rotate(-2deg); }
+    .sticker-forest { background: var(--clutter-forest); color: #fff; transform: rotate(3deg); }
+
+    /* Demo: Patchwork */
+    .demo-patchwork {
+      background:
+        linear-gradient(45deg, rgba(200, 97, 76, 0.12) 25%, transparent 25%),
+        linear-gradient(-45deg, rgba(141, 164, 126, 0.12) 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, rgba(123, 80, 120, 0.12) 75%),
+        linear-gradient(-45deg, transparent 75%, rgba(61, 139, 139, 0.12) 75%),
+        var(--clutter-cream);
+      background-size: 60px 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+
+    .demo-patchwork .patch-text {
+      font-family: 'Lora', serif;
+      font-style: italic;
+      font-size: 1.1rem;
+      color: var(--clutter-plum);
+      text-align: center;
+      max-width: 220px;
+      line-height: 1.5;
+    }
+
+    /* Demo: Shelf */
+    .demo-shelf {
+      background: var(--clutter-cream);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 1rem 1.5rem 0;
+    }
+
+    .shelf-items {
+      display: flex;
+      gap: 0.6rem;
+      align-items: flex-end;
+      justify-content: center;
+    }
+
+    .shelf-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      font-size: 1.6rem;
+      transition: transform 0.2s ease;
+    }
+
+    .shelf-item:hover { transform: translateY(-4px); }
+
+    .shelf-board {
+      height: 16px;
+      background: linear-gradient(180deg, #8b6b4a 0%, #7a5c3c 40%, #6b4d30 100%);
+      border-radius: 0 0 2px 2px;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.15);
+      margin-top: 0.5rem;
+    }
+
+    /* ============================================
+       MATERIALS TABLE -- Comparative Display
+       ============================================ */
+
+    .materials-section {
+      background: var(--clutter-paper);
+      background-image:
+        radial-gradient(circle at 20% 30%, rgba(196, 139, 139, 0.1) 8px, transparent 8px),
+        radial-gradient(circle at 60% 70%, rgba(141, 164, 126, 0.08) 6px, transparent 6px),
+        radial-gradient(circle at 80% 20%, rgba(212, 168, 67, 0.07) 5px, transparent 5px);
+      background-size: 180px 180px;
+    }
+
+    .materials-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      background: var(--clutter-ivory);
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 2px 4px 16px rgba(92, 61, 46, 0.12);
+    }
+
+    .materials-table thead {
+      background: var(--clutter-burgundy);
+      color: var(--clutter-ivory);
+    }
+
+    .materials-table th {
+      padding: 1rem 1.2rem;
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: 0.95rem;
+      text-align: left;
+      letter-spacing: 0.02em;
+    }
+
+    .materials-table td {
+      padding: 0.9rem 1.2rem;
+      font-size: 0.9rem;
+      border-bottom: 1px solid rgba(196, 139, 139, 0.2);
+      vertical-align: top;
+      line-height: 1.5;
+    }
+
+    .materials-table tbody tr:nth-child(even) {
+      background: rgba(237, 228, 211, 0.4);
+    }
+
+    .materials-table tbody tr {
+      transition: background 0.2s ease;
+    }
+
+    .materials-table tbody tr:hover {
+      background: rgba(196, 139, 139, 0.1);
+    }
+
+    .materials-table .material-emoji {
+      font-size: 1.3rem;
+      margin-right: 0.4rem;
+      vertical-align: middle;
+    }
+
+    /* ============================================
+       COMPARISONS & RELATED -- Side by Side
+       ============================================ */
+
+    .comparison-section {
+      background: var(--clutter-cream);
+    }
+
+    .comparison-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 3rem;
+    }
+
+    .comparison-card {
+      background: var(--clutter-bg-card);
+      border: 2px solid;
+      border-radius: 8px;
+      padding: 1.5rem;
+      position: relative;
+      box-shadow: 2px 3px 8px rgba(92, 61, 46, 0.1);
+    }
+
+    .comparison-card--max {
+      border-color: var(--clutter-plum);
+    }
+
+    .comparison-card--clutter {
+      border-color: var(--clutter-terracotta);
+    }
+
+    .comparison-card h3 {
+      font-size: 1.1rem;
+      margin-bottom: 0.8rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .comparison-card ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .comparison-card li {
+      font-size: 0.88rem;
+      color: var(--clutter-text-secondary);
+      padding: 0.3rem 0;
+      padding-left: 1.5rem;
+      position: relative;
+      line-height: 1.5;
+    }
+
+    .comparison-card li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0.65rem;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+    }
+
+    .comparison-card--max li::before { background: var(--clutter-plum); }
+    .comparison-card--clutter li::before { background: var(--clutter-terracotta); }
+
+    /* Related aesthetics */
+    .related-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: center;
+    }
+
+    .related-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.6rem 1.2rem;
+      background: var(--clutter-bg-card);
+      border: 2px solid var(--clutter-dusty-rose);
+      border-radius: 100px;
+      font-family: 'Quicksand', sans-serif;
+      font-weight: 600;
+      font-size: 0.85rem;
+      color: var(--clutter-text-primary);
+      transition: all 0.3s ease;
+      box-shadow: 1px 2px 6px rgba(92, 61, 46, 0.1);
+    }
+
+    .related-tag:hover {
+      transform: translateY(-2px) rotate(-1deg);
+      box-shadow: 2px 4px 10px rgba(92, 61, 46, 0.18);
+    }
+
+    .related-tag:nth-child(1) { border-color: var(--clutter-plum); }
+    .related-tag:nth-child(2) { border-color: var(--clutter-sage); }
+    .related-tag:nth-child(3) { border-color: var(--clutter-teal); }
+    .related-tag:nth-child(4) { border-color: var(--clutter-dusty-rose); }
+    .related-tag:nth-child(5) { border-color: var(--clutter-burnt-orange); }
+
+    .related-desc {
+      font-size: 0.72rem;
+      color: var(--clutter-text-secondary);
+      font-weight: 400;
+    }
+
+    /* ============================================
+       FOOTER -- Shelf Bottom
+       ============================================ */
+
+    footer {
+      background: var(--clutter-brown);
+      color: var(--clutter-parchment);
+      text-align: center;
+      padding: 3rem 2rem;
+      position: relative;
+    }
+
+    footer::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 8px;
+      background: repeating-linear-gradient(
+        90deg,
+        var(--clutter-terracotta) 0px,
+        var(--clutter-terracotta) 20px,
+        var(--clutter-mustard) 20px,
+        var(--clutter-mustard) 40px,
+        var(--clutter-teal) 40px,
+        var(--clutter-teal) 60px,
+        var(--clutter-sage) 60px,
+        var(--clutter-sage) 80px,
+        var(--clutter-plum) 80px,
+        var(--clutter-plum) 100px,
+        var(--clutter-dusty-rose) 100px,
+        var(--clutter-dusty-rose) 120px
+      );
+    }
+
+    footer h2 {
+      font-family: 'DM Serif Display', serif;
+      color: var(--clutter-ivory);
+      margin-bottom: 0.5rem;
+    }
+
+    footer p {
+      font-size: 0.9rem;
+      opacity: 0.8;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    footer .footer-annotation {
+      font-family: 'Caveat', cursive;
+      font-size: 1.2rem;
+      color: var(--clutter-mustard);
+      margin-top: 1.5rem;
+      display: inline-block;
+      transform: rotate(-2deg);
+    }
+
+    /* ============================================
+       QUOTE BANNER
+       ============================================ */
+
+    .quote-banner {
+      background: var(--clutter-burgundy);
+      color: var(--clutter-ivory);
+      padding: 3rem 2rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .quote-banner::before,
+    .quote-banner::after {
+      content: '';
+      position: absolute;
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      opacity: 0.08;
+    }
+
+    .quote-banner::before {
+      background: var(--clutter-mustard);
+      top: -80px;
+      left: -40px;
+    }
+
+    .quote-banner::after {
+      background: var(--clutter-teal);
+      bottom: -60px;
+      right: -30px;
+    }
+
+    .quote-banner blockquote {
+      font-family: 'Lora', 'Crimson Pro', serif;
+      font-style: italic;
+      font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+      line-height: 1.6;
+      max-width: 700px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .quote-banner .quote-attr {
+      font-family: 'Quicksand', sans-serif;
+      font-style: normal;
+      font-size: 0.85rem;
+      margin-top: 1rem;
+      display: block;
+      opacity: 0.7;
+      letter-spacing: 0.05em;
+    }
+
+    /* ============================================
+       SCROLL ANIMATIONS
+       ============================================ */
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+    .reveal-delay-5 { transition-delay: 0.5s; }
+    .reveal-delay-6 { transition-delay: 0.6s; }
+
+    /* ============================================
+       STRING LIGHTS (decorative)
+       ============================================ */
+
+    .string-lights {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      padding: 1rem 0;
+      margin: 1rem 0;
+      position: relative;
+    }
+
+    .string-lights::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 5%;
+      right: 5%;
+      height: 2px;
+      background: var(--clutter-brown);
+      opacity: 0.3;
+      z-index: 0;
+    }
+
+    .light-bulb {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      position: relative;
+      z-index: 1;
+      animation: glow 3s ease-in-out infinite;
+    }
+
+    .light-bulb:nth-child(1) { background: var(--clutter-terracotta); animation-delay: 0s; }
+    .light-bulb:nth-child(2) { background: var(--clutter-mustard); animation-delay: 0.4s; }
+    .light-bulb:nth-child(3) { background: var(--clutter-teal); animation-delay: 0.8s; }
+    .light-bulb:nth-child(4) { background: var(--clutter-sage); animation-delay: 1.2s; }
+    .light-bulb:nth-child(5) { background: var(--clutter-plum); animation-delay: 1.6s; }
+    .light-bulb:nth-child(6) { background: var(--clutter-cherry); animation-delay: 2.0s; }
+    .light-bulb:nth-child(7) { background: var(--clutter-sunflower); animation-delay: 2.4s; }
+    .light-bulb:nth-child(8) { background: var(--clutter-cobalt); animation-delay: 0.2s; }
+    .light-bulb:nth-child(9) { background: var(--clutter-burnt-orange); animation-delay: 0.6s; }
+    .light-bulb:nth-child(10) { background: var(--clutter-dusty-rose); animation-delay: 1.0s; }
+    .light-bulb:nth-child(11) { background: var(--clutter-terracotta); animation-delay: 1.4s; }
+    .light-bulb:nth-child(12) { background: var(--clutter-sage); animation-delay: 1.8s; }
+
+    @keyframes glow {
+      0%, 100% { box-shadow: 0 0 4px 2px currentColor; opacity: 0.7; }
+      50% { box-shadow: 0 0 10px 5px currentColor; opacity: 1; }
+    }
+
+    /* ============================================
+       RESPONSIVE
+       ============================================ */
+
+    @media (max-width: 900px) {
+      .font-gallery {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .font-frame {
+        transform: none !important;
+      }
+
+      .font-frame:nth-child(1),
+      .font-frame:nth-child(2),
+      .font-frame:nth-child(3),
+      .font-frame:nth-child(4),
+      .font-frame:nth-child(5),
+      .font-frame:nth-child(6),
+      .font-frame:nth-child(7),
+      .font-frame:nth-child(8),
+      .font-frame:nth-child(9),
+      .font-frame:nth-child(10) {
+        grid-column: auto;
+        grid-row: auto;
+      }
+
+      .font-frame:nth-child(odd) { transform: rotate(-1deg) !important; }
+      .font-frame:nth-child(even) { transform: rotate(0.8deg) !important; }
+
+      .layout-masonry {
+        columns: 1;
+      }
+
+      .principles-grid {
+        columns: 1;
+      }
+    }
+
+    @media (max-width: 600px) {
+      section { padding: 3rem 1.2rem; }
+
+      .nav-bar { gap: 0.3rem; padding: 0.5rem 0.6rem; }
+      .nav-bar a { padding: 0.25rem 0.6rem; font-size: 0.68rem; }
+
+      .hero { min-height: 80vh; padding: 3rem 1.5rem; }
+
+      .pinned-cards {
+        grid-template-columns: 1fr;
+      }
+
+      .palette-row {
+        gap: 0.6rem;
+      }
+
+      .color-swatch {
+        width: 48px;
+        height: 56px;
+      }
+
+      .techniques-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .comparison-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .string-lights {
+        gap: 1rem;
+      }
+
+      .materials-table {
+        font-size: 0.82rem;
+      }
+
+      .materials-table th, .materials-table td {
+        padding: 0.6rem 0.8rem;
+      }
+    }
+
+    /* ============================================
+       DECORATIVE DIVIDERS
+       ============================================ */
+
+    .squiggly-divider {
+      height: 12px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 12'%3E%3Cpath d='M0 8 Q12.5 0 25 8 T50 8 T75 8 T100 8 T125 8 T150 8 T175 8 T200 8' fill='none' stroke='%23c48b8b' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: repeat-x;
+      background-size: 200px 12px;
+      background-position: center;
+      margin: 0;
+      opacity: 0.5;
+    }
+
+    /* ============================================
+       POLAROID QUOTE CARD (floating)
+       ============================================ */
+
+    .polaroid-quote {
+      background: #fff;
+      padding: 1.2rem 1.2rem 2.5rem;
+      max-width: 320px;
+      margin: 2rem auto;
+      box-shadow: 2px 4px 14px rgba(0,0,0,0.12);
+      transform: rotate(-2deg);
+      transition: transform 0.3s ease;
+    }
+
+    .polaroid-quote:hover {
+      transform: rotate(0deg) scale(1.02);
+    }
+
+    .polaroid-quote .pq-text {
+      font-family: 'Lora', serif;
+      font-style: italic;
+      font-size: 1rem;
+      color: var(--clutter-plum);
+      line-height: 1.6;
+      border-left: 3px solid var(--clutter-dusty-rose);
+      padding-left: 1rem;
+    }
+
+    .polaroid-quote .pq-caption {
+      font-family: 'Caveat', cursive;
+      font-size: 1rem;
+      color: var(--clutter-text-secondary);
+      text-align: center;
+      margin-top: 1rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===================== HERO ===================== -->
+  <header class="hero">
+    <div class="washi washi-1"></div>
+    <div class="washi washi-2"></div>
+    <div class="washi washi-3"></div>
+    <div class="washi washi-4"></div>
+
+    <!-- Scattered decorative elements -->
+    <span class="hero-decor" style="top:12%;left:8%;animation-delay:1.2s;font-size:1.6rem;">&#x1F4DA;</span>
+    <span class="hero-decor" style="top:20%;right:12%;animation-delay:1.4s;font-size:1.4rem;">&#x1F3A8;</span>
+    <span class="hero-decor" style="bottom:25%;left:6%;animation-delay:1.6s;font-size:1.5rem;">&#x1F33F;</span>
+    <span class="hero-decor" style="top:35%;right:7%;animation-delay:1.8s;font-size:1.3rem;">&#x1F4F7;</span>
+    <span class="hero-decor" style="bottom:30%;right:10%;animation-delay:2.0s;font-size:1.6rem;">&#x1F338;</span>
+    <span class="hero-decor" style="top:50%;left:4%;animation-delay:2.2s;font-size:1.2rem;">&#x2728;</span>
+    <span class="hero-decor" style="bottom:15%;left:15%;animation-delay:2.4s;font-size:1.4rem;">&#x1F3B5;</span>
+    <span class="hero-decor" style="top:15%;left:25%;animation-delay:2.6s;font-size:1.3rem;">&#x2615;</span>
+    <span class="hero-decor" style="bottom:20%;right:20%;animation-delay:2.8s;font-size:1.5rem;">&#x1F5BC;</span>
+
+    <h1 class="hero-title">
+      <span class="accent-letter">C</span>luttercore
+    </h1>
+    <span class="hero-subtitle">the beautiful mess</span>
+    <p class="hero-description">
+      A maximalist interior and lifestyle aesthetic that celebrates <strong>densely curated, deeply personal spaces</strong>
+      where every surface becomes a display canvas for collections, memorabilia, and sentimental objects.
+      Unlike traditional maximalism, Cluttercore prioritizes <em>emotional resonance and personal expression</em>
+      over aesthetic harmony.
+    </p>
+
+    <div class="scroll-hint">
+      explore the clutter
+      <span>&#x2193;</span>
+    </div>
+  </header>
+
+  <!-- ===================== NAVIGATION ===================== -->
+  <nav class="nav-bar">
+    <a href="#visual">Visual</a>
+    <a href="#principles">Principles</a>
+    <a href="#palette">Palette</a>
+    <a href="#typography">Typography</a>
+    <a href="#layout">Layout</a>
+    <a href="#techniques">Techniques</a>
+    <a href="#materials">Materials</a>
+    <a href="#comparisons">Comparisons</a>
+  </nav>
+
+  <!-- ===================== STRING LIGHTS ===================== -->
+  <div class="string-lights">
+    <div class="light-bulb"></div>
+    <div class="light-bulb"></div>
+    <div class="light-bulb"></div>
+    <div class="light-bulb"></div>
+    <div class="light-bulb"></div>
+    <div class="light-bulb"></div>
+    <div class="light-bulb"></div>
+    <div class="light-bulb"></div>
+    <div class="light-bulb"></div>
+    <div class="light-bulb"></div>
+    <div class="light-bulb"></div>
+    <div class="light-bulb"></div>
+  </div>
+
+  <!-- ===================== VISUAL CHARACTERISTICS -- PINBOARD ===================== -->
+  <section class="pinboard-section" id="visual">
+    <div class="section-inner">
+      <h2 class="section-title reveal">Visual Characteristics</h2>
+      <span class="section-annotation reveal reveal-delay-1">every shelf tells a story...</span>
+
+      <div class="pinned-cards">
+        <div class="pinned-card reveal reveal-delay-1">
+          <span class="card-emoji">&#x1F4DA;</span>
+          <h3>Dense, Layered Collections</h3>
+          <p>Books, figurines, vintage cameras, trinkets, and curiosities filling every shelf and surface.</p>
+        </div>
+        <div class="pinned-card reveal reveal-delay-2">
+          <span class="card-emoji">&#x1F5BC;</span>
+          <h3>Gallery Walls</h3>
+          <p>Walls comprehensively covered with art, photographs, postcards, prints in mismatched frames.</p>
+        </div>
+        <div class="pinned-card reveal reveal-delay-3">
+          <span class="card-emoji">&#x1F4D6;</span>
+          <h3>Overflowing Bookshelves</h3>
+          <p>Books stacked horizontally, vertically, and double-layered with objects tucked between them.</p>
+        </div>
+        <div class="pinned-card reveal reveal-delay-4">
+          <span class="card-emoji">&#x1F33F;</span>
+          <h3>Abundant Houseplants</h3>
+          <p>Trailing vines, potted succulents, and hanging planters woven through the clutter.</p>
+        </div>
+        <div class="pinned-card reveal reveal-delay-5">
+          <span class="card-emoji">&#x1F9F5;</span>
+          <h3>Mixed Textiles &amp; Patterns</h3>
+          <p>Layered fabrics combining florals, plaids, geometric prints, and ethnic patterns with no concern for matching.</p>
+        </div>
+        <div class="pinned-card reveal reveal-delay-1">
+          <span class="card-emoji">&#x1FA91;</span>
+          <h3>Eclectic Furniture</h3>
+          <p>Antique dressers next to modern shelving next to thrifted side tables -- mismatched by design.</p>
+        </div>
+        <div class="pinned-card reveal reveal-delay-2">
+          <span class="card-emoji">&#x1F496;</span>
+          <h3>Sentimental Objects as Decor</h3>
+          <p>Travel souvenirs, inherited items, and childhood keepsakes prominently displayed.</p>
+        </div>
+        <div class="pinned-card reveal reveal-delay-3">
+          <span class="card-emoji">&#x2728;</span>
+          <h3>No Blank Walls</h3>
+          <p>Every vertical and horizontal surface serves as a curated display area.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="squiggly-divider"></div>
+
+  <!-- ===================== QUOTE BANNER ===================== -->
+  <div class="quote-banner">
+    <blockquote class="reveal">
+      "Cluttercore is an emotional security blanket -- spaces that feel organically evolved and intimately lived-in,
+      where every object earns its place through personal meaning."
+      <span class="quote-attr">-- The Cluttercore Ethos</span>
+    </blockquote>
+  </div>
+
+  <!-- ===================== DESIGN PRINCIPLES -- PATCHWORK ===================== -->
+  <section class="principles-section" id="principles">
+    <div class="section-inner">
+      <h2 class="section-title reveal">Design Principles</h2>
+      <span class="section-annotation reveal reveal-delay-1">the method behind the beautiful madness</span>
+
+      <div class="principles-grid">
+        <div class="principle-item reveal reveal-delay-1">
+          <h3>Intentional Accumulation</h3>
+          <p>The clutter is curated, not careless; every object tells a story.</p>
+        </div>
+        <div class="principle-item reveal reveal-delay-2">
+          <h3>Personal Narrative Over Design Rules</h3>
+          <p>Spaces reflect the inhabitant's journey, passions, and memories.</p>
+        </div>
+        <div class="principle-item reveal reveal-delay-3">
+          <h3>Chromatic Diversity</h3>
+          <p>Highly saturated and varied colors coexist without a unifying scheme.</p>
+        </div>
+        <div class="principle-item reveal reveal-delay-4">
+          <h3>Textural Richness</h3>
+          <p>Velvet, wool, wicker, ceramic, brass, wood, and paper layered together.</p>
+        </div>
+        <div class="principle-item reveal reveal-delay-5">
+          <h3>Warmth &amp; Comfort</h3>
+          <p>The overall effect should feel like an "emotional security blanket."</p>
+        </div>
+        <div class="principle-item reveal reveal-delay-1">
+          <h3>Organic Arrangement</h3>
+          <p>Objects are grouped by meaning or association rather than visual symmetry.</p>
+        </div>
+        <div class="principle-item reveal reveal-delay-2">
+          <h3>Visual Density with Navigable Paths</h3>
+          <p>Packed spaces that still feel inviting, not claustrophobic.</p>
+        </div>
+        <div class="principle-item reveal reveal-delay-3">
+          <h3>Nostalgia &amp; Authenticity</h3>
+          <p>Handmade, vintage, and well-worn items valued over new and pristine.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="squiggly-divider"></div>
+
+  <!-- ===================== COLOR PALETTE -- SHELF DISPLAY ===================== -->
+  <section class="palette-section" id="palette">
+    <div class="section-inner">
+      <h2 class="section-title reveal">Color Palette</h2>
+      <span class="section-annotation reveal reveal-delay-1">collected over time, not chosen from a single swatch</span>
+
+      <!-- Warm Base Tones Shelf -->
+      <div class="palette-shelf reveal">
+        <span class="palette-shelf-label">Warm Base Tones</span>
+        <div class="palette-row">
+          <div class="color-pot">
+            <div class="color-swatch" style="background:#f5f0e6;"></div>
+            <span class="color-name">Warm Cream</span>
+            <span class="color-hex">#F5F0E6</span>
+          </div>
+          <div class="color-pot">
+            <div class="color-swatch" style="background:#fff8ee;"></div>
+            <span class="color-name">Soft Ivory</span>
+            <span class="color-hex">#FFF8EE</span>
+          </div>
+          <div class="color-pot">
+            <div class="color-swatch" style="background:#ede4d3;"></div>
+            <span class="color-name">Aged Paper</span>
+            <span class="color-hex">#EDE4D3</span>
+          </div>
+          <div class="color-pot">
+            <div class="color-swatch" style="background:#e8dcca;"></div>
+            <span class="color-name">Parchment</span>
+            <span class="color-hex">#E8DCCA</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Warm Accents Shelf -->
+      <div class="palette-shelf reveal">
+        <span class="palette-shelf-label">Warm Accents</span>
+        <div class="palette-row">
+          <div class="color-pot">
+            <div class="color-swatch" style="background:#c8614c;"></div>
+            <span class="color-name">Terracotta</span>
+            <span class="color-hex">#C8614C</span>
+          </div>
+          <div class="color-pot">
+            <div class="color-swatch" style="background:#d4a843;"></div>
+            <span class="color-name">Mustard</span>
+            <span class="color-hex">#D4A843</span>
+          </div>
+          <div class="color-pot">
+            <div class="color-swatch" style="background:#cc6b30;"></div>
+            <span class="color-name">Burnt Orange</span>
+            <span class="color-hex">#CC6B30</span>
+          </div>
+          <div class="color-pot">
+            <div class="color-swatch" style="background:#c48b8b;"></div>
+            <span class="color-name">Dusty Rose</span>
+            <span class="color-hex">#C48B8B</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Cool Accents Shelf -->
+      <div class="palette-shelf reveal">
+        <span class="palette-shelf-label">Cool Accents</span>
+        <div class="palette-row">
+          <div class="color-pot">
+            <div class="color-swatch" style="background:#3d8b8b;"></div>
+            <span class="color-name">Teal</span>
+            <span class="color-hex">#3D8B8B</span>
+          </div>
+          <div class="color-pot">
+            <div class="color-swatch" style="background:#8da47e;"></div>
+            <span class="color-name">Sage Green</span>
+            <span class="color-hex">#8DA47E</span>
+          </div>
+          <div class="color-pot">
+            <div class="color-swatch" style="background:#7080b8;"></div>
+            <span class="color-name">Periwinkle</span>
+            <span class="color-hex">#7080B8</span>
+          </div>
+          <div class="color-pot">
+            <div class="color-swatch" style="background:#7b5078;"></div>
+            <span class="color-name">Plum Purple</span>
+            <span class="color-hex">#7B5078</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Rich Deep Tones Shelf -->
+      <div class="palette-shelf reveal">
+        <span class="palette-shelf-label">Rich Deep Tones</span>
+        <div class="palette-row">
+          <div class="color-pot">
+            <div class="color-swatch" style="background:#803040;"></div>
+            <span class="color-name">Burgundy</span>
+            <span class="color-hex">#803040</span>
+          </div>
+          <div class="color-pot">
+            <div class="color-swatch" style="background:#2e5e3e;"></div>
+            <span class="color-name">Forest Green</span>
+            <span class="color-hex">#2E5E3E</span>
+          </div>
+          <div class="color-pot">
+            <div class="color-swatch" style="background:#2a3a5c;"></div>
+            <span class="color-name">Navy</span>
+            <span class="color-hex">#2A3A5C</span>
+          </div>
+          <div class="color-pot">
+            <div class="color-swatch" style="background:#5c3d2e;"></div>
+            <span class="color-name">Rich Brown</span>
+            <span class="color-hex">#5C3D2E</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bright Pops Shelf -->
+      <div class="palette-shelf reveal">
+        <span class="palette-shelf-label">Bright Pops!</span>
+        <div class="palette-row">
+          <div class="color-pot">
+            <div class="color-swatch" style="background:#b83240;"></div>
+            <span class="color-name">Cherry Red</span>
+            <span class="color-hex">#B83240</span>
+          </div>
+          <div class="color-pot">
+            <div class="color-swatch" style="background:#e5c040;"></div>
+            <span class="color-name">Sunflower</span>
+            <span class="color-hex">#E5C040</span>
+          </div>
+          <div class="color-pot">
+            <div class="color-swatch" style="background:#2e5ba8;"></div>
+            <span class="color-name">Cobalt Blue</span>
+            <span class="color-hex">#2E5BA8</span>
+          </div>
+          <div class="color-pot">
+            <div class="color-swatch" style="background:#b8388e;"></div>
+            <span class="color-name">Magenta</span>
+            <span class="color-hex">#B8388E</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Color approach note -->
+      <div class="polaroid-quote reveal">
+        <div class="pq-text">
+          No single dominant color -- embrace chromatic variety. Warm neutral base with saturated pops.
+          Colors should feel collected over time, with earthy warmth as the unifying thread.
+        </div>
+        <div class="pq-caption">the color philosophy</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="squiggly-divider"></div>
+
+  <!-- ===================== TYPOGRAPHY -- GALLERY WALL ===================== -->
+  <section class="typography-section" id="typography">
+    <div class="section-inner">
+      <h2 class="section-title reveal">Typography</h2>
+      <span class="section-annotation reveal reveal-delay-1">mix typefaces like you mix patterns -- with abandon and joy</span>
+
+      <div class="font-gallery reveal">
+        <!-- Playfair Display -->
+        <div class="font-frame">
+          <span class="font-label">Playfair Display</span>
+          <div class="font-sample" style="font-family:'Playfair Display',serif;font-size:1.8rem;font-weight:700;color:var(--clutter-burgundy);">
+            Elegant Headlines
+          </div>
+          <div class="font-usage">Headlines, section titles</div>
+        </div>
+
+        <!-- Lora -->
+        <div class="font-frame">
+          <span class="font-label">Lora</span>
+          <div class="font-sample" style="font-family:'Lora',serif;font-size:1.3rem;font-style:italic;color:var(--clutter-plum);">
+            Warm calligraphic serif for pull quotes
+          </div>
+          <div class="font-usage">Subheadings, pull quotes</div>
+        </div>
+
+        <!-- DM Serif Display -->
+        <div class="font-frame">
+          <span class="font-label">DM Serif Display</span>
+          <div class="font-sample" style="font-family:'DM Serif Display',serif;font-size:2rem;color:var(--clutter-burgundy);">
+            Bold Hero Text
+          </div>
+          <div class="font-usage">Hero headlines, display text</div>
+        </div>
+
+        <!-- Nunito -->
+        <div class="font-frame">
+          <span class="font-label">Nunito</span>
+          <div class="font-sample" style="font-family:'Nunito',sans-serif;font-size:1rem;color:var(--clutter-text-primary);">
+            A friendly, rounded sans-serif perfect for body text and UI elements.
+          </div>
+          <div class="font-usage">Body text, UI elements</div>
+        </div>
+
+        <!-- Caveat -->
+        <div class="font-frame">
+          <span class="font-label">Caveat</span>
+          <div class="font-sample" style="font-family:'Caveat',cursive;font-size:1.6rem;color:var(--clutter-terracotta);transform:rotate(-1deg);display:inline-block;">
+            Handwritten annotations & notes!
+          </div>
+          <div class="font-usage">Annotations, decorative labels</div>
+        </div>
+
+        <!-- Quicksand -->
+        <div class="font-frame">
+          <span class="font-label">Quicksand</span>
+          <div class="font-sample" style="font-family:'Quicksand',sans-serif;font-size:0.85rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--clutter-text-secondary);">
+            Labels &bull; Navigation &bull; Tags
+          </div>
+          <div class="font-usage">Labels, nav, tags</div>
+        </div>
+
+        <!-- Crimson Pro -->
+        <div class="font-frame">
+          <span class="font-label">Crimson Pro</span>
+          <div class="font-sample" style="font-family:'Crimson Pro',serif;font-size:1.05rem;color:var(--clutter-text-primary);line-height:1.6;">
+            Classic book-style serif for long-form reading comfort.
+          </div>
+          <div class="font-usage">Long-form body text</div>
+        </div>
+
+        <!-- Patrick Hand -->
+        <div class="font-frame">
+          <span class="font-label">Patrick Hand</span>
+          <div class="font-sample" style="font-family:'Patrick Hand',cursive;font-size:1.3rem;color:var(--clutter-teal);">
+            Casual handwritten callouts
+          </div>
+          <div class="font-usage">Accent text, callouts</div>
+        </div>
+
+        <!-- Merriweather (not loaded but referenced) -->
+        <div class="font-frame">
+          <span class="font-label">Indie Flower</span>
+          <div class="font-sample" style="font-family:'Indie Flower',cursive;font-size:1.4rem;color:var(--clutter-sage);">
+            Whimsical decorative accents
+          </div>
+          <div class="font-usage">Decorative accents, stickers</div>
+        </div>
+
+        <!-- Mix demonstration -->
+        <div class="font-frame">
+          <span class="font-label">The Mix</span>
+          <div class="font-sample">
+            <span style="font-family:'Playfair Display',serif;font-weight:700;font-size:1.1rem;color:var(--clutter-burgundy);">Serif heading</span>
+            <span style="font-family:'Caveat',cursive;font-size:1.1rem;color:var(--clutter-terracotta);"> + handwritten</span>
+            <span style="font-family:'Nunito',sans-serif;font-size:0.85rem;color:var(--clutter-text-secondary);display:block;margin-top:0.2rem;">+ clean body font = Cluttercore</span>
+          </div>
+          <div class="font-usage">Mix styles freely!</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== LAYOUT PRINCIPLES -- MASONRY ===================== -->
+  <section class="layout-section" id="layout">
+    <div class="section-inner">
+      <h2 class="section-title reveal">Layout Principles</h2>
+      <span class="section-annotation reveal reveal-delay-1">asymmetry is the secret ingredient</span>
+
+      <div class="layout-masonry">
+        <div class="layout-card reveal">
+          <div class="tape tape-mustard"></div>
+          <h3>Asymmetric, Organic Grid</h3>
+          <p>Avoid rigid symmetry; let elements feel casually placed. CSS Grid with varied track sizes -- columns and rows of different widths to avoid uniformity.</p>
+        </div>
+        <div class="layout-card reveal">
+          <h3>Masonry Arrangements</h3>
+          <p>Items of different heights packed together like a shelf display. The varied card sizes create an organic feel reminiscent of a curated collection.</p>
+        </div>
+        <div class="layout-card reveal">
+          <div class="tape tape-rose"></div>
+          <h3>Overlapping Elements</h3>
+          <p>Slight overlaps between cards, images, and decorative elements add depth. Nothing exists in perfect isolation -- everything touches and relates.</p>
+        </div>
+        <div class="layout-card reveal">
+          <h3>No Excessive Whitespace</h3>
+          <p>Surfaces should feel populated, but not unreadable. Visual density is key -- blank walls are rare in Cluttercore.</p>
+        </div>
+        <div class="layout-card reveal">
+          <div class="tape tape-sage"></div>
+          <h3>Multiple Visual Layers</h3>
+          <p>Background textures, mid-ground content, foreground decorative elements. Build depth through layering, just like stacking objects on a shelf.</p>
+        </div>
+        <div class="layout-card reveal">
+          <h3>Rotated &amp; Tilted</h3>
+          <p>Slight rotations (1-3 degrees) on cards or images, like pinned photos on a corkboard. This small detail adds tremendous personality.</p>
+        </div>
+        <div class="layout-card reveal">
+          <div class="tape tape-teal"></div>
+          <h3>Varied Section Backgrounds</h3>
+          <p>Alternate between cream, soft colored washes, and textured panels. Each section of the page can have its own personality.</p>
+        </div>
+        <div class="layout-card reveal">
+          <h3>Shelf &amp; Pinboard Metaphors</h3>
+          <p>Sections that look like physical display surfaces -- corkboards with pins, wooden shelves with objects, gallery walls with frames.</p>
+        </div>
+        <div class="layout-card reveal">
+          <h3>Sticker-Like Annotations</h3>
+          <p>Scattered decorative elements that break the grid. Labels, badges, and handwritten notes that feel spontaneously placed.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="squiggly-divider"></div>
+
+  <!-- ===================== CSS TECHNIQUES -- INTERACTIVE DEMOS ===================== -->
+  <section class="techniques-section" id="techniques">
+    <div class="section-inner">
+      <h2 class="section-title reveal">CSS &amp; Design Techniques</h2>
+      <span class="section-annotation reveal reveal-delay-1">hover each card for a closer look!</span>
+
+      <div class="techniques-grid">
+        <!-- Corkboard Demo -->
+        <div class="technique-card reveal reveal-delay-1">
+          <div class="demo-area demo-corkboard">
+            <div class="mini-note" style="transform:rotate(-5deg);">Remember to<br>water plants!</div>
+            <div class="mini-note" style="transform:rotate(3deg);">Trip photos<br>from Paris</div>
+            <div class="mini-note" style="transform:rotate(-2deg);">Grandma's<br>recipe</div>
+          </div>
+          <div class="card-body">
+            <h3>Corkboard / Pinboard</h3>
+            <p>Warm tan background with noise texture and pinned elements. Push pins created with radial gradients and box-shadows for realistic depth.</p>
+          </div>
+        </div>
+
+        <!-- Gallery Wall Demo -->
+        <div class="technique-card reveal reveal-delay-2">
+          <div class="demo-area demo-gallery">
+            <div class="g-item">&#x1F5BC;</div>
+            <div class="g-item">&#x1F3A8;</div>
+            <div class="g-item">&#x1F4F7;</div>
+            <div class="g-item">&#x1F30D;</div>
+            <div class="g-item">&#x1F338;</div>
+            <div class="g-item">&#x2B50;</div>
+          </div>
+          <div class="card-body">
+            <h3>Gallery Wall / Collage</h3>
+            <p>Dense layout with overlapping frames using CSS Grid. Varied sizes, thick borders, slight rotations, and ornate frame variants with inset shadows.</p>
+          </div>
+        </div>
+
+        <!-- Washi Tape Demo -->
+        <div class="technique-card reveal reveal-delay-3">
+          <div class="demo-area demo-washi">
+            <div class="washi-strip"></div>
+            <div class="washi-strip"></div>
+            <div class="washi-strip"></div>
+            <div class="washi-strip"></div>
+          </div>
+          <div class="card-body">
+            <h3>Washi Tape / Decorative Strips</h3>
+            <p>Semi-transparent colored strips with repeating pattern gradients, positioned over card edges. Striped variants using repeating-linear-gradient.</p>
+          </div>
+        </div>
+
+        <!-- Stickers Demo -->
+        <div class="technique-card reveal reveal-delay-4">
+          <div class="demo-area demo-stickers">
+            <span class="sticker sticker-warm">Memories</span>
+            <span class="sticker sticker-cool">Collection</span>
+            <span class="sticker sticker-bright">Favorite</span>
+            <span class="sticker sticker-outlined">Vintage</span>
+            <span class="sticker sticker-plum">Handmade</span>
+            <span class="sticker sticker-forest">Plants</span>
+            <span class="sticker sticker-warm" style="transform:rotate(5deg);">Thrifted</span>
+            <span class="sticker sticker-cool" style="transform:rotate(-4deg);">Cozy</span>
+          </div>
+          <div class="card-body">
+            <h3>Sticker / Badge Labels</h3>
+            <p>Pill-shaped badges with slight rotation, drop shadows, and varied colors. Uppercase labels in Quicksand for that crafty, scrapbook feel.</p>
+          </div>
+        </div>
+
+        <!-- Patchwork Demo -->
+        <div class="technique-card reveal reveal-delay-5">
+          <div class="demo-area demo-patchwork">
+            <div class="patch-text">
+              "A patchwork quilt of translucent color washes, layered like fabric scraps"
+            </div>
+          </div>
+          <div class="card-body">
+            <h3>Patchwork / Textile Patterns</h3>
+            <p>Quilt-inspired backgrounds using layered CSS gradients at 45-degree angles. Subtle floral wallpaper hints via radial gradient dots.</p>
+          </div>
+        </div>
+
+        <!-- Shelf Demo -->
+        <div class="technique-card reveal reveal-delay-6">
+          <div class="demo-area demo-shelf">
+            <div class="shelf-items">
+              <div class="shelf-item">&#x1F4DA;</div>
+              <div class="shelf-item">&#x1F30E;</div>
+              <div class="shelf-item">&#x1F3BA;</div>
+              <div class="shelf-item">&#x1F4F7;</div>
+              <div class="shelf-item">&#x1F33F;</div>
+              <div class="shelf-item">&#x2615;</div>
+              <div class="shelf-item">&#x1F3B5;</div>
+            </div>
+            <div class="shelf-board"></div>
+          </div>
+          <div class="card-body">
+            <h3>Wooden Shelf Display</h3>
+            <p>Horizontal gradient bars mimicking wood grain, with box-shadow for depth. Items aligned to flex-end to sit naturally on the shelf surface.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== MATERIALS TABLE ===================== -->
+  <section class="materials-section" id="materials">
+    <div class="section-inner">
+      <h2 class="section-title reveal">Materials &amp; Textures</h2>
+      <span class="section-annotation reveal reveal-delay-1">physical materials translated to web equivalents</span>
+
+      <div class="reveal reveal-delay-2" style="overflow-x:auto;">
+        <table class="materials-table">
+          <thead>
+            <tr>
+              <th>Physical Material</th>
+              <th>Web Equivalent</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="material-emoji">&#x1F4CC;</span> Cork board</td>
+              <td>Warm tan background with subtle noise texture and pinned elements</td>
+            </tr>
+            <tr>
+              <td><span class="material-emoji">&#x1F380;</span> Washi tape</td>
+              <td>Colored semi-transparent strips with repeating patterns, positioned over edges</td>
+            </tr>
+            <tr>
+              <td><span class="material-emoji">&#x1F5BC;</span> Picture frames</td>
+              <td>Thick colored borders with box-shadow, slight rotation transforms</td>
+            </tr>
+            <tr>
+              <td><span class="material-emoji">&#x1F9F5;</span> Fabric / textiles</td>
+              <td>CSS patterns using repeating gradients (plaids, dots, stripes)</td>
+            </tr>
+            <tr>
+              <td><span class="material-emoji">&#x1F4DC;</span> Aging paper</td>
+              <td>Cream/ivory backgrounds with radial gradient warm spots and noise overlay</td>
+            </tr>
+            <tr>
+              <td><span class="material-emoji">&#x1FA9A;</span> Wooden shelves</td>
+              <td>Horizontal gradient bars with grain-like repeating gradients</td>
+            </tr>
+            <tr>
+              <td><span class="material-emoji">&#x1F3FA;</span> Ceramic &amp; pottery</td>
+              <td>Rounded border-radius containers with warm, earthy solid colors</td>
+            </tr>
+            <tr>
+              <td><span class="material-emoji">&#x1F4AD;</span> Stickers &amp; labels</td>
+              <td>Pill-shaped badges with slight rotation and drop shadows</td>
+            </tr>
+            <tr>
+              <td><span class="material-emoji">&#x1F33F;</span> Plants &amp; greenery</td>
+              <td>Sage/forest green accent colors; leaf emoji as decorative pseudo-elements</td>
+            </tr>
+            <tr>
+              <td><span class="material-emoji">&#x1F4A1;</span> String lights</td>
+              <td>Dotted border or repeated radial gradient circles along a curved path</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <div class="squiggly-divider"></div>
+
+  <!-- ===================== COMPARISONS & RELATED ===================== -->
+  <section class="comparison-section" id="comparisons">
+    <div class="section-inner">
+      <h2 class="section-title reveal">Cluttercore vs. Maximalism</h2>
+      <span class="section-annotation reveal reveal-delay-1">similar but oh-so-different</span>
+
+      <div class="comparison-grid reveal reveal-delay-2">
+        <div class="comparison-card comparison-card--max">
+          <h3><span style="font-size:1.3rem;">&#x1F451;</span> Traditional Maximalism</h3>
+          <ul>
+            <li>Bold but cohesive, often with a unifying palette</li>
+            <li>Luxurious, rich materials (velvet, gold, marble)</li>
+            <li>Intentionally designed; follows design principles</li>
+            <li>Impressive, dramatic, curated emotional goal</li>
+            <li>Overall feel: magazine editorial</li>
+          </ul>
+        </div>
+        <div class="comparison-card comparison-card--clutter">
+          <h3><span style="font-size:1.3rem;">&#x1F496;</span> Cluttercore</h3>
+          <ul>
+            <li>Any colors, no unifying scheme required</li>
+            <li>Eclectic mix of high and low, thrifted and handmade</li>
+            <li>Organically evolved; follows personal meaning</li>
+            <li>Comforting, personal, nostalgic emotional goal</li>
+            <li>Overall feel: lived-in home</li>
+          </ul>
+        </div>
+      </div>
+
+      <h3 class="reveal" style="margin-bottom:1rem;text-align:center;">Related Aesthetics</h3>
+      <div class="related-row reveal reveal-delay-1">
+        <div class="related-tag">
+          <span>&#x1F308;</span>
+          <div>
+            <strong>Maximalism</strong>
+            <span class="related-desc"> -- Parent aesthetic</span>
+          </div>
+        </div>
+        <div class="related-tag">
+          <span>&#x1F33E;</span>
+          <div>
+            <strong>Cottagecore</strong>
+            <span class="related-desc"> -- Warmth, handmade values</span>
+          </div>
+        </div>
+        <div class="related-tag">
+          <span>&#x1F344;</span>
+          <div>
+            <strong>Goblincore</strong>
+            <span class="related-desc"> -- Collecting instinct</span>
+          </div>
+        </div>
+        <div class="related-tag">
+          <span>&#x1F9F6;</span>
+          <div>
+            <strong>Grandmacore</strong>
+            <span class="related-desc"> -- Nostalgia, vintage decor</span>
+          </div>
+        </div>
+        <div class="related-tag">
+          <span>&#x1F38A;</span>
+          <div>
+            <strong>Cacareco Girl</strong>
+            <span class="related-desc"> -- Eclectic accumulation</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer>
+    <h2 class="reveal">Every Object Tells a Story</h2>
+    <p class="reveal reveal-delay-1">
+      Cluttercore emerged on TikTok around 2020 during the pandemic -- a celebration of personal spaces,
+      sentimental objects, and the beauty of a well-loved, organically curated home.
+    </p>
+    <span class="footer-annotation reveal reveal-delay-2">...now go fill your shelves!</span>
+  </footer>
+
+  <!-- ===================== SCROLL REVEAL JS ===================== -->
+  <script>
+    (function() {
+      // Intersection Observer for scroll reveal animations
+      const revealElements = document.querySelectorAll('.reveal');
+
+      const observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      }, {
+        threshold: 0.1,
+        rootMargin: '0px 0px -40px 0px'
+      });
+
+      revealElements.forEach(function(el) {
+        observer.observe(el);
+      });
+
+      // Smooth scrolling for nav links
+      document.querySelectorAll('.nav-bar a').forEach(function(link) {
+        link.addEventListener('click', function(e) {
+          var href = this.getAttribute('href');
+          if (href && href.startsWith('#')) {
+            e.preventDefault();
+            var target = document.querySelector(href);
+            if (target) {
+              var navHeight = document.querySelector('.nav-bar').offsetHeight;
+              var y = target.getBoundingClientRect().top + window.pageYOffset - navHeight - 10;
+              window.scrollTo({ top: y, behavior: 'smooth' });
+            }
+          }
+        });
+      });
+
+      // Color swatch click-to-copy hex values
+      document.querySelectorAll('.color-pot').forEach(function(pot) {
+        pot.style.cursor = 'pointer';
+        pot.addEventListener('click', function() {
+          var hex = this.querySelector('.color-hex');
+          if (hex && navigator.clipboard) {
+            navigator.clipboard.writeText(hex.textContent).then(function() {
+              var original = hex.textContent;
+              hex.textContent = 'Copied!';
+              hex.style.color = 'var(--clutter-terracotta)';
+              hex.style.fontWeight = '700';
+              setTimeout(function() {
+                hex.textContent = original;
+                hex.style.color = '';
+                hex.style.fontWeight = '';
+              }, 1200);
+            });
+          }
+        });
+      });
+    })();
+  </script>
+</body>
+</html>

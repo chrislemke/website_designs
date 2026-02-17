@@ -1,0 +1,1982 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Claymorphism -- Soft, Puffy, Tactile UI Design</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@500;600;700&family=Nunito:wght@400;600;700;800&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* ============================================================
+       CSS Custom Properties
+       ============================================================ */
+    :root {
+      --clay-bg-primary: #f5f5fa;
+      --clay-bg-secondary: #eee8ff;
+      --clay-bg-tertiary: #eefbf5;
+
+      --clay-surface-white: #ffffff;
+      --clay-surface-coral: #f76d6d;
+      --clay-surface-blue: #62cdff;
+      --clay-surface-purple: #d6a2ff;
+      --clay-surface-green: #7ae582;
+      --clay-surface-peach: #ffb347;
+      --clay-surface-pink: #ff9eb5;
+      --clay-surface-mint: #a8e6cf;
+
+      --clay-text-dark: #2d3557;
+      --clay-text-medium: #555b7a;
+      --clay-text-light: #f1f1f1;
+
+      --clay-shadow-purple: rgba(170, 63, 254, 0.42);
+      --clay-shadow-coral: rgba(247, 109, 109, 0.40);
+      --clay-shadow-blue: rgba(98, 205, 255, 0.40);
+
+      --section-max: 1060px;
+      --card-radius: 40px;
+      --btn-radius: 20px;
+    }
+
+    /* ============================================================
+       Reset & Base
+       ============================================================ */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      -webkit-text-size-adjust: 100%;
+    }
+
+    body {
+      background: var(--clay-bg-primary);
+      color: var(--clay-text-dark);
+      font-family: 'Nunito', sans-serif;
+      font-weight: 400;
+      font-size: 1rem;
+      line-height: 1.65;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3, h4 {
+      font-family: 'Quicksand', 'Nunito', sans-serif;
+      font-weight: 700;
+      color: var(--clay-text-dark);
+      line-height: 1.2;
+    }
+
+    p {
+      color: var(--clay-text-medium);
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img, svg {
+      display: block;
+      max-width: 100%;
+    }
+
+    /* ============================================================
+       Background Decoration -- floating blobs
+       ============================================================ */
+    .bg-blobs {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .bg-blobs .blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.35;
+      will-change: transform;
+    }
+
+    .blob--purple {
+      width: 520px; height: 520px;
+      background: var(--clay-surface-purple);
+      top: -8%; left: -6%;
+      animation: blobFloat1 22s ease-in-out infinite;
+    }
+    .blob--coral {
+      width: 400px; height: 400px;
+      background: var(--clay-surface-coral);
+      top: 30%; right: -8%;
+      animation: blobFloat2 26s ease-in-out infinite;
+    }
+    .blob--blue {
+      width: 460px; height: 460px;
+      background: var(--clay-surface-blue);
+      bottom: 5%; left: 10%;
+      animation: blobFloat3 20s ease-in-out infinite;
+    }
+    .blob--mint {
+      width: 340px; height: 340px;
+      background: var(--clay-surface-mint);
+      top: 60%; left: 55%;
+      animation: blobFloat1 24s ease-in-out infinite reverse;
+    }
+    .blob--peach {
+      width: 300px; height: 300px;
+      background: var(--clay-surface-peach);
+      top: 10%; right: 20%;
+      animation: blobFloat2 28s ease-in-out infinite reverse;
+    }
+
+    @keyframes blobFloat1 {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      33% { transform: translate(40px, -30px) scale(1.06); }
+      66% { transform: translate(-20px, 20px) scale(0.96); }
+    }
+    @keyframes blobFloat2 {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      33% { transform: translate(-30px, 40px) scale(1.04); }
+      66% { transform: translate(25px, -15px) scale(0.97); }
+    }
+    @keyframes blobFloat3 {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(35px, 25px) scale(1.08); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .blob, .clay-card, .clay-btn, .clay-badge, .swatch, .shadow-layer,
+      .nav-inner, .hero-title span, .hero-sub, .hero-cta, .related-item {
+        animation: none !important;
+        transition: none !important;
+      }
+    }
+
+    /* ============================================================
+       Navigation
+       ============================================================ */
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      padding: 16px 24px;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      background: rgba(245, 245, 250, 0.7);
+    }
+
+    .nav-inner {
+      max-width: var(--section-max);
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      animation: fadeSlideDown 0.6s ease-out both;
+    }
+
+    .nav-logo {
+      font-family: 'Comfortaa', 'Quicksand', sans-serif;
+      font-weight: 700;
+      font-size: 1.25rem;
+      color: var(--clay-text-dark);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .nav-logo .logo-dot {
+      width: 32px; height: 32px;
+      border-radius: 12px;
+      background: var(--clay-surface-purple);
+      box-shadow:
+        4px 4px 10px rgba(170, 63, 254, 0.3),
+        inset -3px -3px 6px rgba(140, 40, 220, 0.25),
+        inset 3px 3px 6px rgba(240, 210, 255, 0.6);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 8px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      display: inline-block;
+      padding: 8px 18px;
+      border-radius: 14px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: var(--clay-text-medium);
+      transition: all 0.25s ease;
+    }
+
+    .nav-links a:hover {
+      background: rgba(214, 162, 255, 0.15);
+      color: var(--clay-text-dark);
+    }
+
+    @media (max-width: 640px) {
+      .nav-links { display: none; }
+    }
+
+    /* ============================================================
+       Section Containers
+       ============================================================ */
+    .section {
+      max-width: var(--section-max);
+      margin: 0 auto;
+      padding: 80px 24px;
+      width: 100%;
+    }
+
+    .section-label {
+      font-family: 'Nunito', sans-serif;
+      font-weight: 700;
+      font-size: 0.8rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--clay-surface-coral);
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      margin-bottom: 16px;
+    }
+
+    .section-desc {
+      font-size: 1.1rem;
+      max-width: 640px;
+      margin-bottom: 48px;
+    }
+
+    /* ============================================================
+       HERO
+       ============================================================ */
+    .hero {
+      max-width: var(--section-max);
+      margin: 0 auto;
+      padding: 100px 24px 60px;
+      text-align: center;
+      position: relative;
+    }
+
+    .hero-title {
+      font-family: 'Comfortaa', 'Quicksand', sans-serif;
+      font-size: clamp(3rem, 8vw, 6.5rem);
+      font-weight: 700;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      margin-bottom: 24px;
+      color: var(--clay-text-dark);
+    }
+
+    .hero-title span {
+      display: inline-block;
+      animation: heroWordPop 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    }
+    .hero-title span:nth-child(1) { animation-delay: 0.1s; }
+    .hero-title span:nth-child(2) { animation-delay: 0.25s; }
+
+    .hero-title .accent-clay {
+      background: linear-gradient(135deg, var(--clay-surface-coral), var(--clay-surface-purple));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    @keyframes heroWordPop {
+      0% { opacity: 0; transform: translateY(30px) scale(0.9); }
+      100% { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .hero-sub {
+      font-size: clamp(1.1rem, 2.5vw, 1.45rem);
+      color: var(--clay-text-medium);
+      max-width: 620px;
+      margin: 0 auto 40px;
+      animation: fadeSlideUp 0.8s 0.4s ease-out both;
+    }
+
+    .hero-cta {
+      display: inline-flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      justify-content: center;
+      animation: fadeSlideUp 0.8s 0.6s ease-out both;
+    }
+
+    @keyframes fadeSlideUp {
+      0% { opacity: 0; transform: translateY(20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeSlideDown {
+      0% { opacity: 0; transform: translateY(-14px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Floating hero shapes */
+    .hero-shapes {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .hero-shape {
+      position: absolute;
+      border-radius: 50%;
+    }
+
+    .hero-shape--1 {
+      width: 70px; height: 70px;
+      background: var(--clay-surface-peach);
+      top: 18%; left: 8%;
+      box-shadow:
+        6px 6px 14px rgba(200, 140, 40, 0.3),
+        inset -4px -4px 8px rgba(180, 120, 20, 0.2),
+        inset 4px 4px 8px rgba(255, 220, 170, 0.6);
+      animation: shapeFloat 6s ease-in-out infinite;
+    }
+
+    .hero-shape--2 {
+      width: 50px; height: 50px;
+      background: var(--clay-surface-blue);
+      top: 25%; right: 12%;
+      border-radius: 18px;
+      box-shadow:
+        5px 5px 12px rgba(60, 150, 200, 0.3),
+        inset -3px -3px 7px rgba(40, 120, 180, 0.25),
+        inset 3px 3px 7px rgba(180, 230, 255, 0.55);
+      animation: shapeFloat 7s ease-in-out 1s infinite;
+    }
+
+    .hero-shape--3 {
+      width: 40px; height: 40px;
+      background: var(--clay-surface-green);
+      bottom: 30%; left: 14%;
+      border-radius: 14px;
+      box-shadow:
+        4px 4px 10px rgba(80, 180, 90, 0.3),
+        inset -3px -3px 6px rgba(60, 150, 70, 0.25),
+        inset 3px 3px 6px rgba(190, 255, 200, 0.55);
+      animation: shapeFloat 5s ease-in-out 0.5s infinite;
+    }
+
+    .hero-shape--4 {
+      width: 55px; height: 55px;
+      background: var(--clay-surface-pink);
+      bottom: 20%; right: 10%;
+      border-radius: 20px;
+      box-shadow:
+        5px 5px 12px rgba(200, 110, 140, 0.3),
+        inset -3px -3px 7px rgba(180, 90, 120, 0.25),
+        inset 3px 3px 7px rgba(255, 200, 215, 0.55);
+      animation: shapeFloat 8s ease-in-out 2s infinite;
+    }
+
+    @keyframes shapeFloat {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-18px) rotate(8deg); }
+    }
+
+    /* ============================================================
+       Buttons
+       ============================================================ */
+    .clay-btn {
+      display: inline-block;
+      border: none;
+      border-radius: var(--btn-radius);
+      padding: 16px 36px;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      text-decoration: none;
+    }
+
+    .clay-btn:active {
+      transform: translateY(1px) scale(0.98) !important;
+    }
+
+    .clay-btn--coral {
+      background: var(--clay-surface-coral);
+      color: var(--clay-text-light);
+      box-shadow:
+        8px 8px 20px rgba(200, 80, 80, 0.35),
+        inset -4px -4px 10px rgba(180, 50, 50, 0.25),
+        inset 4px 4px 10px rgba(255, 180, 180, 0.45);
+    }
+    .clay-btn--coral:hover {
+      transform: translateY(-3px);
+      box-shadow:
+        10px 12px 28px rgba(200, 80, 80, 0.45),
+        inset -4px -4px 10px rgba(180, 50, 50, 0.25),
+        inset 4px 4px 10px rgba(255, 180, 180, 0.55);
+    }
+
+    .clay-btn--purple {
+      background: var(--clay-surface-purple);
+      color: var(--clay-text-light);
+      box-shadow:
+        8px 8px 20px rgba(170, 63, 254, 0.3),
+        inset -4px -4px 10px rgba(140, 40, 220, 0.25),
+        inset 4px 4px 10px rgba(240, 210, 255, 0.5);
+    }
+    .clay-btn--purple:hover {
+      transform: translateY(-3px);
+      box-shadow:
+        10px 12px 28px rgba(170, 63, 254, 0.4),
+        inset -4px -4px 10px rgba(140, 40, 220, 0.25),
+        inset 4px 4px 10px rgba(240, 210, 255, 0.6);
+    }
+
+    .clay-btn--white {
+      background: var(--clay-surface-white);
+      color: var(--clay-text-dark);
+      box-shadow:
+        6px 6px 16px rgba(145, 112, 201, 0.18),
+        inset -4px -4px 8px rgba(145, 112, 201, 0.06),
+        inset 4px 4px 8px rgba(255, 255, 255, 0.8);
+    }
+    .clay-btn--white:hover {
+      transform: translateY(-3px);
+      box-shadow:
+        8px 10px 24px rgba(145, 112, 201, 0.25),
+        inset -4px -4px 8px rgba(145, 112, 201, 0.08),
+        inset 4px 4px 8px rgba(255, 255, 255, 0.9);
+    }
+
+    /* ============================================================
+       Cards
+       ============================================================ */
+    .clay-card {
+      background: var(--clay-surface-white);
+      border-radius: var(--card-radius);
+      padding: 48px;
+      box-shadow:
+        0 30px 60px rgba(145, 112, 201, 0.18),
+        inset 0 -6px 14px rgba(145, 112, 201, 0.1),
+        inset 0 10px 22px rgba(255, 255, 255, 0.9);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .clay-card:hover {
+      transform: translateY(-4px);
+      box-shadow:
+        0 38px 70px rgba(145, 112, 201, 0.22),
+        inset 0 -6px 14px rgba(145, 112, 201, 0.1),
+        inset 0 10px 22px rgba(255, 255, 255, 0.9);
+    }
+
+    .clay-card h3 {
+      font-size: 1.35rem;
+      margin-bottom: 12px;
+    }
+
+    /* ============================================================
+       Visual Characteristics -- trait cards
+       ============================================================ */
+    .traits-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 28px;
+    }
+
+    .trait-card {
+      background: var(--clay-surface-white);
+      border-radius: 32px;
+      padding: 36px 32px;
+      box-shadow:
+        0 20px 44px rgba(145, 112, 201, 0.14),
+        inset 0 -5px 12px rgba(145, 112, 201, 0.08),
+        inset 0 8px 18px rgba(255, 255, 255, 0.85);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .trait-card:hover {
+      transform: translateY(-5px) scale(1.01);
+      box-shadow:
+        0 28px 54px rgba(145, 112, 201, 0.2),
+        inset 0 -5px 12px rgba(145, 112, 201, 0.1),
+        inset 0 8px 18px rgba(255, 255, 255, 0.9);
+    }
+
+    .trait-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      margin-bottom: 18px;
+      color: var(--clay-text-light);
+      font-weight: 800;
+    }
+
+    .trait-icon--coral {
+      background: var(--clay-surface-coral);
+      box-shadow:
+        5px 5px 12px rgba(200, 80, 80, 0.3),
+        inset -3px -3px 6px rgba(180, 50, 50, 0.2),
+        inset 3px 3px 6px rgba(255, 180, 180, 0.5);
+    }
+    .trait-icon--blue {
+      background: var(--clay-surface-blue);
+      box-shadow:
+        5px 5px 12px rgba(60, 150, 200, 0.3),
+        inset -3px -3px 6px rgba(40, 120, 180, 0.2),
+        inset 3px 3px 6px rgba(180, 230, 255, 0.5);
+    }
+    .trait-icon--purple {
+      background: var(--clay-surface-purple);
+      box-shadow:
+        5px 5px 12px rgba(170, 63, 254, 0.3),
+        inset -3px -3px 6px rgba(140, 40, 220, 0.2),
+        inset 3px 3px 6px rgba(240, 210, 255, 0.5);
+    }
+    .trait-icon--green {
+      background: var(--clay-surface-green);
+      box-shadow:
+        5px 5px 12px rgba(80, 180, 90, 0.3),
+        inset -3px -3px 6px rgba(60, 150, 70, 0.2),
+        inset 3px 3px 6px rgba(190, 255, 200, 0.5);
+    }
+    .trait-icon--peach {
+      background: var(--clay-surface-peach);
+      box-shadow:
+        5px 5px 12px rgba(200, 140, 40, 0.3),
+        inset -3px -3px 6px rgba(180, 120, 20, 0.2),
+        inset 3px 3px 6px rgba(255, 220, 170, 0.5);
+    }
+    .trait-icon--pink {
+      background: var(--clay-surface-pink);
+      box-shadow:
+        5px 5px 12px rgba(200, 110, 140, 0.3),
+        inset -3px -3px 6px rgba(180, 90, 120, 0.2),
+        inset 3px 3px 6px rgba(255, 200, 215, 0.5);
+    }
+    .trait-icon--mint {
+      background: var(--clay-surface-mint);
+      box-shadow:
+        5px 5px 12px rgba(110, 190, 150, 0.3),
+        inset -3px -3px 6px rgba(90, 170, 130, 0.2),
+        inset 3px 3px 6px rgba(210, 255, 230, 0.5);
+    }
+
+    .trait-card h4 {
+      font-size: 1.1rem;
+      margin-bottom: 8px;
+    }
+
+    .trait-card p {
+      font-size: 0.92rem;
+      line-height: 1.55;
+    }
+
+    /* ============================================================
+       Color Palette
+       ============================================================ */
+    .palette-section {
+      background: var(--clay-bg-secondary);
+      border-radius: 0;
+      padding: 0;
+    }
+
+    .palette-section .section {
+      padding-top: 80px;
+      padding-bottom: 80px;
+    }
+
+    .palette-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 24px;
+      margin-bottom: 48px;
+    }
+
+    .swatch {
+      border-radius: 28px;
+      padding: 28px 20px 22px;
+      text-align: center;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: default;
+    }
+
+    .swatch:hover {
+      transform: translateY(-5px) scale(1.04);
+    }
+
+    .swatch-name {
+      font-family: 'Quicksand', sans-serif;
+      font-weight: 700;
+      font-size: 0.85rem;
+      margin-bottom: 6px;
+    }
+
+    .swatch-hex {
+      font-family: 'Nunito', monospace;
+      font-size: 0.78rem;
+      opacity: 0.8;
+    }
+
+    /* Specific swatches */
+    .swatch--white {
+      background: #ffffff;
+      color: var(--clay-text-dark);
+      box-shadow:
+        6px 6px 16px rgba(145, 112, 201, 0.15),
+        inset -4px -4px 8px rgba(145, 112, 201, 0.06),
+        inset 4px 4px 8px rgba(255, 255, 255, 0.8);
+    }
+    .swatch--coral {
+      background: var(--clay-surface-coral);
+      color: var(--clay-text-light);
+      box-shadow:
+        8px 8px 18px rgba(200, 80, 80, 0.35),
+        inset -5px -5px 10px rgba(180, 50, 50, 0.25),
+        inset 5px 5px 10px rgba(255, 180, 180, 0.45);
+    }
+    .swatch--blue {
+      background: var(--clay-surface-blue);
+      color: var(--clay-text-light);
+      box-shadow:
+        8px 8px 18px rgba(60, 150, 200, 0.35),
+        inset -5px -5px 10px rgba(40, 120, 180, 0.25),
+        inset 5px 5px 10px rgba(180, 230, 255, 0.55);
+    }
+    .swatch--purple {
+      background: var(--clay-surface-purple);
+      color: var(--clay-text-light);
+      box-shadow:
+        8px 8px 18px rgba(170, 63, 254, 0.3),
+        inset -5px -5px 10px rgba(140, 40, 220, 0.25),
+        inset 5px 5px 10px rgba(240, 210, 255, 0.5);
+    }
+    .swatch--green {
+      background: var(--clay-surface-green);
+      color: var(--clay-text-dark);
+      box-shadow:
+        8px 8px 18px rgba(80, 180, 90, 0.3),
+        inset -5px -5px 10px rgba(60, 150, 70, 0.2),
+        inset 5px 5px 10px rgba(190, 255, 200, 0.55);
+    }
+    .swatch--peach {
+      background: var(--clay-surface-peach);
+      color: var(--clay-text-dark);
+      box-shadow:
+        8px 8px 18px rgba(200, 140, 40, 0.3),
+        inset -5px -5px 10px rgba(180, 120, 20, 0.2),
+        inset 5px 5px 10px rgba(255, 220, 170, 0.55);
+    }
+    .swatch--pink {
+      background: var(--clay-surface-pink);
+      color: var(--clay-text-light);
+      box-shadow:
+        8px 8px 18px rgba(200, 110, 140, 0.3),
+        inset -5px -5px 10px rgba(180, 90, 120, 0.2),
+        inset 5px 5px 10px rgba(255, 200, 215, 0.55);
+    }
+    .swatch--mint {
+      background: var(--clay-surface-mint);
+      color: var(--clay-text-dark);
+      box-shadow:
+        8px 8px 18px rgba(110, 190, 150, 0.3),
+        inset -5px -5px 10px rgba(90, 170, 130, 0.2),
+        inset 5px 5px 10px rgba(210, 255, 230, 0.55);
+    }
+    .swatch--dark {
+      background: var(--clay-text-dark);
+      color: var(--clay-text-light);
+      box-shadow:
+        8px 8px 18px rgba(30, 35, 60, 0.3),
+        inset -5px -5px 10px rgba(15, 18, 40, 0.3),
+        inset 5px 5px 10px rgba(70, 80, 120, 0.3);
+    }
+
+    .palette-note {
+      background: var(--clay-surface-white);
+      border-radius: 28px;
+      padding: 32px 36px;
+      font-size: 0.95rem;
+      line-height: 1.7;
+      box-shadow:
+        0 16px 36px rgba(145, 112, 201, 0.12),
+        inset 0 -4px 10px rgba(145, 112, 201, 0.06),
+        inset 0 6px 14px rgba(255, 255, 255, 0.85);
+    }
+
+    .palette-note ul {
+      margin-top: 12px;
+      padding-left: 20px;
+    }
+
+    .palette-note li {
+      margin-bottom: 6px;
+      color: var(--clay-text-medium);
+    }
+
+    .palette-note li strong {
+      color: var(--clay-text-dark);
+    }
+
+    /* ============================================================
+       Typography Showcase
+       ============================================================ */
+    .type-showcase {
+      display: grid;
+      gap: 28px;
+    }
+
+    .type-card {
+      background: var(--clay-surface-white);
+      border-radius: 32px;
+      padding: 40px;
+      box-shadow:
+        0 20px 44px rgba(145, 112, 201, 0.14),
+        inset 0 -5px 12px rgba(145, 112, 201, 0.08),
+        inset 0 8px 18px rgba(255, 255, 255, 0.85);
+    }
+
+    .type-card .font-name {
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--clay-surface-coral);
+      margin-bottom: 12px;
+    }
+
+    .type-sample-comfortaa {
+      font-family: 'Comfortaa', cursive;
+      font-weight: 700;
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      line-height: 1.15;
+      color: var(--clay-text-dark);
+      margin-bottom: 8px;
+    }
+
+    .type-sample-quicksand {
+      font-family: 'Quicksand', sans-serif;
+      font-weight: 700;
+      font-size: clamp(1.6rem, 3vw, 2.4rem);
+      line-height: 1.2;
+      color: var(--clay-text-dark);
+      margin-bottom: 8px;
+    }
+
+    .type-sample-nunito {
+      font-family: 'Nunito', sans-serif;
+      font-weight: 400;
+      font-size: 1.1rem;
+      line-height: 1.65;
+      color: var(--clay-text-medium);
+    }
+
+    .type-meta {
+      font-size: 0.82rem;
+      color: var(--clay-text-medium);
+      margin-top: 10px;
+      opacity: 0.7;
+    }
+
+    /* ============================================================
+       Shadow Construction
+       ============================================================ */
+    .shadow-demo {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 32px;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 40px;
+    }
+
+    .shadow-layer {
+      width: 160px;
+      height: 160px;
+      border-radius: 36px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 16px;
+      transition: transform 0.3s ease;
+    }
+
+    .shadow-layer:hover {
+      transform: scale(1.06);
+    }
+
+    .shadow-layer .layer-label {
+      font-family: 'Quicksand', sans-serif;
+      font-weight: 700;
+      font-size: 0.85rem;
+      margin-bottom: 6px;
+    }
+
+    .shadow-layer .layer-desc {
+      font-size: 0.75rem;
+      opacity: 0.75;
+      line-height: 1.4;
+    }
+
+    .shadow--outer-only {
+      background: var(--clay-surface-blue);
+      color: var(--clay-text-light);
+      box-shadow: 12px 12px 24px rgba(60, 150, 200, 0.4);
+    }
+
+    .shadow--inset-dark {
+      background: var(--clay-surface-blue);
+      color: var(--clay-text-light);
+      box-shadow: inset -8px -8px 16px rgba(40, 120, 180, 0.35);
+    }
+
+    .shadow--inset-light {
+      background: var(--clay-surface-blue);
+      color: var(--clay-text-light);
+      box-shadow: inset 8px 8px 16px rgba(180, 230, 255, 0.6);
+    }
+
+    .shadow--combined {
+      background: var(--clay-surface-blue);
+      color: var(--clay-text-light);
+      box-shadow:
+        12px 12px 24px rgba(60, 150, 200, 0.35),
+        inset -8px -8px 16px rgba(40, 120, 180, 0.3),
+        inset 8px 8px 16px rgba(180, 230, 255, 0.6);
+    }
+
+    .shadow-plus {
+      font-family: 'Quicksand', sans-serif;
+      font-weight: 700;
+      font-size: 1.8rem;
+      color: var(--clay-text-medium);
+      opacity: 0.4;
+      align-self: center;
+    }
+
+    .shadow-equals {
+      font-family: 'Quicksand', sans-serif;
+      font-weight: 700;
+      font-size: 1.8rem;
+      color: var(--clay-surface-coral);
+      align-self: center;
+    }
+
+    .formula-card {
+      background: var(--clay-text-dark);
+      border-radius: 24px;
+      padding: 32px 36px;
+      color: #c8cbdf;
+      font-family: 'Nunito', monospace;
+      font-size: 0.88rem;
+      line-height: 1.9;
+      overflow-x: auto;
+      box-shadow:
+        0 20px 44px rgba(30, 35, 60, 0.3),
+        inset 0 -4px 10px rgba(15, 18, 40, 0.4),
+        inset 0 6px 14px rgba(70, 80, 120, 0.15);
+    }
+
+    .formula-card .kw { color: var(--clay-surface-purple); }
+    .formula-card .val { color: var(--clay-surface-blue); }
+    .formula-card .comment { color: #6c7096; font-style: italic; }
+
+    /* ============================================================
+       Layout Principles
+       ============================================================ */
+    .layout-section {
+      background: var(--clay-bg-tertiary);
+    }
+
+    .layout-section .section {
+      padding-top: 80px;
+      padding-bottom: 80px;
+    }
+
+    .principles-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 24px;
+    }
+
+    .principle-item {
+      background: var(--clay-surface-white);
+      border-radius: 28px;
+      padding: 32px;
+      display: flex;
+      gap: 18px;
+      align-items: flex-start;
+      box-shadow:
+        0 16px 36px rgba(100, 180, 140, 0.12),
+        inset 0 -4px 10px rgba(100, 180, 140, 0.06),
+        inset 0 6px 14px rgba(255, 255, 255, 0.85);
+      transition: transform 0.3s ease;
+    }
+
+    .principle-item:hover {
+      transform: translateY(-3px);
+    }
+
+    .principle-num {
+      width: 42px;
+      height: 42px;
+      min-width: 42px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Quicksand', sans-serif;
+      font-weight: 700;
+      font-size: 1.05rem;
+      color: var(--clay-text-light);
+    }
+
+    .principle-num--a { background: var(--clay-surface-coral);
+      box-shadow: 3px 3px 8px rgba(200,80,80,0.25), inset -2px -2px 5px rgba(180,50,50,0.2), inset 2px 2px 5px rgba(255,180,180,0.4); }
+    .principle-num--b { background: var(--clay-surface-blue);
+      box-shadow: 3px 3px 8px rgba(60,150,200,0.25), inset -2px -2px 5px rgba(40,120,180,0.2), inset 2px 2px 5px rgba(180,230,255,0.4); }
+    .principle-num--c { background: var(--clay-surface-purple);
+      box-shadow: 3px 3px 8px rgba(170,63,254,0.25), inset -2px -2px 5px rgba(140,40,220,0.2), inset 2px 2px 5px rgba(240,210,255,0.4); }
+    .principle-num--d { background: var(--clay-surface-green);
+      box-shadow: 3px 3px 8px rgba(80,180,90,0.25), inset -2px -2px 5px rgba(60,150,70,0.2), inset 2px 2px 5px rgba(190,255,200,0.4); }
+    .principle-num--e { background: var(--clay-surface-peach);
+      box-shadow: 3px 3px 8px rgba(200,140,40,0.25), inset -2px -2px 5px rgba(180,120,20,0.2), inset 2px 2px 5px rgba(255,220,170,0.4); }
+    .principle-num--f { background: var(--clay-surface-pink);
+      box-shadow: 3px 3px 8px rgba(200,110,140,0.25), inset -2px -2px 5px rgba(180,90,120,0.2), inset 2px 2px 5px rgba(255,200,215,0.4); }
+
+    .principle-text h4 {
+      font-size: 1rem;
+      margin-bottom: 4px;
+    }
+
+    .principle-text p {
+      font-size: 0.9rem;
+    }
+
+    /* ============================================================
+       Interactive Demo
+       ============================================================ */
+    .demo-area {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
+      margin-bottom: 48px;
+    }
+
+    @media (max-width: 700px) {
+      .demo-area { grid-template-columns: 1fr; }
+    }
+
+    .demo-input-group {
+      margin-bottom: 20px;
+    }
+
+    .demo-input-group label {
+      display: block;
+      font-weight: 700;
+      font-size: 0.9rem;
+      margin-bottom: 8px;
+      color: var(--clay-text-dark);
+    }
+
+    .clay-input {
+      background: #ffffff;
+      border: none;
+      border-radius: 20px;
+      padding: 16px 24px;
+      font-family: 'Nunito', sans-serif;
+      font-size: 1rem;
+      color: var(--clay-text-dark);
+      outline: none;
+      width: 100%;
+      box-shadow:
+        6px 6px 16px rgba(145, 112, 201, 0.15),
+        inset -4px -4px 8px rgba(145, 112, 201, 0.08),
+        inset 4px 4px 8px rgba(255, 255, 255, 0.8);
+      transition: box-shadow 0.25s ease;
+    }
+
+    .clay-input:focus {
+      box-shadow:
+        8px 8px 22px rgba(145, 112, 201, 0.25),
+        inset -4px -4px 10px rgba(145, 112, 201, 0.12),
+        inset 4px 4px 10px rgba(255, 255, 255, 0.9);
+    }
+
+    .clay-input::placeholder {
+      color: #b0b3c8;
+    }
+
+    .clay-textarea {
+      background: #ffffff;
+      border: none;
+      border-radius: 24px;
+      padding: 20px 24px;
+      font-family: 'Nunito', sans-serif;
+      font-size: 1rem;
+      color: var(--clay-text-dark);
+      outline: none;
+      width: 100%;
+      min-height: 120px;
+      resize: vertical;
+      box-shadow:
+        6px 6px 16px rgba(145, 112, 201, 0.15),
+        inset -4px -4px 8px rgba(145, 112, 201, 0.08),
+        inset 4px 4px 8px rgba(255, 255, 255, 0.8);
+      transition: box-shadow 0.25s ease;
+    }
+
+    .clay-textarea:focus {
+      box-shadow:
+        8px 8px 22px rgba(145, 112, 201, 0.25),
+        inset -4px -4px 10px rgba(145, 112, 201, 0.12),
+        inset 4px 4px 10px rgba(255, 255, 255, 0.9);
+    }
+
+    /* Toggle / Switch */
+    .clay-toggle-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .clay-toggle {
+      position: relative;
+      width: 60px;
+      height: 34px;
+      border-radius: 999px;
+      background: #e0ddf0;
+      cursor: pointer;
+      box-shadow:
+        4px 4px 10px rgba(145, 112, 201, 0.15),
+        inset -3px -3px 6px rgba(145, 112, 201, 0.1),
+        inset 3px 3px 6px rgba(255, 255, 255, 0.7);
+      transition: background 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .clay-toggle.active {
+      background: var(--clay-surface-green);
+      box-shadow:
+        4px 4px 10px rgba(80, 180, 90, 0.3),
+        inset -3px -3px 6px rgba(60, 150, 70, 0.2),
+        inset 3px 3px 6px rgba(190, 255, 200, 0.5);
+    }
+
+    .clay-toggle .knob {
+      position: absolute;
+      top: 4px;
+      left: 4px;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: #ffffff;
+      box-shadow:
+        2px 2px 6px rgba(0,0,0,0.1),
+        inset -1px -1px 3px rgba(0,0,0,0.05),
+        inset 1px 1px 3px rgba(255,255,255,0.9);
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .clay-toggle.active .knob {
+      transform: translateX(26px);
+    }
+
+    /* Badge / Pill */
+    .clay-badge {
+      display: inline-block;
+      border-radius: 999px;
+      padding: 8px 20px;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 700;
+      font-size: 0.82rem;
+    }
+
+    .clay-badge--coral {
+      background: var(--clay-surface-coral);
+      color: var(--clay-text-light);
+      box-shadow:
+        4px 4px 10px rgba(200, 80, 80, 0.25),
+        inset -2px -2px 5px rgba(180, 50, 50, 0.2),
+        inset 2px 2px 5px rgba(255, 180, 180, 0.4);
+    }
+    .clay-badge--blue {
+      background: var(--clay-surface-blue);
+      color: var(--clay-text-light);
+      box-shadow:
+        4px 4px 10px rgba(60, 150, 200, 0.25),
+        inset -2px -2px 5px rgba(40, 120, 180, 0.2),
+        inset 2px 2px 5px rgba(180, 230, 255, 0.4);
+    }
+    .clay-badge--green {
+      background: var(--clay-surface-green);
+      color: var(--clay-text-dark);
+      box-shadow:
+        4px 4px 10px rgba(80, 180, 90, 0.25),
+        inset -2px -2px 5px rgba(60, 150, 70, 0.2),
+        inset 2px 2px 5px rgba(190, 255, 200, 0.4);
+    }
+    .clay-badge--purple {
+      background: var(--clay-surface-purple);
+      color: var(--clay-text-light);
+      box-shadow:
+        4px 4px 10px rgba(170, 63, 254, 0.25),
+        inset -2px -2px 5px rgba(140, 40, 220, 0.2),
+        inset 2px 2px 5px rgba(240, 210, 255, 0.4);
+    }
+
+    .badges-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    /* Demo card for form preview */
+    .demo-preview {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .demo-mini-card {
+      width: 100%;
+      max-width: 280px;
+      border-radius: 32px;
+      padding: 32px;
+      text-align: center;
+      transition: transform 0.3s ease;
+    }
+
+    .demo-mini-card:hover {
+      transform: rotate(-2deg) scale(1.03);
+    }
+
+    .demo-mini-card.coral {
+      background: var(--clay-surface-coral);
+      color: var(--clay-text-light);
+      box-shadow:
+        10px 10px 22px rgba(200, 80, 80, 0.35),
+        inset -6px -6px 14px rgba(180, 50, 50, 0.25),
+        inset 6px 6px 14px rgba(255, 180, 180, 0.45);
+    }
+
+    .demo-mini-card.purple {
+      background: var(--clay-surface-purple);
+      color: var(--clay-text-light);
+      box-shadow:
+        10px 10px 22px rgba(170, 63, 254, 0.3),
+        inset -6px -6px 14px rgba(140, 40, 220, 0.25),
+        inset 6px 6px 14px rgba(240, 210, 255, 0.5);
+    }
+
+    .demo-mini-card h4 {
+      color: inherit;
+      font-size: 1.15rem;
+      margin-bottom: 8px;
+    }
+
+    .demo-mini-card p {
+      color: inherit;
+      opacity: 0.85;
+      font-size: 0.9rem;
+    }
+
+    /* ============================================================
+       CSS Techniques
+       ============================================================ */
+    .techniques-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 28px;
+    }
+
+    .technique-card {
+      background: var(--clay-surface-white);
+      border-radius: 32px;
+      padding: 36px;
+      box-shadow:
+        0 20px 44px rgba(145, 112, 201, 0.14),
+        inset 0 -5px 12px rgba(145, 112, 201, 0.08),
+        inset 0 8px 18px rgba(255, 255, 255, 0.85);
+      transition: transform 0.3s ease;
+    }
+
+    .technique-card:hover {
+      transform: translateY(-3px);
+    }
+
+    .technique-card h4 {
+      font-size: 1.1rem;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .technique-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    .technique-code {
+      background: #2d3557;
+      border-radius: 16px;
+      padding: 18px 22px;
+      font-family: 'Nunito', monospace;
+      font-size: 0.78rem;
+      line-height: 1.7;
+      color: #c8cbdf;
+      overflow-x: auto;
+      white-space: pre;
+      margin-top: 14px;
+      box-shadow:
+        inset 0 -3px 8px rgba(15, 18, 40, 0.4),
+        inset 0 3px 8px rgba(70, 80, 120, 0.1);
+    }
+
+    .technique-code .prop { color: var(--clay-surface-blue); }
+    .technique-code .val { color: var(--clay-surface-peach); }
+    .technique-code .comment { color: #6c7096; }
+
+    /* ============================================================
+       Related Aesthetics
+       ============================================================ */
+    .related-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 24px;
+    }
+
+    .related-item {
+      border-radius: 28px;
+      padding: 32px 28px;
+      transition: transform 0.3s ease;
+    }
+
+    .related-item:hover {
+      transform: translateY(-4px) scale(1.02);
+    }
+
+    .related-item h4 {
+      font-size: 1.05rem;
+      margin-bottom: 10px;
+    }
+
+    .related-item p {
+      font-size: 0.88rem;
+      line-height: 1.55;
+    }
+
+    .related--neumorphism {
+      background: #e4e0f0;
+      color: var(--clay-text-dark);
+      box-shadow:
+        8px 8px 18px rgba(160, 150, 190, 0.4),
+        -6px -6px 14px rgba(255, 255, 255, 0.8);
+    }
+    .related--neumorphism p { color: var(--clay-text-medium); }
+
+    .related--glassmorphism {
+      background: rgba(255, 255, 255, 0.35);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      color: var(--clay-text-dark);
+      box-shadow: 0 8px 32px rgba(145, 112, 201, 0.12);
+    }
+    .related--glassmorphism p { color: var(--clay-text-medium); }
+
+    .related--skeuomorphism {
+      background: linear-gradient(145deg, #f8f4ef 0%, #e8e0d4 100%);
+      color: var(--clay-text-dark);
+      border: 1px solid #d4cec4;
+      box-shadow:
+        0 2px 4px rgba(0,0,0,0.08),
+        inset 0 1px 0 rgba(255,255,255,0.6);
+    }
+    .related--skeuomorphism p { color: var(--clay-text-medium); }
+
+    .related--memphis {
+      background: var(--clay-surface-peach);
+      color: var(--clay-text-dark);
+      box-shadow:
+        8px 8px 18px rgba(200, 140, 40, 0.3),
+        inset -5px -5px 10px rgba(180, 120, 20, 0.15),
+        inset 5px 5px 10px rgba(255, 220, 170, 0.5);
+    }
+    .related--memphis p { color: rgba(45, 53, 87, 0.8); }
+
+    .related--minimalism {
+      background: var(--clay-surface-white);
+      color: var(--clay-text-dark);
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+      border: 1px solid #eee;
+    }
+    .related--minimalism p { color: var(--clay-text-medium); }
+
+    /* ============================================================
+       Footer
+       ============================================================ */
+    .footer {
+      text-align: center;
+      padding: 60px 24px 40px;
+      color: var(--clay-text-medium);
+      font-size: 0.9rem;
+    }
+
+    .footer-logo {
+      font-family: 'Comfortaa', sans-serif;
+      font-weight: 700;
+      font-size: 1.3rem;
+      color: var(--clay-text-dark);
+      margin-bottom: 8px;
+    }
+
+    .footer p {
+      max-width: 480px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    .footer-dots {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 24px;
+    }
+
+    .footer-dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+    }
+
+    .footer-dot--coral {
+      background: var(--clay-surface-coral);
+      box-shadow: 2px 2px 6px rgba(200,80,80,0.3), inset -1px -1px 3px rgba(180,50,50,0.2), inset 1px 1px 3px rgba(255,180,180,0.5);
+    }
+    .footer-dot--blue {
+      background: var(--clay-surface-blue);
+      box-shadow: 2px 2px 6px rgba(60,150,200,0.3), inset -1px -1px 3px rgba(40,120,180,0.2), inset 1px 1px 3px rgba(180,230,255,0.5);
+    }
+    .footer-dot--purple {
+      background: var(--clay-surface-purple);
+      box-shadow: 2px 2px 6px rgba(170,63,254,0.3), inset -1px -1px 3px rgba(140,40,220,0.2), inset 1px 1px 3px rgba(240,210,255,0.5);
+    }
+    .footer-dot--green {
+      background: var(--clay-surface-green);
+      box-shadow: 2px 2px 6px rgba(80,180,90,0.3), inset -1px -1px 3px rgba(60,150,70,0.2), inset 1px 1px 3px rgba(190,255,200,0.5);
+    }
+    .footer-dot--peach {
+      background: var(--clay-surface-peach);
+      box-shadow: 2px 2px 6px rgba(200,140,40,0.3), inset -1px -1px 3px rgba(180,120,20,0.2), inset 1px 1px 3px rgba(255,220,170,0.5);
+    }
+
+    /* ============================================================
+       Scroll Reveal Animations
+       ============================================================ */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+    .reveal-delay-5 { transition-delay: 0.5s; }
+    .reveal-delay-6 { transition-delay: 0.6s; }
+
+    /* ============================================================
+       Responsive
+       ============================================================ */
+    @media (max-width: 768px) {
+      .hero { padding: 80px 20px 40px; }
+      .section { padding: 60px 20px; }
+      .clay-card { padding: 32px 24px; border-radius: 30px; }
+      .trait-card { padding: 28px 24px; }
+      .palette-grid { grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 16px; }
+      .swatch { padding: 22px 14px 18px; border-radius: 22px; }
+      .shadow-demo { gap: 20px; }
+      .shadow-layer { width: 130px; height: 130px; border-radius: 28px; }
+      .principles-list { grid-template-columns: 1fr; }
+      .techniques-grid { grid-template-columns: 1fr; }
+      .related-grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 480px) {
+      .hero-title { font-size: clamp(2.4rem, 12vw, 3.8rem); }
+      .shadow-demo { flex-direction: column; }
+      .shadow-plus, .shadow-equals { transform: rotate(90deg); }
+      .related-grid { grid-template-columns: 1fr; }
+      .palette-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Background blobs -->
+  <div class="bg-blobs" aria-hidden="true">
+    <div class="blob blob--purple"></div>
+    <div class="blob blob--coral"></div>
+    <div class="blob blob--blue"></div>
+    <div class="blob blob--mint"></div>
+    <div class="blob blob--peach"></div>
+  </div>
+
+  <!-- Navigation -->
+  <nav class="nav" role="navigation" aria-label="Main navigation">
+    <div class="nav-inner">
+      <div class="nav-logo">
+        <div class="logo-dot" aria-hidden="true"></div>
+        Claymorphism
+      </div>
+      <ul class="nav-links">
+        <li><a href="#traits">Traits</a></li>
+        <li><a href="#palette">Palette</a></li>
+        <li><a href="#typography">Type</a></li>
+        <li><a href="#shadows">Shadows</a></li>
+        <li><a href="#layout">Layout</a></li>
+        <li><a href="#components">Components</a></li>
+        <li><a href="#related">Related</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="hero-shapes" aria-hidden="true">
+      <div class="hero-shape hero-shape--1"></div>
+      <div class="hero-shape hero-shape--2"></div>
+      <div class="hero-shape hero-shape--3"></div>
+      <div class="hero-shape hero-shape--4"></div>
+    </div>
+    <h1 class="hero-title">
+      <span class="accent-clay">Clay</span><span>morphism</span>
+    </h1>
+    <p class="hero-sub">
+      Soft, inflated, 3D clay-like UI design. Elements look as if molded from Play-Doh, floating above the background with puffy, tactile surfaces and vivid pastel colors.
+    </p>
+    <div class="hero-cta">
+      <a href="#traits" class="clay-btn clay-btn--coral">Explore the Aesthetic</a>
+      <a href="#shadows" class="clay-btn clay-btn--white">Shadow Formula</a>
+    </div>
+  </header>
+
+  <!-- ============================================================
+       VISUAL CHARACTERISTICS
+       ============================================================ -->
+  <section class="section" id="traits">
+    <div class="reveal">
+      <p class="section-label">Visual Characteristics</p>
+      <h2 class="section-title">Core Design Traits</h2>
+      <p class="section-desc">
+        Every element should look like it could be physically picked up or squeezed. Claymorphism evokes stuffed toys, balloons, and Play-Doh forms through a precise combination of color, shadow, and shape.
+      </p>
+    </div>
+    <div class="traits-grid">
+      <div class="trait-card reveal reveal-delay-1">
+        <div class="trait-icon trait-icon--coral" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/></svg>
+        </div>
+        <h4>Inflated Geometry</h4>
+        <p>Objects resemble air-filled, softly sculpted forms with chunky, rounded shapes. No sharp edges anywhere.</p>
+      </div>
+      <div class="trait-card reveal reveal-delay-2">
+        <div class="trait-icon trait-icon--blue" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="4"/><line x1="3" y1="12" x2="21" y2="12"/></svg>
+        </div>
+        <h4>Floating Surfaces</h4>
+        <p>Elements float above backgrounds rather than extruding from them, using outer shadows for separation and depth.</p>
+      </div>
+      <div class="trait-card reveal reveal-delay-3">
+        <div class="trait-icon trait-icon--purple" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+        </div>
+        <h4>Triple Shadow System</h4>
+        <p>Dual inner shadows plus an outer shadow create the signature clay/puffy illusion -- the defining CSS technique of this aesthetic.</p>
+      </div>
+      <div class="trait-card reveal reveal-delay-4">
+        <div class="trait-icon trait-icon--peach" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+        </div>
+        <h4>Vivid Color Cues</h4>
+        <p>Bright pastels and vivid hues differentiate interactive elements, improving accessibility over monochromatic approaches.</p>
+      </div>
+      <div class="trait-card reveal reveal-delay-5">
+        <div class="trait-icon trait-icon--green" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M4 12h10M4 17h12"/></svg>
+        </div>
+        <h4>Clean Typography</h4>
+        <p>Bold, rounded typefaces balance the whimsical 3D clay visuals with readability and minimal aesthetic purity.</p>
+      </div>
+      <div class="trait-card reveal reveal-delay-6">
+        <div class="trait-icon trait-icon--pink" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        </div>
+        <h4>Friendly, Tactile Feel</h4>
+        <p>Organic, blob-like formations throughout the UI evoke a sense of playfulness and physical touchability.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       COLOR PALETTE
+       ============================================================ -->
+  <div class="palette-section" id="palette">
+    <section class="section">
+      <div class="reveal">
+        <p class="section-label">Color Palette</p>
+        <h2 class="section-title">Bright Pastels &amp; Vivid Hues</h2>
+        <p class="section-desc">
+          Claymorphism demands bright pastels and vivid colors. Drop shadows become ineffective on darker variations, so foregrounds and backgrounds stay in the lighter pastel range.
+        </p>
+      </div>
+      <div class="palette-grid reveal">
+        <div class="swatch swatch--white">
+          <div class="swatch-name">Surface White</div>
+          <div class="swatch-hex">#FFFFFF</div>
+        </div>
+        <div class="swatch swatch--coral">
+          <div class="swatch-name">Coral</div>
+          <div class="swatch-hex">#F76D6D</div>
+        </div>
+        <div class="swatch swatch--blue">
+          <div class="swatch-name">Sky Blue</div>
+          <div class="swatch-hex">#62CDFF</div>
+        </div>
+        <div class="swatch swatch--purple">
+          <div class="swatch-name">Lavender</div>
+          <div class="swatch-hex">#D6A2FF</div>
+        </div>
+        <div class="swatch swatch--green">
+          <div class="swatch-name">Pastel Green</div>
+          <div class="swatch-hex">#7AE582</div>
+        </div>
+        <div class="swatch swatch--peach">
+          <div class="swatch-name">Warm Amber</div>
+          <div class="swatch-hex">#FFB347</div>
+        </div>
+        <div class="swatch swatch--pink">
+          <div class="swatch-name">Soft Pink</div>
+          <div class="swatch-hex">#FF9EB5</div>
+        </div>
+        <div class="swatch swatch--mint">
+          <div class="swatch-name">Mint</div>
+          <div class="swatch-hex">#A8E6CF</div>
+        </div>
+        <div class="swatch swatch--dark">
+          <div class="swatch-name">Text Dark</div>
+          <div class="swatch-hex">#2D3557</div>
+        </div>
+      </div>
+      <div class="palette-note reveal">
+        <strong>Color Guidelines</strong>
+        <ul>
+          <li><strong>Always</strong> keep the background lighter than the foreground elements</li>
+          <li>Shadow colors should derive from the element's own background color (tinted darker)</li>
+          <li>Inner highlight shadow should be a <strong>lighter</strong> tint of the element's color</li>
+          <li>Inner depth shadow should be a <strong>darker</strong> shade at 60-70% opacity</li>
+          <li>Outer drop shadow should match the element's hue with 30-50% transparency</li>
+        </ul>
+      </div>
+    </section>
+  </div>
+
+  <!-- ============================================================
+       TYPOGRAPHY
+       ============================================================ -->
+  <section class="section" id="typography">
+    <div class="reveal">
+      <p class="section-label">Typography</p>
+      <h2 class="section-title">Rounded, Soft &amp; Friendly</h2>
+      <p class="section-desc">
+        Claymorphism typography should be rounded, bold, and clean -- matching the organic clay aesthetic. Sans-serif only; angular serifs clash with the rounded clay forms.
+      </p>
+    </div>
+    <div class="type-showcase">
+      <div class="type-card reveal">
+        <div class="font-name">Comfortaa -- Display Headings</div>
+        <div class="type-sample-comfortaa">Soft Clay Worlds</div>
+        <div class="type-meta">Rounded geometric, friendly feel. Ideal for logos, hero text, and display-size headings.</div>
+      </div>
+      <div class="type-card reveal reveal-delay-1">
+        <div class="font-name">Quicksand -- Headlines &amp; Cards</div>
+        <div class="type-sample-quicksand">Every element feels tactile</div>
+        <div class="type-meta">Rounded geometric sans-serif. Clean for section headings, card titles, and button labels.</div>
+      </div>
+      <div class="type-card reveal reveal-delay-2">
+        <div class="font-name">Nunito -- Body Text &amp; UI</div>
+        <div class="type-sample-nunito">Nunito's soft terminals and generous x-height make it the ideal body font for claymorphic interfaces. Its rounded letterforms harmonize with the inflated, puffy visual language while maintaining excellent legibility at all sizes. Pair it with Quicksand or Comfortaa for headings.</div>
+        <div class="type-meta">Rounded sans-serif with soft terminals. The workhorse font for body copy, labels, and UI elements.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SHADOW CONSTRUCTION
+       ============================================================ -->
+  <section class="section" id="shadows">
+    <div class="reveal">
+      <p class="section-label">Shadow Construction</p>
+      <h2 class="section-title">The Claymorphism Formula</h2>
+      <p class="section-desc">
+        The core visual effect relies on combining two inset shadows (one dark, one light) with one outer shadow. Here is how each layer contributes to the final clay appearance.
+      </p>
+    </div>
+    <div class="shadow-demo reveal">
+      <div class="shadow-layer shadow--outer-only">
+        <div class="layer-label">Outer Shadow</div>
+        <div class="layer-desc">Float &amp; depth</div>
+      </div>
+      <div class="shadow-plus" aria-hidden="true">+</div>
+      <div class="shadow-layer shadow--inset-dark">
+        <div class="layer-label">Inset Dark</div>
+        <div class="layer-desc">Volume &amp; concavity</div>
+      </div>
+      <div class="shadow-plus" aria-hidden="true">+</div>
+      <div class="shadow-layer shadow--inset-light">
+        <div class="layer-label">Inset Light</div>
+        <div class="layer-desc">Highlight &amp; inflation</div>
+      </div>
+      <div class="shadow-equals" aria-hidden="true">=</div>
+      <div class="shadow-layer shadow--combined">
+        <div class="layer-label">Claymorphism</div>
+        <div class="layer-desc">All three combined</div>
+      </div>
+    </div>
+
+    <div class="formula-card reveal">
+<span class="comment">/* The Claymorphism Shadow Formula */</span>
+<span class="kw">box-shadow</span>:
+  <span class="val">12px 12px 24px</span> rgba(base-darker, <span class="val">0.35</span>),        <span class="comment">/* outer: float/depth */</span>
+  <span class="kw">inset</span> <span class="val">-8px -8px 16px</span> rgba(base-much-darker, <span class="val">0.3</span>), <span class="comment">/* inset dark: volume */</span>
+  <span class="kw">inset</span> <span class="val">8px 8px 16px</span> rgba(base-much-lighter, <span class="val">0.6</span>); <span class="comment">/* inset light: inflation */</span>
+    </div>
+
+    <div style="margin-top: 40px;">
+      <div class="reveal">
+        <h3 style="margin-bottom: 24px;">Shadow Layer Reference</h3>
+      </div>
+      <div class="techniques-grid">
+        <div class="technique-card reveal reveal-delay-1">
+          <h4><span class="technique-dot" style="background: var(--clay-surface-coral);" aria-hidden="true"></span> Outer Shadow</h4>
+          <p style="color: var(--clay-text-medium); font-size: 0.92rem;">Positive X/Y offsets create the floating/depth effect. Use the base color darkened at 30-45% opacity.</p>
+          <div class="technique-code"><span class="comment">/* Direction: positive X/Y */</span>
+<span class="prop">box-shadow</span>: <span class="val">12px 12px 24px</span>
+  rgba(50, 140, 200, <span class="val">0.35</span>);</div>
+        </div>
+        <div class="technique-card reveal reveal-delay-2">
+          <h4><span class="technique-dot" style="background: var(--clay-surface-purple);" aria-hidden="true"></span> Inset Dark</h4>
+          <p style="color: var(--clay-text-medium); font-size: 0.92rem;">Negative X/Y creates concavity and volume. Use the base color darkened 20-30% at 30-70% opacity.</p>
+          <div class="technique-code"><span class="comment">/* Direction: negative X/Y */</span>
+<span class="prop">box-shadow</span>: <span class="val">inset -8px -8px 16px</span>
+  rgba(30, 110, 170, <span class="val">0.3</span>);</div>
+        </div>
+        <div class="technique-card reveal reveal-delay-3">
+          <h4><span class="technique-dot" style="background: var(--clay-surface-blue);" aria-hidden="true"></span> Inset Light</h4>
+          <p style="color: var(--clay-text-medium); font-size: 0.92rem;">Positive X/Y creates the highlight and inflation. Use the base color lightened heavily at 50-90% opacity.</p>
+          <div class="technique-code"><span class="comment">/* Direction: positive X/Y */</span>
+<span class="prop">box-shadow</span>: <span class="val">inset 8px 8px 16px</span>
+  rgba(180, 230, 255, <span class="val">0.6</span>);</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       LAYOUT PRINCIPLES
+       ============================================================ -->
+  <div class="layout-section" id="layout">
+    <section class="section">
+      <div class="reveal">
+        <p class="section-label">Layout Principles</p>
+        <h2 class="section-title">Generous, Organic, Breathing</h2>
+        <p class="section-desc">
+          Clay elements need ample room to breathe. Large border-radii, generous padding, centered card-based layouts, and soft color transitions are essential.
+        </p>
+      </div>
+      <div class="principles-list">
+        <div class="principle-item reveal reveal-delay-1">
+          <div class="principle-num principle-num--a">1</div>
+          <div class="principle-text">
+            <h4>Generous Spacing</h4>
+            <p>Ample padding inside elements (40-60px) and generous gaps between them. Clay elements need room to breathe.</p>
+          </div>
+        </div>
+        <div class="principle-item reveal reveal-delay-2">
+          <div class="principle-num principle-num--b">2</div>
+          <div class="principle-text">
+            <h4>Card-Based Layouts</h4>
+            <p>Floating card elements on a soft background. Centered, with max-width containers of 900-1100px to prevent over-stretching.</p>
+          </div>
+        </div>
+        <div class="principle-item reveal reveal-delay-3">
+          <div class="principle-num principle-num--c">3</div>
+          <div class="principle-text">
+            <h4>Large Border-Radius</h4>
+            <p>30-50px on cards, 16-24px on buttons, fully rounded (999px) on pills and avatars. No sharp corners anywhere.</p>
+          </div>
+        </div>
+        <div class="principle-item reveal reveal-delay-4">
+          <div class="principle-num principle-num--d">4</div>
+          <div class="principle-text">
+            <h4>Soft Section Transitions</h4>
+            <p>Use soft color transitions between sections rather than hard dividers. Group related content in clay cards.</p>
+          </div>
+        </div>
+        <div class="principle-item reveal reveal-delay-5">
+          <div class="principle-num principle-num--e">5</div>
+          <div class="principle-text">
+            <h4>Size-Based Hierarchy</h4>
+            <p>Create hierarchy through element size and shadow depth. More important items get deeper, more prominent shadows.</p>
+          </div>
+        </div>
+        <div class="principle-item reveal reveal-delay-6">
+          <div class="principle-num principle-num--f">6</div>
+          <div class="principle-text">
+            <h4>Generous Whitespace</h4>
+            <p>The clay effect needs visual breathing room. Limit claymorphic layers to prevent visual clutter.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ============================================================
+       INTERACTIVE COMPONENTS
+       ============================================================ -->
+  <section class="section" id="components">
+    <div class="reveal">
+      <p class="section-label">Interactive Components</p>
+      <h2 class="section-title">Tactile UI Elements</h2>
+      <p class="section-desc">
+        Claymorphic components use the triple-shadow system on every interactive element -- buttons, inputs, toggles, badges, and cards -- to maintain the cohesive puffy aesthetic.
+      </p>
+    </div>
+    <div class="demo-area">
+      <div class="clay-card reveal" style="padding: 36px;">
+        <h3 style="margin-bottom: 24px;">Form Elements</h3>
+        <div class="demo-input-group">
+          <label>Text Input</label>
+          <input type="text" class="clay-input" placeholder="Type something soft...">
+        </div>
+        <div class="demo-input-group">
+          <label>Message</label>
+          <textarea class="clay-textarea" placeholder="A puffy message..."></textarea>
+        </div>
+        <div class="demo-input-group">
+          <label>Toggle Switch</label>
+          <div class="clay-toggle-row">
+            <div class="clay-toggle" id="toggle1" role="switch" aria-checked="false" tabindex="0">
+              <div class="knob"></div>
+            </div>
+            <span style="font-size: 0.9rem; color: var(--clay-text-medium);">Enable clay mode</span>
+          </div>
+        </div>
+        <div style="display: flex; gap: 12px; flex-wrap: wrap; margin-top: 8px;">
+          <button class="clay-btn clay-btn--coral" style="padding: 14px 28px; font-size: 0.92rem;">Submit</button>
+          <button class="clay-btn clay-btn--purple" style="padding: 14px 28px; font-size: 0.92rem;">Cancel</button>
+        </div>
+      </div>
+      <div class="demo-preview reveal reveal-delay-2">
+        <div class="demo-mini-card coral">
+          <h4>Coral Card</h4>
+          <p>Vivid surfaces with matching shadow hues</p>
+        </div>
+        <div class="demo-mini-card purple">
+          <h4>Purple Card</h4>
+          <p>Inner shadows create inflated volume</p>
+        </div>
+        <div style="text-align: center;">
+          <p style="font-size: 0.85rem; margin-bottom: 12px; font-weight: 700;">Badges &amp; Pills</p>
+          <div class="badges-row" style="justify-content: center;">
+            <span class="clay-badge clay-badge--coral">Design</span>
+            <span class="clay-badge clay-badge--blue">CSS</span>
+            <span class="clay-badge clay-badge--green">Accessible</span>
+            <span class="clay-badge clay-badge--purple">3D Effect</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CSS Techniques cards -->
+    <div class="reveal" style="margin-top: 48px;">
+      <h3 style="margin-bottom: 24px;">CSS Technique Variations</h3>
+    </div>
+    <div class="techniques-grid">
+      <div class="technique-card reveal reveal-delay-1">
+        <h4><span class="technique-dot" style="background: var(--clay-surface-coral);" aria-hidden="true"></span> Coral Element</h4>
+        <p style="color: var(--clay-text-medium); font-size: 0.9rem;">Warm, vivid variation with hue-matched shadows.</p>
+        <div class="technique-code"><span class="prop">background</span>: <span class="val">#f76d6d</span>;
+<span class="prop">border-radius</span>: <span class="val">40px</span>;
+<span class="prop">box-shadow</span>:
+  <span class="val">12px 12px 24px</span> rgba(200, 80, 80, <span class="val">0.4</span>),
+  <span class="val">inset -8px -8px 16px</span> rgba(180, 50, 50, <span class="val">0.3</span>),
+  <span class="val">inset 8px 8px 16px</span> rgba(255, 180, 180, <span class="val">0.5</span>);</div>
+      </div>
+      <div class="technique-card reveal reveal-delay-2">
+        <h4><span class="technique-dot" style="background: var(--clay-surface-purple);" aria-hidden="true"></span> Glass + Clay Hybrid</h4>
+        <p style="color: var(--clay-text-medium); font-size: 0.9rem;">Combining clay shadows with glass transparency for depth.</p>
+        <div class="technique-code"><span class="prop">background</span>: rgba(255, 255, 255, <span class="val">0.4</span>);
+<span class="prop">backdrop-filter</span>: <span class="val">blur(15px)</span>;
+<span class="prop">border-radius</span>: <span class="val">30px</span>;
+<span class="prop">box-shadow</span>:
+  <span class="val">0 35px 68px</span> rgba(170, 63, 254, <span class="val">0.42</span>),
+  <span class="val">inset 0 -8px 16px</span> <span class="val">#d6a2ff</span>;</div>
+      </div>
+      <div class="technique-card reveal reveal-delay-3">
+        <h4><span class="technique-dot" style="background: var(--clay-surface-green);" aria-hidden="true"></span> HSL Approach</h4>
+        <p style="color: var(--clay-text-medium); font-size: 0.9rem;">Using HSL functions for systematic color derivation.</p>
+        <div class="technique-code"><span class="prop">background</span>: <span class="val">hsl(120deg 35% 82%)</span>;
+<span class="prop">border-radius</span>: <span class="val">50px</span>;
+<span class="prop">box-shadow</span>:
+  <span class="val">34px 34px 68px</span> hsl(120deg 10% 50%),
+  <span class="val">inset -8px -8px 16px</span> hsl(120deg 20% 50% / <span class="val">0.7</span>),
+  <span class="val">inset 0 14px 28px</span> hsl(120deg 20% 95%);</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       DESIGN PRINCIPLES CALLOUT
+       ============================================================ -->
+  <section class="section">
+    <div class="clay-card reveal" style="text-align: center; max-width: 760px; margin: 0 auto; padding: 56px 48px;">
+      <h2 style="font-size: clamp(1.5rem, 3.5vw, 2.2rem); margin-bottom: 16px;">Design Principles</h2>
+      <p style="font-size: 1.05rem; max-width: 540px; margin: 0 auto 28px;">
+        Maintain clear visual hierarchy despite the 3D effect. Keep backgrounds light and bright so drop shadows remain effective. Respect motion preferences to avoid overwhelming animations.
+      </p>
+      <div class="badges-row" style="justify-content: center;">
+        <span class="clay-badge clay-badge--coral">Tactile</span>
+        <span class="clay-badge clay-badge--blue">Accessible</span>
+        <span class="clay-badge clay-badge--green">Playful</span>
+        <span class="clay-badge clay-badge--purple">Dimensional</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       RELATED AESTHETICS
+       ============================================================ -->
+  <section class="section" id="related">
+    <div class="reveal">
+      <p class="section-label">Related Aesthetics</p>
+      <h2 class="section-title">Design Family Tree</h2>
+      <p class="section-desc">
+        Claymorphism sits in a lineage of tactile, dimensional UI trends. Each card below is styled in the aesthetic it describes.
+      </p>
+    </div>
+    <div class="related-grid">
+      <div class="related-item related--neumorphism reveal reveal-delay-1">
+        <h4>Neumorphism</h4>
+        <p>Predecessor. Elements extrude from the background. Monochromatic vs. claymorphism's vivid colors and floating surfaces.</p>
+      </div>
+      <div class="related-item related--glassmorphism reveal reveal-delay-2">
+        <h4>Glassmorphism</h4>
+        <p>Contemporary. Uses transparency and blur vs. claymorphism's opaque, inflated surfaces. They can be combined.</p>
+      </div>
+      <div class="related-item related--skeuomorphism reveal reveal-delay-3">
+        <h4>Skeuomorphism</h4>
+        <p>Ancestor. Claymorphism borrows the tactile, physical-object metaphor but abstracts it into playful clay forms.</p>
+      </div>
+      <div class="related-item related--memphis reveal reveal-delay-4">
+        <h4>Corporate Memphis</h4>
+        <p>Shares the friendly, colorful, rounded illustration style. Often paired with claymorphic UI elements.</p>
+      </div>
+      <div class="related-item related--minimalism reveal reveal-delay-5">
+        <h4>Minimalism</h4>
+        <p>Claymorphism applies minimalist content principles with maximum surface treatment and dimensional depth.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       FOOTER
+       ============================================================ -->
+  <footer class="footer">
+    <div class="footer-logo">Claymorphism</div>
+    <p>
+      A UI design trend coined by Michal Malewicz (Hype4 Academy) that gives interface elements a soft, inflated, 3D clay-like appearance.
+    </p>
+    <div class="footer-dots" aria-hidden="true">
+      <div class="footer-dot footer-dot--coral"></div>
+      <div class="footer-dot footer-dot--blue"></div>
+      <div class="footer-dot footer-dot--purple"></div>
+      <div class="footer-dot footer-dot--green"></div>
+      <div class="footer-dot footer-dot--peach"></div>
+    </div>
+  </footer>
+
+  <!-- ============================================================
+       JavaScript -- Scroll Reveal & Toggle
+       ============================================================ -->
+  <script>
+    // Scroll-triggered reveal
+    (function () {
+      const reveals = document.querySelectorAll('.reveal');
+      const observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+      reveals.forEach(function (el) {
+        observer.observe(el);
+      });
+    })();
+
+    // Toggle switch interaction
+    document.querySelectorAll('.clay-toggle').forEach(function (toggle) {
+      function flipToggle() {
+        var isActive = toggle.classList.toggle('active');
+        toggle.setAttribute('aria-checked', isActive ? 'true' : 'false');
+      }
+      toggle.addEventListener('click', flipToggle);
+      toggle.addEventListener('keydown', function (e) {
+        if (e.key === ' ' || e.key === 'Enter') {
+          e.preventDefault();
+          flipToggle();
+        }
+      });
+    });
+
+    // Smooth scroll for nav links
+    document.querySelectorAll('.nav-links a, .hero-cta a').forEach(function (link) {
+      link.addEventListener('click', function (e) {
+        var href = this.getAttribute('href');
+        if (href && href.startsWith('#')) {
+          e.preventDefault();
+          var target = document.querySelector(href);
+          if (target) {
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        }
+      });
+    });
+  </script>
+</body>
+</html>
