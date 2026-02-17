@@ -1,0 +1,2206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dial-Up Delight -- Design Reference Showcase</title>
+  <link href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=MedievalSharp&family=Press+Start+2P&family=VT323&family=Bungee&family=Monoton&family=Permanent+Marker&family=Creepster&display=swap" rel="stylesheet">
+  <style>
+    /* ============================================================
+       CSS CUSTOM PROPERTIES -- Dial-Up Delight Token System
+       ============================================================ */
+    :root {
+      /* Backgrounds */
+      --dialup-bg-dark: #0D0015;
+      --dialup-bg-mid: #1A0A2E;
+      --dialup-bg-surface: #2A0134;
+      --dialup-bg-surface-light: #3D1A54;
+
+      /* Text */
+      --dialup-text-primary: #F0F0FF;
+      --dialup-text-secondary: #C8A8E8;
+      --dialup-text-muted: #8868A8;
+
+      /* Neon Accents */
+      --dialup-accent-pink: #FF1493;
+      --dialup-accent-cyan: #00F5FF;
+      --dialup-accent-green: #39FF14;
+      --dialup-accent-yellow: #FFFF00;
+      --dialup-accent-magenta: #FF00FF;
+      --dialup-accent-purple: #8B00FF;
+
+      /* Chrome / Metallic */
+      --dialup-chrome-light: #E8E8F0;
+      --dialup-chrome-mid: #C0C0C0;
+      --dialup-chrome-dark: #808080;
+
+      /* Shadows */
+      --dialup-shadow: #0D0015;
+      --dialup-shadow-soft: rgba(13, 0, 21, 0.7);
+    }
+
+    /* ============================================================
+       RESET & BASE
+       ============================================================ */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--dialup-bg-dark);
+      color: var(--dialup-text-primary);
+      font-family: 'VT323', 'Courier New', monospace;
+      font-size: 20px;
+      line-height: 1.7;
+      letter-spacing: 0.03em;
+      min-height: 100vh;
+      overflow-x: hidden;
+      cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='22' height='22' viewBox='0 0 22 22'%3E%3Cpath fill='%23FF1493' d='M11 0l2.7 8.3h8.3l-6.7 4.8 2.7 8.3L11 16.6l-6.7 4.8 2.7-8.3L0.3 8.3h8.3z'/%3E%3C/svg%3E") 11 11, auto;
+    }
+
+    /* ============================================================
+       NOISE TEXTURE OVERLAY
+       ============================================================ */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      opacity: 0.045;
+      pointer-events: none;
+      z-index: 10000;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-repeat: repeat;
+      background-size: 256px 256px;
+      animation: dialup-static 0.4s steps(8) infinite;
+    }
+
+    @keyframes dialup-static {
+      0%   { transform: translate(0, 0); }
+      25%  { transform: translate(-1px, 1px); }
+      50%  { transform: translate(1px, -1px); }
+      75%  { transform: translate(-1px, -1px); }
+      100% { transform: translate(0, 0); }
+    }
+
+    /* ============================================================
+       SCANLINE OVERLAY
+       ============================================================ */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 9999;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent 0px,
+        transparent 2px,
+        rgba(0, 0, 0, 0.03) 2px,
+        rgba(0, 0, 0, 0.03) 4px
+      );
+    }
+
+    /* ============================================================
+       AMBIENT RADIAL GLOW BACKGROUND
+       ============================================================ */
+    .ambient-glow {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      background:
+        radial-gradient(ellipse at 15% 10%, rgba(255, 20, 147, 0.09) 0%, transparent 50%),
+        radial-gradient(ellipse at 85% 20%, rgba(0, 245, 255, 0.07) 0%, transparent 45%),
+        radial-gradient(ellipse at 50% 60%, rgba(139, 0, 255, 0.05) 0%, transparent 55%),
+        radial-gradient(ellipse at 20% 85%, rgba(57, 255, 20, 0.04) 0%, transparent 40%),
+        radial-gradient(ellipse at 80% 90%, rgba(255, 0, 255, 0.06) 0%, transparent 45%);
+    }
+
+    /* ============================================================
+       SPARKLE FIELD (fixed position decorative stars)
+       ============================================================ */
+    .sparkle-field {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 9998;
+      overflow: hidden;
+    }
+
+    @keyframes twinkle {
+      0%, 100% { opacity: 0; transform: scale(0) rotate(0deg); }
+      50% { opacity: 1; transform: scale(1) rotate(180deg); }
+    }
+
+    @keyframes twinkle-drift {
+      0%, 100% { opacity: 0; transform: scale(0) rotate(0deg) translateY(0); }
+      50% { opacity: 1; transform: scale(1) rotate(180deg) translateY(-5px); }
+    }
+
+    .sparkle-field .star {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background: var(--dialup-accent-yellow);
+      clip-path: polygon(
+        50% 0%, 61% 35%, 98% 35%, 68% 57%,
+        79% 91%, 50% 70%, 21% 91%, 32% 57%,
+        2% 35%, 39% 35%
+      );
+      animation: twinkle 2.5s ease-in-out infinite;
+    }
+
+    .sparkle-field .star:nth-child(1)  { top: 5%; left: 3%; animation-delay: 0s; width: 8px; height: 8px; }
+    .sparkle-field .star:nth-child(2)  { top: 12%; left: 90%; animation-delay: 0.5s; width: 12px; height: 12px; background: var(--dialup-accent-pink); }
+    .sparkle-field .star:nth-child(3)  { top: 22%; left: 95%; animation-delay: 1.2s; width: 6px; height: 6px; }
+    .sparkle-field .star:nth-child(4)  { top: 35%; left: 2%; animation-delay: 0.8s; width: 7px; height: 7px; background: var(--dialup-accent-cyan); }
+    .sparkle-field .star:nth-child(5)  { top: 48%; left: 93%; animation-delay: 1.6s; width: 9px; height: 9px; }
+    .sparkle-field .star:nth-child(6)  { top: 58%; left: 5%; animation-delay: 0.3s; width: 11px; height: 11px; background: var(--dialup-accent-pink); }
+    .sparkle-field .star:nth-child(7)  { top: 68%; left: 88%; animation-delay: 2.0s; width: 6px; height: 6px; background: var(--dialup-accent-cyan); }
+    .sparkle-field .star:nth-child(8)  { top: 78%; left: 8%; animation-delay: 1.0s; }
+    .sparkle-field .star:nth-child(9)  { top: 85%; left: 92%; animation-delay: 0.6s; width: 8px; height: 8px; background: var(--dialup-accent-pink); }
+    .sparkle-field .star:nth-child(10) { top: 92%; left: 50%; animation-delay: 1.4s; width: 7px; height: 7px; }
+    .sparkle-field .star:nth-child(11) { top: 15%; left: 40%; animation-delay: 2.3s; width: 5px; height: 5px; background: var(--dialup-accent-cyan); }
+    .sparkle-field .star:nth-child(12) { top: 42%; left: 60%; animation-delay: 1.8s; width: 5px; height: 5px; }
+    .sparkle-field .star:nth-child(13) { top: 72%; left: 35%; animation-delay: 0.9s; width: 6px; height: 6px; background: var(--dialup-accent-pink); }
+    .sparkle-field .star:nth-child(14) { top: 3%; left: 70%; animation-delay: 2.6s; width: 8px; height: 8px; background: var(--dialup-accent-cyan); }
+    .sparkle-field .star:nth-child(15) { top: 95%; left: 15%; animation-delay: 1.1s; width: 9px; height: 9px; }
+
+    /* ============================================================
+       PAGE CONTAINER
+       ============================================================ */
+    .page {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .page > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ============================================================
+       MARQUEE BANNERS
+       ============================================================ */
+    @keyframes marquee-scroll {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    .marquee {
+      overflow: hidden;
+      white-space: nowrap;
+      background: rgba(13, 0, 21, 0.9);
+      border-top: 2px solid var(--dialup-accent-pink);
+      border-bottom: 2px solid var(--dialup-accent-cyan);
+      padding: 0.5rem 0;
+      position: relative;
+      z-index: 2;
+    }
+
+    .marquee-track {
+      display: inline-block;
+      animation: marquee-scroll 25s linear infinite;
+    }
+
+    .marquee-track span {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.6rem;
+      color: var(--dialup-accent-yellow);
+      text-shadow: 0 0 8px rgba(255, 255, 0, 0.5);
+      letter-spacing: 0.05em;
+      padding: 0 2rem;
+    }
+
+    .marquee--reverse .marquee-track {
+      animation-direction: reverse;
+      animation-duration: 20s;
+    }
+
+    .marquee--reverse .marquee-track span {
+      color: var(--dialup-accent-green);
+      text-shadow: 0 0 8px rgba(57, 255, 20, 0.4);
+    }
+
+    .marquee--reverse {
+      border-top-color: var(--dialup-accent-green);
+      border-bottom-color: var(--dialup-accent-magenta);
+    }
+
+    /* ============================================================
+       HERO SECTION
+       ============================================================ */
+    .hero {
+      text-align: center;
+      padding: 4rem 0 3rem;
+      position: relative;
+    }
+
+    .hero-title {
+      font-family: 'UnifrakturMaguntia', cursive;
+      font-size: clamp(3rem, 9vw, 7rem);
+      line-height: 1.15;
+      background: linear-gradient(
+        180deg,
+        #FFFFFF 0%, #E8E8F0 12%, #B0B0C0 28%,
+        #E8E8F0 42%, #808080 56%, #C0C0C0 72%,
+        #E8E8F0 85%, #FFFFFF 100%
+      );
+      background-size: 100% 200%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      filter: drop-shadow(4px 4px 0px rgba(13, 0, 21, 0.95))
+              drop-shadow(0 0 30px rgba(255, 20, 147, 0.3));
+      animation: chrome-shimmer 4s ease-in-out infinite;
+      position: relative;
+      display: inline-block;
+    }
+
+    @keyframes chrome-shimmer {
+      0%, 100% { background-position: 0% 0%; }
+      50% { background-position: 0% 100%; }
+    }
+
+    /* Glitch layers for the hero title */
+    .hero-glitch-wrapper {
+      position: relative;
+      display: inline-block;
+    }
+
+    .hero-glitch-layer {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      font-family: 'UnifrakturMaguntia', cursive;
+      font-size: clamp(3rem, 9vw, 7rem);
+      line-height: 1.15;
+      pointer-events: none;
+      -webkit-text-fill-color: currentColor;
+    }
+
+    .hero-glitch-layer--pink {
+      color: var(--dialup-accent-pink);
+      animation: glitch-pink 5s infinite;
+      opacity: 0.6;
+      mix-blend-mode: screen;
+    }
+
+    .hero-glitch-layer--cyan {
+      color: var(--dialup-accent-cyan);
+      animation: glitch-cyan 5s infinite;
+      opacity: 0.6;
+      mix-blend-mode: screen;
+    }
+
+    @keyframes glitch-pink {
+      0%, 88%, 100% { clip-path: inset(0 0 100% 0); transform: translate(0); }
+      90% { clip-path: inset(15% 0 55% 0); transform: translate(-5px, 0); }
+      92% { clip-path: inset(70% 0 8% 0); transform: translate(5px, 0); }
+      94% { clip-path: inset(35% 0 40% 0); transform: translate(-3px, 0); }
+      96% { clip-path: inset(5% 0 82% 0); transform: translate(4px, 0); }
+      98% { clip-path: inset(55% 0 20% 0); transform: translate(-2px, 0); }
+    }
+
+    @keyframes glitch-cyan {
+      0%, 85%, 100% { clip-path: inset(0 0 100% 0); transform: translate(0); }
+      87% { clip-path: inset(60% 0 15% 0); transform: translate(4px, 0); }
+      89% { clip-path: inset(8% 0 72% 0); transform: translate(-4px, 0); }
+      91% { clip-path: inset(80% 0 5% 0); transform: translate(3px, 0); }
+      93% { clip-path: inset(25% 0 50% 0); transform: translate(-5px, 0); }
+      95% { clip-path: inset(45% 0 35% 0); transform: translate(2px, 0); }
+    }
+
+    .hero-subtitle {
+      font-family: 'Monoton', cursive;
+      font-size: clamp(1rem, 2.5vw, 1.8rem);
+      color: var(--dialup-accent-pink);
+      text-shadow:
+        0 0 7px var(--dialup-accent-pink),
+        0 0 15px var(--dialup-accent-pink),
+        0 0 30px rgba(255, 20, 147, 0.4),
+        0 0 60px rgba(255, 0, 255, 0.2);
+      margin-top: 1rem;
+      letter-spacing: 0.08em;
+    }
+
+    .hero-tagline {
+      font-family: 'Press Start 2P', monospace;
+      font-size: clamp(0.45rem, 1vw, 0.65rem);
+      color: var(--dialup-text-secondary);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-top: 1.5rem;
+      line-height: 2.2;
+    }
+
+    .hero-tagline .accent-pink { color: var(--dialup-accent-pink); text-shadow: 0 0 8px rgba(255, 20, 147, 0.5); }
+    .hero-tagline .accent-cyan { color: var(--dialup-accent-cyan); text-shadow: 0 0 8px rgba(0, 245, 255, 0.5); }
+    .hero-tagline .accent-green { color: var(--dialup-accent-green); text-shadow: 0 0 8px rgba(57, 255, 20, 0.5); }
+
+    /* ============================================================
+       NEON GRADIENT DIVIDERS
+       ============================================================ */
+    .divider {
+      height: 3px;
+      margin: 2.5rem 0;
+      background: linear-gradient(90deg,
+        var(--dialup-accent-pink),
+        var(--dialup-accent-magenta),
+        var(--dialup-accent-purple),
+        var(--dialup-accent-cyan)
+      );
+      box-shadow: 0 0 12px rgba(255, 20, 147, 0.4), 0 0 25px rgba(139, 0, 255, 0.2);
+      position: relative;
+    }
+
+    .divider--rainbow {
+      height: 4px;
+      background: linear-gradient(90deg,
+        #FF1493, #FF00FF, #8B00FF, #00F5FF, #39FF14, #FFFF00, #FF1493
+      );
+      background-size: 300% 100%;
+      animation: rainbow-shift 4s ease infinite;
+    }
+
+    @keyframes rainbow-shift {
+      0%   { background-position: 0% 50%; }
+      50%  { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .divider--dashed {
+      height: auto;
+      background: none;
+      box-shadow: none;
+      border: none;
+      border-top: 3px dashed var(--dialup-accent-pink);
+      filter: drop-shadow(0 0 6px rgba(255, 20, 147, 0.3));
+    }
+
+    /* ============================================================
+       SECTION HEADINGS
+       ============================================================ */
+    .section-heading {
+      font-family: 'UnifrakturMaguntia', cursive;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      color: var(--dialup-accent-pink);
+      text-shadow:
+        0 0 10px rgba(255, 20, 147, 0.5),
+        0 0 40px rgba(255, 20, 147, 0.2),
+        3px 3px 0px var(--dialup-shadow);
+      margin-bottom: 1.5rem;
+      letter-spacing: 0.04em;
+      line-height: 1.3;
+    }
+
+    .section-heading--cyan {
+      color: var(--dialup-accent-cyan);
+      text-shadow:
+        0 0 10px rgba(0, 245, 255, 0.5),
+        0 0 40px rgba(0, 245, 255, 0.2),
+        2px 2px 0px var(--dialup-shadow);
+    }
+
+    .section-heading--chrome {
+      background: linear-gradient(
+        180deg,
+        #FFFFFF 0%, #E8E8F0 15%, #A0A0B0 35%,
+        #E8E8F0 50%, #808080 65%, #C0C0C0 80%, #FFFFFF 100%
+      );
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      filter: drop-shadow(3px 3px 0px rgba(13, 0, 21, 0.9));
+      text-shadow: none;
+    }
+
+    .sub-heading {
+      font-family: 'Bungee', sans-serif;
+      font-size: clamp(0.9rem, 1.8vw, 1.3rem);
+      color: var(--dialup-accent-green);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      text-shadow: 0 0 10px rgba(57, 255, 20, 0.3);
+      margin-bottom: 1rem;
+    }
+
+    .sub-heading--yellow {
+      color: var(--dialup-accent-yellow);
+      text-shadow: 0 0 10px rgba(255, 255, 0, 0.3);
+    }
+
+    .sub-heading--pink {
+      color: var(--dialup-accent-pink);
+      text-shadow: 0 0 10px rgba(255, 20, 147, 0.3);
+    }
+
+    .sub-heading--cyan {
+      color: var(--dialup-accent-cyan);
+      text-shadow: 0 0 10px rgba(0, 245, 255, 0.3);
+    }
+
+    /* ============================================================
+       PIXEL LABEL
+       ============================================================ */
+    .pixel-label {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.55rem;
+      color: var(--dialup-accent-cyan);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      display: inline-block;
+      margin-bottom: 0.6rem;
+    }
+
+    .pixel-label--pink { color: var(--dialup-accent-pink); text-shadow: 0 0 6px rgba(255, 20, 147, 0.4); }
+    .pixel-label--green { color: var(--dialup-accent-green); text-shadow: 0 0 6px rgba(57, 255, 20, 0.4); }
+    .pixel-label--yellow { color: var(--dialup-accent-yellow); text-shadow: 0 0 6px rgba(255, 255, 0, 0.4); }
+
+    /* ============================================================
+       INTRO DESCRIPTION BLOCK
+       ============================================================ */
+    .intro-block {
+      background: linear-gradient(135deg, var(--dialup-bg-surface) 0%, var(--dialup-bg-mid) 100%);
+      border: 2px solid var(--dialup-accent-pink);
+      padding: 2.5rem;
+      position: relative;
+      margin: 2rem 0;
+      box-shadow:
+        0 0 20px rgba(255, 20, 147, 0.15),
+        inset 0 0 40px rgba(13, 0, 21, 0.5),
+        6px 6px 0px var(--dialup-shadow);
+    }
+
+    .intro-block::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 70px;
+      height: 70px;
+      background: repeating-linear-gradient(
+        45deg,
+        var(--dialup-accent-pink) 0px, var(--dialup-accent-pink) 3px,
+        transparent 3px, transparent 7px
+      );
+      clip-path: polygon(100% 0, 0 0, 100% 100%);
+      opacity: 0.5;
+    }
+
+    .intro-block p {
+      color: var(--dialup-text-primary);
+      font-size: 1.15rem;
+      line-height: 1.8;
+    }
+
+    .intro-block p + p {
+      margin-top: 1rem;
+    }
+
+    .intro-highlight {
+      color: var(--dialup-accent-pink);
+      font-weight: bold;
+    }
+
+    .intro-highlight--cyan {
+      color: var(--dialup-accent-cyan);
+      font-weight: bold;
+    }
+
+    .intro-highlight--green {
+      color: var(--dialup-accent-green);
+      font-weight: bold;
+    }
+
+    /* ============================================================
+       COLLAGE GRID -- overlapping card panels
+       ============================================================ */
+    .collage-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin: 2.5rem 0;
+      position: relative;
+    }
+
+    .collage-card {
+      background: var(--dialup-bg-surface);
+      border: 2px solid var(--dialup-accent-pink);
+      padding: 2rem;
+      position: relative;
+      transition: all 0.3s ease;
+      box-shadow:
+        0 0 15px rgba(255, 20, 147, 0.12),
+        inset 0 0 30px rgba(13, 0, 21, 0.5),
+        5px 5px 0px var(--dialup-shadow);
+    }
+
+    .collage-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 45px;
+      height: 45px;
+      background: repeating-linear-gradient(
+        45deg,
+        var(--dialup-accent-pink) 0px, var(--dialup-accent-pink) 3px,
+        transparent 3px, transparent 6px
+      );
+      clip-path: polygon(100% 0, 0 0, 100% 100%);
+      opacity: 0.5;
+    }
+
+    .collage-card:nth-child(odd) {
+      transform: rotate(-1.5deg);
+      margin-right: -0.8rem;
+    }
+
+    .collage-card:nth-child(even) {
+      transform: rotate(1.2deg);
+      margin-left: -0.8rem;
+      margin-top: 1.5rem;
+      border-color: var(--dialup-accent-cyan);
+      box-shadow:
+        0 0 15px rgba(0, 245, 255, 0.12),
+        inset 0 0 30px rgba(13, 0, 21, 0.5),
+        5px 5px 0px var(--dialup-shadow);
+    }
+
+    .collage-card:nth-child(even)::before {
+      background: repeating-linear-gradient(
+        45deg,
+        var(--dialup-accent-cyan) 0px, var(--dialup-accent-cyan) 3px,
+        transparent 3px, transparent 6px
+      );
+    }
+
+    .collage-card:hover {
+      z-index: 10;
+      transform: rotate(0deg) scale(1.02);
+      border-color: var(--dialup-accent-magenta);
+      box-shadow:
+        0 0 25px rgba(255, 0, 255, 0.3),
+        0 0 50px rgba(255, 0, 255, 0.1),
+        inset 0 0 30px rgba(13, 0, 21, 0.5),
+        5px 5px 0px var(--dialup-shadow);
+    }
+
+    .collage-card h3 {
+      font-family: 'MedievalSharp', cursive;
+      font-size: clamp(1.1rem, 2.2vw, 1.6rem);
+      color: var(--dialup-accent-pink);
+      text-shadow: 0 0 10px rgba(255, 20, 147, 0.4), 2px 2px 0px var(--dialup-shadow);
+      margin-bottom: 0.8rem;
+    }
+
+    .collage-card:nth-child(even) h3 {
+      color: var(--dialup-accent-cyan);
+      text-shadow: 0 0 10px rgba(0, 245, 255, 0.4), 2px 2px 0px var(--dialup-shadow);
+    }
+
+    .collage-card p {
+      color: var(--dialup-text-secondary);
+      font-size: 1rem;
+      line-height: 1.7;
+    }
+
+    .collage-card ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .collage-card ul li {
+      color: var(--dialup-text-secondary);
+      font-size: 1rem;
+      padding: 0.3rem 0;
+      padding-left: 1.5rem;
+      position: relative;
+    }
+
+    .collage-card ul li::before {
+      content: '\2605';
+      position: absolute;
+      left: 0;
+      color: var(--dialup-accent-yellow);
+      font-size: 0.7rem;
+      top: 0.5rem;
+      text-shadow: 0 0 6px rgba(255, 255, 0, 0.5);
+    }
+
+    .collage-card:nth-child(even) ul li::before {
+      content: '\2726';
+      color: var(--dialup-accent-cyan);
+      text-shadow: 0 0 6px rgba(0, 245, 255, 0.5);
+    }
+
+    /* ============================================================
+       RAINBOW BORDER CARD
+       ============================================================ */
+    .rainbow-card {
+      margin: 2.5rem 0;
+      padding: 3px;
+      background: linear-gradient(90deg,
+        #FF1493, #FF00FF, #8B00FF, #00F5FF, #39FF14, #FFFF00, #FF1493
+      );
+      background-size: 300% 100%;
+      animation: rainbow-shift 4s ease infinite;
+      box-shadow: 0 0 20px rgba(255, 20, 147, 0.15);
+    }
+
+    .rainbow-card-inner {
+      background: var(--dialup-bg-surface);
+      padding: 2.5rem;
+    }
+
+    /* ============================================================
+       COLOR PALETTE DISPLAY
+       ============================================================ */
+    .palette-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+      gap: 0.8rem;
+      margin: 1.5rem 0;
+    }
+
+    .palette-swatch {
+      aspect-ratio: 1;
+      border: 2px solid rgba(255, 255, 255, 0.1);
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+    }
+
+    .palette-swatch:hover {
+      transform: scale(1.08) rotate(1deg);
+      z-index: 5;
+      border-color: var(--dialup-accent-pink);
+      box-shadow: 0 0 20px rgba(255, 20, 147, 0.4);
+    }
+
+    .palette-swatch-label {
+      background: rgba(0, 0, 0, 0.75);
+      padding: 0.4rem;
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.4rem;
+      color: var(--dialup-text-primary);
+      letter-spacing: 0.05em;
+      line-height: 1.6;
+      text-align: center;
+    }
+
+    .palette-swatch-hex {
+      font-family: 'VT323', monospace;
+      font-size: 0.85rem;
+      color: var(--dialup-accent-cyan);
+      display: block;
+      margin-top: 0.15rem;
+    }
+
+    /* ============================================================
+       GRADIENT DISPLAY STRIPS
+       ============================================================ */
+    .gradient-strips {
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+      margin: 1.5rem 0;
+    }
+
+    .gradient-strip {
+      height: 40px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      position: relative;
+      display: flex;
+      align-items: center;
+      padding: 0 1rem;
+    }
+
+    .gradient-strip-label {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.45rem;
+      color: #fff;
+      text-shadow: 0 0 4px rgba(0,0,0,0.9), 1px 1px 0 #000;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      z-index: 1;
+    }
+
+    /* ============================================================
+       TYPOGRAPHY SHOWCASE
+       ============================================================ */
+    .type-specimen {
+      margin: 1.5rem 0;
+      padding: 2rem;
+      background: var(--dialup-bg-mid);
+      border-left: 4px solid;
+      position: relative;
+    }
+
+    .type-specimen--gothic {
+      border-color: var(--dialup-accent-pink);
+    }
+
+    .type-specimen--pixel {
+      border-color: var(--dialup-accent-cyan);
+    }
+
+    .type-specimen--bungee {
+      border-color: var(--dialup-accent-green);
+    }
+
+    .type-specimen--monoton {
+      border-color: var(--dialup-accent-magenta);
+    }
+
+    .type-specimen--marker {
+      border-color: var(--dialup-accent-yellow);
+    }
+
+    .type-specimen--creepster {
+      border-color: var(--dialup-accent-purple);
+    }
+
+    .type-specimen--vt323 {
+      border-color: var(--dialup-accent-green);
+    }
+
+    .type-specimen--medieval {
+      border-color: var(--dialup-accent-cyan);
+    }
+
+    .type-specimen-sample {
+      margin-bottom: 0.8rem;
+    }
+
+    .type-specimen-meta {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.45rem;
+      color: var(--dialup-text-muted);
+      letter-spacing: 0.05em;
+      line-height: 2;
+    }
+
+    .type-specimen-meta span {
+      color: var(--dialup-accent-cyan);
+    }
+
+    /* ============================================================
+       TECHNIQUE DEMO BOXES
+       ============================================================ */
+    .technique-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin: 1.5rem 0;
+    }
+
+    .technique-box {
+      background: var(--dialup-bg-surface);
+      border: 2px solid var(--dialup-bg-surface-light);
+      padding: 2rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      min-height: 160px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      transition: all 0.3s ease;
+    }
+
+    .technique-box:hover {
+      border-color: var(--dialup-accent-pink);
+      box-shadow: 0 0 20px rgba(255, 20, 147, 0.2);
+    }
+
+    /* Chrome Text Demo */
+    .demo-chrome-text {
+      font-family: 'UnifrakturMaguntia', cursive;
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      background: linear-gradient(
+        180deg,
+        #FFFFFF 0%, #E8E8F0 12%, #A0A0B0 30%,
+        #E8E8F0 45%, #808080 58%, #C0C0C0 72%, #FFFFFF 100%
+      );
+      background-size: 100% 200%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      filter: drop-shadow(3px 3px 0px rgba(13, 0, 21, 0.8));
+      animation: chrome-shimmer 3s ease-in-out infinite;
+    }
+
+    /* Neon Glow Demo */
+    .demo-neon-text {
+      font-family: 'Monoton', cursive;
+      font-size: clamp(1.5rem, 3.5vw, 2.5rem);
+      color: var(--dialup-accent-pink);
+      text-shadow:
+        0 0 7px var(--dialup-accent-pink),
+        0 0 10px var(--dialup-accent-pink),
+        0 0 21px var(--dialup-accent-pink),
+        0 0 42px var(--dialup-accent-magenta),
+        0 0 82px var(--dialup-accent-magenta);
+      animation: neon-flicker 3s ease-in-out infinite;
+    }
+
+    @keyframes neon-flicker {
+      0%, 100% { opacity: 1; }
+      92% { opacity: 1; }
+      93% { opacity: 0.8; }
+      94% { opacity: 1; }
+      96% { opacity: 0.9; }
+      97% { opacity: 1; }
+    }
+
+    /* Glitch Demo */
+    .demo-glitch {
+      font-family: 'Bungee', sans-serif;
+      font-size: clamp(1.5rem, 3vw, 2.2rem);
+      color: var(--dialup-text-primary);
+      position: relative;
+      display: inline-block;
+    }
+
+    .demo-glitch::before,
+    .demo-glitch::after {
+      content: attr(data-text);
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+
+    .demo-glitch::before {
+      color: var(--dialup-accent-pink);
+      animation: glitch-layer-1 3s infinite linear alternate-reverse;
+      mix-blend-mode: screen;
+      z-index: -1;
+    }
+
+    .demo-glitch::after {
+      color: var(--dialup-accent-cyan);
+      animation: glitch-layer-2 2s infinite linear alternate;
+      mix-blend-mode: screen;
+      z-index: -2;
+    }
+
+    @keyframes glitch-layer-1 {
+      0%   { clip-path: inset(40% 0 61% 0); transform: translate(-3px, 0); }
+      10%  { clip-path: inset(92% 0 1% 0);  transform: translate(3px, 0); }
+      20%  { clip-path: inset(43% 0 1% 0);  transform: translate(0, 0); }
+      30%  { clip-path: inset(25% 0 58% 0);  transform: translate(4px, 0); }
+      40%  { clip-path: inset(54% 0 7% 0);   transform: translate(-4px, 0); }
+      50%  { clip-path: inset(58% 0 43% 0);  transform: translate(0, 0); }
+      60%  { clip-path: inset(2% 0 89% 0);   transform: translate(5px, 0); }
+      70%  { clip-path: inset(76% 0 12% 0);  transform: translate(-2px, 0); }
+      80%  { clip-path: inset(15% 0 65% 0);  transform: translate(2px, 0); }
+      90%  { clip-path: inset(67% 0 8% 0);   transform: translate(-3px, 0); }
+      100% { clip-path: inset(10% 0 80% 0);  transform: translate(0, 0); }
+    }
+
+    @keyframes glitch-layer-2 {
+      0%   { clip-path: inset(25% 0 58% 0);  transform: translate(3px, 0); }
+      10%  { clip-path: inset(8% 0 75% 0);   transform: translate(-2px, 0); }
+      20%  { clip-path: inset(67% 0 8% 0);   transform: translate(0, 0); }
+      30%  { clip-path: inset(40% 0 30% 0);  transform: translate(-4px, 0); }
+      40%  { clip-path: inset(15% 0 65% 0);  transform: translate(3px, 0); }
+      50%  { clip-path: inset(80% 0 2% 0);   transform: translate(0, 0); }
+      60%  { clip-path: inset(50% 0 25% 0);  transform: translate(-3px, 0); }
+      70%  { clip-path: inset(5% 0 85% 0);   transform: translate(4px, 0); }
+      80%  { clip-path: inset(60% 0 15% 0);  transform: translate(-2px, 0); }
+      90%  { clip-path: inset(30% 0 50% 0);  transform: translate(2px, 0); }
+      100% { clip-path: inset(45% 0 40% 0);  transform: translate(0, 0); }
+    }
+
+    /* ============================================================
+       BUTTONS
+       ============================================================ */
+    .btn-chrome {
+      display: inline-block;
+      padding: 0.7rem 2.2rem;
+      background: linear-gradient(180deg,
+        #E8E8F0 0%, #C0C0C0 40%, #808080 55%, #A0A0A0 100%
+      );
+      border: 2px outset #C0C0C0;
+      color: var(--dialup-bg-dark);
+      font-family: 'Bungee', sans-serif;
+      font-size: 0.75rem;
+      text-decoration: none;
+      cursor: pointer;
+      text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.4);
+      box-shadow:
+        inset 1px 1px 0px rgba(255, 255, 255, 0.5),
+        inset -1px -1px 0px rgba(0, 0, 0, 0.3),
+        3px 3px 8px rgba(0, 0, 0, 0.5);
+      transition: all 0.15s ease;
+      letter-spacing: 0.05em;
+    }
+
+    .btn-chrome:hover {
+      background: linear-gradient(180deg,
+        #FFFFFF 0%, #D0D0D0 40%, #909090 55%, #B0B0B0 100%
+      );
+    }
+
+    .btn-chrome:active {
+      border-style: inset;
+      transform: translate(1px, 1px);
+      box-shadow: inset 2px 2px 4px rgba(0, 0, 0, 0.4);
+    }
+
+    .btn-neon {
+      display: inline-block;
+      padding: 0.6rem 2rem;
+      background: transparent;
+      border: 2px solid var(--dialup-accent-pink);
+      color: var(--dialup-accent-pink);
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.5rem;
+      text-decoration: none;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: 0 0 10px rgba(255, 20, 147, 0.2);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-neon:hover {
+      background: var(--dialup-accent-pink);
+      color: var(--dialup-bg-dark);
+      box-shadow: 0 0 20px rgba(255, 20, 147, 0.5), 0 0 40px rgba(255, 20, 147, 0.2);
+    }
+
+    .btn-neon::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+      transition: left 0.4s ease;
+    }
+
+    .btn-neon:hover::after {
+      left: 100%;
+    }
+
+    .btn-neon--cyan {
+      border-color: var(--dialup-accent-cyan);
+      color: var(--dialup-accent-cyan);
+      box-shadow: 0 0 10px rgba(0, 245, 255, 0.2);
+    }
+
+    .btn-neon--cyan:hover {
+      background: var(--dialup-accent-cyan);
+      color: var(--dialup-bg-dark);
+      box-shadow: 0 0 20px rgba(0, 245, 255, 0.5), 0 0 40px rgba(0, 245, 255, 0.2);
+    }
+
+    .btn-neon--green {
+      border-color: var(--dialup-accent-green);
+      color: var(--dialup-accent-green);
+      box-shadow: 0 0 10px rgba(57, 255, 20, 0.2);
+    }
+
+    .btn-neon--green:hover {
+      background: var(--dialup-accent-green);
+      color: var(--dialup-bg-dark);
+      box-shadow: 0 0 20px rgba(57, 255, 20, 0.5), 0 0 40px rgba(57, 255, 20, 0.2);
+    }
+
+    /* ============================================================
+       STATUS INDICATOR
+       ============================================================ */
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.5rem;
+      color: var(--dialup-accent-green);
+      background: rgba(0, 0, 0, 0.6);
+      border: 1px solid var(--dialup-accent-green);
+      padding: 0.4rem 0.8rem;
+      text-shadow: 0 0 6px rgba(57, 255, 20, 0.5);
+      letter-spacing: 0.05em;
+    }
+
+    .status-badge::before {
+      content: '';
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      background: var(--dialup-accent-green);
+      border-radius: 50%;
+      box-shadow: 0 0 6px var(--dialup-accent-green);
+      animation: status-blink 1.5s ease-in-out infinite;
+    }
+
+    @keyframes status-blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    /* ============================================================
+       MATERIAL/TEXTURE TABLE
+       ============================================================ */
+    .material-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1.5rem 0;
+      font-size: 0.95rem;
+    }
+
+    .material-table th {
+      font-family: 'Bungee', sans-serif;
+      font-size: 0.65rem;
+      color: var(--dialup-accent-cyan);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      text-align: left;
+      padding: 0.8rem;
+      border-bottom: 2px solid var(--dialup-accent-pink);
+      background: var(--dialup-bg-mid);
+    }
+
+    .material-table td {
+      padding: 0.7rem 0.8rem;
+      border-bottom: 1px solid var(--dialup-bg-surface-light);
+      vertical-align: top;
+      color: var(--dialup-text-secondary);
+      line-height: 1.6;
+    }
+
+    .material-table tr:hover td {
+      background: rgba(255, 20, 147, 0.04);
+    }
+
+    .material-table td:first-child {
+      color: var(--dialup-accent-yellow);
+      font-family: 'Permanent Marker', cursive;
+      font-size: 0.95rem;
+      white-space: nowrap;
+    }
+
+    /* ============================================================
+       RELATED AESTHETICS TAGS
+       ============================================================ */
+    .tag-cloud {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin: 1.5rem 0;
+    }
+
+    .tag {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.45rem;
+      padding: 0.5rem 1rem;
+      border: 1px solid;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      transition: all 0.2s ease;
+      cursor: default;
+      position: relative;
+    }
+
+    .tag:nth-child(1)  { border-color: var(--dialup-accent-pink); color: var(--dialup-accent-pink); transform: rotate(-1deg); }
+    .tag:nth-child(2)  { border-color: var(--dialup-accent-cyan); color: var(--dialup-accent-cyan); transform: rotate(0.5deg); }
+    .tag:nth-child(3)  { border-color: var(--dialup-accent-green); color: var(--dialup-accent-green); transform: rotate(-0.8deg); }
+    .tag:nth-child(4)  { border-color: var(--dialup-accent-yellow); color: var(--dialup-accent-yellow); transform: rotate(1.2deg); }
+    .tag:nth-child(5)  { border-color: var(--dialup-accent-magenta); color: var(--dialup-accent-magenta); transform: rotate(-0.5deg); }
+    .tag:nth-child(6)  { border-color: var(--dialup-accent-purple); color: var(--dialup-accent-purple); transform: rotate(0.8deg); }
+    .tag:nth-child(7)  { border-color: var(--dialup-accent-pink); color: var(--dialup-accent-pink); transform: rotate(-1.5deg); }
+    .tag:nth-child(8)  { border-color: var(--dialup-accent-cyan); color: var(--dialup-accent-cyan); transform: rotate(1deg); }
+    .tag:nth-child(9)  { border-color: var(--dialup-accent-green); color: var(--dialup-accent-green); transform: rotate(-0.3deg); }
+    .tag:nth-child(10) { border-color: var(--dialup-accent-yellow); color: var(--dialup-accent-yellow); transform: rotate(0.7deg); }
+
+    .tag:hover {
+      transform: rotate(0deg) scale(1.1);
+      box-shadow: 0 0 15px currentColor;
+      background: currentColor;
+      color: var(--dialup-bg-dark) !important;
+    }
+
+    /* ============================================================
+       IMPLEMENTATION NOTES SECTION
+       ============================================================ */
+    .notes-list {
+      list-style: none;
+      padding: 0;
+      margin: 1.5rem 0;
+    }
+
+    .notes-list li {
+      padding: 1rem 1.2rem 1rem 2.5rem;
+      margin-bottom: 0.5rem;
+      background: var(--dialup-bg-mid);
+      border-left: 3px solid var(--dialup-accent-pink);
+      position: relative;
+      font-size: 1rem;
+      color: var(--dialup-text-secondary);
+      line-height: 1.7;
+      transition: all 0.2s ease;
+    }
+
+    .notes-list li::before {
+      content: '\25C6';
+      position: absolute;
+      left: 0.8rem;
+      top: 1rem;
+      color: var(--dialup-accent-pink);
+      font-size: 0.7rem;
+    }
+
+    .notes-list li:nth-child(even) {
+      border-left-color: var(--dialup-accent-cyan);
+    }
+
+    .notes-list li:nth-child(even)::before {
+      color: var(--dialup-accent-cyan);
+    }
+
+    .notes-list li:hover {
+      background: var(--dialup-bg-surface);
+      transform: translateX(4px);
+    }
+
+    .notes-list li strong {
+      color: var(--dialup-text-primary);
+    }
+
+    /* ============================================================
+       CREEPSTER CALLOUT BOX
+       ============================================================ */
+    .callout-spooky {
+      background: linear-gradient(135deg, rgba(139, 0, 255, 0.1) 0%, rgba(42, 1, 52, 0.8) 100%);
+      border: 2px dashed var(--dialup-accent-purple);
+      padding: 2rem;
+      margin: 2rem 0;
+      text-align: center;
+      position: relative;
+    }
+
+    .callout-spooky-text {
+      font-family: 'Creepster', cursive;
+      font-size: clamp(1.5rem, 3vw, 2.2rem);
+      color: var(--dialup-accent-purple);
+      text-shadow:
+        0 0 10px rgba(139, 0, 255, 0.5),
+        0 0 30px rgba(139, 0, 255, 0.2),
+        3px 3px 0px var(--dialup-shadow);
+      letter-spacing: 0.06em;
+    }
+
+    /* ============================================================
+       PERMANENT MARKER ANNOTATION
+       ============================================================ */
+    .annotation {
+      font-family: 'Permanent Marker', cursive;
+      color: var(--dialup-accent-yellow);
+      font-size: 1.1rem;
+      transform: rotate(-2deg);
+      display: inline-block;
+      text-shadow: 0 0 8px rgba(255, 255, 0, 0.3);
+    }
+
+    /* ============================================================
+       FULL-WIDTH GRADIENT SECTION
+       ============================================================ */
+    .gradient-section {
+      margin: 3rem -1.5rem;
+      padding: 3rem 1.5rem;
+      position: relative;
+    }
+
+    .gradient-section--neon {
+      background: linear-gradient(135deg,
+        var(--dialup-bg-dark) 0%,
+        #1A0A3E 20%,
+        #2A0134 40%,
+        #1A0A3E 60%,
+        var(--dialup-bg-dark) 100%
+      );
+    }
+
+    .gradient-section--gothic {
+      background: linear-gradient(180deg,
+        rgba(255, 20, 147, 0.08) 0%,
+        var(--dialup-bg-mid) 20%,
+        var(--dialup-bg-surface) 50%,
+        var(--dialup-bg-mid) 80%,
+        rgba(0, 245, 255, 0.05) 100%
+      );
+    }
+
+    .gradient-section > .page {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    /* ============================================================
+       VISITOR COUNTER
+       ============================================================ */
+    .visitor-counter {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      background: #000;
+      border: 2px inset #808080;
+      padding: 0.4rem 0.8rem;
+      font-family: 'VT323', monospace;
+      margin: 1rem 0;
+    }
+
+    .visitor-counter-label {
+      font-size: 0.85rem;
+      color: var(--dialup-text-muted);
+    }
+
+    .visitor-counter-digits {
+      display: flex;
+      gap: 2px;
+    }
+
+    .visitor-counter-digit {
+      background: #1a1a2e;
+      border: 1px inset #333;
+      color: var(--dialup-accent-green);
+      font-size: 1.1rem;
+      padding: 0.1rem 0.35rem;
+      text-shadow: 0 0 6px rgba(57, 255, 20, 0.5);
+      font-family: 'VT323', monospace;
+    }
+
+    /* ============================================================
+       FOOTER
+       ============================================================ */
+    .footer {
+      text-align: center;
+      padding: 3rem 0 2rem;
+      margin-top: 2rem;
+      border-top: 2px solid var(--dialup-bg-surface-light);
+      position: relative;
+    }
+
+    .footer::before {
+      content: '';
+      position: absolute;
+      top: -2px;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg,
+        transparent,
+        var(--dialup-accent-pink),
+        var(--dialup-accent-magenta),
+        var(--dialup-accent-purple),
+        var(--dialup-accent-cyan),
+        transparent
+      );
+    }
+
+    .footer-brand {
+      font-family: 'UnifrakturMaguntia', cursive;
+      font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+      background: linear-gradient(180deg,
+        #FFFFFF 0%, #C0C0C0 40%, #808080 60%, #C0C0C0 80%, #FFFFFF 100%
+      );
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      filter: drop-shadow(2px 2px 0px var(--dialup-shadow));
+      margin-bottom: 1rem;
+    }
+
+    .footer-links {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.45rem;
+      color: var(--dialup-text-muted);
+      letter-spacing: 0.05em;
+      line-height: 2.8;
+    }
+
+    .footer-links a {
+      color: var(--dialup-accent-pink);
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .footer-links a:hover {
+      color: var(--dialup-accent-cyan);
+      text-shadow: 0 0 10px rgba(0, 245, 255, 0.5);
+    }
+
+    .footer-copy {
+      font-family: 'VT323', monospace;
+      font-size: 0.9rem;
+      color: var(--dialup-text-muted);
+      margin-top: 1rem;
+    }
+
+    .footer-ascii {
+      font-family: 'VT323', monospace;
+      font-size: 0.75rem;
+      color: var(--dialup-accent-purple);
+      margin-top: 1rem;
+      line-height: 1.2;
+      white-space: pre;
+      text-shadow: 0 0 6px rgba(139, 0, 255, 0.3);
+    }
+
+    /* ============================================================
+       JITTER ANIMATION for inline elements
+       ============================================================ */
+    @keyframes jitter {
+      0%, 100% { transform: translate(0, 0); }
+      25% { transform: translate(-1px, 1px); }
+      50% { transform: translate(1px, -1px); }
+      75% { transform: translate(-1px, -1px); }
+    }
+
+    .jitter {
+      display: inline-block;
+      animation: jitter 0.15s steps(4) infinite;
+    }
+
+    /* ============================================================
+       UNDER CONSTRUCTION BADGE
+       ============================================================ */
+    .under-construction {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: repeating-linear-gradient(
+        45deg,
+        var(--dialup-accent-yellow) 0px,
+        var(--dialup-accent-yellow) 10px,
+        #000 10px,
+        #000 20px
+      );
+      padding: 0.3rem 1rem;
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.4rem;
+      color: #000;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin: 0.5rem 0;
+    }
+
+    .under-construction-text {
+      background: var(--dialup-accent-yellow);
+      padding: 0.15rem 0.3rem;
+    }
+
+    /* ============================================================
+       RESPONSIVE DESIGN
+       ============================================================ */
+    @media (max-width: 768px) {
+      .collage-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .collage-card:nth-child(odd),
+      .collage-card:nth-child(even) {
+        transform: rotate(0deg);
+        margin: 0;
+      }
+
+      .collage-card:nth-child(even) {
+        margin-top: 0;
+      }
+
+      .technique-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .palette-grid {
+        grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+      }
+
+      .material-table {
+        font-size: 0.85rem;
+      }
+
+      .material-table td:first-child {
+        font-size: 0.8rem;
+      }
+
+      .gradient-section {
+        margin-left: -1rem;
+        margin-right: -1rem;
+        padding: 2rem 1rem;
+      }
+    }
+
+    @media (max-width: 500px) {
+      body {
+        font-size: 18px;
+      }
+
+      .palette-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .hero-subtitle {
+        font-size: clamp(0.8rem, 4vw, 1.2rem);
+      }
+
+      .material-table td:first-child {
+        white-space: normal;
+      }
+    }
+
+    /* ============================================================
+       REDUCED MOTION
+       ============================================================ */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+
+    /* ============================================================
+       SCROLL-TRIGGERED FADE IN
+       ============================================================ */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .reveal.visible.rotate-in-left {
+      transform: rotate(-1deg);
+    }
+
+    .reveal.visible.rotate-in-right {
+      transform: rotate(1deg);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Ambient Glow Background -->
+  <div class="ambient-glow"></div>
+
+  <!-- Sparkle Field -->
+  <div class="sparkle-field">
+    <div class="star"></div><div class="star"></div><div class="star"></div>
+    <div class="star"></div><div class="star"></div><div class="star"></div>
+    <div class="star"></div><div class="star"></div><div class="star"></div>
+    <div class="star"></div><div class="star"></div><div class="star"></div>
+    <div class="star"></div><div class="star"></div><div class="star"></div>
+  </div>
+
+  <!-- ============================================================
+       TOP MARQUEE
+       ============================================================ -->
+  <div class="marquee">
+    <div class="marquee-track">
+      <span>*** WELCOME TO THE DIAL-UP DELIGHT DESIGN REFERENCE ***</span>
+      <span>BEST VIEWED AT 1024x768 ***</span>
+      <span>GOTHIC GRIT MEETS Y2K SPARKLE ***</span>
+      <span>SIGN MY GUESTBOOK ***</span>
+      <span>UNDER CONSTRUCTION FOREVER ***</span>
+      <span>*** WELCOME TO THE DIAL-UP DELIGHT DESIGN REFERENCE ***</span>
+      <span>BEST VIEWED AT 1024x768 ***</span>
+      <span>GOTHIC GRIT MEETS Y2K SPARKLE ***</span>
+      <span>SIGN MY GUESTBOOK ***</span>
+      <span>UNDER CONSTRUCTION FOREVER ***</span>
+    </div>
+  </div>
+
+  <div class="page">
+
+    <!-- ============================================================
+         HERO SECTION
+         ============================================================ -->
+    <section class="hero">
+      <div class="hero-glitch-wrapper">
+        <h1 class="hero-title">Dial-Up Delight</h1>
+        <span class="hero-glitch-layer hero-glitch-layer--pink" aria-hidden="true">Dial-Up Delight</span>
+        <span class="hero-glitch-layer hero-glitch-layer--cyan" aria-hidden="true">Dial-Up Delight</span>
+      </div>
+      <div class="hero-subtitle">Design Reference</div>
+      <p class="hero-tagline">
+        <span class="accent-pink">gothic grit</span> //
+        <span class="accent-cyan">y2k sparkle</span> //
+        <span class="accent-green">dial-up chaos</span>
+      </p>
+      <div style="margin-top: 1.5rem;">
+        <span class="status-badge">CONNECTED AT 56Kbps</span>
+      </div>
+      <div style="margin-top: 1rem;">
+        <div class="under-construction"><span class="under-construction-text">!! UNDER CONSTRUCTION !!</span></div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ============================================================
+         OVERVIEW / INTRO
+         ============================================================ -->
+    <section class="reveal">
+      <span class="pixel-label pixel-label--pink">// Overview</span>
+      <h2 class="section-heading">What is Dial-Up Delight?</h2>
+      <div class="intro-block">
+        <p>
+          Dial-Up Delight is a web design aesthetic that channels the <span class="intro-highlight">chaotic, unregulated energy</span> of the late 1990s and early 2000s internet -- GeoCities homepages, AIM profiles, early Myspace pages, and the anarchic visual experiments of a web where everyone was a designer and no one followed rules.
+        </p>
+        <p>
+          But rather than pure nostalgia, this trend remixes that raw digital chaos through a <span class="intro-highlight--cyan">Gen Z lens</span>, fusing <strong>gothic grit with Y2K sparkle</strong>, dial-up modem screech with TikTok polish. The result is a maximalist collision of gothic blackletter fonts, candy-colored gradients, chrome text effects, glitch animations, animated GIF energy, pixel graphics, and visual noise -- all layered on top of each other in deliberate, beautiful disorder.
+        </p>
+        <p>
+          It treats the early web not as an embarrassment to be cleaned up, but as a <span class="intro-highlight--green">lost golden age of personal expression</span> to be celebrated and amplified. The aesthetic embraces the handmade, the excessive, the "under construction" -- reclaiming the spirit of a time when the internet felt like a frontier and every homepage was a fever dream.
+        </p>
+      </div>
+    </section>
+
+    <div class="divider--rainbow divider"></div>
+
+    <!-- ============================================================
+         VISUAL CHARACTERISTICS
+         ============================================================ -->
+    <section class="reveal">
+      <span class="pixel-label">// Visual DNA</span>
+      <h2 class="section-heading section-heading--cyan">Visual Characteristics</h2>
+
+      <div class="collage-grid">
+        <div class="collage-card">
+          <h3>Gothic Meets Candy</h3>
+          <ul>
+            <li>Blackletter typography and dark grunge textures collide with hot pink gradients and sparkle overlays</li>
+            <li>Chrome and metallic text rendered with reflective silver/chrome gradient fills</li>
+            <li>Candy-colored neon gradients reminiscent of Y2K graphic design</li>
+          </ul>
+        </div>
+        <div class="collage-card">
+          <h3>Glitch & Distortion</h3>
+          <ul>
+            <li>Text and images stutter, shift, and fragment through CSS clip-path animations</li>
+            <li>RGB channel splitting and scan-line artifacts</li>
+            <li>SVG noise filters and grainy overlays adding grit and analog texture</li>
+          </ul>
+        </div>
+        <div class="collage-card">
+          <h3>Layered Visual Chaos</h3>
+          <ul>
+            <li>Elements stack and overlap with negative margins and rotated frames</li>
+            <li>Collage-style compositions with stacked and overlapping images</li>
+            <li>Dense visual filling -- empty space filled with stars, sparkles, and dividers</li>
+          </ul>
+        </div>
+        <div class="collage-card">
+          <h3>Retro Web Energy</h3>
+          <ul>
+            <li>Animated star bursts and sparkle decorations scattered across the page</li>
+            <li>Scrolling marquee text banners referencing the &lt;marquee&gt; tag era</li>
+            <li>Custom cursors, pixelated graphics, and excessive border decorations</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider--dashed divider"></div>
+
+    <!-- ============================================================
+         COLOR PALETTE
+         ============================================================ -->
+    <section class="gradient-section gradient-section--neon">
+      <div class="page reveal">
+        <span class="pixel-label pixel-label--yellow">// Color System</span>
+        <h2 class="section-heading">Color Palette</h2>
+        <p style="color: var(--dialup-text-secondary); margin-bottom: 1.5rem;">
+          Defined by high contrast and maximum saturation -- neon brights punching through dark, gritty backgrounds.
+        </p>
+
+        <div class="sub-heading">Core Palette</div>
+        <div class="palette-grid">
+          <div class="palette-swatch" style="background: #0D0015;">
+            <div class="palette-swatch-label">Void Purple<span class="palette-swatch-hex">#0D0015</span></div>
+          </div>
+          <div class="palette-swatch" style="background: #1A0A2E;">
+            <div class="palette-swatch-label">Deep Plum<span class="palette-swatch-hex">#1A0A2E</span></div>
+          </div>
+          <div class="palette-swatch" style="background: #2A0134;">
+            <div class="palette-swatch-label">Gothic Purple<span class="palette-swatch-hex">#2A0134</span></div>
+          </div>
+          <div class="palette-swatch" style="background: #3D1A54;">
+            <div class="palette-swatch-label">Bruised Violet<span class="palette-swatch-hex">#3D1A54</span></div>
+          </div>
+          <div class="palette-swatch" style="background: #FF1493;">
+            <div class="palette-swatch-label">Hot Pink<span class="palette-swatch-hex">#FF1493</span></div>
+          </div>
+          <div class="palette-swatch" style="background: #00F5FF;">
+            <div class="palette-swatch-label">Electric Cyan<span class="palette-swatch-hex">#00F5FF</span></div>
+          </div>
+          <div class="palette-swatch" style="background: #39FF14;">
+            <div class="palette-swatch-label">Acid Green<span class="palette-swatch-hex">#39FF14</span></div>
+          </div>
+          <div class="palette-swatch" style="background: #FFFF00;">
+            <div class="palette-swatch-label" style="color: #000;">Neon Yellow<span class="palette-swatch-hex" style="color: #1A0A2E;">#FFFF00</span></div>
+          </div>
+          <div class="palette-swatch" style="background: #FF00FF;">
+            <div class="palette-swatch-label">Magenta<span class="palette-swatch-hex">#FF00FF</span></div>
+          </div>
+          <div class="palette-swatch" style="background: #8B00FF;">
+            <div class="palette-swatch-label">Purple Haze<span class="palette-swatch-hex">#8B00FF</span></div>
+          </div>
+          <div class="palette-swatch" style="background: linear-gradient(180deg, #E8E8F0 0%, #C0C0C0 40%, #808080 60%, #C0C0C0 80%, #E8E8F0 100%);">
+            <div class="palette-swatch-label" style="color: #000;">Chrome Silver<span class="palette-swatch-hex" style="color: #1A0A2E;">Gradient</span></div>
+          </div>
+          <div class="palette-swatch" style="background: #F0F0FF;">
+            <div class="palette-swatch-label" style="color: #000;">Bright White<span class="palette-swatch-hex" style="color: #1A0A2E;">#F0F0FF</span></div>
+          </div>
+        </div>
+
+        <div class="sub-heading sub-heading--pink" style="margin-top: 2rem;">Neon Gradient Combinations</div>
+        <div class="gradient-strips">
+          <div class="gradient-strip" style="background: linear-gradient(90deg, #FF1493, #8B00FF, #00F5FF);">
+            <span class="gradient-strip-label">Neon Sunset</span>
+          </div>
+          <div class="gradient-strip" style="background: linear-gradient(90deg, #39FF14, #FFFF00, #FF1493);">
+            <span class="gradient-strip-label">Acid Trip</span>
+          </div>
+          <div class="gradient-strip" style="background: linear-gradient(90deg, #E8E8F0, #C0C0C0, #808080);">
+            <span class="gradient-strip-label">Chrome Reflection</span>
+          </div>
+          <div class="gradient-strip" style="background: linear-gradient(90deg, #FF1493, #2A0134, #0D0015);">
+            <span class="gradient-strip-label">Gothic Flame</span>
+          </div>
+          <div class="gradient-strip" style="background: linear-gradient(90deg, #00F5FF, #0D0015, #39FF14);">
+            <span class="gradient-strip-label">Cybervoid</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         TYPOGRAPHY SECTION
+         ============================================================ -->
+    <section class="reveal">
+      <span class="pixel-label pixel-label--green">// Type System</span>
+      <h2 class="section-heading section-heading--chrome">Typography</h2>
+      <p style="color: var(--dialup-text-secondary); margin-bottom: 0.5rem;">
+        Intentionally eclectic -- mixing fonts that should never coexist. Gothic blackletter next to pixel bitmap next to chunky display type.
+      </p>
+      <span class="annotation" style="margin-bottom: 1.5rem;">^ this is the whole point!</span>
+
+      <div class="type-specimen type-specimen--gothic">
+        <div class="type-specimen-sample" style="font-family: 'UnifrakturMaguntia', cursive; font-size: clamp(1.8rem, 4vw, 3rem); color: var(--dialup-accent-pink); text-shadow: 0 0 10px rgba(255, 20, 147, 0.4), 3px 3px 0px var(--dialup-shadow);">
+          UnifrakturMaguntia
+        </div>
+        <div class="type-specimen-meta">
+          <span>GOTHIC BLACKLETTER</span> // Primary headings, dramatic titles -- the "gothic grit" signature
+        </div>
+      </div>
+
+      <div class="type-specimen type-specimen--medieval">
+        <div class="type-specimen-sample" style="font-family: 'MedievalSharp', cursive; font-size: clamp(1.4rem, 3vw, 2.2rem); color: var(--dialup-accent-cyan); text-shadow: 0 0 10px rgba(0, 245, 255, 0.4), 2px 2px 0px var(--dialup-shadow);">
+          MedievalSharp -- Semi-Gothic Serif
+        </div>
+        <div class="type-specimen-meta">
+          <span>SEMI-GOTHIC</span> // Secondary headings, subheadings -- readable gothic flavor
+        </div>
+      </div>
+
+      <div class="type-specimen type-specimen--pixel">
+        <div class="type-specimen-sample" style="font-family: 'Press Start 2P', monospace; font-size: clamp(0.7rem, 1.5vw, 1rem); color: var(--dialup-accent-cyan); text-shadow: 0 0 8px rgba(0, 245, 255, 0.4);">
+          Press Start 2P -- Pixel Bitmap
+        </div>
+        <div class="type-specimen-meta">
+          <span>PIXEL FONT</span> // UI labels, status text, retro data displays
+        </div>
+      </div>
+
+      <div class="type-specimen type-specimen--vt323">
+        <div class="type-specimen-sample" style="font-family: 'VT323', monospace; font-size: clamp(1.2rem, 2.5vw, 2rem); color: var(--dialup-accent-green); text-shadow: 0 0 8px rgba(57, 255, 20, 0.4);">
+          VT323 -- Monospace Terminal Font
+        </div>
+        <div class="type-specimen-meta">
+          <span>TERMINAL</span> // Code-style text, timestamps, body copy, technical labels
+        </div>
+      </div>
+
+      <div class="type-specimen type-specimen--bungee">
+        <div class="type-specimen-sample" style="font-family: 'Bungee', sans-serif; font-size: clamp(1.2rem, 2.5vw, 2rem); color: var(--dialup-accent-green); text-transform: uppercase; letter-spacing: 0.05em;">
+          BUNGEE -- CHUNKY DISPLAY
+        </div>
+        <div class="type-specimen-meta">
+          <span>Y2K DISPLAY</span> // Callout text, bold statements, Y2K display energy
+        </div>
+      </div>
+
+      <div class="type-specimen type-specimen--monoton">
+        <div class="type-specimen-sample" style="font-family: 'Monoton', cursive; font-size: clamp(1.4rem, 3vw, 2.5rem); color: var(--dialup-accent-pink); text-shadow: 0 0 7px var(--dialup-accent-pink), 0 0 15px var(--dialup-accent-pink), 0 0 30px rgba(255, 0, 255, 0.3);">
+          Monoton -- Neon Outline
+        </div>
+        <div class="type-specimen-meta">
+          <span>NEON DISPLAY</span> // Hero text, decorative titles with glow effects
+        </div>
+      </div>
+
+      <div class="type-specimen type-specimen--marker">
+        <div class="type-specimen-sample" style="font-family: 'Permanent Marker', cursive; font-size: clamp(1.3rem, 2.5vw, 2rem); color: var(--dialup-accent-yellow); text-shadow: 0 0 8px rgba(255, 255, 0, 0.3); transform: rotate(-1deg); display: inline-block;">
+          Permanent Marker -- Handwritten Bold
+        </div>
+        <div class="type-specimen-meta">
+          <span>ANNOTATION</span> // Annotation-style labels, casual emphasis
+        </div>
+      </div>
+
+      <div class="type-specimen type-specimen--creepster">
+        <div class="type-specimen-sample" style="font-family: 'Creepster', cursive; font-size: clamp(1.4rem, 3vw, 2.2rem); color: var(--dialup-accent-purple); text-shadow: 0 0 10px rgba(139, 0, 255, 0.5), 3px 3px 0px var(--dialup-shadow);">
+          Creepster -- Horror Display
+        </div>
+        <div class="type-specimen-meta">
+          <span>SPOOKY</span> // Accent text, spooky-fun labels for gothic contrast
+        </div>
+      </div>
+    </section>
+
+    <!-- Marquee break -->
+    <div style="margin: 2.5rem -1.5rem;">
+      <div class="marquee marquee--reverse">
+        <div class="marquee-track">
+          <span>++ CHROME TEXT ++ GLITCH ANIMATION ++ NEON GRADIENTS ++ PIXEL FONTS ++ GOTHIC BLACKLETTER ++ SPARKLE EFFECTS ++ RAINBOW BORDERS ++</span>
+          <span>++ CHROME TEXT ++ GLITCH ANIMATION ++ NEON GRADIENTS ++ PIXEL FONTS ++ GOTHIC BLACKLETTER ++ SPARKLE EFFECTS ++ RAINBOW BORDERS ++</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================================
+         CSS TECHNIQUES SHOWCASE
+         ============================================================ -->
+    <section class="reveal">
+      <span class="pixel-label pixel-label--pink">// Live Demos</span>
+      <h2 class="section-heading">Key CSS Techniques</h2>
+      <p style="color: var(--dialup-text-secondary); margin-bottom: 1.5rem;">
+        The signature visual effects of Dial-Up Delight, rendered live in CSS.
+      </p>
+
+      <div class="technique-grid">
+        <div class="technique-box">
+          <span class="pixel-label">Chrome Text</span>
+          <div class="demo-chrome-text">Chrome</div>
+          <div style="font-size: 0.85rem; color: var(--dialup-text-muted);">
+            Animated metallic gradient via background-clip: text
+          </div>
+        </div>
+
+        <div class="technique-box">
+          <span class="pixel-label pixel-label--pink">Neon Glow</span>
+          <div class="demo-neon-text">Neon</div>
+          <div style="font-size: 0.85rem; color: var(--dialup-text-muted);">
+            Layered text-shadow creating neon tube effect
+          </div>
+        </div>
+
+        <div class="technique-box">
+          <span class="pixel-label pixel-label--green">Glitch Effect</span>
+          <div class="demo-glitch" data-text="GLITCH">GLITCH</div>
+          <div style="font-size: 0.85rem; color: var(--dialup-text-muted);">
+            RGB channel split via clip-path + pseudo-elements
+          </div>
+        </div>
+
+        <div class="technique-box">
+          <span class="pixel-label pixel-label--yellow">Interactive Buttons</span>
+          <div style="display: flex; flex-direction: column; gap: 0.8rem; align-items: center;">
+            <span class="btn-chrome">Chrome Bevel</span>
+            <span class="btn-neon">Neon Border</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ============================================================
+         KEY DESIGN ELEMENTS AND MOTIFS
+         ============================================================ -->
+    <section class="reveal">
+      <span class="pixel-label">// Design Elements</span>
+      <h2 class="section-heading section-heading--cyan">Key Motifs</h2>
+
+      <div class="collage-grid">
+        <div class="collage-card">
+          <h3>Chrome & Metallic Effects</h3>
+          <ul>
+            <li>Chrome text gradients from white through silver to gray, applied via background-clip: text</li>
+            <li>Metallic button bevels mimicking early web 3D buttons and WordArt</li>
+            <li>Chrome borders using border-image with silver-to-gray transitions</li>
+            <li>Liquid chrome blobs with metallic fills referencing Y2K graphic design</li>
+          </ul>
+        </div>
+        <div class="collage-card">
+          <h3>Stars, Sparkles & Scatter</h3>
+          <ul>
+            <li>Animated 4-point and 6-point star bursts that scale and fade</li>
+            <li>Sparkle trails referencing cursor trail scripts of the '90s</li>
+            <li>Scattered pixel hearts, stars, moons, and gems</li>
+            <li>"Under construction" energy -- spinning warnings, animated dividers</li>
+          </ul>
+        </div>
+        <div class="collage-card">
+          <h3>Glitch & Distortion</h3>
+          <ul>
+            <li>RGB channel splitting with offset red, green, and blue copies</li>
+            <li>Clip-path glitch animations -- rectangular slices shifting horizontally</li>
+            <li>Scan-line artifacts suggesting corrupted video signal</li>
+            <li>SVG turbulence filters creating TV-static texture</li>
+          </ul>
+        </div>
+        <div class="collage-card">
+          <h3>Gothic Grit Elements</h3>
+          <ul>
+            <li>Ornate blackletter fonts for headings and display text</li>
+            <li>Deep purple and black backgrounds with grain and noise overlays</li>
+            <li>Occult/mystic decorative motifs -- moons, stars, pentagrams</li>
+            <li>High contrast pairing of dark gothic + bright neon candy</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Creepster callout -->
+    <div class="callout-spooky reveal">
+      <div class="callout-spooky-text">
+        The chaos is curated. A page that is truly broken is not Dial-Up Delight; a page that looks beautifully broken is.
+      </div>
+    </div>
+
+    <div class="divider--dashed divider"></div>
+
+    <!-- ============================================================
+         LAYOUT PRINCIPLES
+         ============================================================ -->
+    <section class="gradient-section gradient-section--gothic">
+      <div class="page reveal">
+        <span class="pixel-label pixel-label--yellow">// Layout DNA</span>
+        <h2 class="section-heading">Layout Principles</h2>
+
+        <div class="rainbow-card">
+          <div class="rainbow-card-inner">
+            <div class="sub-heading">Controlled Chaos</div>
+            <ul class="notes-list">
+              <li><strong>Overlapping elements are expected</strong> -- containers, images, and text blocks should intersect and layer, not sit in clean grid cells</li>
+              <li><strong>Negative margins as a compositional tool</strong> -- pull elements into each other's space to create density and collision</li>
+              <li><strong>Mixed alignment</strong> -- left, centered, and right-aligned elements within the same section, plus occasional rotation</li>
+              <li><strong>Scroll-heavy single-column base</strong> -- underneath the chaos, the fundamental structure is a long scrolling page (like a GeoCities homepage)</li>
+              <li><strong>Full-width gradient sections</strong> -- wide color bands and gradient backgrounds breaking up the vertical scroll</li>
+              <li><strong>Asymmetric compositions</strong> -- avoid perfect symmetry; one side should be heavier or more chaotic than the other</li>
+              <li><strong>Dense visual filling</strong> -- empty space filled with decorative elements: stars, sparkles, dividers, pixel art</li>
+              <li><strong>Section dividers as decorative opportunities</strong> -- horizontal rules become rainbow gradients, animated marquees, or pixelated divider graphics</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="sub-heading sub-heading--cyan" style="margin-top: 2rem;">Modern Web Adaptation</div>
+        <ul class="notes-list">
+          <li>Use <strong>CSS Grid and Flexbox</strong> for the underlying structure, then apply transforms, negative margins, and absolute positioning for the chaotic overlapping layer</li>
+          <li><strong>Scroll-triggered animations</strong> via IntersectionObserver or CSS animation-timeline for elements that glitch into view</li>
+          <li><strong>CSS mix-blend-mode</strong> on overlapping layers for color interaction effects</li>
+          <li><strong>Container queries</strong> for responsive chaos -- maintain the overlapping energy at smaller viewports</li>
+          <li><strong>Clamp and fluid typography</strong> to keep gothic headings dramatic at all screen sizes</li>
+          <li><strong>Performance budget</strong> -- despite the visual excess, limit actual DOM complexity; use CSS for decorative effects rather than excessive HTML elements</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         MATERIALS AND TEXTURES
+         ============================================================ -->
+    <section class="reveal">
+      <span class="pixel-label">// Texture Map</span>
+      <h2 class="section-heading section-heading--chrome">Materials & Textures</h2>
+      <p style="color: var(--dialup-text-secondary); margin-bottom: 1rem;">
+        Physical and cultural references translated to web equivalents.
+      </p>
+
+      <div style="overflow-x: auto;">
+        <table class="material-table">
+          <thead>
+            <tr>
+              <th>Physical Reference</th>
+              <th>Web Equivalent</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Brushed Chrome</td>
+              <td>CSS linear gradients (white-silver-gray-silver-white) applied via background-clip: text</td>
+            </tr>
+            <tr>
+              <td>GeoCities Tiles</td>
+              <td>background-repeat: repeat with small tileable SVG patterns</td>
+            </tr>
+            <tr>
+              <td>CRT Scanlines</td>
+              <td>repeating-linear-gradient overlays and SVG feTurbulence noise filters</td>
+            </tr>
+            <tr>
+              <td>Sticker-Covered Laptop</td>
+              <td>Overlapping absolutely-positioned elements with rotation transforms</td>
+            </tr>
+            <tr>
+              <td>Dial-Up Noise</td>
+              <td>CSS clip-path glitch animations with horizontal slice distortion</td>
+            </tr>
+            <tr>
+              <td>Animated GIF Trails</td>
+              <td>CSS @keyframes scale/opacity animations on sparkle pseudo-elements</td>
+            </tr>
+            <tr>
+              <td>WordArt 3D Text</td>
+              <td>Layered text-shadow stacks (5+ layers) with text-stroke and gradient fills</td>
+            </tr>
+            <tr>
+              <td>Hot Topic Signage</td>
+              <td>High contrast neon-on-black with gothic blackletter fonts and accent borders</td>
+            </tr>
+            <tr>
+              <td>AIM / Myspace Pages</td>
+              <td>Dense maximalist layouts with mixed fonts, rainbow gradients, and blinking text</td>
+            </tr>
+            <tr>
+              <td>Pixel Art Graphics</td>
+              <td>image-rendering: pixelated on small images scaled up, pixel-font text</td>
+            </tr>
+            <tr>
+              <td>Holographic Stickers</td>
+              <td>Multi-stop gradient backgrounds with background-size animation shimmer</td>
+            </tr>
+            <tr>
+              <td>Grunge Flyers</td>
+              <td>filter: contrast(1.5) grayscale(0.3) plus noise overlay for distress</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <div class="divider--rainbow divider"></div>
+
+    <!-- ============================================================
+         IMAGERY GUIDELINES
+         ============================================================ -->
+    <section class="reveal">
+      <span class="pixel-label pixel-label--green">// Image Rules</span>
+      <h2 class="section-heading section-heading--cyan">Imagery & Visual Content</h2>
+
+      <div class="collage-grid">
+        <div class="collage-card">
+          <h3>Do This</h3>
+          <ul>
+            <li>Embrace low resolution -- scale small images up with image-rendering: pixelated</li>
+            <li>Collage and layer images at angles with borders and overlapping frames</li>
+            <li>Apply glitch effects: RGB splitting, scan-line overlays, horizontal corruption</li>
+            <li>Mix pixel art alongside processed photographs</li>
+            <li>Use neon color overlays with mix-blend-mode: screen</li>
+            <li>Dark, moody base tones with bright accents</li>
+          </ul>
+        </div>
+        <div class="collage-card">
+          <h3>Gothic + Sparkle</h3>
+          <ul>
+            <li>Gothic and occult iconography -- moons, stars, roses, thorns (decorative)</li>
+            <li>Y2K graphic design references -- chrome 3D renders, blob shapes, translucent orbs</li>
+            <li>GeoCities-era graphics -- "under construction" signs, spinning icons, blinking dividers</li>
+            <li>Star and sparkle scatter layered over and around images</li>
+            <li>Custom cursors and playful hover interaction hints</li>
+            <li>Avoid clean, corporate stock photography -- everything personal and chaotic</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ============================================================
+         IMPLEMENTATION NOTES
+         ============================================================ -->
+    <section class="reveal">
+      <span class="pixel-label pixel-label--pink">// Dev Notes</span>
+      <h2 class="section-heading">Implementation Notes</h2>
+
+      <ul class="notes-list">
+        <li><strong>Chaotic but intentional</strong> -- every overlapping element, misaligned frame, and clashing font is a deliberate design choice. The chaos is curated.</li>
+        <li><strong>Performance matters</strong> -- use will-change sparingly, prefer transform and opacity for animations, and set reasonable animation-iteration-count values.</li>
+        <li><strong>The gothic-neon tension is essential</strong> -- without blackletter and grungy textures, it's just generic neon. Without bright neons and sparkles, it's just gothic. The magic is in the collision.</li>
+        <li><strong>Chrome text is the signature visual</strong> -- a single gothic heading rendered in chrome gradient is enough to establish the aesthetic.</li>
+        <li><strong>Accessibility requires extra care</strong> -- ensure body text maintains WCAG AA contrast at minimum. Provide sufficient font sizes for pixel fonts (illegible below 12px).</li>
+        <li><strong>Custom cursors degrade gracefully</strong> -- always include a fallback cursor keyword after the url() value.</li>
+        <li><strong>Noise overlays must be subtle</strong> -- keep SVG turbulence filter opacity between 0.03 and 0.08 for texture without obstruction.</li>
+        <li><strong>Test for motion sensitivity</strong> -- wrap continuous animations in @media (prefers-reduced-motion: no-preference) and provide static fallback.</li>
+        <li><strong>The GeoCities spirit is personal expression</strong> -- when in doubt, add another sparkle, another layer, another clashing font. But keep content accessible beneath the visual spectacle.</li>
+      </ul>
+    </section>
+
+    <div class="divider--dashed divider"></div>
+
+    <!-- ============================================================
+         RELATED AESTHETICS
+         ============================================================ -->
+    <section class="reveal">
+      <span class="pixel-label pixel-label--yellow">// Family Tree</span>
+      <h2 class="section-heading section-heading--cyan">Related Aesthetics</h2>
+      <p style="color: var(--dialup-text-secondary); margin-bottom: 1.5rem;">
+        Dial-Up Delight sits at the intersection of multiple design movements. These are its closest relatives:
+      </p>
+
+      <div class="tag-cloud">
+        <span class="tag">Y2K Futurism</span>
+        <span class="tag">FantasY2K</span>
+        <span class="tag">Cyberpunk</span>
+        <span class="tag">Dark Mode Neon</span>
+        <span class="tag">Early Cyber</span>
+        <span class="tag">Gen Z Maximalism</span>
+        <span class="tag">Acid Design</span>
+        <span class="tag">Chromecore</span>
+        <span class="tag">Dopamine Design</span>
+        <span class="tag">Corporate Grunge</span>
+      </div>
+
+      <div class="rainbow-card" style="margin-top: 2rem;">
+        <div class="rainbow-card-inner">
+          <div class="sub-heading sub-heading--cyan">Key Relationships</div>
+          <ul class="notes-list">
+            <li><strong>Y2K Futurism</strong> -- shares chrome textures and techno-optimism; Dial-Up Delight is its messy, gothic, Gen Z-remixed cousin</li>
+            <li><strong>Cyberpunk</strong> -- shares neon-on-dark palettes and glitch effects, but Cyberpunk is dystopian-serious while Dial-Up Delight is nostalgic-playful</li>
+            <li><strong>Gen Z Maximalism</strong> -- same generational impulse toward visual excess; Dial-Up Delight channels it through '90s/'00s internet nostalgia</li>
+            <li><strong>Acid Design</strong> -- shares distorted typography and anti-design principles; Acid is contemporary-experimental, Dial-Up is retro-nostalgic</li>
+            <li><strong>Chromecore</strong> -- shares the metallic/chrome obsession; Chromecore is purely reflective metal while Dial-Up mixes chrome with gothic, pixel, and neon</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         VISITOR COUNTER + FOOTER
+         ============================================================ -->
+    <section class="footer">
+      <div class="visitor-counter">
+        <span class="visitor-counter-label">Visitors:</span>
+        <div class="visitor-counter-digits">
+          <span class="visitor-counter-digit">0</span>
+          <span class="visitor-counter-digit">0</span>
+          <span class="visitor-counter-digit">0</span>
+          <span class="visitor-counter-digit">0</span>
+          <span class="visitor-counter-digit">4</span>
+          <span class="visitor-counter-digit">2</span>
+        </div>
+      </div>
+
+      <div class="footer-brand">Dial-Up Delight</div>
+
+      <div class="footer-links">
+        <a href="#">GUESTBOOK</a> // <a href="#">WEBRINGS</a> // <a href="#">LINKS</a> // <a href="#">CREDITS</a><br>
+        MADE WITH NOTEPAD.EXE AND A DREAM
+      </div>
+
+      <div class="footer-ascii">
+  *  .  *    .   *  .    *      .  *
+     .    *    .      *    .  *     .
+  *      .   *    .      .    *  .
+      </div>
+
+      <div class="footer-copy">&copy; 2002 FOREVER // The internet was better when it was weird</div>
+    </section>
+
+  </div><!-- /.page -->
+
+  <!-- ============================================================
+       BOTTOM MARQUEE
+       ============================================================ -->
+  <div class="marquee marquee--reverse">
+    <div class="marquee-track">
+      <span>++ BLACKLETTER ++ CHROME ++ GLITCH ++ SPARKLE ++ PIXEL ++ NEON ++ NOISE ++ MARQUEE ++ CHAOS ++ DELIGHT ++</span>
+      <span>++ BLACKLETTER ++ CHROME ++ GLITCH ++ SPARKLE ++ PIXEL ++ NEON ++ NOISE ++ MARQUEE ++ CHAOS ++ DELIGHT ++</span>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       JAVASCRIPT -- Scroll-triggered reveals
+       ============================================================ -->
+  <script>
+    // IntersectionObserver for scroll-triggered fade-in
+    document.addEventListener('DOMContentLoaded', function() {
+      var reveals = document.querySelectorAll('.reveal');
+
+      if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function(entries) {
+          entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('visible');
+              observer.unobserve(entry.target);
+            }
+          });
+        }, {
+          threshold: 0.1,
+          rootMargin: '0px 0px -40px 0px'
+        });
+
+        reveals.forEach(function(el) {
+          observer.observe(el);
+        });
+      } else {
+        // Fallback: show everything immediately
+        reveals.forEach(function(el) {
+          el.classList.add('visible');
+        });
+      }
+
+      // Animate visitor counter on load
+      var digits = document.querySelectorAll('.visitor-counter-digit');
+      var targetDigits = ['0', '0', '0', '0', '4', '2'];
+      var scrambleDuration = 1500;
+      var scrambleInterval = 80;
+
+      digits.forEach(function(digit, index) {
+        var startTime = Date.now();
+        var timer = setInterval(function() {
+          var elapsed = Date.now() - startTime;
+          if (elapsed > scrambleDuration + (index * 150)) {
+            digit.textContent = targetDigits[index];
+            clearInterval(timer);
+          } else {
+            digit.textContent = Math.floor(Math.random() * 10);
+          }
+        }, scrambleInterval);
+      });
+    });
+  </script>
+
+</body>
+</html>

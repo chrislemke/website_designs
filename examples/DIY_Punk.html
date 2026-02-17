@@ -1,0 +1,2557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DIY PUNK -- A Design Manifesto</title>
+  <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Rock+Salt&family=Bungee&family=Bungee+Shade&family=Special+Elite&family=Courier+Prime:wght@400;700&family=VT323&family=Rubik+Mono+One&family=Faster+One&family=Creepster&family=Londrina+Solid&family=Staatliches&family=Archivo+Black&display=swap" rel="stylesheet">
+  <style>
+    /* ========================================
+       CSS CUSTOM PROPERTIES -- THE PUNK PALETTE
+       ======================================== */
+    :root {
+      /* Base tones */
+      --punk-black: #0a0a0a;
+      --punk-white: #f5f0e8;
+      --punk-pure-white: #ffffff;
+      --punk-newsprint: #c8c3b8;
+      --punk-toner: #4a4a4a;
+      --punk-smudge: #8a8680;
+
+      /* Hot accents */
+      --punk-pink: #ff1493;
+      --punk-red: #cc0000;
+      --punk-yellow: #ffd700;
+      --punk-orange: #ff4500;
+
+      /* Cold accents */
+      --punk-purple: #6b0099;
+      --punk-blue: #0044cc;
+      --punk-green: #39ff14;
+
+      /* Material tones */
+      --punk-tape: #d4c9a8;
+      --punk-cardboard: #a0845c;
+      --punk-glue: #e8dfc8;
+
+      /* Functional mappings */
+      --punk-bg-primary: var(--punk-white);
+      --punk-bg-inverse: var(--punk-black);
+      --punk-text-primary: var(--punk-black);
+      --punk-text-inverse: var(--punk-pure-white);
+      --punk-text-muted: var(--punk-toner);
+      --punk-accent: var(--punk-pink);
+      --punk-accent-danger: var(--punk-red);
+      --punk-accent-warning: var(--punk-yellow);
+      --punk-border: var(--punk-black);
+    }
+
+    /* ========================================
+       RESET & BASE
+       ======================================== */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: var(--punk-white);
+      color: var(--punk-black);
+      font-family: 'Special Elite', 'Courier Prime', 'Courier New', monospace;
+      font-size: 1rem;
+      line-height: 1.75;
+      overflow-x: hidden;
+      position: relative;
+      cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='10' fill='none' stroke='%230a0a0a' stroke-width='2'/%3E%3Cline x1='7' y1='7' x2='17' y2='17' stroke='%23cc0000' stroke-width='2'/%3E%3Cline x1='17' y1='7' x2='7' y2='17' stroke='%23cc0000' stroke-width='2'/%3E%3C/svg%3E") 12 12, crosshair;
+    }
+
+    /* Photocopy grain overlay -- covers everything */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      opacity: 0.04;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='6' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size: 512px 512px;
+      pointer-events: none;
+      mix-blend-mode: multiply;
+      z-index: 10000;
+    }
+
+    /* Scanline overlay for extra photocopier feel */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent 0px,
+        transparent 3px,
+        rgba(10, 10, 10, 0.015) 3px,
+        rgba(10, 10, 10, 0.015) 4px
+      );
+      pointer-events: none;
+      z-index: 10001;
+    }
+
+    /* ========================================
+       TYPOGRAPHY
+       ======================================== */
+    h1 {
+      font-family: 'Permanent Marker', 'Rock Salt', cursive;
+      font-size: clamp(2.5rem, 8vw, 6rem);
+      letter-spacing: -0.02em;
+      line-height: 0.95;
+      color: var(--punk-black);
+      text-transform: uppercase;
+      word-spacing: 0.15em;
+    }
+
+    h2 {
+      font-family: 'Bungee', 'Staatliches', Impact, sans-serif;
+      font-size: clamp(1.5rem, 4vw, 3rem);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--punk-black);
+      border-bottom: 4px solid var(--punk-black);
+      display: inline-block;
+      padding-bottom: 0.1em;
+      transform: rotate(0.5deg);
+      margin-bottom: 1.5rem;
+    }
+
+    h3 {
+      font-family: 'Rock Salt', 'Permanent Marker', cursive;
+      font-size: clamp(0.9rem, 2.5vw, 1.4rem);
+      color: var(--punk-accent);
+      transform: rotate(-1deg);
+      margin-left: -0.5rem;
+      margin-bottom: 0.75rem;
+      margin-top: 2rem;
+    }
+
+    h4 {
+      font-family: 'Staatliches', 'Bungee', sans-serif;
+      font-size: 1.1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--punk-black);
+      margin-bottom: 0.5rem;
+    }
+
+    p {
+      margin-bottom: 1rem;
+    }
+
+    a {
+      color: var(--punk-red);
+      text-decoration: none;
+      border-bottom: 2px solid var(--punk-red);
+      font-weight: 700;
+      transition: background 0.1s, color 0.1s;
+    }
+
+    a:hover {
+      background: var(--punk-red);
+      color: var(--punk-pure-white);
+    }
+
+    strong {
+      font-family: 'Courier Prime', monospace;
+      font-weight: 700;
+    }
+
+    /* ========================================
+       HERO SECTION
+       ======================================== */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 2rem 4rem;
+      position: relative;
+      overflow: hidden;
+      background: var(--punk-black);
+      color: var(--punk-pure-white);
+    }
+
+    .hero::before {
+      content: 'DIY DIY DIY DIY PUNK PUNK PUNK PUNK DIY DIY DIY DIY PUNK PUNK PUNK PUNK DIY DIY DIY PUNK PUNK PUNK NO FUTURE NO FUTURE NO FUTURE DESTROY DESTROY DESTROY ANARCHY ANARCHY';
+      position: absolute;
+      inset: 0;
+      font-family: 'Bungee', Impact, sans-serif;
+      font-size: clamp(3rem, 6vw, 5rem);
+      color: rgba(255, 255, 255, 0.03);
+      line-height: 1.1;
+      overflow: hidden;
+      word-break: break-all;
+      pointer-events: none;
+      transform: rotate(-3deg) scale(1.1);
+    }
+
+    .hero-title {
+      font-family: 'Permanent Marker', cursive;
+      font-size: clamp(4rem, 14vw, 12rem);
+      line-height: 0.85;
+      text-transform: uppercase;
+      transform: rotate(-3deg);
+      position: relative;
+      z-index: 2;
+      animation: heroSlam 0.6s cubic-bezier(0.2, 0, 0, 1) both;
+    }
+
+    @keyframes heroSlam {
+      0% {
+        transform: rotate(-3deg) translateY(-40px) scale(1.1);
+        opacity: 0;
+      }
+      60% {
+        transform: rotate(-3deg) translateY(3px) scale(0.98);
+        opacity: 1;
+      }
+      100% {
+        transform: rotate(-3deg) translateY(0) scale(1);
+        opacity: 1;
+      }
+    }
+
+    .hero-title .line-1 {
+      display: block;
+      color: var(--punk-pure-white);
+    }
+
+    .hero-title .line-2 {
+      display: block;
+      color: var(--punk-pink);
+      margin-left: 0.5rem;
+      text-shadow: 4px 4px 0 var(--punk-red);
+    }
+
+    .hero-subtitle {
+      font-family: 'Rock Salt', cursive;
+      font-size: clamp(0.75rem, 2vw, 1.2rem);
+      color: var(--punk-yellow);
+      transform: rotate(1.5deg);
+      margin-top: 2rem;
+      margin-left: 0.5rem;
+      z-index: 2;
+      animation: scrawlIn 0.8s 0.4s cubic-bezier(0.2, 0, 0, 1) both;
+    }
+
+    @keyframes scrawlIn {
+      from {
+        opacity: 0;
+        transform: rotate(1.5deg) translateX(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: rotate(1.5deg) translateX(0);
+      }
+    }
+
+    .hero-tagline {
+      font-family: 'Special Elite', monospace;
+      font-size: clamp(0.85rem, 1.5vw, 1.1rem);
+      color: var(--punk-newsprint);
+      max-width: 600px;
+      margin-top: 1.5rem;
+      line-height: 1.7;
+      z-index: 2;
+      animation: fadeUp 0.6s 0.7s both;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Floating X marks in hero */
+    .hero-x {
+      position: absolute;
+      font-family: 'Bungee', sans-serif;
+      color: var(--punk-red);
+      opacity: 0.08;
+      font-size: 8rem;
+      pointer-events: none;
+      animation: xFloat 12s ease-in-out infinite alternate;
+    }
+
+    .hero-x:nth-child(1) { top: 10%; right: 8%; animation-delay: 0s; }
+    .hero-x:nth-child(2) { bottom: 15%; right: 25%; font-size: 5rem; animation-delay: -4s; }
+    .hero-x:nth-child(3) { top: 40%; right: 50%; font-size: 12rem; animation-delay: -8s; opacity: 0.04; }
+
+    @keyframes xFloat {
+      0% { transform: rotate(-10deg) scale(1); }
+      100% { transform: rotate(10deg) scale(1.1); }
+    }
+
+    /* Safety pin decoration in hero */
+    .hero-pin {
+      position: absolute;
+      bottom: 3rem;
+      right: 3rem;
+      font-size: 3rem;
+      transform: rotate(-30deg);
+      opacity: 0.4;
+      z-index: 2;
+      animation: pinSwing 3s ease-in-out infinite alternate;
+    }
+
+    @keyframes pinSwing {
+      0% { transform: rotate(-30deg); }
+      100% { transform: rotate(-20deg); }
+    }
+
+    /* Scroll indicator */
+    .scroll-indicator {
+      position: absolute;
+      bottom: 2rem;
+      left: 4rem;
+      font-family: 'Rock Salt', cursive;
+      font-size: 0.7rem;
+      color: var(--punk-smudge);
+      z-index: 2;
+      animation: scrollBounce 2s ease-in-out infinite;
+    }
+
+    .scroll-indicator::after {
+      content: '';
+      display: block;
+      width: 2px;
+      height: 20px;
+      background: var(--punk-smudge);
+      margin: 0.5rem auto 0;
+      animation: scrollLine 2s ease-in-out infinite;
+    }
+
+    @keyframes scrollBounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(5px); }
+    }
+
+    @keyframes scrollLine {
+      0%, 100% { height: 20px; opacity: 0.5; }
+      50% { height: 30px; opacity: 1; }
+    }
+
+    /* ========================================
+       TORN PAPER EDGES
+       ======================================== */
+    .torn-divider {
+      border: none;
+      height: 14px;
+      background: var(--punk-black);
+      clip-path: polygon(
+        0% 100%, 2% 30%, 5% 70%, 8% 10%, 11% 60%, 14% 25%,
+        17% 80%, 20% 15%, 23% 55%, 26% 5%, 29% 70%, 32% 35%,
+        35% 90%, 38% 20%, 41% 65%, 44% 10%, 47% 50%, 50% 85%,
+        53% 30%, 56% 70%, 59% 15%, 62% 55%, 65% 5%, 68% 45%,
+        71% 80%, 74% 25%, 77% 65%, 80% 10%, 83% 50%, 86% 75%,
+        89% 20%, 92% 60%, 95% 35%, 98% 80%, 100% 40%,
+        100% 100%
+      );
+      margin: 0;
+    }
+
+    .torn-divider--white {
+      background: var(--punk-white);
+    }
+
+    .torn-divider--pink {
+      background: var(--punk-pink);
+      height: 8px;
+    }
+
+    .torn-divider--flip {
+      transform: scaleY(-1);
+    }
+
+    /* ========================================
+       SECTIONS
+       ======================================== */
+    .section {
+      padding: 4rem 2rem;
+      position: relative;
+    }
+
+    .section-inner {
+      max-width: 900px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    /* Alternating section backgrounds */
+    .section--dark {
+      background: var(--punk-black);
+      color: var(--punk-pure-white);
+    }
+
+    .section--dark h2 {
+      color: var(--punk-pure-white);
+      border-color: var(--punk-pure-white);
+    }
+
+    .section--dark h3 {
+      color: var(--punk-yellow);
+    }
+
+    .section--newsprint {
+      background: var(--punk-newsprint);
+    }
+
+    .section--cardboard {
+      background: var(--punk-cardboard);
+      color: var(--punk-pure-white);
+    }
+
+    .section--cardboard h2 {
+      color: var(--punk-pure-white);
+      border-color: var(--punk-pure-white);
+    }
+
+    /* ========================================
+       PUNK CARDS (PASTED FLYERS)
+       ======================================== */
+    .punk-card {
+      background: var(--punk-pure-white);
+      border: 2px solid var(--punk-black);
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+      transform: rotate(calc(var(--tilt, -1) * 1deg));
+      position: relative;
+      box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.2);
+      color: var(--punk-black);
+      transition: transform 0.2s ease;
+    }
+
+    .punk-card:hover {
+      transform: rotate(calc(var(--tilt, -1) * -0.5deg)) scale(1.01);
+      box-shadow: 5px 5px 0 rgba(0, 0, 0, 0.25);
+    }
+
+    /* Tape strip on card */
+    .punk-card::before {
+      content: '';
+      position: absolute;
+      top: -8px;
+      left: 50%;
+      transform: translateX(-50%) rotate(var(--tape-rot, 3deg));
+      width: 70px;
+      height: 22px;
+      background: rgba(212, 201, 168, 0.6);
+      border: 1px solid rgba(212, 201, 168, 0.3);
+      clip-path: polygon(2% 0%, 98% 2%, 100% 98%, 0% 100%);
+    }
+
+    .punk-card--inverse {
+      background: var(--punk-black);
+      color: var(--punk-pure-white);
+      border-color: var(--punk-pure-white);
+    }
+
+    .punk-card--pink-border {
+      border-color: var(--punk-pink);
+      border-width: 3px;
+    }
+
+    .punk-card--no-tape::before {
+      display: none;
+    }
+
+    /* ========================================
+       RANSOM NOTE TEXT
+       ======================================== */
+    .ransom {
+      font-size: 1.4rem;
+      line-height: 2;
+      word-spacing: 0.1em;
+    }
+
+    .ransom span {
+      display: inline-block;
+      padding: 0.05em 0.15em;
+      margin: 0.05em;
+    }
+
+    .ransom .r-dark {
+      background: var(--punk-black);
+      color: var(--punk-pure-white);
+      font-family: 'Times New Roman', Georgia, serif;
+      font-weight: 700;
+    }
+
+    .ransom .r-light {
+      background: transparent;
+      color: var(--punk-black);
+      font-family: Arial, Helvetica, sans-serif;
+      border: 2px solid var(--punk-black);
+    }
+
+    .ransom .r-accent {
+      background: var(--punk-pink);
+      color: var(--punk-pure-white);
+      font-family: Impact, 'Arial Black', sans-serif;
+      font-style: italic;
+    }
+
+    .ransom .r-serif {
+      background: var(--punk-newsprint);
+      color: var(--punk-black);
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 1.15em;
+    }
+
+    .ransom .r-yellow {
+      background: var(--punk-yellow);
+      color: var(--punk-black);
+      font-family: 'Courier Prime', monospace;
+      font-weight: 700;
+    }
+
+    .ransom .r-red {
+      background: var(--punk-red);
+      color: var(--punk-pure-white);
+      font-family: 'Arial Black', Impact, sans-serif;
+    }
+
+    /* ========================================
+       HIGHLIGHT / MARKER EFFECTS
+       ======================================== */
+    .highlight {
+      background: linear-gradient(transparent 55%, var(--punk-yellow) 55%);
+      padding: 0 0.15em;
+    }
+
+    .highlight--pink {
+      background: linear-gradient(transparent 55%, var(--punk-pink) 55%);
+      color: var(--punk-black);
+    }
+
+    .highlight--red {
+      background: linear-gradient(transparent 55%, var(--punk-red) 55%);
+      color: var(--punk-pure-white);
+    }
+
+    /* ========================================
+       ANNOTATION (ballpoint pen margin notes)
+       ======================================== */
+    .annotation {
+      font-family: 'Rock Salt', cursive;
+      font-size: 0.7rem;
+      color: var(--punk-blue);
+      transform: rotate(-3deg);
+      display: inline-block;
+      margin-left: 0.5rem;
+    }
+
+    .annotation--red {
+      color: var(--punk-red);
+    }
+
+    /* ========================================
+       SAFETY PIN DIVIDER
+       ======================================== */
+    .pin-divider {
+      border: none;
+      height: 30px;
+      position: relative;
+      margin: 2.5rem 0;
+    }
+
+    .pin-divider::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: repeating-linear-gradient(
+        90deg,
+        var(--punk-black) 0px,
+        var(--punk-black) 8px,
+        transparent 8px,
+        transparent 14px
+      );
+      opacity: 0.4;
+    }
+
+    .pin-divider::after {
+      content: '\2716';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 1.2rem;
+      background: var(--punk-bg-primary);
+      padding: 0 0.75rem;
+      color: var(--punk-red);
+      font-weight: 900;
+    }
+
+    .section--dark .pin-divider::after {
+      background: var(--punk-black);
+      color: var(--punk-pink);
+    }
+
+    .section--dark .pin-divider::before {
+      background: repeating-linear-gradient(
+        90deg,
+        var(--punk-pure-white) 0px,
+        var(--punk-pure-white) 8px,
+        transparent 8px,
+        transparent 14px
+      );
+    }
+
+    /* ========================================
+       CROSSED OUT TEXT
+       ======================================== */
+    .crossed-out {
+      position: relative;
+      display: inline;
+      color: var(--punk-toner);
+    }
+
+    .crossed-out::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: -4px;
+      right: -4px;
+      height: 3px;
+      background: var(--punk-red);
+      transform: rotate(-2deg);
+    }
+
+    .crossed-out::after {
+      content: '';
+      position: absolute;
+      top: 45%;
+      left: -2px;
+      right: -2px;
+      height: 3px;
+      background: var(--punk-red);
+      transform: rotate(1.5deg);
+      opacity: 0.7;
+    }
+
+    /* ========================================
+       PUNK BUTTON
+       ======================================== */
+    .punk-button {
+      display: inline-block;
+      padding: 0.7rem 2rem;
+      font-family: 'Permanent Marker', 'Special Elite', cursive;
+      font-size: 1.1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--punk-pure-white);
+      background: var(--punk-black);
+      border: 3px solid var(--punk-black);
+      cursor: pointer;
+      position: relative;
+      transform: rotate(-1deg);
+      transition: transform 0.15s ease, background 0.15s ease;
+      text-decoration: none;
+      border-bottom: 3px solid var(--punk-black);
+    }
+
+    .punk-button:hover {
+      background: var(--punk-pink);
+      border-color: var(--punk-pink);
+      color: var(--punk-pure-white);
+      transform: rotate(1deg) scale(1.05);
+    }
+
+    .punk-button:active {
+      transform: rotate(-0.5deg) scale(0.98);
+    }
+
+    .punk-button--sticker {
+      background: var(--punk-yellow);
+      color: var(--punk-black);
+      border-color: var(--punk-black);
+      transform: rotate(2deg);
+      box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.3);
+    }
+
+    .punk-button--sticker:hover {
+      transform: rotate(-1deg) scale(1.08);
+      box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.4);
+      background: var(--punk-yellow);
+      border-color: var(--punk-black);
+      color: var(--punk-black);
+    }
+
+    /* ========================================
+       ZINE PAGE
+       ======================================== */
+    .zine-page {
+      background: var(--punk-white);
+      border: 2px solid var(--punk-black);
+      padding: 2rem;
+      position: relative;
+      max-width: 700px;
+      margin: 2rem auto;
+      transform: rotate(calc(var(--page-tilt, 0.5) * 1deg));
+      color: var(--punk-black);
+    }
+
+    /* Center fold line */
+    .zine-page::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 50%;
+      width: 1px;
+      background: repeating-linear-gradient(
+        180deg,
+        var(--punk-newsprint) 0px,
+        var(--punk-newsprint) 3px,
+        transparent 3px,
+        transparent 8px
+      );
+      opacity: 0.4;
+    }
+
+    /* Staple marks */
+    .zine-page::after {
+      content: '';
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      width: 8px;
+      height: 3px;
+      background: var(--punk-smudge);
+      border-radius: 1px;
+      box-shadow: 1px 20px 0 0 var(--punk-smudge);
+    }
+
+    /* ========================================
+       COLOR SWATCH GRID
+       ======================================== */
+    .swatch-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 1rem;
+      margin: 1.5rem 0;
+    }
+
+    .swatch {
+      border: 2px solid var(--punk-black);
+      padding: 0;
+      transform: rotate(calc(var(--tilt, 0) * 1deg));
+      position: relative;
+      box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.15);
+      transition: transform 0.2s ease;
+      overflow: hidden;
+    }
+
+    .swatch:hover {
+      transform: rotate(calc(var(--tilt, 0) * -1deg)) scale(1.05);
+      z-index: 5;
+    }
+
+    .swatch-color {
+      height: 70px;
+      width: 100%;
+    }
+
+    .swatch-info {
+      padding: 0.5rem 0.6rem;
+      background: var(--punk-pure-white);
+      border-top: 2px solid var(--punk-black);
+    }
+
+    .swatch-name {
+      font-family: 'Permanent Marker', cursive;
+      font-size: 0.8rem;
+      display: block;
+      margin-bottom: 0.15rem;
+    }
+
+    .swatch-hex {
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.75rem;
+      color: var(--punk-toner);
+    }
+
+    /* ========================================
+       FONT SHOWCASE
+       ======================================== */
+    .font-showcase {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin: 1.5rem 0;
+    }
+
+    .font-specimen {
+      border: 2px solid var(--punk-black);
+      padding: 1rem 1.2rem;
+      background: var(--punk-pure-white);
+      position: relative;
+      transform: rotate(calc(var(--tilt, 0) * 1deg));
+      transition: transform 0.2s ease;
+      color: var(--punk-black);
+    }
+
+    .font-specimen:hover {
+      transform: rotate(0deg) scale(1.02);
+    }
+
+    .font-specimen-name {
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--punk-smudge);
+      margin-bottom: 0.25rem;
+    }
+
+    .font-specimen-sample {
+      font-size: clamp(1.3rem, 3vw, 2rem);
+      line-height: 1.3;
+    }
+
+    .font-specimen-usage {
+      font-family: 'Rock Salt', cursive;
+      font-size: 0.6rem;
+      color: var(--punk-blue);
+      margin-top: 0.4rem;
+      transform: rotate(-1deg);
+      display: inline-block;
+    }
+
+    /* ========================================
+       PRINCIPLE CARDS
+       ======================================== */
+    .principles-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1.5rem;
+      margin: 1.5rem 0;
+    }
+
+    .principle-card {
+      background: var(--punk-pure-white);
+      border: 3px solid var(--punk-black);
+      padding: 1.2rem;
+      position: relative;
+      transform: rotate(calc(var(--tilt, 0) * 1deg));
+      transition: transform 0.2s ease;
+      color: var(--punk-black);
+    }
+
+    .principle-card:hover {
+      transform: rotate(0deg) scale(1.03);
+      z-index: 5;
+    }
+
+    .principle-card::before {
+      content: '';
+      position: absolute;
+      top: -7px;
+      right: 15%;
+      width: 50px;
+      height: 18px;
+      background: rgba(212, 201, 168, 0.55);
+      transform: rotate(calc(var(--tape-rot, 5) * 1deg));
+    }
+
+    .principle-card-title {
+      font-family: 'Permanent Marker', cursive;
+      font-size: 1.1rem;
+      margin-bottom: 0.5rem;
+      text-transform: uppercase;
+      border-bottom: 2px solid var(--punk-black);
+      padding-bottom: 0.3rem;
+    }
+
+    .principle-card-text {
+      font-family: 'Special Elite', monospace;
+      font-size: 0.85rem;
+      line-height: 1.6;
+    }
+
+    /* ========================================
+       MOTIF LIST (bullet style)
+       ======================================== */
+    .motif-list {
+      list-style: none;
+      margin: 1rem 0;
+    }
+
+    .motif-list li {
+      position: relative;
+      padding-left: 2rem;
+      margin-bottom: 0.75rem;
+      font-size: 0.95rem;
+    }
+
+    .motif-list li::before {
+      content: '\2716';
+      position: absolute;
+      left: 0;
+      top: 0.15em;
+      color: var(--punk-red);
+      font-size: 1rem;
+      font-weight: 900;
+    }
+
+    .motif-list li:nth-child(3n)::before {
+      color: var(--punk-pink);
+    }
+
+    .motif-list li:nth-child(3n+2)::before {
+      content: '\2605';
+      color: var(--punk-yellow);
+    }
+
+    .motif-list li strong {
+      font-family: 'Permanent Marker', cursive;
+      font-weight: 400;
+    }
+
+    /* ========================================
+       TECHNIQUE GRID
+       ======================================== */
+    .technique-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.5rem;
+      margin: 1.5rem 0;
+    }
+
+    .technique-card {
+      border: 2px solid var(--punk-black);
+      position: relative;
+      overflow: hidden;
+      transform: rotate(calc(var(--tilt, 0) * 1deg));
+      transition: transform 0.2s ease;
+    }
+
+    .technique-card:hover {
+      transform: rotate(0deg) scale(1.02);
+      z-index: 5;
+    }
+
+    .technique-card-demo {
+      height: 120px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .technique-card-info {
+      padding: 1rem;
+      background: var(--punk-pure-white);
+      border-top: 2px solid var(--punk-black);
+      color: var(--punk-black);
+    }
+
+    .technique-card-title {
+      font-family: 'Bungee', sans-serif;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      margin-bottom: 0.3rem;
+    }
+
+    .technique-card-desc {
+      font-family: 'Special Elite', monospace;
+      font-size: 0.8rem;
+      color: var(--punk-toner);
+    }
+
+    /* ========================================
+       SPRAY PAINT TEXT
+       ======================================== */
+    .spray-text {
+      font-family: 'Bungee', 'Staatliches', Impact, sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      text-shadow:
+        0 0 6px rgba(10, 10, 10, 0.3),
+        0 0 15px rgba(10, 10, 10, 0.1),
+        2px 2px 0 rgba(10, 10, 10, 0.05);
+      filter: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='spray'%3E%3CfeTurbulence baseFrequency='0.05' numOctaves='3' type='fractalNoise' seed='2'/%3E%3CfeDisplacementMap in='SourceGraphic' scale='2'/%3E%3C/filter%3E%3C/svg%3E#spray");
+    }
+
+    /* ========================================
+       XEROX IMAGE EFFECT
+       ======================================== */
+    .xerox-img {
+      filter: contrast(2.2) grayscale(1) brightness(1.2);
+      mix-blend-mode: multiply;
+    }
+
+    /* ========================================
+       COLLAGE LAYOUT
+       ======================================== */
+    .collage-strip {
+      display: flex;
+      gap: 0;
+      overflow: hidden;
+      border-top: 3px solid var(--punk-black);
+      border-bottom: 3px solid var(--punk-black);
+    }
+
+    .collage-strip-item {
+      flex: 1;
+      padding: 1.5rem 1rem;
+      border-right: 2px solid var(--punk-black);
+      min-height: 150px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      text-align: center;
+      position: relative;
+    }
+
+    .collage-strip-item:last-child {
+      border-right: none;
+    }
+
+    /* ========================================
+       MATERIAL TABLE
+       ======================================== */
+    .punk-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1.5rem 0;
+      font-size: 0.9rem;
+    }
+
+    .punk-table th {
+      font-family: 'Permanent Marker', cursive;
+      text-align: left;
+      padding: 0.75rem;
+      background: var(--punk-black);
+      color: var(--punk-pure-white);
+      text-transform: uppercase;
+      font-weight: 400;
+      font-size: 0.85rem;
+      letter-spacing: 0.05em;
+    }
+
+    .punk-table td {
+      padding: 0.6rem 0.75rem;
+      border-bottom: 1px solid var(--punk-black);
+      vertical-align: top;
+    }
+
+    .punk-table tr:nth-child(even) td {
+      background: rgba(200, 195, 184, 0.2);
+    }
+
+    .punk-table tr:hover td {
+      background: var(--punk-yellow);
+      color: var(--punk-black);
+    }
+
+    /* ========================================
+       REFERENCE CARDS (Cultural references)
+       ======================================== */
+    .reference-list {
+      list-style: none;
+      margin: 1.5rem 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .reference-list li {
+      background: var(--punk-pure-white);
+      border: 2px solid var(--punk-black);
+      padding: 0.75rem 1rem;
+      transform: rotate(calc(var(--tilt, 0) * 1deg));
+      position: relative;
+      transition: transform 0.15s ease;
+      color: var(--punk-black);
+      box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.15);
+    }
+
+    .reference-list li:hover {
+      transform: rotate(0deg) translateX(5px);
+      box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.2);
+    }
+
+    .reference-list li strong {
+      font-family: 'Permanent Marker', cursive;
+      font-weight: 400;
+    }
+
+    .reference-list li em {
+      font-family: 'Courier Prime', monospace;
+      font-style: normal;
+      color: var(--punk-toner);
+      font-size: 0.85rem;
+    }
+
+    /* ========================================
+       RELATED AESTHETICS TAGS
+       ======================================== */
+    .aesthetic-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin: 1.5rem 0;
+    }
+
+    .aesthetic-tag {
+      display: inline-block;
+      padding: 0.5rem 1rem;
+      font-family: 'Special Elite', monospace;
+      font-size: 0.85rem;
+      border: 2px solid var(--punk-black);
+      background: var(--punk-pure-white);
+      color: var(--punk-black);
+      transform: rotate(calc(var(--tilt, 0) * 1deg));
+      position: relative;
+      cursor: default;
+      transition: all 0.15s ease;
+    }
+
+    .aesthetic-tag:hover {
+      background: var(--punk-black);
+      color: var(--punk-pure-white);
+      transform: rotate(0deg) scale(1.05);
+    }
+
+    .aesthetic-tag::before {
+      content: '';
+      position: absolute;
+      top: -5px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 30px;
+      height: 12px;
+      background: rgba(212, 201, 168, 0.5);
+    }
+
+    .aesthetic-tag-desc {
+      display: none;
+      font-size: 0.7rem;
+      margin-top: 0.3rem;
+      font-family: 'Rock Salt', cursive;
+      color: var(--punk-pink);
+    }
+
+    .aesthetic-tag:hover .aesthetic-tag-desc {
+      display: block;
+    }
+
+    /* ========================================
+       FOOTER
+       ======================================== */
+    .footer {
+      background: var(--punk-black);
+      color: var(--punk-pure-white);
+      padding: 3rem 2rem;
+      text-align: center;
+      position: relative;
+    }
+
+    .footer-text {
+      font-family: 'Rock Salt', cursive;
+      font-size: clamp(0.6rem, 1.5vw, 0.85rem);
+      color: var(--punk-smudge);
+      line-height: 2;
+    }
+
+    .footer-big {
+      font-family: 'Permanent Marker', cursive;
+      font-size: clamp(2rem, 6vw, 4rem);
+      color: var(--punk-pure-white);
+      text-transform: uppercase;
+      transform: rotate(-2deg);
+      margin-bottom: 1.5rem;
+      display: block;
+    }
+
+    .footer-symbol {
+      font-size: 3rem;
+      display: block;
+      margin: 1.5rem 0;
+      opacity: 0.3;
+    }
+
+    /* ========================================
+       STICKER DECORATIONS
+       ======================================== */
+    .sticker {
+      display: inline-block;
+      padding: 0.3rem 0.8rem;
+      font-family: 'Permanent Marker', cursive;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      transform: rotate(calc(var(--rot, -5) * 1deg));
+      border: 2px solid var(--punk-black);
+      position: relative;
+    }
+
+    .sticker--yellow {
+      background: var(--punk-yellow);
+      color: var(--punk-black);
+    }
+
+    .sticker--pink {
+      background: var(--punk-pink);
+      color: var(--punk-pure-white);
+    }
+
+    .sticker--red {
+      background: var(--punk-red);
+      color: var(--punk-pure-white);
+    }
+
+    /* ========================================
+       XEROX BORDER DECORATION
+       ======================================== */
+    .xerox-border {
+      position: relative;
+    }
+
+    .xerox-border::after {
+      content: '';
+      position: absolute;
+      inset: -3px;
+      border: 2px solid var(--punk-black);
+      opacity: 0.3;
+      transform: translate(3px, 3px);
+      pointer-events: none;
+    }
+
+    /* ========================================
+       CSS TECHNIQUE LIVE DEMOS
+       ======================================== */
+    .demo-xerox-bg {
+      background-color: var(--punk-white);
+      background-image:
+        radial-gradient(circle at 15% 25%, rgba(10, 10, 10, 0.03) 0%, transparent 3%),
+        radial-gradient(circle at 45% 75%, rgba(10, 10, 10, 0.02) 0%, transparent 2%),
+        radial-gradient(circle at 80% 40%, rgba(10, 10, 10, 0.04) 0%, transparent 4%),
+        radial-gradient(circle at 60% 10%, rgba(10, 10, 10, 0.02) 0%, transparent 2%),
+        radial-gradient(circle at 30% 90%, rgba(10, 10, 10, 0.03) 0%, transparent 3%);
+    }
+
+    .demo-halftone {
+      position: relative;
+      background: var(--punk-toner);
+    }
+
+    .demo-halftone::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(circle, var(--punk-pure-white) 1.5px, transparent 1.5px);
+      background-size: 5px 5px;
+      opacity: 0.3;
+      pointer-events: none;
+    }
+
+    .demo-torn-paper {
+      background: var(--punk-white);
+      position: relative;
+    }
+
+    .demo-torn-paper::before {
+      content: '';
+      position: absolute;
+      top: -10px;
+      left: 0;
+      right: 0;
+      height: 12px;
+      background: var(--punk-white);
+      clip-path: polygon(
+        0% 100%, 2% 40%, 4% 80%, 7% 20%, 10% 60%, 13% 10%,
+        16% 70%, 19% 30%, 22% 90%, 25% 15%, 28% 55%, 31% 5%,
+        34% 65%, 37% 25%, 40% 85%, 43% 35%, 46% 75%, 49% 10%,
+        52% 60%, 55% 20%, 58% 80%, 61% 40%, 64% 90%, 67% 30%,
+        70% 70%, 73% 15%, 76% 55%, 79% 5%, 82% 60%, 85% 25%,
+        88% 80%, 91% 45%, 94% 75%, 97% 20%, 100% 60%,
+        100% 100%
+      );
+    }
+
+    .demo-spray {
+      background: var(--punk-newsprint);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .demo-spray-text {
+      font-family: 'Bungee', sans-serif;
+      font-size: 2rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--punk-black);
+      text-shadow:
+        0 0 8px rgba(10, 10, 10, 0.4),
+        0 0 20px rgba(10, 10, 10, 0.15),
+        3px 3px 0 rgba(10, 10, 10, 0.08);
+    }
+
+    .demo-collage {
+      background: var(--punk-cardboard);
+      position: relative;
+    }
+
+    .demo-collage-item {
+      position: absolute;
+      background: var(--punk-pure-white);
+      padding: 0.5rem;
+      border: 1px solid var(--punk-black);
+      font-family: 'Special Elite', monospace;
+      font-size: 0.6rem;
+      color: var(--punk-black);
+    }
+
+    .demo-tape {
+      background: var(--punk-white);
+      position: relative;
+    }
+
+    .demo-tape-strip {
+      position: absolute;
+      background: rgba(212, 201, 168, 0.6);
+      border: 1px solid rgba(212, 201, 168, 0.3);
+    }
+
+    /* ========================================
+       SCROLL-TRIGGERED ANIMATIONS
+       ======================================== */
+    .reveal {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .reveal-left {
+      opacity: 0;
+      transform: translateX(-30px) rotate(-2deg);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+
+    .reveal-left.visible {
+      opacity: 1;
+      transform: translateX(0) rotate(0deg);
+    }
+
+    .reveal-slam {
+      opacity: 0;
+      transform: scale(1.2) rotate(-3deg);
+      transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.2, 0, 0, 1);
+    }
+
+    .reveal-slam.visible {
+      opacity: 1;
+      transform: scale(1) rotate(0deg);
+    }
+
+    /* ========================================
+       FLICKERING ANIMATION
+       ======================================== */
+    @keyframes flicker {
+      0%, 100% { opacity: 1; }
+      4% { opacity: 0.9; }
+      6% { opacity: 1; }
+      7% { opacity: 0.4; }
+      9% { opacity: 1; }
+      50% { opacity: 1; }
+      52% { opacity: 0.8; }
+      53% { opacity: 1; }
+      77% { opacity: 1; }
+      78% { opacity: 0.6; }
+      80% { opacity: 1; }
+    }
+
+    .flicker {
+      animation: flicker 4s infinite;
+    }
+
+    @keyframes glitch {
+      0%, 100% { transform: translate(0); }
+      20% { transform: translate(-2px, 1px); }
+      40% { transform: translate(1px, -1px); }
+      60% { transform: translate(-1px, 2px); }
+      80% { transform: translate(2px, -1px); }
+    }
+
+    /* ========================================
+       MARQUEE STRIP
+       ======================================== */
+    .marquee-strip {
+      overflow: hidden;
+      white-space: nowrap;
+      background: var(--punk-pink);
+      padding: 0.5rem 0;
+      border-top: 3px solid var(--punk-black);
+      border-bottom: 3px solid var(--punk-black);
+    }
+
+    .marquee-strip-inner {
+      display: inline-block;
+      animation: marqueeScroll 20s linear infinite;
+      font-family: 'Bungee', Impact, sans-serif;
+      font-size: 1.2rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--punk-pure-white);
+    }
+
+    @keyframes marqueeScroll {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ========================================
+       RESPONSIVE
+       ======================================== */
+    @media (max-width: 768px) {
+      .hero {
+        padding: 2rem 1.5rem;
+      }
+
+      .section {
+        padding: 3rem 1.5rem;
+      }
+
+      .principles-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .technique-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .swatch-grid {
+        grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+      }
+
+      .collage-strip {
+        flex-direction: column;
+      }
+
+      .collage-strip-item {
+        border-right: none;
+        border-bottom: 2px solid var(--punk-black);
+        min-height: auto;
+        padding: 1rem;
+      }
+
+      .punk-table {
+        font-size: 0.8rem;
+      }
+
+      .punk-table th,
+      .punk-table td {
+        padding: 0.4rem 0.5rem;
+      }
+
+      .hero-x {
+        display: none;
+      }
+
+      .hero-pin {
+        display: none;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero-title {
+        font-size: clamp(2.5rem, 16vw, 5rem);
+      }
+
+      .swatch-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .aesthetic-tags {
+        gap: 0.5rem;
+      }
+
+      .aesthetic-tag {
+        font-size: 0.75rem;
+        padding: 0.4rem 0.7rem;
+      }
+    }
+
+    /* ========================================
+       ANIMATED BACKGROUND X PATTERN
+       ======================================== */
+    .x-pattern-bg {
+      position: relative;
+    }
+
+    .x-pattern-bg::before {
+      content: '\2716  \2716  \2716  \2716  \2716  \2716  \2716  \2716  \2716  \2716  \2716  \2716  \2716  \2716  \2716';
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: 0;
+      text-align: center;
+      font-size: 2rem;
+      letter-spacing: 0.5rem;
+      color: var(--punk-red);
+      opacity: 0.05;
+      pointer-events: none;
+      transform: translateY(-50%) rotate(-1deg);
+    }
+
+    /* ========================================
+       STAMP EFFECT
+       ======================================== */
+    .stamp {
+      display: inline-block;
+      border: 4px solid var(--punk-red);
+      color: var(--punk-red);
+      font-family: 'Archivo Black', 'Bungee', Impact, sans-serif;
+      font-size: 1.5rem;
+      text-transform: uppercase;
+      padding: 0.3rem 1rem;
+      transform: rotate(-12deg);
+      opacity: 0.7;
+      letter-spacing: 0.1em;
+      border-radius: 4px;
+    }
+
+    /* Anarchist A decorative */
+    .anarchy-bg {
+      position: relative;
+    }
+
+    .anarchy-bg::after {
+      content: '\24B6';
+      position: absolute;
+      top: 10%;
+      right: 5%;
+      font-size: 8rem;
+      color: var(--punk-red);
+      opacity: 0.06;
+      transform: rotate(-15deg);
+      pointer-events: none;
+      font-weight: 900;
+    }
+
+    /* ========================================
+       INTRO DESCRIPTION BLOCK
+       ======================================== */
+    .intro-block {
+      font-family: 'Special Elite', monospace;
+      font-size: clamp(0.95rem, 1.5vw, 1.1rem);
+      line-height: 1.9;
+      max-width: 750px;
+      position: relative;
+    }
+
+    .intro-block::before {
+      content: '\201C';
+      font-family: Georgia, serif;
+      font-size: 6rem;
+      color: var(--punk-pink);
+      position: absolute;
+      top: -2.5rem;
+      left: -1.5rem;
+      opacity: 0.3;
+      line-height: 1;
+    }
+
+    /* Page number style */
+    .page-num {
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.7rem;
+      color: var(--punk-smudge);
+      text-align: right;
+      margin-top: 2rem;
+      opacity: 0.5;
+    }
+
+    /* ========================================
+       PALETTE APPROACH LIST
+       ======================================== */
+    .approach-list {
+      list-style: none;
+      margin: 1.5rem 0;
+    }
+
+    .approach-list li {
+      padding: 0.75rem 1rem 0.75rem 2.5rem;
+      margin-bottom: 0.5rem;
+      position: relative;
+      font-size: 0.9rem;
+      border-left: 4px solid var(--punk-black);
+    }
+
+    .approach-list li::before {
+      content: '\25A0';
+      position: absolute;
+      left: 0.75rem;
+      top: 0.75rem;
+      color: var(--punk-red);
+      font-size: 0.8rem;
+    }
+
+    .approach-list li:nth-child(even) {
+      border-left-color: var(--punk-pink);
+    }
+
+    .approach-list li strong {
+      font-family: 'Permanent Marker', cursive;
+      font-weight: 400;
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- ==========================================
+       HERO SECTION
+       ========================================== -->
+  <header class="hero">
+    <span class="hero-x" aria-hidden="true">&times;</span>
+    <span class="hero-x" aria-hidden="true">&times;</span>
+    <span class="hero-x" aria-hidden="true">&times;</span>
+
+    <h1 class="hero-title">
+      <span class="line-1">DIY</span>
+      <span class="line-2">PUNK</span>
+    </h1>
+
+    <p class="hero-subtitle">a design manifesto // cut & paste since 1977</p>
+
+    <p class="hero-tagline">
+      The raw, anti-establishment visual language that emerged from the late-1970s British punk scene and its global offshoots. Defined by <strong style="color: var(--punk-pink);">Xerox-degraded imagery</strong>, <strong style="color: var(--punk-yellow);">ransom-note lettering</strong>, <strong style="color: var(--punk-green);">slapdash collage composition</strong>, and an aggressive rejection of professional polish.
+    </p>
+
+    <span class="hero-pin" aria-hidden="true">&#129527;</span>
+    <span class="scroll-indicator">scroll down</span>
+  </header>
+
+  <!-- MARQUEE STRIP -->
+  <div class="marquee-strip" aria-hidden="true">
+    <span class="marquee-strip-inner">
+      NO FUTURE &bull; DO IT YOURSELF &bull; DESTROY &amp; CREATE &bull; SCISSORS + GLUE + XEROX &bull; AUTHENTICITY OVER CRAFT &bull; URGENCY OVER REFINEMENT &bull; CONFRONTATION OVER COMFORT &bull; TEAR IT APART ON PURPOSE &bull;&nbsp;
+      NO FUTURE &bull; DO IT YOURSELF &bull; DESTROY &amp; CREATE &bull; SCISSORS + GLUE + XEROX &bull; AUTHENTICITY OVER CRAFT &bull; URGENCY OVER REFINEMENT &bull; CONFRONTATION OVER COMFORT &bull; TEAR IT APART ON PURPOSE &bull;&nbsp;
+    </span>
+  </div>
+
+  <!-- ==========================================
+       INTRODUCTION / MANIFESTO
+       ========================================== -->
+  <section class="section anarchy-bg" id="manifesto">
+    <div class="section-inner">
+      <h2 class="reveal">THE MANIFESTO</h2>
+
+      <div class="intro-block reveal" style="margin-top: 1rem;">
+        <p>
+          Every design choice signals that the creator made it themselves -- with <span class="highlight">scissors, glue sticks, a photocopier</span>, and sheer defiance. The aesthetic values <strong>authenticity over craft</strong>, <strong>urgency over refinement</strong>, and <strong>confrontation over comfort</strong>.
+        </p>
+        <p>
+          Where corporate design smooths every edge, DIY Punk <span class="highlight--pink">tears them apart on purpose</span>. Think zine covers, wheat-pasted flyers, hand-stapled pamphlets, and album sleeves that look like they were assembled in a squat at 3 a.m. -- because they were.
+        </p>
+      </div>
+
+      <div class="pin-divider"></div>
+
+      <!-- Ransom note statement -->
+      <div class="punk-card reveal" style="--tilt: -1.5; --tape-rot: -4;">
+        <p class="ransom" id="ransom-intro">
+          <span class="r-dark">THIS</span>
+          <span class="r-light">page</span>
+          <span class="r-accent">IS</span>
+          <span class="r-serif">the</span>
+          <span class="r-dark">AESTHETIC</span>
+          <span class="r-yellow">it</span>
+          <span class="r-light">DESCRIBES</span>
+        </p>
+        <span class="annotation">^ the medium IS the message</span>
+      </div>
+
+      <p class="page-num reveal">pg. 01 // manifesto</p>
+    </div>
+  </section>
+
+  <hr class="torn-divider">
+
+  <!-- ==========================================
+       VISUAL CHARACTERISTICS
+       ========================================== -->
+  <section class="section x-pattern-bg" id="visual">
+    <div class="section-inner">
+      <h2 class="reveal">Visual Characteristics</h2>
+      <h3 class="reveal">Core Motifs & Patterns</h3>
+
+      <ul class="motif-list reveal">
+        <li><strong>Ransom-note lettering</strong> -- individual letters cut from different newspapers, magazines, and printed sources, arranged into words with mismatched sizes, fonts, weights, and baselines</li>
+        <li><strong>Xerox degradation</strong> -- high-contrast black-and-white imagery with visible photocopy artifacts: toner bleed, registration errors, white speckle, and crushed midtones</li>
+        <li><strong>Cut-and-paste collage</strong> -- physically cut paper elements layered, overlapped, and glued with visible edges, tape marks, and uneven alignment</li>
+        <li><strong>Safety pins, X marks, and anarchist symbols</strong> -- recurring punk iconography used as decorative punctuation</li>
+        <li><strong>Hand-drawn elements</strong> -- crude illustrations, scratchy ink lines, doodles, arrows, underlines, stars, and exclamation marks</li>
+        <li><strong>Crossed-out and defaced imagery</strong> -- existing images or text aggressively scribbled over, circled, or crossed out with marker</li>
+        <li><strong>Staple marks and fold lines</strong> -- visual references to physical zine production (corner staples, center-fold creases)</li>
+        <li><strong>Stencil spray-paint lettering</strong> -- blocky, military-style stencils with overspray halos and drip marks</li>
+        <li><strong>Halftone dot patterns</strong> -- coarse halftone screens visible in photocopied photographs</li>
+        <li><strong>Wheat-paste texture</strong> -- wrinkled, peeling paper layered on rough surfaces like brick or plywood</li>
+        <li><strong>Torn paper edges</strong> -- deliberately ripped borders rather than clean cuts</li>
+        <li><strong>Tape and glue artifacts</strong> -- visible adhesive strips, yellowed tape, dried glue smears holding compositions together</li>
+        <li><strong>Provocative and subversive imagery</strong> -- detourned advertising, political slogans, skull motifs, barbed wire, and anti-authority messaging</li>
+      </ul>
+
+      <p class="page-num reveal">pg. 02 // visual characteristics</p>
+    </div>
+  </section>
+
+  <hr class="torn-divider torn-divider--flip">
+
+  <!-- ==========================================
+       DESIGN PRINCIPLES
+       ========================================== -->
+  <section class="section section--dark" id="principles">
+    <div class="section-inner">
+      <h2 class="reveal">Design Principles</h2>
+
+      <div class="principles-grid">
+        <div class="principle-card reveal" style="--tilt: -2; --tape-rot: 6;">
+          <div class="principle-card-title">Deliberately Amateur</div>
+          <p class="principle-card-text">The design must look like anyone could have made it; professional polish is the enemy.</p>
+        </div>
+        <div class="principle-card reveal" style="--tilt: 1.5; --tape-rot: -3;">
+          <div class="principle-card-title">Urgency Over Elegance</div>
+          <p class="principle-card-text">The message matters more than the medium; speed and intensity trump careful composition.</p>
+        </div>
+        <div class="principle-card reveal" style="--tilt: -0.8; --tape-rot: 8;">
+          <div class="principle-card-title">Chaos as Composition</div>
+          <p class="principle-card-text">Elements collide, overlap, and fight for attention; there is no orderly grid, only raw energy.</p>
+        </div>
+        <div class="principle-card reveal" style="--tilt: 2.2; --tape-rot: -5;">
+          <div class="principle-card-title">High Contrast, No Subtlety</div>
+          <p class="principle-card-text">Stark black-on-white with occasional violent color accents; no gradients, no soft transitions.</p>
+        </div>
+        <div class="principle-card reveal" style="--tilt: -1.3; --tape-rot: 4;">
+          <div class="principle-card-title">Anti-Hierarchy</div>
+          <p class="principle-card-text">Reject conventional visual hierarchy; let the viewer's eye wander and discover rather than be guided.</p>
+        </div>
+        <div class="principle-card reveal" style="--tilt: 0.7; --tape-rot: -7;">
+          <div class="principle-card-title">Handmade Authenticity</div>
+          <p class="principle-card-text">Every element should look like it was physically created, not generated digitally.</p>
+        </div>
+        <div class="principle-card reveal" style="--tilt: -1.8; --tape-rot: 3;">
+          <div class="principle-card-title">Confrontational Tone</div>
+          <p class="principle-card-text">The design should feel like it is shouting, demanding attention, and refusing to be ignored.</p>
+        </div>
+        <div class="principle-card reveal" style="--tilt: 1.1; --tape-rot: -6;">
+          <div class="principle-card-title">Imperfection as Ideology</div>
+          <p class="principle-card-text">Mistakes, smudges, off-center alignment, and visible process marks are not bugs, they are the entire point.</p>
+        </div>
+        <div class="principle-card reveal" style="--tilt: -0.5; --tape-rot: 2;">
+          <div class="principle-card-title">Subversion & Detournement</div>
+          <p class="principle-card-text">Repurpose mainstream media imagery by cutting, defacing, and recontextualizing it.</p>
+        </div>
+        <div class="principle-card reveal" style="--tilt: 1.7; --tape-rot: -4;">
+          <div class="principle-card-title">Reproducibility</div>
+          <p class="principle-card-text">The design should look like it can be cheaply and infinitely reproduced on a photocopier.</p>
+        </div>
+      </div>
+
+      <div style="text-align: center; margin-top: 2rem;">
+        <span class="stamp reveal-slam">NO RULES</span>
+      </div>
+
+      <p class="page-num reveal" style="color: var(--punk-smudge);">pg. 03 // principles</p>
+    </div>
+  </section>
+
+  <hr class="torn-divider torn-divider--white">
+
+  <!-- ==========================================
+       COLOR PALETTE
+       ========================================== -->
+  <section class="section" id="color">
+    <div class="section-inner">
+      <h2 class="reveal">Color Palette</h2>
+
+      <h3 class="reveal">The Punk Palette</h3>
+
+      <div class="swatch-grid reveal">
+        <div class="swatch" style="--tilt: -1.5;">
+          <div class="swatch-color" style="background: #0a0a0a;"></div>
+          <div class="swatch-info">
+            <span class="swatch-name">Xerox Black</span>
+            <span class="swatch-hex">#0A0A0A</span>
+          </div>
+        </div>
+        <div class="swatch" style="--tilt: 1;">
+          <div class="swatch-color" style="background: #f5f0e8; border-bottom: 1px solid #c8c3b8;"></div>
+          <div class="swatch-info">
+            <span class="swatch-name">Copy Paper White</span>
+            <span class="swatch-hex">#F5F0E8</span>
+          </div>
+        </div>
+        <div class="swatch" style="--tilt: -0.5;">
+          <div class="swatch-color" style="background: #ffffff; border-bottom: 1px solid #c8c3b8;"></div>
+          <div class="swatch-info">
+            <span class="swatch-name">Pure White</span>
+            <span class="swatch-hex">#FFFFFF</span>
+          </div>
+        </div>
+        <div class="swatch" style="--tilt: 2;">
+          <div class="swatch-color" style="background: #c8c3b8;"></div>
+          <div class="swatch-info">
+            <span class="swatch-name">Newsprint Gray</span>
+            <span class="swatch-hex">#C8C3B8</span>
+          </div>
+        </div>
+        <div class="swatch" style="--tilt: -1;">
+          <div class="swatch-color" style="background: #4a4a4a;"></div>
+          <div class="swatch-info">
+            <span class="swatch-name">Toner Gray</span>
+            <span class="swatch-hex">#4A4A4A</span>
+          </div>
+        </div>
+        <div class="swatch" style="--tilt: 1.5;">
+          <div class="swatch-color" style="background: #8a8680;"></div>
+          <div class="swatch-info">
+            <span class="swatch-name">Smudge Gray</span>
+            <span class="swatch-hex">#8A8680</span>
+          </div>
+        </div>
+        <div class="swatch" style="--tilt: -2;">
+          <div class="swatch-color" style="background: #ff1493;"></div>
+          <div class="swatch-info">
+            <span class="swatch-name">Punk Pink</span>
+            <span class="swatch-hex">#FF1493</span>
+          </div>
+        </div>
+        <div class="swatch" style="--tilt: 0.8;">
+          <div class="swatch-color" style="background: #cc0000;"></div>
+          <div class="swatch-info">
+            <span class="swatch-name">Safety Pin Red</span>
+            <span class="swatch-hex">#CC0000</span>
+          </div>
+        </div>
+        <div class="swatch" style="--tilt: -1.2;">
+          <div class="swatch-color" style="background: #ffd700;"></div>
+          <div class="swatch-info">
+            <span class="swatch-name">Hazard Yellow</span>
+            <span class="swatch-hex">#FFD700</span>
+          </div>
+        </div>
+        <div class="swatch" style="--tilt: 1.8;">
+          <div class="swatch-color" style="background: #ff4500;"></div>
+          <div class="swatch-info">
+            <span class="swatch-name">Emergency Orange</span>
+            <span class="swatch-hex">#FF4500</span>
+          </div>
+        </div>
+        <div class="swatch" style="--tilt: -0.8;">
+          <div class="swatch-color" style="background: #6b0099;"></div>
+          <div class="swatch-info">
+            <span class="swatch-name">Bruise Purple</span>
+            <span class="swatch-hex">#6B0099</span>
+          </div>
+        </div>
+        <div class="swatch" style="--tilt: 1.3;">
+          <div class="swatch-color" style="background: #0044cc;"></div>
+          <div class="swatch-info">
+            <span class="swatch-name">Marker Blue</span>
+            <span class="swatch-hex">#0044CC</span>
+          </div>
+        </div>
+        <div class="swatch" style="--tilt: -1.6;">
+          <div class="swatch-color" style="background: #39ff14;"></div>
+          <div class="swatch-info">
+            <span class="swatch-name">Slime Green</span>
+            <span class="swatch-hex">#39FF14</span>
+          </div>
+        </div>
+        <div class="swatch" style="--tilt: 0.5;">
+          <div class="swatch-color" style="background: #d4c9a8;"></div>
+          <div class="swatch-info">
+            <span class="swatch-name">Masking Tape</span>
+            <span class="swatch-hex">#D4C9A8</span>
+          </div>
+        </div>
+        <div class="swatch" style="--tilt: -0.3;">
+          <div class="swatch-color" style="background: #a0845c;"></div>
+          <div class="swatch-info">
+            <span class="swatch-name">Cardboard Brown</span>
+            <span class="swatch-hex">#A0845C</span>
+          </div>
+        </div>
+        <div class="swatch" style="--tilt: 1.1;">
+          <div class="swatch-color" style="background: #e8dfc8; border-bottom: 1px solid #c8c3b8;"></div>
+          <div class="swatch-info">
+            <span class="swatch-name">Dried Glue</span>
+            <span class="swatch-hex">#E8DFC8</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="pin-divider"></div>
+
+      <h3 class="reveal">Palette Approaches</h3>
+
+      <ul class="approach-list reveal">
+        <li><strong>Stark black-and-white dominance</strong> -- the core palette is monochrome; photocopiers do not print in color, and neither should most of your design</li>
+        <li><strong>One violent accent color</strong> -- pick a single aggressive accent (pink, red, or yellow) and use it sparingly for maximum impact, as if someone attacked the page with a highlighter or spray can</li>
+        <li><strong>No gradients, no opacity blending</strong> -- colors are flat, hard-edged, and absolute; analog reproduction cannot produce smooth gradients</li>
+        <li><strong>Newsprint warmth</strong> -- backgrounds should never be clinical pure-white but rather the warm, slightly yellowed tone of cheap paper</li>
+        <li><strong>Color as defacement</strong> -- accent colors should look like they were added after the fact: marker scrawls, spray-paint blasts, or highlighter streaks over existing black-and-white content</li>
+        <li><strong>Photocopy color shift</strong> -- repeated Xeroxing shifts blacks to dark gray and whites to warm cream; embrace this degraded range</li>
+      </ul>
+
+      <p class="page-num reveal">pg. 04 // color palette</p>
+    </div>
+  </section>
+
+  <hr class="torn-divider torn-divider--pink">
+
+  <!-- ==========================================
+       TYPOGRAPHY
+       ========================================== -->
+  <section class="section section--dark" id="typography">
+    <div class="section-inner">
+      <h2 class="reveal">Typography</h2>
+
+      <h3 class="reveal">Typeface Characteristics</h3>
+
+      <div class="punk-card reveal" style="--tilt: -1; --tape-rot: 5;">
+        <ul class="motif-list">
+          <li><strong>Ransom-note construction</strong> -- each letter cut from a different source, producing wild variation in size, weight, style, and baseline within a single word</li>
+          <li><strong>Mixed case chaos</strong> -- random alternation between uppercase and lowercase, sometimes within the same letter</li>
+          <li><strong>Baseline irregularity</strong> -- letters bounce up and down, rotate slightly, and refuse to sit on a consistent line</li>
+          <li><strong>Extreme weight contrast</strong> -- bold, black letters next to thin, spindly ones within the same composition</li>
+          <li><strong>Stencil and spray-paint lettering</strong> -- blocky, military-derived stencil forms with overspray and drip marks</li>
+          <li><strong>Handwritten scrawl</strong> -- urgent, scratchy handwriting with ballpoint pen, marker, or paint</li>
+          <li><strong>Typewriter strike-through</strong> -- mechanical typewriter output with visible ink density variation, x-ed out mistakes, and manual corrections</li>
+          <li><strong>Visible cut edges</strong> -- letters retain rectangular paper borders from their source material, emphasizing the physical cut-and-paste process</li>
+        </ul>
+      </div>
+
+      <h3 class="reveal">Recommended Web Fonts</h3>
+
+      <div class="font-showcase reveal">
+        <div class="font-specimen" style="--tilt: -1.5;">
+          <div class="font-specimen-name">Permanent Marker</div>
+          <div class="font-specimen-sample" style="font-family: 'Permanent Marker', cursive;">THE QUICK BROWN FOX jumps over the lazy dog</div>
+          <div class="font-specimen-usage">Headlines, confrontational statements, zine titles</div>
+        </div>
+        <div class="font-specimen" style="--tilt: 1;">
+          <div class="font-specimen-name">Rock Salt</div>
+          <div class="font-specimen-sample" style="font-family: 'Rock Salt', cursive; font-size: clamp(1rem, 2.5vw, 1.5rem);">The quick brown fox jumps over the lazy dog</div>
+          <div class="font-specimen-usage">Handwritten annotations, margin notes</div>
+        </div>
+        <div class="font-specimen" style="--tilt: -0.5;">
+          <div class="font-specimen-name">Bungee</div>
+          <div class="font-specimen-sample" style="font-family: 'Bungee', sans-serif;">THE QUICK BROWN FOX JUMPS OVER</div>
+          <div class="font-specimen-usage">Stencil-style headlines, protest sign lettering</div>
+        </div>
+        <div class="font-specimen" style="--tilt: 1.5;">
+          <div class="font-specimen-name">Bungee Shade</div>
+          <div class="font-specimen-sample" style="font-family: 'Bungee Shade', sans-serif; font-size: clamp(1.2rem, 3vw, 2.2rem);">THE QUICK BROWN FOX</div>
+          <div class="font-specimen-usage">Oversized hero text, poster titles</div>
+        </div>
+        <div class="font-specimen" style="--tilt: -1.2;">
+          <div class="font-specimen-name">Special Elite</div>
+          <div class="font-specimen-sample" style="font-family: 'Special Elite', monospace;">The quick brown fox jumps over the lazy dog</div>
+          <div class="font-specimen-usage">Body text, manifesto content, typewritten passages</div>
+        </div>
+        <div class="font-specimen" style="--tilt: 0.8;">
+          <div class="font-specimen-name">Courier Prime</div>
+          <div class="font-specimen-sample" style="font-family: 'Courier Prime', monospace;">The quick brown fox jumps over the lazy dog</div>
+          <div class="font-specimen-usage">Secondary body text, structured content</div>
+        </div>
+        <div class="font-specimen" style="--tilt: -0.7;">
+          <div class="font-specimen-name">VT323</div>
+          <div class="font-specimen-sample" style="font-family: 'VT323', monospace; font-size: clamp(1.4rem, 3vw, 2.2rem);">THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG</div>
+          <div class="font-specimen-usage">Digital-punk elements, counter-culture tech</div>
+        </div>
+        <div class="font-specimen" style="--tilt: 1.3;">
+          <div class="font-specimen-name">Staatliches</div>
+          <div class="font-specimen-sample" style="font-family: 'Staatliches', sans-serif; font-size: clamp(1.3rem, 3vw, 2rem);">THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG</div>
+          <div class="font-specimen-usage">Stencil-like headings, poster-style text</div>
+        </div>
+        <div class="font-specimen" style="--tilt: -1.8;">
+          <div class="font-specimen-name">Faster One</div>
+          <div class="font-specimen-sample" style="font-family: 'Faster One', cursive; font-size: clamp(1.3rem, 3vw, 2rem);">THE QUICK BROWN FOX</div>
+          <div class="font-specimen-usage">Aggressive callouts, urgency-driven text</div>
+        </div>
+        <div class="font-specimen" style="--tilt: 0.5;">
+          <div class="font-specimen-name">Creepster</div>
+          <div class="font-specimen-sample" style="font-family: 'Creepster', cursive; font-size: clamp(1.3rem, 3vw, 2rem);">The Quick Brown Fox Jumps Over</div>
+          <div class="font-specimen-usage">Dark punk variant headings, shock elements</div>
+        </div>
+        <div class="font-specimen" style="--tilt: -0.3;">
+          <div class="font-specimen-name">Londrina Solid</div>
+          <div class="font-specimen-sample" style="font-family: 'Londrina Solid', cursive;">The Quick Brown Fox Jumps Over The Lazy Dog</div>
+          <div class="font-specimen-usage">Friendly punk variant, zine headings</div>
+        </div>
+        <div class="font-specimen" style="--tilt: 1.6;">
+          <div class="font-specimen-name">Archivo Black</div>
+          <div class="font-specimen-sample" style="font-family: 'Archivo Black', sans-serif;">The Quick Brown Fox Jumps Over</div>
+          <div class="font-specimen-usage">Strong headlines paired with lighter body</div>
+        </div>
+        <div class="font-specimen" style="--tilt: -1.1;">
+          <div class="font-specimen-name">Rubik Mono One</div>
+          <div class="font-specimen-sample" style="font-family: 'Rubik Mono One', monospace; font-size: clamp(1rem, 2.5vw, 1.5rem);">THE QUICK BROWN FOX</div>
+          <div class="font-specimen-usage">Bold statements, section headers</div>
+        </div>
+      </div>
+
+      <h3 class="reveal">Named Typefaces from the Era</h3>
+      <div class="punk-card punk-card--inverse reveal" style="--tilt: 1.2; --tape-rot: -3;">
+        <p style="margin-bottom: 0.5rem;"><strong>FF Punk</strong> -- deliberately distressed, hand-damaged letterforms</p>
+        <p style="margin-bottom: 0.5rem;"><strong>Blackout</strong> -- heavy, bold stencil-like display face</p>
+        <p style="margin-bottom: 0.5rem;"><strong>Dead History</strong> -- hybrid serif/sans combining historical and modern forms (P. Scott Makela)</p>
+        <p style="margin-bottom: 0.5rem;"><strong>Magda Clean / Dirty</strong> -- layered type system with clean and degraded variants</p>
+        <p><strong>Template Gothic</strong> -- derived from a laundromat sign stencil; widely used in 1990s punk-adjacent design</p>
+      </div>
+
+      <p class="page-num reveal" style="color: var(--punk-smudge);">pg. 05 // typography</p>
+    </div>
+  </section>
+
+  <hr class="torn-divider torn-divider--flip">
+
+  <!-- ==========================================
+       LAYOUT PRINCIPLES
+       ========================================== -->
+  <section class="section" id="layout">
+    <div class="section-inner">
+      <h2 class="reveal">Layout Principles</h2>
+
+      <h3 class="reveal">Grid & Structure</h3>
+
+      <!-- Collage strip to demonstrate layout concepts -->
+      <div class="collage-strip reveal" style="margin: 1.5rem 0;">
+        <div class="collage-strip-item" style="background: var(--punk-black); color: var(--punk-pure-white);">
+          <h4 style="font-family: 'Permanent Marker', cursive; font-size: 1.2rem; margin-bottom: 0.3rem;">NO GRID</h4>
+          <p style="font-size: 0.8rem; font-family: 'Special Elite', monospace;">Elements are placed by instinct, urgency, and available space</p>
+        </div>
+        <div class="collage-strip-item" style="background: var(--punk-pink); color: var(--punk-pure-white);">
+          <h4 style="font-family: 'Permanent Marker', cursive; font-size: 1.2rem; margin-bottom: 0.3rem;">COLLAGE</h4>
+          <p style="font-size: 0.8rem; font-family: 'Special Elite', monospace;">Elements overlap, crowd, tilt, and compete</p>
+        </div>
+        <div class="collage-strip-item" style="background: var(--punk-yellow); color: var(--punk-black);">
+          <h4 style="font-family: 'Permanent Marker', cursive; font-size: 1.2rem; margin-bottom: 0.3rem;">CHAOS</h4>
+          <p style="font-size: 0.8rem; font-family: 'Special Elite', monospace;">Fill every area with text, imagery, doodles, or texture</p>
+        </div>
+        <div class="collage-strip-item" style="background: var(--punk-red); color: var(--punk-pure-white);">
+          <h4 style="font-family: 'Permanent Marker', cursive; font-size: 1.2rem; margin-bottom: 0.3rem;">ROTATE</h4>
+          <p style="font-size: 0.8rem; font-family: 'Special Elite', monospace;">Nothing is perfectly horizontal or vertical</p>
+        </div>
+      </div>
+
+      <ul class="approach-list reveal">
+        <li><strong>No grid</strong> -- DIY Punk rejects conventional grids entirely; elements are placed by instinct, urgency, and available space, not by mathematical alignment</li>
+        <li><strong>Collage-based composition</strong> -- the layout is a physical collage translated to screen; elements overlap, crowd, tilt, and compete</li>
+        <li><strong>Horror vacui</strong> -- fill every available area with text, imagery, doodles, stickers, or texture; blank space feels "corporate"</li>
+        <li><strong>Asymmetric, off-balance weight</strong> -- heavy elements cluster in unexpected positions; nothing is centered unless ironically</li>
+        <li><strong>Layered z-index stacking</strong> -- elements pile on top of each other like papers on a desk or posters on a wall</li>
+        <li><strong>Rotated elements</strong> -- almost nothing is perfectly horizontal or vertical; 1-5 degree rotations on most elements</li>
+        <li><strong>Variable-width content</strong> -- text blocks, images, and panels vary wildly in width and height with no consistent column structure</li>
+        <li><strong>Edge-to-edge bleed</strong> -- elements crash into or extend beyond the viewport edges, as if the design is too big to be contained</li>
+      </ul>
+
+      <div class="pin-divider"></div>
+
+      <h3 class="reveal">Section Organization</h3>
+
+      <ul class="motif-list reveal">
+        <li>Use <strong>torn paper edges</strong> between sections -- jagged, irregular clip-paths rather than clean lines</li>
+        <li>Apply <strong>visual layering</strong> -- sections overlap each other like pasted flyers on a wall</li>
+        <li>Create <strong>hierarchy through size and volume</strong> -- important things are simply BIGGER and LOUDER</li>
+        <li>Employ <strong>tape strips and staple marks</strong> as section connectors -- visual metaphors for physical assembly</li>
+        <li>Use <strong>mixed orientation</strong> -- some content blocks are horizontal, some vertical, some at angles</li>
+        <li>Apply <strong>margin scrawls</strong> -- handwritten annotations, arrows, and corrections in the gutters around main content</li>
+        <li>Embrace <strong>content overflow</strong> -- text and images that are partially cut off or extend beyond their containers</li>
+        <li>Use <strong>visible "layers"</strong> -- translucent overlapping paper sheets with different background tones to create depth</li>
+      </ul>
+
+      <p class="page-num reveal">pg. 06 // layout</p>
+    </div>
+  </section>
+
+  <hr class="torn-divider">
+
+  <!-- ==========================================
+       CSS TECHNIQUES (LIVE DEMOS)
+       ========================================== -->
+  <section class="section section--newsprint" id="techniques">
+    <div class="section-inner">
+      <h2 class="reveal">CSS Techniques</h2>
+      <p class="reveal" style="margin-bottom: 2rem;"><span class="annotation--red annotation" style="font-size: 0.85rem;">live demos below!!!</span></p>
+
+      <div class="technique-grid">
+        <!-- Xerox Background -->
+        <div class="technique-card reveal" style="--tilt: -1.2;">
+          <div class="technique-card-demo demo-xerox-bg" style="padding: 1.5rem;">
+            <p style="font-family: 'Special Elite', monospace; font-size: 0.85rem; color: var(--punk-toner);">This background simulates cheap photocopy paper with toner speckle artifacts using layered radial-gradient patterns.</p>
+          </div>
+          <div class="technique-card-info">
+            <div class="technique-card-title">Xerox Paper Background</div>
+            <p class="technique-card-desc">Radial gradients + SVG noise overlay</p>
+          </div>
+        </div>
+
+        <!-- Halftone Effect -->
+        <div class="technique-card reveal" style="--tilt: 1.5;">
+          <div class="technique-card-demo demo-halftone">
+            <p style="font-family: 'Bungee', sans-serif; color: var(--punk-pure-white); text-align: center; padding: 1rem; font-size: 1.5rem; z-index: 1; position: relative;">HALFTONE</p>
+          </div>
+          <div class="technique-card-info">
+            <div class="technique-card-title">Halftone Dot Overlay</div>
+            <p class="technique-card-desc">Radial-gradient dot pattern at 5px intervals</p>
+          </div>
+        </div>
+
+        <!-- Spray Paint -->
+        <div class="technique-card reveal" style="--tilt: -0.8;">
+          <div class="technique-card-demo demo-spray">
+            <span class="demo-spray-text">SPRAY</span>
+          </div>
+          <div class="technique-card-info">
+            <div class="technique-card-title">Spray Paint Stencil</div>
+            <p class="technique-card-desc">text-shadow blur + SVG displacement filter</p>
+          </div>
+        </div>
+
+        <!-- Torn Paper -->
+        <div class="technique-card reveal" style="--tilt: 1.2;">
+          <div class="technique-card-demo" style="background: var(--punk-black); position: relative;">
+            <div class="demo-torn-paper" style="position: absolute; bottom: 0; left: 0; right: 0; height: 70px;"></div>
+            <p style="font-family: 'Permanent Marker', cursive; color: var(--punk-pure-white); text-align: center; padding-top: 1.5rem; font-size: 1.2rem;">TORN EDGE</p>
+          </div>
+          <div class="technique-card-info">
+            <div class="technique-card-title">Torn Paper Edges</div>
+            <p class="technique-card-desc">clip-path: polygon() with irregular points</p>
+          </div>
+        </div>
+
+        <!-- Collage Layer -->
+        <div class="technique-card reveal" style="--tilt: -1.5;">
+          <div class="technique-card-demo demo-collage">
+            <div class="demo-collage-item" style="top: 10px; left: 10px; transform: rotate(-3deg); width: 80px;">CUT HERE</div>
+            <div class="demo-collage-item" style="top: 30px; left: 60px; transform: rotate(5deg); width: 100px; background: var(--punk-yellow); color: var(--punk-black);">PASTE THIS</div>
+            <div class="demo-collage-item" style="top: 50px; right: 15px; transform: rotate(-7deg); width: 90px; background: var(--punk-newsprint);">LAYER UP</div>
+            <div class="demo-collage-item" style="bottom: 10px; left: 30px; transform: rotate(2deg); width: 75px; background: var(--punk-pink); color: white;">OVERLAP</div>
+          </div>
+          <div class="technique-card-info">
+            <div class="technique-card-title">Collage Layering</div>
+            <p class="technique-card-desc">Absolute positioning + rotation + z-index stacking</p>
+          </div>
+        </div>
+
+        <!-- Tape Strips -->
+        <div class="technique-card reveal" style="--tilt: 0.8;">
+          <div class="technique-card-demo demo-tape" style="display: flex; align-items: center; justify-content: center;">
+            <div class="demo-tape-strip" style="top: 15px; left: 20%; width: 80px; height: 20px; transform: rotate(4deg);"></div>
+            <div class="demo-tape-strip" style="bottom: 20px; right: 15%; width: 60px; height: 18px; transform: rotate(-6deg);"></div>
+            <div class="demo-tape-strip" style="top: 50%; left: 10px; width: 50px; height: 22px; transform: translateY(-50%) rotate(88deg);"></div>
+            <p style="font-family: 'Permanent Marker', cursive; font-size: 1.2rem; z-index: 1; position: relative;">TAPED ON</p>
+          </div>
+          <div class="technique-card-info">
+            <div class="technique-card-title">Tape Strip Artifacts</div>
+            <p class="technique-card-desc">Semi-transparent rectangles with clip-path edges</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="pin-divider" style="margin-top: 3rem;"></div>
+
+      <h3 class="reveal">More Techniques</h3>
+
+      <!-- Crossed out text demo -->
+      <div class="punk-card reveal" style="--tilt: 0.8; --tape-rot: -5;">
+        <h4>Crossed-Out / Defaced Text</h4>
+        <p style="margin-top: 0.5rem;">
+          The design should be <span class="crossed-out">clean and corporate</span> RAW AND REAL.
+          We reject <span class="crossed-out">polished perfection</span> beautiful chaos.
+        </p>
+      </div>
+
+      <!-- Ransom note demo -->
+      <div class="punk-card reveal" style="--tilt: -1.2; --tape-rot: 7;">
+        <h4>Ransom Note Lettering</h4>
+        <p class="ransom" id="ransom-demo" style="margin-top: 0.5rem;"></p>
+      </div>
+
+      <!-- Zine page demo -->
+      <div class="zine-page reveal" style="--page-tilt: -0.8;">
+        <h4 style="font-family: 'Permanent Marker', cursive; font-size: 1.5rem; text-align: center; margin-bottom: 1rem; transform: rotate(-1deg);">ZINE PAGE LAYOUT</h4>
+        <p style="font-size: 0.85rem;">
+          This element simulates a zine page with staple marks in the top-left corner and a center fold line running vertically. The slight rotation and border create the feeling of a physical hand-assembled document.
+        </p>
+        <span class="annotation" style="position: absolute; bottom: 1rem; right: 1rem;">^ staple marks up there!</span>
+      </div>
+
+      <!-- Button demos -->
+      <div style="margin: 2rem 0; display: flex; flex-wrap: wrap; gap: 1rem; align-items: center;" class="reveal">
+        <button class="punk-button" onclick="return false;">Standard Punk</button>
+        <button class="punk-button punk-button--sticker" onclick="return false;">Sticker Style</button>
+        <span class="sticker sticker--pink" style="--rot: -5;">handmade</span>
+        <span class="sticker sticker--yellow" style="--rot: 3;">diy only</span>
+        <span class="sticker sticker--red" style="--rot: -8;">no rules</span>
+      </div>
+
+      <p class="page-num reveal">pg. 07 // css techniques</p>
+    </div>
+  </section>
+
+  <hr class="torn-divider torn-divider--flip torn-divider--pink">
+
+  <!-- ==========================================
+       MATERIALS & TEXTURES
+       ========================================== -->
+  <section class="section section--cardboard" id="materials">
+    <div class="section-inner">
+      <h2 class="reveal">Materials & Textures</h2>
+      <p class="reveal" style="margin-bottom: 1.5rem; font-style: italic; color: var(--punk-glue);">Physical DIY Punk materials and their web equivalents:</p>
+
+      <div style="overflow-x: auto;">
+        <table class="punk-table reveal">
+          <thead>
+            <tr>
+              <th>Physical Material</th>
+              <th>Web Equivalent</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Xeroxed / photocopied paper</td>
+              <td><code>filter: contrast(2.2) grayscale(1) brightness(1.2)</code> with SVG noise overlay</td>
+            </tr>
+            <tr>
+              <td>Cut newspaper clippings</td>
+              <td>Inline <code>&lt;span&gt;</code> elements with varied fonts, sizes, backgrounds, and slight rotation transforms</td>
+            </tr>
+            <tr>
+              <td>Masking tape / Scotch tape</td>
+              <td>Semi-transparent cream rectangles with <code>clip-path</code> for irregular edges and subtle <code>rotate</code></td>
+            </tr>
+            <tr>
+              <td>Wheat paste on brick</td>
+              <td>Textured dark background with overlapping, slightly wrinkled white paper elements</td>
+            </tr>
+            <tr>
+              <td>Spray paint on wall</td>
+              <td><code>text-shadow</code> blur halos with SVG <code>feDisplacementMap</code> for rough stencil edges</td>
+            </tr>
+            <tr>
+              <td>Safety pins</td>
+              <td>SVG icons or unicode symbols used as decorative list markers or divider elements</td>
+            </tr>
+            <tr>
+              <td>Stapled zine pages</td>
+              <td>Border + positioned small gray rectangles simulating staple marks</td>
+            </tr>
+            <tr>
+              <td>Ballpoint pen annotations</td>
+              <td><code>font-family: 'Rock Salt'</code> in blue color with slight rotation, positioned as overlays</td>
+            </tr>
+            <tr>
+              <td>Marker highlighter</td>
+              <td><code>background: linear-gradient(transparent 50%, yellow 50%)</code> on inline text</td>
+            </tr>
+            <tr>
+              <td>Ripped / torn paper</td>
+              <td><code>clip-path: polygon(...)</code> with irregular, jagged point distributions</td>
+            </tr>
+            <tr>
+              <td>Sticker residue</td>
+              <td>Semi-transparent rounded rectangles with slight blur</td>
+            </tr>
+            <tr>
+              <td>Crumpled paper</td>
+              <td>Subtle CSS noise texture with multiple soft <code>box-shadow</code> creases</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p class="page-num reveal" style="color: var(--punk-tape);">pg. 08 // materials</p>
+    </div>
+  </section>
+
+  <hr class="torn-divider torn-divider--white">
+
+  <!-- ==========================================
+       CULTURAL REFERENCES
+       ========================================== -->
+  <section class="section" id="culture">
+    <div class="section-inner">
+      <h2 class="reveal">Cultural References</h2>
+      <p class="reveal" style="margin-bottom: 0.5rem;">The following define the DIY Punk visual language and serve as design references:</p>
+
+      <ul class="reference-list">
+        <li class="reveal" style="--tilt: -0.8;">
+          <strong>Jamie Reid's Sex Pistols artwork</strong> <em>(1976--1978)</em> -- the definitive DIY Punk visual canon; ransom-note typography, defaced royal portraiture, neon color overlays on photocopied collage
+        </li>
+        <li class="reveal" style="--tilt: 1.2;">
+          <strong>Sniffin' Glue fanzine</strong> <em>(1976--1977)</em> -- hand-typed, photocopied, and stapled; the archetypal punk zine aesthetic with raw typewriter text and hand-drawn illustrations
+        </li>
+        <li class="reveal" style="--tilt: -0.5;">
+          <strong>Linder Sterling's photomontage</strong> -- surrealist punk collage combining domestic and pornographic imagery with confrontational political intent
+        </li>
+        <li class="reveal" style="--tilt: 0.9;">
+          <strong>Vivienne Westwood & Malcolm McLaren</strong> -- provocative typography, situationist detournement, and shock imagery
+        </li>
+        <li class="reveal" style="--tilt: -1.3;">
+          <strong>Crass Records artwork</strong> <em>(Gee Vaucher)</em> -- dense, political photo-collage with stark black-and-white contrast
+        </li>
+        <li class="reveal" style="--tilt: 0.6;">
+          <strong>Dead Kennedys album art</strong> <em>(Winston Smith)</em> -- surrealist political collage in the American hardcore punk tradition
+        </li>
+        <li class="reveal" style="--tilt: -0.7;">
+          <strong>Riot Grrrl zines</strong> <em>(1990s)</em> -- handwritten manifestos, photocopied personal content, marker annotations, and intimate DIY production
+        </li>
+        <li class="reveal" style="--tilt: 1.1;">
+          <strong>Raymond Pettibon's Black Flag flyers</strong> -- stark black ink illustrations, hand-lettered text, photocopied and wheat-pasted
+        </li>
+        <li class="reveal" style="--tilt: -0.4;">
+          <strong>Punk gig flyers & wheat-paste posters</strong> -- the ephemeral, disposable, mass-reproduced artifacts of local punk scenes worldwide
+        </li>
+      </ul>
+
+      <p class="page-num reveal">pg. 09 // cultural references</p>
+    </div>
+  </section>
+
+  <hr class="torn-divider">
+
+  <!-- ==========================================
+       RELATED AESTHETICS
+       ========================================== -->
+  <section class="section section--dark" id="related">
+    <div class="section-inner">
+      <h2 class="reveal">Related Aesthetics</h2>
+
+      <div class="aesthetic-tags reveal">
+        <div class="aesthetic-tag" style="--tilt: -2;">
+          Post-Punk
+          <div class="aesthetic-tag-desc">Artful, experimental evolution</div>
+        </div>
+        <div class="aesthetic-tag" style="--tilt: 1.5;">
+          Hardcore Punk
+          <div class="aesthetic-tag-desc">Intensified aggression</div>
+        </div>
+        <div class="aesthetic-tag" style="--tilt: -0.8;">
+          Web Brutalism
+          <div class="aesthetic-tag-desc">Modern digital descendant</div>
+        </div>
+        <div class="aesthetic-tag" style="--tilt: 2.2;">
+          Dada
+          <div class="aesthetic-tag-desc">Historical ancestor, anti-art</div>
+        </div>
+        <div class="aesthetic-tag" style="--tilt: -1.5;">
+          Industrial
+          <div class="aesthetic-tag-desc">Dark, mechanical textures</div>
+        </div>
+        <div class="aesthetic-tag" style="--tilt: 0.5;">
+          Minimal Wave
+          <div class="aesthetic-tag-desc">Lo-fi stripped-down cousin</div>
+        </div>
+        <div class="aesthetic-tag" style="--tilt: -1.8;">
+          Riot Grrrl
+          <div class="aesthetic-tag-desc">Feminist punk zine culture</div>
+        </div>
+        <div class="aesthetic-tag" style="--tilt: 1;">
+          Anti-Design
+          <div class="aesthetic-tag-desc">Broader rejection movement</div>
+        </div>
+        <div class="aesthetic-tag" style="--tilt: -0.3;">
+          Grunge
+          <div class="aesthetic-tag-desc">Commercial punk descendant</div>
+        </div>
+        <div class="aesthetic-tag" style="--tilt: 1.7;">
+          Zine Culture
+          <div class="aesthetic-tag-desc">The native production medium</div>
+        </div>
+        <div class="aesthetic-tag" style="--tilt: -1.2;">
+          Cubism
+          <div class="aesthetic-tag-desc">Fragmentation, multiple perspectives</div>
+        </div>
+      </div>
+
+      <p class="page-num reveal" style="color: var(--punk-smudge);">pg. 10 // related aesthetics</p>
+    </div>
+  </section>
+
+  <!-- MARQUEE STRIP -->
+  <div class="marquee-strip" style="background: var(--punk-black); border-color: var(--punk-pink);" aria-hidden="true">
+    <span class="marquee-strip-inner" style="color: var(--punk-pink); animation-direction: reverse; animation-duration: 25s;">
+      XEROX &bull; CUT &bull; PASTE &bull; STAPLE &bull; DISTRIBUTE &bull; REPEAT &bull; XEROX &bull; CUT &bull; PASTE &bull; STAPLE &bull; DISTRIBUTE &bull; REPEAT &bull; XEROX &bull; CUT &bull; PASTE &bull; STAPLE &bull; DISTRIBUTE &bull; REPEAT &bull;&nbsp;
+      XEROX &bull; CUT &bull; PASTE &bull; STAPLE &bull; DISTRIBUTE &bull; REPEAT &bull; XEROX &bull; CUT &bull; PASTE &bull; STAPLE &bull; DISTRIBUTE &bull; REPEAT &bull; XEROX &bull; CUT &bull; PASTE &bull; STAPLE &bull; DISTRIBUTE &bull; REPEAT &bull;&nbsp;
+    </span>
+  </div>
+
+  <!-- ==========================================
+       FOOTER
+       ========================================== -->
+  <footer class="footer">
+    <span class="footer-big flicker">NO FUTURE?</span>
+    <span class="footer-symbol" aria-hidden="true">&#10006; &#9733; &#10006;</span>
+    <p class="footer-text">
+      made with scissors + glue + a stolen photocopier<br>
+      the aesthetic values authenticity over craft<br>
+      urgency over refinement // confrontation over comfort
+    </p>
+    <div style="margin-top: 2rem;">
+      <span class="sticker sticker--pink" style="--rot: -3; font-size: 0.7rem;">DIY OR DIE</span>
+    </div>
+  </footer>
+
+  <!-- ==========================================
+       JAVASCRIPT
+       ========================================== -->
+  <script>
+    // ========================================
+    // RANSOM NOTE TEXT GENERATOR
+    // ========================================
+    function createRansomNote(text, container) {
+      const styles = ['r-dark', 'r-light', 'r-accent', 'r-serif', 'r-yellow', 'r-red'];
+      const words = text.split(' ');
+
+      container.innerHTML = '';
+
+      words.forEach((word, i) => {
+        const span = document.createElement('span');
+        const style = styles[Math.floor(Math.random() * styles.length)];
+        span.className = style;
+        span.textContent = word;
+        span.style.transform = `rotate(${(Math.random() * 8 - 4).toFixed(1)}deg)`;
+        span.style.fontSize = `${0.8 + Math.random() * 0.5}em`;
+        container.appendChild(span);
+
+        if (i < words.length - 1) {
+          container.appendChild(document.createTextNode(' '));
+        }
+      });
+    }
+
+    // Generate ransom note demo
+    const ransomDemo = document.getElementById('ransom-demo');
+    if (ransomDemo) {
+      createRansomNote(
+        'EVERY LETTER CUT FROM A DIFFERENT SOURCE PRODUCING WILD VARIATION IN SIZE WEIGHT AND STYLE',
+        ransomDemo
+      );
+    }
+
+    // ========================================
+    // SCROLL-TRIGGERED REVEAL ANIMATIONS
+    // ========================================
+    const revealElements = document.querySelectorAll('.reveal, .reveal-left, .reveal-slam');
+
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    });
+
+    revealElements.forEach((el) => {
+      revealObserver.observe(el);
+    });
+
+    // ========================================
+    // RANDOM TAPE ROTATION ON CARDS
+    // ========================================
+    document.querySelectorAll('.punk-card').forEach((card) => {
+      if (!card.style.getPropertyValue('--tape-rot')) {
+        card.style.setProperty('--tape-rot', `${(Math.random() * 12 - 6).toFixed(1)}deg`);
+      }
+    });
+
+    // ========================================
+    // GLITCH EFFECT ON HERO TITLE (subtle)
+    // ========================================
+    const heroTitle = document.querySelector('.hero-title');
+    if (heroTitle) {
+      setInterval(() => {
+        if (Math.random() > 0.95) {
+          heroTitle.style.transform = `rotate(-3deg) translate(${Math.random() * 3 - 1.5}px, ${Math.random() * 2 - 1}px)`;
+          setTimeout(() => {
+            heroTitle.style.transform = 'rotate(-3deg)';
+          }, 80);
+        }
+      }, 200);
+    }
+
+    // ========================================
+    // RANDOM ROTATION JITTER ON PRINCIPLE CARDS
+    // ========================================
+    document.querySelectorAll('.principle-card').forEach((card) => {
+      card.addEventListener('mouseenter', () => {
+        const jitter = (Math.random() * 2 - 1).toFixed(1);
+        card.style.setProperty('--tilt', jitter);
+      });
+    });
+
+    // ========================================
+    // INTERACTIVE SWATCH: COPY HEX ON CLICK
+    // ========================================
+    document.querySelectorAll('.swatch').forEach((swatch) => {
+      swatch.style.cursor = 'pointer';
+      swatch.addEventListener('click', () => {
+        const hex = swatch.querySelector('.swatch-hex');
+        if (hex && navigator.clipboard) {
+          navigator.clipboard.writeText(hex.textContent).then(() => {
+            const original = hex.textContent;
+            hex.textContent = 'COPIED!';
+            hex.style.color = 'var(--punk-pink)';
+            setTimeout(() => {
+              hex.textContent = original;
+              hex.style.color = '';
+            }, 1000);
+          });
+        }
+      });
+    });
+
+    // ========================================
+    // AESTHETIC TAG RANDOMIZE ON HOVER
+    // ========================================
+    document.querySelectorAll('.aesthetic-tag').forEach((tag) => {
+      tag.addEventListener('mouseenter', () => {
+        const newTilt = (Math.random() * 4 - 2).toFixed(1);
+        tag.style.setProperty('--tilt', newTilt);
+      });
+    });
+
+    // ========================================
+    // STICKER WIGGLE ON HOVER
+    // ========================================
+    document.querySelectorAll('.sticker').forEach((sticker) => {
+      sticker.addEventListener('mouseenter', () => {
+        sticker.style.transition = 'transform 0.15s ease';
+        const rot = parseFloat(getComputedStyle(sticker).getPropertyValue('--rot')) || -5;
+        sticker.style.transform = `rotate(${-rot}deg) scale(1.1)`;
+      });
+      sticker.addEventListener('mouseleave', () => {
+        const rot = sticker.style.getPropertyValue('--rot') || '-5';
+        sticker.style.transform = `rotate(${rot}deg)`;
+      });
+    });
+  </script>
+
+</body>
+</html>

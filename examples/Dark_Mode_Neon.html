@@ -1,0 +1,2248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dark Mode Neon -- Design System Showcase</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&family=Orbitron:wght@600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    /* ========================================
+       CSS CUSTOM PROPERTIES
+       ======================================== */
+    :root {
+      /* Dark surfaces */
+      --neon-void: #0a0a0f;
+      --neon-carbon: #111118;
+      --neon-graphite: #1a1a24;
+      --neon-slate: #252532;
+      --neon-smoke: #3a3a4a;
+
+      /* Text */
+      --neon-text-primary: #e0e0e8;
+      --neon-text-secondary: #9ca3af;
+      --neon-text-muted: #6b6b80;
+
+      /* Neon accents */
+      --neon-cyan: #00f0ff;
+      --neon-magenta: #ff0080;
+      --neon-green: #39ff14;
+      --neon-violet: #8b5cf6;
+      --neon-orange: #ff6b00;
+      --neon-blue: #3b82f6;
+
+      /* Glow shadows */
+      --glow-cyan: 0 0 20px rgba(0, 240, 255, 0.3), 0 0 40px rgba(0, 240, 255, 0.1);
+      --glow-cyan-intense: 0 0 20px rgba(0, 240, 255, 0.4), 0 0 60px rgba(0, 240, 255, 0.2), 0 0 100px rgba(0, 240, 255, 0.1);
+      --glow-magenta: 0 0 20px rgba(255, 0, 128, 0.3), 0 0 40px rgba(255, 0, 128, 0.1);
+      --glow-green: 0 0 20px rgba(57, 255, 20, 0.3), 0 0 40px rgba(57, 255, 20, 0.1);
+      --glow-violet: 0 0 20px rgba(139, 92, 246, 0.3), 0 0 40px rgba(139, 92, 246, 0.1);
+      --glow-orange: 0 0 20px rgba(255, 107, 0, 0.3), 0 0 40px rgba(255, 107, 0, 0.1);
+    }
+
+    /* ========================================
+       RESET & BASE
+       ======================================== */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      scrollbar-width: thin;
+      scrollbar-color: var(--neon-slate) var(--neon-void);
+    }
+
+    html::-webkit-scrollbar { width: 8px; }
+    html::-webkit-scrollbar-track { background: var(--neon-void); }
+    html::-webkit-scrollbar-thumb {
+      background: var(--neon-slate);
+      border-radius: 4px;
+    }
+    html::-webkit-scrollbar-thumb:hover {
+      background: var(--neon-smoke);
+    }
+
+    body {
+      background: var(--neon-void);
+      color: var(--neon-text-secondary);
+      font-family: 'Inter', -apple-system, sans-serif;
+      font-weight: 400;
+      font-size: 1rem;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* ========================================
+       TYPOGRAPHY
+       ======================================== */
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'Chakra Petch', sans-serif;
+      font-weight: 600;
+      color: var(--neon-text-primary);
+      line-height: 1.2;
+      letter-spacing: -0.01em;
+    }
+
+    .section-label {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 600;
+      font-size: 0.7rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--neon-cyan);
+      display: inline-block;
+      padding: 6px 16px;
+      border: 1px solid rgba(0, 240, 255, 0.25);
+      border-radius: 4px;
+      background: rgba(0, 240, 255, 0.04);
+      margin-bottom: 20px;
+    }
+
+    .neon-code {
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 400;
+      font-size: 0.85rem;
+      color: var(--neon-green);
+      background: var(--neon-void);
+      padding: 2px 8px;
+      border-radius: 4px;
+      border: 1px solid var(--neon-slate);
+    }
+
+    a {
+      color: var(--neon-cyan);
+      text-decoration: none;
+      transition: color 0.2s, text-shadow 0.2s;
+    }
+
+    a:hover {
+      text-shadow: 0 0 10px rgba(0, 240, 255, 0.3);
+    }
+
+    /* ========================================
+       ANIMATIONS
+       ======================================== */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes glowPulse {
+      0%, 100% { opacity: 0.6; }
+      50% { opacity: 1; }
+    }
+
+    @keyframes scanLine {
+      0% { transform: translateY(-100%); }
+      100% { transform: translateY(100vh); }
+    }
+
+    @keyframes typewriter {
+      from { width: 0; }
+      to { width: 100%; }
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    @keyframes neonFlicker {
+      0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+        text-shadow:
+          0 0 7px rgba(0, 240, 255, 0.4),
+          0 0 20px rgba(0, 240, 255, 0.3),
+          0 0 40px rgba(0, 240, 255, 0.15);
+      }
+      20%, 24%, 55% {
+        text-shadow: none;
+      }
+    }
+
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    @keyframes floatOrb {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      25% { transform: translate(30px, -20px) scale(1.05); }
+      50% { transform: translate(-10px, -40px) scale(0.95); }
+      75% { transform: translate(-30px, -10px) scale(1.02); }
+    }
+
+    .animate-on-scroll {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .animate-on-scroll.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ========================================
+       NAVIGATION
+       ======================================== */
+    .nav-wrapper {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      background: rgba(10, 10, 15, 0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--neon-slate);
+    }
+
+    .nav-glow {
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent 0%, var(--neon-cyan) 30%, var(--neon-magenta) 70%, transparent 100%);
+      opacity: 0.4;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 16px 40px;
+    }
+
+    .nav-logo {
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 800;
+      font-size: 1.1rem;
+      color: var(--neon-cyan);
+      text-decoration: none;
+      text-shadow: 0 0 20px rgba(0, 240, 255, 0.4);
+      letter-spacing: 0.08em;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .nav-logo-icon {
+      width: 28px;
+      height: 28px;
+      border: 2px solid var(--neon-cyan);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: var(--glow-cyan);
+    }
+
+    .nav-logo-icon svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 8px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 500;
+      font-size: 0.8rem;
+      color: var(--neon-text-muted);
+      text-decoration: none;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: 6px 14px;
+      border-radius: 6px;
+      transition: color 0.25s, background 0.25s, text-shadow 0.25s;
+    }
+
+    .nav-links a:hover {
+      color: var(--neon-cyan);
+      background: rgba(0, 240, 255, 0.06);
+      text-shadow: 0 0 10px rgba(0, 240, 255, 0.3);
+    }
+
+    .nav-links a.active {
+      color: var(--neon-cyan);
+      background: rgba(0, 240, 255, 0.08);
+    }
+
+    .mobile-menu-toggle {
+      display: none;
+      background: none;
+      border: 1px solid var(--neon-slate);
+      border-radius: 6px;
+      padding: 8px;
+      color: var(--neon-text-muted);
+      cursor: pointer;
+    }
+
+    /* ========================================
+       HERO SECTION
+       ======================================== */
+    .hero {
+      position: relative;
+      text-align: center;
+      padding: 180px 40px 120px;
+      overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+    }
+
+    .hero-bg::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 120%;
+      height: 120%;
+      background: radial-gradient(ellipse at 50% 30%, rgba(0, 240, 255, 0.06) 0%, transparent 50%),
+                  radial-gradient(ellipse at 30% 60%, rgba(255, 0, 128, 0.03) 0%, transparent 40%),
+                  radial-gradient(ellipse at 70% 70%, rgba(139, 92, 246, 0.03) 0%, transparent 40%);
+    }
+
+    .hero-orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      animation: floatOrb 12s ease-in-out infinite;
+    }
+
+    .hero-orb--cyan {
+      width: 300px;
+      height: 300px;
+      background: rgba(0, 240, 255, 0.06);
+      top: 10%;
+      left: 15%;
+      animation-delay: 0s;
+    }
+
+    .hero-orb--magenta {
+      width: 250px;
+      height: 250px;
+      background: rgba(255, 0, 128, 0.04);
+      top: 30%;
+      right: 10%;
+      animation-delay: -4s;
+    }
+
+    .hero-orb--violet {
+      width: 200px;
+      height: 200px;
+      background: rgba(139, 92, 246, 0.05);
+      bottom: 10%;
+      left: 40%;
+      animation-delay: -8s;
+    }
+
+    .hero-grid-overlay {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0, 240, 255, 0.015) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 240, 255, 0.015) 1px, transparent 1px);
+      background-size: 60px 60px;
+      mask-image: radial-gradient(ellipse at center, black 20%, transparent 70%);
+      -webkit-mask-image: radial-gradient(ellipse at center, black 20%, transparent 70%);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 20px;
+      border: 1px solid var(--neon-slate);
+      border-radius: 100px;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 500;
+      color: var(--neon-text-muted);
+      letter-spacing: 0.04em;
+      margin-bottom: 32px;
+      background: rgba(17, 17, 24, 0.6);
+      animation: fadeIn 0.8s ease both;
+    }
+
+    .hero-badge-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--neon-cyan);
+      box-shadow: 0 0 8px rgba(0, 240, 255, 0.6);
+      animation: glowPulse 2s ease-in-out infinite;
+    }
+
+    .hero h1 {
+      font-family: 'Chakra Petch', sans-serif;
+      font-size: clamp(3rem, 7vw, 5.5rem);
+      font-weight: 700;
+      line-height: 1.05;
+      margin-bottom: 1.5rem;
+      letter-spacing: -0.02em;
+      animation: fadeInUp 0.8s ease both;
+      animation-delay: 0.15s;
+    }
+
+    .hero h1 .line-2 {
+      display: block;
+    }
+
+    .hero .glow-text {
+      color: var(--neon-cyan);
+      text-shadow:
+        0 0 10px rgba(0, 240, 255, 0.4),
+        0 0 30px rgba(0, 240, 255, 0.2),
+        0 0 60px rgba(0, 240, 255, 0.1);
+    }
+
+    .hero .glow-magenta {
+      color: var(--neon-magenta);
+      text-shadow:
+        0 0 10px rgba(255, 0, 128, 0.4),
+        0 0 30px rgba(255, 0, 128, 0.2);
+    }
+
+    .hero-description {
+      font-size: 1.15rem;
+      line-height: 1.75;
+      color: var(--neon-text-secondary);
+      max-width: 620px;
+      margin: 0 auto 40px;
+      animation: fadeInUp 0.8s ease both;
+      animation-delay: 0.3s;
+    }
+
+    .hero-actions {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      animation: fadeInUp 0.8s ease both;
+      animation-delay: 0.45s;
+    }
+
+    /* ========================================
+       BUTTONS
+       ======================================== */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: transparent;
+      color: var(--neon-cyan);
+      border: 2px solid var(--neon-cyan);
+      border-radius: 8px;
+      padding: 13px 32px;
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 600;
+      font-size: 0.9rem;
+      letter-spacing: 0.04em;
+      cursor: pointer;
+      text-decoration: none;
+      text-transform: uppercase;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(0, 240, 255, 0.15), transparent);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .btn:hover::before { opacity: 1; }
+
+    .btn:hover {
+      box-shadow: var(--glow-cyan);
+      text-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
+      transform: translateY(-1px);
+    }
+
+    .btn--filled {
+      background: var(--neon-cyan);
+      color: var(--neon-void);
+      border-color: var(--neon-cyan);
+    }
+
+    .btn--filled:hover {
+      background: #33f5ff;
+      box-shadow: var(--glow-cyan-intense);
+    }
+
+    .btn--magenta {
+      color: var(--neon-magenta);
+      border-color: var(--neon-magenta);
+    }
+
+    .btn--magenta::before {
+      background: linear-gradient(135deg, rgba(255, 0, 128, 0.15), transparent);
+    }
+
+    .btn--magenta:hover {
+      box-shadow: var(--glow-magenta);
+      text-shadow: 0 0 10px rgba(255, 0, 128, 0.5);
+    }
+
+    .btn--ghost {
+      border-color: var(--neon-slate);
+      color: var(--neon-text-secondary);
+    }
+
+    .btn--ghost:hover {
+      border-color: var(--neon-text-muted);
+      color: var(--neon-text-primary);
+      box-shadow: none;
+      text-shadow: none;
+    }
+
+    /* ========================================
+       SECTION CONTAINER
+       ======================================== */
+    .section {
+      padding: 100px 40px;
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+
+    .section--full {
+      max-width: 100%;
+      padding-left: 0;
+      padding-right: 0;
+    }
+
+    .section--full > .section-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 40px;
+    }
+
+    .section-header {
+      margin-bottom: 56px;
+    }
+
+    .section-header h2 {
+      font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+      margin-bottom: 16px;
+    }
+
+    .section-header p {
+      font-size: 1.05rem;
+      max-width: 600px;
+      color: var(--neon-text-secondary);
+    }
+
+    .section-header--center {
+      text-align: center;
+    }
+
+    .section-header--center p {
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--neon-slate), transparent);
+      margin: 0 40px;
+      max-width: 1200px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* ========================================
+       VISUAL CHARACTERISTICS -- TRAITS GRID
+       ======================================== */
+    .traits-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+    }
+
+    .trait-card {
+      background: var(--neon-carbon);
+      border: 1px solid var(--neon-slate);
+      border-radius: 12px;
+      padding: 28px;
+      transition: border-color 0.35s, box-shadow 0.35s, transform 0.35s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .trait-card::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--neon-cyan), transparent);
+      opacity: 0;
+      transition: opacity 0.35s;
+    }
+
+    .trait-card:hover {
+      border-color: rgba(0, 240, 255, 0.3);
+      box-shadow: 0 0 30px rgba(0, 240, 255, 0.06);
+      transform: translateY(-2px);
+    }
+
+    .trait-card:hover::after {
+      opacity: 1;
+    }
+
+    .trait-card:nth-child(2):hover { border-color: rgba(255, 0, 128, 0.3); box-shadow: 0 0 30px rgba(255, 0, 128, 0.06); }
+    .trait-card:nth-child(2)::after { background: linear-gradient(90deg, var(--neon-magenta), transparent); }
+    .trait-card:nth-child(3):hover { border-color: rgba(57, 255, 20, 0.3); box-shadow: 0 0 30px rgba(57, 255, 20, 0.06); }
+    .trait-card:nth-child(3)::after { background: linear-gradient(90deg, var(--neon-green), transparent); }
+    .trait-card:nth-child(5):hover { border-color: rgba(139, 92, 246, 0.3); box-shadow: 0 0 30px rgba(139, 92, 246, 0.06); }
+    .trait-card:nth-child(5)::after { background: linear-gradient(90deg, var(--neon-violet), transparent); }
+    .trait-card:nth-child(7):hover { border-color: rgba(255, 107, 0, 0.3); box-shadow: 0 0 30px rgba(255, 107, 0, 0.06); }
+    .trait-card:nth-child(7)::after { background: linear-gradient(90deg, var(--neon-orange), transparent); }
+    .trait-card:nth-child(9):hover { border-color: rgba(59, 130, 246, 0.3); box-shadow: 0 0 30px rgba(59, 130, 246, 0.06); }
+    .trait-card:nth-child(9)::after { background: linear-gradient(90deg, var(--neon-blue), transparent); }
+
+    .trait-card h4 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: var(--neon-text-primary);
+    }
+
+    .trait-card p {
+      font-size: 0.88rem;
+      line-height: 1.6;
+      color: var(--neon-text-secondary);
+    }
+
+    /* ========================================
+       COLOR PALETTE
+       ======================================== */
+    .palette-section {
+      background: var(--neon-carbon);
+      border-top: 1px solid var(--neon-slate);
+      border-bottom: 1px solid var(--neon-slate);
+    }
+
+    .palette-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+      gap: 16px;
+    }
+
+    .color-card {
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--neon-slate);
+      background: var(--neon-graphite);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .color-card:hover {
+      transform: translateY(-3px);
+    }
+
+    .color-swatch {
+      height: 80px;
+      position: relative;
+    }
+
+    .color-swatch::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, transparent 60%, rgba(26, 26, 36, 0.5));
+    }
+
+    .color-info {
+      padding: 14px 16px;
+    }
+
+    .color-name {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 600;
+      font-size: 0.82rem;
+      color: var(--neon-text-primary);
+      margin-bottom: 2px;
+    }
+
+    .color-hex {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--neon-text-muted);
+    }
+
+    .color-role {
+      font-size: 0.72rem;
+      color: var(--neon-text-muted);
+      margin-top: 4px;
+      line-height: 1.4;
+    }
+
+    /* Glow on hover for neon colors */
+    .color-card--neon:hover {
+      box-shadow: 0 0 25px var(--card-glow);
+    }
+
+    /* ========================================
+       TYPOGRAPHY SHOWCASE
+       ======================================== */
+    .type-showcase {
+      display: grid;
+      gap: 40px;
+    }
+
+    .type-specimen {
+      background: var(--neon-carbon);
+      border: 1px solid var(--neon-slate);
+      border-radius: 12px;
+      padding: 36px;
+      overflow: hidden;
+    }
+
+    .type-specimen-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--neon-slate);
+    }
+
+    .type-specimen-name {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 600;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--neon-cyan);
+    }
+
+    .type-specimen-meta {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--neon-text-muted);
+    }
+
+    .type-display {
+      font-size: clamp(2rem, 4vw, 3.5rem);
+      font-weight: 700;
+      color: var(--neon-text-primary);
+      line-height: 1.15;
+      margin-bottom: 12px;
+    }
+
+    .type-sample-body {
+      font-size: 1rem;
+      line-height: 1.75;
+      color: var(--neon-text-secondary);
+      max-width: 640px;
+    }
+
+    .font-pair-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 16px;
+      margin-top: 40px;
+    }
+
+    .font-pair {
+      background: var(--neon-graphite);
+      border: 1px solid var(--neon-slate);
+      border-radius: 10px;
+      padding: 20px;
+      transition: border-color 0.3s;
+    }
+
+    .font-pair:hover {
+      border-color: var(--neon-smoke);
+    }
+
+    .font-pair-heading {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: var(--neon-text-primary);
+      margin-bottom: 8px;
+      line-height: 1.3;
+    }
+
+    .font-pair-body {
+      font-size: 0.85rem;
+      color: var(--neon-text-secondary);
+      line-height: 1.6;
+      margin-bottom: 12px;
+    }
+
+    .font-pair-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      color: var(--neon-text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    /* ========================================
+       DESIGN PRINCIPLES
+       ======================================== */
+    .principles-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 24px;
+    }
+
+    .principle-card {
+      position: relative;
+      background: var(--neon-carbon);
+      border-radius: 12px;
+      padding: 32px;
+      padding-left: 36px;
+      border: 1px solid var(--neon-slate);
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+
+    .principle-card::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 16px;
+      bottom: 16px;
+      width: 3px;
+      border-radius: 2px;
+      background: var(--neon-cyan);
+      box-shadow: 0 0 12px rgba(0, 240, 255, 0.3);
+      opacity: 0.6;
+      transition: opacity 0.3s;
+    }
+
+    .principle-card:hover::before {
+      opacity: 1;
+    }
+
+    .principle-card:hover {
+      border-color: rgba(0, 240, 255, 0.2);
+    }
+
+    .principle-card:nth-child(2)::before { background: var(--neon-magenta); box-shadow: 0 0 12px rgba(255, 0, 128, 0.3); }
+    .principle-card:nth-child(2):hover { border-color: rgba(255, 0, 128, 0.2); }
+    .principle-card:nth-child(3)::before { background: var(--neon-green); box-shadow: 0 0 12px rgba(57, 255, 20, 0.3); }
+    .principle-card:nth-child(3):hover { border-color: rgba(57, 255, 20, 0.2); }
+    .principle-card:nth-child(4)::before { background: var(--neon-violet); box-shadow: 0 0 12px rgba(139, 92, 246, 0.3); }
+    .principle-card:nth-child(4):hover { border-color: rgba(139, 92, 246, 0.2); }
+    .principle-card:nth-child(5)::before { background: var(--neon-orange); box-shadow: 0 0 12px rgba(255, 107, 0, 0.3); }
+    .principle-card:nth-child(5):hover { border-color: rgba(255, 107, 0, 0.2); }
+    .principle-card:nth-child(6)::before { background: var(--neon-blue); box-shadow: 0 0 12px rgba(59, 130, 246, 0.3); }
+    .principle-card:nth-child(6):hover { border-color: rgba(59, 130, 246, 0.2); }
+    .principle-card:nth-child(7)::before { background: var(--neon-cyan); }
+    .principle-card:nth-child(8)::before { background: var(--neon-magenta); box-shadow: 0 0 12px rgba(255, 0, 128, 0.3); }
+    .principle-card:nth-child(8):hover { border-color: rgba(255, 0, 128, 0.2); }
+
+    .principle-card h4 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .principle-card p {
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+
+    /* ========================================
+       LAYOUT SECTION
+       ======================================== */
+    .layout-demo {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-top: 40px;
+    }
+
+    .layout-card {
+      background: var(--neon-carbon);
+      border: 1px solid var(--neon-slate);
+      border-radius: 12px;
+      padding: 28px;
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+
+    .layout-card:hover {
+      border-color: rgba(0, 240, 255, 0.2);
+    }
+
+    .layout-card h4 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .layout-card h4 .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    .layout-card p {
+      font-size: 0.88rem;
+      line-height: 1.65;
+      color: var(--neon-text-secondary);
+    }
+
+    /* ========================================
+       CSS TECHNIQUES -- CODE BLOCKS
+       ======================================== */
+    .techniques-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+      gap: 24px;
+    }
+
+    .technique-block {
+      background: var(--neon-carbon);
+      border: 1px solid var(--neon-slate);
+      border-radius: 12px;
+      overflow: hidden;
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+
+    .technique-block:hover {
+      border-color: rgba(0, 240, 255, 0.25);
+      box-shadow: 0 0 40px rgba(0, 240, 255, 0.04);
+    }
+
+    .technique-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 24px;
+      border-bottom: 1px solid var(--neon-slate);
+      background: var(--neon-graphite);
+    }
+
+    .technique-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 600;
+      font-size: 0.85rem;
+      color: var(--neon-text-primary);
+    }
+
+    .technique-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      color: var(--neon-text-muted);
+      padding: 3px 10px;
+      border: 1px solid var(--neon-slate);
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .technique-preview {
+      padding: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 140px;
+      background: var(--neon-void);
+    }
+
+    .technique-code {
+      padding: 20px 24px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem;
+      line-height: 1.7;
+      color: var(--neon-text-secondary);
+      overflow-x: auto;
+      border-top: 1px solid var(--neon-slate);
+    }
+
+    .technique-code .prop { color: var(--neon-cyan); }
+    .technique-code .val { color: var(--neon-magenta); }
+    .technique-code .comment { color: var(--neon-text-muted); }
+    .technique-code .selector { color: var(--neon-green); }
+    .technique-code .unit { color: var(--neon-orange); }
+
+    /* Preview demos */
+    .preview-card-demo {
+      width: 200px;
+      height: 90px;
+      background: var(--neon-carbon);
+      border: 1px solid var(--neon-slate);
+      border-radius: 10px;
+      transition: border-color 0.3s, box-shadow 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.8rem;
+      color: var(--neon-text-muted);
+      cursor: pointer;
+    }
+
+    .preview-card-demo:hover {
+      border-color: var(--neon-cyan);
+      box-shadow: var(--glow-cyan);
+      color: var(--neon-cyan);
+    }
+
+    .preview-btn-demo {
+      display: inline-flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .preview-glow-demo {
+      width: 200px;
+      height: 90px;
+      border-radius: 12px;
+      position: relative;
+      background: var(--neon-carbon);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.8rem;
+      color: var(--neon-text-muted);
+      cursor: pointer;
+    }
+
+    .preview-glow-demo::before {
+      content: '';
+      position: absolute;
+      inset: -1px;
+      border-radius: 13px;
+      background: linear-gradient(135deg, var(--neon-cyan), var(--neon-magenta), var(--neon-violet));
+      z-index: -1;
+      opacity: 0.5;
+      transition: opacity 0.3s;
+    }
+
+    .preview-glow-demo:hover::before {
+      opacity: 1;
+    }
+
+    .preview-glow-demo:hover {
+      color: var(--neon-text-primary);
+    }
+
+    /* ========================================
+       TERMINAL BLOCK
+       ======================================== */
+    .terminal-showcase {
+      background: var(--neon-void);
+      border: 1px solid var(--neon-slate);
+      border-radius: 12px;
+      overflow: hidden;
+      margin-top: 40px;
+    }
+
+    .terminal-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 20px;
+      background: var(--neon-graphite);
+      border-bottom: 1px solid var(--neon-slate);
+    }
+
+    .terminal-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+
+    .terminal-dot--red { background: #ff5f56; }
+    .terminal-dot--yellow { background: #ffbd2e; }
+    .terminal-dot--green { background: #27c93f; }
+
+    .terminal-title {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--neon-text-muted);
+      margin-left: 10px;
+      letter-spacing: 0.02em;
+    }
+
+    .terminal-body {
+      padding: 24px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      line-height: 2;
+      color: var(--neon-green);
+    }
+
+    .terminal-body .prompt { color: var(--neon-cyan); }
+    .terminal-body .cmd { color: var(--neon-text-primary); }
+    .terminal-body .flag { color: var(--neon-magenta); }
+    .terminal-body .output { color: var(--neon-text-secondary); }
+    .terminal-body .success { color: var(--neon-green); }
+    .terminal-body .comment { color: var(--neon-text-muted); font-style: italic; }
+    .terminal-body .string { color: var(--neon-orange); }
+
+    .cursor-blink {
+      display: inline-block;
+      width: 8px;
+      height: 16px;
+      background: var(--neon-cyan);
+      animation: blink 1s step-end infinite;
+      vertical-align: text-bottom;
+      margin-left: 2px;
+    }
+
+    /* ========================================
+       DOS AND DON'TS
+       ======================================== */
+    .dos-donts {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+    }
+
+    .dos-column, .donts-column {
+      background: var(--neon-carbon);
+      border: 1px solid var(--neon-slate);
+      border-radius: 12px;
+      padding: 32px;
+    }
+
+    .dos-column {
+      border-top: 3px solid var(--neon-green);
+    }
+
+    .donts-column {
+      border-top: 3px solid var(--neon-magenta);
+    }
+
+    .dos-column h3, .donts-column h3 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .dos-column h3 { color: var(--neon-green); }
+    .donts-column h3 { color: var(--neon-magenta); }
+
+    .check-list {
+      list-style: none;
+      display: grid;
+      gap: 14px;
+    }
+
+    .check-list li {
+      font-size: 0.9rem;
+      line-height: 1.55;
+      padding-left: 28px;
+      position: relative;
+      color: var(--neon-text-secondary);
+    }
+
+    .check-list li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 5px;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      border: 1.5px solid;
+    }
+
+    .dos-column .check-list li::before {
+      border-color: var(--neon-green);
+      background: rgba(57, 255, 20, 0.1);
+    }
+
+    .donts-column .check-list li::before {
+      border-color: var(--neon-magenta);
+      background: rgba(255, 0, 128, 0.1);
+    }
+
+    /* ========================================
+       METRICS
+       ======================================== */
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      margin-bottom: 60px;
+    }
+
+    .metric-card {
+      background: var(--neon-carbon);
+      border: 1px solid var(--neon-slate);
+      border-radius: 12px;
+      padding: 28px;
+      text-align: center;
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+
+    .metric-card:hover {
+      border-color: rgba(0, 240, 255, 0.3);
+      box-shadow: 0 0 30px rgba(0, 240, 255, 0.06);
+    }
+
+    .metric-value {
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 700;
+      font-size: clamp(1.8rem, 3vw, 2.5rem);
+      color: var(--neon-cyan);
+      text-shadow: 0 0 20px rgba(0, 240, 255, 0.25);
+      margin-bottom: 8px;
+      line-height: 1.2;
+    }
+
+    .metric-card:nth-child(2) .metric-value {
+      color: var(--neon-magenta);
+      text-shadow: 0 0 20px rgba(255, 0, 128, 0.25);
+    }
+
+    .metric-card:nth-child(3) .metric-value {
+      color: var(--neon-green);
+      text-shadow: 0 0 20px rgba(57, 255, 20, 0.25);
+    }
+
+    .metric-card:nth-child(4) .metric-value {
+      color: var(--neon-violet);
+      text-shadow: 0 0 20px rgba(139, 92, 246, 0.25);
+    }
+
+    .metric-label {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--neon-text-muted);
+    }
+
+    /* ========================================
+       RELATED AESTHETICS
+       ======================================== */
+    .related-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 16px;
+    }
+
+    .related-card {
+      background: var(--neon-carbon);
+      border: 1px solid var(--neon-slate);
+      border-radius: 10px;
+      padding: 20px;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+
+    .related-card:hover {
+      border-color: var(--neon-smoke);
+      transform: translateY(-2px);
+    }
+
+    .related-card h4 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: var(--neon-text-primary);
+    }
+
+    .related-card p {
+      font-size: 0.82rem;
+      line-height: 1.55;
+      color: var(--neon-text-muted);
+    }
+
+    /* ========================================
+       CTA SECTION
+       ======================================== */
+    .cta-section {
+      text-align: center;
+      padding: 100px 40px;
+      position: relative;
+    }
+
+    .cta-inner {
+      position: relative;
+      background: var(--neon-carbon);
+      border-radius: 20px;
+      padding: 72px 48px;
+      max-width: 800px;
+      margin: 0 auto;
+      overflow: hidden;
+    }
+
+    .cta-inner::before {
+      content: '';
+      position: absolute;
+      inset: -1px;
+      border-radius: 21px;
+      background: linear-gradient(135deg, var(--neon-cyan), var(--neon-magenta), var(--neon-violet), var(--neon-cyan));
+      background-size: 300% 300%;
+      animation: gradientShift 6s ease infinite;
+      z-index: -1;
+    }
+
+    .cta-inner::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 20px;
+      background: var(--neon-carbon);
+      z-index: -1;
+    }
+
+    .cta-section h2 {
+      font-size: clamp(1.8rem, 3.5vw, 2.4rem);
+      margin-bottom: 16px;
+    }
+
+    .cta-section p {
+      font-size: 1.05rem;
+      margin-bottom: 32px;
+      color: var(--neon-text-secondary);
+    }
+
+    /* ========================================
+       FOOTER
+       ======================================== */
+    footer {
+      border-top: 1px solid var(--neon-slate);
+      background: var(--neon-carbon);
+      text-align: center;
+      padding: 48px 40px;
+    }
+
+    .footer-brand {
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 700;
+      font-size: 0.9rem;
+      color: var(--neon-cyan);
+      text-shadow: 0 0 15px rgba(0, 240, 255, 0.3);
+      letter-spacing: 0.06em;
+      margin-bottom: 12px;
+    }
+
+    footer p {
+      font-size: 0.82rem;
+      color: var(--neon-text-muted);
+      line-height: 1.6;
+    }
+
+    footer .footer-divider {
+      width: 40px;
+      height: 2px;
+      background: linear-gradient(90deg, var(--neon-cyan), var(--neon-magenta));
+      margin: 16px auto;
+      border-radius: 1px;
+    }
+
+    /* ========================================
+       RESPONSIVE
+       ======================================== */
+    @media (max-width: 1024px) {
+      .techniques-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .layout-demo {
+        grid-template-columns: 1fr;
+      }
+
+      .metrics-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .hero { padding: 140px 20px 80px; }
+
+      .section { padding: 60px 20px; }
+
+      .section--full > .section-inner { padding: 0 20px; }
+
+      nav { padding: 14px 20px; }
+
+      .nav-links { display: none; }
+
+      .mobile-menu-toggle { display: block; }
+
+      .dos-donts {
+        grid-template-columns: 1fr;
+      }
+
+      .metrics-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .traits-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .principles-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .palette-grid {
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      }
+
+      .related-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .cta-inner {
+        padding: 48px 28px;
+      }
+
+      .font-pair-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-orb { display: none; }
+    }
+
+    @media (max-width: 480px) {
+      .hero h1 { font-size: 2.2rem; }
+      .metrics-grid { grid-template-columns: 1fr; }
+      .palette-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    /* ========================================
+       SCAN LINE EFFECT
+       ======================================== */
+    .scan-line {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, rgba(0, 240, 255, 0.12), transparent);
+      z-index: 9999;
+      pointer-events: none;
+      animation: scanLine 8s linear infinite;
+      opacity: 0.5;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Scan Line Effect -->
+  <div class="scan-line"></div>
+
+  <!-- Navigation -->
+  <header class="nav-wrapper">
+    <div class="nav-glow"></div>
+    <nav>
+      <a href="#" class="nav-logo">
+        <div class="nav-logo-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#00f0ff" stroke-width="2.5" stroke-linecap="round">
+            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+          </svg>
+        </div>
+        DARK//NEON
+      </a>
+      <ul class="nav-links">
+        <li><a href="#visual" class="active">Visual</a></li>
+        <li><a href="#palette">Palette</a></li>
+        <li><a href="#typography">Type</a></li>
+        <li><a href="#layout">Layout</a></li>
+        <li><a href="#techniques">CSS</a></li>
+        <li><a href="#guidelines">Guidelines</a></li>
+      </ul>
+      <button class="mobile-menu-toggle" aria-label="Menu">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="6" x2="21" y2="6"/>
+          <line x1="3" y1="12" x2="21" y2="12"/>
+          <line x1="3" y1="18" x2="21" y2="18"/>
+        </svg>
+      </button>
+    </nav>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-bg">
+      <div class="hero-orb hero-orb--cyan"></div>
+      <div class="hero-orb hero-orb--magenta"></div>
+      <div class="hero-orb hero-orb--violet"></div>
+      <div class="hero-grid-overlay"></div>
+    </div>
+    <div class="hero-content">
+      <div class="hero-badge">
+        <span class="hero-badge-dot"></span>
+        Design System Reference
+      </div>
+      <h1>
+        Dark Mode <span class="glow-text">Neon</span>
+        <span class="line-2">Design <span class="glow-magenta">Aesthetic</span></span>
+      </h1>
+      <p class="hero-description">
+        A high-contrast digital aesthetic that pairs deep, near-black backgrounds with vivid neon accent colors to create interfaces that feel electric and alive. Inspired by neon signage, cyberpunk cityscapes, and late-night coding sessions.
+      </p>
+      <div class="hero-actions">
+        <a href="#visual" class="btn btn--filled">Explore the System</a>
+        <a href="#techniques" class="btn btn--ghost">View CSS Techniques</a>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- Metrics Overview -->
+  <section class="section">
+    <div class="metrics-grid animate-on-scroll">
+      <div class="metric-card">
+        <div class="metric-value">14</div>
+        <div class="metric-label">Core Colors</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-value">10</div>
+        <div class="metric-label">Typefaces</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-value">5</div>
+        <div class="metric-label">Font Pairings</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-value">12</div>
+        <div class="metric-label">Related Styles</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Visual Characteristics -->
+  <section id="visual" class="section">
+    <div class="section-header animate-on-scroll">
+      <span class="section-label">Visual Characteristics</span>
+      <h2>Core Design Traits</h2>
+      <p>The building blocks of Dark Mode Neon -- functional darkness punctuated by bursts of radiant, eye-catching color.</p>
+    </div>
+
+    <div class="traits-grid">
+      <div class="trait-card animate-on-scroll">
+        <h4>Near-Black Backgrounds</h4>
+        <p>Base surfaces in deep charcoal, navy, or pure dark tones -- not pure black, to reduce eye strain and halation.</p>
+      </div>
+      <div class="trait-card animate-on-scroll">
+        <h4>Vivid Neon Accents</h4>
+        <p>Electric cyan, hot magenta, neon green, and violet used sparingly but intensely for maximum visual impact.</p>
+      </div>
+      <div class="trait-card animate-on-scroll">
+        <h4>Glowing UI Elements</h4>
+        <p>Box-shadow and text-shadow with neon colors create the illusion of light emission from UI components.</p>
+      </div>
+      <div class="trait-card animate-on-scroll">
+        <h4>High Luminance Contrast</h4>
+        <p>Bright elements on dark surfaces for maximum visual pop. The brightest element commands the most attention.</p>
+      </div>
+      <div class="trait-card animate-on-scroll">
+        <h4>Layered Dark Surfaces</h4>
+        <p>Multiple dark shades (void, carbon, graphite, slate) create depth without introducing light colors.</p>
+      </div>
+      <div class="trait-card animate-on-scroll">
+        <h4>Neon Line Work</h4>
+        <p>Thin glowing borders on cards, buttons, and inputs define element boundaries with luminous edges.</p>
+      </div>
+      <div class="trait-card animate-on-scroll">
+        <h4>Subtle Gradient Overlays</h4>
+        <p>Dark-to-darker gradients on backgrounds for atmospheric depth without introducing brightness.</p>
+      </div>
+      <div class="trait-card animate-on-scroll">
+        <h4>Tech-Forward Typography</h4>
+        <p>Monospace and geometric sans-serif fonts that evoke terminals, code editors, and sci-fi interfaces.</p>
+      </div>
+      <div class="trait-card animate-on-scroll">
+        <h4>Minimal White Usage</h4>
+        <p>Pure white is replaced by light grays and neon colors for text and accents, maintaining the dark atmosphere.</p>
+      </div>
+      <div class="trait-card animate-on-scroll">
+        <h4>Strategic Color Glow</h4>
+        <p>Blur and spread on shadows create a neon-tube luminescence effect -- light that feels emitted, not applied.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- Color Palette -->
+  <section id="palette" class="section--full palette-section">
+    <div class="section" style="padding-top: 100px; padding-bottom: 100px;">
+      <div class="section-header animate-on-scroll">
+        <span class="section-label">Color Palette</span>
+        <h2>Dark Mode Neon Core Palette</h2>
+        <p>Deep foundations with electric accents -- designed to create maximum contrast while maintaining visual comfort on dark backgrounds.</p>
+      </div>
+
+      <!-- Dark Surfaces -->
+      <h3 style="font-family: 'Space Grotesk', sans-serif; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--neon-text-muted); margin-bottom: 20px;" class="animate-on-scroll">Dark Surfaces</h3>
+      <div class="palette-grid animate-on-scroll" style="margin-bottom: 40px;">
+        <div class="color-card">
+          <div class="color-swatch" style="background: #0A0A0F;"></div>
+          <div class="color-info">
+            <div class="color-name">Void</div>
+            <div class="color-hex">#0A0A0F</div>
+            <div class="color-role">Deepest background, page base</div>
+          </div>
+        </div>
+        <div class="color-card">
+          <div class="color-swatch" style="background: #111118;"></div>
+          <div class="color-info">
+            <div class="color-name">Carbon</div>
+            <div class="color-hex">#111118</div>
+            <div class="color-role">Primary surface, card backgrounds</div>
+          </div>
+        </div>
+        <div class="color-card">
+          <div class="color-swatch" style="background: #1A1A24;"></div>
+          <div class="color-info">
+            <div class="color-name">Graphite</div>
+            <div class="color-hex">#1A1A24</div>
+            <div class="color-role">Elevated surfaces, modals</div>
+          </div>
+        </div>
+        <div class="color-card">
+          <div class="color-swatch" style="background: #252532;"></div>
+          <div class="color-info">
+            <div class="color-name">Slate</div>
+            <div class="color-hex">#252532</div>
+            <div class="color-role">Borders, dividers, tertiary</div>
+          </div>
+        </div>
+        <div class="color-card">
+          <div class="color-swatch" style="background: #3A3A4A;"></div>
+          <div class="color-info">
+            <div class="color-name">Smoke</div>
+            <div class="color-hex">#3A3A4A</div>
+            <div class="color-role">Disabled states, subtle borders</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Text Colors -->
+      <h3 style="font-family: 'Space Grotesk', sans-serif; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--neon-text-muted); margin-bottom: 20px;" class="animate-on-scroll">Text Colors</h3>
+      <div class="palette-grid animate-on-scroll" style="margin-bottom: 40px;">
+        <div class="color-card">
+          <div class="color-swatch" style="background: #6B6B80;"></div>
+          <div class="color-info">
+            <div class="color-name">Ash</div>
+            <div class="color-hex">#6B6B80</div>
+            <div class="color-role">Muted text, placeholders</div>
+          </div>
+        </div>
+        <div class="color-card">
+          <div class="color-swatch" style="background: #9CA3AF;"></div>
+          <div class="color-info">
+            <div class="color-name">Silver</div>
+            <div class="color-hex">#9CA3AF</div>
+            <div class="color-role">Secondary text, descriptions</div>
+          </div>
+        </div>
+        <div class="color-card">
+          <div class="color-swatch" style="background: #E0E0E8;"></div>
+          <div class="color-info">
+            <div class="color-name">Ghost</div>
+            <div class="color-hex">#E0E0E8</div>
+            <div class="color-role">Primary text on dark bgs</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Neon Accents -->
+      <h3 style="font-family: 'Space Grotesk', sans-serif; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--neon-text-muted); margin-bottom: 20px;" class="animate-on-scroll">Neon Accents</h3>
+      <div class="palette-grid animate-on-scroll">
+        <div class="color-card color-card--neon" style="--card-glow: rgba(0, 240, 255, 0.2);">
+          <div class="color-swatch" style="background: #00F0FF;"></div>
+          <div class="color-info">
+            <div class="color-name">Cyber Cyan</div>
+            <div class="color-hex">#00F0FF</div>
+            <div class="color-role">Primary accent, links, focus</div>
+          </div>
+        </div>
+        <div class="color-card color-card--neon" style="--card-glow: rgba(255, 0, 128, 0.2);">
+          <div class="color-swatch" style="background: #FF0080;"></div>
+          <div class="color-info">
+            <div class="color-name">Hot Magenta</div>
+            <div class="color-hex">#FF0080</div>
+            <div class="color-role">Secondary accent, CTAs</div>
+          </div>
+        </div>
+        <div class="color-card color-card--neon" style="--card-glow: rgba(57, 255, 20, 0.2);">
+          <div class="color-swatch" style="background: #39FF14;"></div>
+          <div class="color-info">
+            <div class="color-name">Neon Green</div>
+            <div class="color-hex">#39FF14</div>
+            <div class="color-role">Success, terminals</div>
+          </div>
+        </div>
+        <div class="color-card color-card--neon" style="--card-glow: rgba(139, 92, 246, 0.2);">
+          <div class="color-swatch" style="background: #8B5CF6;"></div>
+          <div class="color-info">
+            <div class="color-name">Electric Violet</div>
+            <div class="color-hex">#8B5CF6</div>
+            <div class="color-role">Tertiary accent, badges</div>
+          </div>
+        </div>
+        <div class="color-card color-card--neon" style="--card-glow: rgba(255, 107, 0, 0.2);">
+          <div class="color-swatch" style="background: #FF6B00;"></div>
+          <div class="color-info">
+            <div class="color-name">Plasma Orange</div>
+            <div class="color-hex">#FF6B00</div>
+            <div class="color-role">Warning states, highlights</div>
+          </div>
+        </div>
+        <div class="color-card color-card--neon" style="--card-glow: rgba(59, 130, 246, 0.2);">
+          <div class="color-swatch" style="background: #3B82F6;"></div>
+          <div class="color-info">
+            <div class="color-name">Ion Blue</div>
+            <div class="color-hex">#3B82F6</div>
+            <div class="color-role">Info states, secondary links</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Typography -->
+  <section id="typography" class="section">
+    <div class="section-header animate-on-scroll">
+      <span class="section-label">Typography</span>
+      <h2>Tech-Forward Type System</h2>
+      <p>Monospace and geometric sans-serif typefaces that evoke terminals, code editors, and futuristic interfaces -- clean and sharp at all sizes.</p>
+    </div>
+
+    <div class="type-showcase">
+      <!-- Heading specimen -->
+      <div class="type-specimen animate-on-scroll">
+        <div class="type-specimen-header">
+          <span class="type-specimen-name">Chakra Petch -- Display & Headings</span>
+          <span class="type-specimen-meta">700 / -0.02em</span>
+        </div>
+        <div class="type-display" style="font-family: 'Chakra Petch', sans-serif;">
+          Electric interfaces that feel alive
+        </div>
+        <p style="font-family: 'Chakra Petch', sans-serif; font-size: 0.85rem; color: var(--neon-text-muted); margin-top: 8px;">
+          ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz 0123456789 !@#$%
+        </p>
+      </div>
+
+      <!-- Body specimen -->
+      <div class="type-specimen animate-on-scroll">
+        <div class="type-specimen-header">
+          <span class="type-specimen-name">Inter -- Body & UI Text</span>
+          <span class="type-specimen-meta">400 / 1.7 line-height</span>
+        </div>
+        <p class="type-sample-body">
+          Dark Mode Neon transforms the utility of dark mode into a visual statement. Functional darkness punctuated by bursts of radiant, eye-catching color. Light to medium weight for body text avoids heavy weights that can bleed on dark backgrounds. Screen-optimized rendering ensures crisp text at every size.
+        </p>
+      </div>
+
+      <!-- Code specimen -->
+      <div class="type-specimen animate-on-scroll">
+        <div class="type-specimen-header">
+          <span class="type-specimen-name">JetBrains Mono -- Code & Terminal</span>
+          <span class="type-specimen-meta">400 / monospace</span>
+        </div>
+        <pre style="font-family: 'JetBrains Mono', monospace; font-size: 0.88rem; line-height: 1.8; color: var(--neon-green); overflow-x: auto;"><span style="color: var(--neon-text-muted);">// Neon glow shadow definition</span>
+<span style="color: var(--neon-cyan);">--glow-cyan</span>: <span style="color: var(--neon-orange);">0 0 20px</span> <span style="color: var(--neon-magenta);">rgba(0, 240, 255, 0.3)</span>,
+              <span style="color: var(--neon-orange);">0 0 40px</span> <span style="color: var(--neon-magenta);">rgba(0, 240, 255, 0.1)</span>;</pre>
+      </div>
+    </div>
+
+    <!-- Font Pairings -->
+    <h3 style="font-family: 'Space Grotesk', sans-serif; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--neon-text-muted); margin-top: 56px; margin-bottom: 20px;" class="animate-on-scroll">Recommended Font Pairings</h3>
+    <div class="font-pair-grid animate-on-scroll">
+      <div class="font-pair">
+        <div class="font-pair-heading" style="font-family: 'Space Grotesk', sans-serif;">Space Grotesk 600</div>
+        <div class="font-pair-body" style="font-family: 'Inter', sans-serif;">Inter 400 -- Modern tech, clean and readable body text for long-form content.</div>
+        <div class="font-pair-tag">Modern Tech</div>
+      </div>
+      <div class="font-pair">
+        <div class="font-pair-heading" style="font-family: 'Chakra Petch', sans-serif;">Chakra Petch 600</div>
+        <div class="font-pair-body" style="font-family: 'Inter', sans-serif;">Inter 400 -- Cyberpunk edge with a functional, approachable body.</div>
+        <div class="font-pair-tag">Cyberpunk Edge</div>
+      </div>
+      <div class="font-pair">
+        <div class="font-pair-heading" style="font-family: 'Orbitron', sans-serif;">Orbitron 600</div>
+        <div class="font-pair-body" style="font-family: 'Space Grotesk', sans-serif;">Space Grotesk 400 -- Futuristic display headlines with technical body.</div>
+        <div class="font-pair-tag">Futuristic Display</div>
+      </div>
+      <div class="font-pair">
+        <div class="font-pair-heading" style="font-family: 'JetBrains Mono', monospace; font-size: 1.05rem;">JetBrains Mono 500</div>
+        <div class="font-pair-body" style="font-family: 'JetBrains Mono', monospace; font-size: 0.82rem;">JetBrains Mono 400 -- Full monospace, pure terminal aesthetic for code-heavy UIs.</div>
+        <div class="font-pair-tag">Terminal Aesthetic</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- Design Principles -->
+  <section class="section">
+    <div class="section-header animate-on-scroll">
+      <span class="section-label">Design Principles</span>
+      <h2>Guiding Philosophy</h2>
+      <p>Dark backgrounds are the canvas; neon accents are the paint. Use color with intention.</p>
+    </div>
+
+    <div class="principles-grid">
+      <div class="principle-card animate-on-scroll">
+        <h4>Luminance Hierarchy</h4>
+        <p>Create hierarchy through luminance: the brightest element gets the most attention. Use the full dark spectrum to guide the eye.</p>
+      </div>
+      <div class="principle-card animate-on-scroll">
+        <h4>Layered Depth</h4>
+        <p>Layer dark shades to create depth without introducing light colors. Three to four shades of darkness are your spatial toolkit.</p>
+      </div>
+      <div class="principle-card animate-on-scroll">
+        <h4>Emitted Light</h4>
+        <p>Glow effects should feel like actual light emission, not flat color. Use multi-layered shadows with varying blur and spread.</p>
+      </div>
+      <div class="principle-card animate-on-scroll">
+        <h4>Color Restraint</h4>
+        <p>Limit neon to 2-3 accent colors per page to avoid visual noise. One dominant, one supporting, one for special states.</p>
+      </div>
+      <div class="principle-card animate-on-scroll">
+        <h4>Readability First</h4>
+        <p>Ensure text remains highly readable against dark backgrounds. WCAG AA contrast minimum is non-negotiable, even when it "looks cool."</p>
+      </div>
+      <div class="principle-card animate-on-scroll">
+        <h4>Electric Energy</h4>
+        <p>Use transitions and subtle animations to reinforce the sense of energy and electricity. Movement should feel purposeful.</p>
+      </div>
+      <div class="principle-card animate-on-scroll">
+        <h4>Interactive Neon</h4>
+        <p>Reserve the most vivid neon for interactive and primary action elements. Static content stays subdued, interactive content glows.</p>
+      </div>
+      <div class="principle-card animate-on-scroll">
+        <h4>Functional First</h4>
+        <p>Dark mode is functional first: reduce eye strain, then add style. Never sacrifice usability for aesthetic intensity.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- Layout Principles -->
+  <section id="layout" class="section">
+    <div class="section-header animate-on-scroll">
+      <span class="section-label">Layout Principles</span>
+      <h2>Grid &amp; Structure</h2>
+      <p>Dark layered surfaces, centered containers, and strategic glow placement define the spatial language.</p>
+    </div>
+
+    <div class="layout-demo">
+      <div class="layout-card animate-on-scroll">
+        <h4><span class="dot" style="background: var(--neon-cyan); box-shadow: 0 0 8px rgba(0,240,255,0.5);"></span> Navigation</h4>
+        <p>Dark bar with neon-accented logo and link hover states. Subtle bottom border glow creates a sense of luminous separation.</p>
+      </div>
+      <div class="layout-card animate-on-scroll">
+        <h4><span class="dot" style="background: var(--neon-magenta); box-shadow: 0 0 8px rgba(255,0,128,0.5);"></span> Hero Section</h4>
+        <p>Large headline with neon text-shadow on a dark background. Optional radial gradient overlay adds atmospheric depth.</p>
+      </div>
+      <div class="layout-card animate-on-scroll">
+        <h4><span class="dot" style="background: var(--neon-green); box-shadow: 0 0 8px rgba(57,255,20,0.5);"></span> Feature Cards</h4>
+        <p>Cards on dark backgrounds with neon icon accents and glowing hover borders. Defined by 1px borders or background elevation.</p>
+      </div>
+      <div class="layout-card animate-on-scroll">
+        <h4><span class="dot" style="background: var(--neon-violet); box-shadow: 0 0 8px rgba(139,92,246,0.5);"></span> Metrics Display</h4>
+        <p>Large neon-colored numbers with muted labels on dark cards. Grid-based layouts suit the technical aesthetic well.</p>
+      </div>
+      <div class="layout-card animate-on-scroll">
+        <h4><span class="dot" style="background: var(--neon-orange); box-shadow: 0 0 8px rgba(255,107,0,0.5);"></span> Terminal Blocks</h4>
+        <p>Monospace text on near-black background with syntax-colored accents. Authentic terminal chrome reinforces the dev aesthetic.</p>
+      </div>
+      <div class="layout-card animate-on-scroll">
+        <h4><span class="dot" style="background: var(--neon-blue); box-shadow: 0 0 8px rgba(59,130,246,0.5);"></span> CTA Sections</h4>
+        <p>Gradient border or glow effect surrounding the action area. The most visually intense section, drawing the eye to conversion.</p>
+      </div>
+    </div>
+
+    <!-- Terminal showcase -->
+    <div class="terminal-showcase animate-on-scroll">
+      <div class="terminal-bar">
+        <span class="terminal-dot terminal-dot--red"></span>
+        <span class="terminal-dot terminal-dot--yellow"></span>
+        <span class="terminal-dot terminal-dot--green"></span>
+        <span class="terminal-title">dark-neon-ui ~ terminal</span>
+      </div>
+      <div class="terminal-body">
+        <span class="comment"># Initialize a new Dark Mode Neon project</span><br>
+        <span class="prompt">$</span> <span class="cmd">neon init</span> <span class="flag">--template</span> <span class="string">"dark-mode-neon"</span><br>
+        <span class="output">Creating project structure...</span><br>
+        <span class="success">  [OK] Generated CSS custom properties</span><br>
+        <span class="success">  [OK] Configured dark surface layers (void, carbon, graphite, slate)</span><br>
+        <span class="success">  [OK] Loaded neon accent palette (cyan, magenta, green, violet)</span><br>
+        <span class="success">  [OK] Applied glow shadow definitions</span><br>
+        <span class="output">Installing typography...</span><br>
+        <span class="success">  [OK] Space Grotesk 400..700 -- headings</span><br>
+        <span class="success">  [OK] Inter 400..600 -- body text</span><br>
+        <span class="success">  [OK] JetBrains Mono 400..500 -- code blocks</span><br><br>
+        <span class="prompt">$</span> <span class="cmd">neon serve</span> <span class="flag">--port</span> <span class="string">3000</span><br>
+        <span class="success">  Server running at http://localhost:3000</span><br>
+        <span class="prompt">$</span> <span class="cursor-blink"></span>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- CSS Techniques -->
+  <section id="techniques" class="section">
+    <div class="section-header animate-on-scroll">
+      <span class="section-label">CSS Techniques</span>
+      <h2>Component Patterns</h2>
+      <p>Live-rendered component previews with the CSS that powers them. Hover and interact to see the neon effects in action.</p>
+    </div>
+
+    <div class="techniques-grid">
+      <!-- Neon Card -->
+      <div class="technique-block animate-on-scroll">
+        <div class="technique-header">
+          <span class="technique-title">Neon Card</span>
+          <span class="technique-tag">Component</span>
+        </div>
+        <div class="technique-preview">
+          <div class="preview-card-demo">Hover me</div>
+        </div>
+        <div class="technique-code">
+          <span class="selector">.neon-card</span> {<br>
+          &nbsp;&nbsp;<span class="prop">background</span>: <span class="val">var(--neon-carbon)</span>;<br>
+          &nbsp;&nbsp;<span class="prop">border</span>: <span class="val">1px solid var(--neon-slate)</span>;<br>
+          &nbsp;&nbsp;<span class="prop">border-radius</span>: <span class="unit">12px</span>;<br>
+          &nbsp;&nbsp;<span class="prop">transition</span>: <span class="val">border-color 0.3s, box-shadow 0.3s</span>;<br>
+          }<br>
+          <span class="selector">.neon-card:hover</span> {<br>
+          &nbsp;&nbsp;<span class="prop">border-color</span>: <span class="val">var(--neon-cyan)</span>;<br>
+          &nbsp;&nbsp;<span class="prop">box-shadow</span>: <span class="val">var(--glow-cyan)</span>;<br>
+          }
+        </div>
+      </div>
+
+      <!-- Neon Button -->
+      <div class="technique-block animate-on-scroll">
+        <div class="technique-header">
+          <span class="technique-title">Neon Button</span>
+          <span class="technique-tag">Interactive</span>
+        </div>
+        <div class="technique-preview">
+          <div class="preview-btn-demo">
+            <a href="#" class="btn" onclick="return false;" style="padding: 10px 24px; font-size: 0.8rem;">Outline</a>
+            <a href="#" class="btn btn--filled" onclick="return false;" style="padding: 10px 24px; font-size: 0.8rem;">Filled</a>
+            <a href="#" class="btn btn--magenta" onclick="return false;" style="padding: 10px 24px; font-size: 0.8rem;">Magenta</a>
+          </div>
+        </div>
+        <div class="technique-code">
+          <span class="selector">.neon-button</span> {<br>
+          &nbsp;&nbsp;<span class="prop">background</span>: <span class="val">transparent</span>;<br>
+          &nbsp;&nbsp;<span class="prop">color</span>: <span class="val">var(--neon-cyan)</span>;<br>
+          &nbsp;&nbsp;<span class="prop">border</span>: <span class="val">2px solid var(--neon-cyan)</span>;<br>
+          &nbsp;&nbsp;<span class="prop">text-transform</span>: <span class="val">uppercase</span>;<br>
+          }<br>
+          <span class="selector">.neon-button:hover</span> {<br>
+          &nbsp;&nbsp;<span class="prop">background</span>: <span class="val">rgba(0, 240, 255, 0.1)</span>;<br>
+          &nbsp;&nbsp;<span class="prop">box-shadow</span>: <span class="val">var(--glow-cyan)</span>;<br>
+          }
+        </div>
+      </div>
+
+      <!-- Gradient Glow Border -->
+      <div class="technique-block animate-on-scroll">
+        <div class="technique-header">
+          <span class="technique-title">Gradient Glow Border</span>
+          <span class="technique-tag">Effect</span>
+        </div>
+        <div class="technique-preview">
+          <div class="preview-glow-demo">Hover me</div>
+        </div>
+        <div class="technique-code">
+          <span class="selector">.neon-glow-border::before</span> {<br>
+          &nbsp;&nbsp;<span class="prop">content</span>: <span class="val">''</span>;<br>
+          &nbsp;&nbsp;<span class="prop">position</span>: <span class="val">absolute</span>;<br>
+          &nbsp;&nbsp;<span class="prop">inset</span>: <span class="unit">-1px</span>;<br>
+          &nbsp;&nbsp;<span class="prop">background</span>: <span class="val">linear-gradient(</span><br>
+          &nbsp;&nbsp;&nbsp;&nbsp;<span class="val">135deg, cyan, magenta, violet</span><br>
+          &nbsp;&nbsp;<span class="val">)</span>;<br>
+          &nbsp;&nbsp;<span class="prop">z-index</span>: <span class="unit">-1</span>;<br>
+          &nbsp;&nbsp;<span class="prop">opacity</span>: <span class="unit">0.5</span>;<br>
+          }
+        </div>
+      </div>
+
+      <!-- Terminal Block -->
+      <div class="technique-block animate-on-scroll">
+        <div class="technique-header">
+          <span class="technique-title">Terminal Block</span>
+          <span class="technique-tag">Layout</span>
+        </div>
+        <div class="technique-preview" style="align-items: stretch; padding: 16px;">
+          <div style="width: 100%; background: var(--neon-void); border: 1px solid var(--neon-slate); border-radius: 6px; padding: 16px; font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; line-height: 1.8;">
+            <span style="color: var(--neon-cyan);">$</span> <span style="color: var(--neon-text-primary);">npm run</span> <span style="color: var(--neon-magenta);">build</span><br>
+            <span style="color: var(--neon-green);">Build complete in 1.2s</span>
+          </div>
+        </div>
+        <div class="technique-code">
+          <span class="selector">.neon-terminal</span> {<br>
+          &nbsp;&nbsp;<span class="prop">background</span>: <span class="val">var(--neon-void)</span>;<br>
+          &nbsp;&nbsp;<span class="prop">border</span>: <span class="val">1px solid var(--neon-slate)</span>;<br>
+          &nbsp;&nbsp;<span class="prop">font-family</span>: <span class="val">'JetBrains Mono'</span>;<br>
+          &nbsp;&nbsp;<span class="prop">color</span>: <span class="val">var(--neon-green)</span>;<br>
+          }<br>
+          <span class="selector">.prompt</span> { <span class="prop">color</span>: <span class="val">var(--neon-cyan)</span>; }
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- Do's and Don'ts -->
+  <section id="guidelines" class="section">
+    <div class="section-header animate-on-scroll">
+      <span class="section-label">Guidelines</span>
+      <h2>Design Do's &amp; Don'ts</h2>
+      <p>Guardrails for maintaining the Dark Mode Neon aesthetic without compromising usability.</p>
+    </div>
+
+    <div class="dos-donts">
+      <div class="dos-column animate-on-scroll">
+        <h3>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--neon-green)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          Do
+        </h3>
+        <ul class="check-list">
+          <li>Use 3-4 dark shades to create depth and layered surfaces</li>
+          <li>Apply glow effects strategically to primary actions and focal points</li>
+          <li>Maintain high contrast between text and dark backgrounds (WCAG AA minimum)</li>
+          <li>Use neon color sparingly: 2-3 accent colors maximum per page</li>
+          <li>Create the illusion of light emission with multi-layered box-shadows</li>
+          <li>Use monospace or geometric sans-serif fonts for the tech aesthetic</li>
+          <li>Test on both OLED and LCD screens -- glow effects render differently</li>
+          <li>Let the dark background breathe; negative space is powerful in dark themes</li>
+        </ul>
+      </div>
+      <div class="donts-column animate-on-scroll">
+        <h3>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--neon-magenta)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          Don't
+        </h3>
+        <ul class="check-list">
+          <li>Use pure black (#000000) as the base -- it causes halation with bright text</li>
+          <li>Apply glow effects to every element -- it becomes visual noise</li>
+          <li>Use light or pastel colors for large surfaces -- they break the dark mode illusion</li>
+          <li>Pair multiple neon colors in equal amounts -- one should dominate</li>
+          <li>Skip contrast checking because "it looks cool" -- readability is paramount</li>
+          <li>Use warm-toned backgrounds (brown, dark red) -- stick to cool, neutral darks</li>
+          <li>Overuse animations on glowing elements -- subtle pulse is fine, constant flashing is not</li>
+          <li>Forget that dark mode is functional first: reduce eye strain, then add style</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- Related Aesthetics -->
+  <section class="section">
+    <div class="section-header animate-on-scroll">
+      <span class="section-label">Related Aesthetics</span>
+      <h2>Design Neighborhood</h2>
+      <p>Dark Mode Neon sits within a constellation of related visual languages. Here are its closest relatives.</p>
+    </div>
+
+    <div class="related-grid">
+      <div class="related-card animate-on-scroll">
+        <h4>Laser Grid</h4>
+        <p>Shares neon-on-dark palette with a specific retrowave/synthwave grid visual language.</p>
+      </div>
+      <div class="related-card animate-on-scroll">
+        <h4>Cyberminimalism</h4>
+        <p>Dark, tech-forward approach but strips away the glow and maximalist neon energy.</p>
+      </div>
+      <div class="related-card animate-on-scroll">
+        <h4>RGB Gamer</h4>
+        <p>Cousin aesthetic; uses RGB lighting and neon but with a gaming hardware focus.</p>
+      </div>
+      <div class="related-card animate-on-scroll">
+        <h4>Early Cyber</h4>
+        <p>Historical precursor; 90s hacker/cyber culture with green-on-black terminal aesthetics.</p>
+      </div>
+      <div class="related-card animate-on-scroll">
+        <h4>Dark Aero</h4>
+        <p>Shares dark UI approach with glossy, translucent elements rather than neon glow.</p>
+      </div>
+      <div class="related-card animate-on-scroll">
+        <h4>Neon Ooze</h4>
+        <p>Maximalist neon sibling; pushes saturation and organic forms to the extreme.</p>
+      </div>
+      <div class="related-card animate-on-scroll">
+        <h4>Acid Design</h4>
+        <p>Shares electric color intensity but embraces chaos and distortion over clean glow.</p>
+      </div>
+      <div class="related-card animate-on-scroll">
+        <h4>Metalheart</h4>
+        <p>Shares dark backgrounds with metallic and chrome accents rather than neon.</p>
+      </div>
+      <div class="related-card animate-on-scroll">
+        <h4>Glassmorphism</h4>
+        <p>Can be combined: frosted glass cards on dark backgrounds with neon glow borders.</p>
+      </div>
+      <div class="related-card animate-on-scroll">
+        <h4>Flat Design</h4>
+        <p>Opposite approach; bright backgrounds, solid colors, no shadows or glow effects.</p>
+      </div>
+      <div class="related-card animate-on-scroll">
+        <h4>PC-98</h4>
+        <p>Retro precursor; limited-palette pixel art on dark backgrounds from Japanese PCs.</p>
+      </div>
+      <div class="related-card animate-on-scroll">
+        <h4>Neumorphism</h4>
+        <p>Contrasting approach; soft shadows on light/same-tone backgrounds vs. sharp glow on dark.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- CTA Section -->
+  <section class="cta-section">
+    <div class="cta-inner animate-on-scroll">
+      <span class="section-label" style="border-color: rgba(255, 0, 128, 0.25); color: var(--neon-magenta); background: rgba(255, 0, 128, 0.04);">Quick Start</span>
+      <h2>Ready to Build Something <span style="color: var(--neon-cyan); text-shadow: 0 0 20px rgba(0, 240, 255, 0.3);">Electric</span>?</h2>
+      <p>Use the CSS custom properties, font pairings, and component patterns above to create dark interfaces that glow with purpose.</p>
+      <div style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;">
+        <a href="#palette" class="btn btn--filled">Copy Palette</a>
+        <a href="#techniques" class="btn btn--magenta">View Components</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-brand">DARK//NEON</div>
+    <div class="footer-divider"></div>
+    <p>
+      A design system reference for the Dark Mode Neon aesthetic.<br>
+      High contrast. Vivid accents. Pure focus.
+    </p>
+  </footer>
+
+  <!-- JavaScript: Scroll animation observer -->
+  <script>
+    // Intersection Observer for scroll-triggered animations
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, {
+      threshold: 0.1,
+      rootMargin: '0px 0px -40px 0px'
+    });
+
+    document.querySelectorAll('.animate-on-scroll').forEach((el) => {
+      observer.observe(el);
+    });
+
+    // Stagger animations for grid children
+    const staggerObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const children = entry.target.querySelectorAll('.animate-on-scroll');
+          children.forEach((child, index) => {
+            child.style.transitionDelay = `${index * 0.08}s`;
+            child.classList.add('visible');
+          });
+        }
+      });
+    }, {
+      threshold: 0.05,
+      rootMargin: '0px 0px -20px 0px'
+    });
+
+    // Observe grid parent containers for stagger effect
+    document.querySelectorAll('.traits-grid, .principles-grid, .techniques-grid, .related-grid, .layout-demo').forEach((grid) => {
+      staggerObserver.observe(grid);
+    });
+
+    // Active nav link highlighting on scroll
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.nav-links a');
+
+    window.addEventListener('scroll', () => {
+      let current = '';
+      sections.forEach((section) => {
+        const sectionTop = section.offsetTop - 120;
+        if (window.scrollY >= sectionTop) {
+          current = section.getAttribute('id');
+        }
+      });
+
+      navLinks.forEach((link) => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === `#${current}`) {
+          link.classList.add('active');
+        }
+      });
+    });
+
+    // Smooth scroll for nav links
+    document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+      anchor.addEventListener('click', function (e) {
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          e.preventDefault();
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+  </script>
+</body>
+</html>
