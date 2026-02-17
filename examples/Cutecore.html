@@ -1,0 +1,2203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cutecore -- Design Reference</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;800&family=Caveat:wght@400;700&family=Comfortaa:wght@300;400;700&family=Gloria+Hallelujah&family=Patrick+Hand&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* ========================================
+       CSS CUSTOM PROPERTIES
+       ======================================== */
+    :root {
+      --cute-soft-pink: #ffb6c1;
+      --cute-blush: #f8a4b8;
+      --cute-cream: #fff5f5;
+      --cute-white: #fffaf0;
+
+      --cute-hot-pink: #ff69b4;
+      --cute-magenta: #ff1493;
+      --cute-pastel-yellow: #ffeaa7;
+      --cute-pastel-blue: #aec6cf;
+      --cute-lavender: #e6e6fa;
+      --cute-pastel-lilac: #d8b4fe;
+
+      --cute-strawberry: #dc143c;
+      --cute-blood: #8b0000;
+      --cute-blood-bright: #b22222;
+      --cute-bruise: #4a1942;
+      --cute-dark-plum: #6b2d5b;
+
+      --cute-bandage: #f5deb3;
+      --cute-near-black: #1a0a14;
+
+      --cute-glow-pink: #ff8ec7;
+      --cute-glow-soft: #ffb3d9;
+      --cute-glow-amber: #ffcc80;
+
+      --cute-bg-primary: var(--cute-soft-pink);
+      --cute-bg-secondary: var(--cute-cream);
+      --cute-bg-card: var(--cute-white);
+      --cute-text-primary: var(--cute-near-black);
+      --cute-text-secondary: var(--cute-dark-plum);
+      --cute-text-heading: var(--cute-hot-pink);
+      --cute-accent: var(--cute-magenta);
+      --cute-accent-danger: var(--cute-strawberry);
+      --cute-border: var(--cute-blush);
+      --cute-shadow: rgba(255, 105, 180, 0.25);
+    }
+
+    /* ========================================
+       RESET & BASE
+       ======================================== */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      overflow-x: hidden;
+    }
+
+    body {
+      background: var(--cute-soft-pink);
+      color: var(--cute-text-primary);
+      font-family: 'Quicksand', sans-serif;
+      font-weight: 500;
+      font-size: 1rem;
+      line-height: 1.7;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    h1, h2, h3, h4 {
+      font-family: 'Comfortaa', cursive;
+      font-weight: 700;
+      color: var(--cute-text-heading);
+      line-height: 1.2;
+      letter-spacing: 0.02em;
+    }
+
+    h1 { font-size: clamp(2.4rem, 5vw, 4.2rem); }
+    h2 { font-size: clamp(1.6rem, 3.5vw, 2.5rem); }
+    h3 { font-size: clamp(1.2rem, 2.5vw, 1.8rem); }
+
+    p { margin-bottom: 0.8rem; }
+
+    a {
+      color: var(--cute-hot-pink);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    a:hover { color: var(--cute-magenta); }
+
+    /* ========================================
+       NOISE OVERLAY (global)
+       ======================================== */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 9999;
+      mix-blend-mode: multiply;
+    }
+
+    /* ========================================
+       UTILITY CLASSES
+       ======================================== */
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    .handwritten {
+      font-family: 'Patrick Hand', cursive;
+      font-size: 1.3em;
+      color: var(--cute-dark-plum);
+    }
+
+    .kaomoji {
+      font-family: 'Quicksand', monospace;
+      font-size: 0.85rem;
+      color: var(--cute-hot-pink);
+      letter-spacing: 0.15em;
+      opacity: 0.8;
+    }
+
+    .caveat {
+      font-family: 'Caveat', cursive;
+    }
+
+    .gloria {
+      font-family: 'Gloria Hallelujah', cursive;
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 0.2rem 0.75rem;
+      font-family: 'Quicksand', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      border-radius: 100px;
+      color: #fff;
+      margin-bottom: 0.6rem;
+      margin-right: 0.3rem;
+    }
+    .tag--pink { background: var(--cute-hot-pink); }
+    .tag--strawberry { background: var(--cute-strawberry); }
+    .tag--lavender { background: #9b59b6; }
+    .tag--blue { background: #6fa8c7; }
+    .tag--plum { background: var(--cute-dark-plum); }
+    .tag--yellow { background: #d4a017; }
+
+    /* ========================================
+       EMOJI DIVIDER
+       ======================================== */
+    .emoji-divider {
+      text-align: center;
+      padding: 1.8rem 0;
+      font-size: 1rem;
+      letter-spacing: 0.5em;
+      user-select: none;
+      opacity: 0.7;
+    }
+
+    /* ========================================
+       HERO SECTION
+       ======================================== */
+    .hero {
+      position: relative;
+      text-align: center;
+      padding: 6rem 2rem 4rem;
+      background:
+        radial-gradient(ellipse at 30% 20%, rgba(255, 105, 180, 0.15) 0%, transparent 50%),
+        radial-gradient(ellipse at 70% 80%, rgba(255, 179, 217, 0.2) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 50%, rgba(255, 234, 167, 0.08) 0%, transparent 60%),
+        linear-gradient(135deg, var(--cute-cream) 0%, var(--cute-soft-pink) 50%, var(--cute-lavender) 100%);
+      overflow: hidden;
+    }
+
+    /* Pink LED strip at very top */
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--cute-hot-pink), var(--cute-glow-pink), var(--cute-magenta), var(--cute-glow-pink), var(--cute-hot-pink));
+      box-shadow: 0 0 15px var(--cute-glow-pink), 0 0 40px var(--cute-glow-soft), 0 0 80px rgba(255, 142, 199, 0.3);
+      z-index: 10;
+    }
+
+    /* Blood drips from LED strip */
+    .hero::after {
+      content: '';
+      position: absolute;
+      top: 4px; left: 0; right: 0;
+      height: 60px;
+      background:
+        linear-gradient(180deg, var(--cute-strawberry) 0%, var(--cute-blood) 40%, transparent 100%) no-repeat 12% 0 / 6px 45px,
+        linear-gradient(180deg, var(--cute-blood-bright) 0%, var(--cute-blood) 50%, transparent 100%) no-repeat 28% 0 / 4px 28px,
+        linear-gradient(180deg, var(--cute-strawberry) 0%, transparent 100%) no-repeat 67% 0 / 5px 35px,
+        linear-gradient(180deg, var(--cute-blood-bright) 0%, var(--cute-blood) 60%, transparent 100%) no-repeat 85% 0 / 7px 50px,
+        linear-gradient(180deg, var(--cute-strawberry) 0%, transparent 100%) no-repeat 44% 0 / 3px 20px;
+      opacity: 0.5;
+      pointer-events: none;
+      z-index: 11;
+    }
+
+    .hero-title {
+      font-family: 'Baloo 2', cursive;
+      font-weight: 800;
+      font-size: clamp(3rem, 7vw, 6rem);
+      color: var(--cute-hot-pink);
+      text-shadow: 0 0 30px var(--cute-glow-soft), 0 0 60px rgba(255, 142, 199, 0.2);
+      margin-bottom: 0.3rem;
+      position: relative;
+      z-index: 2;
+      animation: hero-float 4s ease-in-out infinite;
+    }
+
+    @keyframes hero-float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+
+    .hero-subtitle {
+      font-family: 'Patrick Hand', cursive;
+      font-size: clamp(1.1rem, 2.5vw, 1.6rem);
+      color: var(--cute-dark-plum);
+      transform: rotate(-1.5deg);
+      display: inline-block;
+      margin-bottom: 1.5rem;
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-desc {
+      max-width: 680px;
+      margin: 0 auto;
+      font-size: 1.05rem;
+      color: var(--cute-text-primary);
+      opacity: 0.9;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* Floating decorative elements in hero */
+    .float-deco {
+      position: absolute;
+      font-size: 2rem;
+      opacity: 0.35;
+      user-select: none;
+      pointer-events: none;
+      z-index: 1;
+      animation: deco-drift 6s ease-in-out infinite;
+    }
+    .float-deco:nth-child(1) { top: 15%; left: 5%; animation-delay: 0s; font-size: 1.8rem; }
+    .float-deco:nth-child(2) { top: 25%; right: 8%; animation-delay: -1.5s; font-size: 2.2rem; }
+    .float-deco:nth-child(3) { bottom: 20%; left: 12%; animation-delay: -3s; font-size: 1.5rem; }
+    .float-deco:nth-child(4) { top: 60%; right: 15%; animation-delay: -0.8s; font-size: 1.6rem; }
+    .float-deco:nth-child(5) { top: 10%; left: 40%; animation-delay: -2.2s; font-size: 1.3rem; }
+    .float-deco:nth-child(6) { bottom: 10%; right: 25%; animation-delay: -4s; font-size: 2rem; }
+    .float-deco:nth-child(7) { top: 45%; left: 3%; animation-delay: -1s; font-size: 1.4rem; }
+
+    @keyframes deco-drift {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      25% { transform: translateY(-8px) rotate(3deg); }
+      75% { transform: translateY(5px) rotate(-2deg); }
+    }
+
+    /* Bandage on hero */
+    .hero-bandage {
+      position: absolute;
+      width: 90px;
+      height: 26px;
+      background: var(--cute-bandage);
+      border: 1px solid #e0c9a0;
+      border-radius: 4px;
+      z-index: 5;
+      box-shadow: 1px 2px 4px rgba(0,0,0,0.1);
+    }
+    .hero-bandage::before {
+      content: '';
+      position: absolute;
+      top: 4px; left: 50%;
+      transform: translateX(-50%);
+      width: 26px; height: 18px;
+      background: #e8d5b8;
+      border-radius: 2px;
+    }
+    .hero-bandage::after {
+      content: '';
+      position: absolute;
+      top: 9px; left: 8px; right: 8px;
+      height: 8px;
+      background-image: radial-gradient(circle, rgba(0,0,0,0.1) 1px, transparent 1px);
+      background-size: 6px 6px;
+    }
+    .hero-bandage--1 { top: 18%; right: 6%; transform: rotate(-12deg); }
+    .hero-bandage--2 { bottom: 25%; left: 4%; transform: rotate(8deg); }
+
+    /* ========================================
+       NAV PILLS
+       ======================================== */
+    .nav-bar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 1.5rem 1rem;
+      background: var(--cute-cream);
+      border-bottom: 2px solid var(--cute-blush);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 4px 20px var(--cute-shadow);
+    }
+
+    .nav-pill {
+      font-family: 'Quicksand', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 0.4rem 1rem;
+      border-radius: 100px;
+      border: 2px solid var(--cute-blush);
+      background: var(--cute-white);
+      color: var(--cute-hot-pink);
+      cursor: pointer;
+      transition: all 0.25s ease;
+      text-decoration: none;
+    }
+    .nav-pill:hover {
+      background: var(--cute-hot-pink);
+      color: #fff;
+      border-color: var(--cute-hot-pink);
+      box-shadow: 0 0 12px var(--cute-glow-pink);
+      transform: translateY(-2px);
+    }
+
+    /* ========================================
+       SECTION: VISUAL CHARACTERISTICS
+       ======================================== */
+    .section-pink {
+      background:
+        radial-gradient(ellipse at 20% 50%, rgba(255,105,180,0.08) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 30%, rgba(255,179,217,0.1) 0%, transparent 50%),
+        var(--cute-cream);
+      padding: 4rem 0;
+      position: relative;
+    }
+
+    .section-title-wrap {
+      text-align: center;
+      margin-bottom: 2.5rem;
+    }
+
+    .section-title-wrap h2 {
+      display: inline-block;
+      position: relative;
+    }
+
+    .section-title-wrap h2::before {
+      content: '\2728';
+      position: absolute;
+      top: -10px; left: -20px;
+      font-size: 0.9rem;
+      opacity: 0.6;
+    }
+    .section-title-wrap h2::after {
+      content: '\2728';
+      position: absolute;
+      bottom: -6px; right: -20px;
+      font-size: 0.7rem;
+      opacity: 0.4;
+    }
+
+    .section-subtitle {
+      font-family: 'Patrick Hand', cursive;
+      color: var(--cute-dark-plum);
+      font-size: 1.1rem;
+      transform: rotate(-1deg);
+      display: inline-block;
+      margin-top: 0.3rem;
+    }
+
+    /* ========================================
+       CUTE CARDS
+       ======================================== */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.2rem;
+    }
+
+    .cute-card {
+      background: var(--cute-bg-card);
+      border: 2px solid var(--cute-blush);
+      border-radius: 16px;
+      padding: 1.5rem;
+      position: relative;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 4px 16px var(--cute-shadow);
+      overflow: hidden;
+    }
+
+    .cute-card:hover {
+      transform: translateY(-4px) scale(1.02);
+      box-shadow: 0 8px 30px rgba(255, 105, 180, 0.35);
+      border-color: var(--cute-hot-pink);
+    }
+
+    .cute-card h3 {
+      margin-bottom: 0.5rem;
+    }
+
+    .cute-card--edgy {
+      border-color: var(--cute-strawberry);
+      box-shadow: 0 4px 16px rgba(220, 20, 60, 0.15);
+    }
+    .cute-card--edgy::after {
+      content: '';
+      position: absolute;
+      top: -2px; right: -2px;
+      width: 30px; height: 30px;
+      background: radial-gradient(circle, var(--cute-strawberry) 30%, transparent 70%);
+      opacity: 0.4;
+      border-radius: 0 16px 0 0;
+      pointer-events: none;
+    }
+    .cute-card--edgy:hover {
+      border-color: var(--cute-strawberry);
+      box-shadow: 0 8px 30px rgba(220, 20, 60, 0.3);
+    }
+
+    /* Splatter overlay for edgy cards */
+    .cute-card--splatter::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        radial-gradient(circle at 15% 85%, var(--cute-strawberry) 2px, transparent 2px),
+        radial-gradient(circle at 82% 12%, var(--cute-blood-bright) 3px, transparent 3px),
+        radial-gradient(circle at 45% 92%, var(--cute-strawberry) 1.5px, transparent 1.5px),
+        radial-gradient(circle at 70% 78%, var(--cute-blood) 2.5px, transparent 2.5px),
+        radial-gradient(circle at 25% 15%, var(--cute-blood-bright) 1px, transparent 1px);
+      opacity: 0.25;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .card-motif-list {
+      list-style: none;
+      font-size: 0.9rem;
+    }
+    .card-motif-list li {
+      padding: 0.25rem 0;
+      padding-left: 1.2rem;
+      position: relative;
+    }
+    .card-motif-list li::before {
+      content: attr(data-bullet);
+      position: absolute;
+      left: 0;
+      font-size: 0.8rem;
+    }
+
+    /* ========================================
+       STICKER CARDS (floating pill shapes)
+       ======================================== */
+    .sticker-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: center;
+      padding: 2rem 1rem;
+    }
+
+    .sticker {
+      background: var(--cute-bg-card);
+      border: 3px solid var(--cute-hot-pink);
+      border-radius: 24px;
+      padding: 0.8rem 1.4rem;
+      display: inline-block;
+      box-shadow: 2px 3px 0 var(--cute-blush), 4px 6px 12px var(--cute-shadow);
+      font-size: 0.85rem;
+      font-weight: 600;
+      transition: transform 0.25s ease;
+    }
+    .sticker:nth-child(odd) { transform: rotate(-2deg); }
+    .sticker:nth-child(even) { transform: rotate(1.5deg); }
+    .sticker:hover { transform: rotate(0deg) scale(1.08); }
+
+    .sticker--dark {
+      background: var(--cute-bruise);
+      border-color: var(--cute-strawberry);
+      color: var(--cute-glow-pink);
+    }
+
+    .sticker--yellow {
+      border-color: var(--cute-pastel-yellow);
+      background: #fffef5;
+    }
+
+    /* ========================================
+       COLOR PALETTE SECTION
+       ======================================== */
+    .palette-section {
+      background:
+        radial-gradient(ellipse at 60% 40%, rgba(255,234,167,0.1) 0%, transparent 50%),
+        var(--cute-soft-pink);
+      padding: 4rem 0;
+    }
+
+    .palette-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 0.8rem;
+    }
+
+    .swatch {
+      border-radius: 16px;
+      padding: 1.2rem 1rem 0.8rem;
+      text-align: center;
+      position: relative;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      overflow: hidden;
+      border: 2px solid rgba(255,255,255,0.3);
+    }
+    .swatch:hover {
+      transform: translateY(-4px) scale(1.04);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+    }
+    .swatch-color {
+      width: 50px; height: 50px;
+      border-radius: 50%;
+      margin: 0 auto 0.6rem;
+      border: 3px solid rgba(255,255,255,0.5);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .swatch-name {
+      font-family: 'Quicksand', sans-serif;
+      font-weight: 700;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.2rem;
+    }
+    .swatch-hex {
+      font-family: 'Caveat', cursive;
+      font-size: 0.9rem;
+      opacity: 0.8;
+    }
+    .swatch--light { color: var(--cute-near-black); }
+    .swatch--dark { color: var(--cute-glow-pink); }
+
+    /* ========================================
+       DARK SECTION (Horror contrast)
+       ======================================== */
+    .dark-section {
+      background: linear-gradient(135deg, var(--cute-bruise) 0%, var(--cute-near-black) 50%, var(--cute-dark-plum) 100%);
+      color: var(--cute-glow-pink);
+      padding: 4rem 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .dark-section::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--cute-hot-pink), var(--cute-glow-pink), var(--cute-magenta), var(--cute-glow-pink), var(--cute-hot-pink));
+      box-shadow: 0 0 15px var(--cute-glow-pink), 0 0 40px var(--cute-glow-soft);
+      z-index: 2;
+    }
+
+    .dark-section h2 {
+      color: var(--cute-hot-pink);
+      text-shadow: 0 0 20px var(--cute-glow-pink);
+    }
+
+    .dark-section p {
+      color: var(--cute-soft-pink);
+      opacity: 0.9;
+    }
+
+    .dark-section .cute-card {
+      background: rgba(255, 255, 255, 0.04);
+      border-color: rgba(255, 105, 180, 0.2);
+      color: var(--cute-soft-pink);
+    }
+    .dark-section .cute-card:hover {
+      border-color: var(--cute-hot-pink);
+      box-shadow: 0 0 20px rgba(255, 105, 180, 0.25);
+    }
+    .dark-section .cute-card h3 {
+      color: var(--cute-hot-pink);
+      text-shadow: 0 0 10px var(--cute-glow-pink);
+    }
+
+    /* CRT screen inside dark section */
+    .crt-screen {
+      background: var(--cute-near-black);
+      border: 10px solid #2a2a2a;
+      border-radius: 12px;
+      padding: 2rem;
+      position: relative;
+      box-shadow: inset 0 0 30px rgba(255, 142, 199, 0.08), 0 8px 24px rgba(0,0,0,0.4);
+      max-width: 600px;
+      margin: 2rem auto;
+      overflow: hidden;
+    }
+    .crt-screen::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.06) 2px, rgba(0,0,0,0.06) 4px);
+      pointer-events: none;
+      border-radius: 4px;
+    }
+    .crt-text {
+      color: var(--cute-glow-pink);
+      font-family: 'Courier New', monospace;
+      font-size: 0.85rem;
+      text-shadow: 0 0 8px var(--cute-glow-pink);
+      line-height: 1.8;
+      position: relative;
+      z-index: 1;
+    }
+    .crt-text .cursor-blink {
+      display: inline-block;
+      width: 8px;
+      height: 1.1em;
+      background: var(--cute-glow-pink);
+      animation: blink-cursor 1s step-end infinite;
+      vertical-align: text-bottom;
+      margin-left: 2px;
+    }
+    @keyframes blink-cursor {
+      0%, 50% { opacity: 1; }
+      51%, 100% { opacity: 0; }
+    }
+
+    /* Flicker animation */
+    .flicker {
+      animation: cute-flicker 4s infinite;
+    }
+    @keyframes cute-flicker {
+      0%, 90%, 100% { opacity: 1; }
+      92% { opacity: 0.8; }
+      94% { opacity: 1; }
+      96% { opacity: 0.6; }
+      98% { opacity: 1; }
+    }
+
+    /* ========================================
+       TYPOGRAPHY SHOWCASE
+       ======================================== */
+    .typo-section {
+      background: var(--cute-cream);
+      padding: 4rem 0;
+    }
+
+    .typo-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .typo-card {
+      background: var(--cute-white);
+      border: 2px solid var(--cute-blush);
+      border-radius: 16px;
+      padding: 1.5rem;
+      text-align: center;
+      transition: transform 0.3s, box-shadow 0.3s;
+      box-shadow: 0 4px 16px var(--cute-shadow);
+    }
+    .typo-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 30px rgba(255,105,180,0.3);
+    }
+    .typo-card .font-preview {
+      font-size: 2rem;
+      color: var(--cute-hot-pink);
+      margin-bottom: 0.5rem;
+      line-height: 1.3;
+    }
+    .typo-card .font-name {
+      font-family: 'Quicksand', sans-serif;
+      font-weight: 700;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--cute-dark-plum);
+      margin-bottom: 0.3rem;
+    }
+    .typo-card .font-usage {
+      font-family: 'Caveat', cursive;
+      font-size: 0.95rem;
+      color: var(--cute-strawberry);
+    }
+
+    /* ========================================
+       LAYOUT PRINCIPLES (Shrine Grid)
+       ======================================== */
+    .shrine-section {
+      padding: 4rem 0;
+      background:
+        radial-gradient(ellipse at 40% 60%, rgba(255,105,180,0.06) 0%, transparent 50%),
+        var(--cute-soft-pink);
+    }
+
+    .shrine-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 0.5rem;
+    }
+
+    .shrine-item {
+      background: var(--cute-white);
+      border: 2px solid var(--cute-blush);
+      border-radius: 12px;
+      padding: 0.8rem;
+      text-align: center;
+      font-size: 0.8rem;
+      transition: transform 0.3s, box-shadow 0.3s;
+      box-shadow: 0 2px 8px var(--cute-shadow);
+      position: relative;
+      overflow: hidden;
+    }
+    .shrine-item:hover {
+      transform: scale(1.05) rotate(-1deg);
+      box-shadow: 0 6px 20px rgba(255,105,180,0.35);
+      z-index: 2;
+    }
+    .shrine-item:nth-child(4n+1) { grid-row: span 2; }
+    .shrine-item:nth-child(7n+3) { grid-column: span 2; }
+
+    .shrine-item .shrine-emoji {
+      font-size: 2rem;
+      display: block;
+      margin-bottom: 0.3rem;
+    }
+    .shrine-item .shrine-label {
+      font-family: 'Quicksand', sans-serif;
+      font-weight: 700;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--cute-dark-plum);
+    }
+
+    /* ========================================
+       CSS TECHNIQUES SHOWCASE
+       ======================================== */
+    .techniques-section {
+      padding: 4rem 0;
+      background: var(--cute-cream);
+    }
+
+    .tech-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .tech-card {
+      background: var(--cute-white);
+      border: 2px solid var(--cute-blush);
+      border-radius: 16px;
+      overflow: hidden;
+      transition: transform 0.3s, box-shadow 0.3s;
+      box-shadow: 0 4px 16px var(--cute-shadow);
+    }
+    .tech-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 30px rgba(255,105,180,0.3);
+    }
+
+    .tech-card-preview {
+      height: 120px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .tech-card-body {
+      padding: 1.2rem;
+    }
+    .tech-card-body h3 {
+      font-size: 1.1rem;
+      margin-bottom: 0.3rem;
+    }
+    .tech-card-body p {
+      font-size: 0.85rem;
+      color: var(--cute-dark-plum);
+      margin-bottom: 0;
+    }
+
+    /* Preview backgrounds for each technique */
+    .preview-glow {
+      background: linear-gradient(135deg, var(--cute-cream), var(--cute-soft-pink));
+      position: relative;
+    }
+    .preview-glow::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--cute-hot-pink), var(--cute-glow-pink), var(--cute-magenta));
+      box-shadow: 0 0 15px var(--cute-glow-pink), 0 0 40px var(--cute-glow-soft), 0 0 80px rgba(255,142,199,0.3);
+    }
+    .preview-glow::after {
+      content: 'LED GLOW';
+      font-family: 'Comfortaa', cursive;
+      font-weight: 700;
+      font-size: 1.5rem;
+      color: var(--cute-hot-pink);
+      text-shadow: 0 0 15px var(--cute-glow-pink);
+    }
+
+    .preview-blood {
+      background: var(--cute-cream);
+      position: relative;
+    }
+    .preview-blood::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        radial-gradient(circle at 20% 30%, var(--cute-strawberry) 4px, transparent 4px),
+        radial-gradient(circle at 60% 70%, var(--cute-blood-bright) 6px, transparent 6px),
+        radial-gradient(circle at 80% 20%, var(--cute-strawberry) 3px, transparent 3px),
+        radial-gradient(circle at 40% 80%, var(--cute-blood) 5px, transparent 5px),
+        radial-gradient(circle at 15% 65%, var(--cute-blood-bright) 2px, transparent 2px),
+        radial-gradient(circle at 70% 45%, var(--cute-strawberry) 7px, transparent 7px),
+        radial-gradient(circle at 50% 15%, var(--cute-blood) 3px, transparent 3px);
+      opacity: 0.5;
+    }
+    .preview-blood::after {
+      content: 'SPLATTER';
+      font-family: 'Gloria Hallelujah', cursive;
+      font-size: 1.3rem;
+      color: var(--cute-strawberry);
+      position: relative;
+      z-index: 1;
+    }
+
+    .preview-crt {
+      background: var(--cute-near-black);
+      border-top: 8px solid #2a2a2a;
+      position: relative;
+    }
+    .preview-crt::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.08) 2px, rgba(0,0,0,0.08) 4px);
+      z-index: 1;
+    }
+    .preview-crt::after {
+      content: '> LOADING...';
+      font-family: 'Courier New', monospace;
+      font-size: 1rem;
+      color: var(--cute-glow-pink);
+      text-shadow: 0 0 8px var(--cute-glow-pink);
+      position: relative;
+      z-index: 2;
+      animation: cute-flicker 4s infinite;
+    }
+
+    .preview-bandage {
+      background: var(--cute-cream);
+      position: relative;
+    }
+    .preview-bandage-strip {
+      position: absolute;
+      width: 90px; height: 26px;
+      background: var(--cute-bandage);
+      border: 1px solid #e0c9a0;
+      border-radius: 4px;
+      box-shadow: 1px 2px 4px rgba(0,0,0,0.1);
+    }
+    .preview-bandage-strip::before {
+      content: '';
+      position: absolute;
+      top: 4px; left: 50%;
+      transform: translateX(-50%);
+      width: 26px; height: 18px;
+      background: #e8d5b8;
+      border-radius: 2px;
+    }
+    .preview-bandage-strip::after {
+      content: '';
+      position: absolute;
+      top: 9px; left: 8px; right: 8px;
+      height: 8px;
+      background-image: radial-gradient(circle, rgba(0,0,0,0.1) 1px, transparent 1px);
+      background-size: 6px 6px;
+    }
+    .preview-bandage-strip:nth-child(1) { top: 25%; left: 15%; transform: rotate(-12deg); }
+    .preview-bandage-strip:nth-child(2) { top: 50%; left: 45%; transform: rotate(8deg); }
+    .preview-bandage-strip:nth-child(3) { top: 30%; right: 10%; transform: rotate(-5deg); }
+
+    .preview-glitch {
+      background: var(--cute-soft-pink);
+      position: relative;
+    }
+    .preview-glitch::before {
+      content: '';
+      position: absolute;
+      inset: -2px;
+      background: linear-gradient(
+        90deg,
+        transparent 0%, rgba(255,105,180,0.3) 20%, transparent 21%,
+        transparent 45%, rgba(220,20,60,0.2) 46%, transparent 47%,
+        transparent 78%, rgba(255,20,147,0.25) 79%, transparent 80%
+      );
+      filter: blur(1px);
+      animation: cute-shift 3s ease-in-out infinite alternate;
+    }
+    .preview-glitch::after {
+      content: 'GLITCH';
+      font-family: 'Comfortaa', cursive;
+      font-weight: 700;
+      font-size: 1.5rem;
+      color: var(--cute-hot-pink);
+      position: relative;
+      z-index: 1;
+      animation: glitch-text 3s ease-in-out infinite;
+    }
+    @keyframes cute-shift {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(3px); }
+    }
+    @keyframes glitch-text {
+      0%, 100% { text-shadow: 2px 0 var(--cute-strawberry), -2px 0 var(--cute-pastel-blue); }
+      25% { text-shadow: -2px 0 var(--cute-strawberry), 2px 0 var(--cute-pastel-blue); }
+      50% { text-shadow: 2px 1px var(--cute-strawberry), -2px -1px var(--cute-pastel-blue); }
+      75% { text-shadow: -1px -1px var(--cute-strawberry), 1px 1px var(--cute-pastel-blue); }
+    }
+
+    .preview-noise {
+      background: var(--cute-cream);
+      position: relative;
+    }
+    .preview-noise::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.15'/%3E%3C/svg%3E");
+      mix-blend-mode: multiply;
+    }
+    .preview-noise::after {
+      content: 'NOISE';
+      font-family: 'Comfortaa', cursive;
+      font-weight: 700;
+      font-size: 1.5rem;
+      color: var(--cute-dark-plum);
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ========================================
+       MATERIALS TABLE
+       ======================================== */
+    .materials-section {
+      padding: 4rem 0;
+      background: var(--cute-soft-pink);
+    }
+
+    .cute-table-wrap {
+      overflow-x: auto;
+      border-radius: 16px;
+      border: 2px solid var(--cute-blush);
+      box-shadow: 0 4px 16px var(--cute-shadow);
+    }
+
+    .cute-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--cute-white);
+      font-size: 0.9rem;
+    }
+    .cute-table thead {
+      background: var(--cute-hot-pink);
+      color: #fff;
+    }
+    .cute-table th {
+      font-family: 'Comfortaa', cursive;
+      font-weight: 700;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 1rem 1.2rem;
+      text-align: left;
+    }
+    .cute-table td {
+      padding: 0.8rem 1.2rem;
+      border-bottom: 1px solid rgba(248, 164, 184, 0.3);
+      vertical-align: top;
+    }
+    .cute-table tr:last-child td { border-bottom: none; }
+    .cute-table tr:hover td {
+      background: rgba(255, 105, 180, 0.04);
+    }
+    .cute-table .material-emoji {
+      font-size: 1.2rem;
+      margin-right: 0.3rem;
+    }
+
+    /* ========================================
+       COMPARISON TABLE (dark section)
+       ======================================== */
+    .compare-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .compare-col {
+      background: rgba(255,255,255,0.04);
+      border: 2px solid rgba(255, 105, 180, 0.15);
+      border-radius: 16px;
+      padding: 1.5rem;
+      text-align: center;
+    }
+    .compare-col h4 {
+      font-family: 'Comfortaa', cursive;
+      color: var(--cute-hot-pink);
+      text-shadow: 0 0 10px var(--cute-glow-pink);
+      margin-bottom: 0.8rem;
+      font-size: 1.1rem;
+    }
+    .compare-col ul {
+      list-style: none;
+      text-align: left;
+      font-size: 0.85rem;
+    }
+    .compare-col ul li {
+      padding: 0.3rem 0;
+      color: var(--cute-soft-pink);
+      opacity: 0.85;
+    }
+    .compare-col ul li::before {
+      content: attr(data-icon);
+      margin-right: 0.4rem;
+    }
+    .compare-col--active {
+      border-color: var(--cute-hot-pink);
+      box-shadow: 0 0 20px rgba(255,105,180,0.2);
+      background: rgba(255,105,180,0.06);
+    }
+
+    /* ========================================
+       RELATED AESTHETICS
+       ======================================== */
+    .related-section {
+      padding: 4rem 0;
+      background: var(--cute-cream);
+    }
+
+    .related-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 1rem;
+    }
+
+    .related-card {
+      background: var(--cute-white);
+      border: 2px solid var(--cute-blush);
+      border-radius: 16px;
+      padding: 1.2rem;
+      transition: transform 0.3s, box-shadow 0.3s;
+      box-shadow: 0 4px 12px var(--cute-shadow);
+    }
+    .related-card:hover {
+      transform: translateY(-3px) rotate(-0.5deg);
+      box-shadow: 0 8px 24px rgba(255,105,180,0.3);
+    }
+    .related-card h4 {
+      font-size: 1rem;
+      margin-bottom: 0.3rem;
+    }
+    .related-card p {
+      font-size: 0.82rem;
+      color: var(--cute-dark-plum);
+      margin-bottom: 0;
+    }
+
+    /* ========================================
+       FOOTER
+       ======================================== */
+    .footer {
+      background: linear-gradient(135deg, var(--cute-bruise), var(--cute-near-black));
+      color: var(--cute-glow-pink);
+      text-align: center;
+      padding: 3rem 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .footer::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--cute-hot-pink), var(--cute-glow-pink), var(--cute-magenta));
+      box-shadow: 0 0 15px var(--cute-glow-pink), 0 0 40px var(--cute-glow-soft);
+    }
+    .footer-title {
+      font-family: 'Baloo 2', cursive;
+      font-weight: 800;
+      font-size: 2rem;
+      color: var(--cute-hot-pink);
+      text-shadow: 0 0 20px var(--cute-glow-pink);
+      margin-bottom: 0.5rem;
+    }
+    .footer p {
+      font-family: 'Patrick Hand', cursive;
+      font-size: 1.1rem;
+      opacity: 0.7;
+    }
+    .footer-emoji {
+      font-size: 1.3rem;
+      letter-spacing: 0.5em;
+      margin-top: 1rem;
+      opacity: 0.5;
+      user-select: none;
+    }
+
+    /* ========================================
+       ANIMATIONS (reveal on scroll)
+       ======================================== */
+    .reveal {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Staggered children */
+    .stagger > .reveal:nth-child(1) { transition-delay: 0.05s; }
+    .stagger > .reveal:nth-child(2) { transition-delay: 0.1s; }
+    .stagger > .reveal:nth-child(3) { transition-delay: 0.15s; }
+    .stagger > .reveal:nth-child(4) { transition-delay: 0.2s; }
+    .stagger > .reveal:nth-child(5) { transition-delay: 0.25s; }
+    .stagger > .reveal:nth-child(6) { transition-delay: 0.3s; }
+    .stagger > .reveal:nth-child(7) { transition-delay: 0.35s; }
+    .stagger > .reveal:nth-child(8) { transition-delay: 0.4s; }
+    .stagger > .reveal:nth-child(9) { transition-delay: 0.45s; }
+    .stagger > .reveal:nth-child(10) { transition-delay: 0.5s; }
+    .stagger > .reveal:nth-child(11) { transition-delay: 0.55s; }
+    .stagger > .reveal:nth-child(12) { transition-delay: 0.6s; }
+    .stagger > .reveal:nth-child(13) { transition-delay: 0.65s; }
+    .stagger > .reveal:nth-child(14) { transition-delay: 0.7s; }
+
+    /* ========================================
+       CSS PROPERTIES SECTION
+       ======================================== */
+    .props-section {
+      padding: 4rem 0;
+      background:
+        radial-gradient(ellipse at 25% 75%, rgba(216,180,254,0.08) 0%, transparent 50%),
+        var(--cute-soft-pink);
+    }
+
+    .props-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 0.8rem;
+    }
+
+    .prop-card {
+      background: var(--cute-white);
+      border: 2px solid var(--cute-blush);
+      border-radius: 12px;
+      padding: 0.8rem 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 2px 8px var(--cute-shadow);
+      font-size: 0.82rem;
+    }
+    .prop-card:hover {
+      transform: translateX(4px);
+      box-shadow: 0 4px 16px rgba(255,105,180,0.25);
+    }
+    .prop-dot {
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      border: 2px solid rgba(255,255,255,0.5);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    .prop-name {
+      font-family: 'Courier New', monospace;
+      font-size: 0.72rem;
+      color: var(--cute-dark-plum);
+      font-weight: 700;
+    }
+    .prop-hex {
+      font-family: 'Caveat', cursive;
+      font-size: 0.85rem;
+      color: var(--cute-strawberry);
+    }
+
+    /* ========================================
+       APPROACHES SECTION
+       ======================================== */
+    .approach-list {
+      list-style: none;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+    .approach-list li {
+      background: var(--cute-white);
+      border: 2px solid var(--cute-blush);
+      border-radius: 16px;
+      padding: 1rem 1.2rem;
+      margin-bottom: 0.8rem;
+      position: relative;
+      padding-left: 3rem;
+      box-shadow: 0 2px 8px var(--cute-shadow);
+      transition: transform 0.2s;
+    }
+    .approach-list li:hover {
+      transform: translateX(4px);
+    }
+    .approach-list li::before {
+      content: attr(data-icon);
+      position: absolute;
+      left: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 1.2rem;
+    }
+    .approach-list li strong {
+      color: var(--cute-hot-pink);
+      font-weight: 700;
+    }
+
+    /* ========================================
+       RESPONSIVE DESIGN
+       ======================================== */
+    @media (max-width: 768px) {
+      .hero { padding: 4rem 1.5rem 3rem; }
+      .hero-title { font-size: clamp(2.2rem, 8vw, 3.5rem); }
+      .nav-bar { gap: 0.3rem; padding: 1rem 0.5rem; }
+      .nav-pill { font-size: 0.65rem; padding: 0.3rem 0.7rem; }
+      .card-grid { grid-template-columns: 1fr; }
+      .typo-grid { grid-template-columns: 1fr; }
+      .tech-grid { grid-template-columns: 1fr; }
+      .compare-grid { grid-template-columns: 1fr; }
+      .related-grid { grid-template-columns: 1fr 1fr; }
+      .palette-grid { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); }
+      .shrine-grid { grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); }
+      .shrine-item:nth-child(4n+1) { grid-row: span 1; }
+      .shrine-item:nth-child(7n+3) { grid-column: span 1; }
+      .sticker-row { gap: 0.6rem; }
+      .float-deco { display: none; }
+      .hero-bandage { display: none; }
+    }
+
+    @media (max-width: 480px) {
+      .related-grid { grid-template-columns: 1fr; }
+      .props-grid { grid-template-columns: 1fr; }
+      .palette-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    /* ========================================
+       SPARKLE PARTICLES (CSS only)
+       ======================================== */
+    .sparkle-container {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 9998;
+      overflow: hidden;
+    }
+    .sparkle {
+      position: absolute;
+      width: 4px; height: 4px;
+      background: var(--cute-hot-pink);
+      border-radius: 50%;
+      opacity: 0;
+      animation: sparkle-fall linear infinite;
+    }
+    .sparkle:nth-child(1) { left: 10%; animation-duration: 8s; animation-delay: 0s; width: 3px; height: 3px; }
+    .sparkle:nth-child(2) { left: 25%; animation-duration: 12s; animation-delay: -2s; width: 5px; height: 5px; background: var(--cute-pastel-yellow); }
+    .sparkle:nth-child(3) { left: 40%; animation-duration: 10s; animation-delay: -4s; }
+    .sparkle:nth-child(4) { left: 55%; animation-duration: 14s; animation-delay: -1s; width: 3px; height: 3px; background: var(--cute-glow-pink); }
+    .sparkle:nth-child(5) { left: 70%; animation-duration: 9s; animation-delay: -6s; width: 5px; height: 5px; }
+    .sparkle:nth-child(6) { left: 85%; animation-duration: 11s; animation-delay: -3s; background: var(--cute-lavender); }
+    .sparkle:nth-child(7) { left: 15%; animation-duration: 13s; animation-delay: -5s; width: 3px; height: 3px; background: var(--cute-pastel-yellow); }
+    .sparkle:nth-child(8) { left: 60%; animation-duration: 10s; animation-delay: -7s; background: var(--cute-strawberry); width: 3px; height: 3px; }
+    .sparkle:nth-child(9) { left: 92%; animation-duration: 15s; animation-delay: -2s; width: 4px; height: 4px; }
+    .sparkle:nth-child(10) { left: 48%; animation-duration: 11s; animation-delay: -8s; width: 3px; height: 3px; background: var(--cute-glow-pink); }
+
+    @keyframes sparkle-fall {
+      0% { transform: translateY(-10px) rotate(0deg); opacity: 0; }
+      5% { opacity: 0.8; }
+      20% { opacity: 0.4; }
+      35% { opacity: 0.9; }
+      50% { opacity: 0.2; }
+      65% { opacity: 0.7; }
+      80% { opacity: 0.3; }
+      95% { opacity: 0; }
+      100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+    }
+
+    /* ========================================
+       DESIGN PRINCIPLES SECTION
+       ======================================== */
+    .principles-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 1rem;
+    }
+
+    .principle-card {
+      background: var(--cute-white);
+      border: 2px solid var(--cute-blush);
+      border-radius: 16px;
+      padding: 1.3rem;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.3s, box-shadow 0.3s;
+      box-shadow: 0 4px 12px var(--cute-shadow);
+    }
+    .principle-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(255,105,180,0.3);
+    }
+    .principle-card .principle-icon {
+      font-size: 1.8rem;
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+    .principle-card h3 {
+      font-size: 0.95rem;
+      margin-bottom: 0.4rem;
+    }
+    .principle-card p {
+      font-size: 0.82rem;
+      color: var(--cute-dark-plum);
+      margin-bottom: 0;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Sparkle particles -->
+  <div class="sparkle-container" aria-hidden="true">
+    <div class="sparkle"></div>
+    <div class="sparkle"></div>
+    <div class="sparkle"></div>
+    <div class="sparkle"></div>
+    <div class="sparkle"></div>
+    <div class="sparkle"></div>
+    <div class="sparkle"></div>
+    <div class="sparkle"></div>
+    <div class="sparkle"></div>
+    <div class="sparkle"></div>
+  </div>
+
+  <!-- ============ HERO ============ -->
+  <header class="hero" id="top">
+    <span class="float-deco" aria-hidden="true">&#x1F338;</span>
+    <span class="float-deco" aria-hidden="true">&#x1F36E;</span>
+    <span class="float-deco" aria-hidden="true">&#x2728;</span>
+    <span class="float-deco" aria-hidden="true">&#x1F52A;</span>
+    <span class="float-deco" aria-hidden="true">&#x1F495;</span>
+    <span class="float-deco" aria-hidden="true">&#x1F370;</span>
+    <span class="float-deco" aria-hidden="true">&#x1FA79;</span>
+
+    <div class="hero-bandage hero-bandage--1" aria-hidden="true"></div>
+    <div class="hero-bandage hero-bandage--2" aria-hidden="true"></div>
+
+    <h1 class="hero-title">Cutecore</h1>
+    <div class="hero-subtitle">everything is fine (>_<)</div>
+    <p class="hero-desc">
+      A digital and fashion aesthetic defined by the <strong>deliberate juxtaposition of kawaii imagery with signifiers of horror, violence, and psychological distress</strong>. Unlike straightforward kawaii, Cutecore is unsettling by design -- it rejects sanitization and uses cuteness as a vehicle for darker emotional expression.
+    </p>
+  </header>
+
+  <!-- ============ NAVIGATION ============ -->
+  <nav class="nav-bar" role="navigation" aria-label="Section navigation">
+    <a href="#visual" class="nav-pill">Visual Characteristics</a>
+    <a href="#principles" class="nav-pill">Design Principles</a>
+    <a href="#palette" class="nav-pill">Color Palette</a>
+    <a href="#typography" class="nav-pill">Typography</a>
+    <a href="#layout" class="nav-pill">Layout</a>
+    <a href="#techniques" class="nav-pill">CSS Techniques</a>
+    <a href="#materials" class="nav-pill">Materials</a>
+    <a href="#compare" class="nav-pill">Comparisons</a>
+    <a href="#related" class="nav-pill">Related</a>
+  </nav>
+
+  <!-- ============ VISUAL CHARACTERISTICS ============ -->
+  <section class="section-pink" id="visual">
+    <div class="container">
+      <div class="section-title-wrap">
+        <h2>Visual Characteristics</h2>
+        <div class="section-subtitle">core motifs & patterns ~</div>
+      </div>
+
+      <div class="card-grid stagger">
+
+        <!-- Cute / Innocent Layer -->
+        <div class="cute-card reveal">
+          <span class="tag tag--pink">Cute / Innocent</span>
+          <h3>The Sweet Layer</h3>
+          <ul class="card-motif-list">
+            <li data-bullet="&#x1F338;">Sanrio characters (My Melody, Rilakkuma, Pompompurin) and anime sprites</li>
+            <li data-bullet="&#x1F9F8;">Plush toys, figurines, and dolls in dense shrine-like displays</li>
+            <li data-bullet="&#x1F353;">Strawberries, caramel pudding, cake, and sweets imagery</li>
+            <li data-bullet="&#x2B50;">Pastel rainbows, stars, hearts, and sparkles</li>
+            <li data-bullet="&#x1F380;">Ribbons, bows, ruffled bedding, and decorative pillows</li>
+            <li data-bullet="&#x1F496;">Floor-to-ceiling character "shrines" using repetition for visual obsession</li>
+          </ul>
+        </div>
+
+        <!-- Horror / Edgy Layer -->
+        <div class="cute-card cute-card--edgy cute-card--splatter reveal">
+          <span class="tag tag--strawberry">Horror / Edgy</span>
+          <h3>The Dark Layer</h3>
+          <ul class="card-motif-list">
+            <li data-bullet="&#x1FA78;">Realistic blood splatters and drip textures on pastel backgrounds</li>
+            <li data-bullet="&#x1FA79;">Bandages, eyepatches, medical gauze, and injury depictions</li>
+            <li data-bullet="&#x1F52A;">Weapons via emoji or pixel art (knives, syringes, box cutters)</li>
+            <li data-bullet="&#x1F49C;">Bruise-like color patches and wound imagery</li>
+            <li data-bullet="&#x1F3AE;">Survival horror game screens on vintage consoles</li>
+          </ul>
+        </div>
+
+        <!-- Environmental / Textural -->
+        <div class="cute-card reveal">
+          <span class="tag tag--lavender">Environmental</span>
+          <h3>Textural Layer</h3>
+          <ul class="card-motif-list">
+            <li data-bullet="&#x1F354;">Discarded fast food packaging as scattered elements</li>
+            <li data-bullet="&#x1F6CF;">Unmade beds, laundry piles, and darkened rooms</li>
+            <li data-bullet="&#x1F4BB;">Computer and TV screen glow as ambient lighting</li>
+            <li data-bullet="&#x1F4F1;">Vintage technology (Game Boy Advance, flip phones, CRT monitors)</li>
+            <li data-bullet="&#x1F4A1;">Pink LED strip lighting casting a hazy, filtered glow</li>
+            <li data-bullet="&#x1F4A0;">Digital decay: JPEG artifacts, pixelation, visual noise</li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <div class="emoji-divider" aria-hidden="true">&#x1F338; &#x1F52A; &#x1F353; &#x1FA79; &#x2728; &#x1F52A; &#x1F338;</div>
+
+  <!-- ============ DESIGN PRINCIPLES ============ -->
+  <section class="section-pink" id="principles" style="background: var(--cute-soft-pink); padding-top: 3rem;">
+    <div class="container">
+      <div class="section-title-wrap">
+        <h2>Design Principles</h2>
+        <div class="section-subtitle">the rules of dissonance...</div>
+      </div>
+
+      <div class="principles-grid stagger">
+        <div class="principle-card reveal">
+          <span class="principle-icon">&#x1F4A5;</span>
+          <h3>Cognitive Dissonance</h3>
+          <p>Every cute element should be paired or undercut with something unsettling. Sweetness is the weapon.</p>
+        </div>
+        <div class="principle-card reveal">
+          <span class="principle-icon">&#x1F4E6;</span>
+          <h3>Maximalist Density</h3>
+          <p>Surfaces should feel packed, cluttered, and obsessive rather than airy. Fill every inch.</p>
+        </div>
+        <div class="principle-card reveal">
+          <span class="principle-icon">&#x1F50D;</span>
+          <h3>Claustrophobic Framing</h3>
+          <p>Tight compositions with minimal breathing room, implying obsession and compulsion.</p>
+        </div>
+        <div class="principle-card reveal">
+          <span class="principle-icon">&#x1F9F8;</span>
+          <h3>Layered Texture</h3>
+          <p>Soft plushies against hard/dark elements. Analog warmth against digital decay.</p>
+        </div>
+        <div class="principle-card reveal">
+          <span class="principle-icon">&#x1F3A8;</span>
+          <h3>Controlled Pastel Palette</h3>
+          <p>The sweetness of color is the vehicle for dissonance. Strictly warm, never cold or clinical.</p>
+        </div>
+        <div class="principle-card reveal">
+          <span class="principle-icon">&#x1F4CB;</span>
+          <h3>Digital Collage Aesthetic</h3>
+          <p>Frantic overlays, glitch effects, stolen fanart fragments, and blood splatters.</p>
+        </div>
+        <div class="principle-card reveal">
+          <span class="principle-icon">&#x1F30A;</span>
+          <h3>Depth Through Clutter</h3>
+          <p>Visual weight created by dense, overlapping elements. Nothing is alone.</p>
+        </div>
+        <div class="principle-card reveal">
+          <span class="principle-icon">&#x1F4A1;</span>
+          <h3>Artificial Warmth</h3>
+          <p>Everything lit by pink/amber LED glow or screen light, never harsh daylight.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="emoji-divider" aria-hidden="true">&#x1F495; &#x1FA78; &#x1F370; &#x1FA79; &#x1F495;</div>
+
+  <!-- ============ COLOR PALETTE ============ -->
+  <section class="palette-section" id="palette">
+    <div class="container">
+      <div class="section-title-wrap">
+        <h2>Color Palette</h2>
+        <div class="section-subtitle">pastel pink dominance with blood accents ~</div>
+      </div>
+
+      <div class="palette-grid stagger">
+        <div class="swatch swatch--light reveal" style="background: #FFB6C1;">
+          <div class="swatch-color" style="background: #FFB6C1;"></div>
+          <div class="swatch-name">Soft Pink</div>
+          <div class="swatch-hex">#FFB6C1</div>
+        </div>
+        <div class="swatch swatch--light reveal" style="background: #F8A4B8;">
+          <div class="swatch-color" style="background: #F8A4B8;"></div>
+          <div class="swatch-name">Blush Pink</div>
+          <div class="swatch-hex">#F8A4B8</div>
+        </div>
+        <div class="swatch swatch--light reveal" style="background: #FF69B4;">
+          <div class="swatch-color" style="background: #FF69B4;"></div>
+          <div class="swatch-name">Hot Pink</div>
+          <div class="swatch-hex">#FF69B4</div>
+        </div>
+        <div class="swatch swatch--light reveal" style="background: #FF1493;">
+          <div class="swatch-color" style="background: #FF1493;"></div>
+          <div class="swatch-name">Magenta</div>
+          <div class="swatch-hex">#FF1493</div>
+        </div>
+        <div class="swatch swatch--light reveal" style="background: #FFEAA7;">
+          <div class="swatch-color" style="background: #FFEAA7;"></div>
+          <div class="swatch-name">Pastel Yellow</div>
+          <div class="swatch-hex">#FFEAA7</div>
+        </div>
+        <div class="swatch swatch--light reveal" style="background: #AEC6CF;">
+          <div class="swatch-color" style="background: #AEC6CF;"></div>
+          <div class="swatch-name">Pastel Blue</div>
+          <div class="swatch-hex">#AEC6CF</div>
+        </div>
+        <div class="swatch swatch--light reveal" style="background: #E6E6FA;">
+          <div class="swatch-color" style="background: #E6E6FA;"></div>
+          <div class="swatch-name">Lavender</div>
+          <div class="swatch-hex">#E6E6FA</div>
+        </div>
+        <div class="swatch swatch--light reveal" style="background: #D8B4FE;">
+          <div class="swatch-color" style="background: #D8B4FE;"></div>
+          <div class="swatch-name">Pastel Lilac</div>
+          <div class="swatch-hex">#D8B4FE</div>
+        </div>
+        <div class="swatch swatch--light reveal" style="background: #FFF5F5;">
+          <div class="swatch-color" style="background: #FFF5F5; border-color: #f0d0d0;"></div>
+          <div class="swatch-name">Cream White</div>
+          <div class="swatch-hex">#FFF5F5</div>
+        </div>
+        <div class="swatch swatch--light reveal" style="background: #F5DEB3;">
+          <div class="swatch-color" style="background: #F5DEB3;"></div>
+          <div class="swatch-name">Bandage Beige</div>
+          <div class="swatch-hex">#F5DEB3</div>
+        </div>
+        <div class="swatch swatch--light reveal" style="background: linear-gradient(135deg, #FFC0CB, #DC143C);">
+          <div class="swatch-color" style="background: #DC143C;"></div>
+          <div class="swatch-name">Strawberry Red</div>
+          <div class="swatch-hex">#DC143C</div>
+        </div>
+        <div class="swatch swatch--dark reveal" style="background: #4A1942;">
+          <div class="swatch-color" style="background: #4A1942; border-color: rgba(255,105,180,0.3);"></div>
+          <div class="swatch-name">Bruise Purple</div>
+          <div class="swatch-hex">#4A1942</div>
+        </div>
+        <div class="swatch swatch--dark reveal" style="background: #6B2D5B;">
+          <div class="swatch-color" style="background: #6B2D5B; border-color: rgba(255,105,180,0.3);"></div>
+          <div class="swatch-name">Dark Plum</div>
+          <div class="swatch-hex">#6B2D5B</div>
+        </div>
+        <div class="swatch swatch--dark reveal" style="background: #1A0A14;">
+          <div class="swatch-color" style="background: #1A0A14; border-color: rgba(255,105,180,0.3);"></div>
+          <div class="swatch-name">Near Black</div>
+          <div class="swatch-hex">#1A0A14</div>
+        </div>
+        <div class="swatch swatch--dark reveal" style="background: linear-gradient(135deg, #8B0000, #B22222);">
+          <div class="swatch-color" style="background: #8B0000; border-color: rgba(255,105,180,0.3);"></div>
+          <div class="swatch-name">Blood Drip</div>
+          <div class="swatch-hex">#8B0000</div>
+        </div>
+        <div class="swatch swatch--light reveal" style="background: linear-gradient(135deg, #FF8EC7, #FFB3D9);">
+          <div class="swatch-color" style="background: #FF8EC7;"></div>
+          <div class="swatch-name">Screen Glow</div>
+          <div class="swatch-hex">#FF8EC7</div>
+        </div>
+      </div>
+
+      <!-- Approaches -->
+      <div style="margin-top: 3rem;">
+        <div class="section-title-wrap">
+          <h3 style="font-size: 1.4rem;">Palette Approaches</h3>
+        </div>
+        <ul class="approach-list stagger">
+          <li class="reveal" data-icon="&#x1F338;"><strong>Pastel pink dominance</strong> -- pink in multiple shades forms the backbone; other pastels are supporting cast</li>
+          <li class="reveal" data-icon="&#x1F353;"><strong>Red as dual signifier</strong> -- strawberry red reads as both "cute fruit" and "blood" depending on context</li>
+          <li class="reveal" data-icon="&#x2728;"><strong>Strictly controlled warmth</strong> -- even when introducing horror elements, the palette stays pastel and warm</li>
+          <li class="reveal" data-icon="&#x1F4A1;"><strong>Glow over shadow</strong> -- prefer pink/amber glowing box-shadows over traditional dark drop shadows</li>
+          <li class="reveal" data-icon="&#x1F5E1;"><strong>Dark accents are rare but sharp</strong> -- bruise purple and near-black appear sparingly for maximum contrast</li>
+          <li class="reveal" data-icon="&#x1F6AB;"><strong>Never cold or clinical</strong> -- avoid grays, cool whites, or sterile blues</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <div class="emoji-divider" aria-hidden="true">&#x1F36E; &#x2728; &#x1F380; &#x2728; &#x1F36E;</div>
+
+  <!-- ============ CSS CUSTOM PROPERTIES ============ -->
+  <section class="props-section">
+    <div class="container">
+      <div class="section-title-wrap">
+        <h2>CSS Custom Properties</h2>
+        <div class="section-subtitle">the design tokens that power everything ~</div>
+      </div>
+
+      <div class="props-grid stagger">
+        <div class="prop-card reveal">
+          <div class="prop-dot" style="background: #ffb6c1;"></div>
+          <div>
+            <div class="prop-name">--cute-soft-pink</div>
+            <div class="prop-hex">#ffb6c1</div>
+          </div>
+        </div>
+        <div class="prop-card reveal">
+          <div class="prop-dot" style="background: #f8a4b8;"></div>
+          <div>
+            <div class="prop-name">--cute-blush</div>
+            <div class="prop-hex">#f8a4b8</div>
+          </div>
+        </div>
+        <div class="prop-card reveal">
+          <div class="prop-dot" style="background: #fff5f5; border-color: #f0d0d0;"></div>
+          <div>
+            <div class="prop-name">--cute-cream</div>
+            <div class="prop-hex">#fff5f5</div>
+          </div>
+        </div>
+        <div class="prop-card reveal">
+          <div class="prop-dot" style="background: #ff69b4;"></div>
+          <div>
+            <div class="prop-name">--cute-hot-pink</div>
+            <div class="prop-hex">#ff69b4</div>
+          </div>
+        </div>
+        <div class="prop-card reveal">
+          <div class="prop-dot" style="background: #ff1493;"></div>
+          <div>
+            <div class="prop-name">--cute-magenta</div>
+            <div class="prop-hex">#ff1493</div>
+          </div>
+        </div>
+        <div class="prop-card reveal">
+          <div class="prop-dot" style="background: #ffeaa7;"></div>
+          <div>
+            <div class="prop-name">--cute-pastel-yellow</div>
+            <div class="prop-hex">#ffeaa7</div>
+          </div>
+        </div>
+        <div class="prop-card reveal">
+          <div class="prop-dot" style="background: #aec6cf;"></div>
+          <div>
+            <div class="prop-name">--cute-pastel-blue</div>
+            <div class="prop-hex">#aec6cf</div>
+          </div>
+        </div>
+        <div class="prop-card reveal">
+          <div class="prop-dot" style="background: #e6e6fa;"></div>
+          <div>
+            <div class="prop-name">--cute-lavender</div>
+            <div class="prop-hex">#e6e6fa</div>
+          </div>
+        </div>
+        <div class="prop-card reveal">
+          <div class="prop-dot" style="background: #d8b4fe;"></div>
+          <div>
+            <div class="prop-name">--cute-pastel-lilac</div>
+            <div class="prop-hex">#d8b4fe</div>
+          </div>
+        </div>
+        <div class="prop-card reveal">
+          <div class="prop-dot" style="background: #dc143c;"></div>
+          <div>
+            <div class="prop-name">--cute-strawberry</div>
+            <div class="prop-hex">#dc143c</div>
+          </div>
+        </div>
+        <div class="prop-card reveal">
+          <div class="prop-dot" style="background: #8b0000;"></div>
+          <div>
+            <div class="prop-name">--cute-blood</div>
+            <div class="prop-hex">#8b0000</div>
+          </div>
+        </div>
+        <div class="prop-card reveal">
+          <div class="prop-dot" style="background: #4a1942;"></div>
+          <div>
+            <div class="prop-name">--cute-bruise</div>
+            <div class="prop-hex">#4a1942</div>
+          </div>
+        </div>
+        <div class="prop-card reveal">
+          <div class="prop-dot" style="background: #6b2d5b;"></div>
+          <div>
+            <div class="prop-name">--cute-dark-plum</div>
+            <div class="prop-hex">#6b2d5b</div>
+          </div>
+        </div>
+        <div class="prop-card reveal">
+          <div class="prop-dot" style="background: #f5deb3;"></div>
+          <div>
+            <div class="prop-name">--cute-bandage</div>
+            <div class="prop-hex">#f5deb3</div>
+          </div>
+        </div>
+        <div class="prop-card reveal">
+          <div class="prop-dot" style="background: #1a0a14;"></div>
+          <div>
+            <div class="prop-name">--cute-near-black</div>
+            <div class="prop-hex">#1a0a14</div>
+          </div>
+        </div>
+        <div class="prop-card reveal">
+          <div class="prop-dot" style="background: #ff8ec7;"></div>
+          <div>
+            <div class="prop-name">--cute-glow-pink</div>
+            <div class="prop-hex">#ff8ec7</div>
+          </div>
+        </div>
+        <div class="prop-card reveal">
+          <div class="prop-dot" style="background: #ffb3d9;"></div>
+          <div>
+            <div class="prop-name">--cute-glow-soft</div>
+            <div class="prop-hex">#ffb3d9</div>
+          </div>
+        </div>
+        <div class="prop-card reveal">
+          <div class="prop-dot" style="background: #ffcc80;"></div>
+          <div>
+            <div class="prop-name">--cute-glow-amber</div>
+            <div class="prop-hex">#ffcc80</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TYPOGRAPHY ============ -->
+  <section class="typo-section" id="typography">
+    <div class="container">
+      <div class="section-title-wrap">
+        <h2>Typography</h2>
+        <div class="section-subtitle">bubbly sweetness meets diary scrawl ~</div>
+      </div>
+
+      <p style="text-align: center; max-width: 600px; margin: 0 auto 2rem; color: var(--cute-dark-plum);">
+        Cutecore typography blends childlike sweetness with digital anxiety. Rounded, bubbly display fonts for headlines. Handwriting fonts for diary-like annotations. Kaomoji and emoji as visual punctuation.
+      </p>
+
+      <div class="typo-grid stagger">
+        <div class="typo-card reveal">
+          <div class="font-preview" style="font-family: 'Baloo 2', cursive; font-weight: 800;">Baloo 2</div>
+          <div class="font-name">Baloo 2</div>
+          <div class="font-usage">Hero text, large headings</div>
+        </div>
+        <div class="typo-card reveal">
+          <div class="font-preview" style="font-family: 'Comfortaa', cursive; font-weight: 700;">Comfortaa</div>
+          <div class="font-name">Comfortaa</div>
+          <div class="font-usage">Headlines, section titles</div>
+        </div>
+        <div class="typo-card reveal">
+          <div class="font-preview" style="font-family: 'Quicksand', sans-serif; font-weight: 600;">Quicksand</div>
+          <div class="font-name">Quicksand</div>
+          <div class="font-usage">Body text, UI elements, nav</div>
+        </div>
+        <div class="typo-card reveal">
+          <div class="font-preview" style="font-family: 'Patrick Hand', cursive;">Patrick Hand</div>
+          <div class="font-name">Patrick Hand</div>
+          <div class="font-usage">Diary-style annotations</div>
+        </div>
+        <div class="typo-card reveal">
+          <div class="font-preview" style="font-family: 'Caveat', cursive; font-weight: 700;">Caveat</div>
+          <div class="font-name">Caveat</div>
+          <div class="font-usage">Captions, decorative labels</div>
+        </div>
+        <div class="typo-card reveal">
+          <div class="font-preview" style="font-family: 'Gloria Hallelujah', cursive;">Gloria H.</div>
+          <div class="font-name">Gloria Hallelujah</div>
+          <div class="font-usage">Annotations, scrawled notes</div>
+        </div>
+      </div>
+
+      <!-- Kaomoji showcase -->
+      <div style="text-align: center; margin-top: 2.5rem;">
+        <div class="sticker-row">
+          <span class="sticker kaomoji">(>_&lt;)</span>
+          <span class="sticker sticker--dark kaomoji">(T_T)</span>
+          <span class="sticker kaomoji">(*^_^*)</span>
+          <span class="sticker sticker--yellow kaomoji">(._. )</span>
+          <span class="sticker kaomoji">(;_;)</span>
+          <span class="sticker sticker--dark kaomoji">(x_x)</span>
+          <span class="sticker kaomoji">&hearts; &hearts; &hearts;</span>
+        </div>
+        <p class="handwritten" style="margin-top: 0.5rem; transform: rotate(-1deg); display: inline-block;">
+          Kaomoji and Unicode decoration augment all text ~
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <div class="emoji-divider" aria-hidden="true">&#x1FA79; &#x1F496; &#x1F52A; &#x1F496; &#x1FA79;</div>
+
+  <!-- ============ LAYOUT PRINCIPLES ============ -->
+  <section class="shrine-section" id="layout">
+    <div class="container">
+      <div class="section-title-wrap">
+        <h2>Layout Principles</h2>
+        <div class="section-subtitle">shrine-like density, claustrophobic framing...</div>
+      </div>
+
+      <div class="card-grid stagger" style="margin-bottom: 2.5rem;">
+        <div class="cute-card reveal">
+          <span class="tag tag--pink">Grid</span>
+          <h3>Dense Shrine Arrangements</h3>
+          <p>Content blocks packed tightly together mimicking character merchandise walls. Maximalist surface coverage with minimal whitespace.</p>
+        </div>
+        <div class="cute-card reveal">
+          <span class="tag tag--lavender">Composition</span>
+          <h3>Collage-Style Composition</h3>
+          <p>Mixed sizes, scattered placement, as if items were pinned to a wall or dumped on a bed. Layered z-index stacking with overlapping elements.</p>
+        </div>
+        <div class="cute-card reveal">
+          <span class="tag tag--blue">Hierarchy</span>
+          <h3>Glow-Based Visual Hierarchy</h3>
+          <p>Use glowing box-shadows and borders instead of size/weight alone to draw attention. Pink/amber glow replaces traditional drop shadows.</p>
+        </div>
+      </div>
+
+      <!-- Section Organization -->
+      <div class="section-title-wrap">
+        <h3 style="font-size: 1.3rem;">Section Organization</h3>
+      </div>
+
+      <ul class="approach-list stagger">
+        <li class="reveal" data-icon="&#x1F3A8;">Use <strong>gradient pink washes</strong> between sections for seamless flow</li>
+        <li class="reveal" data-icon="&#x2728;">Apply <strong>decorative emoji or Unicode dividers</strong> between content blocks</li>
+        <li class="reveal" data-icon="&#x1F4F1;">Use <strong>screen/monitor frame metaphors</strong> -- content areas that look like CRT or Game Boy screens</li>
+        <li class="reveal" data-icon="&#x1FA79;">Incorporate <strong>bandage and tape motifs</strong> as section connectors or dividers</li>
+        <li class="reveal" data-icon="&#x1F319;">Alternate between <strong>pink-lit sections</strong> and <strong>dark bruise-purple sections</strong> for cute/horror duality</li>
+        <li class="reveal" data-icon="&#x2B50;">Employ <strong>sticker-like overlapping elements</strong> -- badges, hearts, and stars that break the grid</li>
+      </ul>
+
+      <!-- Shrine Grid Demo -->
+      <div style="margin-top: 2.5rem;">
+        <div class="section-title-wrap">
+          <h3 style="font-size: 1.3rem;">Shrine Grid Demo</h3>
+          <div class="section-subtitle">dense, obsessive, claustrophobic ~</div>
+        </div>
+
+        <div class="shrine-grid stagger">
+          <div class="shrine-item reveal"><span class="shrine-emoji">&#x1F338;</span><span class="shrine-label">Blossom</span></div>
+          <div class="shrine-item reveal"><span class="shrine-emoji">&#x1F353;</span><span class="shrine-label">Strawberry</span></div>
+          <div class="shrine-item reveal"><span class="shrine-emoji">&#x1F9F8;</span><span class="shrine-label">Plushie</span></div>
+          <div class="shrine-item reveal"><span class="shrine-emoji">&#x1F380;</span><span class="shrine-label">Ribbon</span></div>
+          <div class="shrine-item reveal"><span class="shrine-emoji">&#x1F370;</span><span class="shrine-label">Cake</span></div>
+          <div class="shrine-item reveal"><span class="shrine-emoji">&#x2728;</span><span class="shrine-label">Sparkle</span></div>
+          <div class="shrine-item reveal"><span class="shrine-emoji">&#x1F36E;</span><span class="shrine-label">Pudding</span></div>
+          <div class="shrine-item reveal"><span class="shrine-emoji">&#x1F495;</span><span class="shrine-label">Hearts</span></div>
+          <div class="shrine-item reveal"><span class="shrine-emoji">&#x2B50;</span><span class="shrine-label">Star</span></div>
+          <div class="shrine-item reveal"><span class="shrine-emoji">&#x1F52A;</span><span class="shrine-label">Knife</span></div>
+          <div class="shrine-item reveal"><span class="shrine-emoji">&#x1FA79;</span><span class="shrine-label">Bandage</span></div>
+          <div class="shrine-item reveal"><span class="shrine-emoji">&#x1F489;</span><span class="shrine-label">Syringe</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ DARK SECTION: CRT SCREEN ============ -->
+  <section class="dark-section" id="techniques">
+    <div class="container">
+      <div class="section-title-wrap">
+        <h2 class="flicker">CSS / Design Techniques</h2>
+        <div class="section-subtitle" style="color: var(--cute-glow-soft);">the tools of dissonance ~</div>
+      </div>
+
+      <!-- CRT Screen -->
+      <div class="crt-screen">
+        <div class="crt-text">
+          <div>> CUTECORE_SYSTEM v2.0 LOADED</div>
+          <div>> AESTHETIC_ENGINE: ACTIVE</div>
+          <div>> DISSONANCE_LEVEL: MAXIMUM</div>
+          <div>> PASTEL_OVERLAY: ENABLED</div>
+          <div>> BLOOD_SPLATTER_MODULE: READY</div>
+          <div>> LED_GLOW: 100%</div>
+          <div>> BANDAGE_TEXTURE: APPLIED</div>
+          <div>> SCANLINE_FILTER: ON</div>
+          <div>> STATUS: everything is fine<span class="cursor-blink"></span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TECHNIQUE CARDS ============ -->
+  <section class="techniques-section">
+    <div class="container">
+      <div class="section-title-wrap">
+        <h2>Technique Showcase</h2>
+        <div class="section-subtitle">live CSS previews ~</div>
+      </div>
+
+      <div class="tech-grid stagger">
+        <div class="tech-card reveal">
+          <div class="tech-card-preview preview-glow"></div>
+          <div class="tech-card-body">
+            <span class="tag tag--pink">Effect</span>
+            <h3>Pink LED Glow</h3>
+            <p>Ambient pink LED glow on sections using gradient backgrounds with layered box-shadows that simulate LED strip lighting.</p>
+          </div>
+        </div>
+
+        <div class="tech-card reveal">
+          <div class="tech-card-preview preview-blood"></div>
+          <div class="tech-card-body">
+            <span class="tag tag--strawberry">Horror</span>
+            <h3>Blood Splatter</h3>
+            <p>Decorative blood drip and splatter patterns using radial-gradient dots positioned at random coordinates with low opacity.</p>
+          </div>
+        </div>
+
+        <div class="tech-card reveal">
+          <div class="tech-card-preview preview-crt"></div>
+          <div class="tech-card-body">
+            <span class="tag tag--plum">Screen</span>
+            <h3>CRT / Screen Frame</h3>
+            <p>Retro CRT monitor frame with scanline overlay effect. Dark container with monochrome pink text glow and flicker animation.</p>
+          </div>
+        </div>
+
+        <div class="tech-card reveal">
+          <div class="tech-card-preview preview-bandage">
+            <div class="preview-bandage-strip"></div>
+            <div class="preview-bandage-strip"></div>
+            <div class="preview-bandage-strip"></div>
+          </div>
+          <div class="tech-card-body">
+            <span class="tag tag--yellow">Medical</span>
+            <h3>Bandage / Medical Tape</h3>
+            <p>Adhesive bandage strips with center pad and perforated dot texture, positioned as decorative overlays on edges.</p>
+          </div>
+        </div>
+
+        <div class="tech-card reveal">
+          <div class="tech-card-preview preview-glitch"></div>
+          <div class="tech-card-body">
+            <span class="tag tag--lavender">Decay</span>
+            <h3>JPEG Glitch / Digital Decay</h3>
+            <p>Simulated JPEG compression artifacts with chromatic aberration. Animated color-shift and visual noise textures.</p>
+          </div>
+        </div>
+
+        <div class="tech-card reveal">
+          <div class="tech-card-preview preview-noise"></div>
+          <div class="tech-card-body">
+            <span class="tag tag--blue">Texture</span>
+            <h3>SVG Noise Overlay</h3>
+            <p>Fractal noise texture generated via inline SVG, applied globally with mix-blend-mode: multiply for analog warmth.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="emoji-divider" aria-hidden="true">&#x1F370; &#x1F52A; &#x1F338; &#x1F52A; &#x1F370;</div>
+
+  <!-- ============ MATERIALS TABLE ============ -->
+  <section class="materials-section" id="materials">
+    <div class="container">
+      <div class="section-title-wrap">
+        <h2>Materials & Textures</h2>
+        <div class="section-subtitle">physical to digital translation ~</div>
+      </div>
+
+      <div class="cute-table-wrap reveal">
+        <table class="cute-table">
+          <thead>
+            <tr>
+              <th>Physical Material</th>
+              <th>Web Equivalent</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="material-emoji">&#x1F9F8;</span> Plush / fleece fabric</td>
+              <td>Rounded corners (16px+), soft pink box-shadows, pastel gradients</td>
+            </tr>
+            <tr>
+              <td><span class="material-emoji">&#x1FA79;</span> Bandages / medical tape</td>
+              <td>Beige rounded strips with dot texture, positioned over edges</td>
+            </tr>
+            <tr>
+              <td><span class="material-emoji">&#x1F5BC;</span> Character shrine wall</td>
+              <td>Dense repeating grid with minimal gap, slight random rotations</td>
+            </tr>
+            <tr>
+              <td><span class="material-emoji">&#x1F4A1;</span> Pink LED strip lighting</td>
+              <td>Glowing border or top-bar with pink box-shadow blur</td>
+            </tr>
+            <tr>
+              <td><span class="material-emoji">&#x1F4FA;</span> CRT / Game Boy screen</td>
+              <td>Dark container with scanline overlay and monochrome pink text glow</td>
+            </tr>
+            <tr>
+              <td><span class="material-emoji">&#x1F4A0;</span> JPEG artifacts / noise</td>
+              <td>SVG noise texture overlay with low opacity, chromatic aberration</td>
+            </tr>
+            <tr>
+              <td><span class="material-emoji">&#x1FA78;</span> Blood splatters</td>
+              <td>Red radial-gradient dots at random positions with low opacity</td>
+            </tr>
+            <tr>
+              <td><span class="material-emoji">&#x1F354;</span> Fast food packaging</td>
+              <td>Bright yellow/red small card elements with rounded corners</td>
+            </tr>
+            <tr>
+              <td><span class="material-emoji">&#x1F380;</span> Ribbons and bows</td>
+              <td>Decorative border-top with scalloped or wavy pattern</td>
+            </tr>
+            <tr>
+              <td><span class="material-emoji">&#x2B50;</span> Stickers</td>
+              <td>Pill-shaped badges with thick borders, slight rotation, drop shadows</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ DARK SECTION: COMPARISON ============ -->
+  <section class="dark-section" id="compare">
+    <div class="container">
+      <div class="section-title-wrap">
+        <h2 class="flicker">Kawaii vs Cutecore vs Yami Kawaii</h2>
+        <div class="section-subtitle" style="color: var(--cute-glow-soft);">know the difference ~</div>
+      </div>
+
+      <div class="compare-grid stagger">
+        <div class="compare-col reveal">
+          <h4>Kawaii</h4>
+          <ul>
+            <li data-icon="&#x1F3A8;">Pure pastels, consistently cheerful</li>
+            <li data-icon="&#x1F60A;">Wholesome, joyful tone</li>
+            <li data-icon="&#x274C;">No violence</li>
+            <li data-icon="&#x2728;">Clean, crisp digital</li>
+            <li data-icon="&#x1F4FA;">Children's show feel</li>
+          </ul>
+        </div>
+        <div class="compare-col compare-col--active reveal">
+          <h4>Cutecore</h4>
+          <ul>
+            <li data-icon="&#x1F3A8;">Pastels undercut by reds and darks</li>
+            <li data-icon="&#x1F630;">Dissonant, anxious, obsessive</li>
+            <li data-icon="&#x1F52A;">Explicit (blood, weapons, injury)</li>
+            <li data-icon="&#x1F4A0;">Deliberately degraded (JPEG, glitch)</li>
+            <li data-icon="&#x1F47B;">Disturbing fan shrine feel</li>
+          </ul>
+        </div>
+        <div class="compare-col reveal">
+          <h4>Yami Kawaii</h4>
+          <ul>
+            <li data-icon="&#x1F3A8;">Pastels with medical/illness motifs</li>
+            <li data-icon="&#x1F622;">Melancholic, "sick-cute"</li>
+            <li data-icon="&#x1FA79;">Implied (bandages, pills, syringes)</li>
+            <li data-icon="&#x1F4A0;">Sometimes glitchy</li>
+            <li data-icon="&#x1F3E5;">Hospital waiting room feel</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="emoji-divider" aria-hidden="true">&#x1F353; &#x1FA78; &#x1F9F8; &#x1FA78; &#x1F353;</div>
+
+  <!-- ============ RELATED AESTHETICS ============ -->
+  <section class="related-section" id="related">
+    <div class="container">
+      <div class="section-title-wrap">
+        <h2>Related Aesthetics</h2>
+        <div class="section-subtitle">family tree of dissonance ~</div>
+      </div>
+
+      <div class="related-grid stagger">
+        <div class="related-card reveal">
+          <span class="tag tag--strawberry">Closest</span>
+          <h4>Gurokawa</h4>
+          <p>"Grotesque-cute" blending gore with kawaii visuals directly. The closest relative to Cutecore.</p>
+        </div>
+        <div class="related-card reveal">
+          <span class="tag tag--pink">Visual</span>
+          <h4>Pastel Gore</h4>
+          <p>Shares the pastel-meets-blood palette; focuses more on illustrated gore aesthetics.</p>
+        </div>
+        <div class="related-card reveal">
+          <span class="tag tag--lavender">Medical</span>
+          <h4>Yami Kawaii</h4>
+          <p>"Sick-cute" aesthetic; uses medical/mental-illness imagery within kawaii framework.</p>
+        </div>
+        <div class="related-card reveal">
+          <span class="tag tag--blue">Musical</span>
+          <h4>Kawaii Metal</h4>
+          <p>Musical parallel; pairs cute J-pop vocals with heavy metal instrumentation.</p>
+        </div>
+        <div class="related-card reveal">
+          <span class="tag tag--plum">Aggressive</span>
+          <h4>Lolicore</h4>
+          <p>Shares the juxtaposition of childlike imagery with aggressive/harsh elements.</p>
+        </div>
+        <div class="related-card reveal">
+          <span class="tag tag--strawberry">Trauma</span>
+          <h4>Traumacore</h4>
+          <p>Overlaps in trauma processing themes; uses nostalgic childhood imagery to express pain.</p>
+        </div>
+        <div class="related-card reveal">
+          <span class="tag tag--pink">Digital</span>
+          <h4>Femcel</h4>
+          <p>Shares the anime-obsessive, cluttered digital space and NEET lifestyle elements.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="footer">
+    <div class="footer-title">Cutecore</div>
+    <p>sweetness is just a vehicle (>_&lt;) ~</p>
+    <div class="footer-emoji" aria-hidden="true">&#x1F338; &#x1F52A; &#x1F353; &#x1FA79; &#x2728; &#x1F380; &#x1F370; &#x1FA78; &#x1F338;</div>
+  </footer>
+
+  <!-- ============ SCROLL REVEAL SCRIPT ============ -->
+  <script>
+    (function() {
+      const revealElements = document.querySelectorAll('.reveal');
+
+      const observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      }, {
+        threshold: 0.1,
+        rootMargin: '0px 0px -40px 0px'
+      });
+
+      revealElements.forEach(function(el) {
+        observer.observe(el);
+      });
+
+      // Smooth scroll for nav pills
+      document.querySelectorAll('.nav-pill').forEach(function(pill) {
+        pill.addEventListener('click', function(e) {
+          e.preventDefault();
+          var target = document.querySelector(this.getAttribute('href'));
+          if (target) {
+            var navHeight = document.querySelector('.nav-bar').offsetHeight;
+            var targetPosition = target.getBoundingClientRect().top + window.pageYOffset - navHeight - 10;
+            window.scrollTo({ top: targetPosition, behavior: 'smooth' });
+          }
+        });
+      });
+    })();
+  </script>
+</body>
+</html>
