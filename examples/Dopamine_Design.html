@@ -1,0 +1,2645 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dopamine Design -- A Visual Reference</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Quicksand:wght@400;500;600;700&family=Lilita+One&family=Baloo+2:wght@400;500;600;700;800&family=Bubblegum+Sans&display=swap" rel="stylesheet">
+  <style>
+    /* ============================
+       CSS CUSTOM PROPERTIES
+    ============================ */
+    :root {
+      --dopa-pink: #ff2d87;
+      --dopa-purple: #7b2fff;
+      --dopa-blue: #00b4ff;
+      --dopa-yellow: #ffd000;
+      --dopa-orange: #ff6b2b;
+      --dopa-green: #00e5a0;
+      --dopa-red: #ff3b3b;
+      --dopa-lavender: #c084fc;
+      --dopa-lime: #b8ff00;
+      --dopa-bubblegum: #ff8ed4;
+
+      --dopa-bg-dark: #1e0a3c;
+      --dopa-bg-light: #fffbf5;
+      --dopa-bg-cream: #fff3e0;
+      --dopa-bg-violet: #f0e6ff;
+
+      --dopa-text-dark: #1e0a3c;
+      --dopa-text-light: #fffbf5;
+      --dopa-text-muted: #7a6b8a;
+
+      --dopa-gradient-rainbow: linear-gradient(135deg, #ff2d87, #ff6b2b, #ffd000, #00e5a0, #00b4ff, #7b2fff);
+      --dopa-gradient-sunset: linear-gradient(135deg, #ff2d87, #ff6b2b, #ffd000);
+      --dopa-gradient-ocean: linear-gradient(135deg, #00b4ff, #7b2fff, #c084fc);
+
+      --radius-card: 24px;
+      --radius-pill: 50px;
+      --radius-section: 48px;
+    }
+
+    /* ============================
+       RESET & BASE
+    ============================ */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      overflow-x: hidden;
+    }
+
+    body {
+      background: var(--dopa-bg-light);
+      color: var(--dopa-text-dark);
+      font-family: 'Quicksand', sans-serif;
+      font-weight: 500;
+      font-size: 1rem;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'Fredoka', cursive;
+      font-weight: 700;
+      line-height: 1.15;
+      letter-spacing: -0.01em;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img { max-width: 100%; }
+
+    /* ============================
+       ANIMATIONS
+    ============================ */
+    @keyframes float {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-22px) rotate(4deg); }
+    }
+
+    @keyframes floatAlt {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-16px) rotate(-5deg); }
+    }
+
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes wiggle {
+      0%, 100% { transform: rotate(-3deg); }
+      50% { transform: rotate(3deg); }
+    }
+
+    @keyframes scaleIn {
+      from { opacity: 0; transform: scale(0.85) translateY(30px); }
+      to { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(40px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes rainbowShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    @keyframes confettiFall {
+      0% { transform: translateY(-10px) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.06); }
+    }
+
+    @keyframes bounceIn {
+      0% { opacity: 0; transform: scale(0.3); }
+      50% { opacity: 1; transform: scale(1.08); }
+      70% { transform: scale(0.95); }
+      100% { transform: scale(1); }
+    }
+
+    .anim-float { animation: float 6s ease-in-out infinite; }
+    .anim-float-alt { animation: floatAlt 7s ease-in-out infinite; }
+    .anim-spin { animation: spin 20s linear infinite; }
+    .anim-wiggle { animation: wiggle 2s ease-in-out infinite; }
+
+    /* Scroll-triggered reveal */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+    .reveal-delay-5 { transition-delay: 0.5s; }
+
+    /* ============================
+       DECORATIVE SHAPES (GLOBAL)
+    ============================ */
+    .deco-shape {
+      position: absolute;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .deco-circle {
+      border-radius: 50%;
+    }
+
+    .deco-star {
+      clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+    }
+
+    .deco-squiggle {
+      width: 120px;
+      height: 24px;
+      border-radius: 12px;
+      background: repeating-linear-gradient(
+        90deg,
+        var(--dopa-yellow) 0px,
+        var(--dopa-yellow) 14px,
+        transparent 14px,
+        transparent 28px
+      );
+    }
+
+    /* ============================
+       CONFETTI BACKGROUND
+    ============================ */
+    .confetti-container {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      pointer-events: none;
+      z-index: 9999;
+      overflow: hidden;
+    }
+
+    .confetti-piece {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      top: -20px;
+      animation: confettiFall linear forwards;
+    }
+
+    /* ============================
+       NAVIGATION
+    ============================ */
+    .dopa-nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255, 251, 245, 0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 2px solid rgba(123, 47, 255, 0.08);
+    }
+
+    .dopa-nav__inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 16px 40px;
+    }
+
+    .dopa-nav__logo {
+      font-family: 'Baloo 2', cursive;
+      font-weight: 800;
+      font-size: 1.6rem;
+      background: var(--dopa-gradient-sunset);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .dopa-nav__logo-blob {
+      width: 32px;
+      height: 32px;
+      background: var(--dopa-gradient-rainbow);
+      background-size: 300% 300%;
+      animation: rainbowShift 4s ease infinite;
+      border-radius: 50%;
+      display: inline-block;
+      flex-shrink: 0;
+    }
+
+    .dopa-nav__links {
+      display: flex;
+      gap: 6px;
+      list-style: none;
+    }
+
+    .dopa-nav__links a {
+      font-family: 'Quicksand', sans-serif;
+      font-weight: 700;
+      font-size: 0.9rem;
+      padding: 8px 20px;
+      border-radius: var(--radius-pill);
+      transition: background 0.25s ease, color 0.25s ease, transform 0.2s ease;
+    }
+
+    .dopa-nav__links a:hover {
+      background: var(--dopa-bg-violet);
+      color: var(--dopa-purple);
+      transform: translateY(-1px);
+    }
+
+    .dopa-nav__links a.active {
+      background: var(--dopa-purple);
+      color: #fff;
+    }
+
+    .dopa-nav__mobile {
+      display: none;
+      width: 40px;
+      height: 40px;
+      border: none;
+      background: var(--dopa-purple);
+      border-radius: 12px;
+      cursor: pointer;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+    }
+
+    .dopa-nav__mobile span {
+      width: 20px;
+      height: 2.5px;
+      background: #fff;
+      border-radius: 2px;
+      transition: transform 0.3s ease;
+    }
+
+    /* ============================
+       HERO SECTION
+    ============================ */
+    .dopa-hero {
+      position: relative;
+      text-align: center;
+      padding: 100px 40px 120px;
+      overflow: hidden;
+      background: var(--dopa-bg-cream);
+      border-radius: 0 0 var(--radius-section) var(--radius-section);
+    }
+
+    .dopa-hero__title {
+      font-family: 'Baloo 2', cursive;
+      font-size: clamp(3rem, 8vw, 6.5rem);
+      font-weight: 800;
+      line-height: 1.0;
+      margin-bottom: 1.2rem;
+      position: relative;
+      z-index: 2;
+    }
+
+    .dopa-hero__title .line1 {
+      display: block;
+      background: var(--dopa-gradient-sunset);
+      background-size: 200% 200%;
+      animation: rainbowShift 5s ease infinite;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .dopa-hero__title .line2 {
+      display: block;
+      background: var(--dopa-gradient-ocean);
+      background-size: 200% 200%;
+      animation: rainbowShift 5s ease infinite 0.5s;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .dopa-hero__sub {
+      font-size: 1.25rem;
+      color: var(--dopa-text-muted);
+      max-width: 640px;
+      margin: 0 auto 2.5rem;
+      position: relative;
+      z-index: 2;
+      font-weight: 600;
+      line-height: 1.8;
+    }
+
+    .dopa-hero__cta-row {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* Blobs in hero */
+    .dopa-hero .blob-1 {
+      width: 200px; height: 200px;
+      background: var(--dopa-pink);
+      opacity: 0.12;
+      top: 5%; left: 2%;
+      animation: float 7s ease-in-out infinite;
+    }
+    .dopa-hero .blob-2 {
+      width: 140px; height: 140px;
+      background: var(--dopa-purple);
+      opacity: 0.1;
+      top: 15%; right: 5%;
+      animation: floatAlt 8s ease-in-out infinite 1s;
+    }
+    .dopa-hero .blob-3 {
+      width: 90px; height: 90px;
+      background: var(--dopa-yellow);
+      opacity: 0.2;
+      bottom: 18%; left: 8%;
+      animation: float 6s ease-in-out infinite 2s;
+    }
+    .dopa-hero .blob-4 {
+      width: 160px; height: 160px;
+      background: var(--dopa-green);
+      opacity: 0.1;
+      bottom: 5%; right: 10%;
+      animation: floatAlt 9s ease-in-out infinite 0.5s;
+    }
+    .dopa-hero .blob-5 {
+      width: 70px; height: 70px;
+      background: var(--dopa-orange);
+      opacity: 0.15;
+      top: 40%; left: 18%;
+      animation: float 5s ease-in-out infinite 3s;
+    }
+    .dopa-hero .blob-6 {
+      width: 50px; height: 50px;
+      background: var(--dopa-blue);
+      opacity: 0.18;
+      top: 50%; right: 18%;
+      animation: floatAlt 6s ease-in-out infinite 1.5s;
+    }
+
+    .dopa-hero .star-1 {
+      width: 40px; height: 40px;
+      background: var(--dopa-yellow);
+      top: 12%; right: 20%;
+      animation: spin 12s linear infinite, float 5s ease-in-out infinite;
+    }
+    .dopa-hero .star-2 {
+      width: 28px; height: 28px;
+      background: var(--dopa-pink);
+      bottom: 25%; left: 22%;
+      animation: spin 15s linear infinite reverse, floatAlt 6s ease-in-out infinite;
+    }
+
+    .dopa-hero .squiggle-1 {
+      top: 30%; left: -10px;
+      transform: rotate(-20deg);
+      opacity: 0.5;
+    }
+
+    /* ============================
+       BUTTONS
+    ============================ */
+    .dopa-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      border: none;
+      border-radius: var(--radius-pill);
+      padding: 18px 44px;
+      font-family: 'Fredoka', cursive;
+      font-weight: 600;
+      font-size: 1.15rem;
+      cursor: pointer;
+      text-decoration: none;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .dopa-btn::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(255,255,255,0);
+      transition: background 0.25s ease;
+      border-radius: inherit;
+    }
+
+    .dopa-btn:hover::after {
+      background: rgba(255,255,255,0.12);
+    }
+
+    .dopa-btn:hover {
+      transform: translateY(-4px) scale(1.03);
+    }
+
+    .dopa-btn:active {
+      transform: translateY(-1px) scale(0.98);
+    }
+
+    .dopa-btn--pink {
+      background: var(--dopa-pink);
+      color: #fff;
+      box-shadow: 0 6px 28px rgba(255, 45, 135, 0.35);
+    }
+    .dopa-btn--pink:hover {
+      box-shadow: 0 10px 40px rgba(255, 45, 135, 0.45);
+    }
+
+    .dopa-btn--purple {
+      background: var(--dopa-purple);
+      color: #fff;
+      box-shadow: 0 6px 28px rgba(123, 47, 255, 0.35);
+    }
+    .dopa-btn--purple:hover {
+      box-shadow: 0 10px 40px rgba(123, 47, 255, 0.45);
+    }
+
+    .dopa-btn--yellow {
+      background: var(--dopa-yellow);
+      color: var(--dopa-text-dark);
+      box-shadow: 0 6px 28px rgba(255, 208, 0, 0.35);
+    }
+
+    .dopa-btn--gradient {
+      background: var(--dopa-gradient-sunset);
+      color: #fff;
+      box-shadow: 0 6px 28px rgba(255, 107, 43, 0.35);
+    }
+
+    .dopa-btn--outline {
+      background: transparent;
+      color: var(--dopa-purple);
+      border: 3px solid var(--dopa-purple);
+      box-shadow: none;
+    }
+    .dopa-btn--outline:hover {
+      background: var(--dopa-purple);
+      color: #fff;
+      box-shadow: 0 10px 40px rgba(123, 47, 255, 0.3);
+    }
+
+    /* ============================
+       SECTION LABEL
+    ============================ */
+    .section-label {
+      font-family: 'Fredoka', cursive;
+      font-weight: 600;
+      font-size: 0.85rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      display: inline-block;
+      padding: 6px 20px;
+      border-radius: var(--radius-pill);
+      margin-bottom: 16px;
+    }
+
+    .section-title {
+      font-family: 'Baloo 2', cursive;
+      font-size: clamp(2rem, 4.5vw, 3.2rem);
+      font-weight: 800;
+      margin-bottom: 20px;
+      line-height: 1.1;
+    }
+
+    .section-desc {
+      font-size: 1.1rem;
+      color: var(--dopa-text-muted);
+      max-width: 620px;
+      font-weight: 500;
+      line-height: 1.8;
+    }
+
+    /* ============================
+       INTRO / ABOUT SECTION
+    ============================ */
+    .dopa-intro {
+      padding: 100px 40px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .dopa-intro__inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+
+    .dopa-intro__text .section-desc {
+      margin-bottom: 2rem;
+    }
+
+    .dopa-intro__visual {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 400px;
+    }
+
+    .dopa-intro__shape-cluster {
+      position: relative;
+      width: 360px;
+      height: 360px;
+    }
+
+    .dopa-intro__shape-cluster .shape-main {
+      width: 260px;
+      height: 260px;
+      background: var(--dopa-gradient-sunset);
+      border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      animation: wiggle 4s ease-in-out infinite;
+    }
+
+    .dopa-intro__shape-cluster .shape-ring {
+      width: 320px;
+      height: 320px;
+      border: 6px solid var(--dopa-lavender);
+      border-radius: 50%;
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      animation: spin 25s linear infinite;
+    }
+
+    .dopa-intro__shape-cluster .shape-dots {
+      position: absolute;
+    }
+
+    .dopa-intro__shape-cluster .shape-dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      position: absolute;
+    }
+
+    /* ============================
+       VISUAL TRAITS SECTION
+    ============================ */
+    .dopa-traits {
+      padding: 100px 40px;
+      background: var(--dopa-bg-violet);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .dopa-traits__inner {
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+
+    .dopa-traits__header {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+
+    .dopa-traits__header .section-desc {
+      margin: 0 auto;
+    }
+
+    .dopa-traits__grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+    }
+
+    .trait-card {
+      border-radius: var(--radius-card);
+      padding: 32px;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.35s ease, box-shadow 0.35s ease;
+    }
+
+    .trait-card:hover {
+      transform: translateY(-6px) rotate(1deg);
+      box-shadow: 0 20px 60px rgba(30, 10, 60, 0.1);
+    }
+
+    .trait-card::after {
+      content: '';
+      position: absolute;
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      opacity: 0.08;
+      top: -30px;
+      right: -30px;
+    }
+
+    .trait-card__icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+      margin-bottom: 20px;
+    }
+
+    .trait-card h3 {
+      font-size: 1.2rem;
+      margin-bottom: 8px;
+    }
+
+    .trait-card p {
+      font-size: 0.92rem;
+      color: var(--dopa-text-muted);
+      line-height: 1.7;
+    }
+
+    .trait-card--pink { background: #ffe0ee; }
+    .trait-card--pink::after { background: var(--dopa-pink); }
+    .trait-card--blue { background: #dff2ff; }
+    .trait-card--blue::after { background: var(--dopa-blue); }
+    .trait-card--yellow { background: #fff6d6; }
+    .trait-card--yellow::after { background: var(--dopa-yellow); }
+    .trait-card--green { background: #d6fff0; }
+    .trait-card--green::after { background: var(--dopa-green); }
+    .trait-card--violet { background: #ece0ff; }
+    .trait-card--violet::after { background: var(--dopa-purple); }
+    .trait-card--orange { background: #ffe8d9; }
+    .trait-card--orange::after { background: var(--dopa-orange); }
+
+    /* ============================
+       COLOR PALETTE SECTION
+    ============================ */
+    .dopa-palette {
+      padding: 100px 40px;
+      background: var(--dopa-bg-dark);
+      color: var(--dopa-text-light);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .dopa-palette__inner {
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+
+    .dopa-palette__header {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+
+    .dopa-palette__header .section-label {
+      background: rgba(192, 132, 252, 0.2);
+      color: var(--dopa-lavender);
+    }
+
+    .dopa-palette__header .section-desc {
+      color: rgba(255, 251, 245, 0.6);
+      margin: 0 auto;
+    }
+
+    .dopa-palette__grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 20px;
+      margin-bottom: 48px;
+    }
+
+    .color-swatch {
+      border-radius: 20px;
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: default;
+    }
+
+    .color-swatch:hover {
+      transform: translateY(-6px) scale(1.04);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.3);
+    }
+
+    .color-swatch__preview {
+      height: 100px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .color-swatch__body {
+      padding: 14px 16px;
+      background: rgba(255,255,255,0.06);
+    }
+
+    .color-swatch__name {
+      font-family: 'Fredoka', cursive;
+      font-weight: 600;
+      font-size: 0.82rem;
+      margin-bottom: 2px;
+      color: var(--dopa-text-light);
+    }
+
+    .color-swatch__hex {
+      font-family: 'Quicksand', sans-serif;
+      font-weight: 600;
+      font-size: 0.78rem;
+      opacity: 0.6;
+    }
+
+    /* Gradient showcase */
+    .dopa-palette__gradients {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .gradient-card {
+      border-radius: 20px;
+      padding: 28px;
+      height: 120px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.3s ease;
+    }
+
+    .gradient-card:hover {
+      transform: scale(1.03);
+    }
+
+    .gradient-card__name {
+      font-family: 'Fredoka', cursive;
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: #fff;
+      text-shadow: 0 1px 8px rgba(0,0,0,0.2);
+    }
+
+    /* ============================
+       TYPOGRAPHY SECTION
+    ============================ */
+    .dopa-typo {
+      padding: 100px 40px;
+      background: var(--dopa-bg-cream);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .dopa-typo__inner {
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+
+    .dopa-typo__header {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+
+    .dopa-typo__header .section-desc {
+      margin: 0 auto;
+    }
+
+    .dopa-typo__showcase {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-bottom: 48px;
+    }
+
+    .typo-card {
+      border-radius: var(--radius-card);
+      padding: 36px;
+      background: var(--dopa-bg-light);
+      transition: transform 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .typo-card:hover {
+      transform: translateY(-4px);
+    }
+
+    .typo-card__label {
+      font-family: 'Fredoka', cursive;
+      font-weight: 600;
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--dopa-text-muted);
+      margin-bottom: 12px;
+    }
+
+    .typo-card__sample {
+      margin-bottom: 16px;
+      line-height: 1.2;
+    }
+
+    .typo-card__meta {
+      font-size: 0.82rem;
+      color: var(--dopa-text-muted);
+      font-weight: 600;
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .typo-card__meta span {
+      background: var(--dopa-bg-violet);
+      padding: 4px 12px;
+      border-radius: 8px;
+    }
+
+    /* Font pairings */
+    .dopa-typo__pairings {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+    }
+
+    .pairing-card {
+      border-radius: var(--radius-card);
+      padding: 32px;
+      background: var(--dopa-bg-light);
+      border: 3px solid transparent;
+      transition: transform 0.3s ease, border-color 0.3s ease;
+    }
+
+    .pairing-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--dopa-lavender);
+    }
+
+    .pairing-card__heading {
+      margin-bottom: 8px;
+      font-size: 1.5rem;
+    }
+
+    .pairing-card__body {
+      font-size: 0.95rem;
+      color: var(--dopa-text-muted);
+      margin-bottom: 16px;
+      line-height: 1.7;
+    }
+
+    .pairing-card__tag {
+      display: inline-block;
+      font-family: 'Fredoka', cursive;
+      font-weight: 600;
+      font-size: 0.75rem;
+      padding: 4px 14px;
+      border-radius: var(--radius-pill);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    /* ============================
+       LAYOUT PRINCIPLES SECTION
+    ============================ */
+    .dopa-layout {
+      padding: 100px 40px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .dopa-layout__inner {
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+
+    .dopa-layout__header {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+
+    .dopa-layout__header .section-desc {
+      margin: 0 auto;
+    }
+
+    .dopa-layout__demo {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      grid-template-rows: auto auto;
+      gap: 20px;
+      margin-bottom: 48px;
+    }
+
+    .layout-tile {
+      border-radius: var(--radius-card);
+      padding: 32px;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      min-height: 200px;
+      transition: transform 0.3s ease;
+    }
+
+    .layout-tile:hover {
+      transform: scale(1.02);
+    }
+
+    .layout-tile--hero {
+      grid-row: span 2;
+      background: var(--dopa-gradient-sunset);
+      min-height: 420px;
+    }
+
+    .layout-tile--feature-1 {
+      background: var(--dopa-purple);
+      color: #fff;
+      transform: rotate(-1deg);
+    }
+    .layout-tile--feature-1:hover {
+      transform: rotate(-1deg) scale(1.03);
+    }
+
+    .layout-tile--feature-2 {
+      background: var(--dopa-blue);
+      color: #fff;
+    }
+
+    .layout-tile--feature-3 {
+      background: var(--dopa-yellow);
+      grid-column: span 2;
+      transform: rotate(0.5deg);
+    }
+    .layout-tile--feature-3:hover {
+      transform: rotate(0.5deg) scale(1.02);
+    }
+
+    .layout-tile h3 {
+      font-size: 1.3rem;
+      margin-bottom: 6px;
+      color: inherit;
+    }
+
+    .layout-tile p {
+      font-size: 0.9rem;
+      opacity: 0.85;
+      line-height: 1.6;
+    }
+
+    .layout-tile--hero h3 {
+      font-family: 'Baloo 2', cursive;
+      font-size: 2.2rem;
+      color: #fff;
+    }
+
+    .layout-tile--hero p {
+      color: rgba(255,255,255,0.85);
+      font-size: 1rem;
+    }
+
+    /* Layout principles list */
+    .dopa-layout__principles {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+    }
+
+    .principle-item {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      padding: 24px;
+      border-radius: 20px;
+      background: var(--dopa-bg-cream);
+      transition: transform 0.3s ease;
+    }
+
+    .principle-item:hover {
+      transform: translateX(6px);
+    }
+
+    .principle-item__icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      flex-shrink: 0;
+    }
+
+    .principle-item h4 {
+      font-size: 1rem;
+      margin-bottom: 4px;
+    }
+
+    .principle-item p {
+      font-size: 0.88rem;
+      color: var(--dopa-text-muted);
+      line-height: 1.6;
+    }
+
+    /* ============================
+       CSS TECHNIQUES SECTION
+    ============================ */
+    .dopa-css {
+      padding: 100px 40px;
+      background: var(--dopa-bg-violet);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .dopa-css__inner {
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+
+    .dopa-css__header {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+
+    .dopa-css__header .section-desc {
+      margin: 0 auto;
+    }
+
+    .dopa-css__demos {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 24px;
+    }
+
+    .css-demo {
+      border-radius: var(--radius-card);
+      padding: 36px;
+      background: var(--dopa-bg-light);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .css-demo__title {
+      font-size: 1.1rem;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .css-demo__title-tag {
+      font-family: 'Fredoka', cursive;
+      font-weight: 600;
+      font-size: 0.7rem;
+      padding: 3px 10px;
+      border-radius: var(--radius-pill);
+      background: var(--dopa-lavender);
+      color: #fff;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    /* Live button demo */
+    .css-demo__buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .demo-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: none;
+      border-radius: var(--radius-pill);
+      padding: 14px 32px;
+      font-family: 'Fredoka', cursive;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .demo-btn:hover {
+      transform: translateY(-3px) scale(1.03);
+    }
+
+    .demo-btn--pink {
+      background: var(--dopa-pink);
+      color: #fff;
+      box-shadow: 0 4px 20px rgba(255, 45, 135, 0.3);
+    }
+
+    .demo-btn--purple {
+      background: var(--dopa-purple);
+      color: #fff;
+      box-shadow: 0 4px 20px rgba(123, 47, 255, 0.3);
+    }
+
+    .demo-btn--gradient {
+      background: var(--dopa-gradient-sunset);
+      color: #fff;
+      box-shadow: 0 4px 20px rgba(255, 107, 43, 0.3);
+    }
+
+    .demo-btn--yellow {
+      background: var(--dopa-yellow);
+      color: var(--dopa-text-dark);
+      box-shadow: 0 4px 20px rgba(255, 208, 0, 0.3);
+    }
+
+    /* Live card demos */
+    .css-demo__cards {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .demo-card {
+      border-radius: 16px;
+      padding: 20px;
+      transition: transform 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .demo-card:hover {
+      transform: translateY(-4px) rotate(1deg);
+    }
+
+    .demo-card::after {
+      content: '';
+      position: absolute;
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      opacity: 0.08;
+      top: -20px;
+      right: -20px;
+    }
+
+    .demo-card--pink { background: #ffe0ee; }
+    .demo-card--pink::after { background: var(--dopa-pink); }
+    .demo-card--blue { background: #dff2ff; }
+    .demo-card--blue::after { background: var(--dopa-blue); }
+    .demo-card--green { background: #d6fff0; }
+    .demo-card--green::after { background: var(--dopa-green); }
+
+    .demo-card h4 {
+      font-size: 0.95rem;
+      margin-bottom: 4px;
+    }
+    .demo-card p {
+      font-size: 0.82rem;
+      color: var(--dopa-text-muted);
+    }
+
+    /* Animation demos */
+    .css-demo__anims {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+      align-items: center;
+      min-height: 200px;
+    }
+
+    .anim-demo-shape {
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Decorative shapes demo */
+    .css-demo__shapes {
+      position: relative;
+      height: 200px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .shapes-playground {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+
+    .shapes-playground .sp-shape {
+      position: absolute;
+    }
+
+    /* ============================
+       DO'S AND DON'TS
+    ============================ */
+    .dopa-rules {
+      padding: 100px 40px;
+      background: var(--dopa-bg-cream);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .dopa-rules__inner {
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+
+    .dopa-rules__header {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+
+    .dopa-rules__header .section-desc {
+      margin: 0 auto;
+    }
+
+    .dopa-rules__columns {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+    }
+
+    .rules-column {
+      border-radius: var(--radius-card);
+      padding: 40px;
+    }
+
+    .rules-column--do {
+      background: #d6fff0;
+      border: 3px solid var(--dopa-green);
+    }
+
+    .rules-column--dont {
+      background: #ffe0ee;
+      border: 3px solid var(--dopa-pink);
+    }
+
+    .rules-column__title {
+      font-family: 'Baloo 2', cursive;
+      font-size: 1.8rem;
+      font-weight: 800;
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .rules-column--do .rules-column__title { color: #00a86b; }
+    .rules-column--dont .rules-column__title { color: var(--dopa-red); }
+
+    .rules-column ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .rules-column li {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      font-size: 0.95rem;
+      font-weight: 600;
+      line-height: 1.5;
+    }
+
+    .rules-column li .icon {
+      flex-shrink: 0;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      font-weight: 700;
+      margin-top: 1px;
+    }
+
+    .rules-column--do li .icon {
+      background: var(--dopa-green);
+      color: #fff;
+    }
+
+    .rules-column--dont li .icon {
+      background: var(--dopa-red);
+      color: #fff;
+    }
+
+    /* ============================
+       RELATED AESTHETICS
+    ============================ */
+    .dopa-related {
+      padding: 100px 40px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .dopa-related__inner {
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+
+    .dopa-related__header {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+
+    .dopa-related__header .section-desc {
+      margin: 0 auto;
+    }
+
+    .dopa-related__grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+    }
+
+    .related-card {
+      border-radius: var(--radius-card);
+      padding: 28px;
+      background: var(--dopa-bg-light);
+      border: 3px solid transparent;
+      transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .related-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(30,10,60,0.08);
+    }
+
+    .related-card:nth-child(1):hover { border-color: var(--dopa-pink); }
+    .related-card:nth-child(2):hover { border-color: var(--dopa-purple); }
+    .related-card:nth-child(3):hover { border-color: var(--dopa-orange); }
+    .related-card:nth-child(4):hover { border-color: var(--dopa-blue); }
+    .related-card:nth-child(5):hover { border-color: var(--dopa-green); }
+    .related-card:nth-child(6):hover { border-color: var(--dopa-yellow); }
+    .related-card:nth-child(7):hover { border-color: var(--dopa-lavender); }
+    .related-card:nth-child(8):hover { border-color: var(--dopa-lime); }
+    .related-card:nth-child(9):hover { border-color: var(--dopa-red); }
+    .related-card:nth-child(10):hover { border-color: var(--dopa-bubblegum); }
+
+    .related-card h3 {
+      font-size: 1.05rem;
+      margin-bottom: 8px;
+    }
+
+    .related-card p {
+      font-size: 0.88rem;
+      color: var(--dopa-text-muted);
+      line-height: 1.6;
+    }
+
+    .related-card__tag {
+      display: inline-block;
+      font-family: 'Fredoka', cursive;
+      font-weight: 600;
+      font-size: 0.7rem;
+      padding: 3px 12px;
+      border-radius: var(--radius-pill);
+      margin-bottom: 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    /* ============================
+       CTA SECTION
+    ============================ */
+    .dopa-cta {
+      padding: 40px;
+    }
+
+    .dopa-cta__inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      background: var(--dopa-gradient-ocean);
+      border-radius: var(--radius-section);
+      text-align: center;
+      padding: 100px 60px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .dopa-cta__inner h2 {
+      font-family: 'Baloo 2', cursive;
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 16px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .dopa-cta__inner p {
+      font-size: 1.15rem;
+      color: rgba(255,255,255,0.85);
+      margin-bottom: 2.5rem;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+      position: relative;
+      z-index: 2;
+    }
+
+    .dopa-cta__inner .dopa-btn {
+      position: relative;
+      z-index: 2;
+    }
+
+    /* CTA decorative blobs */
+    .dopa-cta .cta-blob {
+      position: absolute;
+      border-radius: 50%;
+      opacity: 0.15;
+    }
+
+    /* ============================
+       FOOTER
+    ============================ */
+    .dopa-footer {
+      background: var(--dopa-bg-dark);
+      color: var(--dopa-text-light);
+      padding: 60px 40px 40px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .dopa-footer__inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 40px;
+      margin-bottom: 48px;
+    }
+
+    .dopa-footer__brand {
+      font-family: 'Baloo 2', cursive;
+      font-weight: 800;
+      font-size: 1.5rem;
+      margin-bottom: 12px;
+      background: var(--dopa-gradient-sunset);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .dopa-footer__brand-desc {
+      font-size: 0.9rem;
+      color: rgba(255,251,245,0.5);
+      line-height: 1.7;
+      max-width: 300px;
+    }
+
+    .dopa-footer h4 {
+      font-size: 0.95rem;
+      margin-bottom: 16px;
+      color: var(--dopa-lavender);
+    }
+
+    .dopa-footer ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .dopa-footer ul a {
+      font-size: 0.88rem;
+      color: rgba(255,251,245,0.5);
+      transition: color 0.2s ease;
+    }
+
+    .dopa-footer ul a:hover {
+      color: var(--dopa-yellow);
+    }
+
+    .dopa-footer__bottom {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding-top: 28px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.82rem;
+      color: rgba(255,251,245,0.35);
+    }
+
+    .dopa-footer__bottom-colors {
+      display: flex;
+      gap: 8px;
+    }
+
+    .dopa-footer__bottom-colors span {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    /* ============================
+       RAINBOW DIVIDER
+    ============================ */
+    .rainbow-divider {
+      height: 6px;
+      background: var(--dopa-gradient-rainbow);
+      background-size: 300% 100%;
+      animation: rainbowShift 6s ease infinite;
+    }
+
+    /* ============================
+       RESPONSIVE
+    ============================ */
+    @media (max-width: 1024px) {
+      .dopa-intro__inner {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+
+      .dopa-intro__visual {
+        min-height: 300px;
+      }
+
+      .dopa-layout__demo {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .layout-tile--hero {
+        grid-column: span 2;
+        grid-row: span 1;
+        min-height: 280px;
+      }
+
+      .layout-tile--feature-3 {
+        grid-column: span 2;
+      }
+
+      .dopa-typo__showcase {
+        grid-template-columns: 1fr;
+      }
+
+      .dopa-footer__inner {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .dopa-nav__links { display: none; }
+      .dopa-nav__mobile { display: flex; }
+
+      .dopa-hero {
+        padding: 70px 24px 80px;
+        border-radius: 0 0 32px 32px;
+      }
+
+      .dopa-hero__cta-row {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      section { padding-left: 24px !important; padding-right: 24px !important; }
+
+      .dopa-rules__columns {
+        grid-template-columns: 1fr;
+      }
+
+      .dopa-layout__demo {
+        grid-template-columns: 1fr;
+      }
+
+      .layout-tile--hero {
+        grid-column: span 1;
+        min-height: 220px;
+      }
+
+      .layout-tile--feature-3 {
+        grid-column: span 1;
+      }
+
+      .dopa-palette__gradients {
+        grid-template-columns: 1fr;
+      }
+
+      .dopa-cta__inner {
+        padding: 60px 28px;
+        border-radius: 32px;
+      }
+
+      .dopa-footer__inner {
+        grid-template-columns: 1fr;
+        gap: 32px;
+      }
+
+      .dopa-footer__bottom {
+        flex-direction: column;
+        gap: 16px;
+        text-align: center;
+      }
+
+      .dopa-intro__shape-cluster {
+        width: 260px;
+        height: 260px;
+      }
+
+      .dopa-intro__shape-cluster .shape-main {
+        width: 180px; height: 180px;
+      }
+
+      .dopa-intro__shape-cluster .shape-ring {
+        width: 230px; height: 230px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .dopa-palette__grid {
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        gap: 12px;
+      }
+
+      .color-swatch__preview {
+        height: 72px;
+      }
+
+      .dopa-hero__title {
+        font-size: clamp(2.2rem, 10vw, 3.5rem);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== CONFETTI (JS-driven) ===== -->
+  <div class="confetti-container" id="confetti"></div>
+
+  <!-- ===== NAVIGATION ===== -->
+  <nav class="dopa-nav">
+    <div class="dopa-nav__inner">
+      <a href="#" class="dopa-nav__logo">
+        <span class="dopa-nav__logo-blob"></span>
+        Dopamine Design
+      </a>
+      <ul class="dopa-nav__links">
+        <li><a href="#traits" class="active">Traits</a></li>
+        <li><a href="#palette">Palette</a></li>
+        <li><a href="#typography">Typography</a></li>
+        <li><a href="#layout">Layout</a></li>
+        <li><a href="#techniques">Techniques</a></li>
+        <li><a href="#rules">Rules</a></li>
+      </ul>
+      <button class="dopa-nav__mobile" id="mobileMenuBtn" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ===== HERO ===== -->
+  <section class="dopa-hero">
+    <!-- Decorative blobs -->
+    <div class="deco-shape deco-circle blob-1 anim-float" style="width:200px;height:200px;background:var(--dopa-pink);opacity:0.12;top:5%;left:2%;"></div>
+    <div class="deco-shape deco-circle blob-2 anim-float-alt" style="width:140px;height:140px;background:var(--dopa-purple);opacity:0.1;top:15%;right:5%;"></div>
+    <div class="deco-shape deco-circle blob-3 anim-float" style="width:90px;height:90px;background:var(--dopa-yellow);opacity:0.2;bottom:18%;left:8%;animation-delay:2s;"></div>
+    <div class="deco-shape deco-circle blob-4 anim-float-alt" style="width:160px;height:160px;background:var(--dopa-green);opacity:0.1;bottom:5%;right:10%;animation-delay:0.5s;"></div>
+    <div class="deco-shape deco-circle anim-float" style="width:70px;height:70px;background:var(--dopa-orange);opacity:0.15;top:40%;left:18%;animation-delay:3s;"></div>
+    <div class="deco-shape deco-circle anim-float-alt" style="width:50px;height:50px;background:var(--dopa-blue);opacity:0.18;top:50%;right:18%;animation-delay:1.5s;"></div>
+
+    <!-- Stars -->
+    <div class="deco-shape deco-star" style="width:40px;height:40px;background:var(--dopa-yellow);top:12%;right:20%;animation:spin 12s linear infinite;"></div>
+    <div class="deco-shape deco-star" style="width:28px;height:28px;background:var(--dopa-pink);bottom:25%;left:22%;animation:spin 15s linear infinite reverse;"></div>
+    <div class="deco-shape deco-star" style="width:22px;height:22px;background:var(--dopa-lime);top:35%;left:6%;animation:spin 18s linear infinite;"></div>
+
+    <!-- Squiggle -->
+    <div class="deco-shape deco-squiggle" style="top:30%;left:-10px;transform:rotate(-20deg);opacity:0.5;"></div>
+    <div class="deco-shape deco-squiggle" style="bottom:12%;right:4%;transform:rotate(15deg);opacity:0.4;background:repeating-linear-gradient(90deg,var(--dopa-pink) 0px,var(--dopa-pink) 14px,transparent 14px,transparent 28px);"></div>
+
+    <h1 class="dopa-hero__title">
+      <span class="line1">Design That Sparks</span>
+      <span class="line2">Pure Joy</span>
+    </h1>
+    <p class="dopa-hero__sub">
+      A maximalist, joy-driven visual aesthetic built around bold, saturated colors and playful shapes that trigger positive emotional responses. This is Dopamine Design.
+    </p>
+    <div class="dopa-hero__cta-row">
+      <a href="#traits" class="dopa-btn dopa-btn--pink">Explore the Aesthetic</a>
+      <a href="#palette" class="dopa-btn dopa-btn--outline">View Palette</a>
+    </div>
+  </section>
+
+  <div class="rainbow-divider"></div>
+
+  <!-- ===== INTRO / ABOUT ===== -->
+  <section class="dopa-intro" id="about">
+    <div class="dopa-intro__inner">
+      <div class="dopa-intro__text reveal">
+        <span class="section-label" style="background:#ffe0ee;color:var(--dopa-pink);">What is it?</span>
+        <h2 class="section-title">Reject Restraint.<br>Embrace Exuberance.</h2>
+        <p class="section-desc">
+          Dopamine Design rejects the restraint of minimalism in favor of exuberant color clashes, chunky geometry, bubbly typography, and unabashed visual delight. Every element is designed to make the viewer smile -- through unexpected color combinations, oversized shapes, and a general sense of creative freedom that prioritizes feeling over convention.
+        </p>
+        <a href="#traits" class="dopa-btn dopa-btn--gradient" style="margin-top:8px;">See the Traits</a>
+      </div>
+      <div class="dopa-intro__visual reveal reveal-delay-2">
+        <div class="dopa-intro__shape-cluster">
+          <div class="shape-ring"></div>
+          <div class="shape-main"></div>
+          <!-- Orbiting dots -->
+          <div class="shape-dot" style="width:18px;height:18px;background:var(--dopa-purple);top:10px;left:50%;border-radius:50%;animation:float 4s ease-in-out infinite;"></div>
+          <div class="shape-dot" style="width:14px;height:14px;background:var(--dopa-blue);bottom:20px;right:30px;border-radius:50%;animation:floatAlt 5s ease-in-out infinite 1s;"></div>
+          <div class="shape-dot" style="width:20px;height:20px;background:var(--dopa-green);bottom:50px;left:10px;border-radius:50%;animation:float 6s ease-in-out infinite 0.5s;"></div>
+          <div class="shape-dot" style="width:12px;height:12px;background:var(--dopa-yellow);top:40px;right:10px;border-radius:50%;animation:floatAlt 4s ease-in-out infinite 2s;"></div>
+          <div class="deco-shape deco-star" style="width:24px;height:24px;background:var(--dopa-yellow);top:-5px;right:60px;animation:spin 10s linear infinite;"></div>
+          <div class="deco-shape deco-star" style="width:18px;height:18px;background:var(--dopa-pink);bottom:10px;left:60px;animation:spin 14s linear infinite reverse;"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== VISUAL CHARACTERISTICS / TRAITS ===== -->
+  <section class="dopa-traits" id="traits">
+    <div class="dopa-traits__inner">
+      <div class="dopa-traits__header reveal">
+        <span class="section-label" style="background:var(--dopa-purple);color:#fff;">Visual Characteristics</span>
+        <h2 class="section-title">Core Design Traits</h2>
+        <p class="section-desc">
+          Every visual decision in Dopamine Design serves one goal: maximize joy. Here are the defining characteristics that make this aesthetic unmistakable.
+        </p>
+      </div>
+      <div class="dopa-traits__grid">
+        <div class="trait-card trait-card--pink reveal reveal-delay-1">
+          <div class="trait-card__icon" style="background:var(--dopa-pink);">
+            <svg width="28" height="28" viewBox="0 0 28 28"><circle cx="14" cy="14" r="10" fill="#fff" opacity="0.9"/><circle cx="14" cy="14" r="5" fill="#ff2d87"/></svg>
+          </div>
+          <h3>Hyper-Saturated Colors</h3>
+          <p>Vivid, fully saturated hues used liberally and simultaneously. No muted tones allowed -- every color screams with confidence.</p>
+        </div>
+        <div class="trait-card trait-card--blue reveal reveal-delay-2">
+          <div class="trait-card__icon" style="background:var(--dopa-blue);">
+            <svg width="28" height="28" viewBox="0 0 28 28"><circle cx="10" cy="14" r="6" fill="#fff" opacity="0.8"/><circle cx="18" cy="14" r="6" fill="#fff" opacity="0.6"/><circle cx="14" cy="10" r="6" fill="#fff" opacity="0.7"/></svg>
+          </div>
+          <h3>Playful Geometric Shapes</h3>
+          <p>Circles, blobs, squiggles, stars, and rounded polygons scattered as decorative elements that bring energy to every composition.</p>
+        </div>
+        <div class="trait-card trait-card--yellow reveal reveal-delay-3">
+          <div class="trait-card__icon" style="background:var(--dopa-yellow);">
+            <svg width="28" height="28" viewBox="0 0 28 28"><rect x="3" y="3" width="10" height="22" rx="3" fill="#fff" opacity="0.8"/><rect x="15" y="3" width="10" height="22" rx="3" fill="#fff" opacity="0.6"/></svg>
+          </div>
+          <h3>Bold Color Blocking</h3>
+          <p>Large areas of solid, contrasting color placed side by side for maximum visual impact. Harmony comes from confidence.</p>
+        </div>
+        <div class="trait-card trait-card--green reveal reveal-delay-1">
+          <div class="trait-card__icon" style="background:var(--dopa-green);">
+            <svg width="28" height="28" viewBox="0 0 28 28"><text x="4" y="22" font-size="20" font-weight="900" fill="#fff" font-family="Fredoka, sans-serif">Aa</text></svg>
+          </div>
+          <h3>Chunky, Rounded Typography</h3>
+          <p>Fat, bubbly letterforms that feel friendly and approachable. Extra-bold weights preferred for maximum visual punch.</p>
+        </div>
+        <div class="trait-card trait-card--violet reveal reveal-delay-2">
+          <div class="trait-card__icon" style="background:var(--dopa-purple);">
+            <svg width="28" height="28" viewBox="0 0 28 28"><rect x="3" y="8" width="10" height="12" rx="2" fill="#fff" opacity="0.8" transform="rotate(-8 8 14)"/><rect x="15" y="6" width="10" height="12" rx="2" fill="#fff" opacity="0.6" transform="rotate(5 20 12)"/></svg>
+          </div>
+          <h3>Asymmetric, Dynamic Layouts</h3>
+          <p>Elements intentionally off-grid, rotated, overlapping -- creating energetic compositions that reject rigid structure.</p>
+        </div>
+        <div class="trait-card trait-card--orange reveal reveal-delay-3">
+          <div class="trait-card__icon" style="background:var(--dopa-orange);">
+            <svg width="28" height="28" viewBox="0 0 28 28"><defs><linearGradient id="grd" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#fff" stop-opacity="0.9"/><stop offset="100%" stop-color="#fff" stop-opacity="0.5"/></linearGradient></defs><circle cx="14" cy="14" r="10" fill="url(#grd)"/></svg>
+          </div>
+          <h3>Gradient Accents</h3>
+          <p>Rainbow or multi-stop gradients used on backgrounds, shapes, and UI elements. Layer them without restraint.</p>
+        </div>
+        <div class="trait-card trait-card--pink reveal reveal-delay-1">
+          <div class="trait-card__icon" style="background:var(--dopa-bubblegum);">
+            <svg width="28" height="28" viewBox="0 0 28 28"><rect x="4" y="8" width="20" height="12" rx="6" fill="#fff" opacity="0.9"/></svg>
+          </div>
+          <h3>Oversized UI Elements</h3>
+          <p>Buttons, icons, and interactive elements are deliberately large and inviting. Make them irresistibly clickable.</p>
+        </div>
+        <div class="trait-card trait-card--blue reveal reveal-delay-2">
+          <div class="trait-card__icon" style="background:var(--dopa-lavender);">
+            <svg width="28" height="28" viewBox="0 0 28 28"><polygon points="14,2 17,10 26,10 19,15 22,24 14,19 6,24 9,15 2,10 11,10" fill="#fff" opacity="0.9"/></svg>
+          </div>
+          <h3>Decorative Flourishes</h3>
+          <p>Confetti, sparkles, squiggly lines, and abstract shapes used as pure ornament. Decoration is not a crime.</p>
+        </div>
+        <div class="trait-card trait-card--yellow reveal reveal-delay-3">
+          <div class="trait-card__icon" style="background:var(--dopa-red);">
+            <svg width="28" height="28" viewBox="0 0 28 28"><circle cx="8" cy="14" r="4" fill="#fff" opacity="0.8"/><circle cx="14" cy="8" r="3" fill="#fff" opacity="0.7"/><circle cx="20" cy="16" r="5" fill="#fff" opacity="0.6"/><circle cx="12" cy="22" r="2" fill="#fff" opacity="0.9"/></svg>
+          </div>
+          <h3>No Fear of Clashing</h3>
+          <p>Colors that traditional design would never pair are placed together with confidence. Visual density is a feature, not a bug.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="rainbow-divider"></div>
+
+  <!-- ===== COLOR PALETTE ===== -->
+  <section class="dopa-palette" id="palette">
+    <div class="dopa-palette__inner">
+      <div class="dopa-palette__header reveal">
+        <span class="section-label">Color Palette</span>
+        <h2 class="section-title" style="color:#fff;">Dopamine Core Palette</h2>
+        <p class="section-desc">
+          Colors chosen for maximum serotonin response: warm, cool, and neon hues in full saturation, designed to be used together without restraint.
+        </p>
+      </div>
+
+      <div class="dopa-palette__grid">
+        <div class="color-swatch reveal reveal-delay-1">
+          <div class="color-swatch__preview" style="background:#ff2d87;"></div>
+          <div class="color-swatch__body">
+            <div class="color-swatch__name">Serotonin Pink</div>
+            <div class="color-swatch__hex">#FF2D87</div>
+          </div>
+        </div>
+        <div class="color-swatch reveal reveal-delay-1">
+          <div class="color-swatch__preview" style="background:#7b2fff;"></div>
+          <div class="color-swatch__body">
+            <div class="color-swatch__name">Dopamine Purple</div>
+            <div class="color-swatch__hex">#7B2FFF</div>
+          </div>
+        </div>
+        <div class="color-swatch reveal reveal-delay-2">
+          <div class="color-swatch__preview" style="background:#00b4ff;"></div>
+          <div class="color-swatch__body">
+            <div class="color-swatch__name">Electric Blue</div>
+            <div class="color-swatch__hex">#00B4FF</div>
+          </div>
+        </div>
+        <div class="color-swatch reveal reveal-delay-2">
+          <div class="color-swatch__preview" style="background:#ffd000;"></div>
+          <div class="color-swatch__body">
+            <div class="color-swatch__name">Sunshine Yellow</div>
+            <div class="color-swatch__hex">#FFD000</div>
+          </div>
+        </div>
+        <div class="color-swatch reveal reveal-delay-3">
+          <div class="color-swatch__preview" style="background:#ff6b2b;"></div>
+          <div class="color-swatch__body">
+            <div class="color-swatch__name">Citrus Orange</div>
+            <div class="color-swatch__hex">#FF6B2B</div>
+          </div>
+        </div>
+        <div class="color-swatch reveal reveal-delay-3">
+          <div class="color-swatch__preview" style="background:#00e5a0;"></div>
+          <div class="color-swatch__body">
+            <div class="color-swatch__name">Mint Rush</div>
+            <div class="color-swatch__hex">#00E5A0</div>
+          </div>
+        </div>
+        <div class="color-swatch reveal reveal-delay-4">
+          <div class="color-swatch__preview" style="background:#ff3b3b;"></div>
+          <div class="color-swatch__body">
+            <div class="color-swatch__name">Candy Red</div>
+            <div class="color-swatch__hex">#FF3B3B</div>
+          </div>
+        </div>
+        <div class="color-swatch reveal reveal-delay-4">
+          <div class="color-swatch__preview" style="background:#c084fc;"></div>
+          <div class="color-swatch__body">
+            <div class="color-swatch__name">Lavender Pop</div>
+            <div class="color-swatch__hex">#C084FC</div>
+          </div>
+        </div>
+        <div class="color-swatch reveal reveal-delay-5">
+          <div class="color-swatch__preview" style="background:#b8ff00;"></div>
+          <div class="color-swatch__body">
+            <div class="color-swatch__name">Lime Fizz</div>
+            <div class="color-swatch__hex">#B8FF00</div>
+          </div>
+        </div>
+        <div class="color-swatch reveal reveal-delay-5">
+          <div class="color-swatch__preview" style="background:#ff8ed4;"></div>
+          <div class="color-swatch__body">
+            <div class="color-swatch__name">Bubblegum</div>
+            <div class="color-swatch__hex">#FF8ED4</div>
+          </div>
+        </div>
+        <div class="color-swatch reveal reveal-delay-5">
+          <div class="color-swatch__preview" style="background:#1e0a3c;"></div>
+          <div class="color-swatch__body">
+            <div class="color-swatch__name">Deep Joy</div>
+            <div class="color-swatch__hex">#1E0A3C</div>
+          </div>
+        </div>
+        <div class="color-swatch reveal reveal-delay-5">
+          <div class="color-swatch__preview" style="background:#fffbf5;border:1px solid rgba(255,255,255,0.1);"></div>
+          <div class="color-swatch__body">
+            <div class="color-swatch__name">Cloud White</div>
+            <div class="color-swatch__hex">#FFFBF5</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Gradients -->
+      <h3 style="font-size:1.5rem;color:#fff;text-align:center;margin-bottom:24px;margin-top:20px;" class="reveal">Signature Gradients</h3>
+      <div class="dopa-palette__gradients">
+        <div class="gradient-card reveal reveal-delay-1" style="background:linear-gradient(135deg, #ff2d87, #ff6b2b, #ffd000, #00e5a0, #00b4ff, #7b2fff);">
+          <div class="gradient-card__name">Rainbow</div>
+        </div>
+        <div class="gradient-card reveal reveal-delay-2" style="background:linear-gradient(135deg, #ff2d87, #ff6b2b, #ffd000);">
+          <div class="gradient-card__name">Sunset</div>
+        </div>
+        <div class="gradient-card reveal reveal-delay-3" style="background:linear-gradient(135deg, #00b4ff, #7b2fff, #c084fc);">
+          <div class="gradient-card__name">Ocean</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== TYPOGRAPHY ===== -->
+  <section class="dopa-typo" id="typography">
+    <div class="dopa-typo__inner">
+      <div class="dopa-typo__header reveal">
+        <span class="section-label" style="background:var(--dopa-orange);color:#fff;">Typography</span>
+        <h2 class="section-title">Bubbly, Bold, Bouncy</h2>
+        <p class="section-desc">
+          Dopamine Design typography is rounded, chunky, and expressive. Letterforms that feel like they could bounce, with extra-bold weights for headings and personality-driven choices that reject corporate neutrality.
+        </p>
+      </div>
+
+      <div class="dopa-typo__showcase">
+        <div class="typo-card reveal reveal-delay-1">
+          <div class="typo-card__label">Display / Hero Font</div>
+          <div class="typo-card__sample" style="font-family:'Baloo 2',cursive;font-weight:800;font-size:clamp(2rem,4vw,3rem);color:var(--dopa-pink);">
+            Baloo 2
+          </div>
+          <div class="typo-card__sample" style="font-family:'Baloo 2',cursive;font-weight:800;font-size:1.1rem;color:var(--dopa-text-muted);margin-bottom:16px;">
+            Chunky, friendly, pure dopamine energy
+          </div>
+          <div class="typo-card__meta">
+            <span>Weight: 400-800</span>
+            <span>Style: Rounded</span>
+            <span>Use: Headlines</span>
+          </div>
+        </div>
+
+        <div class="typo-card reveal reveal-delay-2">
+          <div class="typo-card__label">Heading Font</div>
+          <div class="typo-card__sample" style="font-family:'Fredoka',cursive;font-weight:700;font-size:clamp(2rem,4vw,3rem);color:var(--dopa-purple);">
+            Fredoka
+          </div>
+          <div class="typo-card__sample" style="font-family:'Fredoka',cursive;font-weight:600;font-size:1.1rem;color:var(--dopa-text-muted);margin-bottom:16px;">
+            Rounded, bold, bubbly and warm
+          </div>
+          <div class="typo-card__meta">
+            <span>Weight: 400-700</span>
+            <span>Style: Bubbly</span>
+            <span>Use: Headings, Buttons</span>
+          </div>
+        </div>
+
+        <div class="typo-card reveal reveal-delay-1">
+          <div class="typo-card__label">Body Font</div>
+          <div class="typo-card__sample" style="font-family:'Quicksand',sans-serif;font-weight:700;font-size:clamp(2rem,4vw,2.8rem);color:var(--dopa-blue);">
+            Quicksand
+          </div>
+          <div class="typo-card__sample" style="font-family:'Quicksand',sans-serif;font-weight:500;font-size:1.1rem;color:var(--dopa-text-muted);margin-bottom:16px;">
+            Geometric, rounded, balanced playfulness with legibility
+          </div>
+          <div class="typo-card__meta">
+            <span>Weight: 400-700</span>
+            <span>Style: Geometric</span>
+            <span>Use: Body Text</span>
+          </div>
+        </div>
+
+        <div class="typo-card reveal reveal-delay-2">
+          <div class="typo-card__label">Accent / Display Font</div>
+          <div class="typo-card__sample" style="font-family:'Lilita One',cursive;font-weight:400;font-size:clamp(2rem,4vw,3rem);color:var(--dopa-orange);">
+            Lilita One
+          </div>
+          <div class="typo-card__sample" style="font-family:'Quicksand',sans-serif;font-weight:500;font-size:1.1rem;color:var(--dopa-text-muted);margin-bottom:16px;">
+            Ultra-bold display for maximum impact headlines
+          </div>
+          <div class="typo-card__meta">
+            <span>Weight: 400</span>
+            <span>Style: Ultra Bold</span>
+            <span>Use: Hero Headlines</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Font pairings -->
+      <h3 style="font-size:1.5rem;text-align:center;margin-bottom:24px;" class="reveal">Recommended Pairings</h3>
+      <div class="dopa-typo__pairings">
+        <div class="pairing-card reveal reveal-delay-1">
+          <div class="pairing-card__heading" style="font-family:'Fredoka',cursive;font-weight:700;color:var(--dopa-pink);">Fredoka + Quicksand</div>
+          <p class="pairing-card__body" style="font-family:'Quicksand',sans-serif;">Maximum playfulness, bubbly and warm. The quintessential dopamine pairing for vibrant projects.</p>
+          <span class="pairing-card__tag" style="background:#ffe0ee;color:var(--dopa-pink);">Max Playfulness</span>
+        </div>
+        <div class="pairing-card reveal reveal-delay-2">
+          <div class="pairing-card__heading" style="font-family:'Baloo 2',cursive;font-weight:700;color:var(--dopa-purple);">Baloo 2 + Nunito</div>
+          <p class="pairing-card__body" style="font-family:'Quicksand',sans-serif;">Chunky energy meets clean readability. Bold display headings balanced by a versatile body font.</p>
+          <span class="pairing-card__tag" style="background:var(--dopa-bg-violet);color:var(--dopa-purple);">Chunky Energy</span>
+        </div>
+        <div class="pairing-card reveal reveal-delay-3">
+          <div class="pairing-card__heading" style="font-family:'Lilita One',cursive;color:var(--dopa-orange);">Lilita One + Rubik</div>
+          <p class="pairing-card__body" style="font-family:'Quicksand',sans-serif;">Bold impact with grounded body text. Perfect for hero sections that need to stop scrolling.</p>
+          <span class="pairing-card__tag" style="background:#ffe8d9;color:var(--dopa-orange);">Bold Impact</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="rainbow-divider"></div>
+
+  <!-- ===== LAYOUT PRINCIPLES ===== -->
+  <section class="dopa-layout" id="layout">
+    <div class="dopa-layout__inner">
+      <div class="dopa-layout__header reveal">
+        <span class="section-label" style="background:var(--dopa-blue);color:#fff;">Layout Principles</span>
+        <h2 class="section-title">Break the Grid.<br>Embrace Dynamism.</h2>
+        <p class="section-desc">
+          Dopamine Design deliberately breaks rigid grids. Elements overlap, rotate, and escape their containers. Color-blocked sections, rounded containers, and oversized hero areas define the spatial language.
+        </p>
+      </div>
+
+      <!-- Interactive layout demo -->
+      <div class="dopa-layout__demo reveal">
+        <div class="layout-tile layout-tile--hero">
+          <h3>Oversized Hero</h3>
+          <p>Massive headline in bold colors with decorative shapes floating in background and oversized CTA button. The hero dominates.</p>
+        </div>
+        <div class="layout-tile layout-tile--feature-1">
+          <h3>Color Blocks</h3>
+          <p>Each section gets its own bold background color.</p>
+        </div>
+        <div class="layout-tile layout-tile--feature-2">
+          <h3>Rounded</h3>
+          <p>Border-radius of 20-40px on everything.</p>
+        </div>
+        <div class="layout-tile layout-tile--feature-3">
+          <h3>Scattered Decorative Elements</h3>
+          <p>Blobs, circles, and squiggles positioned absolutely to break rigidity. Large, chunky sections with generous 80-120px padding.</p>
+        </div>
+      </div>
+
+      <!-- Principles list -->
+      <div class="dopa-layout__principles">
+        <div class="principle-item reveal reveal-delay-1">
+          <div class="principle-item__icon" style="background:var(--dopa-pink);color:#fff;">
+            <svg width="22" height="22" viewBox="0 0 22 22"><rect x="2" y="2" width="7" height="7" rx="2" fill="#fff"/><rect x="11" y="3" width="9" height="6" rx="2" fill="#fff" opacity="0.6" transform="rotate(5 15 6)"/><rect x="3" y="12" width="8" height="8" rx="2" fill="#fff" opacity="0.7" transform="rotate(-3 7 16)"/></svg>
+          </div>
+          <div>
+            <h4>Broken Grids</h4>
+            <p>Elements overlap, rotate, and escape their containers for dynamic energy.</p>
+          </div>
+        </div>
+        <div class="principle-item reveal reveal-delay-2">
+          <div class="principle-item__icon" style="background:var(--dopa-yellow);color:var(--dopa-text-dark);">
+            <svg width="22" height="22" viewBox="0 0 22 22"><rect x="2" y="2" width="18" height="18" rx="4" fill="#fff" opacity="0.9"/></svg>
+          </div>
+          <div>
+            <h4>Chunky Sections</h4>
+            <p>Generous section heights with oversized padding of 80-120px for visual breathing room.</p>
+          </div>
+        </div>
+        <div class="principle-item reveal reveal-delay-3">
+          <div class="principle-item__icon" style="background:var(--dopa-green);color:#fff;">
+            <svg width="22" height="22" viewBox="0 0 22 22"><rect x="1" y="1" width="20" height="20" rx="10" fill="#fff" opacity="0.9"/></svg>
+          </div>
+          <div>
+            <h4>Rounded Everything</h4>
+            <p>Border-radius of 20-40px on cards, sections, and images. Pill-shaped navigation.</p>
+          </div>
+        </div>
+        <div class="principle-item reveal reveal-delay-4">
+          <div class="principle-item__icon" style="background:var(--dopa-purple);color:#fff;">
+            <svg width="22" height="22" viewBox="0 0 22 22"><circle cx="7" cy="7" r="4" fill="#fff" opacity="0.8"/><circle cx="15" cy="15" r="5" fill="#fff" opacity="0.6"/><circle cx="16" cy="6" r="3" fill="#fff" opacity="0.7"/></svg>
+          </div>
+          <div>
+            <h4>Scattered Shapes</h4>
+            <p>Blobs, circles, and squiggles positioned absolutely to break structural rigidity.</p>
+          </div>
+        </div>
+        <div class="principle-item reveal reveal-delay-5">
+          <div class="principle-item__icon" style="background:var(--dopa-orange);color:#fff;">
+            <svg width="22" height="22" viewBox="0 0 22 22"><rect x="1" y="5" width="20" height="12" rx="6" fill="#fff" opacity="0.9"/></svg>
+          </div>
+          <div>
+            <h4>Oversized CTAs</h4>
+            <p>Buttons remain large and finger-friendly at all breakpoints. Irresistibly clickable.</p>
+          </div>
+        </div>
+        <div class="principle-item reveal reveal-delay-5">
+          <div class="principle-item__icon" style="background:var(--dopa-blue);color:#fff;">
+            <svg width="22" height="22" viewBox="0 0 22 22"><rect x="2" y="2" width="8" height="18" rx="2" fill="#fff" opacity="0.9"/><rect x="12" y="2" width="8" height="18" rx="2" fill="#fff" opacity="0.5"/></svg>
+          </div>
+          <div>
+            <h4>Responsive Stacking</h4>
+            <p>Stack vertically on mobile while maintaining bold color blocks. Dramatic typography scaling.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CSS TECHNIQUES ===== -->
+  <section class="dopa-css" id="techniques">
+    <div class="dopa-css__inner">
+      <div class="dopa-css__header reveal">
+        <span class="section-label" style="background:var(--dopa-green);color:#fff;">CSS Techniques</span>
+        <h2 class="section-title">Interactive Showcase</h2>
+        <p class="section-desc">
+          These are live, working examples of the core Dopamine Design CSS components. Hover, click, and interact to feel the bouncy, playful energy.
+        </p>
+      </div>
+
+      <div class="dopa-css__demos">
+        <!-- Buttons demo -->
+        <div class="css-demo reveal reveal-delay-1">
+          <div class="css-demo__title">
+            <span>Dopamine Buttons</span>
+            <span class="css-demo__title-tag">Interactive</span>
+          </div>
+          <div class="css-demo__buttons">
+            <button class="demo-btn demo-btn--pink">Serotonin</button>
+            <button class="demo-btn demo-btn--purple">Dopamine</button>
+            <button class="demo-btn demo-btn--gradient">Sunset</button>
+            <button class="demo-btn demo-btn--yellow">Sunshine</button>
+          </div>
+        </div>
+
+        <!-- Cards demo -->
+        <div class="css-demo reveal reveal-delay-2">
+          <div class="css-demo__title">
+            <span>Dopamine Cards</span>
+            <span class="css-demo__title-tag">Hover me</span>
+          </div>
+          <div class="css-demo__cards">
+            <div class="demo-card demo-card--pink">
+              <h4>Pink Card</h4>
+              <p>Hover to see the playful tilt and lift effect</p>
+            </div>
+            <div class="demo-card demo-card--blue">
+              <h4>Blue Card</h4>
+              <p>Notice the decorative blob in the corner</p>
+            </div>
+            <div class="demo-card demo-card--green">
+              <h4>Green Card</h4>
+              <p>Rounded corners and smooth transitions everywhere</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Animations demo -->
+        <div class="css-demo reveal reveal-delay-3">
+          <div class="css-demo__title">
+            <span>Animations</span>
+            <span class="css-demo__title-tag">Live</span>
+          </div>
+          <div class="css-demo__anims">
+            <div class="anim-demo-shape anim-float" style="width:60px;height:60px;background:var(--dopa-pink);">
+            </div>
+            <div class="anim-demo-shape anim-float-alt" style="width:48px;height:48px;background:var(--dopa-purple);animation-delay:1s;">
+            </div>
+            <div class="anim-demo-shape anim-wiggle" style="width:56px;height:56px;background:var(--dopa-yellow);border-radius:16px;">
+            </div>
+            <div class="anim-demo-shape anim-spin" style="width:44px;height:44px;background:var(--dopa-green);clip-path:polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);">
+            </div>
+            <div class="anim-demo-shape" style="width:52px;height:52px;background:var(--dopa-gradient-sunset);border-radius:30% 70% 70% 30% / 30% 30% 70% 70%;animation:wiggle 3s ease-in-out infinite, float 5s ease-in-out infinite;">
+            </div>
+          </div>
+        </div>
+
+        <!-- Shapes demo -->
+        <div class="css-demo reveal reveal-delay-4">
+          <div class="css-demo__title">
+            <span>Decorative Shapes</span>
+            <span class="css-demo__title-tag">CSS Only</span>
+          </div>
+          <div class="css-demo__shapes">
+            <div class="shapes-playground">
+              <!-- Circle -->
+              <div class="sp-shape" style="width:70px;height:70px;background:var(--dopa-pink);border-radius:50%;top:10%;left:5%;opacity:0.7;animation:float 5s ease-in-out infinite;"></div>
+              <!-- Star -->
+              <div class="sp-shape" style="width:50px;height:50px;background:var(--dopa-yellow);clip-path:polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);top:15%;right:15%;animation:spin 12s linear infinite;"></div>
+              <!-- Blob -->
+              <div class="sp-shape" style="width:80px;height:80px;background:var(--dopa-gradient-ocean);border-radius:30% 70% 70% 30% / 30% 30% 70% 70%;bottom:10%;left:30%;animation:wiggle 4s ease-in-out infinite;"></div>
+              <!-- Small circle -->
+              <div class="sp-shape" style="width:30px;height:30px;background:var(--dopa-green);border-radius:50%;top:50%;left:55%;animation:floatAlt 6s ease-in-out infinite;"></div>
+              <!-- Squiggle -->
+              <div class="sp-shape" style="width:100px;height:20px;border-radius:10px;background:repeating-linear-gradient(90deg,var(--dopa-orange) 0px,var(--dopa-orange) 12px,transparent 12px,transparent 24px);top:40%;right:5%;transform:rotate(-10deg);"></div>
+              <!-- Purple circle -->
+              <div class="sp-shape" style="width:44px;height:44px;background:var(--dopa-purple);border-radius:50%;bottom:20%;right:25%;opacity:0.6;animation:float 7s ease-in-out infinite 2s;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="rainbow-divider"></div>
+
+  <!-- ===== DO'S AND DON'TS ===== -->
+  <section class="dopa-rules" id="rules">
+    <div class="dopa-rules__inner">
+      <div class="dopa-rules__header reveal">
+        <span class="section-label" style="background:var(--dopa-red);color:#fff;">Design Rules</span>
+        <h2 class="section-title">The Dopamine Playbook</h2>
+        <p class="section-desc">
+          Guidelines for channeling maximum joy into your designs while maintaining usability and accessibility.
+        </p>
+      </div>
+
+      <div class="dopa-rules__columns">
+        <div class="rules-column rules-column--do reveal reveal-delay-1">
+          <div class="rules-column__title">
+            <svg width="32" height="32" viewBox="0 0 32 32"><circle cx="16" cy="16" r="14" fill="var(--dopa-green)"/><path d="M10 16 L14 20 L22 12" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Do This
+          </div>
+          <ul>
+            <li>
+              <span class="icon">+</span>
+              <span>Use at least 4-5 bold, saturated colors on a single page</span>
+            </li>
+            <li>
+              <span class="icon">+</span>
+              <span>Make buttons oversized, rounded, and irresistibly clickable</span>
+            </li>
+            <li>
+              <span class="icon">+</span>
+              <span>Add decorative shapes (blobs, squiggles, stars) as background flourishes</span>
+            </li>
+            <li>
+              <span class="icon">+</span>
+              <span>Use color-blocked sections for strong visual rhythm</span>
+            </li>
+            <li>
+              <span class="icon">+</span>
+              <span>Apply gradients generously on backgrounds, text, and shapes</span>
+            </li>
+            <li>
+              <span class="icon">+</span>
+              <span>Let elements overlap, rotate, and break out of rigid grids</span>
+            </li>
+            <li>
+              <span class="icon">+</span>
+              <span>Use chunky, rounded typography for headings</span>
+            </li>
+            <li>
+              <span class="icon">+</span>
+              <span>Create hover animations that feel bouncy and playful</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="rules-column rules-column--dont reveal reveal-delay-2">
+          <div class="rules-column__title">
+            <svg width="32" height="32" viewBox="0 0 32 32"><circle cx="16" cy="16" r="14" fill="var(--dopa-red)"/><path d="M11 11 L21 21 M21 11 L11 21" stroke="#fff" stroke-width="3" stroke-linecap="round"/></svg>
+            Avoid This
+          </div>
+          <ul>
+            <li>
+              <span class="icon">&times;</span>
+              <span>Using muted, desaturated, or earthy color palettes</span>
+            </li>
+            <li>
+              <span class="icon">&times;</span>
+              <span>Keeping layouts rigidly aligned and symmetrical</span>
+            </li>
+            <li>
+              <span class="icon">&times;</span>
+              <span>Using thin, elegant serif fonts -- they clash with bubbly energy</span>
+            </li>
+            <li>
+              <span class="icon">&times;</span>
+              <span>Leaving too much white space -- fill the page with color and life</span>
+            </li>
+            <li>
+              <span class="icon">&times;</span>
+              <span>Using only one or two colors -- dopamine comes from abundance</span>
+            </li>
+            <li>
+              <span class="icon">&times;</span>
+              <span>Skipping accessibility: even maximalist design needs readable text contrast</span>
+            </li>
+            <li>
+              <span class="icon">&times;</span>
+              <span>Making decorative elements so large they obscure content</span>
+            </li>
+            <li>
+              <span class="icon">&times;</span>
+              <span>Forgetting mobile users -- playful design must still be functional</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== RELATED AESTHETICS ===== -->
+  <section class="dopa-related" id="related">
+    <div class="dopa-related__inner">
+      <div class="dopa-related__header reveal">
+        <span class="section-label" style="background:var(--dopa-lavender);color:#fff;">Family Tree</span>
+        <h2 class="section-title">Related Aesthetics</h2>
+        <p class="section-desc">
+          Dopamine Design exists within a rich ecosystem of visual philosophies. Here are its closest relatives and how they connect.
+        </p>
+      </div>
+
+      <div class="dopa-related__grid">
+        <div class="related-card reveal reveal-delay-1">
+          <span class="related-card__tag" style="background:#ffe0ee;color:var(--dopa-pink);">Ancestor</span>
+          <h3>Memphis Design</h3>
+          <p>Spiritual ancestor from the 1980s with bold color, geometric shapes, and anti-minimalist attitude.</p>
+        </div>
+        <div class="related-card reveal reveal-delay-2">
+          <span class="related-card__tag" style="background:var(--dopa-bg-violet);color:var(--dopa-purple);">Sibling</span>
+          <h3>Gen Z Maximalism</h3>
+          <p>Contemporary sibling sharing the more-is-more philosophy with internet-native visual language.</p>
+        </div>
+        <div class="related-card reveal reveal-delay-3">
+          <span class="related-card__tag" style="background:#ffe8d9;color:var(--dopa-orange);">Related</span>
+          <h3>Colorful Pop</h3>
+          <p>Directly related -- both celebrate saturated color and graphic boldness in digital spaces.</p>
+        </div>
+        <div class="related-card reveal reveal-delay-1">
+          <span class="related-card__tag" style="background:#dff2ff;color:var(--dopa-blue);">Parent</span>
+          <h3>Maximalism</h3>
+          <p>Parent philosophy. Dopamine Design applies maximalist principles specifically to digital interface design.</p>
+        </div>
+        <div class="related-card reveal reveal-delay-2">
+          <span class="related-card__tag" style="background:#d6fff0;color:#00a86b;">Opposite</span>
+          <h3>Flat Design</h3>
+          <p>Shares bold color use but rejects the decorative exuberance Dopamine Design embraces.</p>
+        </div>
+        <div class="related-card reveal reveal-delay-3">
+          <span class="related-card__tag" style="background:#fff6d6;color:#c5a000;">Cousin</span>
+          <h3>Cutecore</h3>
+          <p>Shares playful, joyful energy with a focus on kawaii-influenced rounded shapes and pastel-to-neon palette.</p>
+        </div>
+        <div class="related-card reveal reveal-delay-1">
+          <span class="related-card__tag" style="background:#ece0ff;color:var(--dopa-purple);">Color Kin</span>
+          <h3>Bright Tertiaries</h3>
+          <p>Related color approach -- both use vivid, unconventional color combinations for emotional impact.</p>
+        </div>
+        <div class="related-card reveal reveal-delay-2">
+          <span class="related-card__tag" style="background:#f0ffd6;color:#6b8a00;">Simplified</span>
+          <h3>Corporate Memphis</h3>
+          <p>Simplified cousin using flat illustration and color but with corporate restraint Dopamine Design rejects.</p>
+        </div>
+        <div class="related-card reveal reveal-delay-3">
+          <span class="related-card__tag" style="background:#ffe0ee;color:var(--dopa-red);">Intense</span>
+          <h3>Acid Design</h3>
+          <p>Shares neon intensity and rule-breaking attitude but pushes toward unsettling rather than joyful.</p>
+        </div>
+        <div class="related-card reveal reveal-delay-1">
+          <span class="related-card__tag" style="background:#ffeef5;color:var(--dopa-bubblegum);">Trendy</span>
+          <h3>Avant Basic</h3>
+          <p>Shares the bold, trend-driven approach but channels it through a fashion and lifestyle lens.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="rainbow-divider"></div>
+
+  <!-- ===== CTA ===== -->
+  <section class="dopa-cta">
+    <div class="dopa-cta__inner">
+      <div class="cta-blob" style="width:200px;height:200px;background:var(--dopa-pink);top:-60px;left:-40px;"></div>
+      <div class="cta-blob" style="width:140px;height:140px;background:var(--dopa-yellow);bottom:-40px;right:-20px;border-radius:50%;"></div>
+      <div class="cta-blob" style="width:80px;height:80px;background:var(--dopa-green);top:20%;right:10%;border-radius:50%;"></div>
+
+      <h2 class="reveal">Ready to Inject Some Joy?</h2>
+      <p class="reveal reveal-delay-1">Dopamine Design proves that interfaces can be functional, accessible, and absolutely bursting with color and personality. Go make something that sparks joy.</p>
+      <button class="dopa-btn dopa-btn--yellow reveal reveal-delay-2" id="confettiBtn">
+        Celebrate with Confetti!
+      </button>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="dopa-footer">
+    <div class="dopa-footer__inner">
+      <div>
+        <div class="dopa-footer__brand">Dopamine Design</div>
+        <p class="dopa-footer__brand-desc">
+          A maximalist, joy-driven visual aesthetic built around the idea that bold, saturated colors and playful shapes can trigger positive emotional responses.
+        </p>
+      </div>
+      <div>
+        <h4>Sections</h4>
+        <ul>
+          <li><a href="#traits">Visual Traits</a></li>
+          <li><a href="#palette">Color Palette</a></li>
+          <li><a href="#typography">Typography</a></li>
+          <li><a href="#layout">Layout</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>More</h4>
+        <ul>
+          <li><a href="#techniques">CSS Techniques</a></li>
+          <li><a href="#rules">Design Rules</a></li>
+          <li><a href="#related">Related Aesthetics</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Principles</h4>
+        <ul>
+          <li><a href="#">Maximize Visual Joy</a></li>
+          <li><a href="#">Embrace Bold Clashes</a></li>
+          <li><a href="#">Break the Grid</a></li>
+          <li><a href="#">Accessibility Matters</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="dopa-footer__bottom">
+      <span>Built with Dopamine Design principles. Bold, playful, joyful.</span>
+      <div class="dopa-footer__bottom-colors">
+        <span style="background:var(--dopa-pink);"></span>
+        <span style="background:var(--dopa-purple);"></span>
+        <span style="background:var(--dopa-blue);"></span>
+        <span style="background:var(--dopa-yellow);"></span>
+        <span style="background:var(--dopa-orange);"></span>
+        <span style="background:var(--dopa-green);"></span>
+        <span style="background:var(--dopa-red);"></span>
+        <span style="background:var(--dopa-lavender);"></span>
+        <span style="background:var(--dopa-lime);"></span>
+        <span style="background:var(--dopa-bubblegum);"></span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ===== JAVASCRIPT ===== -->
+  <script>
+    // ========================
+    // Scroll-triggered reveals
+    // ========================
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, {
+      threshold: 0.1,
+      rootMargin: '0px 0px -40px 0px'
+    });
+
+    document.querySelectorAll('.reveal').forEach(el => {
+      revealObserver.observe(el);
+    });
+
+    // ========================
+    // Confetti burst
+    // ========================
+    const confettiColors = [
+      '#ff2d87', '#7b2fff', '#00b4ff', '#ffd000', '#ff6b2b',
+      '#00e5a0', '#ff3b3b', '#c084fc', '#b8ff00', '#ff8ed4'
+    ];
+
+    function createConfetti() {
+      const container = document.getElementById('confetti');
+      const count = 80;
+
+      for (let i = 0; i < count; i++) {
+        const piece = document.createElement('div');
+        piece.className = 'confetti-piece';
+        piece.style.left = Math.random() * 100 + 'vw';
+        piece.style.background = confettiColors[Math.floor(Math.random() * confettiColors.length)];
+        piece.style.animationDuration = (Math.random() * 2 + 2) + 's';
+        piece.style.animationDelay = Math.random() * 1.5 + 's';
+        piece.style.width = (Math.random() * 8 + 6) + 'px';
+        piece.style.height = (Math.random() * 8 + 6) + 'px';
+
+        const shapes = ['50%', '2px', '0'];
+        piece.style.borderRadius = shapes[Math.floor(Math.random() * shapes.length)];
+        piece.style.transform = `rotate(${Math.random() * 360}deg)`;
+
+        container.appendChild(piece);
+
+        // Remove after animation
+        setTimeout(() => {
+          piece.remove();
+        }, 4500);
+      }
+    }
+
+    document.getElementById('confettiBtn').addEventListener('click', createConfetti);
+
+    // Fire once on load for delight
+    window.addEventListener('load', () => {
+      setTimeout(createConfetti, 600);
+    });
+
+    // ========================
+    // Active nav link tracking
+    // ========================
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.dopa-nav__links a');
+
+    const navObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const id = entry.target.id;
+          navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href') === '#' + id) {
+              link.classList.add('active');
+            }
+          });
+        }
+      });
+    }, {
+      threshold: 0.25,
+      rootMargin: '-80px 0px -50% 0px'
+    });
+
+    sections.forEach(section => {
+      navObserver.observe(section);
+    });
+
+    // ========================
+    // Mobile menu (simple toggle)
+    // ========================
+    const mobileBtn = document.getElementById('mobileMenuBtn');
+    const navLinksEl = document.querySelector('.dopa-nav__links');
+    let menuOpen = false;
+
+    mobileBtn.addEventListener('click', () => {
+      menuOpen = !menuOpen;
+      if (menuOpen) {
+        navLinksEl.style.display = 'flex';
+        navLinksEl.style.flexDirection = 'column';
+        navLinksEl.style.position = 'absolute';
+        navLinksEl.style.top = '100%';
+        navLinksEl.style.left = '0';
+        navLinksEl.style.right = '0';
+        navLinksEl.style.background = 'rgba(255,251,245,0.98)';
+        navLinksEl.style.padding = '20px';
+        navLinksEl.style.borderRadius = '0 0 24px 24px';
+        navLinksEl.style.boxShadow = '0 20px 40px rgba(30,10,60,0.1)';
+        navLinksEl.style.zIndex = '100';
+      } else {
+        navLinksEl.style.display = '';
+        navLinksEl.style.flexDirection = '';
+        navLinksEl.style.position = '';
+        navLinksEl.style.top = '';
+        navLinksEl.style.left = '';
+        navLinksEl.style.right = '';
+        navLinksEl.style.background = '';
+        navLinksEl.style.padding = '';
+        navLinksEl.style.borderRadius = '';
+        navLinksEl.style.boxShadow = '';
+        navLinksEl.style.zIndex = '';
+      }
+    });
+
+    // Close mobile menu on link click
+    navLinksEl.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        if (menuOpen) {
+          mobileBtn.click();
+        }
+      });
+    });
+
+    // ========================
+    // Smooth scroll for nav
+    // ========================
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        const href = this.getAttribute('href');
+        if (href.length > 1) {
+          e.preventDefault();
+          const target = document.querySelector(href);
+          if (target) {
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        }
+      });
+    });
+  </script>
+</body>
+</html>

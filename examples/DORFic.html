@@ -1,0 +1,2663 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DORFic -- Daylight, Orange, Red, Futurism, Graphic</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700&family=Barlow:wght@400;500;600;700&family=Chakra+Petch:wght@400;500;600;700&family=Exo+2:wght@300;400;600;700;800&family=Inter:wght@300;400;500&family=Rajdhani:wght@400;500;600;700&family=Saira:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    /* ========================================================================
+       DORFic Design System -- Custom Properties
+       ======================================================================== */
+    :root {
+      /* Whites and neutrals */
+      --dorfic-white: #ffffff;
+      --dorfic-off-white: #f0f2f5;
+      --dorfic-soft-white: #e8eaed;
+      --dorfic-light-gray: #c0c4cc;
+      --dorfic-mid-gray: #808690;
+      --dorfic-charcoal: #3a3e48;
+      --dorfic-near-black: #1a1e28;
+
+      /* Orange accent spectrum */
+      --dorfic-orange: #ff6600;
+      --dorfic-orange-light: #ff8c33;
+      --dorfic-orange-bright: #ff7a1a;
+      --dorfic-amber: #ff8c00;
+      --dorfic-orange-glow: rgba(255, 102, 0, 0.3);
+      --dorfic-orange-subtle: rgba(255, 102, 0, 0.08);
+
+      /* Red accent */
+      --dorfic-red: #e03020;
+      --dorfic-red-light: #ff4433;
+
+      /* Blue accent */
+      --dorfic-blue: #0074d9;
+      --dorfic-blue-light: #1a8cff;
+
+      /* Functional mappings */
+      --dorfic-bg-primary: var(--dorfic-white);
+      --dorfic-bg-secondary: var(--dorfic-off-white);
+      --dorfic-bg-surface: var(--dorfic-soft-white);
+      --dorfic-text-primary: var(--dorfic-charcoal);
+      --dorfic-text-secondary: var(--dorfic-mid-gray);
+      --dorfic-accent: var(--dorfic-orange);
+      --dorfic-accent-hover: var(--dorfic-orange-bright);
+      --dorfic-border: var(--dorfic-light-gray);
+    }
+
+    /* Dark variant override */
+    [data-theme="dark"] {
+      --dorfic-bg-primary: #0d0f14;
+      --dorfic-bg-secondary: #141820;
+      --dorfic-bg-surface: #1e222c;
+      --dorfic-text-primary: #e8eaed;
+      --dorfic-text-secondary: #808690;
+      --dorfic-border: #3a3e48;
+    }
+
+    /* ========================================================================
+       Reset & Base
+       ======================================================================== */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+      background: var(--dorfic-bg-primary);
+      color: var(--dorfic-text-secondary);
+      font-family: 'Inter', 'Source Sans 3', sans-serif;
+      font-weight: 400;
+      letter-spacing: 0.01em;
+      line-height: 1.65;
+      overflow-x: hidden;
+    }
+
+    ::selection {
+      background: var(--dorfic-orange);
+      color: var(--dorfic-white);
+    }
+
+    img { max-width: 100%; display: block; }
+    a { color: inherit; text-decoration: none; }
+
+    /* ========================================================================
+       Typography
+       ======================================================================== */
+    h1, h2, h3, h4 {
+      font-family: 'Rajdhani', 'Barlow', sans-serif;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      color: var(--dorfic-text-primary);
+      line-height: 1.15;
+    }
+
+    h1 { font-size: clamp(2rem, 5vw, 3.2rem); }
+    h2 { font-size: clamp(1.5rem, 3.5vw, 2.2rem); }
+    h3 { font-size: clamp(1.1rem, 2vw, 1.4rem); }
+
+    p { margin-bottom: 1rem; }
+    p:last-child { margin-bottom: 0; }
+
+    .display-text {
+      font-family: 'Exo 2', 'Saira', sans-serif;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      line-height: 1.0;
+      color: var(--dorfic-text-primary);
+    }
+
+    .accent-text {
+      color: var(--dorfic-orange);
+      font-weight: 700;
+    }
+
+    .label-text {
+      font-family: 'Barlow Condensed', 'Oswald', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--dorfic-mid-gray);
+    }
+
+    .tech-text {
+      font-family: 'Chakra Petch', 'Titillium Web', monospace;
+      font-size: 0.85rem;
+      letter-spacing: 0.05em;
+      color: var(--dorfic-mid-gray);
+    }
+
+    /* ========================================================================
+       Navigation
+       ======================================================================== */
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+      background: rgba(255, 255, 255, 0.88);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(192, 196, 204, 0.4);
+      transition: all 0.3s ease;
+    }
+
+    .nav.scrolled {
+      box-shadow: 0 2px 20px rgba(0, 0, 0, 0.06);
+    }
+
+    .nav-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+    }
+
+    .nav-logo {
+      font-family: 'Exo 2', sans-serif;
+      font-weight: 800;
+      font-size: 1.3rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--dorfic-charcoal);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .nav-logo .logo-mark {
+      width: 28px;
+      height: 28px;
+      background: var(--dorfic-orange);
+      clip-path: polygon(15% 0%, 100% 0%, 85% 100%, 0% 100%);
+      display: inline-block;
+    }
+
+    .nav-logo .logo-dot {
+      color: var(--dorfic-orange);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: var(--dorfic-mid-gray);
+      transition: color 0.2s ease;
+      position: relative;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: var(--dorfic-orange);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.3s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--dorfic-charcoal);
+    }
+
+    .nav-links a:hover::after {
+      transform: scaleX(1);
+    }
+
+    .nav-theme-toggle {
+      width: 36px;
+      height: 36px;
+      border: 2px solid var(--dorfic-light-gray);
+      background: transparent;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+      color: var(--dorfic-mid-gray);
+    }
+
+    .nav-theme-toggle:hover {
+      border-color: var(--dorfic-orange);
+      color: var(--dorfic-orange);
+    }
+
+    /* Mobile nav */
+    .nav-mobile-toggle {
+      display: none;
+      width: 36px;
+      height: 36px;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+    }
+
+    .nav-mobile-toggle span {
+      width: 22px;
+      height: 2px;
+      background: var(--dorfic-charcoal);
+      transition: all 0.3s ease;
+    }
+
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .nav-mobile-toggle { display: flex; }
+    }
+
+    /* ========================================================================
+       Hero Section
+       ======================================================================== */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 8rem 2rem 6rem;
+      background: var(--dorfic-bg-secondary);
+      overflow: hidden;
+    }
+
+    /* Technical grid background */
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(192, 196, 204, 0.12) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(192, 196, 204, 0.12) 1px, transparent 1px),
+        linear-gradient(rgba(255, 102, 0, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 102, 0, 0.04) 1px, transparent 1px);
+      background-size: 40px 40px, 40px 40px, 200px 200px, 200px 200px;
+      pointer-events: none;
+    }
+
+    /* Angular orange accent shape */
+    .hero-shape-1 {
+      position: absolute;
+      top: 0;
+      right: -5%;
+      width: 45%;
+      height: 100%;
+      background: var(--dorfic-orange);
+      clip-path: polygon(25% 0, 100% 0, 100% 100%, 5% 100%);
+      opacity: 0.05;
+      pointer-events: none;
+    }
+
+    .hero-shape-2 {
+      position: absolute;
+      bottom: -10%;
+      left: -10%;
+      width: 50%;
+      height: 60%;
+      background: var(--dorfic-orange);
+      clip-path: polygon(0 40%, 100% 0, 80% 100%, 0 100%);
+      opacity: 0.03;
+      pointer-events: none;
+    }
+
+    /* Floating geometric elements */
+    .hero-geo {
+      position: absolute;
+      pointer-events: none;
+    }
+
+    .hero-geo-1 {
+      top: 15%;
+      left: 8%;
+      width: 120px;
+      height: 120px;
+      border: 2px solid rgba(255, 102, 0, 0.12);
+      transform: rotate(45deg);
+      animation: geo-float 8s ease-in-out infinite;
+    }
+
+    .hero-geo-2 {
+      bottom: 20%;
+      right: 10%;
+      width: 80px;
+      height: 80px;
+      background: rgba(255, 102, 0, 0.06);
+      clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+      animation: geo-float 6s ease-in-out infinite reverse;
+    }
+
+    .hero-geo-3 {
+      top: 35%;
+      right: 18%;
+      width: 60px;
+      height: 3px;
+      background: rgba(255, 102, 0, 0.15);
+      animation: geo-float 10s ease-in-out infinite;
+    }
+
+    .hero-geo-4 {
+      bottom: 35%;
+      left: 15%;
+      width: 3px;
+      height: 60px;
+      background: rgba(192, 196, 204, 0.3);
+      animation: geo-float 7s ease-in-out infinite reverse;
+    }
+
+    .hero-geo-5 {
+      top: 22%;
+      right: 30%;
+      width: 8px;
+      height: 8px;
+      background: var(--dorfic-orange);
+      opacity: 0.3;
+      animation: geo-pulse 4s ease-in-out infinite;
+    }
+
+    .hero-geo-6 {
+      bottom: 28%;
+      left: 28%;
+      width: 40px;
+      height: 40px;
+      border: 1px solid rgba(192, 196, 204, 0.25);
+      animation: geo-rotate 20s linear infinite;
+    }
+
+    @keyframes geo-float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-15px); }
+    }
+
+    @keyframes geo-pulse {
+      0%, 100% { opacity: 0.3; transform: scale(1); }
+      50% { opacity: 0.6; transform: scale(1.5); }
+    }
+
+    @keyframes geo-rotate {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 900px;
+    }
+
+    .hero-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.35em;
+      color: var(--dorfic-orange);
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: fadeUp 0.8s ease forwards 0.2s;
+    }
+
+    .hero-title {
+      font-family: 'Exo 2', sans-serif;
+      font-size: clamp(3.5rem, 9vw, 8rem);
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      line-height: 0.95;
+      color: var(--dorfic-charcoal);
+      margin-bottom: 0.5rem;
+      opacity: 0;
+      animation: fadeUp 0.8s ease forwards 0.4s;
+    }
+
+    .hero-title .orange {
+      color: var(--dorfic-orange);
+      position: relative;
+    }
+
+    .hero-title .thin {
+      font-weight: 300;
+      color: var(--dorfic-light-gray);
+    }
+
+    .hero-accent-bar {
+      width: 80px;
+      height: 4px;
+      background: var(--dorfic-orange);
+      margin: 2rem auto;
+      opacity: 0;
+      animation: fadeUp 0.6s ease forwards 0.6s;
+    }
+
+    .hero-subtitle {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: clamp(1rem, 2.5vw, 1.35rem);
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      color: var(--dorfic-mid-gray);
+      max-width: 600px;
+      margin: 0 auto 2.5rem;
+      opacity: 0;
+      animation: fadeUp 0.8s ease forwards 0.7s;
+    }
+
+    .hero-meta {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+      opacity: 0;
+      animation: fadeUp 0.8s ease forwards 0.9s;
+    }
+
+    .hero-meta-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.25rem;
+    }
+
+    .hero-meta-value {
+      font-family: 'Saira', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--dorfic-orange);
+      line-height: 1;
+    }
+
+    .hero-meta-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--dorfic-light-gray);
+    }
+
+    .hero-meta-sep {
+      width: 1px;
+      height: 32px;
+      background: var(--dorfic-light-gray);
+    }
+
+    .hero-scroll {
+      position: absolute;
+      bottom: 2.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      opacity: 0;
+      animation: fadeUp 0.8s ease forwards 1.2s;
+    }
+
+    .hero-scroll .scroll-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.6rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.3em;
+      color: var(--dorfic-light-gray);
+    }
+
+    .hero-scroll .scroll-line {
+      width: 1px;
+      height: 40px;
+      background: linear-gradient(to bottom, var(--dorfic-orange), transparent);
+      animation: scrollPulse 2s ease-in-out infinite;
+    }
+
+    @keyframes scrollPulse {
+      0%, 100% { opacity: 1; transform: scaleY(1); }
+      50% { opacity: 0.4; transform: scaleY(0.6); }
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ========================================================================
+       Section Layout
+       ======================================================================== */
+    .section {
+      padding: 6rem 2rem;
+      position: relative;
+    }
+
+    .section-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .section-narrow {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .section--alt {
+      background: var(--dorfic-bg-secondary);
+    }
+
+    /* Section marker */
+    .section-marker {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+    }
+
+    .section-marker .num {
+      font-family: 'Saira', 'Exo 2', sans-serif;
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: var(--dorfic-orange);
+      line-height: 1;
+    }
+
+    .section-marker .sep {
+      width: 1px;
+      height: 28px;
+      background: var(--dorfic-light-gray);
+    }
+
+    .section-marker .label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.25em;
+      color: var(--dorfic-mid-gray);
+    }
+
+    .section-title {
+      margin-bottom: 1rem;
+    }
+
+    .section-desc {
+      max-width: 680px;
+      margin-bottom: 3rem;
+      font-size: 1.02rem;
+    }
+
+    /* Accent bar beneath section titles */
+    .accent-bar {
+      width: 60px;
+      height: 4px;
+      background: var(--dorfic-orange);
+      margin: 1.25rem 0 2rem;
+    }
+
+    /* Full-width divider */
+    .section-divider {
+      width: 100%;
+      height: 3px;
+      background: linear-gradient(
+        90deg,
+        var(--dorfic-orange) 0%,
+        var(--dorfic-orange) 25%,
+        var(--dorfic-light-gray) 25%,
+        var(--dorfic-light-gray) 100%
+      );
+    }
+
+    /* Partial divider */
+    .section-divider-partial {
+      height: 2px;
+      background: linear-gradient(
+        90deg,
+        var(--dorfic-orange) 0%,
+        var(--dorfic-orange) 120px,
+        transparent 120px
+      );
+      margin: 3rem 0;
+    }
+
+    /* Angular section transition */
+    .angle-transition {
+      width: 100%;
+      height: 80px;
+      background: var(--dorfic-bg-secondary);
+      clip-path: polygon(0 0, 100% 40%, 100% 100%, 0 60%);
+    }
+
+    .angle-transition--reverse {
+      background: var(--dorfic-bg-primary);
+      clip-path: polygon(0 40%, 100% 0, 100% 60%, 0 100%);
+    }
+
+    /* ========================================================================
+       Cards
+       ======================================================================== */
+    .card {
+      background: var(--dorfic-bg-primary);
+      border: 1px solid var(--dorfic-border);
+      border-left: 4px solid var(--dorfic-orange);
+      padding: 2rem;
+      transition: all 0.25s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: -5%;
+      width: 35%;
+      height: 100%;
+      background: var(--dorfic-orange);
+      clip-path: polygon(20% 0, 100% 0, 100% 100%, 0 100%);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+    }
+
+    .card:hover {
+      border-left-color: var(--dorfic-orange-bright);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+    }
+
+    .card:hover::after {
+      opacity: 0.03;
+    }
+
+    .card h3 {
+      margin-bottom: 0.75rem;
+    }
+
+    .card-top {
+      background: var(--dorfic-bg-primary);
+      border: 1px solid var(--dorfic-border);
+      border-top: 4px solid var(--dorfic-orange);
+      padding: 2rem;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+      transition: all 0.25s ease;
+    }
+
+    .card-top:hover {
+      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
+      transform: translateY(-2px);
+    }
+
+    .card-top h3 {
+      margin-bottom: 0.75rem;
+    }
+
+    /* ========================================================================
+       Grids
+       ======================================================================== */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.5rem;
+    }
+
+    @media (max-width: 900px) {
+      .grid-3, .grid-4 { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 600px) {
+      .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+    }
+
+    /* ========================================================================
+       Visual Characteristics Section
+       ======================================================================== */
+    .motif-card {
+      background: var(--dorfic-bg-primary);
+      border: 1px solid var(--dorfic-border);
+      padding: 1.75rem;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .motif-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 3px;
+      height: 0;
+      background: var(--dorfic-orange);
+      transition: height 0.4s ease;
+    }
+
+    .motif-card:hover::before {
+      height: 100%;
+    }
+
+    .motif-card:hover {
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+    }
+
+    .motif-icon {
+      width: 40px;
+      height: 40px;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .motif-icon svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    .motif-card h4 {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      margin-bottom: 0.5rem;
+    }
+
+    .motif-card p {
+      font-size: 0.88rem;
+      line-height: 1.6;
+    }
+
+    /* ========================================================================
+       Color Palette Section
+       ======================================================================== */
+    .palette-group {
+      margin-bottom: 3rem;
+    }
+
+    .palette-group:last-child {
+      margin-bottom: 0;
+    }
+
+    .palette-group-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--dorfic-mid-gray);
+      margin-bottom: 1rem;
+    }
+
+    .palette-row {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .swatch {
+      flex: 1;
+      min-width: 120px;
+      position: relative;
+      transition: transform 0.2s ease;
+    }
+
+    .swatch:hover {
+      transform: translateY(-3px);
+    }
+
+    .swatch-color {
+      width: 100%;
+      height: 72px;
+      border: 1px solid rgba(192, 196, 204, 0.3);
+      margin-bottom: 0.5rem;
+    }
+
+    .swatch-name {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--dorfic-text-primary);
+      letter-spacing: 0.03em;
+    }
+
+    .swatch-hex {
+      font-family: 'Chakra Petch', monospace;
+      font-size: 0.72rem;
+      color: var(--dorfic-mid-gray);
+      letter-spacing: 0.04em;
+    }
+
+    /* ========================================================================
+       Typography Showcase
+       ======================================================================== */
+    .type-specimen {
+      border: 1px solid var(--dorfic-border);
+      padding: 2.5rem;
+      margin-bottom: 1.5rem;
+      position: relative;
+      background: var(--dorfic-bg-primary);
+    }
+
+    .type-specimen-label {
+      position: absolute;
+      top: 0.75rem;
+      right: 1rem;
+      font-family: 'Chakra Petch', monospace;
+      font-size: 0.6rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--dorfic-light-gray);
+      background: var(--dorfic-bg-primary);
+      padding: 0.2rem 0.5rem;
+    }
+
+    .type-display {
+      font-family: 'Exo 2', sans-serif;
+      font-size: clamp(2rem, 5vw, 4rem);
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      line-height: 1.05;
+      color: var(--dorfic-text-primary);
+      margin-bottom: 0.75rem;
+    }
+
+    .type-heading {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 1.8rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      color: var(--dorfic-text-primary);
+      margin-bottom: 0.75rem;
+    }
+
+    .type-body {
+      font-family: 'Inter', sans-serif;
+      font-size: 1rem;
+      font-weight: 400;
+      line-height: 1.65;
+      color: var(--dorfic-text-secondary);
+      max-width: 600px;
+    }
+
+    .type-label-demo {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.25em;
+      color: var(--dorfic-mid-gray);
+      margin-bottom: 0.5rem;
+    }
+
+    .type-tech-demo {
+      font-family: 'Chakra Petch', monospace;
+      font-size: 0.85rem;
+      letter-spacing: 0.05em;
+      color: var(--dorfic-mid-gray);
+    }
+
+    .font-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .font-item {
+      padding: 1.25rem;
+      border: 1px solid var(--dorfic-border);
+      transition: all 0.2s ease;
+      background: var(--dorfic-bg-primary);
+    }
+
+    .font-item:hover {
+      border-color: var(--dorfic-orange);
+      background: var(--dorfic-orange-subtle);
+    }
+
+    .font-item-name {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--dorfic-text-primary);
+      margin-bottom: 0.25rem;
+    }
+
+    .font-item-style {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--dorfic-orange);
+    }
+
+    .font-item-usage {
+      font-size: 0.78rem;
+      color: var(--dorfic-mid-gray);
+      margin-top: 0.35rem;
+    }
+
+    /* ========================================================================
+       Layout Principles
+       ======================================================================== */
+    .layout-demo {
+      border: 1px solid var(--dorfic-border);
+      padding: 2rem;
+      margin-bottom: 1.5rem;
+      background: var(--dorfic-bg-primary);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .layout-demo-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      grid-template-rows: repeat(4, 40px);
+      gap: 6px;
+    }
+
+    .layout-demo-grid .cell {
+      background: var(--dorfic-off-white);
+      border: 1px solid rgba(192, 196, 204, 0.3);
+      transition: all 0.3s ease;
+    }
+
+    .layout-demo-grid .cell.accent {
+      background: var(--dorfic-orange);
+      opacity: 0.15;
+      border-color: rgba(255, 102, 0, 0.2);
+    }
+
+    .layout-demo-grid .cell.wide {
+      grid-column: span 2;
+    }
+
+    .layout-demo-grid .cell.tall {
+      grid-row: span 2;
+    }
+
+    .layout-demo-grid .cell.highlight {
+      background: rgba(255, 102, 0, 0.08);
+      border: 1px solid rgba(255, 102, 0, 0.15);
+    }
+
+    .layout-principles-list {
+      list-style: none;
+      margin-top: 2rem;
+    }
+
+    .layout-principles-list li {
+      padding: 1rem 0 1rem 1.5rem;
+      border-left: 3px solid var(--dorfic-border);
+      transition: all 0.2s ease;
+      margin-bottom: 0.5rem;
+    }
+
+    .layout-principles-list li:hover {
+      border-left-color: var(--dorfic-orange);
+      background: var(--dorfic-orange-subtle);
+      padding-left: 2rem;
+    }
+
+    .layout-principles-list li strong {
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 600;
+      color: var(--dorfic-text-primary);
+      letter-spacing: 0.03em;
+    }
+
+    /* ========================================================================
+       CSS Techniques Showcase
+       ======================================================================== */
+    .technique-block {
+      margin-bottom: 2.5rem;
+    }
+
+    .technique-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.68rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--dorfic-orange);
+      margin-bottom: 0.75rem;
+    }
+
+    .technique-demo {
+      padding: 2rem;
+      border: 1px solid var(--dorfic-border);
+      background: var(--dorfic-bg-primary);
+      position: relative;
+    }
+
+    /* Accent bar demos */
+    .demo-accent-bar {
+      width: 80px;
+      height: 4px;
+      background: var(--dorfic-orange);
+      margin-bottom: 1rem;
+    }
+
+    .demo-divider-full {
+      width: 100%;
+      height: 3px;
+      background: linear-gradient(
+        90deg,
+        var(--dorfic-orange) 0%,
+        var(--dorfic-orange) 30%,
+        var(--dorfic-light-gray) 30%,
+        var(--dorfic-light-gray) 100%
+      );
+      margin-bottom: 1rem;
+    }
+
+    .demo-divider-partial {
+      height: 2px;
+      background: linear-gradient(
+        90deg,
+        var(--dorfic-orange) 0%,
+        var(--dorfic-orange) 120px,
+        transparent 120px
+      );
+    }
+
+    /* Button demos */
+    .btn-row {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .btn-primary {
+      display: inline-block;
+      padding: 0.75rem 2rem;
+      background: var(--dorfic-orange);
+      color: var(--dorfic-white);
+      border: none;
+      font-family: 'Barlow Condensed', 'Rajdhani', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-primary:hover {
+      background: var(--dorfic-orange-bright);
+      box-shadow: 0 4px 16px var(--dorfic-orange-glow);
+    }
+
+    .btn-ghost {
+      display: inline-block;
+      padding: 0.7rem 2rem;
+      background: transparent;
+      color: var(--dorfic-orange);
+      border: 2px solid var(--dorfic-orange);
+      font-family: 'Barlow Condensed', 'Rajdhani', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-ghost:hover {
+      background: var(--dorfic-orange);
+      color: var(--dorfic-white);
+    }
+
+    .btn-red {
+      display: inline-block;
+      padding: 0.75rem 2rem;
+      background: var(--dorfic-red);
+      color: var(--dorfic-white);
+      border: none;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-red:hover {
+      background: var(--dorfic-red-light);
+      box-shadow: 0 4px 16px rgba(224, 48, 32, 0.3);
+    }
+
+    /* Glass demo */
+    .glass-demo-container {
+      padding: 3rem;
+      position: relative;
+      background:
+        linear-gradient(135deg, var(--dorfic-off-white) 0%, var(--dorfic-soft-white) 100%);
+      overflow: hidden;
+    }
+
+    .glass-demo-container::before {
+      content: '';
+      position: absolute;
+      top: -20%;
+      right: -10%;
+      width: 200px;
+      height: 200px;
+      background: var(--dorfic-orange);
+      opacity: 0.12;
+      border-radius: 50%;
+      filter: blur(60px);
+    }
+
+    .glass-demo-container::after {
+      content: '';
+      position: absolute;
+      bottom: -20%;
+      left: 10%;
+      width: 150px;
+      height: 150px;
+      background: var(--dorfic-blue);
+      opacity: 0.08;
+      border-radius: 50%;
+      filter: blur(50px);
+    }
+
+    .glass-panel {
+      position: relative;
+      background: rgba(255, 255, 255, 0.65);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(192, 196, 204, 0.35);
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+      padding: 2rem;
+      max-width: 400px;
+    }
+
+    .glass-panel h4 {
+      margin-bottom: 0.5rem;
+    }
+
+    /* Glow demo */
+    .glow-box {
+      display: inline-block;
+      padding: 1.5rem 3rem;
+      background: var(--dorfic-orange);
+      color: white;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      box-shadow:
+        0 0 8px rgba(255, 102, 0, 0.3),
+        0 0 32px rgba(255, 102, 0, 0.15);
+      animation: glowPulse 3s ease-in-out infinite;
+    }
+
+    @keyframes glowPulse {
+      0%, 100% { box-shadow: 0 0 8px rgba(255, 102, 0, 0.3), 0 0 32px rgba(255, 102, 0, 0.15); }
+      50% { box-shadow: 0 0 16px rgba(255, 102, 0, 0.5), 0 0 48px rgba(255, 102, 0, 0.25); }
+    }
+
+    /* ========================================================================
+       Dark Variant Showcase
+       ======================================================================== */
+    .dark-showcase {
+      background: #0d0f14;
+      color: #e8eaed;
+      padding: 6rem 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .dark-showcase::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(58, 62, 72, 0.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(58, 62, 72, 0.08) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+    }
+
+    .dark-showcase .section-inner {
+      position: relative;
+      z-index: 2;
+    }
+
+    .dark-showcase .section-marker .label {
+      color: #808690;
+    }
+
+    .dark-showcase .section-title {
+      color: #e8eaed;
+    }
+
+    .dark-showcase .section-desc {
+      color: #808690;
+    }
+
+    .dark-showcase .accent-bar {
+      background: var(--dorfic-orange);
+    }
+
+    .dark-card {
+      background: #1e222c;
+      border: 1px solid rgba(255, 102, 0, 0.12);
+      border-left: 4px solid var(--dorfic-orange);
+      padding: 2rem;
+      transition: all 0.25s ease;
+    }
+
+    .dark-card:hover {
+      border-color: rgba(255, 102, 0, 0.25);
+      box-shadow: 0 4px 24px rgba(255, 102, 0, 0.08);
+    }
+
+    .dark-card h3 {
+      color: #e8eaed;
+      margin-bottom: 0.5rem;
+    }
+
+    .dark-card p {
+      color: #808690;
+    }
+
+    .dark-palette-row {
+      display: flex;
+      gap: 1rem;
+      margin-top: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .dark-swatch {
+      flex: 1;
+      min-width: 100px;
+    }
+
+    .dark-swatch .swatch-color {
+      border: 1px solid rgba(58, 62, 72, 0.5);
+    }
+
+    .dark-swatch .swatch-name {
+      color: #e8eaed;
+    }
+
+    .dark-swatch .swatch-hex {
+      color: #808690;
+    }
+
+    /* ========================================================================
+       Influences / Era Section
+       ======================================================================== */
+    .influence-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 1rem;
+    }
+
+    .influence-item {
+      padding: 1.25rem;
+      border: 1px solid var(--dorfic-border);
+      background: var(--dorfic-bg-primary);
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      transition: all 0.2s ease;
+    }
+
+    .influence-item:hover {
+      border-left: 4px solid var(--dorfic-orange);
+      background: var(--dorfic-orange-subtle);
+    }
+
+    .influence-item .influence-year {
+      font-family: 'Saira', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: var(--dorfic-orange);
+      white-space: nowrap;
+      min-width: 32px;
+    }
+
+    .influence-item .influence-name {
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: var(--dorfic-text-primary);
+      letter-spacing: 0.03em;
+      margin-bottom: 0.2rem;
+    }
+
+    .influence-item .influence-desc {
+      font-size: 0.78rem;
+      line-height: 1.5;
+    }
+
+    /* ========================================================================
+       Related Aesthetics
+       ======================================================================== */
+    .related-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1.5rem;
+    }
+
+    .related-table th {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--dorfic-mid-gray);
+      text-align: left;
+      padding: 0.75rem 1rem;
+      border-bottom: 2px solid var(--dorfic-orange);
+      background: var(--dorfic-off-white);
+    }
+
+    .related-table td {
+      padding: 1rem;
+      border-bottom: 1px solid var(--dorfic-border);
+      font-size: 0.9rem;
+      vertical-align: top;
+    }
+
+    .related-table td:first-child {
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 600;
+      color: var(--dorfic-text-primary);
+      white-space: nowrap;
+      letter-spacing: 0.03em;
+    }
+
+    .related-table tr:hover td {
+      background: var(--dorfic-orange-subtle);
+    }
+
+    /* ========================================================================
+       Materials Table
+       ======================================================================== */
+    .materials-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1rem;
+    }
+
+    .material-item {
+      display: flex;
+      border: 1px solid var(--dorfic-border);
+      overflow: hidden;
+      transition: all 0.2s ease;
+      background: var(--dorfic-bg-primary);
+    }
+
+    .material-item:hover {
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+    }
+
+    .material-physical {
+      width: 8px;
+      background: var(--dorfic-light-gray);
+      flex-shrink: 0;
+      transition: background 0.3s ease;
+    }
+
+    .material-item:hover .material-physical {
+      background: var(--dorfic-orange);
+    }
+
+    .material-content {
+      padding: 1.25rem;
+      flex: 1;
+    }
+
+    .material-content strong {
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 600;
+      color: var(--dorfic-text-primary);
+      display: block;
+      margin-bottom: 0.25rem;
+      letter-spacing: 0.03em;
+    }
+
+    .material-arrow {
+      font-family: 'Saira', sans-serif;
+      color: var(--dorfic-orange);
+      font-size: 0.85rem;
+      margin: 0.25rem 0;
+    }
+
+    .material-content span {
+      font-family: 'Chakra Petch', monospace;
+      font-size: 0.78rem;
+      color: var(--dorfic-mid-gray);
+      letter-spacing: 0.03em;
+    }
+
+    /* ========================================================================
+       Footer
+       ======================================================================== */
+    .footer {
+      background: var(--dorfic-near-black);
+      color: var(--dorfic-mid-gray);
+      padding: 4rem 2rem 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .footer::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(
+        90deg,
+        var(--dorfic-orange) 0%,
+        var(--dorfic-orange) 20%,
+        var(--dorfic-charcoal) 20%,
+        var(--dorfic-charcoal) 100%
+      );
+    }
+
+    .footer-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 3rem;
+    }
+
+    .footer-brand {
+      max-width: 360px;
+    }
+
+    .footer-brand .nav-logo {
+      color: var(--dorfic-soft-white);
+      margin-bottom: 1rem;
+    }
+
+    .footer-brand p {
+      font-size: 0.88rem;
+      line-height: 1.6;
+      color: var(--dorfic-mid-gray);
+    }
+
+    .footer-links-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.68rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--dorfic-orange);
+      margin-bottom: 1rem;
+    }
+
+    .footer-links {
+      list-style: none;
+    }
+
+    .footer-links li {
+      margin-bottom: 0.5rem;
+    }
+
+    .footer-links a {
+      font-size: 0.88rem;
+      color: var(--dorfic-mid-gray);
+      transition: color 0.2s ease;
+    }
+
+    .footer-links a:hover {
+      color: var(--dorfic-orange);
+    }
+
+    .footer-bottom {
+      max-width: 1100px;
+      margin: 3rem auto 0;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--dorfic-charcoal);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .footer-bottom p {
+      font-family: 'Chakra Petch', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.05em;
+      color: var(--dorfic-mid-gray);
+    }
+
+    .footer-bottom .orange-line {
+      width: 40px;
+      height: 2px;
+      background: var(--dorfic-orange);
+    }
+
+    /* ========================================================================
+       Scroll Reveal Animations
+       ======================================================================== */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+    .reveal-delay-5 { transition-delay: 0.5s; }
+    .reveal-delay-6 { transition-delay: 0.6s; }
+
+    /* ========================================================================
+       Responsive
+       ======================================================================== */
+    @media (max-width: 768px) {
+      .hero {
+        min-height: 90vh;
+        padding: 7rem 1.5rem 4rem;
+      }
+
+      .hero-title {
+        font-size: clamp(2.5rem, 12vw, 4.5rem);
+      }
+
+      .hero-meta {
+        gap: 1.5rem;
+      }
+
+      .section {
+        padding: 4rem 1.5rem;
+      }
+
+      .hero-geo-1,
+      .hero-geo-2,
+      .hero-geo-5,
+      .hero-geo-6 {
+        display: none;
+      }
+
+      .footer-inner {
+        flex-direction: column;
+      }
+
+      .related-table {
+        font-size: 0.8rem;
+      }
+
+      .related-table td,
+      .related-table th {
+        padding: 0.6rem 0.5rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero-meta {
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .hero-meta-sep {
+        width: 32px;
+        height: 1px;
+      }
+    }
+
+    /* ========================================================================
+       Utility
+       ======================================================================== */
+    .mb-0 { margin-bottom: 0; }
+    .mb-1 { margin-bottom: 1rem; }
+    .mb-2 { margin-bottom: 2rem; }
+    .mb-3 { margin-bottom: 3rem; }
+    .mt-2 { margin-top: 2rem; }
+    .mt-3 { margin-top: 3rem; }
+    .text-center { text-align: center; }
+  </style>
+</head>
+<body>
+
+  <!-- ====================================================================
+       Navigation
+       ==================================================================== -->
+  <nav class="nav" id="nav">
+    <div class="nav-inner">
+      <div class="nav-logo">
+        <span class="logo-mark"></span>
+        DORF<span class="logo-dot">ic</span>
+      </div>
+      <ul class="nav-links">
+        <li><a href="#visual">Visual</a></li>
+        <li><a href="#palette">Palette</a></li>
+        <li><a href="#typography">Typography</a></li>
+        <li><a href="#layout">Layout</a></li>
+        <li><a href="#techniques">Techniques</a></li>
+        <li><a href="#influences">Influences</a></li>
+      </ul>
+      <button class="nav-mobile-toggle" id="mobileToggle" aria-label="Toggle navigation">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ====================================================================
+       Hero
+       ==================================================================== -->
+  <header class="hero" id="hero">
+    <div class="hero-shape-1"></div>
+    <div class="hero-shape-2"></div>
+
+    <div class="hero-geo hero-geo-1"></div>
+    <div class="hero-geo hero-geo-2"></div>
+    <div class="hero-geo hero-geo-3"></div>
+    <div class="hero-geo hero-geo-4"></div>
+    <div class="hero-geo hero-geo-5"></div>
+    <div class="hero-geo hero-geo-6"></div>
+
+    <div class="hero-content">
+      <div class="hero-label">Design Aesthetic Reference</div>
+      <h1 class="hero-title">
+        <span class="thin">D</span><span class="orange">O</span><span class="thin">R</span><span class="thin">F</span><span class="orange">ic</span>
+      </h1>
+      <div class="hero-accent-bar"></div>
+      <p class="hero-subtitle">
+        Daylight, Orange, Red, Futurism, and Graphic. Abstract tech-esque minimalist imagery from the mid-2000s to mid-2010s -- industrial, clean, sharp, and unmistakably futuristic.
+      </p>
+      <div class="hero-meta">
+        <div class="hero-meta-item">
+          <span class="hero-meta-value">2005</span>
+          <span class="hero-meta-label">Era Start</span>
+        </div>
+        <span class="hero-meta-sep"></span>
+        <div class="hero-meta-item">
+          <span class="hero-meta-value">2015</span>
+          <span class="hero-meta-label">Era End</span>
+        </div>
+        <span class="hero-meta-sep"></span>
+        <div class="hero-meta-item">
+          <span class="hero-meta-value">#FF6600</span>
+          <span class="hero-meta-label">Signature Color</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-scroll">
+      <span class="scroll-label">Scroll</span>
+      <span class="scroll-line"></span>
+    </div>
+  </header>
+
+  <!-- ====================================================================
+       Section Divider
+       ==================================================================== -->
+  <div class="section-divider"></div>
+
+  <!-- ====================================================================
+       01 / Visual Characteristics
+       ==================================================================== -->
+  <section class="section" id="visual">
+    <div class="section-inner">
+      <div class="section-marker reveal">
+        <span class="num">01</span>
+        <span class="sep"></span>
+        <span class="label">Visual Characteristics</span>
+      </div>
+      <h2 class="section-title reveal">Core Motifs & <span class="accent-text">Design Principles</span></h2>
+      <div class="accent-bar reveal"></div>
+      <p class="section-desc reveal">
+        DORFic is defined by stark white environments accented with vivid orange, rigid geometric precision, and an industrial minimalism that portrays technology as clean, controlled, and orderly. It is sanitized futurism -- not gritty, not dystopian, but sharp and approachable.
+      </p>
+
+      <div class="grid-3">
+        <div class="motif-card reveal reveal-delay-1">
+          <div class="motif-icon">
+            <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="2" y="2" width="36" height="36" stroke="#c0c4cc" stroke-width="1.5" fill="none"/>
+              <rect x="8" y="8" width="24" height="24" fill="#ff6600" opacity="0.15"/>
+              <line x1="20" y1="2" x2="20" y2="38" stroke="#ff6600" stroke-width="1" opacity="0.4"/>
+              <line x1="2" y1="20" x2="38" y2="20" stroke="#ff6600" stroke-width="1" opacity="0.4"/>
+            </svg>
+          </div>
+          <h4>Stark White Environments</h4>
+          <p>Clean, bright cityscapes and interiors bathed in daylight. The white canvas is not emptiness but intentional sterility.</p>
+        </div>
+
+        <div class="motif-card reveal reveal-delay-2">
+          <div class="motif-icon">
+            <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="20" cy="20" r="16" fill="#ff6600" opacity="0.2"/>
+              <circle cx="20" cy="20" r="8" fill="#ff6600" opacity="0.5"/>
+              <circle cx="20" cy="20" r="3" fill="#ff6600"/>
+            </svg>
+          </div>
+          <h4>Bright Orange Dominant</h4>
+          <p>The signature color that defines DORFic, used for highlights, UI elements, and graphic overlays. Never as large fills -- always as focused accents.</p>
+        </div>
+
+        <div class="motif-card reveal reveal-delay-3">
+          <div class="motif-icon">
+            <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <polygon points="20,4 36,20 20,36 4,20" stroke="#c0c4cc" stroke-width="1.5" fill="none"/>
+              <polygon points="20,10 30,20 20,30 10,20" stroke="#ff6600" stroke-width="1" fill="#ff6600" opacity="0.12"/>
+            </svg>
+          </div>
+          <h4>Geometric Precision</h4>
+          <p>Parallel and symmetric geometry. Rigid structural compositions with strong geometric repetition -- every element aligned and intentional.</p>
+        </div>
+
+        <div class="motif-card reveal reveal-delay-1">
+          <div class="motif-icon">
+            <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <polygon points="5,35 15,5 25,35 35,5" stroke="#ff6600" stroke-width="1.5" fill="none" opacity="0.5"/>
+              <polygon points="10,30 20,10 30,30" fill="#c0c4cc" opacity="0.2"/>
+            </svg>
+          </div>
+          <h4>Low-Poly Composition</h4>
+          <p>Faceted, angular 3D forms and surfaces. Technology represented through stylized graphics, not photorealism.</p>
+        </div>
+
+        <div class="motif-card reveal reveal-delay-2">
+          <div class="motif-icon">
+            <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="4" y="12" width="32" height="16" rx="2" stroke="#c0c4cc" stroke-width="1.5" fill="none"/>
+              <rect x="8" y="15" width="8" height="10" fill="#ff6600" opacity="0.15"/>
+              <circle cx="28" cy="20" r="4" stroke="#ff6600" stroke-width="1" fill="none"/>
+              <line x1="4" y1="8" x2="36" y2="8" stroke="#c0c4cc" stroke-width="1" opacity="0.3"/>
+            </svg>
+          </div>
+          <h4>Glass & Tech Patterns</h4>
+          <p>Transparent, reflective panels and technological surface treatments. Office spaces, robotics, and sterile scientific gear.</p>
+        </div>
+
+        <div class="motif-card reveal reveal-delay-3">
+          <div class="motif-icon">
+            <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="20" cy="14" r="10" stroke="#ff8c00" stroke-width="1.5" fill="#ff8c00" opacity="0.08"/>
+              <line x1="4" y1="28" x2="36" y2="28" stroke="#c0c4cc" stroke-width="1"/>
+              <line x1="10" y1="24" x2="10" y2="32" stroke="#ff6600" stroke-width="1.5" opacity="0.4"/>
+              <line x1="20" y1="24" x2="20" y2="32" stroke="#ff6600" stroke-width="1.5" opacity="0.6"/>
+              <line x1="30" y1="24" x2="30" y2="32" stroke="#ff6600" stroke-width="1.5" opacity="0.4"/>
+            </svg>
+          </div>
+          <h4>Daylight & Cleanliness</h4>
+          <p>Bright, naturally-lit scenes that feel hygienic and optimistic. Sunlight is not decoration -- it is structure. The warmth of daylight permeates every composition.</p>
+        </div>
+
+        <div class="motif-card reveal reveal-delay-1">
+          <div class="motif-icon">
+            <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="6" y="6" width="28" height="28" stroke="#c0c4cc" stroke-width="1"/>
+              <line x1="6" y1="6" x2="34" y2="34" stroke="#c0c4cc" stroke-width="1" opacity="0.4"/>
+              <rect x="14" y="14" width="12" height="12" fill="#e03020" opacity="0.15"/>
+              <rect x="18" y="18" width="4" height="4" fill="#ff6600" opacity="0.6"/>
+            </svg>
+          </div>
+          <h4>Industrial Minimalism</h4>
+          <p>Stripped-down, functional design with no decorative excess. Military and factory iconography, utilitarian labeling, functional graphics.</p>
+        </div>
+
+        <div class="motif-card reveal reveal-delay-2">
+          <div class="motif-icon">
+            <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="4" y="4" width="14" height="14" fill="#e8eaed"/>
+              <rect x="22" y="4" width="14" height="14" fill="#c0c4cc"/>
+              <rect x="4" y="22" width="14" height="14" fill="#808690"/>
+              <rect x="22" y="22" width="14" height="14" fill="#ff6600" opacity="0.3"/>
+            </svg>
+          </div>
+          <h4>Monochromatic + Pop</h4>
+          <p>Near-grayscale environments punctuated by vivid orange and red. Bordering on monochromatic -- minimal color beyond the white/gray/orange core.</p>
+        </div>
+
+        <div class="motif-card reveal reveal-delay-3">
+          <div class="motif-icon">
+            <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M8 36 L20 4 L32 36" stroke="#ff6600" stroke-width="2" fill="none"/>
+              <line x1="12" y1="26" x2="28" y2="26" stroke="#ff6600" stroke-width="1.5"/>
+              <circle cx="20" cy="4" r="2" fill="#ff6600" opacity="0.5"/>
+            </svg>
+          </div>
+          <h4>Explosive Visuals</h4>
+          <p>Dynamic, high-energy 3D compositions and motion graphics. Sharp, clean, and casual -- professional but not stiff, technical but approachable.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================================================================
+       Angular Transition
+       ==================================================================== -->
+  <div class="angle-transition"></div>
+
+  <!-- ====================================================================
+       02 / Color Palette
+       ==================================================================== -->
+  <section class="section section--alt" id="palette">
+    <div class="section-inner">
+      <div class="section-marker reveal">
+        <span class="num">02</span>
+        <span class="sep"></span>
+        <span class="label">Color Palette</span>
+      </div>
+      <h2 class="section-title reveal">The <span class="accent-text">DORFic</span> Spectrum</h2>
+      <div class="accent-bar reveal"></div>
+      <p class="section-desc reveal">
+        White-dominant base with orange punches. Near-monochromatic gray structure. Orange is reserved exclusively for navigation and emphasis -- never for large background areas. Daylight warmth keeps whites slightly warm, not cold or blue.
+      </p>
+
+      <!-- White / Neutral -->
+      <div class="palette-group reveal">
+        <div class="palette-group-title">Base / Neutrals</div>
+        <div class="palette-row">
+          <div class="swatch">
+            <div class="swatch-color" style="background: #ffffff; border: 1px solid #e8eaed;"></div>
+            <div class="swatch-name">Pure White</div>
+            <div class="swatch-hex">#FFFFFF</div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background: #f0f2f5;"></div>
+            <div class="swatch-name">Off White</div>
+            <div class="swatch-hex">#F0F2F5</div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background: #e8eaed;"></div>
+            <div class="swatch-name">Soft White</div>
+            <div class="swatch-hex">#E8EAED</div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background: #c0c4cc;"></div>
+            <div class="swatch-name">Light Gray</div>
+            <div class="swatch-hex">#C0C4CC</div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background: #808690;"></div>
+            <div class="swatch-name">Mid Gray</div>
+            <div class="swatch-hex">#808690</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Orange Spectrum -->
+      <div class="palette-group reveal">
+        <div class="palette-group-title">Orange Accent Spectrum</div>
+        <div class="palette-row">
+          <div class="swatch">
+            <div class="swatch-color" style="background: #ff6600;"></div>
+            <div class="swatch-name">DORFic Orange</div>
+            <div class="swatch-hex">#FF6600</div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background: #ff7a1a;"></div>
+            <div class="swatch-name">Orange Bright</div>
+            <div class="swatch-hex">#FF7A1A</div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background: #ff8c00;"></div>
+            <div class="swatch-name">Warm Amber</div>
+            <div class="swatch-hex">#FF8C00</div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background: #ffa033;"></div>
+            <div class="swatch-name">Amber Light</div>
+            <div class="swatch-hex">#FFA033</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Signal Colors -->
+      <div class="palette-group reveal">
+        <div class="palette-group-title">Signal & Structure</div>
+        <div class="palette-row">
+          <div class="swatch">
+            <div class="swatch-color" style="background: #e03020;"></div>
+            <div class="swatch-name">Signal Red</div>
+            <div class="swatch-hex">#E03020</div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background: #0074d9;"></div>
+            <div class="swatch-name">Tech Blue</div>
+            <div class="swatch-hex">#0074D9</div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background: #3a3e48;"></div>
+            <div class="swatch-name">Charcoal</div>
+            <div class="swatch-hex">#3A3E48</div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background: #1a1e28;"></div>
+            <div class="swatch-name">Near Black</div>
+            <div class="swatch-hex">#1A1E28</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="angle-transition angle-transition--reverse"></div>
+
+  <!-- ====================================================================
+       03 / Typography
+       ==================================================================== -->
+  <section class="section" id="typography">
+    <div class="section-inner">
+      <div class="section-marker reveal">
+        <span class="num">03</span>
+        <span class="sep"></span>
+        <span class="label">Typography</span>
+      </div>
+      <h2 class="section-title reveal">Typeface <span class="accent-text">System</span></h2>
+      <div class="accent-bar reveal"></div>
+      <p class="section-desc reveal">
+        DORFic typography reflects mid-2000s corporate tech and industrial design. Clean, geometric sans-serifs. Condensed proportions for an industrial feel. Uppercase for labels and navigation. Orange-accented type for key data points.
+      </p>
+
+      <!-- Type specimens -->
+      <div class="type-specimen reveal">
+        <span class="type-specimen-label">Display / Exo 2 800</span>
+        <div class="type-display">SANITIZED <span class="accent-text">FUTURISM</span></div>
+        <div class="type-label-demo">Industrial Label / Barlow Condensed 600</div>
+        <div class="type-body">
+          Body text set in Inter at 400 weight with generous line-height. DORFic body copy is legible and unadorned, providing a calm counterpoint to the bold headings and vivid orange accents above.
+        </div>
+      </div>
+
+      <div class="type-specimen reveal">
+        <span class="type-specimen-label">Heading / Rajdhani 600</span>
+        <div class="type-heading">Geometric Precision Meets Industrial Clarity</div>
+        <div class="section-divider-partial mb-1"></div>
+        <div class="type-tech-demo">SYS.REF // DORFIC.SPEC.2024 &mdash; SECTOR 07 &mdash; CLEARANCE: ALPHA</div>
+      </div>
+
+      <!-- Font list -->
+      <div class="font-list reveal">
+        <div class="font-item">
+          <div class="font-item-name" style="font-family: 'Rajdhani', sans-serif;">Rajdhani</div>
+          <div class="font-item-style">Semi-condensed / Technical / Geometric</div>
+          <div class="font-item-usage">Headlines, navigation, labels</div>
+        </div>
+        <div class="font-item">
+          <div class="font-item-name" style="font-family: 'Exo 2', sans-serif; font-weight: 700;">Exo 2</div>
+          <div class="font-item-style">Geometric / Futuristic Sans</div>
+          <div class="font-item-usage">Display headings, feature titles</div>
+        </div>
+        <div class="font-item">
+          <div class="font-item-name" style="font-family: 'Barlow', sans-serif;">Barlow</div>
+          <div class="font-item-style">Slightly Condensed / Industrial Grotesk</div>
+          <div class="font-item-usage">Headlines, body text</div>
+        </div>
+        <div class="font-item">
+          <div class="font-item-name" style="font-family: 'Barlow Condensed', sans-serif;">Barlow Condensed</div>
+          <div class="font-item-style">Narrow Industrial Grotesk</div>
+          <div class="font-item-usage">Labels, navigation, utility text</div>
+        </div>
+        <div class="font-item">
+          <div class="font-item-name" style="font-family: 'Inter', sans-serif;">Inter</div>
+          <div class="font-item-style">Clean / Neutral / Modern Sans</div>
+          <div class="font-item-usage">Body text, paragraphs</div>
+        </div>
+        <div class="font-item">
+          <div class="font-item-name" style="font-family: 'Saira', sans-serif; font-weight: 700;">Saira</div>
+          <div class="font-item-style">Wide / Geometric / Industrial</div>
+          <div class="font-item-usage">Display headings, numbers</div>
+        </div>
+        <div class="font-item">
+          <div class="font-item-name" style="font-family: 'Chakra Petch', sans-serif;">Chakra Petch</div>
+          <div class="font-item-style">Angular / Tech-Industrial</div>
+          <div class="font-item-usage">Display text, data labels</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ====================================================================
+       04 / Layout Principles
+       ==================================================================== -->
+  <section class="section section--alt" id="layout">
+    <div class="section-inner">
+      <div class="section-marker reveal">
+        <span class="num">04</span>
+        <span class="sep"></span>
+        <span class="label">Layout Principles</span>
+      </div>
+      <h2 class="section-title reveal">Grid & <span class="accent-text">Structure</span></h2>
+      <div class="accent-bar reveal"></div>
+      <p class="section-desc reveal">
+        Rigid, symmetric grid layouts with white space as a primary design element. Wide, horizontal compositions. Strong axes. Geometric containers -- rectangular and angular, not rounded or organic.
+      </p>
+
+      <!-- Live grid demo -->
+      <div class="layout-demo reveal">
+        <div class="layout-demo-grid">
+          <div class="cell wide tall accent"></div>
+          <div class="cell"></div>
+          <div class="cell"></div>
+          <div class="cell wide highlight"></div>
+          <div class="cell"></div>
+          <div class="cell wide"></div>
+          <div class="cell highlight"></div>
+          <div class="cell"></div>
+          <div class="cell accent"></div>
+          <div class="cell wide"></div>
+          <div class="cell"></div>
+          <div class="cell wide highlight"></div>
+          <div class="cell tall accent"></div>
+          <div class="cell"></div>
+          <div class="cell"></div>
+          <div class="cell"></div>
+          <div class="cell wide"></div>
+        </div>
+      </div>
+
+      <!-- Layout principles -->
+      <div class="grid-2 reveal">
+        <div>
+          <h3 class="mb-1">Grid & Composition</h3>
+          <ul class="layout-principles-list">
+            <li><strong>Rigid symmetric grids</strong> -- parallel lines, equal spacing, engineered precision</li>
+            <li><strong>White space as design element</strong> -- vast open areas evoking sterile, sunlit environments</li>
+            <li><strong>Full-width sections</strong> -- content centered within expansive white fields</li>
+            <li><strong>Geometric containers</strong> -- rectangular and angular panels, not rounded or organic</li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="mb-1">Section Organization</h3>
+          <ul class="layout-principles-list">
+            <li><strong>Bold orange dividers</strong> -- accent lines to separate and structure sections</li>
+            <li><strong>Industrial numbering</strong> -- "01 / OVERVIEW" style section markers</li>
+            <li><strong>Card-style panels</strong> -- clean, flat, minimal elevation with subtle gray borders</li>
+            <li><strong>Generous padding</strong> -- breathing room that evokes clinical environments</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="section-divider-partial mt-3 reveal"></div>
+
+      <h3 class="mt-2 mb-2 reveal">Compositional Patterns</h3>
+      <div class="grid-2 reveal">
+        <div class="card">
+          <h3>Split Layouts</h3>
+          <p>Half white, half content, divided by an orange accent line. The tension between void and substance creates visual drama.</p>
+        </div>
+        <div class="card">
+          <h3>Overlapping Panels</h3>
+          <p>Layered rectangles and parallelograms creating depth. Geometric shapes at angular clips suggest dimensionality.</p>
+        </div>
+        <div class="card">
+          <h3>Dashboard Grids</h3>
+          <p>Modular, evenly-spaced card layouts. Data-dashboard style organization for structured information.</p>
+        </div>
+        <div class="card">
+          <h3>Geometric Overlays</h3>
+          <p>Full-bleed photography masked by angular shapes. Cityscapes or tech imagery behind geometric clip-paths.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="angle-transition"></div>
+
+  <!-- ====================================================================
+       05 / CSS Techniques
+       ==================================================================== -->
+  <section class="section" id="techniques">
+    <div class="section-inner">
+      <div class="section-marker reveal">
+        <span class="num">05</span>
+        <span class="sep"></span>
+        <span class="label">CSS / Design Techniques</span>
+      </div>
+      <h2 class="section-title reveal">Signature <span class="accent-text">Effects</span></h2>
+      <div class="accent-bar reveal"></div>
+      <p class="section-desc reveal">
+        The DORFic toolkit: accent bars, industrial panels, geometric clips, glass effects, and orange glow states. Each technique reinforces the clean, industrial, tech-forward identity.
+      </p>
+
+      <!-- Accent Bars & Dividers -->
+      <div class="technique-block reveal">
+        <div class="technique-label">Accent Bars & Dividers</div>
+        <div class="technique-demo">
+          <div class="demo-accent-bar"></div>
+          <p class="mb-2" style="font-size: 0.88rem;">Signature DORFic accent bar -- 60px wide, 4px tall, pure orange.</p>
+          <div class="demo-divider-full"></div>
+          <p class="mb-2" style="font-size: 0.88rem;">Full-width divider with 30% orange lead, fading into gray.</p>
+          <div class="demo-divider-partial"></div>
+          <p style="font-size: 0.88rem;">Partial divider -- industrial style, 120px orange segment dissolving into transparency.</p>
+        </div>
+      </div>
+
+      <!-- Buttons -->
+      <div class="technique-block reveal">
+        <div class="technique-label">Button System</div>
+        <div class="technique-demo">
+          <div class="btn-row">
+            <button class="btn-primary">Primary Action</button>
+            <button class="btn-ghost">Ghost Variant</button>
+            <button class="btn-red">Signal Alert</button>
+          </div>
+          <p class="mt-2" style="font-size: 0.88rem;">
+            Buttons use Barlow Condensed, uppercase, wide letter-spacing. Primary is solid orange with glow on hover. Ghost has orange border fill transition. Red for alerts.
+          </p>
+        </div>
+      </div>
+
+      <!-- Cards -->
+      <div class="technique-block reveal">
+        <div class="technique-label">Industrial Cards</div>
+        <div class="grid-2">
+          <div class="card">
+            <h3>Left Accent Card</h3>
+            <p>4px orange left border with gray frame. The default DORFic card pattern -- industrial, clean, hierarchical.</p>
+          </div>
+          <div class="card-top">
+            <h3>Top Accent Card</h3>
+            <p>4px orange top border with subtle box-shadow. Alternative orientation for horizontal card layouts.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Glass Panel -->
+      <div class="technique-block reveal">
+        <div class="technique-label">Glass / Tech Panel</div>
+        <div class="glass-demo-container">
+          <div class="glass-panel">
+            <h4>Frosted Glass Panel</h4>
+            <p style="font-size: 0.88rem;">Semi-transparent white with backdrop blur. Simulates the protective visor glass and scientific panels central to DORFic's material vocabulary.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Glow -->
+      <div class="technique-block reveal">
+        <div class="technique-label">Orange Glow Effect</div>
+        <div class="technique-demo text-center">
+          <div class="glow-box">Active System</div>
+          <p class="mt-2" style="font-size: 0.88rem;">
+            Pulsating orange glow using layered box-shadows. Used for active states, notifications, and emphasis on interactive elements.
+          </p>
+        </div>
+      </div>
+
+      <!-- Grid backgrounds -->
+      <div class="technique-block reveal">
+        <div class="technique-label">Technical Grid Backgrounds</div>
+        <div class="technique-demo" style="padding: 3rem; background-image: linear-gradient(rgba(192, 196, 204, 0.15) 1px, transparent 1px), linear-gradient(90deg, rgba(192, 196, 204, 0.15) 1px, transparent 1px), linear-gradient(rgba(255, 102, 0, 0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 102, 0, 0.06) 1px, transparent 1px); background-size: 40px 40px, 40px 40px, 200px 200px, 200px 200px;">
+          <p style="font-size: 0.88rem; max-width: 500px;">Fine technical grid with orange accent lines at wider intervals. Evokes blueprint and schematic aesthetics -- the underlying precision beneath DORFic's clean surface.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ====================================================================
+       Dark Variant
+       ==================================================================== -->
+  <div class="dark-showcase" id="dark-variant">
+    <div class="section-inner">
+      <div class="section-marker reveal">
+        <span class="num">05.1</span>
+        <span class="sep" style="background: #3a3e48;"></span>
+        <span class="label">Dark Variant</span>
+      </div>
+      <h2 class="section-title reveal">Dark <span class="accent-text">Mode</span></h2>
+      <div class="accent-bar reveal"></div>
+      <p class="section-desc reveal">
+        DORFic has a recognized dark alternate where black replaces white backgrounds, leaning toward Cyberpunk and Dark Aero. The same orange accents gain higher contrast against the dark base.
+      </p>
+
+      <div class="dark-palette-row reveal">
+        <div class="dark-swatch">
+          <div class="swatch-color" style="background: #0d0f14;"></div>
+          <div class="swatch-name">Dark Base</div>
+          <div class="swatch-hex">#0D0F14</div>
+        </div>
+        <div class="dark-swatch">
+          <div class="swatch-color" style="background: #141820;"></div>
+          <div class="swatch-name">Dark Secondary</div>
+          <div class="swatch-hex">#141820</div>
+        </div>
+        <div class="dark-swatch">
+          <div class="swatch-color" style="background: #1e222c;"></div>
+          <div class="swatch-name">Dark Surface</div>
+          <div class="swatch-hex">#1E222C</div>
+        </div>
+        <div class="dark-swatch">
+          <div class="swatch-color" style="background: #3a3e48;"></div>
+          <div class="swatch-name">Dark Border</div>
+          <div class="swatch-hex">#3A3E48</div>
+        </div>
+        <div class="dark-swatch">
+          <div class="swatch-color" style="background: #ff6600;"></div>
+          <div class="swatch-name">Orange on Dark</div>
+          <div class="swatch-hex">#FF6600</div>
+        </div>
+      </div>
+
+      <div class="grid-2 mt-3 reveal">
+        <div class="dark-card">
+          <h3>Dark Panel</h3>
+          <p>Surface color #1E222C with subtle orange border. The orange accent glows more intensely against the dark substrate.</p>
+        </div>
+        <div class="dark-card">
+          <h3>Cyberpunk Adjacent</h3>
+          <p>DORFic's dark variant approaches Cyberpunk territory but remains sanitized -- no neon excess, just controlled orange warmth in the void.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====================================================================
+       06 / Materials & Textures
+       ==================================================================== -->
+  <section class="section" id="materials">
+    <div class="section-inner">
+      <div class="section-marker reveal">
+        <span class="num">06</span>
+        <span class="sep"></span>
+        <span class="label">Materials & Textures</span>
+      </div>
+      <h2 class="section-title reveal">Physical to <span class="accent-text">Digital</span></h2>
+      <div class="accent-bar reveal"></div>
+      <p class="section-desc reveal">
+        DORFic materials translated from physical-world references into web-equivalent techniques. Each mapping preserves the industrial, sterile, daylight-driven character of the aesthetic.
+      </p>
+
+      <div class="materials-grid reveal">
+        <div class="material-item">
+          <div class="material-physical"></div>
+          <div class="material-content">
+            <strong>Stark White Architecture</strong>
+            <div class="material-arrow">&darr;</div>
+            <span>#FFFFFF / #FAFAFA backgrounds with generous whitespace</span>
+          </div>
+        </div>
+        <div class="material-item">
+          <div class="material-physical"></div>
+          <div class="material-content">
+            <strong>Industrial Orange Paint</strong>
+            <div class="material-arrow">&darr;</div>
+            <span>Flat #FF6600 fills on buttons, bars, accent elements</span>
+          </div>
+        </div>
+        <div class="material-item">
+          <div class="material-physical"></div>
+          <div class="material-content">
+            <strong>Matte Gray Steel</strong>
+            <div class="material-arrow">&darr;</div>
+            <span>Flat mid-gray (#808690) borders and dividers, no gradients</span>
+          </div>
+        </div>
+        <div class="material-item">
+          <div class="material-physical"></div>
+          <div class="material-content">
+            <strong>Scientific Glass Panels</strong>
+            <div class="material-arrow">&darr;</div>
+            <span>backdrop-filter: blur() with semi-transparent white bg</span>
+          </div>
+        </div>
+        <div class="material-item">
+          <div class="material-physical"></div>
+          <div class="material-content">
+            <strong>Factory Signage</strong>
+            <div class="material-arrow">&darr;</div>
+            <span>Uppercase condensed sans-serif, wide letter-spacing</span>
+          </div>
+        </div>
+        <div class="material-item">
+          <div class="material-physical"></div>
+          <div class="material-content">
+            <strong>Low-Poly 3D Surfaces</strong>
+            <div class="material-arrow">&darr;</div>
+            <span>Angular clip-path shapes and geometric SVG patterns</span>
+          </div>
+        </div>
+        <div class="material-item">
+          <div class="material-physical"></div>
+          <div class="material-content">
+            <strong>Protective Visor Glass</strong>
+            <div class="material-arrow">&darr;</div>
+            <span>Gradient from transparent to slightly tinted overlay</span>
+          </div>
+        </div>
+        <div class="material-item">
+          <div class="material-physical"></div>
+          <div class="material-content">
+            <strong>Daylight Illumination</strong>
+            <div class="material-arrow">&darr;</div>
+            <span>Subtle warm box-shadows, bright open layouts</span>
+          </div>
+        </div>
+        <div class="material-item">
+          <div class="material-physical"></div>
+          <div class="material-content">
+            <strong>Technical Schematics</strong>
+            <div class="material-arrow">&darr;</div>
+            <span>Fine grid backgrounds with thin gray lines</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="angle-transition"></div>
+
+  <!-- ====================================================================
+       07 / Era-Defining Influences
+       ==================================================================== -->
+  <section class="section section--alt" id="influences">
+    <div class="section-inner">
+      <div class="section-marker reveal">
+        <span class="num">07</span>
+        <span class="sep"></span>
+        <span class="label">Era-Defining Products & Influences</span>
+      </div>
+      <h2 class="section-title reveal">Cultural <span class="accent-text">References</span></h2>
+      <div class="accent-bar reveal"></div>
+      <p class="section-desc reveal">
+        The products, brands, and media that define the DORFic visual language. From Microsoft Office to Mirror's Edge, these references crystallize the aesthetic into tangible touchpoints.
+      </p>
+
+      <div class="influence-grid reveal">
+        <div class="influence-item">
+          <div>
+            <div class="influence-name">Microsoft Office 2003-2010</div>
+            <div class="influence-desc" style="font-size: 0.8rem; color: var(--dorfic-mid-gray);">Orange-accented UI, clean white panels, geometric icons</div>
+          </div>
+        </div>
+        <div class="influence-item">
+          <div>
+            <div class="influence-name">Xbox 360 LIVE</div>
+            <div class="influence-desc" style="font-size: 0.8rem; color: var(--dorfic-mid-gray);">White/green/gray interface with bold accent colors</div>
+          </div>
+        </div>
+        <div class="influence-item">
+          <div>
+            <div class="influence-name">Mirror's Edge (2008)</div>
+            <div class="influence-desc" style="font-size: 0.8rem; color: var(--dorfic-mid-gray);">The quintessential DORFic game -- stark white cityscapes with vivid red/orange</div>
+          </div>
+        </div>
+        <div class="influence-item">
+          <div>
+            <div class="influence-name">SUPERHOT (2016)</div>
+            <div class="influence-desc" style="font-size: 0.8rem; color: var(--dorfic-mid-gray);">Minimalist white environments with red geometric shapes</div>
+          </div>
+        </div>
+        <div class="influence-item">
+          <div>
+            <div class="influence-name">Intel Pentium 4 Branding</div>
+            <div class="influence-desc" style="font-size: 0.8rem; color: var(--dorfic-mid-gray);">Clean tech imagery with bold color accents</div>
+          </div>
+        </div>
+        <div class="influence-item">
+          <div>
+            <div class="influence-name">Android 1.0</div>
+            <div class="influence-desc" style="font-size: 0.8rem; color: var(--dorfic-mid-gray);">Early mobile UI with functional, minimalist design</div>
+          </div>
+        </div>
+        <div class="influence-item">
+          <div>
+            <div class="influence-name">Halo Series</div>
+            <div class="influence-desc" style="font-size: 0.8rem; color: var(--dorfic-mid-gray);">Futuristic military-industrial design with clean geometry</div>
+          </div>
+        </div>
+        <div class="influence-item">
+          <div>
+            <div class="influence-name">Rocket League</div>
+            <div class="influence-desc" style="font-size: 0.8rem; color: var(--dorfic-mid-gray);">Bright, clean sci-fi sports aesthetic</div>
+          </div>
+        </div>
+        <div class="influence-item">
+          <div>
+            <div class="influence-name">Orangetheory Fitness</div>
+            <div class="influence-desc" style="font-size: 0.8rem; color: var(--dorfic-mid-gray);">Brand identity built on orange-on-white principles</div>
+          </div>
+        </div>
+        <div class="influence-item">
+          <div>
+            <div class="influence-name">Nintendo eShop</div>
+            <div class="influence-desc" style="font-size: 0.8rem; color: var(--dorfic-mid-gray);">Clean, bright digital storefront with structured grid</div>
+          </div>
+        </div>
+        <div class="influence-item">
+          <div>
+            <div class="influence-name">Avast Antivirus</div>
+            <div class="influence-desc" style="font-size: 0.8rem; color: var(--dorfic-mid-gray);">Orange accent on white/gray clean tech interface</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ====================================================================
+       08 / Related Aesthetics
+       ==================================================================== -->
+  <section class="section" id="related">
+    <div class="section-inner">
+      <div class="section-marker reveal">
+        <span class="num">08</span>
+        <span class="sep"></span>
+        <span class="label">Related Aesthetics</span>
+      </div>
+      <h2 class="section-title reveal">Aesthetic <span class="accent-text">Connections</span></h2>
+      <div class="accent-bar reveal"></div>
+      <p class="section-desc reveal">
+        DORFic exists within a constellation of related visual movements, sharing DNA with Frutiger Aero, Abstract Tech, and Corporate minimalism while maintaining its distinct industrial orange identity.
+      </p>
+
+      <div class="reveal" style="overflow-x: auto;">
+        <table class="related-table">
+          <thead>
+            <tr>
+              <th>Aesthetic</th>
+              <th>Relationship to DORFic</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Frutiger Aero</td>
+              <td>Closest overlap; DORFic replaces Frutiger Aero's natural elements with industrial and military motifs</td>
+            </tr>
+            <tr>
+              <td>Abstract Tech</td>
+              <td>Parent influence; DORFic is essentially Abstract Tech with a specific orange/white palette</td>
+            </tr>
+            <tr>
+              <td>Corporate</td>
+              <td>Shares the clean, professional, sterile sensibility but DORFic adds futurism and bold color</td>
+            </tr>
+            <tr>
+              <td>Cyberpunk</td>
+              <td>DORFic's dark variant approaches Cyberpunk but remains more sanitized, less neon</td>
+            </tr>
+            <tr>
+              <td>Dark Aero</td>
+              <td>The dark variant of DORFic overlaps significantly with Dark Aero</td>
+            </tr>
+            <tr>
+              <td>Minimalism</td>
+              <td>Foundational influence; DORFic is minimalism with industrial and tech overlays</td>
+            </tr>
+            <tr>
+              <td>Skeuomorphism</td>
+              <td>Temporal overlap (same era); DORFic tends toward flatter, less ornate treatments</td>
+            </tr>
+            <tr>
+              <td>Technozen</td>
+              <td>Shares clean tech sensibility; Technozen is calmer, DORFic is more industrial</td>
+            </tr>
+            <tr>
+              <td>Y2K Futurism</td>
+              <td>Predecessor; DORFic carries Y2K's optimistic futurism into the late 2000s</td>
+            </tr>
+            <tr>
+              <td>Vectorheart</td>
+              <td>Related graphic style; shares clean vector aesthetics and geometric precision</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================================================================
+       Footer
+       ==================================================================== -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div class="nav-logo">
+          <span class="logo-mark"></span>
+          DORF<span class="logo-dot">ic</span>
+        </div>
+        <p>
+          Daylight, Orange, Red, Futurism, and Graphic. A design aesthetic reference documenting the industrial minimalist visual language of the mid-2000s to mid-2010s.
+        </p>
+      </div>
+      <div>
+        <div class="footer-links-title">Sections</div>
+        <ul class="footer-links">
+          <li><a href="#visual">01 / Visual Characteristics</a></li>
+          <li><a href="#palette">02 / Color Palette</a></li>
+          <li><a href="#typography">03 / Typography</a></li>
+          <li><a href="#layout">04 / Layout Principles</a></li>
+          <li><a href="#techniques">05 / CSS Techniques</a></li>
+          <li><a href="#materials">06 / Materials</a></li>
+          <li><a href="#influences">07 / Influences</a></li>
+          <li><a href="#related">08 / Related Aesthetics</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-links-title">Palette</div>
+        <ul class="footer-links">
+          <li><a href="#palette" style="color: #ff6600;">&#9632; DORFic Orange #FF6600</a></li>
+          <li><a href="#palette" style="color: #e03020;">&#9632; Signal Red #E03020</a></li>
+          <li><a href="#palette" style="color: #0074d9;">&#9632; Tech Blue #0074D9</a></li>
+          <li><a href="#palette" style="color: #808690;">&#9632; Mid Gray #808690</a></li>
+          <li><a href="#palette" style="color: #3a3e48;">&#9632; Charcoal #3A3E48</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>SYS.REF // DORFIC.DESIGN.SPEC &mdash; AESTHETIC REFERENCE DOCUMENT</p>
+      <div class="orange-line"></div>
+      <p>BUILT WITH INDUSTRIAL PRECISION</p>
+    </div>
+  </footer>
+
+  <!-- ====================================================================
+       JavaScript
+       ==================================================================== -->
+  <script>
+    // Scroll reveal
+    (function() {
+      const reveals = document.querySelectorAll('.reveal');
+
+      function checkReveal() {
+        const windowHeight = window.innerHeight;
+        const triggerPoint = windowHeight * 0.88;
+
+        reveals.forEach(function(el) {
+          const top = el.getBoundingClientRect().top;
+          if (top < triggerPoint) {
+            el.classList.add('visible');
+          }
+        });
+      }
+
+      window.addEventListener('scroll', checkReveal, { passive: true });
+      window.addEventListener('resize', checkReveal, { passive: true });
+
+      // Initial check
+      checkReveal();
+    })();
+
+    // Nav scroll state
+    (function() {
+      const nav = document.getElementById('nav');
+      let lastScroll = 0;
+
+      window.addEventListener('scroll', function() {
+        const currentScroll = window.pageYOffset;
+        if (currentScroll > 20) {
+          nav.classList.add('scrolled');
+        } else {
+          nav.classList.remove('scrolled');
+        }
+        lastScroll = currentScroll;
+      }, { passive: true });
+    })();
+
+    // Smooth scroll for nav links
+    document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        var target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          var offset = 80;
+          var top = target.getBoundingClientRect().top + window.pageYOffset - offset;
+          window.scrollTo({ top: top, behavior: 'smooth' });
+        }
+      });
+    });
+  </script>
+</body>
+</html>

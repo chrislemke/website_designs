@@ -1,0 +1,2231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dreamcore -- you were not supposed to find this page</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Courier+Prime:wght@400;700&family=Inter:wght@300;400;500&family=Creepster&family=VT323&display=swap" rel="stylesheet">
+  <style>
+    /* ============================================================
+       DREAMCORE DESIGN SYSTEM SHOWCASE
+       A page that exists between waking and sleep.
+       ============================================================ */
+
+    :root {
+      --dream-void: #F0EDE4;
+      --dream-fluorescent: #E8E4A0;
+      --dream-static: #A8A8A0;
+      --dream-pool: #7BA7BC;
+      --dream-liminal: #8B9E72;
+      --dream-vhs: #7B6B8A;
+      --dream-faded-pink: #C8A8A8;
+      --dream-monitor: #1A1A1E;
+      --dream-hallway: #CCC4B0;
+      --dream-error: #A04040;
+    }
+
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Space Mono', 'Courier New', monospace;
+      font-size: 0.95rem;
+      line-height: 1.7;
+      color: var(--dream-monitor);
+      background: var(--dream-void);
+      min-height: 100vh;
+      position: relative;
+      -webkit-font-smoothing: auto;
+      overflow-x: hidden;
+    }
+
+    /* ---- SCANLINE OVERLAY ---- */
+    body::after {
+      content: '';
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      pointer-events: none;
+      z-index: 9999;
+      background: repeating-linear-gradient(
+        0deg,
+        rgba(0,0,0,0.018) 0px,
+        rgba(0,0,0,0.018) 1px,
+        transparent 1px,
+        transparent 3px
+      );
+    }
+
+    /* ---- VHS VIGNETTE ---- */
+    .vhs-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      pointer-events: none;
+      z-index: 9998;
+      background: radial-gradient(
+        ellipse at center,
+        transparent 55%,
+        rgba(26, 26, 30, 0.1) 100%
+      );
+    }
+
+    /* ---- STATIC NOISE CANVAS ---- */
+    #static-canvas {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 9997;
+      opacity: 0.025;
+    }
+
+    /* ---- TRACKING ERROR BAR ---- */
+    .tracking-error {
+      position: fixed;
+      left: 0; right: 0;
+      height: 3px;
+      background: rgba(160, 64, 64, 0.15);
+      z-index: 9996;
+      pointer-events: none;
+      animation: trackingMove 8s ease-in-out infinite;
+      box-shadow: 0 0 20px rgba(160, 64, 64, 0.08);
+    }
+
+    @keyframes trackingMove {
+      0%   { top: -3px; opacity: 0; }
+      5%   { opacity: 1; }
+      50%  { top: 100vh; opacity: 0.6; }
+      95%  { opacity: 1; }
+      100% { top: -3px; opacity: 0; }
+    }
+
+    /* ---- FLUORESCENT FLICKER ---- */
+    @keyframes fluorescentFlicker {
+      0%, 100% { opacity: 1; }
+      92% { opacity: 1; }
+      93% { opacity: 0.8; }
+      94% { opacity: 1; }
+      96% { opacity: 0.9; }
+      97% { opacity: 1; }
+    }
+
+    /* ---- CHROMATIC ABERRATION TEXT ---- */
+    @keyframes chromaticShift {
+      0%, 100% { text-shadow: none; }
+      30% { text-shadow: 1px 0 var(--dream-error), -1px 0 var(--dream-pool); }
+      31% { text-shadow: none; }
+      70% { text-shadow: -1px 0 var(--dream-vhs), 1px 0 var(--dream-liminal); }
+      71% { text-shadow: none; }
+    }
+
+    /* ---- FADE-IN ANIMATION ---- */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
+    @keyframes glitchSlide {
+      0%, 100% { transform: translateX(0); }
+      20% { transform: translateX(-2px); }
+      40% { transform: translateX(2px); }
+      60% { transform: translateX(-1px); }
+      80% { transform: translateX(1px); }
+    }
+
+    @keyframes cursorBlink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    @keyframes slowDrift {
+      0%, 100% { transform: translateY(0px); }
+      50%      { transform: translateY(-6px); }
+    }
+
+    @keyframes hueShift {
+      0%, 100% { filter: hue-rotate(0deg); }
+      50%      { filter: hue-rotate(5deg); }
+    }
+
+    /* ============================================================
+       NAVIGATION
+       ============================================================ */
+
+    .dream-nav {
+      background: var(--dream-void);
+      border-bottom: 1px solid rgba(168, 168, 160, 0.3);
+      padding: 24px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      animation: fluorescentFlicker 6s infinite;
+    }
+
+    .dream-nav .nav-label {
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--dream-static);
+    }
+
+    .dream-nav .nav-links {
+      display: flex;
+      gap: 28px;
+    }
+
+    .dream-nav .nav-links a {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--dream-static);
+      text-decoration: none;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .dream-nav .nav-links a:hover {
+      color: var(--dream-monitor);
+      text-shadow:
+        1px 0 var(--dream-error),
+        -1px 0 var(--dream-pool);
+    }
+
+    .dream-nav .nav-timestamp {
+      font-family: 'VT323', monospace;
+      font-size: 0.95rem;
+      color: var(--dream-liminal);
+      opacity: 0.6;
+    }
+
+    /* ============================================================
+       HERO
+       ============================================================ */
+
+    .dream-hero {
+      background: var(--dream-hallway);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .dream-hero::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background:
+        linear-gradient(180deg,
+          rgba(240,237,228,0.4) 0%,
+          transparent 25%,
+          transparent 75%,
+          rgba(240,237,228,0.4) 100%
+        );
+      pointer-events: none;
+    }
+
+    /* Perspective grid floor */
+    .dream-hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: -50%; right: -50%;
+      height: 40%;
+      background:
+        repeating-linear-gradient(
+          90deg,
+          rgba(168,168,160,0.08) 0px,
+          rgba(168,168,160,0.08) 1px,
+          transparent 1px,
+          transparent 80px
+        ),
+        repeating-linear-gradient(
+          0deg,
+          rgba(168,168,160,0.06) 0px,
+          rgba(168,168,160,0.06) 1px,
+          transparent 1px,
+          transparent 40px
+        );
+      transform: perspective(400px) rotateX(45deg);
+      transform-origin: center top;
+      pointer-events: none;
+      opacity: 0.7;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      animation: fadeIn 3s ease-out;
+    }
+
+    .hero-overline {
+      font-family: 'VT323', monospace;
+      font-size: 1rem;
+      color: var(--dream-liminal);
+      letter-spacing: 0.5em;
+      text-transform: uppercase;
+      margin-bottom: 32px;
+      opacity: 0.7;
+    }
+
+    .hero-title {
+      font-family: 'Space Mono', monospace;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 400;
+      text-transform: uppercase;
+      letter-spacing: 0.25em;
+      color: var(--dream-static);
+      line-height: 1.3;
+      animation: chromaticShift 12s ease-in-out infinite;
+    }
+
+    .hero-title .accent {
+      color: var(--dream-faded-pink);
+    }
+
+    .hero-sub {
+      font-family: 'VT323', monospace;
+      font-size: 1.2rem;
+      color: var(--dream-liminal);
+      margin-top: 40px;
+      letter-spacing: 0.2em;
+      position: relative;
+    }
+
+    .hero-sub .cursor {
+      display: inline-block;
+      width: 8px;
+      height: 1.2em;
+      background: var(--dream-liminal);
+      vertical-align: text-bottom;
+      margin-left: 4px;
+      animation: cursorBlink 1s step-end infinite;
+    }
+
+    .hero-room-number {
+      position: absolute;
+      bottom: 60px;
+      right: 60px;
+      font-family: 'Creepster', cursive;
+      font-size: 8rem;
+      color: rgba(168, 168, 160, 0.07);
+      line-height: 1;
+      user-select: none;
+      z-index: 1;
+    }
+
+    .hero-watermark {
+      position: absolute;
+      top: 40%;
+      left: 40px;
+      font-family: 'VT323', monospace;
+      font-size: 0.85rem;
+      color: rgba(139, 158, 114, 0.15);
+      writing-mode: vertical-rl;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      user-select: none;
+      z-index: 1;
+    }
+
+    /* ============================================================
+       MAIN CONTENT
+       ============================================================ */
+
+    .dream-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ---- Section: Overview ---- */
+
+    .section-overview {
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 140px 40px 100px;
+      animation: fadeInUp 1s ease-out;
+    }
+
+    .section-overview .overview-text {
+      font-family: 'Courier Prime', 'Courier New', monospace;
+      font-size: 1rem;
+      line-height: 2;
+      color: rgba(26, 26, 30, 0.55);
+      text-align: left;
+    }
+
+    .section-overview .overview-text em {
+      color: var(--dream-vhs);
+      font-style: normal;
+      background: rgba(123, 107, 138, 0.06);
+      padding: 0 4px;
+    }
+
+    /* ---- System Message ---- */
+
+    .dream-system {
+      font-family: 'VT323', monospace;
+      font-size: 1.15rem;
+      color: var(--dream-liminal);
+      background: rgba(26, 26, 30, 0.025);
+      border-left: 2px solid var(--dream-static);
+      padding: 14px 24px;
+      margin: 48px 0;
+      position: relative;
+    }
+
+    .dream-system::before {
+      content: '> ';
+      color: var(--dream-error);
+    }
+
+    /* ---- Ambient Section Divider ---- */
+
+    .dream-divider {
+      width: 100%;
+      padding: 80px 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .dream-divider::before {
+      content: '';
+      position: absolute;
+      left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        var(--dream-static) 20%,
+        var(--dream-static) 80%,
+        transparent
+      );
+      opacity: 0.25;
+    }
+
+    .dream-divider .divider-text {
+      font-family: 'VT323', monospace;
+      font-size: 0.85rem;
+      color: var(--dream-static);
+      background: var(--dream-void);
+      padding: 0 24px;
+      position: relative;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+    }
+
+    /* ============================================================
+       VISUAL CHARACTERISTICS SECTION
+       ============================================================ */
+
+    .section-characteristics {
+      background: var(--dream-hallway);
+      padding: 120px 40px;
+      position: relative;
+    }
+
+    .section-characteristics::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(168,168,160,0.04) 2px,
+        rgba(168,168,160,0.04) 4px
+      );
+      pointer-events: none;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 80px;
+      position: relative;
+    }
+
+    .section-header .section-number {
+      font-family: 'VT323', monospace;
+      font-size: 0.85rem;
+      color: var(--dream-liminal);
+      letter-spacing: 0.4em;
+      display: block;
+      margin-bottom: 16px;
+    }
+
+    .section-header h2 {
+      font-family: 'Space Mono', monospace;
+      font-weight: 700;
+      font-size: clamp(0.85rem, 2vw, 1.1rem);
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--dream-static);
+    }
+
+    .traits-grid {
+      max-width: 1000px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 32px;
+    }
+
+    .trait-card {
+      background: var(--dream-void);
+      border: 1px solid rgba(168, 168, 160, 0.3);
+      padding: 40px 32px;
+      position: relative;
+      transition: all 0.6s ease;
+    }
+
+    .trait-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: repeating-linear-gradient(
+        0deg, transparent, transparent 2px,
+        rgba(168,168,160,0.03) 2px,
+        rgba(168,168,160,0.03) 4px
+      );
+      pointer-events: none;
+    }
+
+    .trait-card:hover {
+      box-shadow: 0 0 60px rgba(26, 26, 30, 0.05);
+      border-color: var(--dream-static);
+    }
+
+    .trait-card:hover .trait-title {
+      animation: glitchSlide 0.3s ease-in-out;
+      text-shadow: 1px 0 var(--dream-error), -1px 0 var(--dream-pool);
+    }
+
+    .trait-icon {
+      font-family: 'VT323', monospace;
+      font-size: 1.6rem;
+      color: var(--dream-vhs);
+      margin-bottom: 20px;
+      opacity: 0.5;
+    }
+
+    .trait-title {
+      font-family: 'Space Mono', monospace;
+      font-weight: 700;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--dream-monitor);
+      margin-bottom: 12px;
+      transition: text-shadow 0.3s ease;
+    }
+
+    .trait-description {
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.88rem;
+      line-height: 1.8;
+      color: rgba(26, 26, 30, 0.5);
+    }
+
+    /* ============================================================
+       COLOR PALETTE SECTION
+       ============================================================ */
+
+    .section-palette {
+      padding: 140px 40px;
+      position: relative;
+    }
+
+    .palette-grid {
+      max-width: 1000px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 24px;
+    }
+
+    .color-swatch {
+      position: relative;
+      cursor: default;
+      transition: transform 0.4s ease;
+    }
+
+    .color-swatch:hover {
+      transform: scale(1.03);
+    }
+
+    .swatch-block {
+      width: 100%;
+      aspect-ratio: 1;
+      border: 1px solid rgba(168, 168, 160, 0.2);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .swatch-block::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        rgba(0,0,0,0.015) 0px,
+        rgba(0,0,0,0.015) 1px,
+        transparent 1px,
+        transparent 3px
+      );
+      pointer-events: none;
+    }
+
+    .swatch-name {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--dream-monitor);
+      margin-top: 12px;
+    }
+
+    .swatch-hex {
+      font-family: 'VT323', monospace;
+      font-size: 0.95rem;
+      color: var(--dream-static);
+      margin-top: 2px;
+    }
+
+    .swatch-role {
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.72rem;
+      color: rgba(26, 26, 30, 0.4);
+      margin-top: 4px;
+      line-height: 1.5;
+    }
+
+    /* ============================================================
+       TYPOGRAPHY SECTION
+       ============================================================ */
+
+    .section-typography {
+      background: var(--dream-hallway);
+      padding: 140px 40px;
+      position: relative;
+    }
+
+    .section-typography::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: linear-gradient(
+        180deg,
+        rgba(240,237,228,0.2) 0%,
+        transparent 15%,
+        transparent 85%,
+        rgba(240,237,228,0.2) 100%
+      );
+      pointer-events: none;
+    }
+
+    .type-specimens {
+      max-width: 800px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 64px;
+    }
+
+    .type-specimen {
+      padding: 48px;
+      background: var(--dream-void);
+      border: 1px solid rgba(168, 168, 160, 0.25);
+      position: relative;
+    }
+
+    .type-specimen::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: repeating-linear-gradient(
+        0deg, transparent, transparent 2px,
+        rgba(168,168,160,0.02) 2px,
+        rgba(168,168,160,0.02) 4px
+      );
+      pointer-events: none;
+    }
+
+    .type-specimen-label {
+      font-family: 'VT323', monospace;
+      font-size: 0.85rem;
+      color: var(--dream-liminal);
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+      position: relative;
+    }
+
+    .type-specimen-label::before {
+      content: '// ';
+      color: var(--dream-error);
+      opacity: 0.5;
+    }
+
+    .type-sample-spacemono {
+      font-family: 'Space Mono', monospace;
+    }
+
+    .type-sample-courier {
+      font-family: 'Courier Prime', monospace;
+    }
+
+    .type-sample-inter {
+      font-family: 'Inter', sans-serif;
+    }
+
+    .type-sample-creepster {
+      font-family: 'Creepster', cursive;
+    }
+
+    .type-sample-vt323 {
+      font-family: 'VT323', monospace;
+    }
+
+    .type-large {
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      color: var(--dream-monitor);
+      line-height: 1.3;
+      margin-bottom: 16px;
+    }
+
+    .type-body {
+      font-size: 1rem;
+      color: rgba(26, 26, 30, 0.45);
+      line-height: 1.9;
+    }
+
+    .type-meta {
+      font-family: 'VT323', monospace;
+      font-size: 0.85rem;
+      color: var(--dream-static);
+      margin-top: 20px;
+      padding-top: 16px;
+      border-top: 1px solid rgba(168, 168, 160, 0.15);
+      letter-spacing: 0.1em;
+    }
+
+    /* ============================================================
+       FONT PAIRINGS SECTION
+       ============================================================ */
+
+    .section-pairings {
+      padding: 140px 40px;
+    }
+
+    .pairings-container {
+      max-width: 900px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 40px;
+    }
+
+    .pairing-card {
+      background: var(--dream-void);
+      border: 1px solid rgba(168, 168, 160, 0.2);
+      padding: 40px 32px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .pairing-card::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 3px;
+      background: linear-gradient(90deg,
+        var(--dream-static) 0%,
+        transparent 100%
+      );
+      opacity: 0.3;
+    }
+
+    .pairing-heading-demo {
+      font-size: 1.4rem;
+      color: var(--dream-monitor);
+      margin-bottom: 12px;
+      line-height: 1.4;
+    }
+
+    .pairing-body-demo {
+      font-size: 0.88rem;
+      color: rgba(26, 26, 30, 0.45);
+      line-height: 1.8;
+      margin-bottom: 20px;
+    }
+
+    .pairing-mood {
+      font-family: 'VT323', monospace;
+      font-size: 0.9rem;
+      color: var(--dream-vhs);
+      padding-top: 16px;
+      border-top: 1px solid rgba(168, 168, 160, 0.15);
+    }
+
+    .pairing-mood::before {
+      content: 'mood: ';
+      color: var(--dream-static);
+    }
+
+    /* ============================================================
+       LAYOUT PRINCIPLES SECTION
+       ============================================================ */
+
+    .section-layout {
+      background: var(--dream-hallway);
+      padding: 140px 40px;
+      position: relative;
+    }
+
+    .layout-principles {
+      max-width: 640px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 48px;
+    }
+
+    .layout-principle {
+      padding-left: 32px;
+      border-left: 2px solid rgba(168, 168, 160, 0.2);
+      position: relative;
+    }
+
+    .layout-principle::before {
+      content: attr(data-index);
+      position: absolute;
+      left: -14px;
+      top: -2px;
+      font-family: 'VT323', monospace;
+      font-size: 1.4rem;
+      color: var(--dream-vhs);
+      background: var(--dream-hallway);
+      padding: 0 4px;
+      opacity: 0.5;
+    }
+
+    .layout-principle h3 {
+      font-family: 'Space Mono', monospace;
+      font-weight: 700;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--dream-monitor);
+      margin-bottom: 10px;
+    }
+
+    .layout-principle p {
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.88rem;
+      line-height: 1.8;
+      color: rgba(26, 26, 30, 0.45);
+    }
+
+    /* ============================================================
+       CSS TECHNIQUES SECTION
+       ============================================================ */
+
+    .section-techniques {
+      padding: 140px 40px;
+    }
+
+    .techniques-grid {
+      max-width: 1000px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 80px;
+    }
+
+    .technique-block {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      align-items: start;
+    }
+
+    .technique-demo {
+      position: relative;
+    }
+
+    .technique-info h3 {
+      font-family: 'Space Mono', monospace;
+      font-weight: 700;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--dream-monitor);
+      margin-bottom: 16px;
+    }
+
+    .technique-info p {
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.85rem;
+      color: rgba(26, 26, 30, 0.45);
+      line-height: 1.8;
+      margin-bottom: 20px;
+    }
+
+    .technique-css-var {
+      font-family: 'VT323', monospace;
+      font-size: 0.9rem;
+      color: var(--dream-liminal);
+      opacity: 0.7;
+    }
+
+    /* Live demo components */
+
+    .demo-liminal-card {
+      background: var(--dream-void);
+      border: 1px solid var(--dream-static);
+      padding: 48px;
+      position: relative;
+      box-shadow: 0 0 40px rgba(26, 26, 30, 0.04);
+    }
+
+    .demo-liminal-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent, transparent 2px,
+        rgba(168,168,160,0.03) 2px,
+        rgba(168,168,160,0.03) 4px
+      );
+      pointer-events: none;
+    }
+
+    .demo-liminal-card h4 {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--dream-static);
+      margin-bottom: 12px;
+      position: relative;
+    }
+
+    .demo-liminal-card p {
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.85rem;
+      line-height: 1.8;
+      color: rgba(26, 26, 30, 0.45);
+      position: relative;
+    }
+
+    .demo-system-msg {
+      font-family: 'VT323', monospace;
+      font-size: 1.1rem;
+      color: var(--dream-liminal);
+      background: rgba(26, 26, 30, 0.03);
+      border-left: 2px solid var(--dream-static);
+      padding: 12px 20px;
+    }
+
+    .demo-system-msg::before {
+      content: '> ';
+      color: var(--dream-error);
+    }
+
+    .demo-button-row {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .dream-button {
+      background: transparent;
+      color: var(--dream-monitor);
+      border: 1px solid var(--dream-static);
+      padding: 12px 32px;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      cursor: pointer;
+      position: relative;
+      transition: all 0.3s ease;
+    }
+
+    .dream-button:hover {
+      background: var(--dream-fluorescent);
+      border-color: var(--dream-monitor);
+      text-shadow:
+        2px 0 var(--dream-error),
+        -2px 0 var(--dream-pool);
+    }
+
+    .dream-button.variant-error {
+      border-color: var(--dream-error);
+      color: var(--dream-error);
+    }
+
+    .dream-button.variant-error:hover {
+      background: rgba(160, 64, 64, 0.08);
+    }
+
+    .dream-button.variant-pool {
+      border-color: var(--dream-pool);
+      color: var(--dream-pool);
+    }
+
+    .dream-button.variant-pool:hover {
+      background: rgba(123, 167, 188, 0.08);
+    }
+
+    .demo-empty-hero {
+      background: var(--dream-hallway);
+      min-height: 260px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .demo-empty-hero::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: linear-gradient(180deg,
+        rgba(240,237,228,0.3) 0%, transparent 30%,
+        transparent 70%, rgba(240,237,228,0.3) 100%);
+      pointer-events: none;
+    }
+
+    .demo-empty-hero h4 {
+      font-family: 'Space Mono', monospace;
+      font-size: 1rem;
+      font-weight: 400;
+      text-transform: uppercase;
+      letter-spacing: 0.3em;
+      color: var(--dream-static);
+      position: relative;
+    }
+
+    .demo-empty-hero .demo-subtitle {
+      font-family: 'VT323', monospace;
+      font-size: 0.95rem;
+      color: var(--dream-liminal);
+      margin-top: 16px;
+      position: relative;
+    }
+
+    .demo-nav-bar {
+      background: var(--dream-void);
+      border: 1px solid rgba(168, 168, 160, 0.3);
+      padding: 20px 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .demo-nav-bar span {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--dream-static);
+    }
+
+    /* ============================================================
+       DOS & DONTS SECTION
+       ============================================================ */
+
+    .section-rules {
+      background: var(--dream-hallway);
+      padding: 140px 40px;
+      position: relative;
+    }
+
+    .rules-container {
+      max-width: 1000px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+    }
+
+    .rules-column h3 {
+      font-family: 'Space Mono', monospace;
+      font-weight: 700;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      margin-bottom: 32px;
+      padding-bottom: 16px;
+      border-bottom: 2px solid rgba(168, 168, 160, 0.2);
+    }
+
+    .rules-column.do h3 {
+      color: var(--dream-liminal);
+    }
+
+    .rules-column.dont h3 {
+      color: var(--dream-error);
+    }
+
+    .rules-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .rules-list li {
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.85rem;
+      line-height: 1.7;
+      color: rgba(26, 26, 30, 0.5);
+      padding-left: 24px;
+      position: relative;
+    }
+
+    .rules-list li::before {
+      position: absolute;
+      left: 0;
+      font-family: 'VT323', monospace;
+      font-size: 1rem;
+    }
+
+    .rules-column.do .rules-list li::before {
+      content: '+';
+      color: var(--dream-liminal);
+    }
+
+    .rules-column.dont .rules-list li::before {
+      content: 'x';
+      color: var(--dream-error);
+    }
+
+    /* ============================================================
+       RELATED AESTHETICS SECTION
+       ============================================================ */
+
+    .section-related {
+      padding: 140px 40px;
+    }
+
+    .related-grid {
+      max-width: 1000px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 32px;
+    }
+
+    .related-card {
+      padding: 32px;
+      border: 1px solid rgba(168, 168, 160, 0.15);
+      background: var(--dream-void);
+      position: relative;
+      transition: border-color 0.4s ease;
+    }
+
+    .related-card:hover {
+      border-color: var(--dream-static);
+    }
+
+    .related-card h4 {
+      font-family: 'Space Mono', monospace;
+      font-weight: 700;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--dream-monitor);
+      margin-bottom: 10px;
+    }
+
+    .related-card p {
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.82rem;
+      line-height: 1.75;
+      color: rgba(26, 26, 30, 0.4);
+    }
+
+    /* ============================================================
+       DESIGN PRINCIPLES SECTION
+       ============================================================ */
+
+    .section-principles {
+      background: var(--dream-monitor);
+      color: var(--dream-void);
+      padding: 140px 40px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .section-principles::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        rgba(240, 237, 228, 0.02) 0px,
+        rgba(240, 237, 228, 0.02) 1px,
+        transparent 1px,
+        transparent 4px
+      );
+      pointer-events: none;
+    }
+
+    .section-principles .section-header h2 {
+      color: var(--dream-static);
+    }
+
+    .section-principles .section-header .section-number {
+      color: var(--dream-liminal);
+    }
+
+    .principles-list {
+      max-width: 640px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 36px;
+    }
+
+    .principle-item {
+      padding: 28px 32px;
+      border: 1px solid rgba(168, 168, 160, 0.1);
+      position: relative;
+      transition: border-color 0.3s ease;
+    }
+
+    .principle-item:hover {
+      border-color: rgba(168, 168, 160, 0.25);
+    }
+
+    .principle-item p {
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.9rem;
+      line-height: 1.8;
+      color: rgba(240, 237, 228, 0.5);
+    }
+
+    .principle-item .principle-mark {
+      font-family: 'VT323', monospace;
+      color: var(--dream-error);
+      font-size: 1rem;
+      display: block;
+      margin-bottom: 8px;
+      opacity: 0.5;
+    }
+
+    /* ============================================================
+       CSS PROPERTIES SECTION
+       ============================================================ */
+
+    .section-properties {
+      padding: 140px 40px;
+    }
+
+    .properties-container {
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .property-row {
+      display: grid;
+      grid-template-columns: 20px 1fr auto;
+      gap: 16px;
+      align-items: center;
+      padding: 18px 0;
+      border-bottom: 1px solid rgba(168, 168, 160, 0.1);
+    }
+
+    .property-swatch {
+      width: 20px;
+      height: 20px;
+      border: 1px solid rgba(168, 168, 160, 0.3);
+    }
+
+    .property-name {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.8rem;
+      color: var(--dream-monitor);
+      letter-spacing: 0.04em;
+    }
+
+    .property-value {
+      font-family: 'VT323', monospace;
+      font-size: 1rem;
+      color: var(--dream-static);
+    }
+
+    /* ============================================================
+       FOOTER
+       ============================================================ */
+
+    .dream-footer {
+      padding: 100px 40px 60px;
+      text-align: center;
+      position: relative;
+    }
+
+    .dream-footer::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 1px;
+      height: 60px;
+      background: linear-gradient(180deg, transparent, var(--dream-static), transparent);
+      opacity: 0.3;
+    }
+
+    .footer-text {
+      font-family: 'VT323', monospace;
+      font-size: 1rem;
+      color: var(--dream-static);
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      opacity: 0.4;
+    }
+
+    .footer-timestamp {
+      font-family: 'VT323', monospace;
+      font-size: 0.85rem;
+      color: var(--dream-liminal);
+      margin-top: 16px;
+      opacity: 0.3;
+    }
+
+    .footer-ghost {
+      margin-top: 60px;
+      font-family: 'Creepster', cursive;
+      font-size: 6rem;
+      color: rgba(168, 168, 160, 0.04);
+      user-select: none;
+      animation: slowDrift 8s ease-in-out infinite;
+    }
+
+    /* ============================================================
+       AMBIENT ELEMENTS
+       ============================================================ */
+
+    .ambient-text {
+      position: fixed;
+      font-family: 'VT323', monospace;
+      font-size: 0.75rem;
+      color: rgba(139, 158, 114, 0.08);
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      pointer-events: none;
+      user-select: none;
+      z-index: 50;
+    }
+
+    .ambient-text.top-right {
+      top: 100px;
+      right: 30px;
+    }
+
+    .ambient-text.bottom-left {
+      bottom: 40px;
+      left: 30px;
+    }
+
+    .ambient-text.mid-left {
+      top: 50%;
+      left: 20px;
+      writing-mode: vertical-rl;
+    }
+
+    /* ============================================================
+       SCROLL REVEAL
+       ============================================================ */
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+    .reveal-delay-5 { transition-delay: 0.5s; }
+    .reveal-delay-6 { transition-delay: 0.6s; }
+
+    /* ============================================================
+       RESPONSIVE
+       ============================================================ */
+
+    @media (max-width: 768px) {
+      .dream-nav {
+        padding: 18px 24px;
+      }
+
+      .dream-nav .nav-links {
+        gap: 16px;
+      }
+
+      .dream-nav .nav-timestamp {
+        display: none;
+      }
+
+      .dream-hero {
+        min-height: 100vh;
+        padding: 0 24px;
+      }
+
+      .hero-room-number {
+        font-size: 5rem;
+        bottom: 30px;
+        right: 30px;
+      }
+
+      .hero-watermark {
+        display: none;
+      }
+
+      .section-overview,
+      .section-characteristics,
+      .section-palette,
+      .section-typography,
+      .section-pairings,
+      .section-layout,
+      .section-techniques,
+      .section-rules,
+      .section-related,
+      .section-principles,
+      .section-properties {
+        padding-left: 24px;
+        padding-right: 24px;
+      }
+
+      .section-overview {
+        padding-top: 100px;
+        padding-bottom: 80px;
+      }
+
+      .technique-block {
+        grid-template-columns: 1fr;
+      }
+
+      .rules-container {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+
+      .trait-card {
+        padding: 32px 24px;
+      }
+
+      .type-specimen {
+        padding: 32px 24px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero-title {
+        letter-spacing: 0.12em;
+      }
+
+      .palette-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+      }
+
+      .dream-nav .nav-links {
+        gap: 12px;
+      }
+
+      .demo-button-row {
+        flex-direction: column;
+      }
+
+      .dream-button {
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Static noise canvas -->
+  <canvas id="static-canvas"></canvas>
+
+  <!-- VHS Vignette -->
+  <div class="vhs-overlay"></div>
+
+  <!-- Tracking error bar -->
+  <div class="tracking-error"></div>
+
+  <!-- Ambient floating text -->
+  <div class="ambient-text top-right">REC 00:00:00</div>
+  <div class="ambient-text bottom-left">SIGNAL LOST</div>
+  <div class="ambient-text mid-left">DO NOT ADJUST YOUR DISPLAY</div>
+
+  <!-- ============================================================
+       NAVIGATION
+       ============================================================ -->
+  <nav class="dream-nav">
+    <span class="nav-label">room_0x00 // dreamcore</span>
+    <div class="nav-links">
+      <a href="#overview">corridor</a>
+      <a href="#characteristics">rooms</a>
+      <a href="#palette">light</a>
+      <a href="#typography">signal</a>
+      <a href="#techniques">static</a>
+      <a href="#principles">void</a>
+    </div>
+    <span class="nav-timestamp" id="nav-time">00:00:00</span>
+  </nav>
+
+  <!-- ============================================================
+       HERO
+       ============================================================ -->
+  <header class="dream-hero">
+    <div class="hero-watermark">LOCATION UNKNOWN -- DO NOT ENTER</div>
+    <div class="hero-content">
+      <div class="hero-overline">design system reference</div>
+      <h1 class="hero-title">Dream<span class="accent">core</span></h1>
+      <div class="hero-sub">
+        you have been here before . . . you just don't remember<span class="cursor"></span>
+      </div>
+    </div>
+    <div class="hero-room-number">14</div>
+  </header>
+
+  <main class="dream-content">
+
+    <!-- ============================================================
+         OVERVIEW
+         ============================================================ -->
+    <section class="section-overview" id="overview">
+      <div class="dream-system reveal">this document describes a space that should not exist</div>
+      <div class="overview-text reveal reveal-delay-1">
+        Dreamcore is a surrealist internet aesthetic defined by <em>liminal spaces</em>, uncanny emptiness, VHS distortion, and the eerie nostalgia of places that feel familiar yet deeply wrong. It draws from half-remembered dreams, abandoned architecture, and the glitchy imperfection of degraded analog media. In digital design, Dreamcore manifests as unsettling layouts with washed-out palettes, off-kilter typography, static noise overlays, and compositions that provoke a sense of <em>disorientation</em> and vague unease -- as if the viewer has wandered into a space that exists between <em>waking and sleep</em>.
+      </div>
+    </section>
+
+    <div class="dream-divider">
+      <span class="divider-text">. . . corridor a . . .</span>
+    </div>
+
+    <!-- ============================================================
+         VISUAL CHARACTERISTICS
+         ============================================================ -->
+    <section class="section-characteristics" id="characteristics">
+      <div class="section-header reveal">
+        <span class="section-number">section 01</span>
+        <h2>Visual Characteristics</h2>
+      </div>
+
+      <div class="traits-grid">
+        <div class="trait-card reveal reveal-delay-1">
+          <div class="trait-icon">[ ]</div>
+          <div class="trait-title">Liminal Space Imagery</div>
+          <div class="trait-description">Empty corridors, deserted swimming pools, abandoned malls, featureless rooms, and infinite hallways that feel transitional and unresolved.</div>
+        </div>
+
+        <div class="trait-card reveal reveal-delay-2">
+          <div class="trait-icon">///</div>
+          <div class="trait-title">VHS & Analog Distortion</div>
+          <div class="trait-description">Scanlines, chromatic aberration, tracking errors, color bleeding, and static noise that degrade the image surface.</div>
+        </div>
+
+        <div class="trait-card reveal reveal-delay-3">
+          <div class="trait-icon">~~~</div>
+          <div class="trait-title">Washed-Out Palette</div>
+          <div class="trait-description">Faded yellows, sickly greens, desaturated blues, and off-whites that feel like overexposed film or aged monitors.</div>
+        </div>
+
+        <div class="trait-card reveal reveal-delay-4">
+          <div class="trait-icon">*  *</div>
+          <div class="trait-title">Uncanny Lighting</div>
+          <div class="trait-description">Fluorescent flicker, inconsistent shadow directions, overly bright rooms with no visible light source, and sunset skies that feel too vivid.</div>
+        </div>
+
+        <div class="trait-card reveal reveal-delay-5">
+          <div class="trait-icon">^__^</div>
+          <div class="trait-title">Dreamlike Scale Distortion</div>
+          <div class="trait-description">Elements that are slightly too large or too small, rooms that feel impossibly deep, and proportions that defy logic.</div>
+        </div>
+
+        <div class="trait-card reveal reveal-delay-6">
+          <div class="trait-icon">&gt;_</div>
+          <div class="trait-title">Text as Ambient Element</div>
+          <div class="trait-description">Words and labels that appear as signage, watermarks, or system messages rather than traditional typographic hierarchy.</div>
+        </div>
+
+        <div class="trait-card reveal reveal-delay-1">
+          <div class="trait-icon">. . .</div>
+          <div class="trait-title">Empty Negative Space</div>
+          <div class="trait-description">Large expanses of nothingness that create unease through absence rather than presence.</div>
+        </div>
+      </div>
+    </section>
+
+    <div class="dream-divider">
+      <span class="divider-text">. . . corridor b . . .</span>
+    </div>
+
+    <!-- ============================================================
+         COLOR PALETTE
+         ============================================================ -->
+    <section class="section-palette" id="palette">
+      <div class="section-header reveal">
+        <span class="section-number">section 02</span>
+        <h2>Color Palette</h2>
+      </div>
+
+      <div class="palette-grid">
+        <div class="color-swatch reveal reveal-delay-1">
+          <div class="swatch-block" style="background: #F0EDE4;"></div>
+          <div class="swatch-name">Void White</div>
+          <div class="swatch-hex">#F0EDE4</div>
+          <div class="swatch-role">Primary background, empty liminal space</div>
+        </div>
+
+        <div class="color-swatch reveal reveal-delay-1">
+          <div class="swatch-block" style="background: #E8E4A0;"></div>
+          <div class="swatch-name">Fluorescent Yellow</div>
+          <div class="swatch-hex">#E8E4A0</div>
+          <div class="swatch-role">Uncanny lighting, ambient wash</div>
+        </div>
+
+        <div class="color-swatch reveal reveal-delay-2">
+          <div class="swatch-block" style="background: #A8A8A0;"></div>
+          <div class="swatch-name">Static Grey</div>
+          <div class="swatch-hex">#A8A8A0</div>
+          <div class="swatch-role">Noise texture, muted surfaces</div>
+        </div>
+
+        <div class="color-swatch reveal reveal-delay-2">
+          <div class="swatch-block" style="background: #7BA7BC;"></div>
+          <div class="swatch-name">Pool Blue</div>
+          <div class="swatch-hex">#7BA7BC</div>
+          <div class="swatch-role">Desaturated water, sky tones</div>
+        </div>
+
+        <div class="color-swatch reveal reveal-delay-3">
+          <div class="swatch-block" style="background: #8B9E72;"></div>
+          <div class="swatch-name">Liminal Green</div>
+          <div class="swatch-hex">#8B9E72</div>
+          <div class="swatch-role">Sickly institutional surfaces</div>
+        </div>
+
+        <div class="color-swatch reveal reveal-delay-3">
+          <div class="swatch-block" style="background: #7B6B8A;"></div>
+          <div class="swatch-name">VHS Purple</div>
+          <div class="swatch-hex">#7B6B8A</div>
+          <div class="swatch-role">Chromatic aberration accent</div>
+        </div>
+
+        <div class="color-swatch reveal reveal-delay-4">
+          <div class="swatch-block" style="background: #C8A8A8;"></div>
+          <div class="swatch-name">Faded Pink</div>
+          <div class="swatch-hex">#C8A8A8</div>
+          <div class="swatch-role">Warm distortion, skin tones</div>
+        </div>
+
+        <div class="color-swatch reveal reveal-delay-4">
+          <div class="swatch-block" style="background: #1A1A1E;"></div>
+          <div class="swatch-name">Monitor Black</div>
+          <div class="swatch-hex">#1A1A1E</div>
+          <div class="swatch-role">Deep shadows, text</div>
+        </div>
+
+        <div class="color-swatch reveal reveal-delay-5">
+          <div class="swatch-block" style="background: #CCC4B0;"></div>
+          <div class="swatch-name">Hallway Beige</div>
+          <div class="swatch-hex">#CCC4B0</div>
+          <div class="swatch-role">Institutional walls, carpet tones</div>
+        </div>
+
+        <div class="color-swatch reveal reveal-delay-5">
+          <div class="swatch-block" style="background: #A04040;"></div>
+          <div class="swatch-name">Error Red</div>
+          <div class="swatch-hex">#A04040</div>
+          <div class="swatch-role">Warning, glitch accent</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         CSS CUSTOM PROPERTIES
+         ============================================================ -->
+    <section class="section-properties">
+      <div class="section-header reveal">
+        <span class="section-number">section 02.1</span>
+        <h2>CSS Custom Properties</h2>
+      </div>
+
+      <div class="properties-container">
+        <div class="property-row reveal">
+          <div class="property-swatch" style="background: #F0EDE4;"></div>
+          <div class="property-name">--dream-void</div>
+          <div class="property-value">#F0EDE4</div>
+        </div>
+        <div class="property-row reveal">
+          <div class="property-swatch" style="background: #E8E4A0;"></div>
+          <div class="property-name">--dream-fluorescent</div>
+          <div class="property-value">#E8E4A0</div>
+        </div>
+        <div class="property-row reveal">
+          <div class="property-swatch" style="background: #A8A8A0;"></div>
+          <div class="property-name">--dream-static</div>
+          <div class="property-value">#A8A8A0</div>
+        </div>
+        <div class="property-row reveal">
+          <div class="property-swatch" style="background: #7BA7BC;"></div>
+          <div class="property-name">--dream-pool</div>
+          <div class="property-value">#7BA7BC</div>
+        </div>
+        <div class="property-row reveal">
+          <div class="property-swatch" style="background: #8B9E72;"></div>
+          <div class="property-name">--dream-liminal</div>
+          <div class="property-value">#8B9E72</div>
+        </div>
+        <div class="property-row reveal">
+          <div class="property-swatch" style="background: #7B6B8A;"></div>
+          <div class="property-name">--dream-vhs</div>
+          <div class="property-value">#7B6B8A</div>
+        </div>
+        <div class="property-row reveal">
+          <div class="property-swatch" style="background: #C8A8A8;"></div>
+          <div class="property-name">--dream-faded-pink</div>
+          <div class="property-value">#C8A8A8</div>
+        </div>
+        <div class="property-row reveal">
+          <div class="property-swatch" style="background: #1A1A1E;"></div>
+          <div class="property-name">--dream-monitor</div>
+          <div class="property-value">#1A1A1E</div>
+        </div>
+        <div class="property-row reveal">
+          <div class="property-swatch" style="background: #CCC4B0;"></div>
+          <div class="property-name">--dream-hallway</div>
+          <div class="property-value">#CCC4B0</div>
+        </div>
+        <div class="property-row reveal">
+          <div class="property-swatch" style="background: #A04040;"></div>
+          <div class="property-name">--dream-error</div>
+          <div class="property-value">#A04040</div>
+        </div>
+      </div>
+    </section>
+
+    <div class="dream-divider">
+      <span class="divider-text">. . . corridor c . . .</span>
+    </div>
+
+    <!-- ============================================================
+         TYPOGRAPHY
+         ============================================================ -->
+    <section class="section-typography" id="typography">
+      <div class="section-header reveal">
+        <span class="section-number">section 03</span>
+        <h2>Typography</h2>
+      </div>
+
+      <div class="type-specimens">
+        <div class="type-specimen reveal">
+          <div class="type-specimen-label">Space Mono -- Primary</div>
+          <div class="type-large type-sample-spacemono">The fluorescent lights hum at a frequency you cannot name.</div>
+          <div class="type-body type-sample-spacemono">Monospaced, system-terminal feel. Used for headings and primary text throughout the Dreamcore system. Weights: 400, 700.</div>
+          <div class="type-meta">ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz 0123456789</div>
+        </div>
+
+        <div class="type-specimen reveal">
+          <div class="type-specimen-label">Courier Prime -- Body</div>
+          <div class="type-large type-sample-courier">The carpet smells like 1997. No one else is here.</div>
+          <div class="type-body type-sample-courier">Typewriter-quality mono with a worn texture. Ideal for body text and descriptive passages. Weights: 400, 700.</div>
+          <div class="type-meta">ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz 0123456789</div>
+        </div>
+
+        <div class="type-specimen reveal">
+          <div class="type-specimen-label">Inter -- System UI</div>
+          <div class="type-large type-sample-inter" style="font-weight: 300;">System UI text, labels, interface elements.</div>
+          <div class="type-body type-sample-inter" style="font-weight: 300;">Clean sans-serif for system interface elements. Creates a corporate-uncanny contrast against monospaced text. Weights: 300, 400, 500.</div>
+          <div class="type-meta">ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz 0123456789</div>
+        </div>
+
+        <div class="type-specimen reveal">
+          <div class="type-specimen-label">Creepster -- Decorative Accent</div>
+          <div class="type-large type-sample-creepster" style="color: var(--dream-faded-pink);">Do you remember this place?</div>
+          <div class="type-body type-sample-spacemono">Use sparingly for unsettling headers. The playful horror of this font subverts expectations when placed in institutional contexts. Weight: 400.</div>
+          <div class="type-meta" style="font-family: 'Creepster', cursive; font-size: 1.2rem;">ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789</div>
+        </div>
+
+        <div class="type-specimen reveal">
+          <div class="type-specimen-label">VT323 -- Terminal / Error</div>
+          <div class="type-large type-sample-vt323" style="color: var(--dream-liminal);">&gt; SIGNAL LOST . . . RECONNECTING</div>
+          <div class="type-body type-sample-spacemono">Pixel-style monospace for retro terminal output and error messages. Evokes CRT monitors and system warnings. Weight: 400.</div>
+          <div class="type-meta" style="font-family: 'VT323', monospace; font-size: 1.1rem;">ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz 0123456789</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         FONT PAIRINGS
+         ============================================================ -->
+    <section class="section-pairings">
+      <div class="section-header reveal">
+        <span class="section-number">section 03.1</span>
+        <h2>Font Pairing Suggestions</h2>
+      </div>
+
+      <div class="pairings-container">
+        <div class="pairing-card reveal reveal-delay-1">
+          <div class="pairing-heading-demo type-sample-spacemono" style="font-weight: 700;">Terminal Log, Institutional Signage</div>
+          <div class="pairing-body-demo type-sample-courier">The clock on the wall reads a time that has not happened yet. You check your watch but the numbers are wrong.</div>
+          <div class="pairing-mood">terminal log, institutional signage</div>
+        </div>
+
+        <div class="pairing-card reveal reveal-delay-2">
+          <div class="pairing-heading-demo type-sample-vt323" style="font-size: 1.6rem;">Retro CRT Meets Modern Liminal</div>
+          <div class="pairing-body-demo type-sample-inter" style="font-weight: 300;">Still water reflects a ceiling that should not be this high. The air is warm. The exit sign flickers overhead.</div>
+          <div class="pairing-mood">retro CRT meets modern liminal</div>
+        </div>
+
+        <div class="pairing-card reveal reveal-delay-3">
+          <div class="pairing-heading-demo type-sample-inter" style="font-weight: 500;">Clean But Off: Corporate Unreality</div>
+          <div class="pairing-body-demo type-sample-spacemono">Welcome to the meeting room. The meeting ended three hours ago. The projector still displays slide 14 of 14.</div>
+          <div class="pairing-mood">clean but off: corporate unreality</div>
+        </div>
+      </div>
+    </section>
+
+    <div class="dream-divider">
+      <span class="divider-text">. . . corridor d . . .</span>
+    </div>
+
+    <!-- ============================================================
+         LAYOUT PRINCIPLES
+         ============================================================ -->
+    <section class="section-layout" id="layout">
+      <div class="section-header reveal">
+        <span class="section-number">section 04</span>
+        <h2>Layout Principles</h2>
+      </div>
+
+      <div class="layout-principles">
+        <div class="layout-principle reveal" data-index="01">
+          <h3>Centered Void</h3>
+          <p>Large areas of empty background surrounding sparse, isolated content elements create the signature liminal emptiness.</p>
+        </div>
+
+        <div class="layout-principle reveal" data-index="02">
+          <h3>Off-Grid Placement</h3>
+          <p>Elements positioned slightly off-center or at unexpected coordinates, breaking comfortable alignment expectations.</p>
+        </div>
+
+        <div class="layout-principle reveal" data-index="03">
+          <h3>Single-Column Isolation</h3>
+          <p>Content presented one element at a time with excessive vertical spacing, forcing the viewer to scroll through emptiness.</p>
+        </div>
+
+        <div class="layout-principle reveal" data-index="04">
+          <h3>No Visible Navigation</h3>
+          <p>Navigation elements are hidden, minimal, or disguised as ambient text; the viewer should feel lost.</p>
+        </div>
+
+        <div class="layout-principle reveal" data-index="05">
+          <h3>Oversized Containers, Undersized Content</h3>
+          <p>Cards and sections that feel too big for their content, creating an unsettling sense of empty rooms.</p>
+        </div>
+
+        <div class="layout-principle reveal" data-index="06">
+          <h3>Responsive Approach</h3>
+          <p>On mobile, the sense of emptiness intensifies with even more vertical space; avoid filling the viewport with content.</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="dream-divider">
+      <span class="divider-text">. . . corridor e . . .</span>
+    </div>
+
+    <!-- ============================================================
+         CSS / DESIGN TECHNIQUES
+         ============================================================ -->
+    <section class="section-techniques" id="techniques">
+      <div class="section-header reveal">
+        <span class="section-number">section 05</span>
+        <h2>CSS / Design Techniques</h2>
+      </div>
+
+      <div class="techniques-grid">
+
+        <!-- Liminal Card -->
+        <div class="technique-block reveal">
+          <div class="technique-info">
+            <h3>Liminal Card</h3>
+            <p>A card that feels like an empty room. The scanline overlay and soft box-shadow create a sense of depth without clarity. Content floats in too much space.</p>
+            <div class="technique-css-var">.dream-card { padding: 48px; box-shadow: 0 0 40px rgba(26,26,30,0.04); }</div>
+          </div>
+          <div class="technique-demo">
+            <div class="demo-liminal-card">
+              <h4>Room 14</h4>
+              <p>The fluorescent lights hum at a frequency you cannot name. The carpet smells like 1997. No one else is here.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- System Message -->
+        <div class="technique-block reveal">
+          <div class="technique-info">
+            <h3>System Message</h3>
+            <p>Terminal-style messages that feel like system warnings from a forgotten operating system. The red prompt character adds urgency to mundane text.</p>
+            <div class="technique-css-var">.dream-system::before { content: '> '; color: var(--dream-error); }</div>
+          </div>
+          <div class="technique-demo">
+            <div class="demo-system-msg">this room should not exist</div>
+            <div class="demo-system-msg" style="margin-top: 12px;">last visitor: unknown . . . timestamp corrupted</div>
+            <div class="demo-system-msg" style="margin-top: 12px;">warning: you are not where you think you are</div>
+          </div>
+        </div>
+
+        <!-- Glitch Button -->
+        <div class="technique-block reveal">
+          <div class="technique-info">
+            <h3>Glitch Button</h3>
+            <p>Buttons that react with chromatic aberration on hover, creating a visual glitch effect. The fluorescent yellow background on hover evokes uncanny lighting.</p>
+            <div class="technique-css-var">text-shadow: 2px 0 var(--dream-error), -2px 0 var(--dream-pool);</div>
+          </div>
+          <div class="technique-demo">
+            <div class="demo-button-row">
+              <button class="dream-button">enter</button>
+              <button class="dream-button variant-error">abort</button>
+              <button class="dream-button variant-pool">descend</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Empty Hero -->
+        <div class="technique-block reveal">
+          <div class="technique-info">
+            <h3>Empty Hero Section</h3>
+            <p>A vast, mostly empty section with minimal centered text. The gradient overlay fades the edges, creating a sense of infinite hallway. The background evokes institutional carpet and walls.</p>
+            <div class="technique-css-var">background: var(--dream-hallway); min-height: 80vh;</div>
+          </div>
+          <div class="technique-demo">
+            <div class="demo-empty-hero">
+              <h4>You are here</h4>
+              <div class="demo-subtitle">location unknown . . .</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Fluorescent Navigation -->
+        <div class="technique-block reveal">
+          <div class="technique-info">
+            <h3>Fluorescent Navigation</h3>
+            <p>A navigation bar that flickers like fluorescent lighting. Links are disguised as ambient system labels. Chromatic aberration appears on hover.</p>
+            <div class="technique-css-var">animation: fluorescentFlicker 6s infinite;</div>
+          </div>
+          <div class="technique-demo">
+            <div class="demo-nav-bar">
+              <span>room_0x00</span>
+              <div>
+                <span style="margin-right: 20px;">corridor</span>
+                <span>exit</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <div class="dream-divider">
+      <span class="divider-text">. . . corridor f . . .</span>
+    </div>
+
+    <!-- ============================================================
+         DESIGN PRINCIPLES (Dark section)
+         ============================================================ -->
+    <section class="section-principles" id="principles">
+      <div class="section-header reveal">
+        <span class="section-number">section 06</span>
+        <h2>Design Principles</h2>
+      </div>
+
+      <div class="principles-list">
+        <div class="principle-item reveal">
+          <span class="principle-mark">&gt; 01</span>
+          <p>Create unease through subtlety, not shock: the most effective Dreamcore feels almost normal.</p>
+        </div>
+        <div class="principle-item reveal">
+          <span class="principle-mark">&gt; 02</span>
+          <p>Use emptiness as a compositional tool; what is missing matters more than what is present.</p>
+        </div>
+        <div class="principle-item reveal">
+          <span class="principle-mark">&gt; 03</span>
+          <p>Degrade the design surface with noise, blur, and analog artifacts to break digital perfection.</p>
+        </div>
+        <div class="principle-item reveal">
+          <span class="principle-mark">&gt; 04</span>
+          <p>Avoid clear narrative or logical structure; content should feel fragmented and disjointed.</p>
+        </div>
+        <div class="principle-item reveal">
+          <span class="principle-mark">&gt; 05</span>
+          <p>Let the viewer feel like an intruder in a space not meant for them.</p>
+        </div>
+        <div class="principle-item reveal">
+          <span class="principle-mark">&gt; 06</span>
+          <p>Balance nostalgia with wrongness: familiar elements placed in unfamiliar contexts.</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="dream-divider">
+      <span class="divider-text">. . . corridor g . . .</span>
+    </div>
+
+    <!-- ============================================================
+         DO'S AND DON'TS
+         ============================================================ -->
+    <section class="section-rules">
+      <div class="section-header reveal">
+        <span class="section-number">section 07</span>
+        <h2>Design Do's and Don'ts</h2>
+      </div>
+
+      <div class="rules-container">
+        <div class="rules-column do reveal">
+          <h3>Do</h3>
+          <ul class="rules-list">
+            <li>Use excessive empty space to create unease and isolation</li>
+            <li>Apply subtle analog distortions: scanlines, chromatic aberration, static noise</li>
+            <li>Choose washed-out, desaturated colors that feel like faded film or old monitors</li>
+            <li>Place text in unexpected positions as if it were ambient signage</li>
+            <li>Create compositions where something feels slightly wrong but hard to identify</li>
+            <li>Use monospaced and system fonts to evoke institutional or terminal environments</li>
+            <li>Let the viewer feel disoriented and uncertain about where to look or click</li>
+          </ul>
+        </div>
+
+        <div class="rules-column dont reveal reveal-delay-2">
+          <h3>Don't</h3>
+          <ul class="rules-list">
+            <li>Use bright, saturated colors or cheerful palettes that feel inviting</li>
+            <li>Apply glossy effects, glass textures, or polished modern UI patterns</li>
+            <li>Create logical, well-labeled navigation that makes the experience comfortable</li>
+            <li>Fill the layout with dense content; emptiness is the primary material</li>
+            <li>Use decorative script fonts or ornamental flourishes; the aesthetic is cold and plain</li>
+            <li>Make things explicitly scary or horror-themed; Dreamcore is unsettling, not frightening</li>
+            <li>Overdo the VHS/glitch effects to the point of unreadability; subtlety is key</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div class="dream-divider">
+      <span class="divider-text">. . . corridor h . . .</span>
+    </div>
+
+    <!-- ============================================================
+         RELATED AESTHETICS
+         ============================================================ -->
+    <section class="section-related">
+      <div class="section-header reveal">
+        <span class="section-number">section 08</span>
+        <h2>Related Aesthetics</h2>
+      </div>
+
+      <div class="related-grid">
+        <div class="related-card reveal reveal-delay-1">
+          <h4>Weirdcore</h4>
+          <p>Close sibling; both use surreal, unsettling imagery but Weirdcore is more aggressively distorted and chaotic.</p>
+        </div>
+        <div class="related-card reveal reveal-delay-2">
+          <h4>Vaporwave</h4>
+          <p>Shares VHS nostalgia and surreal digital spaces; Vaporwave is more colorful, ironic, and consumer-culture-focused.</p>
+        </div>
+        <div class="related-card reveal reveal-delay-3">
+          <h4>Liminal Space</h4>
+          <p>Overlapping category; liminal spaces are the primary subject matter of Dreamcore photography.</p>
+        </div>
+        <div class="related-card reveal reveal-delay-1">
+          <h4>Y2K</h4>
+          <p>Both reference late-90s/early-2000s digital aesthetics; Y2K is optimistic and glossy while Dreamcore is eerie and degraded.</p>
+        </div>
+        <div class="related-card reveal reveal-delay-2">
+          <h4>Dark Academia</h4>
+          <p>Both mine nostalgia for old institutional spaces; Dark Academia is scholarly and warm while Dreamcore is cold and empty.</p>
+        </div>
+        <div class="related-card reveal reveal-delay-3">
+          <h4>Brutalism (web)</h4>
+          <p>Shares raw, uncomfortable design choices and rejection of UX conventions; Brutalism is aggressive while Dreamcore is passively unsettling.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         FOOTER
+         ============================================================ -->
+    <footer class="dream-footer">
+      <div class="footer-text">end of corridor</div>
+      <div class="footer-timestamp" id="footer-timestamp">LAST ACCESSED: --:--:--</div>
+      <div class="footer-ghost">14</div>
+    </footer>
+
+  </main>
+
+  <!-- ============================================================
+       JAVASCRIPT
+       ============================================================ -->
+  <script>
+    // ---- Static noise generator ----
+    (function() {
+      const canvas = document.getElementById('static-canvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      let w, h;
+
+      function resize() {
+        w = canvas.width = window.innerWidth;
+        h = canvas.height = window.innerHeight;
+      }
+      resize();
+      window.addEventListener('resize', resize);
+
+      function drawNoise() {
+        const imageData = ctx.createImageData(w, h);
+        const data = imageData.data;
+        for (let i = 0; i < data.length; i += 4) {
+          const v = Math.random() * 255;
+          data[i] = v;
+          data[i + 1] = v;
+          data[i + 2] = v;
+          data[i + 3] = 255;
+        }
+        ctx.putImageData(imageData, 0, 0);
+      }
+
+      // Draw noise at low framerate for performance and aesthetic
+      let frame = 0;
+      function loop() {
+        frame++;
+        if (frame % 6 === 0) {
+          drawNoise();
+        }
+        requestAnimationFrame(loop);
+      }
+      loop();
+    })();
+
+    // ---- Timestamp in nav ----
+    (function() {
+      const navTime = document.getElementById('nav-time');
+      const footerTs = document.getElementById('footer-timestamp');
+
+      function updateTime() {
+        const now = new Date();
+        const h = String(now.getHours()).padStart(2, '0');
+        const m = String(now.getMinutes()).padStart(2, '0');
+        const s = String(now.getSeconds()).padStart(2, '0');
+        const ts = h + ':' + m + ':' + s;
+        if (navTime) navTime.textContent = ts;
+        if (footerTs) footerTs.textContent = 'LAST ACCESSED: ' + ts;
+      }
+      updateTime();
+      setInterval(updateTime, 1000);
+    })();
+
+    // ---- Scroll reveal ----
+    (function() {
+      const reveals = document.querySelectorAll('.reveal');
+
+      function checkReveal() {
+        const windowHeight = window.innerHeight;
+        reveals.forEach(function(el) {
+          const top = el.getBoundingClientRect().top;
+          if (top < windowHeight - 60) {
+            el.classList.add('visible');
+          }
+        });
+      }
+
+      checkReveal();
+      window.addEventListener('scroll', checkReveal, { passive: true });
+    })();
+
+    // ---- Random ambient glitch on system messages ----
+    (function() {
+      const systems = document.querySelectorAll('.dream-system, .demo-system-msg');
+      setInterval(function() {
+        const idx = Math.floor(Math.random() * systems.length);
+        const el = systems[idx];
+        if (!el) return;
+        el.style.transform = 'translateX(' + (Math.random() * 4 - 2) + 'px)';
+        el.style.opacity = '0.7';
+        setTimeout(function() {
+          el.style.transform = 'translateX(0)';
+          el.style.opacity = '1';
+        }, 150);
+      }, 4000);
+    })();
+
+    // ---- Fluorescent flicker on hero ----
+    (function() {
+      const hero = document.querySelector('.dream-hero');
+      if (!hero) return;
+      setInterval(function() {
+        if (Math.random() < 0.15) {
+          hero.style.filter = 'brightness(0.96)';
+          setTimeout(function() {
+            hero.style.filter = 'brightness(1)';
+          }, 80);
+          setTimeout(function() {
+            hero.style.filter = 'brightness(0.98)';
+            setTimeout(function() {
+              hero.style.filter = 'brightness(1)';
+            }, 50);
+          }, 150);
+        }
+      }, 3000);
+    })();
+  </script>
+
+</body>
+</html>
