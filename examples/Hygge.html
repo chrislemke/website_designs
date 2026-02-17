@@ -1,0 +1,2059 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hygge -- The Art of Cozy Living</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Albert+Sans:wght@300;400;500;600&family=DM+Serif+Display&family=Instrument+Sans:wght@400;500;600&family=Lora:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
+  <style>
+    /* ========================================
+       CSS Custom Properties (Design Tokens)
+       ======================================== */
+    :root {
+      --hygge-bg: #FAF7F2;
+      --hygge-surface: #F0EAE0;
+      --hygge-surface-alt: #E6D5C1;
+      --hygge-primary: #C76A3D;
+      --hygge-secondary: #7D5B3A;
+      --hygge-accent-rust: #A65E2E;
+      --hygge-accent-green: #6B7F5E;
+      --hygge-accent-sage: #B7C9B2;
+      --hygge-accent-peach: #ECA78D;
+      --hygge-accent-gray: #A4A9AD;
+      --hygge-text: #2C2420;
+      --hygge-text-light: #7A6E65;
+      --hygge-border: #D4C8BB;
+      --hygge-glow: rgba(214, 148, 52, 0.08);
+      --hygge-radius-sm: 8px;
+      --hygge-radius-md: 12px;
+      --hygge-radius-lg: 16px;
+      --hygge-radius-xl: 20px;
+      --hygge-radius-2xl: 28px;
+    }
+
+    /* ========================================
+       Reset & Base
+       ======================================== */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      font-size: 16px;
+    }
+
+    body {
+      font-family: 'Instrument Sans', 'Work Sans', sans-serif;
+      background-color: var(--hygge-bg);
+      color: var(--hygge-text);
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overflow-x: hidden;
+    }
+
+    /* ========================================
+       Film Grain Overlay (analog warmth)
+       ======================================== */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      opacity: 0.025;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+      background-size: 256px 256px;
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    /* ========================================
+       Typography
+       ======================================== */
+    h1, h2, h3, h4 {
+      font-family: 'Albert Sans', sans-serif;
+      font-weight: 500;
+      line-height: 1.25;
+      color: var(--hygge-text);
+    }
+
+    h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      font-weight: 400;
+      letter-spacing: -0.01em;
+      line-height: 1.15;
+    }
+
+    h2 {
+      font-size: clamp(1.5rem, 3vw, 1.85rem);
+      letter-spacing: 0.01em;
+    }
+
+    h3 {
+      font-size: 1.25rem;
+      letter-spacing: 0.01em;
+    }
+
+    p {
+      max-width: 42em;
+      margin-bottom: 1.5em;
+      color: var(--hygge-text-light);
+    }
+
+    .label {
+      font-family: 'Albert Sans', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--hygge-accent-rust);
+    }
+
+    .accent-text {
+      font-family: 'Lora', serif;
+      font-style: italic;
+      color: var(--hygge-secondary);
+    }
+
+    a {
+      color: var(--hygge-secondary);
+      text-decoration: underline;
+      text-decoration-color: var(--hygge-border);
+      text-underline-offset: 3px;
+      transition: color 0.3s ease, text-decoration-color 0.3s ease;
+    }
+
+    a:hover {
+      color: var(--hygge-primary);
+      text-decoration-color: var(--hygge-primary);
+    }
+
+    /* ========================================
+       Layout
+       ======================================== */
+    .container {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    .container--wide {
+      max-width: 960px;
+    }
+
+    section {
+      padding: 5rem 0;
+      position: relative;
+    }
+
+    /* ========================================
+       Animations
+       ======================================== */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(24px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes gentleFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+
+    @keyframes candleFlicker {
+      0%, 100% { opacity: 0.07; transform: scale(1); }
+      25% { opacity: 0.09; transform: scale(1.02); }
+      50% { opacity: 0.06; transform: scale(0.98); }
+      75% { opacity: 0.1; transform: scale(1.01); }
+    }
+
+    @keyframes warmPulse {
+      0%, 100% { box-shadow: 0 0 40px rgba(214, 148, 52, 0.08); }
+      50% { box-shadow: 0 0 60px rgba(214, 148, 52, 0.14); }
+    }
+
+    @keyframes steamRise {
+      0% { transform: translateY(0) scaleX(1); opacity: 0.4; }
+      50% { transform: translateY(-12px) scaleX(1.1); opacity: 0.2; }
+      100% { transform: translateY(-24px) scaleX(0.9); opacity: 0; }
+    }
+
+    .animate-in {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .animate-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ========================================
+       Section Dividers
+       ======================================== */
+    .divider {
+      height: 1px;
+      border: none;
+      background: linear-gradient(
+        90deg,
+        transparent 0%,
+        var(--hygge-border) 20%,
+        var(--hygge-border) 80%,
+        transparent 100%
+      );
+      margin: 0 auto;
+      max-width: 50%;
+    }
+
+    .divider--dots {
+      border: none;
+      height: auto;
+      text-align: center;
+      background: none;
+      margin: 4rem auto;
+      max-width: 100%;
+    }
+
+    .divider--dots::before {
+      content: '\2022 \00a0\00a0 \2022 \00a0\00a0 \2022';
+      color: var(--hygge-border);
+      font-size: 1rem;
+      letter-spacing: 0.3em;
+    }
+
+    /* ========================================
+       Hero Section
+       ======================================== */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 4rem 2rem;
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(
+        160deg,
+        #FAF7F2 0%,
+        #F7F2E7 30%,
+        rgba(214, 148, 52, 0.06) 100%
+      );
+    }
+
+    /* Candlelight glow behind hero */
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -30%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 140%;
+      height: 100%;
+      background: radial-gradient(
+        ellipse at center top,
+        rgba(214, 148, 52, 0.1) 0%,
+        rgba(214, 148, 52, 0.04) 35%,
+        transparent 65%
+      );
+      pointer-events: none;
+      animation: candleFlicker 6s ease-in-out infinite;
+    }
+
+    /* Linen texture on hero */
+    .hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      opacity: 0.03;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4'%3E%3Crect width='1' height='1' x='0' y='0' fill='%237A6E65'/%3E%3Crect width='1' height='1' x='2' y='2' fill='%237A6E65'/%3E%3C/svg%3E");
+      background-size: 4px 4px;
+      pointer-events: none;
+    }
+
+    .hero__content {
+      position: relative;
+      z-index: 1;
+      max-width: 680px;
+    }
+
+    .hero__pronunciation {
+      font-family: 'Lora', serif;
+      font-style: italic;
+      font-size: 1.1rem;
+      color: var(--hygge-text-light);
+      margin-bottom: 1rem;
+      animation: fadeIn 1s ease 0.3s both;
+    }
+
+    .hero__title {
+      font-size: clamp(3.5rem, 8vw, 6.5rem);
+      font-family: 'DM Serif Display', serif;
+      font-weight: 400;
+      letter-spacing: -0.02em;
+      line-height: 1.05;
+      margin-bottom: 1.5rem;
+      color: var(--hygge-text);
+      animation: fadeInUp 1s ease 0.5s both;
+    }
+
+    .hero__subtitle {
+      font-family: 'Lora', serif;
+      font-style: italic;
+      font-size: clamp(1.1rem, 2vw, 1.35rem);
+      color: var(--hygge-text-light);
+      line-height: 1.7;
+      max-width: 520px;
+      margin: 0 auto 2.5rem;
+      animation: fadeInUp 1s ease 0.7s both;
+    }
+
+    .hero__scroll {
+      animation: fadeIn 1s ease 1.2s both;
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--hygge-text-light);
+      font-size: 0.8rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-family: 'Albert Sans', sans-serif;
+      text-decoration: none;
+    }
+
+    .hero__scroll-line {
+      width: 1px;
+      height: 40px;
+      background: linear-gradient(to bottom, var(--hygge-border), transparent);
+      animation: gentleFloat 3s ease-in-out infinite;
+    }
+
+    /* Candle flame SVG decoration */
+    .hero__candle {
+      position: absolute;
+      bottom: 15%;
+      right: 8%;
+      opacity: 0.12;
+      animation: gentleFloat 4s ease-in-out infinite;
+    }
+
+    .hero__candle--left {
+      right: auto;
+      left: 8%;
+      bottom: 20%;
+      animation-delay: -1.5s;
+      opacity: 0.08;
+    }
+
+    /* ========================================
+       Hyggekrog (Cozy Nook) Card
+       ======================================== */
+    .hyggekrog {
+      background: var(--hygge-surface);
+      border-radius: var(--hygge-radius-2xl);
+      padding: 2.5rem;
+      box-shadow: inset 0 2px 20px var(--hygge-glow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hyggekrog::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      opacity: 0.025;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4'%3E%3Crect width='1' height='1' x='0' y='0' fill='%237A6E65'/%3E%3Crect width='1' height='1' x='2' y='2' fill='%237A6E65'/%3E%3C/svg%3E");
+      background-size: 4px 4px;
+      pointer-events: none;
+      border-radius: inherit;
+    }
+
+    .hyggekrog p:last-child {
+      margin-bottom: 0;
+    }
+
+    /* ========================================
+       Introduction Section
+       ======================================== */
+    .intro {
+      background: linear-gradient(180deg, var(--hygge-bg) 0%, var(--hygge-surface) 100%);
+    }
+
+    .intro__lead {
+      font-family: 'Lora', serif;
+      font-size: clamp(1.15rem, 2vw, 1.3rem);
+      line-height: 1.8;
+      color: var(--hygge-text);
+      max-width: 38em;
+    }
+
+    /* ========================================
+       Color Palette Section
+       ======================================== */
+    .palette-section {
+      background: var(--hygge-surface);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .palette-section::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 120%;
+      height: 100%;
+      background: radial-gradient(
+        ellipse at center top,
+        rgba(214, 148, 52, 0.06) 0%,
+        transparent 60%
+      );
+      pointer-events: none;
+    }
+
+    .palette-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .palette-swatch {
+      aspect-ratio: 1;
+      border-radius: var(--hygge-radius-lg);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 1rem;
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+      cursor: default;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .palette-swatch::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      box-shadow: inset 0 0 0 1px rgba(0,0,0,0.04);
+      pointer-events: none;
+    }
+
+    .palette-swatch:hover {
+      transform: translateY(-3px) scale(1.02);
+      box-shadow:
+        0 4px 16px rgba(125, 91, 58, 0.1),
+        0 12px 40px rgba(125, 91, 58, 0.06);
+    }
+
+    .palette-swatch__name {
+      font-family: 'Albert Sans', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 0.2rem;
+    }
+
+    .palette-swatch__hex {
+      font-family: 'Instrument Sans', monospace;
+      font-size: 0.75rem;
+      opacity: 0.7;
+    }
+
+    .palette-swatch--light .palette-swatch__name,
+    .palette-swatch--light .palette-swatch__hex {
+      color: var(--hygge-text);
+    }
+
+    .palette-swatch--dark .palette-swatch__name,
+    .palette-swatch--dark .palette-swatch__hex {
+      color: var(--hygge-bg);
+    }
+
+    /* Palette combos */
+    .combos-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1.25rem;
+      margin-top: 2rem;
+    }
+
+    .combo-card {
+      border-radius: var(--hygge-radius-lg);
+      overflow: hidden;
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+    }
+
+    .combo-card:hover {
+      transform: translateY(-2px);
+      box-shadow:
+        0 4px 16px rgba(125, 91, 58, 0.08),
+        0 12px 40px rgba(125, 91, 58, 0.05);
+    }
+
+    .combo-card__colors {
+      display: flex;
+      height: 80px;
+    }
+
+    .combo-card__color {
+      flex: 1;
+    }
+
+    .combo-card__info {
+      background: var(--hygge-bg);
+      padding: 1rem 1.25rem;
+    }
+
+    .combo-card__name {
+      font-family: 'Albert Sans', sans-serif;
+      font-weight: 500;
+      font-size: 0.95rem;
+      color: var(--hygge-text);
+      margin-bottom: 0.25rem;
+    }
+
+    .combo-card__usage {
+      font-size: 0.82rem;
+      color: var(--hygge-text-light);
+      margin-bottom: 0;
+      line-height: 1.5;
+    }
+
+    /* ========================================
+       Typography Section
+       ======================================== */
+    .type-section {
+      background: linear-gradient(180deg, var(--hygge-bg) 0%, rgba(183, 201, 178, 0.08) 100%);
+    }
+
+    .type-specimens {
+      display: flex;
+      flex-direction: column;
+      gap: 2.5rem;
+      margin-top: 2.5rem;
+    }
+
+    .type-specimen {
+      background: var(--hygge-bg);
+      border-radius: var(--hygge-radius-xl);
+      padding: 2rem 2.5rem;
+      box-shadow:
+        0 1px 2px rgba(125, 91, 58, 0.04),
+        0 4px 16px rgba(125, 91, 58, 0.06);
+      transition: box-shadow 0.4s ease, transform 0.4s ease;
+    }
+
+    .type-specimen:hover {
+      box-shadow:
+        0 2px 4px rgba(125, 91, 58, 0.06),
+        0 8px 24px rgba(125, 91, 58, 0.08),
+        0 16px 48px rgba(125, 91, 58, 0.05);
+      transform: translateY(-2px);
+    }
+
+    .type-specimen__role {
+      display: inline-block;
+      margin-bottom: 1rem;
+    }
+
+    .type-specimen__sample {
+      margin-bottom: 1rem;
+    }
+
+    .type-specimen__sample--display {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 400;
+      line-height: 1.2;
+      color: var(--hygge-text);
+    }
+
+    .type-specimen__sample--heading {
+      font-family: 'Albert Sans', sans-serif;
+      font-size: clamp(1.4rem, 2.5vw, 1.85rem);
+      font-weight: 500;
+      line-height: 1.3;
+      letter-spacing: 0.01em;
+      color: var(--hygge-text);
+    }
+
+    .type-specimen__sample--body {
+      font-family: 'Instrument Sans', sans-serif;
+      font-size: 1rem;
+      line-height: 1.7;
+      color: var(--hygge-text);
+    }
+
+    .type-specimen__sample--accent {
+      font-family: 'Lora', serif;
+      font-style: italic;
+      font-size: clamp(1.15rem, 2vw, 1.3rem);
+      line-height: 1.7;
+      color: var(--hygge-secondary);
+    }
+
+    .type-specimen__meta {
+      font-size: 0.82rem;
+      color: var(--hygge-text-light);
+      border-top: 1px solid var(--hygge-border);
+      padding-top: 1rem;
+      margin-bottom: 0;
+    }
+
+    /* ========================================
+       Visual Characteristics Section
+       ======================================== */
+    .visual-section {
+      background: var(--hygge-surface);
+    }
+
+    .visual-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+      margin-top: 2rem;
+    }
+
+    .visual-card {
+      background: var(--hygge-bg);
+      border-radius: var(--hygge-radius-xl);
+      padding: 2rem;
+      box-shadow:
+        0 1px 2px rgba(125, 91, 58, 0.04),
+        0 4px 16px rgba(125, 91, 58, 0.06);
+      transition: all 0.4s ease;
+    }
+
+    .visual-card:hover {
+      box-shadow:
+        0 2px 4px rgba(125, 91, 58, 0.06),
+        0 8px 24px rgba(125, 91, 58, 0.08),
+        0 16px 48px rgba(125, 91, 58, 0.05);
+      transform: translateY(-2px);
+    }
+
+    .visual-card__icon {
+      width: 48px;
+      height: 48px;
+      border-radius: var(--hygge-radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.25rem;
+      font-size: 1.3rem;
+    }
+
+    .visual-card__icon--amber { background: rgba(199, 106, 61, 0.1); color: var(--hygge-primary); }
+    .visual-card__icon--green { background: rgba(107, 127, 94, 0.12); color: var(--hygge-accent-green); }
+    .visual-card__icon--sage { background: rgba(183, 201, 178, 0.25); color: var(--hygge-accent-green); }
+    .visual-card__icon--peach { background: rgba(236, 167, 141, 0.2); color: var(--hygge-accent-rust); }
+    .visual-card__icon--brown { background: rgba(125, 91, 58, 0.1); color: var(--hygge-secondary); }
+    .visual-card__icon--gray { background: rgba(164, 169, 173, 0.15); color: var(--hygge-accent-gray); }
+
+    .visual-card h3 {
+      margin-bottom: 0.75rem;
+    }
+
+    .visual-card p {
+      font-size: 0.92rem;
+      margin-bottom: 0;
+      color: var(--hygge-text-light);
+      line-height: 1.7;
+    }
+
+    /* Full-width visual card */
+    .visual-card--full {
+      grid-column: 1 / -1;
+    }
+
+    /* ========================================
+       Motifs Section
+       ======================================== */
+    .motifs-section {
+      background: linear-gradient(
+        180deg,
+        var(--hygge-bg) 0%,
+        var(--hygge-surface) 50%,
+        var(--hygge-bg) 100%
+      );
+    }
+
+    .motifs-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .motif-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 1.25rem;
+      background: var(--hygge-bg);
+      border-radius: var(--hygge-radius-lg);
+      padding: 1.5rem 1.75rem;
+      box-shadow:
+        0 1px 2px rgba(125, 91, 58, 0.04),
+        0 4px 12px rgba(125, 91, 58, 0.04);
+      transition: all 0.4s ease;
+    }
+
+    .motif-item:hover {
+      box-shadow:
+        0 2px 4px rgba(125, 91, 58, 0.06),
+        0 8px 24px rgba(125, 91, 58, 0.07);
+      transform: translateY(-1px);
+    }
+
+    .motif-item__symbol {
+      flex-shrink: 0;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--hygge-surface);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      box-shadow: inset 0 1px 8px var(--hygge-glow);
+    }
+
+    .motif-item__text h3 {
+      font-size: 1.05rem;
+      margin-bottom: 0.35rem;
+    }
+
+    .motif-item__text p {
+      font-size: 0.88rem;
+      margin-bottom: 0;
+      color: var(--hygge-text-light);
+    }
+
+    /* ========================================
+       Layout Principles Section
+       ======================================== */
+    .layout-section {
+      background: var(--hygge-surface);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .layout-section::after {
+      content: '';
+      position: absolute;
+      bottom: -30%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 120%;
+      height: 80%;
+      background: radial-gradient(
+        ellipse at center bottom,
+        rgba(214, 148, 52, 0.05) 0%,
+        transparent 60%
+      );
+      pointer-events: none;
+    }
+
+    .principles-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1.75rem;
+      margin-top: 2rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .principle {
+      display: flex;
+      gap: 1.5rem;
+      align-items: flex-start;
+    }
+
+    .principle__marker {
+      flex-shrink: 0;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--hygge-bg);
+      border: 1.5px solid var(--hygge-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Lora', serif;
+      font-style: italic;
+      font-size: 0.85rem;
+      color: var(--hygge-primary);
+      margin-top: 2px;
+    }
+
+    .principle__content h3 {
+      margin-bottom: 0.4rem;
+      font-size: 1.08rem;
+    }
+
+    .principle__content p {
+      font-size: 0.9rem;
+      margin-bottom: 0;
+      color: var(--hygge-text-light);
+      line-height: 1.7;
+    }
+
+    /* ========================================
+       Design Values Section
+       ======================================== */
+    .values-section {
+      background: linear-gradient(
+        180deg,
+        var(--hygge-bg) 0%,
+        var(--hygge-surface) 100%
+      );
+    }
+
+    .values-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+      margin-top: 2rem;
+    }
+
+    .value-card {
+      background: var(--hygge-bg);
+      border-radius: var(--hygge-radius-xl);
+      padding: 2rem;
+      border: 1px solid var(--hygge-border);
+      transition: all 0.4s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .value-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(
+        90deg,
+        var(--hygge-accent-peach),
+        var(--hygge-primary),
+        var(--hygge-accent-rust)
+      );
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      border-radius: var(--hygge-radius-xl) var(--hygge-radius-xl) 0 0;
+    }
+
+    .value-card:hover::before {
+      opacity: 1;
+    }
+
+    .value-card:hover {
+      border-color: transparent;
+      box-shadow:
+        0 4px 16px rgba(125, 91, 58, 0.08),
+        0 12px 40px rgba(125, 91, 58, 0.05);
+      transform: translateY(-2px);
+    }
+
+    .value-card h3 {
+      margin-bottom: 0.6rem;
+      color: var(--hygge-secondary);
+    }
+
+    .value-card p {
+      font-size: 0.9rem;
+      margin-bottom: 0;
+      color: var(--hygge-text-light);
+      line-height: 1.7;
+    }
+
+    /* ========================================
+       Influences & Related Section
+       ======================================== */
+    .influences-section {
+      background: var(--hygge-bg);
+    }
+
+    .influences-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      margin-top: 2rem;
+    }
+
+    .influences-col h3 {
+      margin-bottom: 1.25rem;
+    }
+
+    .influence-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .influence-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      font-size: 0.92rem;
+      line-height: 1.6;
+    }
+
+    .influence-item__dot {
+      flex-shrink: 0;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--hygge-primary);
+      margin-top: 0.55rem;
+      opacity: 0.6;
+    }
+
+    .influence-item__name {
+      font-weight: 500;
+      color: var(--hygge-text);
+    }
+
+    .influence-item__desc {
+      color: var(--hygge-text-light);
+    }
+
+    .tag-cloud {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+    }
+
+    .tag {
+      font-family: 'Albert Sans', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 500;
+      padding: 0.5rem 1rem;
+      background: var(--hygge-surface);
+      color: var(--hygge-text-light);
+      border-radius: var(--hygge-radius-sm);
+      border: 1px solid var(--hygge-border);
+      text-decoration: none;
+      transition: all 0.3s ease;
+      cursor: default;
+    }
+
+    .tag:hover {
+      background: var(--hygge-surface-alt);
+      color: var(--hygge-secondary);
+      border-color: var(--hygge-secondary);
+      text-decoration: none;
+      transform: translateY(-1px);
+    }
+
+    /* ========================================
+       Demo Components Section
+       ======================================== */
+    .demo-section {
+      background: var(--hygge-surface);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .demo-section::before {
+      content: '';
+      position: absolute;
+      top: -20%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      height: 60%;
+      background: radial-gradient(
+        ellipse at center top,
+        rgba(214, 148, 52, 0.06) 0%,
+        transparent 60%
+      );
+      pointer-events: none;
+    }
+
+    .demo-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-top: 1.5rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .btn-hygge {
+      background: var(--hygge-secondary);
+      color: var(--hygge-bg);
+      border: none;
+      border-radius: var(--hygge-radius-md);
+      padding: 14px 28px;
+      font-family: 'Albert Sans', sans-serif;
+      font-weight: 500;
+      font-size: 0.95rem;
+      letter-spacing: 0.02em;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .btn-hygge:hover {
+      background: #5B3A29;
+      box-shadow: 0 4px 16px rgba(91, 58, 41, 0.15);
+      transform: translateY(-1px);
+    }
+
+    .btn-hygge--secondary {
+      background: transparent;
+      color: var(--hygge-secondary);
+      border: 1.5px solid var(--hygge-border);
+    }
+
+    .btn-hygge--secondary:hover {
+      background: var(--hygge-surface);
+      border-color: var(--hygge-secondary);
+      box-shadow: none;
+    }
+
+    .btn-hygge--accent {
+      background: var(--hygge-primary);
+    }
+
+    .btn-hygge--accent:hover {
+      background: var(--hygge-accent-rust);
+    }
+
+    .demo-input-group {
+      margin-top: 1.5rem;
+      max-width: 380px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .input-hygge {
+      width: 100%;
+      background: var(--hygge-bg);
+      border: 1.5px solid var(--hygge-border);
+      border-radius: 10px;
+      padding: 14px 18px;
+      font-family: 'Instrument Sans', sans-serif;
+      font-size: 1rem;
+      color: var(--hygge-text);
+      transition: all 0.3s ease;
+    }
+
+    .input-hygge:focus {
+      outline: none;
+      border-color: var(--hygge-primary);
+      background: #FFFFFF;
+      box-shadow: 0 0 0 4px rgba(199, 106, 61, 0.08);
+    }
+
+    .input-hygge::placeholder {
+      color: #A89B8E;
+    }
+
+    /* String lights demo */
+    .string-lights-demo {
+      margin-top: 2rem;
+      padding: 2.5rem;
+      border-radius: var(--hygge-radius-xl);
+      background: var(--hygge-bg);
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
+    }
+
+    .string-lights-demo::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(
+        circle 3px at center,
+        rgba(214, 148, 52, 0.2) 0%,
+        rgba(214, 148, 52, 0.06) 50%,
+        transparent 100%
+      );
+      background-size: 40px 40px;
+      pointer-events: none;
+      animation: warmPulse 4s ease-in-out infinite;
+    }
+
+    .string-lights-demo p {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      font-family: 'Lora', serif;
+      font-style: italic;
+      font-size: 1.1rem;
+      color: var(--hygge-secondary);
+      margin-bottom: 0;
+    }
+
+    /* ========================================
+       CSS Techniques Section
+       ======================================== */
+    .techniques-section {
+      background: linear-gradient(
+        135deg,
+        rgba(183, 201, 178, 0.08) 0%,
+        var(--hygge-bg) 40%,
+        rgba(199, 106, 61, 0.04) 100%
+      );
+    }
+
+    .technique-demos {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+
+    .technique-demo {
+      background: var(--hygge-bg);
+      border-radius: var(--hygge-radius-xl);
+      overflow: hidden;
+      box-shadow:
+        0 1px 2px rgba(125, 91, 58, 0.04),
+        0 4px 16px rgba(125, 91, 58, 0.06);
+    }
+
+    .technique-demo__preview {
+      height: 140px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .technique-demo__info {
+      padding: 1.5rem 2rem;
+    }
+
+    .technique-demo__info h3 {
+      margin-bottom: 0.4rem;
+    }
+
+    .technique-demo__info p {
+      font-size: 0.88rem;
+      color: var(--hygge-text-light);
+      margin-bottom: 0;
+    }
+
+    /* Gradient demos */
+    .preview--fireside {
+      background: linear-gradient(180deg, #FAF7F2 0%, #F0EAE0 40%, #E6D5C1 100%);
+    }
+
+    .preview--candlelit {
+      background: linear-gradient(160deg, #FAF7F2 0%, #F7F2E7 30%, rgba(214, 148, 52, 0.12) 100%);
+      position: relative;
+    }
+
+    .preview--candlelit::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 120%;
+      height: 120%;
+      background: radial-gradient(
+        ellipse at center top,
+        rgba(214, 148, 52, 0.12) 0%,
+        rgba(214, 148, 52, 0.04) 40%,
+        transparent 70%
+      );
+      animation: candleFlicker 5s ease-in-out infinite;
+    }
+
+    .preview--autumn {
+      background: linear-gradient(135deg, rgba(183, 201, 178, 0.25) 0%, #FAF7F2 40%, rgba(199, 106, 61, 0.1) 100%);
+    }
+
+    .preview--string-lights {
+      background: var(--hygge-surface);
+      position: relative;
+    }
+
+    .preview--string-lights::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(
+        circle 3px at center,
+        rgba(214, 148, 52, 0.25) 0%,
+        rgba(214, 148, 52, 0.08) 50%,
+        transparent 100%
+      );
+      background-size: 40px 40px;
+      animation: warmPulse 4s ease-in-out infinite;
+    }
+
+    /* ========================================
+       Quote / Pullout
+       ======================================== */
+    .pullquote {
+      text-align: center;
+      padding: 4rem 2rem;
+      position: relative;
+    }
+
+    .pullquote__mark {
+      font-family: 'DM Serif Display', serif;
+      font-size: 5rem;
+      line-height: 1;
+      color: var(--hygge-border);
+      margin-bottom: -1rem;
+      display: block;
+    }
+
+    .pullquote__text {
+      font-family: 'Lora', serif;
+      font-style: italic;
+      font-size: clamp(1.2rem, 2.5vw, 1.6rem);
+      line-height: 1.7;
+      color: var(--hygge-secondary);
+      max-width: 600px;
+      margin: 0 auto 1rem;
+    }
+
+    .pullquote__attribution {
+      font-family: 'Albert Sans', sans-serif;
+      font-size: 0.82rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--hygge-text-light);
+    }
+
+    /* ========================================
+       Footer
+       ======================================== */
+    .footer {
+      background: var(--hygge-surface);
+      padding: 4rem 2rem 3rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .footer::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      opacity: 0.025;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4'%3E%3Crect width='1' height='1' x='0' y='0' fill='%237A6E65'/%3E%3Crect width='1' height='1' x='2' y='2' fill='%237A6E65'/%3E%3C/svg%3E");
+      background-size: 4px 4px;
+      pointer-events: none;
+    }
+
+    .footer__title {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.5rem;
+      font-weight: 400;
+      color: var(--hygge-text);
+      margin-bottom: 0.75rem;
+      position: relative;
+    }
+
+    .footer__text {
+      font-size: 0.9rem;
+      color: var(--hygge-text-light);
+      max-width: 400px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    /* Steam animation for mug icon */
+    .steam-container {
+      position: relative;
+      display: inline-block;
+      margin-bottom: 1.5rem;
+    }
+
+    .steam {
+      position: absolute;
+      top: -8px;
+      width: 4px;
+      height: 14px;
+      background: var(--hygge-border);
+      border-radius: 2px;
+      opacity: 0;
+    }
+
+    .steam--1 { left: 30%; animation: steamRise 2.5s ease-in-out infinite; }
+    .steam--2 { left: 50%; animation: steamRise 2.5s ease-in-out 0.5s infinite; }
+    .steam--3 { left: 70%; animation: steamRise 2.5s ease-in-out 1s infinite; }
+
+    /* ========================================
+       Responsive Design
+       ======================================== */
+    @media (max-width: 768px) {
+      section {
+        padding: 3.5rem 0;
+      }
+
+      .container {
+        padding: 0 1.5rem;
+      }
+
+      .visual-grid,
+      .values-grid,
+      .influences-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .visual-card--full {
+        grid-column: 1;
+      }
+
+      .palette-grid {
+        grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+        gap: 0.75rem;
+      }
+
+      .combos-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hyggekrog {
+        padding: 1.75rem;
+      }
+
+      .hero__candle {
+        display: none;
+      }
+
+      .pullquote__mark {
+        font-size: 3.5rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      html {
+        font-size: 15px;
+      }
+
+      .container {
+        padding: 0 1.25rem;
+      }
+
+      .palette-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .hero {
+        padding: 3rem 1.5rem;
+      }
+
+      .principle {
+        flex-direction: column;
+        gap: 0.75rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============ HERO ============ -->
+  <section class="hero">
+    <!-- Decorative candle SVGs -->
+    <svg class="hero__candle" width="60" height="120" viewBox="0 0 60 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="20" y="50" width="20" height="60" rx="4" fill="#E6D5C1"/>
+      <ellipse cx="30" cy="40" rx="10" ry="16" fill="#D69434" opacity="0.6"/>
+      <ellipse cx="30" cy="38" rx="5" ry="10" fill="#ECA78D" opacity="0.5"/>
+      <line x1="30" y1="50" x2="30" y2="44" stroke="#7D5B3A" stroke-width="1.5"/>
+    </svg>
+    <svg class="hero__candle hero__candle--left" width="50" height="100" viewBox="0 0 50 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="16" y="42" width="18" height="50" rx="4" fill="#E6D5C1"/>
+      <ellipse cx="25" cy="34" rx="8" ry="13" fill="#D69434" opacity="0.5"/>
+      <ellipse cx="25" cy="32" rx="4" ry="8" fill="#ECA78D" opacity="0.4"/>
+      <line x1="25" y1="42" x2="25" y2="37" stroke="#7D5B3A" stroke-width="1.5"/>
+    </svg>
+
+    <div class="hero__content">
+      <p class="hero__pronunciation">/hoo-gah/</p>
+      <h1 class="hero__title">Hygge</h1>
+      <p class="hero__subtitle">The Danish art of creating warmth and contentment through simple pleasures -- soft lighting, warm drinks, natural materials, and intimate gatherings.</p>
+      <a href="#intro" class="hero__scroll">
+        <span>Explore</span>
+        <span class="hero__scroll-line"></span>
+      </a>
+    </div>
+  </section>
+
+  <!-- ============ INTRO ============ -->
+  <section class="intro" id="intro">
+    <div class="container">
+      <div class="animate-in">
+        <span class="label">About the Aesthetic</span>
+        <h2 style="margin-top: 0.75rem; margin-bottom: 1.5rem;">A Feeling, Not a Trend</h2>
+        <p class="intro__lead">
+          Hygge is a Danish and Norwegian lifestyle aesthetic centered on coziness, comfort, and well-being. In design, it translates to spaces and interfaces that feel like a sanctuary: warm, inviting, unhurried, and gently embracing.
+        </p>
+        <p style="color: var(--hygge-text-light);">
+          The visual language draws heavily from Scandinavian design principles but softens the clinical minimalism with tactile warmth, candlelit tones, and an emphasis on natural imperfection. Hygge prioritizes emotional experience over material consumption -- every design decision serves the feeling of being wrapped in warmth.
+        </p>
+      </div>
+      <div class="hyggekrog animate-in" style="margin-top: 2.5rem;">
+        <p class="accent-text" style="font-size: 1.1rem; margin-bottom: 0;">
+          "Hygge is about an atmosphere and an experience, rather than about things. It is about being with the people we love. A feeling of home. A feeling that we are safe."
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ============ COLOR PALETTE ============ -->
+  <section class="palette-section">
+    <div class="container container--wide">
+      <div class="animate-in">
+        <span class="label">Color Palette</span>
+        <h2 style="margin-top: 0.75rem; margin-bottom: 0.75rem;">Filtered Through Firelight</h2>
+        <p>Low saturation, high warmth. Colors should feel as though softened by firelight or filtered through a linen curtain. Minimal contrast with tonal layering creates depth without harsh edges.</p>
+      </div>
+
+      <div class="palette-grid animate-in">
+        <div class="palette-swatch palette-swatch--light" style="background: #FAF7F2;">
+          <span class="palette-swatch__name">Background</span>
+          <span class="palette-swatch__hex">#FAF7F2</span>
+        </div>
+        <div class="palette-swatch palette-swatch--light" style="background: #F0EAE0;">
+          <span class="palette-swatch__name">Surface</span>
+          <span class="palette-swatch__hex">#F0EAE0</span>
+        </div>
+        <div class="palette-swatch palette-swatch--light" style="background: #E6D5C1;">
+          <span class="palette-swatch__name">Surface Alt</span>
+          <span class="palette-swatch__hex">#E6D5C1</span>
+        </div>
+        <div class="palette-swatch palette-swatch--dark" style="background: #C76A3D;">
+          <span class="palette-swatch__name">Primary</span>
+          <span class="palette-swatch__hex">#C76A3D</span>
+        </div>
+        <div class="palette-swatch palette-swatch--dark" style="background: #7D5B3A;">
+          <span class="palette-swatch__name">Secondary</span>
+          <span class="palette-swatch__hex">#7D5B3A</span>
+        </div>
+        <div class="palette-swatch palette-swatch--dark" style="background: #A65E2E;">
+          <span class="palette-swatch__name">Rust</span>
+          <span class="palette-swatch__hex">#A65E2E</span>
+        </div>
+        <div class="palette-swatch palette-swatch--dark" style="background: #6B7F5E;">
+          <span class="palette-swatch__name">Forest</span>
+          <span class="palette-swatch__hex">#6B7F5E</span>
+        </div>
+        <div class="palette-swatch palette-swatch--light" style="background: #B7C9B2;">
+          <span class="palette-swatch__name">Sage</span>
+          <span class="palette-swatch__hex">#B7C9B2</span>
+        </div>
+        <div class="palette-swatch palette-swatch--light" style="background: #ECA78D;">
+          <span class="palette-swatch__name">Peach</span>
+          <span class="palette-swatch__hex">#ECA78D</span>
+        </div>
+        <div class="palette-swatch palette-swatch--light" style="background: #A4A9AD;">
+          <span class="palette-swatch__name">Gray-Blue</span>
+          <span class="palette-swatch__hex">#A4A9AD</span>
+        </div>
+        <div class="palette-swatch palette-swatch--dark" style="background: #2C2420;">
+          <span class="palette-swatch__name">Text</span>
+          <span class="palette-swatch__hex">#2C2420</span>
+        </div>
+        <div class="palette-swatch palette-swatch--light" style="background: #D4C8BB;">
+          <span class="palette-swatch__name">Border</span>
+          <span class="palette-swatch__hex">#D4C8BB</span>
+        </div>
+      </div>
+
+      <h3 style="margin-top: 3rem; margin-bottom: 0.5rem;" class="animate-in">Hygge Combinations</h3>
+      <p class="animate-in" style="font-size: 0.92rem;">Curated pairings for specific design contexts -- each named after a cozy moment.</p>
+
+      <div class="combos-grid animate-in">
+        <div class="combo-card">
+          <div class="combo-card__colors">
+            <div class="combo-card__color" style="background: #FAF7F2;"></div>
+            <div class="combo-card__color" style="background: #D69434;"></div>
+          </div>
+          <div class="combo-card__info">
+            <p class="combo-card__name">Candlelight</p>
+            <p class="combo-card__usage">Hero sections, warm glow overlays</p>
+          </div>
+        </div>
+        <div class="combo-card">
+          <div class="combo-card__colors">
+            <div class="combo-card__color" style="background: #7D5B3A;"></div>
+            <div class="combo-card__color" style="background: #C76A3D;"></div>
+          </div>
+          <div class="combo-card__info">
+            <p class="combo-card__name">Fireside</p>
+            <p class="combo-card__usage">CTAs, active states, navigation</p>
+          </div>
+        </div>
+        <div class="combo-card">
+          <div class="combo-card__colors">
+            <div class="combo-card__color" style="background: #F7F2E7;"></div>
+            <div class="combo-card__color" style="background: #B7C9B2;"></div>
+          </div>
+          <div class="combo-card__info">
+            <p class="combo-card__name">Winter Morning</p>
+            <p class="combo-card__usage">Content cards, soft backgrounds</p>
+          </div>
+        </div>
+        <div class="combo-card">
+          <div class="combo-card__colors">
+            <div class="combo-card__color" style="background: #E6D5C1;"></div>
+            <div class="combo-card__color" style="background: #5B3A29;"></div>
+          </div>
+          <div class="combo-card__info">
+            <p class="combo-card__name">Woolen Comfort</p>
+            <p class="combo-card__usage">Text on light surfaces, subtle depth</p>
+          </div>
+        </div>
+        <div class="combo-card">
+          <div class="combo-card__colors">
+            <div class="combo-card__color" style="background: #A65E2E;"></div>
+            <div class="combo-card__color" style="background: #6B7F5E;"></div>
+          </div>
+          <div class="combo-card__info">
+            <p class="combo-card__name">Autumn Walk</p>
+            <p class="combo-card__usage">Accent pairings, badges, highlights</p>
+          </div>
+        </div>
+        <div class="combo-card">
+          <div class="combo-card__colors">
+            <div class="combo-card__color" style="background: #F0EAE0;"></div>
+            <div class="combo-card__color" style="background: #A4A9AD;"></div>
+          </div>
+          <div class="combo-card__info">
+            <p class="combo-card__name">Linen &amp; Stone</p>
+            <p class="combo-card__usage">Muted sections, footer areas</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider--dots divider">
+
+  <!-- ============ TYPOGRAPHY ============ -->
+  <section class="type-section">
+    <div class="container">
+      <div class="animate-in">
+        <span class="label">Typography</span>
+        <h2 style="margin-top: 0.75rem; margin-bottom: 0.75rem;">Clean, Warm, Quietly Elegant</h2>
+        <p>Scandinavian simplicity with humanist softness. Comfortable and generous sizing with ample line height reflects the unhurried Hygge ethos. Avoid anything cold, technical, or overly decorative.</p>
+      </div>
+
+      <div class="type-specimens">
+        <div class="type-specimen animate-in">
+          <span class="label type-specimen__role">Display / Headings</span>
+          <p class="type-specimen__sample type-specimen__sample--display">The gentle warmth of candlelight on a winter evening</p>
+          <p class="type-specimen__meta">DM Serif Display -- Regular, for large display text. Refined serif with gentle character. Line-height 1.2, letter-spacing -0.01em.</p>
+        </div>
+
+        <div class="type-specimen animate-in">
+          <span class="label type-specimen__role">Headings / UI</span>
+          <p class="type-specimen__sample type-specimen__sample--heading">Warm sans-serifs with humanist proportions create comfortable hierarchy</p>
+          <p class="type-specimen__meta">Albert Sans -- Medium 500, for section headings and UI elements. Clean with warm geometry. Line-height 1.25, letter-spacing 0.01em.</p>
+        </div>
+
+        <div class="type-specimen animate-in">
+          <span class="label type-specimen__role">Body Text</span>
+          <p class="type-specimen__sample type-specimen__sample--body">Body text should feel like a conversation by the fire -- easy to read, warm in tone, and never rushed. Regular to medium weight avoids the aggressive feel of extra-bold, while generous line spacing (1.65) gives each word room to breathe. The text column stays narrow at 42em maximum, creating an intimate reading experience.</p>
+          <p class="type-specimen__meta">Instrument Sans -- Regular 400, for body and paragraph text. Clean, readable with warm geometry. Line-height 1.65.</p>
+        </div>
+
+        <div class="type-specimen animate-in">
+          <span class="label type-specimen__role">Accent / Decorative</span>
+          <p class="type-specimen__sample type-specimen__sample--accent">For quotes, callouts, and intimate text moments -- where the words themselves carry warmth and emotion, like a handwritten note left on the kitchen table.</p>
+          <p class="type-specimen__meta">Lora -- Italic 400, for quotes and special moments. Humanist serif with gentle curves. Line-height 1.7.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ============ VISUAL CHARACTERISTICS ============ -->
+  <section class="visual-section">
+    <div class="container container--wide">
+      <div class="animate-in">
+        <span class="label">Visual Characteristics</span>
+        <h2 style="margin-top: 0.75rem; margin-bottom: 0.75rem;">Shapes, Textures &amp; Forms</h2>
+        <p>The visual language favors softness, natural imperfection, and layered warmth -- every element should feel like something you could reach out and touch.</p>
+      </div>
+
+      <div class="visual-grid">
+        <div class="visual-card animate-in">
+          <div class="visual-card__icon visual-card__icon--amber">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="6"/></svg>
+          </div>
+          <h3>Soft, Rounded Forms</h3>
+          <p>Generous border-radius on every container -- nothing sharp or angular. Each element should feel like a cushion or a smooth stone, with radii from 8px to 20px depending on scale.</p>
+        </div>
+
+        <div class="visual-card animate-in">
+          <div class="visual-card__icon visual-card__icon--green">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10"/><path d="M22 2L13 11"/><circle cx="12" cy="12" r="3"/></svg>
+          </div>
+          <h3>Organic Restraint</h3>
+          <p>Subtle curves and natural forms, not exaggerated blobs. Think hand-thrown pottery, not cartoon shapes. Gentle asymmetry and organic irregularity feel handmade and human.</p>
+        </div>
+
+        <div class="visual-card animate-in">
+          <div class="visual-card__icon visual-card__icon--peach">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="4"/><rect x="4" y="9" width="16" height="6" rx="3" opacity="0.5"/></svg>
+          </div>
+          <h3>Layered Depth</h3>
+          <p>Elements stacked softly like blankets, with warm-tinted shadows suggesting physical overlap. Shadows use brown tones rather than cold gray for natural warmth.</p>
+        </div>
+
+        <div class="visual-card animate-in">
+          <div class="visual-card__icon visual-card__icon--sage">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4z" opacity="0.3"/><path d="M8 8h8v8H8z"/></svg>
+          </div>
+          <h3>Generous Warm Space</h3>
+          <p>Ample breathing room between elements creates the feeling of an unhurried, uncluttered room. Not whitespace -- warm space, filled with tonal background layers.</p>
+        </div>
+
+        <div class="visual-card visual-card--full animate-in">
+          <div class="visual-card__icon visual-card__icon--brown">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3h4v4H3zM10 3h4v4h-4zM17 3h4v4h-4z"/><path d="M3 10h4v4H3z" opacity="0.6"/><path d="M17 10h4v4h-4z" opacity="0.6"/><path d="M3 17h4v4H3zM10 17h4v4h-4zM17 17h4v4h-4z"/></svg>
+          </div>
+          <h3>Patterns &amp; Textures</h3>
+          <p>Linen and fabric textures as subtle woven overlays. Fine wood grain at very low opacity for warmth. Candlelight glow through soft radial gradients in warm amber. Light film-grain noise adds analog character. These textures are felt more than seen -- they operate at the threshold of perception, adding warmth without visual clutter.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PULLQUOTE ============ -->
+  <div class="pullquote">
+    <span class="pullquote__mark">"</span>
+    <p class="pullquote__text">Hygge is about an atmosphere and an experience. It is about being with the people we love. A feeling of home. A feeling that we are safe.</p>
+    <span class="pullquote__attribution">The Hygge Ethos</span>
+  </div>
+
+  <!-- ============ DECORATIVE MOTIFS ============ -->
+  <section class="motifs-section">
+    <div class="container">
+      <div class="animate-in">
+        <span class="label">Decorative Motifs</span>
+        <h2 style="margin-top: 0.75rem; margin-bottom: 0.75rem;">From Physical to Digital</h2>
+        <p>Each real-world Hygge symbol translates into a specific digital design technique.</p>
+      </div>
+
+      <div class="motifs-list">
+        <div class="motif-item animate-in">
+          <div class="motif-item__symbol">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#C76A3D" stroke-width="1.5" stroke-linecap="round"><line x1="12" y1="16" x2="12" y2="20"/><path d="M12 16c-2 0-3-3-3-6s1.5-6 3-6 3 3 3 6-1 6-3 6z" fill="rgba(214,148,52,0.15)"/></svg>
+          </div>
+          <div class="motif-item__text">
+            <h3>Candles &amp; Warm Light</h3>
+            <p>Translate to soft glow effects and warm gradient overlays -- radial gradients in amber that flicker subtly with CSS animation.</p>
+          </div>
+        </div>
+
+        <div class="motif-item animate-in">
+          <div class="motif-item__symbol">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#7D5B3A" stroke-width="1.5" stroke-linecap="round"><path d="M4 18h16c0-4-3-7-8-7s-8 3-8 7z"/><path d="M8 8c0 2 1.5 3 4 3s4-1 4-3" opacity="0.5"/><path d="M9 5c0 1.5 1 2.5 3 2.5s3-1 3-2.5" opacity="0.3"/></svg>
+          </div>
+          <div class="motif-item__text">
+            <h3>Steaming Mugs</h3>
+            <p>Translate to organic, curving steam-like SVG decorations -- gentle rising paths that evoke warmth without demanding attention.</p>
+          </div>
+        </div>
+
+        <div class="motif-item animate-in">
+          <div class="motif-item__symbol">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#A65E2E" stroke-width="1.5" stroke-linecap="round"><path d="M2 12h20M2 8h20M2 16h20M6 4v16M10 4v16M14 4v16M18 4v16" opacity="0.5"/></svg>
+          </div>
+          <div class="motif-item__text">
+            <h3>Knitted Textures &amp; Woven Fabrics</h3>
+            <p>Translate to subtle CSS pattern backgrounds -- tiny repeating SVG patterns at near-invisible opacity that add tactile warmth.</p>
+          </div>
+        </div>
+
+        <div class="motif-item animate-in">
+          <div class="motif-item__symbol">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#C76A3D" stroke-width="1.5" stroke-linecap="round"><rect x="3" y="12" width="18" height="8" rx="2"/><path d="M5 12V8a7 7 0 0114 0v4" fill="rgba(214,148,52,0.1)"/></svg>
+          </div>
+          <div class="motif-item__text">
+            <h3>Fireplaces &amp; Hearths</h3>
+            <p>Translate to warm-toned hero sections with radial amber gradients -- the digital equivalent of gathering around a fire.</p>
+          </div>
+        </div>
+
+        <div class="motif-item animate-in">
+          <div class="motif-item__symbol">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6B7F5E" stroke-width="1.5" stroke-linecap="round"><circle cx="6" cy="6" r="2" fill="rgba(214,148,52,0.3)"/><circle cx="12" cy="4" r="2" fill="rgba(214,148,52,0.3)"/><circle cx="18" cy="6" r="2" fill="rgba(214,148,52,0.3)"/><path d="M4 8c2-1 4-1 8-1s6 0 8 1"/></svg>
+          </div>
+          <div class="motif-item__text">
+            <h3>String Lights</h3>
+            <p>Translate to small, scattered warm dots -- repeating radial gradients that create a gentle twinkling pattern across surfaces.</p>
+          </div>
+        </div>
+
+        <div class="motif-item animate-in">
+          <div class="motif-item__symbol">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6B7F5E" stroke-width="1.5" stroke-linecap="round"><path d="M12 22V10"/><path d="M8 14c-3-1-5-4-4-7 2 1 5 1 8 3"/><path d="M16 14c3-1 5-4 4-7-2 1-5 1-8 3"/></svg>
+          </div>
+          <div class="motif-item__text">
+            <h3>Natural Botanicals</h3>
+            <p>Dried flowers and eucalyptus translate to muted green accent elements -- the sage and forest tones that bring organic life to warm palettes.</p>
+          </div>
+        </div>
+
+        <div class="motif-item animate-in">
+          <div class="motif-item__symbol">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#7D5B3A" stroke-width="1.5" stroke-linecap="round"><rect x="4" y="4" width="16" height="16" rx="5" fill="rgba(240,234,224,0.5)"/><rect x="7" y="7" width="10" height="10" rx="3"/></svg>
+          </div>
+          <div class="motif-item__text">
+            <h3>Hyggekrog -- Cozy Nooks</h3>
+            <p>Translate to inset content areas with extra padding and warm backgrounds -- digital reading corners with inner glow shadows.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider--dots divider">
+
+  <!-- ============ LAYOUT PRINCIPLES ============ -->
+  <section class="layout-section">
+    <div class="container">
+      <div class="animate-in">
+        <span class="label">Layout Principles</span>
+        <h2 style="margin-top: 0.75rem; margin-bottom: 0.75rem;">The Architecture of Comfort</h2>
+        <p>Hygge layouts prioritize emotional experience. The scroll should feel like a slow, meditative walk -- not a rush through information.</p>
+      </div>
+
+      <div class="principles-list">
+        <div class="principle animate-in">
+          <span class="principle__marker">i</span>
+          <div class="principle__content">
+            <h3>Sanctuary-Like Enclosure</h3>
+            <p>Content should feel embraced and protected, like being wrapped in a blanket. Generous padding and soft containers create this sense of warmth.</p>
+          </div>
+        </div>
+        <div class="principle animate-in">
+          <span class="principle__marker">ii</span>
+          <div class="principle__content">
+            <h3>Unhurried Pacing</h3>
+            <p>Ample vertical spacing between sections. The scroll should feel like a slow, meditative walk, not a rush through information.</p>
+          </div>
+        </div>
+        <div class="principle animate-in">
+          <span class="principle__marker">iii</span>
+          <div class="principle__content">
+            <h3>Centered &amp; Intimate</h3>
+            <p>Narrow max-widths (700-800px for text content) create an intimate reading experience rather than a wide, impersonal spread.</p>
+          </div>
+        </div>
+        <div class="principle animate-in">
+          <span class="principle__marker">iv</span>
+          <div class="principle__content">
+            <h3>Layered Warmth</h3>
+            <p>Background surfaces stack in soft, warm tones -- ivory behind linen behind oat -- creating tonal depth without hard section breaks.</p>
+          </div>
+        </div>
+        <div class="principle animate-in">
+          <span class="principle__marker">v</span>
+          <div class="principle__content">
+            <h3>Grouped Conviviality</h3>
+            <p>Content arranged in small, cozy groups rather than long isolated lists. Card clusters of 2-3 items feel more intimate than grids of 12.</p>
+          </div>
+        </div>
+        <div class="principle animate-in">
+          <span class="principle__marker">vi</span>
+          <div class="principle__content">
+            <h3>Anchored with Stillness</h3>
+            <p>Key elements should feel still and grounded. Resist busy animations or constant motion -- Hygge design is quiet and patient.</p>
+          </div>
+        </div>
+        <div class="principle animate-in">
+          <span class="principle__marker">vii</span>
+          <div class="principle__content">
+            <h3>Natural Flow</h3>
+            <p>Vertical rhythm follows a natural breathing pattern -- content, pause, content, pause -- rather than relentless density.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ============ CSS TECHNIQUES ============ -->
+  <section class="techniques-section">
+    <div class="container container--wide">
+      <div class="animate-in">
+        <span class="label">CSS / Web Techniques</span>
+        <h2 style="margin-top: 0.75rem; margin-bottom: 0.75rem;">Bringing Warmth to the Screen</h2>
+        <p>Live demonstrations of the key CSS techniques that define the Hygge web experience.</p>
+      </div>
+
+      <div class="technique-demos">
+        <div class="technique-demo animate-in">
+          <div class="technique-demo__preview preview--fireside"></div>
+          <div class="technique-demo__info">
+            <h3>Fireplace Warmth Gradient</h3>
+            <p>Warm ivory to soft linen to pale oat -- a vertical gradient that wraps the page in tonal layers, like sunlight moving through a room.</p>
+          </div>
+        </div>
+
+        <div class="technique-demo animate-in">
+          <div class="technique-demo__preview preview--candlelit"></div>
+          <div class="technique-demo__info">
+            <h3>Candlelight Glow Effect</h3>
+            <p>A radial gradient in warm amber, positioned at the top of sections, with a subtle flicker animation that breathes life into the design.</p>
+          </div>
+        </div>
+
+        <div class="technique-demo animate-in">
+          <div class="technique-demo__preview preview--autumn"></div>
+          <div class="technique-demo__info">
+            <h3>Autumn Walk Gradient</h3>
+            <p>A diagonal blend from sage green through ivory to warm amber -- evoking the feeling of walking through autumn leaves.</p>
+          </div>
+        </div>
+
+        <div class="technique-demo animate-in">
+          <div class="technique-demo__preview preview--string-lights"></div>
+          <div class="technique-demo__info">
+            <h3>String Light Dots</h3>
+            <p>Repeating radial gradients create a subtle grid of warm glowing dots that pulse gently, evoking fairy lights strung across a room.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider--dots divider">
+
+  <!-- ============ INTERACTIVE COMPONENTS ============ -->
+  <section class="demo-section">
+    <div class="container">
+      <div class="animate-in">
+        <span class="label">Components</span>
+        <h2 style="margin-top: 0.75rem; margin-bottom: 0.75rem;">Interactive Elements</h2>
+        <p>Buttons, inputs, and interactive elements follow the same warm, inviting principles -- soft edges, warm shadows, and gentle transitions.</p>
+      </div>
+
+      <h3 class="animate-in" style="margin-top: 2rem;">Buttons</h3>
+      <div class="demo-row animate-in">
+        <button class="btn-hygge">Primary Action</button>
+        <button class="btn-hygge btn-hygge--accent">Warm Accent</button>
+        <button class="btn-hygge btn-hygge--secondary">Secondary</button>
+      </div>
+
+      <h3 class="animate-in" style="margin-top: 2.5rem;">Input Fields</h3>
+      <div class="demo-input-group animate-in">
+        <input type="text" class="input-hygge" placeholder="A cozy place to type...">
+      </div>
+
+      <h3 class="animate-in" style="margin-top: 2.5rem;">String Lights Effect</h3>
+      <div class="string-lights-demo animate-in">
+        <p>This container demonstrates the string light dot pattern -- a repeating radial gradient creating warm, scattered points of light that pulse gently like fairy lights.</p>
+      </div>
+
+      <h3 class="animate-in" style="margin-top: 2.5rem;">Hyggekrog (Cozy Nook)</h3>
+      <div class="hyggekrog animate-in" style="margin-top: 1rem;">
+        <span class="label" style="margin-bottom: 0.75rem; display: inline-block;">A warm corner</span>
+        <p style="font-family: 'Lora', serif; font-style: italic; font-size: 1.05rem; color: var(--hygge-secondary); margin-bottom: 0.75rem;">
+          The hyggekrog is a Danish concept of a cozy nook -- a window seat with cushions, a reading corner with a blanket, or a small alcove lit by candles.
+        </p>
+        <p style="font-size: 0.9rem; margin-bottom: 0;">
+          In digital design, we recreate this with inset container elements: warm surface backgrounds, subtle inner glow shadows, generous padding, and linen texture overlays. The result is a content area that feels physically recessed and protected -- a sanctuary within the page.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ============ DESIGN VALUES ============ -->
+  <section class="values-section">
+    <div class="container container--wide">
+      <div class="animate-in">
+        <span class="label">Key Design Values</span>
+        <h2 style="margin-top: 0.75rem; margin-bottom: 0.75rem;">The Soul of Hygge Design</h2>
+        <p>Six principles that guide every visual decision. When in doubt, ask: does this make the user feel warm, safe, and unhurried?</p>
+      </div>
+
+      <div class="values-grid">
+        <div class="value-card animate-in">
+          <h3>Warmth</h3>
+          <p>Every visual decision should add warmth. Cold, clinical, or sterile elements break the spell entirely. Warm shadows, amber glows, and natural tones create this foundation.</p>
+        </div>
+        <div class="value-card animate-in">
+          <h3>Simplicity with Soul</h3>
+          <p>Minimalist in quantity but rich in texture and feeling. Not empty, but curated -- each element earns its place by contributing to the atmosphere.</p>
+        </div>
+        <div class="value-card animate-in">
+          <h3>Tactile Quality</h3>
+          <p>Elements should feel like you could reach out and touch them. Natural materials, soft textures, gentle shadows -- the digital equivalent of wool, wood, and ceramic.</p>
+        </div>
+        <div class="value-card animate-in">
+          <h3>Intimacy</h3>
+          <p>Design for a small gathering, not a stadium. Narrow widths, close groupings, personal scale -- every layout decision brings the user closer to the content.</p>
+        </div>
+        <div class="value-card animate-in">
+          <h3>Stillness</h3>
+          <p>Resist the urge to animate, flash, or demand attention. Hygge design is quiet and patient -- motion is minimal, purposeful, and never distracting.</p>
+        </div>
+        <div class="value-card animate-in">
+          <h3>Sanctuary</h3>
+          <p>The user should feel protected and embraced. The interface is a refuge from the noise outside -- a place where time slows and comfort takes precedence.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider--dots divider">
+
+  <!-- ============ INFLUENCES & RELATED ============ -->
+  <section class="influences-section">
+    <div class="container container--wide">
+      <div class="animate-in">
+        <span class="label">Context</span>
+        <h2 style="margin-top: 0.75rem; margin-bottom: 1.5rem;">Influences &amp; Related Aesthetics</h2>
+      </div>
+
+      <div class="influences-grid">
+        <div class="influences-col animate-in">
+          <h3>Design Influences</h3>
+          <ul class="influence-list">
+            <li class="influence-item">
+              <span class="influence-item__dot"></span>
+              <div>
+                <span class="influence-item__name">Scandinavian Design</span>
+                <span class="influence-item__desc"> -- clean functionality, natural materials, democratic beauty, and honest simplicity</span>
+              </div>
+            </li>
+            <li class="influence-item">
+              <span class="influence-item__dot"></span>
+              <div>
+                <span class="influence-item__name">Wabi-Sabi (via Japandi)</span>
+                <span class="influence-item__desc"> -- appreciation for imperfection, natural aging, and well-used objects</span>
+              </div>
+            </li>
+            <li class="influence-item">
+              <span class="influence-item__dot"></span>
+              <div>
+                <span class="influence-item__name">Arts &amp; Crafts Movement</span>
+                <span class="influence-item__desc"> -- handmade quality, natural materials, beauty in everyday life</span>
+              </div>
+            </li>
+            <li class="influence-item">
+              <span class="influence-item__dot"></span>
+              <div>
+                <span class="influence-item__name">Nordic Naturalism</span>
+                <span class="influence-item__desc"> -- deep connection to nature, seasons, and outdoor landscapes brought indoors</span>
+              </div>
+            </li>
+            <li class="influence-item">
+              <span class="influence-item__dot"></span>
+              <div>
+                <span class="influence-item__name">Slow Living</span>
+                <span class="influence-item__desc"> -- mindfulness, intentionality, and prioritizing experience over consumption</span>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <div class="influences-col animate-in">
+          <h3>Related Aesthetics</h3>
+          <div class="tag-cloud">
+            <span class="tag">Autumn</span>
+            <span class="tag">Comfy/Cozy</span>
+            <span class="tag">Cottagecore</span>
+            <span class="tag">Japandi</span>
+            <span class="tag">Minimalism</span>
+            <span class="tag">Northerness</span>
+            <span class="tag">Scandi Girl Winter</span>
+            <span class="tag">Scandinavian Design</span>
+            <span class="tag">Winter</span>
+            <span class="tag">Danish Pastel</span>
+            <span class="tag">Grandmillennial</span>
+            <span class="tag">Coastal Style</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="footer">
+    <div class="steam-container">
+      <span class="steam steam--1"></span>
+      <span class="steam steam--2"></span>
+      <span class="steam steam--3"></span>
+      <svg width="40" height="36" viewBox="0 0 40 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M6 14h28c1.1 0 2 .9 2 2v16c0 1.1-.9 2-2 2H6c-1.1 0-2-.9-2-2V16c0-1.1.9-2 2-2z" fill="#E6D5C1" stroke="#D4C8BB" stroke-width="1"/>
+        <path d="M34 20h3a3 3 0 010 6h-3" stroke="#D4C8BB" stroke-width="1" fill="none"/>
+        <ellipse cx="20" cy="14" rx="14" ry="2" fill="#D4C8BB" opacity="0.3"/>
+      </svg>
+    </div>
+    <h3 class="footer__title">Hygge</h3>
+    <p class="footer__text">Warmth, simplicity, and the quiet art of feeling at home.</p>
+  </footer>
+
+  <!-- ============ INTERSECTION OBSERVER FOR SCROLL ANIMATIONS ============ -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Intersection Observer for scroll-triggered animations
+      var observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      }, {
+        threshold: 0.1,
+        rootMargin: '0px 0px -40px 0px'
+      });
+
+      // Observe all animate-in elements
+      var animateElements = document.querySelectorAll('.animate-in');
+      animateElements.forEach(function(el, index) {
+        // Add staggered delay based on sibling position within parent
+        var siblings = el.parentElement.querySelectorAll('.animate-in');
+        var siblingIndex = Array.prototype.indexOf.call(siblings, el);
+        el.style.transitionDelay = (siblingIndex * 0.1) + 's';
+        observer.observe(el);
+      });
+
+      // Smooth scroll for hero anchor
+      var scrollLink = document.querySelector('.hero__scroll');
+      if (scrollLink) {
+        scrollLink.addEventListener('click', function(e) {
+          e.preventDefault();
+          var target = document.querySelector(this.getAttribute('href'));
+          if (target) {
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        });
+      }
+    });
+  </script>
+</body>
+</html>

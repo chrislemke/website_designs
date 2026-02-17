@@ -1,0 +1,2605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Industrial Gothic -- Design Reference</title>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Bebas+Neue&family=Pathway+Gothic+One&family=Archivo+Black&family=Barlow+Condensed:wght@400;600;700&family=Share+Tech+Mono&family=Special+Elite&family=UnifrakturMaguntia&family=Inter:wght@300;400;500;600&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* =============================================
+       CSS CUSTOM PROPERTIES
+       ============================================= */
+    :root {
+      /* Blacks and darks */
+      --ig-void: #0a0a0a;
+      --ig-soot: #141414;
+      --ig-charcoal: #222222;
+      --ig-dark-iron: #2e2e2e;
+
+      /* Metallic grays */
+      --ig-gunmetal: #3a3a3f;
+      --ig-steel: #5a5a62;
+      --ig-tarnished: #8a8a90;
+
+      /* Lights */
+      --ig-cold-white: #c8cdd3;
+      --ig-harsh-light: #e8ecf0;
+
+      /* Warm decay accents */
+      --ig-rust: #8b3a2a;
+      --ig-rust-bright: #a04030;
+      --ig-blood: #6b2020;
+      --ig-oxidized: #8b5e3c;
+      --ig-sepia: #6b5b4a;
+      --ig-amber: #8b7530;
+
+      /* Cold accents */
+      --ig-cold-blue: #2a3a5a;
+      --ig-fluorescent-blue: #4a6a8a;
+
+      /* Functional assignments */
+      --ig-bg-primary: var(--ig-soot);
+      --ig-bg-secondary: var(--ig-void);
+      --ig-bg-surface: var(--ig-charcoal);
+      --ig-bg-elevated: var(--ig-dark-iron);
+      --ig-text-primary: var(--ig-cold-white);
+      --ig-text-secondary: var(--ig-tarnished);
+      --ig-text-muted: var(--ig-steel);
+      --ig-accent-warm: var(--ig-rust);
+      --ig-accent-cold: var(--ig-fluorescent-blue);
+      --ig-border: var(--ig-gunmetal);
+      --ig-border-light: var(--ig-steel);
+    }
+
+    /* =============================================
+       RESET & BASE
+       ============================================= */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      scrollbar-width: thin;
+      scrollbar-color: var(--ig-gunmetal) var(--ig-void);
+    }
+
+    body {
+      background: var(--ig-bg-primary);
+      color: var(--ig-text-primary);
+      font-family: 'Inter', 'Rajdhani', sans-serif;
+      font-weight: 400;
+      letter-spacing: 0.01em;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: var(--ig-void);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--ig-gunmetal);
+      border: 1px solid var(--ig-void);
+    }
+
+    /* =============================================
+       ANIMATIONS
+       ============================================= */
+    @keyframes ig-flicker {
+      0%, 100% { opacity: 1; }
+      3% { opacity: 0.85; }
+      6% { opacity: 1; }
+      7.5% { opacity: 0.9; }
+      9% { opacity: 1; }
+      40% { opacity: 1; }
+      42% { opacity: 0.92; }
+      43% { opacity: 1; }
+      77% { opacity: 1; }
+      78% { opacity: 0.88; }
+      79% { opacity: 0.95; }
+      80% { opacity: 1; }
+    }
+
+    @keyframes ig-gear-rotate {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes ig-reveal-up {
+      from {
+        opacity: 0;
+        transform: translateY(40px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes ig-reveal-left {
+      from {
+        opacity: 0;
+        transform: translateX(-30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes ig-scan-down {
+      0% { top: -2px; }
+      100% { top: 100%; }
+    }
+
+    @keyframes ig-pulse-glow {
+      0%, 100% { box-shadow: 0 0 8px rgba(74, 106, 138, 0.2); }
+      50% { box-shadow: 0 0 20px rgba(74, 106, 138, 0.4); }
+    }
+
+    @keyframes ig-drip {
+      0% { height: 0; opacity: 0; }
+      10% { opacity: 0.6; }
+      100% { height: 80px; opacity: 0; }
+    }
+
+    @keyframes ig-steam {
+      0% { opacity: 0; transform: translateY(0) scale(1); }
+      30% { opacity: 0.06; }
+      100% { opacity: 0; transform: translateY(-60px) scale(2.5); }
+    }
+
+    @keyframes ig-title-glitch {
+      0%, 100% { text-shadow: 0 0 0 transparent; }
+      2% { text-shadow: -3px 0 var(--ig-rust), 3px 0 var(--ig-cold-blue); }
+      4% { text-shadow: 0 0 0 transparent; }
+      50% { text-shadow: 0 0 0 transparent; }
+      52% { text-shadow: 2px 0 var(--ig-fluorescent-blue), -2px 0 var(--ig-blood); }
+      54% { text-shadow: 0 0 0 transparent; }
+    }
+
+    /* Staggered reveals */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* =============================================
+       GLOBAL NOISE OVERLAY
+       ============================================= */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0.5;
+    }
+
+    /* =============================================
+       HERO SECTION
+       ============================================= */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 4rem 2rem;
+      background: var(--ig-void);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Deep layered background */
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 50% 20%, rgba(200, 205, 211, 0.06) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 80%, rgba(139, 58, 42, 0.04) 0%, transparent 40%),
+        radial-gradient(ellipse at 20% 70%, rgba(42, 58, 90, 0.05) 0%, transparent 40%);
+      pointer-events: none;
+    }
+
+    /* Scanline overlay */
+    .hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent 0px,
+        transparent 1px,
+        rgba(0, 0, 0, 0.08) 1px,
+        rgba(0, 0, 0, 0.08) 2px
+      );
+      pointer-events: none;
+    }
+
+    /* Decorative gears */
+    .hero-gear {
+      position: absolute;
+      border-radius: 50%;
+      opacity: 0.06;
+      z-index: 0;
+    }
+
+    .hero-gear-1 {
+      width: 300px;
+      height: 300px;
+      top: -60px;
+      right: -80px;
+      background: conic-gradient(
+        from 0deg,
+        var(--ig-steel) 0deg 15deg, transparent 15deg 30deg,
+        var(--ig-steel) 30deg 45deg, transparent 45deg 60deg,
+        var(--ig-steel) 60deg 75deg, transparent 75deg 90deg,
+        var(--ig-steel) 90deg 105deg, transparent 105deg 120deg,
+        var(--ig-steel) 120deg 135deg, transparent 135deg 150deg,
+        var(--ig-steel) 150deg 165deg, transparent 165deg 180deg,
+        var(--ig-steel) 180deg 195deg, transparent 195deg 210deg,
+        var(--ig-steel) 210deg 225deg, transparent 225deg 240deg,
+        var(--ig-steel) 240deg 255deg, transparent 255deg 270deg,
+        var(--ig-steel) 270deg 285deg, transparent 285deg 300deg,
+        var(--ig-steel) 300deg 315deg, transparent 315deg 330deg,
+        var(--ig-steel) 330deg 345deg, transparent 345deg 360deg
+      );
+      animation: ig-gear-rotate 60s linear infinite;
+    }
+
+    .hero-gear-2 {
+      width: 200px;
+      height: 200px;
+      bottom: 80px;
+      left: -40px;
+      background: conic-gradient(
+        from 15deg,
+        var(--ig-steel) 0deg 12deg, transparent 12deg 30deg,
+        var(--ig-steel) 30deg 42deg, transparent 42deg 60deg,
+        var(--ig-steel) 60deg 72deg, transparent 72deg 90deg,
+        var(--ig-steel) 90deg 102deg, transparent 102deg 120deg,
+        var(--ig-steel) 120deg 132deg, transparent 132deg 150deg,
+        var(--ig-steel) 150deg 162deg, transparent 162deg 180deg,
+        var(--ig-steel) 180deg 192deg, transparent 192deg 210deg,
+        var(--ig-steel) 210deg 222deg, transparent 222deg 240deg,
+        var(--ig-steel) 240deg 252deg, transparent 252deg 270deg,
+        var(--ig-steel) 270deg 282deg, transparent 282deg 300deg,
+        var(--ig-steel) 300deg 312deg, transparent 312deg 330deg,
+        var(--ig-steel) 330deg 342deg, transparent 342deg 360deg
+      );
+      animation: ig-gear-rotate 45s linear infinite reverse;
+    }
+
+    /* Decorative wires */
+    .hero-wire {
+      position: absolute;
+      width: 2px;
+      top: 0;
+      background: linear-gradient(180deg, var(--ig-gunmetal), var(--ig-steel) 40%, var(--ig-gunmetal));
+      box-shadow: 1px 0 3px rgba(0,0,0,0.5), -1px 0 3px rgba(0,0,0,0.5);
+      z-index: 0;
+    }
+
+    .hero-wire-1 { left: 12%; height: 140px; }
+    .hero-wire-2 { left: 88%; height: 100px; }
+    .hero-wire-3 { left: 7%; height: 200px; opacity: 0.5; }
+
+    /* Drip from wire */
+    .hero-wire-1::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: -2px;
+      width: 6px;
+      background: linear-gradient(180deg, var(--ig-rust) 0%, transparent 100%);
+      border-radius: 0 0 3px 3px;
+      animation: ig-drip 4s ease-in infinite;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-blackletter {
+      font-family: 'UnifrakturMaguntia', cursive;
+      font-size: clamp(1rem, 2.5vw, 1.6rem);
+      color: var(--ig-tarnished);
+      letter-spacing: 0.08em;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
+      margin-bottom: 1.5rem;
+      animation: ig-reveal-up 1.2s ease both;
+      animation-delay: 0.2s;
+    }
+
+    .hero-title {
+      font-family: 'Bebas Neue', 'Oswald', sans-serif;
+      font-size: clamp(4rem, 14vw, 12rem);
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--ig-harsh-light);
+      line-height: 0.85;
+      margin-bottom: 0.5rem;
+      animation: ig-title-glitch 12s ease-in-out infinite, ig-reveal-up 1s ease both;
+      text-shadow: 0 0 60px rgba(74, 106, 138, 0.15);
+    }
+
+    .hero-title-sub {
+      font-family: 'Oswald', sans-serif;
+      font-size: clamp(1.5rem, 5vw, 3.5rem);
+      text-transform: uppercase;
+      letter-spacing: 0.3em;
+      color: var(--ig-rust-bright);
+      font-weight: 700;
+      margin-bottom: 2rem;
+      animation: ig-reveal-up 1s ease both;
+      animation-delay: 0.3s;
+    }
+
+    .hero-tagline {
+      font-family: 'Share Tech Mono', monospace;
+      text-transform: uppercase;
+      letter-spacing: 0.25em;
+      color: var(--ig-steel);
+      font-size: clamp(0.6rem, 1.2vw, 0.85rem);
+      animation: ig-flicker 8s ease-in-out infinite, ig-reveal-up 1s ease both;
+      animation-delay: 0.5s;
+    }
+
+    .hero-tagline span {
+      color: var(--ig-fluorescent-blue);
+    }
+
+    /* Fluorescent bar under hero */
+    .hero-fluorescent-bar {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg,
+        transparent 0%,
+        var(--ig-cold-blue) 20%,
+        var(--ig-fluorescent-blue) 50%,
+        var(--ig-cold-blue) 80%,
+        transparent 100%
+      );
+      box-shadow:
+        0 0 8px rgba(74, 106, 138, 0.4),
+        0 0 25px rgba(74, 106, 138, 0.15);
+      animation: ig-flicker 8s ease-in-out 2s infinite;
+    }
+
+    /* =============================================
+       PIPE DIVIDER
+       ============================================= */
+    .pipe-divider {
+      height: 12px;
+      background: linear-gradient(
+        180deg,
+        rgba(255,255,255,0.06) 0%,
+        var(--ig-steel) 15%,
+        var(--ig-gunmetal) 50%,
+        #2a2a2a 85%,
+        rgba(0,0,0,0.3) 100%
+      );
+      box-shadow: 0 3px 10px rgba(0,0,0,0.7);
+      position: relative;
+    }
+
+    .pipe-divider::before,
+    .pipe-divider::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 18px;
+      height: 18px;
+      background: radial-gradient(circle at 35% 35%, var(--ig-tarnished), var(--ig-steel) 50%, var(--ig-gunmetal));
+      border-radius: 50%;
+      border: 1px solid rgba(0,0,0,0.4);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.6);
+    }
+
+    .pipe-divider::before { left: 40px; }
+    .pipe-divider::after { right: 40px; }
+
+    /* =============================================
+       SECTION STYLES
+       ============================================= */
+    .section {
+      padding: 5rem 2rem;
+      position: relative;
+    }
+
+    .section-dark {
+      background: var(--ig-void);
+    }
+
+    .section-mid {
+      background: var(--ig-soot);
+    }
+
+    .section-surface {
+      background: var(--ig-charcoal);
+    }
+
+    .section-inner {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    /* Section label */
+    .section-label {
+      font-family: 'Share Tech Mono', monospace;
+      text-transform: uppercase;
+      letter-spacing: 0.25em;
+      color: var(--ig-fluorescent-blue);
+      font-size: 0.7rem;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
+    .section-label::before {
+      content: '';
+      display: inline-block;
+      width: 30px;
+      height: 1px;
+      background: var(--ig-fluorescent-blue);
+    }
+
+    /* Section heading */
+    .section-heading {
+      font-family: 'Oswald', 'Barlow Condensed', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-weight: 700;
+      color: var(--ig-cold-white);
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      margin-bottom: 0.3rem;
+      line-height: 1.1;
+    }
+
+    .section-subheading {
+      font-family: 'Pathway Gothic One', 'Barlow Condensed', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: var(--ig-steel);
+      font-size: 0.85rem;
+      margin-bottom: 2.5rem;
+    }
+
+    /* =============================================
+       INTRO SECTION
+       ============================================= */
+    .intro-text {
+      font-family: 'Inter', sans-serif;
+      font-size: 1.05rem;
+      line-height: 1.9;
+      color: var(--ig-tarnished);
+      max-width: 720px;
+      position: relative;
+      padding-left: 1.5rem;
+      border-left: 2px solid var(--ig-rust);
+    }
+
+    .intro-text strong {
+      color: var(--ig-cold-white);
+      font-weight: 500;
+    }
+
+    .intro-text em {
+      color: var(--ig-sepia);
+      font-style: italic;
+    }
+
+    /* =============================================
+       STEEL PANEL
+       ============================================= */
+    .ig-panel {
+      background:
+        repeating-linear-gradient(
+          90deg,
+          transparent 0px,
+          rgba(255,255,255,0.015) 1px,
+          transparent 2px,
+          transparent 8px
+        ),
+        linear-gradient(180deg, var(--ig-charcoal) 0%, var(--ig-dark-iron) 50%, var(--ig-charcoal) 100%);
+      border: 2px solid var(--ig-gunmetal);
+      padding: 2.5rem;
+      position: relative;
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.05),
+        inset 0 -1px 0 rgba(0,0,0,0.3),
+        0 4px 20px rgba(0,0,0,0.6);
+    }
+
+    .ig-panel::before,
+    .ig-panel::after {
+      content: '';
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background: radial-gradient(circle at 35% 35%, var(--ig-tarnished), var(--ig-steel) 40%, var(--ig-gunmetal));
+      border-radius: 50%;
+      border: 1px solid rgba(0,0,0,0.4);
+      box-shadow: 0 1px 2px rgba(0,0,0,0.5);
+    }
+
+    .ig-panel::before { top: 10px; left: 10px; }
+    .ig-panel::after { top: 10px; right: 10px; }
+
+    /* Bottom rivets via wrapper */
+    .ig-panel-wrap {
+      position: relative;
+    }
+
+    .ig-panel-wrap::before,
+    .ig-panel-wrap::after {
+      content: '';
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background: radial-gradient(circle at 35% 35%, var(--ig-tarnished), var(--ig-steel) 40%, var(--ig-gunmetal));
+      border-radius: 50%;
+      border: 1px solid rgba(0,0,0,0.4);
+      box-shadow: 0 1px 2px rgba(0,0,0,0.5);
+      z-index: 2;
+    }
+
+    .ig-panel-wrap::before { bottom: 12px; left: 12px; }
+    .ig-panel-wrap::after { bottom: 12px; right: 12px; }
+
+    .ig-panel h3 {
+      font-family: 'Barlow Condensed', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--ig-rust-bright);
+      font-weight: 600;
+      font-size: 1.1rem;
+      margin-bottom: 1rem;
+    }
+
+    .ig-panel p {
+      color: var(--ig-tarnished);
+      font-size: 0.92rem;
+      line-height: 1.7;
+    }
+
+    .ig-panel p + p {
+      margin-top: 0.8rem;
+    }
+
+    /* =============================================
+       RUST BAR DIVIDER
+       ============================================= */
+    .rust-bar {
+      height: 3px;
+      background: linear-gradient(
+        90deg,
+        transparent 0%,
+        var(--ig-rust) 15%,
+        var(--ig-rust-bright) 50%,
+        var(--ig-rust) 85%,
+        transparent 100%
+      );
+      margin: 3rem auto;
+      max-width: 300px;
+    }
+
+    /* =============================================
+       VISUAL CHARACTERISTICS LIST
+       ============================================= */
+    .motif-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1px;
+      background: var(--ig-gunmetal);
+      border: 1px solid var(--ig-gunmetal);
+      margin-top: 2rem;
+    }
+
+    .motif-item {
+      background: var(--ig-soot);
+      padding: 1.5rem;
+      position: relative;
+      transition: background 0.4s ease;
+    }
+
+    .motif-item:hover {
+      background: var(--ig-charcoal);
+    }
+
+    .motif-item::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 3px;
+      height: 0;
+      background: var(--ig-rust);
+      transition: height 0.4s ease;
+    }
+
+    .motif-item:hover::before {
+      height: 100%;
+    }
+
+    .motif-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--ig-cold-white);
+      font-weight: 600;
+      font-size: 0.9rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .motif-desc {
+      font-family: 'Inter', sans-serif;
+      color: var(--ig-steel);
+      font-size: 0.8rem;
+      line-height: 1.6;
+    }
+
+    /* =============================================
+       COLOR PALETTE SECTION
+       ============================================= */
+    .palette-group {
+      margin-bottom: 3rem;
+    }
+
+    .palette-group-title {
+      font-family: 'Pathway Gothic One', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--ig-tarnished);
+      font-size: 0.8rem;
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--ig-gunmetal);
+    }
+
+    .palette-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 0.8rem;
+    }
+
+    .color-swatch {
+      position: relative;
+      padding-top: 60%;
+      border: 1px solid var(--ig-gunmetal);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .color-swatch:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.6);
+      z-index: 2;
+    }
+
+    .color-info {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 0.5rem 0.6rem;
+      background: linear-gradient(transparent, rgba(0,0,0,0.85));
+    }
+
+    .color-name {
+      font-family: 'Barlow Condensed', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--ig-cold-white);
+      font-size: 0.7rem;
+      font-weight: 600;
+    }
+
+    .color-hex {
+      font-family: 'Share Tech Mono', monospace;
+      color: var(--ig-steel);
+      font-size: 0.6rem;
+      letter-spacing: 0.05em;
+    }
+
+    /* =============================================
+       TYPOGRAPHY SHOWCASE
+       ============================================= */
+    .type-specimen {
+      margin-bottom: 3rem;
+      padding: 2rem;
+      background: var(--ig-void);
+      border-left: 3px solid var(--ig-gunmetal);
+      position: relative;
+    }
+
+    .type-specimen:hover {
+      border-left-color: var(--ig-rust);
+    }
+
+    .type-specimen-label {
+      font-family: 'Share Tech Mono', monospace;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--ig-fluorescent-blue);
+      font-size: 0.65rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .type-specimen-meta {
+      font-family: 'Share Tech Mono', monospace;
+      color: var(--ig-steel);
+      font-size: 0.6rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-top: 1rem;
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .type-specimen-meta span {
+      color: var(--ig-tarnished);
+    }
+
+    .type-display {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.5rem, 7vw, 5rem);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      line-height: 0.9;
+      color: var(--ig-cold-white);
+    }
+
+    .type-headline {
+      font-family: 'Oswald', sans-serif;
+      font-size: clamp(1.8rem, 4vw, 2.5rem);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-weight: 700;
+      color: var(--ig-cold-white);
+      line-height: 1.1;
+    }
+
+    .type-subhead {
+      font-family: 'Pathway Gothic One', sans-serif;
+      font-size: 1.4rem;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: var(--ig-tarnished);
+    }
+
+    .type-archivo {
+      font-family: 'Archivo Black', sans-serif;
+      font-size: clamp(2rem, 5vw, 3rem);
+      text-transform: uppercase;
+      color: var(--ig-cold-white);
+      line-height: 1;
+    }
+
+    .type-body {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.95rem;
+      line-height: 1.8;
+      color: var(--ig-tarnished);
+      max-width: 600px;
+    }
+
+    .type-tech {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.85rem;
+      letter-spacing: 0.06em;
+      color: var(--ig-fluorescent-blue);
+      text-transform: uppercase;
+    }
+
+    .type-typewriter {
+      font-family: 'Special Elite', cursive;
+      font-size: 1rem;
+      letter-spacing: 0.03em;
+      line-height: 1.8;
+      color: var(--ig-sepia);
+    }
+
+    .type-blackletter {
+      font-family: 'UnifrakturMaguntia', cursive;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      color: var(--ig-tarnished);
+      letter-spacing: 0.05em;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
+    }
+
+    /* =============================================
+       DESIGN PRINCIPLES
+       ============================================= */
+    .principle-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .principle-item {
+      display: grid;
+      grid-template-columns: 60px 1fr;
+      gap: 1.5rem;
+      padding: 1.5rem 0;
+      border-bottom: 1px solid rgba(58, 58, 63, 0.5);
+      align-items: start;
+      transition: padding-left 0.3s ease;
+    }
+
+    .principle-item:hover {
+      padding-left: 0.5rem;
+    }
+
+    .principle-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2rem;
+      color: var(--ig-gunmetal);
+      line-height: 1;
+      transition: color 0.3s ease;
+    }
+
+    .principle-item:hover .principle-num {
+      color: var(--ig-rust);
+    }
+
+    .principle-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--ig-cold-white);
+      font-weight: 600;
+      font-size: 0.95rem;
+      margin-bottom: 0.3rem;
+    }
+
+    .principle-text {
+      font-family: 'Inter', sans-serif;
+      color: var(--ig-steel);
+      font-size: 0.85rem;
+      line-height: 1.6;
+    }
+
+    /* =============================================
+       LIGHTING & ATMOSPHERE
+       ============================================= */
+    .atmosphere-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .atmosphere-card {
+      background: var(--ig-charcoal);
+      border: 1px solid var(--ig-gunmetal);
+      padding: 0;
+      overflow: hidden;
+      position: relative;
+      transition: border-color 0.4s ease;
+    }
+
+    .atmosphere-card:hover {
+      border-color: var(--ig-steel);
+    }
+
+    .atmosphere-preview {
+      height: 100px;
+      position: relative;
+    }
+
+    /* Different lighting previews */
+    .atm-spotlight .atmosphere-preview {
+      background: var(--ig-void);
+      background-image: radial-gradient(ellipse at 50% 0%, rgba(232, 236, 240, 0.15) 0%, transparent 60%);
+    }
+
+    .atm-shadow .atmosphere-preview {
+      background: linear-gradient(135deg, var(--ig-charcoal) 0%, var(--ig-void) 40%, var(--ig-void) 100%);
+    }
+
+    .atm-cold-light .atmosphere-preview {
+      background: var(--ig-void);
+      background-image:
+        linear-gradient(180deg, rgba(74, 106, 138, 0.1) 0%, transparent 60%),
+        linear-gradient(90deg, transparent 45%, rgba(74, 106, 138, 0.08) 50%, transparent 55%);
+    }
+
+    .atm-fog .atmosphere-preview {
+      background: var(--ig-void);
+      background-image:
+        radial-gradient(ellipse at 30% 60%, rgba(200, 205, 211, 0.06) 0%, transparent 50%),
+        radial-gradient(ellipse at 70% 40%, rgba(200, 205, 211, 0.04) 0%, transparent 50%);
+    }
+
+    .atm-fluorescent .atmosphere-preview {
+      background: var(--ig-void);
+      position: relative;
+    }
+
+    .atm-fluorescent .atmosphere-preview::after {
+      content: '';
+      position: absolute;
+      top: 20px;
+      left: 20%;
+      right: 20%;
+      height: 3px;
+      background: rgba(232, 236, 240, 0.6);
+      box-shadow:
+        0 0 10px rgba(74, 106, 138, 0.5),
+        0 0 30px rgba(74, 106, 138, 0.2),
+        0 20px 40px rgba(74, 106, 138, 0.1);
+      animation: ig-flicker 8s ease-in-out infinite;
+    }
+
+    .atm-ambient .atmosphere-preview {
+      background: radial-gradient(ellipse at 50% 50%, var(--ig-dark-iron) 0%, var(--ig-void) 100%);
+    }
+
+    .atmosphere-content {
+      padding: 1.2rem;
+    }
+
+    .atmosphere-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--ig-cold-white);
+      font-weight: 600;
+      font-size: 0.85rem;
+      margin-bottom: 0.4rem;
+    }
+
+    .atmosphere-desc {
+      font-family: 'Inter', sans-serif;
+      color: var(--ig-steel);
+      font-size: 0.75rem;
+      line-height: 1.5;
+    }
+
+    /* =============================================
+       MATERIALS TABLE
+       ============================================= */
+    .materials-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 2rem;
+    }
+
+    .materials-table th {
+      font-family: 'Barlow Condensed', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--ig-rust-bright);
+      font-weight: 600;
+      font-size: 0.75rem;
+      text-align: left;
+      padding: 0.8rem 1rem;
+      border-bottom: 2px solid var(--ig-gunmetal);
+      background: var(--ig-void);
+    }
+
+    .materials-table td {
+      font-size: 0.85rem;
+      padding: 0.8rem 1rem;
+      border-bottom: 1px solid rgba(58, 58, 63, 0.4);
+      vertical-align: top;
+    }
+
+    .materials-table td:first-child {
+      font-family: 'Barlow Condensed', sans-serif;
+      color: var(--ig-cold-white);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      font-size: 0.8rem;
+      white-space: nowrap;
+    }
+
+    .materials-table td:last-child {
+      color: var(--ig-steel);
+      font-family: 'Inter', sans-serif;
+    }
+
+    .materials-table tr:hover td {
+      background: rgba(58, 58, 63, 0.15);
+    }
+
+    /* =============================================
+       INFLUENCES SECTION
+       ============================================= */
+    .influence-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1px;
+      background: var(--ig-gunmetal);
+      border: 1px solid var(--ig-gunmetal);
+      margin-top: 2rem;
+    }
+
+    .influence-card {
+      background: var(--ig-soot);
+      padding: 1.8rem;
+      position: relative;
+      overflow: hidden;
+      transition: background 0.4s ease;
+    }
+
+    .influence-card:hover {
+      background: var(--ig-charcoal);
+    }
+
+    .influence-card::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 40%;
+      height: 100%;
+      background: radial-gradient(ellipse at right center, rgba(139, 58, 42, 0.05) 0%, transparent 70%);
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+
+    .influence-card:hover::after {
+      opacity: 1;
+    }
+
+    .influence-name {
+      font-family: 'Oswald', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--ig-cold-white);
+      font-weight: 600;
+      font-size: 0.95rem;
+      margin-bottom: 0.6rem;
+    }
+
+    .influence-desc {
+      font-family: 'Inter', sans-serif;
+      color: var(--ig-steel);
+      font-size: 0.78rem;
+      line-height: 1.6;
+    }
+
+    /* =============================================
+       RELATED AESTHETICS
+       ============================================= */
+    .related-list {
+      margin-top: 2rem;
+    }
+
+    .related-item {
+      display: grid;
+      grid-template-columns: 180px 1fr;
+      gap: 1.5rem;
+      padding: 1rem 0;
+      border-bottom: 1px solid rgba(58, 58, 63, 0.3);
+      align-items: baseline;
+    }
+
+    .related-name {
+      font-family: 'Barlow Condensed', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--ig-cold-white);
+      font-weight: 600;
+      font-size: 0.85rem;
+    }
+
+    .related-desc {
+      color: var(--ig-steel);
+      font-size: 0.82rem;
+      line-height: 1.6;
+    }
+
+    /* =============================================
+       CSS TECHNIQUES SECTION
+       ============================================= */
+    .technique-demo {
+      margin-bottom: 3rem;
+    }
+
+    .technique-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--ig-rust-bright);
+      font-weight: 600;
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+    }
+
+    .technique-preview {
+      border: 1px solid var(--ig-gunmetal);
+      min-height: 80px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Demo: corroded metal surface */
+    .demo-metal {
+      background:
+        url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.08'/%3E%3C/svg%3E"),
+        repeating-linear-gradient(90deg, transparent 0px, rgba(255,255,255,0.02) 1px, transparent 2px, transparent 8px),
+        linear-gradient(180deg, var(--ig-charcoal) 0%, var(--ig-dark-iron) 50%, var(--ig-charcoal) 100%);
+      height: 100px;
+    }
+
+    /* Demo: rust stain */
+    .demo-rust {
+      background: var(--ig-dark-iron);
+      height: 100px;
+    }
+    .demo-rust::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 10%;
+      width: 50%;
+      height: 70%;
+      background: radial-gradient(
+        ellipse at center bottom,
+        rgba(139, 58, 42, 0.3) 0%,
+        rgba(139, 94, 60, 0.18) 30%,
+        rgba(139, 94, 60, 0.06) 60%,
+        transparent 80%
+      );
+      pointer-events: none;
+    }
+
+    /* Demo: spotlight */
+    .demo-spotlight {
+      background: var(--ig-void);
+      height: 100px;
+    }
+    .demo-spotlight::after {
+      content: '';
+      position: absolute;
+      top: -30%;
+      left: 25%;
+      width: 50%;
+      height: 90%;
+      background: radial-gradient(
+        ellipse at center,
+        rgba(200, 205, 211, 0.15) 0%,
+        rgba(200, 205, 211, 0.05) 35%,
+        transparent 65%
+      );
+      pointer-events: none;
+    }
+
+    /* Demo: chain border */
+    .demo-chain {
+      background: var(--ig-charcoal);
+      height: 100px;
+      border-image: repeating-linear-gradient(
+        90deg,
+        var(--ig-steel) 0px,
+        var(--ig-tarnished) 4px,
+        var(--ig-gunmetal) 8px,
+        transparent 8px,
+        transparent 12px,
+        var(--ig-gunmetal) 12px,
+        var(--ig-tarnished) 16px,
+        var(--ig-steel) 20px
+      ) 4;
+      border-width: 4px;
+      border-style: solid;
+    }
+
+    /* Demo: scanlines */
+    .demo-scanlines {
+      background: linear-gradient(135deg, var(--ig-charcoal), var(--ig-dark-iron));
+      height: 100px;
+    }
+    .demo-scanlines::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent 0px,
+        transparent 1px,
+        rgba(0, 0, 0, 0.15) 1px,
+        rgba(0, 0, 0, 0.15) 2px
+      );
+      pointer-events: none;
+    }
+
+    /* Demo: fluorescent flicker */
+    .demo-flicker {
+      background: var(--ig-void);
+      height: 100px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .demo-flicker-text {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--ig-harsh-light);
+      text-shadow:
+        0 0 4px rgba(74, 106, 138, 0.6),
+        0 0 12px rgba(74, 106, 138, 0.3),
+        0 0 30px rgba(74, 106, 138, 0.1);
+      animation: ig-flicker 8s ease-in-out infinite;
+    }
+
+    .technique-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .technique-label {
+      font-family: 'Share Tech Mono', monospace;
+      color: var(--ig-steel);
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-top: 0.6rem;
+      text-align: center;
+    }
+
+    /* =============================================
+       LAYOUT PRINCIPLES
+       ============================================= */
+    .layout-demo-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .layout-demo {
+      border: 1px solid var(--ig-gunmetal);
+      padding: 1.5rem;
+      background: var(--ig-void);
+      min-height: 200px;
+      position: relative;
+    }
+
+    .layout-demo-title {
+      font-family: 'Share Tech Mono', monospace;
+      color: var(--ig-fluorescent-blue);
+      font-size: 0.6rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      margin-bottom: 1rem;
+    }
+
+    /* Full bleed demo */
+    .layout-fullbleed {
+      background: var(--ig-void);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .layout-fullbleed .demo-content-block {
+      width: 60%;
+      height: 60%;
+      background: var(--ig-charcoal);
+      border: 1px solid var(--ig-gunmetal);
+    }
+
+    /* Asymmetric demo */
+    .layout-asymmetric {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      grid-template-rows: 2fr 1fr;
+      gap: 4px;
+      padding: 0.5rem;
+    }
+    .layout-asymmetric .demo-block {
+      background: var(--ig-charcoal);
+      border: 1px solid var(--ig-gunmetal);
+    }
+    .layout-asymmetric .demo-block:first-child {
+      grid-row: 1 / 3;
+    }
+
+    /* Vertical demo */
+    .layout-vertical {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      padding: 0.5rem;
+      align-items: center;
+    }
+    .layout-vertical .demo-block {
+      width: 40%;
+      height: 30px;
+      background: var(--ig-charcoal);
+      border: 1px solid var(--ig-gunmetal);
+    }
+    .layout-vertical .demo-block:nth-child(2) { width: 35%; }
+    .layout-vertical .demo-block:nth-child(3) { width: 42%; }
+
+    /* Panel-based demo */
+    .layout-panels {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3px;
+      padding: 0.5rem;
+    }
+    .layout-panels .demo-block {
+      background: var(--ig-charcoal);
+      border: 2px solid var(--ig-gunmetal);
+      height: 60px;
+      position: relative;
+    }
+    .layout-panels .demo-block::before {
+      content: '';
+      position: absolute;
+      top: 4px;
+      left: 4px;
+      width: 5px;
+      height: 5px;
+      background: radial-gradient(circle, var(--ig-tarnished), var(--ig-gunmetal));
+      border-radius: 50%;
+    }
+
+    /* =============================================
+       STATUS BAR / READOUT
+       ============================================= */
+    .status-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.8rem 1.5rem;
+      background: var(--ig-void);
+      border: 1px solid var(--ig-gunmetal);
+      margin: 3rem 0;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .status-item {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ig-steel);
+    }
+
+    .status-item .status-value {
+      color: var(--ig-fluorescent-blue);
+    }
+
+    .status-indicator {
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      margin-right: 0.4rem;
+      vertical-align: middle;
+    }
+
+    .status-active {
+      background: var(--ig-rust-bright);
+      box-shadow: 0 0 6px rgba(160, 64, 48, 0.5);
+      animation: ig-pulse-glow 3s ease-in-out infinite;
+    }
+
+    /* =============================================
+       FOOTER
+       ============================================= */
+    .footer {
+      text-align: center;
+      padding: 4rem 2rem;
+      background: var(--ig-void);
+      border-top: 1px solid var(--ig-gunmetal);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .footer::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 30%;
+      right: 30%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--ig-rust), transparent);
+    }
+
+    .footer-title {
+      font-family: 'UnifrakturMaguntia', cursive;
+      font-size: 1.8rem;
+      color: var(--ig-gunmetal);
+      letter-spacing: 0.05em;
+      margin-bottom: 1rem;
+    }
+
+    .footer-text {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--ig-steel);
+      line-height: 2;
+    }
+
+    .footer-text span {
+      color: var(--ig-fluorescent-blue);
+    }
+
+    /* =============================================
+       DECORATIVE ELEMENTS
+       ============================================= */
+
+    /* Gear decorations */
+    .deco-gear {
+      position: absolute;
+      border-radius: 50%;
+      opacity: 0.04;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .deco-gear::before {
+      content: '';
+      position: absolute;
+      inset: -15%;
+      background: conic-gradient(
+        from 0deg,
+        var(--ig-steel) 0deg 12deg, transparent 12deg 30deg,
+        var(--ig-steel) 30deg 42deg, transparent 42deg 60deg,
+        var(--ig-steel) 60deg 72deg, transparent 72deg 90deg,
+        var(--ig-steel) 90deg 102deg, transparent 102deg 120deg,
+        var(--ig-steel) 120deg 132deg, transparent 132deg 150deg,
+        var(--ig-steel) 150deg 162deg, transparent 162deg 180deg,
+        var(--ig-steel) 180deg 192deg, transparent 192deg 210deg,
+        var(--ig-steel) 210deg 222deg, transparent 222deg 240deg,
+        var(--ig-steel) 240deg 252deg, transparent 252deg 270deg,
+        var(--ig-steel) 270deg 282deg, transparent 282deg 300deg,
+        var(--ig-steel) 300deg 312deg, transparent 312deg 330deg,
+        var(--ig-steel) 330deg 342deg, transparent 342deg 360deg
+      );
+      border-radius: 50%;
+    }
+
+    /* Steam effect */
+    .steam-vent {
+      position: absolute;
+      width: 60px;
+      height: 60px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .steam-vent::before,
+    .steam-vent::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(200, 205, 211, 0.08), transparent);
+    }
+
+    .steam-vent::before {
+      left: 10px;
+      width: 30px;
+      height: 30px;
+      animation: ig-steam 5s ease-out infinite;
+    }
+
+    .steam-vent::after {
+      left: 20px;
+      width: 20px;
+      height: 20px;
+      animation: ig-steam 5s ease-out 1.5s infinite;
+    }
+
+    /* Scanning line */
+    .scan-line-container {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .scan-line {
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, rgba(74, 106, 138, 0.15), transparent);
+      animation: ig-scan-down 8s linear infinite;
+    }
+
+    /* =============================================
+       RESPONSIVE
+       ============================================= */
+    @media (max-width: 768px) {
+      .section {
+        padding: 3rem 1.2rem;
+      }
+
+      .motif-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .atmosphere-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .palette-row {
+        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+      }
+
+      .influence-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .layout-demo-container {
+        grid-template-columns: 1fr;
+      }
+
+      .technique-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .related-item {
+        grid-template-columns: 1fr;
+        gap: 0.3rem;
+      }
+
+      .principle-item {
+        grid-template-columns: 40px 1fr;
+        gap: 1rem;
+      }
+
+      .status-bar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .ig-panel {
+        padding: 1.5rem;
+      }
+
+      .hero-wire { display: none; }
+    }
+
+    @media (max-width: 480px) {
+      .hero-title {
+        letter-spacing: 0.06em;
+      }
+
+      .hero-blackletter {
+        font-size: 0.9rem;
+      }
+
+      .palette-row {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- =============================================
+       HERO SECTION
+       ============================================= -->
+  <section class="hero">
+    <div class="hero-gear hero-gear-1"></div>
+    <div class="hero-gear hero-gear-2"></div>
+    <div class="hero-wire hero-wire-1"></div>
+    <div class="hero-wire hero-wire-2"></div>
+    <div class="hero-wire hero-wire-3"></div>
+
+    <div class="scan-line-container">
+      <div class="scan-line"></div>
+    </div>
+
+    <div class="hero-content">
+      <div class="hero-blackletter">A Design Reference</div>
+      <h1 class="hero-title">Industrial<br>Gothic</h1>
+      <div class="hero-title-sub">Design System</div>
+      <div class="hero-tagline">// sector <span>IG-001</span> // mechanical dread // technological blight // dark nihilism //</div>
+    </div>
+
+    <div class="hero-fluorescent-bar"></div>
+  </section>
+
+  <div class="pipe-divider"></div>
+
+  <!-- =============================================
+       OVERVIEW / DEFINITION
+       ============================================= -->
+  <section class="section section-mid">
+    <div class="section-inner">
+      <div class="reveal">
+        <div class="section-label">Section 01 // Definition</div>
+        <h2 class="section-heading">What Is Industrial Gothic</h2>
+        <div class="section-subheading">Mechanical dread meets architectural darkness</div>
+      </div>
+
+      <div class="reveal">
+        <p class="intro-text">
+          Industrial Gothic is a design aesthetic that fuses <strong>Gothic atmosphere</strong> -- dread, darkness, mystery -- with the visual language of <strong>heavy machinery, decaying infrastructure, and technological blight</strong>. It creates a sense of mechanical dread, technological blight, and dark nihilism through the deliberate juxtaposition of human decay with technological structure. The style emphasizes <strong>texture, low light, and the unsettling merger of biological and mechanical forms</strong>, drawing heavily from abandoned industrial environments, H.R. Giger's biomechanical art, and the visual culture of industrial music. Unlike clean cyberpunk futures, Industrial Gothic dwells in the <em>present ruin</em> -- corroded, exposed, and oppressively physical.
+        </p>
+      </div>
+
+      <div class="status-bar reveal">
+        <span class="status-item"><span class="status-indicator status-active"></span>system: <span class="status-value">operational</span></span>
+        <span class="status-item">aesthetic: <span class="status-value">industrial gothic</span></span>
+        <span class="status-item">class: <span class="status-value">dark / textured / mechanical</span></span>
+        <span class="status-item">era: <span class="status-value">present ruin</span></span>
+      </div>
+    </div>
+  </section>
+
+  <div class="pipe-divider"></div>
+
+  <!-- =============================================
+       VISUAL CHARACTERISTICS
+       ============================================= -->
+  <section class="section section-dark" style="position: relative;">
+    <div class="deco-gear" style="width: 200px; height: 200px; top: 40px; right: -60px; animation: ig-gear-rotate 50s linear infinite;"></div>
+    <div class="section-inner">
+      <div class="reveal">
+        <div class="section-label">Section 02 // Visual Language</div>
+        <h2 class="section-heading">Core Motifs &amp; Elements</h2>
+        <div class="section-subheading">The building blocks of mechanical dread</div>
+      </div>
+
+      <div class="motif-grid reveal">
+        <div class="motif-item">
+          <div class="motif-title">Exposed Mechanisms</div>
+          <div class="motif-desc">Dense clusters of wires, cabling, piping, bolts, and gears visible as structural and decorative elements</div>
+        </div>
+        <div class="motif-item">
+          <div class="motif-title">Corrosion &amp; Decay</div>
+          <div class="motif-desc">Peeling paint, rust stains, oxidized metal surfaces, pitted concrete</div>
+        </div>
+        <div class="motif-item">
+          <div class="motif-title">Bio-Mechanical Fusion</div>
+          <div class="motif-desc">Organic forms merged with machine parts, flesh meeting steel -- the H.R. Giger influence</div>
+        </div>
+        <div class="motif-item">
+          <div class="motif-title">Monochrome Faces</div>
+          <div class="motif-desc">Desaturated, high-contrast portraiture suggesting anonymity and dehumanization</div>
+        </div>
+        <div class="motif-item">
+          <div class="motif-title">Abandoned Infrastructure</div>
+          <div class="motif-desc">Derelict factories, disused tunnels, decaying power plants, empty warehouses</div>
+        </div>
+        <div class="motif-item">
+          <div class="motif-title">Exposed Ductwork</div>
+          <div class="motif-desc">Industrial ventilation, conduits, and plumbing treated as visual features rather than hidden services</div>
+        </div>
+        <div class="motif-item">
+          <div class="motif-title">Large Metal Components</div>
+          <div class="motif-desc">Turbines, boilers, pressure vessels, structural steel as compositional anchors</div>
+        </div>
+        <div class="motif-item">
+          <div class="motif-title">Chains &amp; Hardware</div>
+          <div class="motif-desc">Hanging elements that suggest both function and menace -- hooks, chains, industrial rigging</div>
+        </div>
+        <div class="motif-item">
+          <div class="motif-title">Distressed Textures</div>
+          <div class="motif-desc">Surfaces that show age, wear, and environmental damage at every scale</div>
+        </div>
+        <div class="motif-item">
+          <div class="motif-title">Dense Layering</div>
+          <div class="motif-desc">Overlapping mechanical elements creating visual complexity and claustrophobia</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="rust-bar"></div>
+
+  <!-- =============================================
+       LIGHTING & ATMOSPHERE
+       ============================================= -->
+  <section class="section section-mid">
+    <div class="section-inner">
+      <div class="reveal">
+        <div class="section-label">Section 03 // Illumination</div>
+        <h2 class="section-heading">Lighting &amp; Atmosphere</h2>
+        <div class="section-subheading">How darkness becomes design</div>
+      </div>
+
+      <div class="atmosphere-grid reveal">
+        <div class="atmosphere-card atm-spotlight">
+          <div class="atmosphere-preview"></div>
+          <div class="atmosphere-content">
+            <div class="atmosphere-title">Single-Source Spotlight</div>
+            <div class="atmosphere-desc">Dramatic, directional light that carves objects from darkness with harsh precision</div>
+          </div>
+        </div>
+        <div class="atmosphere-card atm-shadow">
+          <div class="atmosphere-preview"></div>
+          <div class="atmosphere-content">
+            <div class="atmosphere-title">Deep Dramatic Shadows</div>
+            <div class="atmosphere-desc">Large areas of near-black that obscure detail and create mystery through absence</div>
+          </div>
+        </div>
+        <div class="atmosphere-card atm-cold-light">
+          <div class="atmosphere-preview"></div>
+          <div class="atmosphere-content">
+            <div class="atmosphere-title">Artificial Cold Light</div>
+            <div class="atmosphere-desc">Blue-tinted fluorescent or industrial lighting that strips warmth from surfaces</div>
+          </div>
+        </div>
+        <div class="atmosphere-card atm-fluorescent">
+          <div class="atmosphere-preview"></div>
+          <div class="atmosphere-content">
+            <div class="atmosphere-title">Visible Light Sources</div>
+            <div class="atmosphere-desc">Bare bulbs, industrial fixtures, and glowing indicators as design elements</div>
+          </div>
+        </div>
+        <div class="atmosphere-card atm-fog">
+          <div class="atmosphere-preview"></div>
+          <div class="atmosphere-content">
+            <div class="atmosphere-title">Fog &amp; Haze</div>
+            <div class="atmosphere-desc">Diffused light through particulate-laden air, obscuring depth and creating dread</div>
+          </div>
+        </div>
+        <div class="atmosphere-card atm-ambient">
+          <div class="atmosphere-preview"></div>
+          <div class="atmosphere-content">
+            <div class="atmosphere-title">Low Ambient Light</div>
+            <div class="atmosphere-desc">Overall darkness punctuated by isolated bright zones that command attention</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="pipe-divider"></div>
+
+  <!-- =============================================
+       DESIGN PRINCIPLES
+       ============================================= -->
+  <section class="section section-dark" style="position: relative;">
+    <div class="steam-vent" style="top: 30px; right: 80px;"></div>
+    <div class="section-inner">
+      <div class="reveal">
+        <div class="section-label">Section 04 // Philosophy</div>
+        <h2 class="section-heading">Design Principles</h2>
+        <div class="section-subheading">The governing rules of this oppressive aesthetic</div>
+      </div>
+
+      <div class="principle-list reveal">
+        <div class="principle-item">
+          <div class="principle-num">01</div>
+          <div>
+            <div class="principle-title">Texture Over Cleanliness</div>
+            <div class="principle-text">Every surface should show material character: grain, corrosion, wear. No flat, pristine surfaces exist in this world.</div>
+          </div>
+        </div>
+        <div class="principle-item">
+          <div class="principle-num">02</div>
+          <div>
+            <div class="principle-title">Asymmetric, Oppressive Compositions</div>
+            <div class="principle-text">Weight concentrated to create unease, not balance. Deliberate discomfort through visual gravity.</div>
+          </div>
+        </div>
+        <div class="principle-item">
+          <div class="principle-num">03</div>
+          <div>
+            <div class="principle-title">Monochromatic Dominance</div>
+            <div class="principle-text">Near-total grayscale with carefully placed warm or cold color hits. Restraint amplifies impact.</div>
+          </div>
+        </div>
+        <div class="principle-item">
+          <div class="principle-num">04</div>
+          <div>
+            <div class="principle-title">Physical Immersion</div>
+            <div class="principle-text">Designs should feel like environments you could inhabit, not flat graphics. Depth and tactility are paramount.</div>
+          </div>
+        </div>
+        <div class="principle-item">
+          <div class="principle-num">05</div>
+          <div>
+            <div class="principle-title">Layered Depth</div>
+            <div class="principle-text">Foreground mechanical elements, mid-ground content, background darkness. Three planes minimum.</div>
+          </div>
+        </div>
+        <div class="principle-item">
+          <div class="principle-num">06</div>
+          <div>
+            <div class="principle-title">Mystery Through Obscuration</div>
+            <div class="principle-text">Not everything is visible; darkness and obstruction are intentional design tools.</div>
+          </div>
+        </div>
+        <div class="principle-item">
+          <div class="principle-num">07</div>
+          <div>
+            <div class="principle-title">Industrial Tangibility</div>
+            <div class="principle-text">Raw, unfinished surfaces. Nothing polished or refined. The hand of the machine is always visible.</div>
+          </div>
+        </div>
+        <div class="principle-item">
+          <div class="principle-num">08</div>
+          <div>
+            <div class="principle-title">Dread As Mood</div>
+            <div class="principle-text">The aesthetic aims for unease, not comfort. Every design decision should serve atmospheric tension.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="rust-bar"></div>
+
+  <!-- =============================================
+       COLOR PALETTE
+       ============================================= -->
+  <section class="section section-mid">
+    <div class="section-inner">
+      <div class="reveal">
+        <div class="section-label">Section 05 // Chromatic Spectrum</div>
+        <h2 class="section-heading">Color Palette</h2>
+        <div class="section-subheading">Overwhelmingly monochromatic -- color as signal, not decoration</div>
+      </div>
+
+      <div class="ig-panel-wrap reveal">
+        <div class="ig-panel" style="margin-bottom: 3rem;">
+          <h3>Color Philosophy</h3>
+          <p>Industrial Gothic is overwhelmingly monochromatic, built on blacks, dark grays, and muted metallics. Color is used sparingly and deliberately -- a flash of rust-red or cold blue in a sea of darkness creates far more impact than a broad palette.</p>
+          <p>The effect should feel like an abandoned factory at night, lit by a single failing fluorescent tube. No pastels. No brightness. The lightest element should feel like harsh industrial lighting, not sunshine.</p>
+        </div>
+      </div>
+
+      <!-- Blacks and Darks -->
+      <div class="palette-group reveal">
+        <div class="palette-group-title">Blacks &amp; Darks -- Foundation</div>
+        <div class="palette-row">
+          <div class="color-swatch" style="background: #0a0a0a;">
+            <div class="color-info">
+              <div class="color-name">Void Black</div>
+              <div class="color-hex">#0A0A0A</div>
+            </div>
+          </div>
+          <div class="color-swatch" style="background: #0d0d0d;">
+            <div class="color-info">
+              <div class="color-name">Void Black Alt</div>
+              <div class="color-hex">#0D0D0D</div>
+            </div>
+          </div>
+          <div class="color-swatch" style="background: #141414;">
+            <div class="color-info">
+              <div class="color-name">Soot</div>
+              <div class="color-hex">#141414</div>
+            </div>
+          </div>
+          <div class="color-swatch" style="background: #1a1a1a;">
+            <div class="color-info">
+              <div class="color-name">Soot Alt</div>
+              <div class="color-hex">#1A1A1A</div>
+            </div>
+          </div>
+          <div class="color-swatch" style="background: #222222;">
+            <div class="color-info">
+              <div class="color-name">Charcoal</div>
+              <div class="color-hex">#222222</div>
+            </div>
+          </div>
+          <div class="color-swatch" style="background: #2e2e2e;">
+            <div class="color-info">
+              <div class="color-name">Dark Iron</div>
+              <div class="color-hex">#2E2E2E</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Metallic Grays -->
+      <div class="palette-group reveal">
+        <div class="palette-group-title">Metallic Grays -- Structure</div>
+        <div class="palette-row">
+          <div class="color-swatch" style="background: #3a3a3f;">
+            <div class="color-info">
+              <div class="color-name">Gunmetal</div>
+              <div class="color-hex">#3A3A3F</div>
+            </div>
+          </div>
+          <div class="color-swatch" style="background: #434350;">
+            <div class="color-info">
+              <div class="color-name">Gunmetal Alt</div>
+              <div class="color-hex">#434350</div>
+            </div>
+          </div>
+          <div class="color-swatch" style="background: #5a5a62;">
+            <div class="color-info">
+              <div class="color-name">Steel Gray</div>
+              <div class="color-hex">#5A5A62</div>
+            </div>
+          </div>
+          <div class="color-swatch" style="background: #8a8a90;">
+            <div class="color-info">
+              <div class="color-name">Tarnished Silver</div>
+              <div class="color-hex">#8A8A90</div>
+            </div>
+          </div>
+          <div class="color-swatch" style="background: #999ea3;">
+            <div class="color-info">
+              <div class="color-name">Tarnished Alt</div>
+              <div class="color-hex">#999EA3</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Light Tones -->
+      <div class="palette-group reveal">
+        <div class="palette-group-title">Light Tones -- Harsh Industrial Illumination</div>
+        <div class="palette-row">
+          <div class="color-swatch" style="background: #c8cdd3;">
+            <div class="color-info">
+              <div class="color-name">Cold White</div>
+              <div class="color-hex">#C8CDD3</div>
+            </div>
+          </div>
+          <div class="color-swatch" style="background: #d4d8dd;">
+            <div class="color-info">
+              <div class="color-name">Cold White Alt</div>
+              <div class="color-hex">#D4D8DD</div>
+            </div>
+          </div>
+          <div class="color-swatch" style="background: #e8ecf0;">
+            <div class="color-info">
+              <div class="color-name">Harsh Light</div>
+              <div class="color-hex">#E8ECF0</div>
+            </div>
+          </div>
+          <div class="color-swatch" style="background: #f0f2f5;">
+            <div class="color-info">
+              <div class="color-name">Harsh Light Alt</div>
+              <div class="color-hex">#F0F2F5</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Warm Decay -->
+      <div class="palette-group reveal">
+        <div class="palette-group-title">Warm Decay -- Rust, Blood, Oxidation</div>
+        <div class="palette-row">
+          <div class="color-swatch" style="background: #8b3a2a;">
+            <div class="color-info">
+              <div class="color-name">Rust Red</div>
+              <div class="color-hex">#8B3A2A</div>
+            </div>
+          </div>
+          <div class="color-swatch" style="background: #a04030;">
+            <div class="color-info">
+              <div class="color-name">Rust Bright</div>
+              <div class="color-hex">#A04030</div>
+            </div>
+          </div>
+          <div class="color-swatch" style="background: #6b2020;">
+            <div class="color-info">
+              <div class="color-name">Dried Blood</div>
+              <div class="color-hex">#6B2020</div>
+            </div>
+          </div>
+          <div class="color-swatch" style="background: #7a2828;">
+            <div class="color-info">
+              <div class="color-name">Dried Blood Alt</div>
+              <div class="color-hex">#7A2828</div>
+            </div>
+          </div>
+          <div class="color-swatch" style="background: #8b5e3c;">
+            <div class="color-info">
+              <div class="color-name">Oxidized Orange</div>
+              <div class="color-hex">#8B5E3C</div>
+            </div>
+          </div>
+          <div class="color-swatch" style="background: #6b5b4a;">
+            <div class="color-info">
+              <div class="color-name">Sepia</div>
+              <div class="color-hex">#6B5B4A</div>
+            </div>
+          </div>
+          <div class="color-swatch" style="background: #8b7530;">
+            <div class="color-info">
+              <div class="color-name">Warning Amber</div>
+              <div class="color-hex">#8B7530</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Cold Accents -->
+      <div class="palette-group reveal">
+        <div class="palette-group-title">Cold Accents -- Fluorescent &amp; Artificial</div>
+        <div class="palette-row">
+          <div class="color-swatch" style="background: #2a3a5a;">
+            <div class="color-info">
+              <div class="color-name">Cold Blue</div>
+              <div class="color-hex">#2A3A5A</div>
+            </div>
+          </div>
+          <div class="color-swatch" style="background: #3a4a6a;">
+            <div class="color-info">
+              <div class="color-name">Cold Blue Alt</div>
+              <div class="color-hex">#3A4A6A</div>
+            </div>
+          </div>
+          <div class="color-swatch" style="background: #4a6a8a;">
+            <div class="color-info">
+              <div class="color-name">Fluorescent Blue</div>
+              <div class="color-hex">#4A6A8A</div>
+            </div>
+          </div>
+          <div class="color-swatch" style="background: #5a7a9a;">
+            <div class="color-info">
+              <div class="color-name">Fluorescent Alt</div>
+              <div class="color-hex">#5A7A9A</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Color Approaches -->
+      <div class="ig-panel-wrap reveal">
+        <div class="ig-panel" style="margin-top: 2rem;">
+          <h3>Color Approaches</h3>
+          <p><strong style="color: var(--ig-cold-white);">Near-monochrome foundation</strong> -- build the entire design in black-to-gray before adding any color.</p>
+          <p><strong style="color: var(--ig-cold-white);">Color as signal</strong> -- a single rust-red element on an otherwise grayscale page creates powerful focus.</p>
+          <p><strong style="color: var(--ig-cold-white);">Warm vs. cold tension</strong> -- rust/amber warmth of decay against cold blue/white of artificial light.</p>
+          <p><strong style="color: var(--ig-cold-white);">Desaturation of all accents</strong> -- no pure or vibrant colors; everything is muted, aged, or darkened.</p>
+          <p><strong style="color: var(--ig-cold-white);">High contrast within darkness</strong> -- the palette is dark overall but uses harsh light/dark contrasts within that dark range.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="pipe-divider"></div>
+
+  <!-- =============================================
+       TYPOGRAPHY
+       ============================================= -->
+  <section class="section section-dark">
+    <div class="section-inner">
+      <div class="reveal">
+        <div class="section-label">Section 06 // Letterforms</div>
+        <h2 class="section-heading">Typography</h2>
+        <div class="section-subheading">Condensed industrial sans-serifs meet heavy blackletter gothic forms</div>
+      </div>
+
+      <div class="ig-panel-wrap reveal">
+        <div class="ig-panel" style="margin-bottom: 3rem;">
+          <h3>Typeface Philosophy</h3>
+          <p>Industrial Gothic typography draws from two traditions: <strong style="color: var(--ig-cold-white);">condensed industrial sans-serifs</strong> (factory signage, stamped metal, stencil lettering) and <strong style="color: var(--ig-cold-white);">heavy blackletter/gothic forms</strong> (cathedral inscriptions, medieval dread). The combination produces type that feels simultaneously mechanical and ancient.</p>
+        </div>
+      </div>
+
+      <!-- Type Specimens -->
+      <div class="type-specimen reveal">
+        <div class="type-specimen-label">Display // Hero Text</div>
+        <div class="type-display">Mechanical Dread</div>
+        <div class="type-specimen-meta">
+          <span>Bebas Neue</span> // condensed uppercase sans // <span>Hero titles, large display</span>
+        </div>
+      </div>
+
+      <div class="type-specimen reveal">
+        <div class="type-specimen-label">Primary Headlines</div>
+        <div class="type-headline">The Merger of Flesh and Steel</div>
+        <div class="type-specimen-meta">
+          <span>Oswald</span> // condensed sans-serif // <span>Primary headings, section titles</span>
+        </div>
+      </div>
+
+      <div class="type-specimen reveal">
+        <div class="type-specimen-label">Impact Display</div>
+        <div class="type-archivo">DECAY</div>
+        <div class="type-specimen-meta">
+          <span>Archivo Black</span> // heavy geometric sans // <span>Impact headings, single-word display</span>
+        </div>
+      </div>
+
+      <div class="type-specimen reveal">
+        <div class="type-specimen-label">Section Labels &amp; Subheadings</div>
+        <div class="type-subhead">Abandoned Infrastructure Division</div>
+        <div class="type-specimen-meta">
+          <span>Pathway Gothic One</span> // narrow gothic sans // <span>Subheadings, section labels</span>
+        </div>
+      </div>
+
+      <div class="type-specimen reveal">
+        <div class="type-specimen-label">Body Text</div>
+        <div class="type-body">The corroded surface tells its own story. Each layer of oxidation, each pattern of decay reveals the passage of time through industrial space. Nothing remains untouched by the slow entropy of neglect.</div>
+        <div class="type-specimen-meta">
+          <span>Inter</span> // neutral sans-serif // <span>Body text, readable content</span>
+        </div>
+      </div>
+
+      <div class="type-specimen reveal">
+        <div class="type-specimen-label">Technical / Data Readout</div>
+        <div class="type-tech">Sector 7-G // Pressure: 2847 PSI // Status: Critical // Temperature: 1247&deg;C</div>
+        <div class="type-specimen-meta">
+          <span>Share Tech Mono</span> // monospaced // <span>Data readouts, technical labels, metadata</span>
+        </div>
+      </div>
+
+      <div class="type-specimen reveal">
+        <div class="type-specimen-label">Typewriter / Aged Document</div>
+        <div class="type-typewriter">Maintenance Log: Unit 4 has been offline since the incident. The east wing corridor shows signs of structural compromise. Recommend immediate inspection of pressure relief valves B-12 through B-19.</div>
+        <div class="type-specimen-meta">
+          <span>Special Elite</span> // typewriter // <span>Narrative blocks, documentation</span>
+        </div>
+      </div>
+
+      <div class="type-specimen reveal">
+        <div class="type-specimen-label">Gothic / Decorative Title</div>
+        <div class="type-blackletter">Cathedral of Industry</div>
+        <div class="type-specimen-meta">
+          <span>UnifrakturMaguntia</span> // blackletter // <span>Decorative titles, gothic accent text</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="rust-bar"></div>
+
+  <!-- =============================================
+       CSS TECHNIQUES
+       ============================================= -->
+  <section class="section section-mid">
+    <div class="section-inner">
+      <div class="reveal">
+        <div class="section-label">Section 07 // Techniques</div>
+        <h2 class="section-heading">CSS &amp; Design Effects</h2>
+        <div class="section-subheading">Live demonstrations of Industrial Gothic visual techniques</div>
+      </div>
+
+      <div class="technique-grid reveal">
+        <div class="technique-demo">
+          <div class="technique-title">Corroded Metal Surface</div>
+          <div class="technique-preview demo-metal"></div>
+          <div class="technique-label">Noise texture + vertical streaks + metallic gradient</div>
+        </div>
+
+        <div class="technique-demo">
+          <div class="technique-title">Rust Stain / Corrosion</div>
+          <div class="technique-preview demo-rust"></div>
+          <div class="technique-label">Radial gradient in muted warm tones</div>
+        </div>
+
+        <div class="technique-demo">
+          <div class="technique-title">Single-Source Spotlight</div>
+          <div class="technique-preview demo-spotlight"></div>
+          <div class="technique-label">Radial gradient from above, void background</div>
+        </div>
+
+        <div class="technique-demo">
+          <div class="technique-title">Chain-Link Border</div>
+          <div class="technique-preview demo-chain"></div>
+          <div class="technique-label">Repeating linear gradient border-image</div>
+        </div>
+
+        <div class="technique-demo">
+          <div class="technique-title">CRT Scan-Line Overlay</div>
+          <div class="technique-preview demo-scanlines"></div>
+          <div class="technique-label">Repeating 2px linear gradient overlay</div>
+        </div>
+
+        <div class="technique-demo">
+          <div class="technique-title">Fluorescent Flicker</div>
+          <div class="technique-preview demo-flicker">
+            <span class="demo-flicker-text">Failing Light</span>
+          </div>
+          <div class="technique-label">Keyframe opacity animation + text-shadow glow</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="pipe-divider"></div>
+
+  <!-- =============================================
+       LAYOUT PRINCIPLES
+       ============================================= -->
+  <section class="section section-dark">
+    <div class="section-inner">
+      <div class="reveal">
+        <div class="section-label">Section 08 // Spatial Composition</div>
+        <h2 class="section-heading">Layout Principles</h2>
+        <div class="section-subheading">Grid, structure, and the architecture of dread</div>
+      </div>
+
+      <div class="ig-panel-wrap reveal">
+        <div class="ig-panel" style="margin-bottom: 2rem;">
+          <h3>Spatial Characteristics</h3>
+          <p><strong style="color: var(--ig-cold-white);">Dark-dominant</strong> -- at least 70-80% of the visible area should be dark tones. <strong style="color: var(--ig-cold-white);">No rounded corners</strong> -- sharp, angular edges on all containers. <strong style="color: var(--ig-cold-white);">Textured surfaces</strong> -- no flat, clean backgrounds. <strong style="color: var(--ig-cold-white);">Claustrophobic density</strong> in content zones contrasts with vast dark surroundings.</p>
+        </div>
+      </div>
+
+      <div class="layout-demo-container reveal">
+        <div>
+          <div class="layout-demo layout-fullbleed">
+            <div class="layout-demo-title" style="position: absolute; top: 10px; left: 10px;">Full-bleed Dark Background</div>
+            <div class="demo-content-block"></div>
+          </div>
+          <div class="technique-label">Content floats in darkness -- no visible page boundaries</div>
+        </div>
+        <div>
+          <div class="layout-demo layout-asymmetric">
+            <div class="layout-demo-title" style="position: absolute; top: 10px; left: 10px; z-index: 2;">Asymmetric Weight</div>
+            <div class="demo-block"></div>
+            <div class="demo-block"></div>
+            <div class="demo-block"></div>
+          </div>
+          <div class="technique-label">Off-center, bottom-heavy compositions create unease</div>
+        </div>
+        <div>
+          <div class="layout-demo layout-vertical">
+            <div class="layout-demo-title" style="position: absolute; top: 10px; left: 10px;">Vertical Stacking</div>
+            <div class="demo-block"></div>
+            <div class="demo-block"></div>
+            <div class="demo-block"></div>
+            <div class="demo-block"></div>
+          </div>
+          <div class="technique-label">Tall, narrow columns evoking chimneys and elevator shafts</div>
+        </div>
+        <div>
+          <div class="layout-demo layout-panels">
+            <div class="layout-demo-title" style="position: absolute; top: 10px; left: 10px; z-index: 2;">Panel-Based Layout</div>
+            <div class="demo-block"></div>
+            <div class="demo-block"></div>
+            <div class="demo-block"></div>
+            <div class="demo-block"></div>
+          </div>
+          <div class="technique-label">Factory control rooms and electrical cabinets</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="rust-bar"></div>
+
+  <!-- =============================================
+       MATERIALS TABLE
+       ============================================= -->
+  <section class="section section-mid">
+    <div class="section-inner">
+      <div class="reveal">
+        <div class="section-label">Section 09 // Material Translation</div>
+        <h2 class="section-heading">Materials &amp; Textures</h2>
+        <div class="section-subheading">Physical materials translated to web equivalents</div>
+      </div>
+
+      <div class="reveal" style="overflow-x: auto;">
+        <table class="materials-table">
+          <thead>
+            <tr>
+              <th>Physical Material</th>
+              <th>Web Equivalent</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Corroded Steel Plate</td>
+              <td>Dark gradient with noise overlay and subtle streak patterns</td>
+            </tr>
+            <tr>
+              <td>Rust &amp; Oxidation</td>
+              <td>Radial gradients in warm muted oranges/reds with organic shapes</td>
+            </tr>
+            <tr>
+              <td>Exposed Piping</td>
+              <td>Linear gradient cylinders as dividers and borders</td>
+            </tr>
+            <tr>
+              <td>Stained Concrete</td>
+              <td>Gray noise texture with irregular dark patches</td>
+            </tr>
+            <tr>
+              <td>Wire Clusters</td>
+              <td>Thin vertical/diagonal lines with shadow effects</td>
+            </tr>
+            <tr>
+              <td>Peeling Paint</td>
+              <td>Layered partial overlays with irregular edges</td>
+            </tr>
+            <tr>
+              <td>Cast Iron Machinery</td>
+              <td>Very dark metallic gradients with hard reflections</td>
+            </tr>
+            <tr>
+              <td>Tarnished Metal</td>
+              <td>Warm-shifted grays with subtle brown/gold tint</td>
+            </tr>
+            <tr>
+              <td>Grime &amp; Soot</td>
+              <td>Subtle dark overlay concentrated at edges and corners</td>
+            </tr>
+            <tr>
+              <td>Industrial Glass</td>
+              <td>Backdrop-filter blur with dark tinted overlay</td>
+            </tr>
+            <tr>
+              <td>Rivets &amp; Bolts</td>
+              <td>Small radial-gradient circles with highlight/shadow</td>
+            </tr>
+            <tr>
+              <td>Chain Links</td>
+              <td>Repeating interlocked oval gradients</td>
+            </tr>
+            <tr>
+              <td>Mesh / Grating</td>
+              <td>Fine grid backgrounds with transparency</td>
+            </tr>
+            <tr>
+              <td>Fluorescent Tube</td>
+              <td>Horizontal white-blue box-shadow glow strips</td>
+            </tr>
+            <tr>
+              <td>Steam / Fog</td>
+              <td>Radial gradient white overlays with very low opacity</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <div class="pipe-divider"></div>
+
+  <!-- =============================================
+       INFLUENCES
+       ============================================= -->
+  <section class="section section-dark" style="position: relative;">
+    <div class="deco-gear" style="width: 160px; height: 160px; bottom: 60px; left: -50px; animation: ig-gear-rotate 40s linear infinite reverse;"></div>
+    <div class="section-inner">
+      <div class="reveal">
+        <div class="section-label">Section 10 // Lineage</div>
+        <h2 class="section-heading">Influences &amp; Design Lineage</h2>
+        <div class="section-subheading">The cultural and artistic tributaries that feed this aesthetic</div>
+      </div>
+
+      <div class="influence-grid reveal">
+        <div class="influence-card">
+          <div class="influence-name">H.R. Giger's Biomechanics</div>
+          <div class="influence-desc">Biological-mechanical fusion, alien dread, organic forms merged with machinery</div>
+        </div>
+        <div class="influence-card">
+          <div class="influence-name">Gothic Architecture</div>
+          <div class="influence-desc">Pointed arches, vertical emphasis, dramatic shadow play, imposing scale</div>
+        </div>
+        <div class="influence-card">
+          <div class="influence-name">Industrial Music Culture</div>
+          <div class="influence-desc">Album art aesthetics from Nine Inch Nails, Ministry, Skinny Puppy; dark club environments</div>
+        </div>
+        <div class="influence-card">
+          <div class="influence-name">Brutalist Architecture</div>
+          <div class="influence-desc">Raw concrete, exposed structure, imposing mass, anti-decorative philosophy</div>
+        </div>
+        <div class="influence-card">
+          <div class="influence-name">Film Noir Lighting</div>
+          <div class="influence-desc">High-contrast single-source light, dramatic shadows, atmospheric tension</div>
+        </div>
+        <div class="influence-card">
+          <div class="influence-name">Steampunk (Dark Variant)</div>
+          <div class="influence-desc">Victorian machinery aesthetics, but stripped of whimsy and optimism</div>
+        </div>
+        <div class="influence-card">
+          <div class="influence-name">Post-Apocalyptic Fiction</div>
+          <div class="influence-desc">Decaying infrastructure, survival-mode aesthetics, ruined technology</div>
+        </div>
+        <div class="influence-card">
+          <div class="influence-name">German Expressionism</div>
+          <div class="influence-desc">Distorted angles, extreme shadow, psychological unease through visual composition</div>
+        </div>
+        <div class="influence-card">
+          <div class="influence-name">Cyberpunk (Grounded)</div>
+          <div class="influence-desc">Technological dystopia, but focused on present decay rather than future neon</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="rust-bar"></div>
+
+  <!-- =============================================
+       RELATED AESTHETICS
+       ============================================= -->
+  <section class="section section-mid">
+    <div class="section-inner">
+      <div class="reveal">
+        <div class="section-label">Section 11 // Adjacent Territories</div>
+        <h2 class="section-heading">Related Aesthetics</h2>
+        <div class="section-subheading">How Industrial Gothic relates to neighboring visual traditions</div>
+      </div>
+
+      <div class="related-list reveal">
+        <div class="related-item">
+          <div class="related-name">Cyberpunk</div>
+          <div class="related-desc">Shares technological dystopia but Industrial Gothic is more grounded, physical, and present-tense</div>
+        </div>
+        <div class="related-item">
+          <div class="related-name">Factory Pomo</div>
+          <div class="related-desc">Both celebrate industrial imagery, but Factory Pomo is colorful and playful; Industrial Gothic is dark and menacing</div>
+        </div>
+        <div class="related-item">
+          <div class="related-name">Gothic</div>
+          <div class="related-desc">Parent aesthetic providing the dread, darkness, and mystery that Industrial Gothic mechanizes</div>
+        </div>
+        <div class="related-item">
+          <div class="related-name">Grunge</div>
+          <div class="related-desc">Shares distressed textures and anti-polish ethos; Grunge is more organic, Industrial Gothic more mechanical</div>
+        </div>
+        <div class="related-item">
+          <div class="related-name">Industrial</div>
+          <div class="related-desc">Direct ancestor; the machinery and factory aesthetic without the Gothic atmosphere overlay</div>
+        </div>
+        <div class="related-item">
+          <div class="related-name">Industrial Decay</div>
+          <div class="related-desc">Close sibling; focuses specifically on the beauty of abandonment and deterioration</div>
+        </div>
+        <div class="related-item">
+          <div class="related-name">Post-Apocalyptic</div>
+          <div class="related-desc">Shares the ruined-world visual vocabulary; Post-Apocalyptic implies narrative, Industrial Gothic implies mood</div>
+        </div>
+        <div class="related-item">
+          <div class="related-name">Dark Academia</div>
+          <div class="related-desc">Both embrace darkness and age, but Dark Academia is intellectual/literary while Industrial Gothic is physical/mechanical</div>
+        </div>
+        <div class="related-item">
+          <div class="related-name">Brutalism (Web)</div>
+          <div class="related-desc">Shares raw, unpolished philosophy, but web Brutalism tends toward stark minimalism while Industrial Gothic is densely textured</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="pipe-divider"></div>
+
+  <!-- =============================================
+       FOOTER
+       ============================================= -->
+  <footer class="footer">
+    <div class="footer-title">End of Transmission</div>
+    <p class="footer-text">
+      // industrial gothic design reference //<br>
+      // classification: <span>aesthetic documentation</span> //<br>
+      // all systems nominal // sector ig-001 //<br>
+      // <span>mechanical dread persists</span> //
+    </p>
+  </footer>
+
+  <!-- =============================================
+       JAVASCRIPT: Scroll Reveal Animation
+       ============================================= -->
+  <script>
+    (function() {
+      // Intersection Observer for reveal animations
+      const revealElements = document.querySelectorAll('.reveal');
+
+      const observerOptions = {
+        root: null,
+        rootMargin: '0px 0px -60px 0px',
+        threshold: 0.1
+      };
+
+      const revealObserver = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            revealObserver.unobserve(entry.target);
+          }
+        });
+      }, observerOptions);
+
+      revealElements.forEach(function(el) {
+        revealObserver.observe(el);
+      });
+
+      // Add staggered delay to grid children when parent becomes visible
+      const grids = document.querySelectorAll('.motif-grid, .influence-grid, .atmosphere-grid');
+      grids.forEach(function(grid) {
+        const gridObserver = new IntersectionObserver(function(entries) {
+          entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+              const children = entry.target.children;
+              for (var i = 0; i < children.length; i++) {
+                children[i].style.opacity = '0';
+                children[i].style.transform = 'translateY(15px)';
+                children[i].style.transition = 'opacity 0.5s ease ' + (i * 0.06) + 's, transform 0.5s ease ' + (i * 0.06) + 's';
+                // Force reflow
+                void children[i].offsetHeight;
+                children[i].style.opacity = '1';
+                children[i].style.transform = 'translateY(0)';
+              }
+              gridObserver.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.1 });
+        gridObserver.observe(grid);
+      });
+
+      // Staggered reveal for palette rows
+      var paletteRows = document.querySelectorAll('.palette-row');
+      paletteRows.forEach(function(row) {
+        var rowObserver = new IntersectionObserver(function(entries) {
+          entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+              var swatches = entry.target.querySelectorAll('.color-swatch');
+              for (var i = 0; i < swatches.length; i++) {
+                swatches[i].style.opacity = '0';
+                swatches[i].style.transform = 'scale(0.9)';
+                swatches[i].style.transition = 'opacity 0.4s ease ' + (i * 0.08) + 's, transform 0.4s ease ' + (i * 0.08) + 's';
+                void swatches[i].offsetHeight;
+                swatches[i].style.opacity = '1';
+                swatches[i].style.transform = 'scale(1)';
+              }
+              rowObserver.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.2 });
+        rowObserver.observe(row);
+      });
+
+      // Staggered reveal for type specimens
+      var specimens = document.querySelectorAll('.type-specimen');
+      specimens.forEach(function(spec, index) {
+        var specObserver = new IntersectionObserver(function(entries) {
+          entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+              entry.target.style.opacity = '0';
+              entry.target.style.transform = 'translateX(-20px)';
+              entry.target.style.transition = 'opacity 0.6s ease 0.1s, transform 0.6s ease 0.1s';
+              void entry.target.offsetHeight;
+              entry.target.style.opacity = '1';
+              entry.target.style.transform = 'translateX(0)';
+              specObserver.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.15 });
+        specObserver.observe(spec);
+      });
+
+      // Table row stagger
+      var tableRows = document.querySelectorAll('.materials-table tbody tr');
+      tableRows.forEach(function(row, i) {
+        var trObserver = new IntersectionObserver(function(entries) {
+          entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+              entry.target.style.opacity = '0';
+              entry.target.style.transition = 'opacity 0.4s ease ' + (i * 0.04) + 's';
+              void entry.target.offsetHeight;
+              entry.target.style.opacity = '1';
+              trObserver.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.1 });
+        trObserver.observe(row);
+      });
+    })();
+  </script>
+</body>
+</html>
