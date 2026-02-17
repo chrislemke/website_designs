@@ -1,0 +1,2561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Festival Marketplace -- Design Reference</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Serif+Display&family=Inter:wght@300;400;500;600;700&family=Satisfy&family=IBM+Plex+Mono:wght@400;500;600&family=Lobster&family=Caveat:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    /* ============================================================
+       CSS CUSTOM PROPERTIES -- Festival Marketplace Palette
+       ============================================================ */
+    :root {
+      /* Pastels / Muted Tones */
+      --fest-soft-teal:      #7EC8B8;
+      --fest-muted-coral:    #E8967A;
+      --fest-dusty-rose:     #D4A0A0;
+      --fest-warm-cream:     #FFF5E1;
+      --fest-pale-lavender:  #C5B9D4;
+      --fest-mint:           #A8D8C8;
+
+      /* Strong Primaries */
+      --fest-bold-red:       #CC2936;
+      --fest-cobalt-blue:    #1446A0;
+      --fest-sunflower:      #F5C518;
+      --fest-emerald:        #2E8B57;
+
+      /* Accents */
+      --fest-magenta:        #D6336C;
+      --fest-warm-gold:      #DAA520;
+      --fest-electric-teal:  #00B4D8;
+
+      /* Neutrals */
+      --fest-warm-white:     #FEFCF3;
+      --fest-cool-grey:      #B0B3B8;
+      --fest-terracotta:     #C67A4B;
+      --fest-charcoal:       #2D3436;
+      --fest-ivory:          #FFFFF0;
+
+      /* Architectural Materials */
+      --fest-marble:         #F0EDE8;
+      --fest-brass:          #C5A55A;
+      --fest-tile-grey:      #9CA3AF;
+      --fest-awning-red:     #B22234;
+    }
+
+    /* ============================================================
+       RESET & BASE
+       ============================================================ */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      font-size: 16px;
+    }
+
+    body {
+      font-family: 'Inter', 'Helvetica Neue', sans-serif;
+      font-weight: 400;
+      line-height: 1.65;
+      color: var(--fest-charcoal);
+      background: var(--fest-warm-cream);
+      overflow-x: hidden;
+    }
+
+    /* ============================================================
+       KEYFRAME ANIMATIONS
+       ============================================================ */
+    @keyframes fadeSlideUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeSlideDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
+    @keyframes scaleIn {
+      from { opacity: 0; transform: scale(0.85); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+
+    @keyframes shimmer {
+      0%   { background-position: -200% center; }
+      100% { background-position: 200% center; }
+    }
+
+    @keyframes gentlePulse {
+      0%, 100% { opacity: 1; }
+      50%      { opacity: 0.7; }
+    }
+
+    @keyframes flagWave {
+      0%, 100% { transform: rotate(-2deg); }
+      50%      { transform: rotate(2deg); }
+    }
+
+    @keyframes floatUp {
+      0%   { transform: translateY(0) scale(1); opacity: 0.7; }
+      50%  { opacity: 1; }
+      100% { transform: translateY(-120vh) scale(0.5); opacity: 0; }
+    }
+
+    @keyframes compassSpin {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(360deg); }
+    }
+
+    @keyframes neonFlicker {
+      0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+        text-shadow:
+          0 0 7px rgba(214, 51, 108, 0.6),
+          0 0 20px rgba(214, 51, 108, 0.4),
+          0 0 40px rgba(214, 51, 108, 0.2);
+      }
+      20%, 24%, 55% {
+        text-shadow:
+          0 0 4px rgba(214, 51, 108, 0.3),
+          0 0 10px rgba(214, 51, 108, 0.2);
+      }
+    }
+
+    @keyframes buntingDance {
+      0%, 100% { transform: translateX(0); }
+      50%      { transform: translateX(-18px); }
+    }
+
+    @keyframes ribbonSlide {
+      from { transform: translateX(-100%); opacity: 0; }
+      to   { transform: translateX(0); opacity: 1; }
+    }
+
+    /* ============================================================
+       UTILITY CLASSES
+       ============================================================ */
+    .animate-on-scroll {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .animate-on-scroll.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ============================================================
+       FLOATING BALLOONS (Background decoration)
+       ============================================================ */
+    .balloons-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .balloon {
+      position: absolute;
+      bottom: -80px;
+      width: 28px;
+      height: 36px;
+      border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+      opacity: 0;
+      animation: floatUp linear infinite;
+    }
+
+    .balloon::after {
+      content: '';
+      position: absolute;
+      bottom: -20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 1px;
+      height: 20px;
+      background: var(--fest-cool-grey);
+    }
+
+    /* ============================================================
+       HEADER / HERO -- "The Grand Entrance"
+       ============================================================ */
+    .fest-hero {
+      background: var(--fest-warm-cream);
+      text-align: center;
+      padding: 4rem 2rem 4.5rem;
+      position: relative;
+      overflow: hidden;
+      border-bottom: 5px solid var(--fest-brass);
+      z-index: 1;
+    }
+
+    /* Skylight glow */
+    .fest-hero::before {
+      content: '';
+      position: absolute;
+      top: -60%;
+      left: 15%;
+      right: 15%;
+      height: 120%;
+      background: radial-gradient(
+        ellipse,
+        rgba(135, 206, 235, 0.14) 0%,
+        rgba(245, 197, 24, 0.04) 40%,
+        transparent 70%
+      );
+      pointer-events: none;
+    }
+
+    /* Pennant bunting */
+    .fest-hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 26px;
+      background-image:
+        linear-gradient(135deg, var(--fest-bold-red) 33%, transparent 33%),
+        linear-gradient(225deg, var(--fest-sunflower) 33%, transparent 33%);
+      background-size: 36px 26px;
+      animation: buntingDance 4s ease-in-out infinite;
+    }
+
+    /* Arch frame above title */
+    .hero-arch {
+      position: relative;
+      display: inline-block;
+      margin-bottom: 1rem;
+      animation: fadeSlideDown 1s ease forwards;
+    }
+
+    .hero-arch::before {
+      content: '';
+      position: absolute;
+      top: -28px;
+      left: -40px;
+      right: -40px;
+      height: 50px;
+      border: 4px solid var(--fest-brass);
+      border-bottom: none;
+      border-radius: 120px 120px 0 0;
+    }
+
+    .fest-hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.2rem, 5vw, 4rem);
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--fest-cobalt-blue);
+      text-shadow: 3px 3px 0 rgba(197, 165, 90, 0.3);
+      margin-bottom: 0.3rem;
+      animation: fadeSlideUp 0.8s ease forwards;
+      animation-delay: 0.2s;
+      opacity: 0;
+    }
+
+    .fest-hero .subtitle {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(1rem, 2vw, 1.35rem);
+      color: var(--fest-charcoal);
+      letter-spacing: 0.05em;
+      margin-bottom: 0.8rem;
+      animation: fadeIn 1s ease forwards;
+      animation-delay: 0.6s;
+      opacity: 0;
+    }
+
+    .fest-hero .tagline {
+      font-family: 'Satisfy', cursive;
+      font-size: clamp(1.2rem, 3vw, 1.8rem);
+      color: var(--fest-magenta);
+      margin-top: 0.3rem;
+      animation: fadeSlideUp 0.8s ease forwards;
+      animation-delay: 0.8s;
+      opacity: 0;
+    }
+
+    .fest-hero .era-badge {
+      display: inline-block;
+      margin-top: 1.2rem;
+      padding: 0.5em 1.8em;
+      background: linear-gradient(135deg, #C5A55A 0%, #E8D48B 30%, #C5A55A 50%, #A08030 70%, #C5A55A 100%);
+      background-size: 200% auto;
+      color: var(--fest-charcoal);
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      border: 2px solid #A08030;
+      border-radius: 50px;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.3), 0 2px 6px rgba(0,0,0,0.12);
+      animation: shimmer 3s linear infinite, scaleIn 0.6s ease forwards;
+      animation-delay: 1s, 1s;
+      opacity: 0;
+    }
+
+    /* ============================================================
+       NAVIGATION -- "The Mall Directory"
+       ============================================================ */
+    .fest-nav {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      background: var(--fest-cobalt-blue);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 4px 16px rgba(20, 70, 160, 0.3);
+    }
+
+    .fest-nav a {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-size: 0.82rem;
+      color: var(--fest-warm-white);
+      padding: 0.9rem 1.4rem;
+      text-decoration: none;
+      border-right: 1px solid rgba(255, 255, 255, 0.15);
+      transition: background 0.25s ease, color 0.25s ease;
+      position: relative;
+    }
+
+    .fest-nav a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      width: 0;
+      height: 3px;
+      background: var(--fest-sunflower);
+      transition: width 0.3s ease, left 0.3s ease;
+    }
+
+    .fest-nav a:hover {
+      background: var(--fest-bold-red);
+    }
+
+    .fest-nav a:hover::after {
+      width: 100%;
+      left: 0;
+    }
+
+    .fest-nav a:last-child { border-right: none; }
+
+    .nav-compass {
+      display: inline-block;
+      width: 14px;
+      height: 14px;
+      margin-right: 6px;
+      vertical-align: middle;
+      position: relative;
+    }
+
+    .nav-compass::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--fest-warm-gold);
+      clip-path: polygon(50% 0%, 60% 40%, 100% 50%, 60% 60%, 50% 100%, 40% 60%, 0% 50%, 40% 40%);
+    }
+
+    /* ============================================================
+       MAIN CONTENT WRAPPER
+       ============================================================ */
+    .fest-main {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ============================================================
+       SECTION: OVERVIEW -- Full width intro
+       ============================================================ */
+    .overview-section {
+      padding: 4rem 2rem;
+      text-align: center;
+      background: var(--fest-marble);
+      background-image:
+        linear-gradient(135deg, rgba(180,175,168,0.06) 0%, transparent 40%, rgba(180,175,168,0.04) 60%, transparent 100%),
+        linear-gradient(45deg, rgba(160,155,148,0.03) 0%, transparent 30%, rgba(160,155,148,0.05) 70%, transparent 100%);
+      position: relative;
+    }
+
+    .overview-section .section-arch {
+      position: relative;
+      display: inline-block;
+      margin-bottom: 2rem;
+    }
+
+    .overview-section .section-arch::before {
+      content: '';
+      position: absolute;
+      top: -14px;
+      left: -30px;
+      right: -30px;
+      height: 42px;
+      background: var(--fest-cobalt-blue);
+      border-radius: 80px 80px 0 0;
+      z-index: 0;
+    }
+
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-weight: 900;
+      font-size: clamp(1.6rem, 3vw, 2.4rem);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--fest-warm-white);
+      position: relative;
+      z-index: 1;
+      padding: 0 0.5em;
+    }
+
+    .section-title.dark-text {
+      color: var(--fest-cobalt-blue);
+    }
+
+    .overview-description {
+      max-width: 820px;
+      margin: 0 auto;
+      font-size: 1.1rem;
+      line-height: 1.8;
+      color: var(--fest-charcoal);
+    }
+
+    .overview-description em {
+      font-family: 'Satisfy', cursive;
+      font-style: normal;
+      color: var(--fest-magenta);
+      font-size: 1.15em;
+    }
+
+    .overview-description strong {
+      color: var(--fest-cobalt-blue);
+      font-weight: 600;
+    }
+
+    .overview-keywords {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.6rem;
+      margin-top: 2rem;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .keyword-tag {
+      display: inline-block;
+      padding: 0.35em 1em;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.78rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      border-radius: 3px;
+      border: 2px solid;
+    }
+
+    .keyword-tag.red    { color: var(--fest-bold-red); border-color: var(--fest-bold-red); background: rgba(204,41,54,0.06); }
+    .keyword-tag.blue   { color: var(--fest-cobalt-blue); border-color: var(--fest-cobalt-blue); background: rgba(20,70,160,0.06); }
+    .keyword-tag.gold   { color: var(--fest-warm-gold); border-color: var(--fest-warm-gold); background: rgba(218,165,32,0.08); }
+    .keyword-tag.teal   { color: #0e8a7a; border-color: var(--fest-soft-teal); background: rgba(126,200,184,0.1); }
+    .keyword-tag.coral  { color: var(--fest-terracotta); border-color: var(--fest-muted-coral); background: rgba(232,150,122,0.08); }
+
+    /* ============================================================
+       DIAMOND BORDER DIVIDERS
+       ============================================================ */
+    .diamond-divider {
+      height: 22px;
+      background:
+        linear-gradient(45deg,  var(--fest-cobalt-blue) 25%, transparent 25%) 0 0,
+        linear-gradient(-45deg, var(--fest-cobalt-blue) 25%, transparent 25%) 0 0,
+        linear-gradient(45deg,  transparent 75%, var(--fest-cobalt-blue) 75%) 0 0,
+        linear-gradient(-45deg, transparent 75%, var(--fest-cobalt-blue) 75%) 0 0;
+      background-size: 22px 22px;
+      background-color: var(--fest-sunflower);
+    }
+
+    .diamond-divider.alt {
+      background-color: var(--fest-bold-red);
+      background-image:
+        linear-gradient(45deg,  var(--fest-warm-white) 25%, transparent 25%),
+        linear-gradient(-45deg, var(--fest-warm-white) 25%, transparent 25%),
+        linear-gradient(45deg,  transparent 75%, var(--fest-warm-white) 75%),
+        linear-gradient(-45deg, transparent 75%, var(--fest-warm-white) 75%);
+      background-size: 22px 22px;
+    }
+
+    /* ============================================================
+       BRASS DIVIDER
+       ============================================================ */
+    .brass-divider {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin: 2.5rem auto;
+      max-width: 600px;
+      padding: 0 2rem;
+    }
+
+    .brass-divider::before,
+    .brass-divider::after {
+      content: '';
+      flex: 1;
+      height: 2px;
+    }
+
+    .brass-divider::before {
+      background: linear-gradient(90deg, transparent, var(--fest-brass));
+    }
+
+    .brass-divider::after {
+      background: linear-gradient(90deg, var(--fest-brass), transparent);
+    }
+
+    .brass-divider .diamond {
+      width: 12px;
+      height: 12px;
+      background: var(--fest-brass);
+      transform: rotate(45deg);
+      flex-shrink: 0;
+    }
+
+    /* ============================================================
+       SECTION: COLOR PALETTE
+       ============================================================ */
+    .palette-section {
+      padding: 4rem 2rem;
+      background: var(--fest-warm-white);
+    }
+
+    .palette-section-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .palette-group {
+      margin-bottom: 2.5rem;
+    }
+
+    .palette-group-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.3rem;
+      color: var(--fest-cobalt-blue);
+      margin-bottom: 1rem;
+      padding-left: 0.3rem;
+      border-left: 4px solid var(--fest-sunflower);
+      padding-left: 0.8rem;
+    }
+
+    .palette-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+    }
+
+    .color-chip {
+      flex: 1;
+      min-width: 120px;
+      max-width: 200px;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 2px solid rgba(0,0,0,0.06);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      background: white;
+    }
+
+    .color-chip:hover {
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+    }
+
+    .color-chip-swatch {
+      height: 64px;
+      position: relative;
+    }
+
+    .color-chip-info {
+      padding: 0.6rem 0.7rem;
+    }
+
+    .color-chip-name {
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--fest-charcoal);
+      display: block;
+    }
+
+    .color-chip-hex {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--fest-cool-grey);
+      display: block;
+      margin-top: 2px;
+    }
+
+    .color-chip-var {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.62rem;
+      color: var(--fest-tile-grey);
+      display: block;
+      margin-top: 1px;
+    }
+
+    /* ============================================================
+       SECTION: TYPOGRAPHY SHOWCASE
+       ============================================================ */
+    .typography-section {
+      padding: 4rem 2rem;
+      background: var(--fest-ivory);
+      position: relative;
+    }
+
+    .typography-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .type-showcase-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+
+    .type-card {
+      background: var(--fest-warm-white);
+      border: 3px solid var(--fest-cobalt-blue);
+      border-radius: 0 0 12px 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .type-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 28px rgba(0,0,0,0.1);
+    }
+
+    .type-card-awning {
+      padding: 0.8rem 1.2rem;
+      border-bottom: 3px solid;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .type-card-awning.red-awning {
+      background: repeating-linear-gradient(90deg, var(--fest-bold-red) 0px, var(--fest-bold-red) 16px, var(--fest-warm-white) 16px, var(--fest-warm-white) 32px);
+      border-bottom-color: var(--fest-bold-red);
+    }
+
+    .type-card-awning.blue-awning {
+      background: repeating-linear-gradient(90deg, var(--fest-cobalt-blue) 0px, var(--fest-cobalt-blue) 16px, var(--fest-warm-white) 16px, var(--fest-warm-white) 32px);
+      border-bottom-color: var(--fest-cobalt-blue);
+    }
+
+    .type-card-awning.green-awning {
+      background: repeating-linear-gradient(90deg, var(--fest-emerald) 0px, var(--fest-emerald) 16px, var(--fest-warm-white) 16px, var(--fest-warm-white) 32px);
+      border-bottom-color: var(--fest-emerald);
+    }
+
+    .type-card-awning.gold-awning {
+      background: linear-gradient(135deg, #C5A55A 0%, #E8D48B 30%, #C5A55A 50%, #A08030 70%, #C5A55A 100%);
+      border-bottom-color: #A08030;
+    }
+
+    .type-card-awning h3 {
+      font-family: 'Playfair Display', serif;
+      font-weight: 900;
+      font-size: 0.9rem;
+      color: var(--fest-warm-white);
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.35);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      flex: 1;
+    }
+
+    .type-card-awning .role-badge {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.6rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 0.2em 0.6em;
+      background: rgba(0,0,0,0.2);
+      color: var(--fest-warm-white);
+      border-radius: 3px;
+      white-space: nowrap;
+    }
+
+    .type-card-body {
+      padding: 1.5rem;
+    }
+
+    .type-specimen {
+      margin-bottom: 1rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+    }
+
+    .type-specimen:last-child {
+      margin-bottom: 0;
+      padding-bottom: 0;
+      border-bottom: none;
+    }
+
+    .type-specimen-label {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--fest-cool-grey);
+      margin-bottom: 0.3rem;
+    }
+
+    .type-sample-display {
+      font-family: 'Playfair Display', serif;
+      font-weight: 900;
+      font-size: 2rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--fest-cobalt-blue);
+      line-height: 1.2;
+    }
+
+    .type-sample-heading {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.6rem;
+      color: var(--fest-charcoal);
+      line-height: 1.3;
+    }
+
+    .type-sample-body {
+      font-family: 'Inter', sans-serif;
+      font-size: 1rem;
+      line-height: 1.7;
+      color: var(--fest-charcoal);
+    }
+
+    .type-sample-script {
+      font-family: 'Satisfy', cursive;
+      font-size: 1.6rem;
+      color: var(--fest-magenta);
+    }
+
+    .type-sample-mono {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.9rem;
+      color: var(--fest-terracotta);
+      background: var(--fest-warm-cream);
+      padding: 0.5rem 0.8rem;
+      border-radius: 4px;
+      border-left: 3px solid var(--fest-terracotta);
+    }
+
+    .type-sample-lobby {
+      font-family: 'Lobster', cursive;
+      font-size: 1.8rem;
+      color: var(--fest-bold-red);
+    }
+
+    /* Dotted interpunct title demo */
+    .dotted-title-demo {
+      font-family: 'Playfair Display', serif;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.25em;
+      color: var(--fest-bold-red);
+      font-size: 1.1rem;
+    }
+
+    .dotted-title-demo span + span::before {
+      content: '\00B7';
+      margin: 0 0.08em;
+      color: var(--fest-warm-gold);
+    }
+
+    /* ============================================================
+       SECTION: VISUAL CHARACTERISTICS
+       ============================================================ */
+    .characteristics-section {
+      padding: 4rem 2rem;
+      background: var(--fest-warm-cream);
+    }
+
+    .characteristics-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .char-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+
+    .char-item {
+      background: var(--fest-warm-white);
+      padding: 1.8rem;
+      border-radius: 12px;
+      border: 2px solid var(--fest-pale-lavender);
+      position: relative;
+      transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
+    }
+
+    .char-item:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+      border-color: var(--fest-cobalt-blue);
+    }
+
+    .char-item-icon {
+      font-size: 1.8rem;
+      margin-bottom: 0.6rem;
+      display: block;
+    }
+
+    .char-item h4 {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: 1.05rem;
+      color: var(--fest-cobalt-blue);
+      margin-bottom: 0.5rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .char-item p {
+      font-size: 0.9rem;
+      line-height: 1.65;
+      color: #555;
+    }
+
+    /* ============================================================
+       SECTION: MOTIFS & PATTERNS
+       ============================================================ */
+    .motifs-section {
+      padding: 4rem 2rem;
+      background: var(--fest-marble);
+      background-image:
+        linear-gradient(135deg, rgba(180,175,168,0.05) 0%, transparent 50%),
+        linear-gradient(225deg, rgba(180,175,168,0.04) 0%, transparent 50%);
+    }
+
+    .motifs-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .motifs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+
+    .motif-card {
+      background: var(--fest-warm-white);
+      border: 3px solid var(--fest-cobalt-blue);
+      border-radius: 0 0 10px 10px;
+      overflow: hidden;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .motif-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    }
+
+    .motif-card-demo {
+      height: 120px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Individual motif demos */
+    .demo-checkerboard {
+      background-image:
+        linear-gradient(45deg, var(--fest-tile-grey) 25%, transparent 25%),
+        linear-gradient(-45deg, var(--fest-tile-grey) 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, var(--fest-tile-grey) 75%),
+        linear-gradient(-45deg, transparent 75%, var(--fest-tile-grey) 75%);
+      background-size: 40px 40px;
+      background-position: 0 0, 0 20px, 20px -20px, -20px 0;
+      background-color: var(--fest-marble);
+    }
+
+    .demo-awning {
+      background: repeating-linear-gradient(
+        90deg,
+        var(--fest-awning-red) 0px, var(--fest-awning-red) 24px,
+        var(--fest-warm-white) 24px, var(--fest-warm-white) 48px
+      );
+      border-radius: 14px 14px 0 0;
+    }
+
+    .demo-gingham {
+      background-color: var(--fest-warm-white);
+      background-image:
+        repeating-linear-gradient(0deg, rgba(204,41,54,0.12), rgba(204,41,54,0.12) 12px, transparent 12px, transparent 24px),
+        repeating-linear-gradient(90deg, rgba(204,41,54,0.12), rgba(204,41,54,0.12) 12px, transparent 12px, transparent 24px);
+    }
+
+    .demo-bunting {
+      background-image:
+        linear-gradient(135deg, var(--fest-bold-red) 33%, transparent 33%),
+        linear-gradient(225deg, var(--fest-cobalt-blue) 33%, transparent 33%);
+      background-size: 40px 40px;
+      background-color: var(--fest-sunflower);
+    }
+
+    .demo-diamond {
+      background:
+        linear-gradient(45deg,  var(--fest-cobalt-blue) 25%, transparent 25%) 0 0,
+        linear-gradient(-45deg, var(--fest-cobalt-blue) 25%, transparent 25%) 0 0,
+        linear-gradient(45deg,  transparent 75%, var(--fest-cobalt-blue) 75%) 0 0,
+        linear-gradient(-45deg, transparent 75%, var(--fest-cobalt-blue) 75%) 0 0;
+      background-size: 30px 30px;
+      background-color: var(--fest-sunflower);
+    }
+
+    .demo-compass {
+      background: var(--fest-warm-cream);
+    }
+
+    .compass-rose-large {
+      width: 70px;
+      height: 70px;
+      position: relative;
+      display: inline-block;
+    }
+
+    .compass-rose-large::before,
+    .compass-rose-large::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--fest-warm-gold);
+      clip-path: polygon(50% 0%, 60% 40%, 100% 50%, 60% 60%, 50% 100%, 40% 60%, 0% 50%, 40% 40%);
+    }
+
+    .compass-rose-large::after {
+      transform: rotate(22.5deg);
+      opacity: 0.4;
+    }
+
+    .demo-neon {
+      background: var(--fest-charcoal);
+    }
+
+    .neon-text {
+      font-family: 'Satisfy', cursive;
+      font-size: 1.6rem;
+      color: var(--fest-magenta);
+      text-shadow:
+        0 0 7px rgba(214, 51, 108, 0.6),
+        0 0 20px rgba(214, 51, 108, 0.4),
+        0 0 40px rgba(214, 51, 108, 0.2);
+      animation: neonFlicker 4s ease-in-out infinite;
+    }
+
+    .demo-ribbon {
+      background: var(--fest-warm-cream);
+    }
+
+    .ribbon-flag {
+      display: inline-block;
+      padding: 0.5em 2em 0.5em 1.2em;
+      background: var(--fest-bold-red);
+      color: var(--fest-warm-white);
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      clip-path: polygon(0% 0%, 90% 0%, 100% 50%, 90% 100%, 0% 100%);
+    }
+
+    .demo-marble {
+      background-color: var(--fest-marble);
+      background-image:
+        linear-gradient(135deg, rgba(180,175,168,0.08) 0%, transparent 40%, rgba(180,175,168,0.05) 60%, transparent 100%),
+        linear-gradient(45deg, rgba(160,155,148,0.04) 0%, transparent 30%, rgba(160,155,148,0.06) 70%, transparent 100%);
+    }
+
+    .demo-brass {
+      background: linear-gradient(135deg, #C5A55A 0%, #E8D48B 30%, #C5A55A 50%, #A08030 70%, #C5A55A 100%);
+      border: 1px solid #A08030;
+    }
+
+    .motif-card-label {
+      padding: 0.9rem 1rem;
+      text-align: center;
+      border-top: 2px solid var(--fest-cobalt-blue);
+    }
+
+    .motif-card-label h4 {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--fest-cobalt-blue);
+      margin-bottom: 0.15rem;
+    }
+
+    .motif-card-label p {
+      font-size: 0.75rem;
+      color: var(--fest-cool-grey);
+      font-family: 'Inter', sans-serif;
+    }
+
+    /* ============================================================
+       SECTION: LAYOUT PRINCIPLES
+       ============================================================ */
+    .layout-section {
+      padding: 4rem 2rem;
+      background: var(--fest-pale-lavender);
+      background-image:
+        linear-gradient(180deg, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0) 50%, rgba(255,255,255,0.3) 100%);
+    }
+
+    .layout-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .layout-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+
+    .layout-card {
+      background: var(--fest-warm-white);
+      border: 3px solid var(--fest-cobalt-blue);
+      border-radius: 0 0 12px 12px;
+      overflow: hidden;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .layout-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 22px rgba(0,0,0,0.1);
+    }
+
+    .layout-card-header {
+      background: var(--fest-cobalt-blue);
+      padding: 0.8rem 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .layout-card-header .icon-circle {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--fest-sunflower);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      flex-shrink: 0;
+    }
+
+    .layout-card-header h4 {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--fest-warm-white);
+    }
+
+    .layout-card-body {
+      padding: 1.3rem;
+    }
+
+    .layout-card-body p {
+      font-size: 0.9rem;
+      line-height: 1.65;
+      color: #555;
+    }
+
+    /* ============================================================
+       SECTION: TECHNIQUES TABLE
+       ============================================================ */
+    .techniques-section {
+      padding: 4rem 2rem;
+      background: var(--fest-warm-white);
+    }
+
+    .techniques-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .techniques-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      margin-top: 2rem;
+      border: 3px solid var(--fest-cobalt-blue);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .techniques-table thead th {
+      background: var(--fest-cobalt-blue);
+      color: var(--fest-warm-white);
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 1rem 1.2rem;
+      text-align: left;
+    }
+
+    .techniques-table tbody td {
+      padding: 0.8rem 1.2rem;
+      font-size: 0.88rem;
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+      vertical-align: top;
+    }
+
+    .techniques-table tbody tr:last-child td {
+      border-bottom: none;
+    }
+
+    .techniques-table tbody tr:nth-child(even) {
+      background: var(--fest-warm-cream);
+    }
+
+    .techniques-table tbody tr:hover {
+      background: rgba(245, 197, 24, 0.08);
+    }
+
+    .techniques-table .technique-name {
+      font-family: 'DM Serif Display', serif;
+      font-size: 0.9rem;
+      color: var(--fest-cobalt-blue);
+      white-space: nowrap;
+    }
+
+    .techniques-table .technique-impl {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--fest-terracotta);
+      background: var(--fest-warm-cream);
+      padding: 0.15em 0.4em;
+      border-radius: 3px;
+      display: inline;
+    }
+
+    /* ============================================================
+       SECTION: RELATED AESTHETICS
+       ============================================================ */
+    .related-section {
+      padding: 4rem 2rem;
+      background: var(--fest-warm-cream);
+      /* Checkerboard floor at the bottom */
+      position: relative;
+    }
+
+    .related-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .related-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.2rem;
+      margin-top: 2rem;
+    }
+
+    .related-chip {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.8rem;
+      padding: 1rem 1.2rem;
+      background: var(--fest-warm-white);
+      border: 2px solid var(--fest-soft-teal);
+      border-radius: 8px;
+      transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+    }
+
+    .related-chip:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+      border-color: var(--fest-cobalt-blue);
+    }
+
+    .related-chip-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      margin-top: 5px;
+    }
+
+    .related-chip h5 {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: 0.85rem;
+      color: var(--fest-cobalt-blue);
+      margin-bottom: 0.2rem;
+    }
+
+    .related-chip p {
+      font-size: 0.78rem;
+      line-height: 1.5;
+      color: #666;
+    }
+
+    /* ============================================================
+       SECTION: CSS CODE SHOWCASE
+       ============================================================ */
+    .code-section {
+      padding: 4rem 2rem;
+      background: var(--fest-charcoal);
+      color: var(--fest-warm-cream);
+    }
+
+    .code-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .code-section .section-title {
+      color: var(--fest-sunflower);
+    }
+
+    .code-block-wrapper {
+      margin-top: 2rem;
+      background: #1a1e21;
+      border: 2px solid rgba(197, 165, 90, 0.3);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .code-block-header {
+      background: rgba(197, 165, 90, 0.15);
+      padding: 0.6rem 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      border-bottom: 1px solid rgba(197, 165, 90, 0.2);
+    }
+
+    .code-block-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+
+    .code-block-title {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--fest-brass);
+      letter-spacing: 0.04em;
+    }
+
+    .code-block {
+      padding: 1.5rem;
+      overflow-x: auto;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.8rem;
+      line-height: 1.7;
+      color: var(--fest-warm-cream);
+    }
+
+    .code-block .prop  { color: var(--fest-electric-teal); }
+    .code-block .val   { color: var(--fest-muted-coral); }
+    .code-block .sel   { color: var(--fest-sunflower); }
+    .code-block .cmt   { color: var(--fest-cool-grey); font-style: italic; }
+    .code-block .str   { color: var(--fest-mint); }
+
+    /* ============================================================
+       FOOTER -- "Come Back Soon"
+       ============================================================ */
+    .fest-footer {
+      background: var(--fest-charcoal);
+      color: var(--fest-warm-cream);
+      text-align: center;
+      padding: 3rem 2rem;
+      position: relative;
+      overflow: hidden;
+      border-top: 5px solid var(--fest-brass);
+    }
+
+    .fest-footer::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 24px;
+      background-image:
+        linear-gradient(135deg, var(--fest-bold-red) 33%, transparent 33%),
+        linear-gradient(225deg, var(--fest-sunflower) 33%, transparent 33%);
+      background-size: 36px 24px;
+    }
+
+    .fest-footer .footer-title {
+      font-family: 'Satisfy', cursive;
+      font-size: clamp(1.5rem, 3vw, 2.2rem);
+      color: var(--fest-sunflower);
+      margin-bottom: 0.8rem;
+      margin-top: 1rem;
+    }
+
+    .fest-footer .footer-subtitle {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.85rem;
+      color: var(--fest-cool-grey);
+      letter-spacing: 0.05em;
+      max-width: 600px;
+      margin: 0 auto 1.5rem;
+      line-height: 1.6;
+    }
+
+    .footer-compass {
+      width: 50px;
+      height: 50px;
+      margin: 0 auto 1rem;
+      position: relative;
+      display: block;
+      animation: compassSpin 20s linear infinite;
+    }
+
+    .footer-compass::before,
+    .footer-compass::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--fest-brass);
+      clip-path: polygon(50% 0%, 60% 40%, 100% 50%, 60% 60%, 50% 100%, 40% 60%, 0% 50%, 40% 40%);
+    }
+
+    .footer-compass::after {
+      transform: rotate(22.5deg);
+      opacity: 0.4;
+    }
+
+    .footer-era {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--fest-tile-grey);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+
+    /* ============================================================
+       CHECKERBOARD FLOOR (decorative bottom strip)
+       ============================================================ */
+    .floor-strip {
+      height: 60px;
+      background-image:
+        linear-gradient(45deg, var(--fest-tile-grey) 25%, transparent 25%),
+        linear-gradient(-45deg, var(--fest-tile-grey) 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, var(--fest-tile-grey) 75%),
+        linear-gradient(-45deg, transparent 75%, var(--fest-tile-grey) 75%);
+      background-size: 40px 40px;
+      background-position: 0 0, 0 20px, 20px -20px, -20px 0;
+      background-color: var(--fest-marble);
+    }
+
+    /* ============================================================
+       RESPONSIVE
+       ============================================================ */
+    @media (max-width: 768px) {
+      .fest-nav {
+        flex-direction: column;
+        align-items: stretch;
+        text-align: center;
+      }
+
+      .fest-nav a {
+        border-right: none;
+        border-bottom: 1px solid rgba(255,255,255,0.15);
+        padding: 0.8rem 1rem;
+        font-size: 0.78rem;
+      }
+
+      .fest-nav a:last-child { border-bottom: none; }
+
+      .fest-hero { padding: 3rem 1.5rem 3.5rem; }
+
+      .type-showcase-grid,
+      .char-grid,
+      .motifs-grid,
+      .layout-grid,
+      .related-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .palette-row {
+        justify-content: center;
+      }
+
+      .color-chip {
+        min-width: 100px;
+      }
+
+      .techniques-table {
+        display: block;
+        overflow-x: auto;
+      }
+
+      .hero-arch::before {
+        left: -20px;
+        right: -20px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .overview-keywords {
+        gap: 0.4rem;
+      }
+
+      .keyword-tag {
+        font-size: 0.68rem;
+        padding: 0.25em 0.7em;
+      }
+    }
+
+    /* ============================================================
+       SCROLL-TRIGGERED STAGGER
+       ============================================================ */
+    .stagger-1 { transition-delay: 0.05s; }
+    .stagger-2 { transition-delay: 0.1s; }
+    .stagger-3 { transition-delay: 0.15s; }
+    .stagger-4 { transition-delay: 0.2s; }
+    .stagger-5 { transition-delay: 0.25s; }
+    .stagger-6 { transition-delay: 0.3s; }
+    .stagger-7 { transition-delay: 0.35s; }
+    .stagger-8 { transition-delay: 0.4s; }
+    .stagger-9 { transition-delay: 0.45s; }
+    .stagger-10 { transition-delay: 0.5s; }
+    .stagger-11 { transition-delay: 0.55s; }
+    .stagger-12 { transition-delay: 0.6s; }
+  </style>
+</head>
+<body>
+
+  <!-- Floating balloons (decorative background) -->
+  <div class="balloons-container" id="balloons"></div>
+
+  <!-- ============================================================
+       HERO
+       ============================================================ -->
+  <header class="fest-hero">
+    <div class="hero-arch">
+      <h1>Festival Marketplace</h1>
+    </div>
+    <p class="subtitle">A Design Reference for Postmodern Retail Architecture</p>
+    <p class="tagline">Shop till you drop -- in style</p>
+    <span class="era-badge">Mid-1980s -- Mid-1990s</span>
+  </header>
+
+  <!-- ============================================================
+       NAVIGATION
+       ============================================================ -->
+  <nav class="fest-nav" id="main-nav">
+    <a href="#overview"><span class="nav-compass"></span>Overview</a>
+    <a href="#palette"><span class="nav-compass"></span>Color Palette</a>
+    <a href="#typography"><span class="nav-compass"></span>Typography</a>
+    <a href="#characteristics"><span class="nav-compass"></span>Visual Character</a>
+    <a href="#motifs"><span class="nav-compass"></span>Motifs & Patterns</a>
+    <a href="#layout"><span class="nav-compass"></span>Layout</a>
+    <a href="#techniques"><span class="nav-compass"></span>Techniques</a>
+    <a href="#related"><span class="nav-compass"></span>Related</a>
+  </nav>
+
+  <main class="fest-main">
+
+    <!-- ============================================================
+         OVERVIEW
+         ============================================================ -->
+    <section class="overview-section" id="overview">
+      <div class="section-arch animate-on-scroll">
+        <h2 class="section-title">Welcome to the Marketplace</h2>
+      </div>
+
+      <div class="brass-divider"><div class="diamond"></div></div>
+
+      <p class="overview-description animate-on-scroll">
+        An architectural and graphic aesthetic associated with shopping malls of the
+        <strong>mid-1980s to mid-1990s</strong>. It takes inspiration from 1800s--1900s shopping vernacular
+        with a <strong>Postmodern interpretation</strong>, updated in a simplified, colourful, celebratory form.
+        Also known as <em>Festival Mall Style</em> or <em>Marketplace Postmodernism</em>.
+      </p>
+
+      <p class="overview-description animate-on-scroll" style="margin-top:1.2rem;">
+        Drawing from <strong>19th-century covered market halls and arcades</strong>, this aesthetic
+        reinterprets them through a bright, postmodern lens with playful exaggeration.
+        The tone is celebratory, festive, and optimistic -- evoking the excitement of
+        exploration and discovery within a vibrant retail environment.
+      </p>
+
+      <div class="overview-keywords animate-on-scroll">
+        <span class="keyword-tag red">Postmodern</span>
+        <span class="keyword-tag blue">Shopping Malls</span>
+        <span class="keyword-tag gold">Celebratory</span>
+        <span class="keyword-tag teal">Arcade Architecture</span>
+        <span class="keyword-tag coral">Wayfinding</span>
+        <span class="keyword-tag red">Spectacle</span>
+        <span class="keyword-tag blue">Community</span>
+        <span class="keyword-tag gold">Exploration</span>
+        <span class="keyword-tag teal">Festive</span>
+        <span class="keyword-tag coral">Nostalgia</span>
+      </div>
+
+      <div class="brass-divider" style="margin-top:2.5rem;"><div class="diamond"></div></div>
+
+      <p class="overview-description animate-on-scroll" style="margin-top:0;">
+        <strong>Notable designers:</strong> Sibley/Peteet, Steinhilber Deutsch & Gard, Michael Vanderbyl
+      </p>
+    </section>
+
+    <div class="diamond-divider"></div>
+
+    <!-- ============================================================
+         COLOR PALETTE
+         ============================================================ -->
+    <section class="palette-section" id="palette">
+      <div class="palette-section-inner">
+        <div style="text-align:center;" class="animate-on-scroll">
+          <div class="section-arch" style="display:inline-block;">
+            <h2 class="section-title">Color Palette</h2>
+          </div>
+        </div>
+
+        <div class="brass-divider"><div class="diamond"></div></div>
+
+        <!-- Pastels / Muted Tones -->
+        <div class="palette-group animate-on-scroll">
+          <h3 class="palette-group-title">Pastels / Muted Tones</h3>
+          <div class="palette-row">
+            <div class="color-chip">
+              <div class="color-chip-swatch" style="background:#7EC8B8;"></div>
+              <div class="color-chip-info">
+                <span class="color-chip-name">Soft Teal</span>
+                <span class="color-chip-hex">#7EC8B8</span>
+                <span class="color-chip-var">--fest-soft-teal</span>
+              </div>
+            </div>
+            <div class="color-chip">
+              <div class="color-chip-swatch" style="background:#E8967A;"></div>
+              <div class="color-chip-info">
+                <span class="color-chip-name">Muted Coral</span>
+                <span class="color-chip-hex">#E8967A</span>
+                <span class="color-chip-var">--fest-muted-coral</span>
+              </div>
+            </div>
+            <div class="color-chip">
+              <div class="color-chip-swatch" style="background:#D4A0A0;"></div>
+              <div class="color-chip-info">
+                <span class="color-chip-name">Dusty Rose</span>
+                <span class="color-chip-hex">#D4A0A0</span>
+                <span class="color-chip-var">--fest-dusty-rose</span>
+              </div>
+            </div>
+            <div class="color-chip">
+              <div class="color-chip-swatch" style="background:#FFF5E1;"></div>
+              <div class="color-chip-info">
+                <span class="color-chip-name">Warm Cream</span>
+                <span class="color-chip-hex">#FFF5E1</span>
+                <span class="color-chip-var">--fest-warm-cream</span>
+              </div>
+            </div>
+            <div class="color-chip">
+              <div class="color-chip-swatch" style="background:#C5B9D4;"></div>
+              <div class="color-chip-info">
+                <span class="color-chip-name">Pale Lavender</span>
+                <span class="color-chip-hex">#C5B9D4</span>
+                <span class="color-chip-var">--fest-pale-lavender</span>
+              </div>
+            </div>
+            <div class="color-chip">
+              <div class="color-chip-swatch" style="background:#A8D8C8;"></div>
+              <div class="color-chip-info">
+                <span class="color-chip-name">Mint</span>
+                <span class="color-chip-hex">#A8D8C8</span>
+                <span class="color-chip-var">--fest-mint</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Strong Primaries -->
+        <div class="palette-group animate-on-scroll">
+          <h3 class="palette-group-title">Strong Primaries</h3>
+          <div class="palette-row">
+            <div class="color-chip">
+              <div class="color-chip-swatch" style="background:#CC2936;"></div>
+              <div class="color-chip-info">
+                <span class="color-chip-name">Bold Red</span>
+                <span class="color-chip-hex">#CC2936</span>
+                <span class="color-chip-var">--fest-bold-red</span>
+              </div>
+            </div>
+            <div class="color-chip">
+              <div class="color-chip-swatch" style="background:#1446A0;"></div>
+              <div class="color-chip-info">
+                <span class="color-chip-name">Cobalt Blue</span>
+                <span class="color-chip-hex">#1446A0</span>
+                <span class="color-chip-var">--fest-cobalt-blue</span>
+              </div>
+            </div>
+            <div class="color-chip">
+              <div class="color-chip-swatch" style="background:#F5C518;"></div>
+              <div class="color-chip-info">
+                <span class="color-chip-name">Sunflower</span>
+                <span class="color-chip-hex">#F5C518</span>
+                <span class="color-chip-var">--fest-sunflower</span>
+              </div>
+            </div>
+            <div class="color-chip">
+              <div class="color-chip-swatch" style="background:#2E8B57;"></div>
+              <div class="color-chip-info">
+                <span class="color-chip-name">Emerald</span>
+                <span class="color-chip-hex">#2E8B57</span>
+                <span class="color-chip-var">--fest-emerald</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Accents -->
+        <div class="palette-group animate-on-scroll">
+          <h3 class="palette-group-title">Accents</h3>
+          <div class="palette-row">
+            <div class="color-chip">
+              <div class="color-chip-swatch" style="background:#D6336C;"></div>
+              <div class="color-chip-info">
+                <span class="color-chip-name">Magenta</span>
+                <span class="color-chip-hex">#D6336C</span>
+                <span class="color-chip-var">--fest-magenta</span>
+              </div>
+            </div>
+            <div class="color-chip">
+              <div class="color-chip-swatch" style="background:#DAA520;"></div>
+              <div class="color-chip-info">
+                <span class="color-chip-name">Warm Gold</span>
+                <span class="color-chip-hex">#DAA520</span>
+                <span class="color-chip-var">--fest-warm-gold</span>
+              </div>
+            </div>
+            <div class="color-chip">
+              <div class="color-chip-swatch" style="background:#00B4D8;"></div>
+              <div class="color-chip-info">
+                <span class="color-chip-name">Electric Teal</span>
+                <span class="color-chip-hex">#00B4D8</span>
+                <span class="color-chip-var">--fest-electric-teal</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Neutrals -->
+        <div class="palette-group animate-on-scroll">
+          <h3 class="palette-group-title">Neutrals</h3>
+          <div class="palette-row">
+            <div class="color-chip">
+              <div class="color-chip-swatch" style="background:#FEFCF3; border-bottom:1px solid #eee;"></div>
+              <div class="color-chip-info">
+                <span class="color-chip-name">Warm White</span>
+                <span class="color-chip-hex">#FEFCF3</span>
+                <span class="color-chip-var">--fest-warm-white</span>
+              </div>
+            </div>
+            <div class="color-chip">
+              <div class="color-chip-swatch" style="background:#B0B3B8;"></div>
+              <div class="color-chip-info">
+                <span class="color-chip-name">Cool Grey</span>
+                <span class="color-chip-hex">#B0B3B8</span>
+                <span class="color-chip-var">--fest-cool-grey</span>
+              </div>
+            </div>
+            <div class="color-chip">
+              <div class="color-chip-swatch" style="background:#C67A4B;"></div>
+              <div class="color-chip-info">
+                <span class="color-chip-name">Terracotta</span>
+                <span class="color-chip-hex">#C67A4B</span>
+                <span class="color-chip-var">--fest-terracotta</span>
+              </div>
+            </div>
+            <div class="color-chip">
+              <div class="color-chip-swatch" style="background:#2D3436;"></div>
+              <div class="color-chip-info">
+                <span class="color-chip-name">Charcoal</span>
+                <span class="color-chip-hex">#2D3436</span>
+                <span class="color-chip-var">--fest-charcoal</span>
+              </div>
+            </div>
+            <div class="color-chip">
+              <div class="color-chip-swatch" style="background:#FFFFF0; border-bottom:1px solid #eee;"></div>
+              <div class="color-chip-info">
+                <span class="color-chip-name">Ivory</span>
+                <span class="color-chip-hex">#FFFFF0</span>
+                <span class="color-chip-var">--fest-ivory</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Architectural Materials -->
+        <div class="palette-group animate-on-scroll">
+          <h3 class="palette-group-title">Architectural Materials</h3>
+          <div class="palette-row">
+            <div class="color-chip">
+              <div class="color-chip-swatch" style="background:#F0EDE8; border-bottom:1px solid #ddd;"></div>
+              <div class="color-chip-info">
+                <span class="color-chip-name">Marble</span>
+                <span class="color-chip-hex">#F0EDE8</span>
+                <span class="color-chip-var">--fest-marble</span>
+              </div>
+            </div>
+            <div class="color-chip">
+              <div class="color-chip-swatch" style="background:linear-gradient(135deg, #C5A55A 0%, #E8D48B 40%, #C5A55A 60%, #A08030 80%, #C5A55A 100%);"></div>
+              <div class="color-chip-info">
+                <span class="color-chip-name">Brass</span>
+                <span class="color-chip-hex">#C5A55A</span>
+                <span class="color-chip-var">--fest-brass</span>
+              </div>
+            </div>
+            <div class="color-chip">
+              <div class="color-chip-swatch" style="background:#9CA3AF;"></div>
+              <div class="color-chip-info">
+                <span class="color-chip-name">Tile Grey</span>
+                <span class="color-chip-hex">#9CA3AF</span>
+                <span class="color-chip-var">--fest-tile-grey</span>
+              </div>
+            </div>
+            <div class="color-chip">
+              <div class="color-chip-swatch" style="background:#B22234;"></div>
+              <div class="color-chip-info">
+                <span class="color-chip-name">Awning Red</span>
+                <span class="color-chip-hex">#B22234</span>
+                <span class="color-chip-var">--fest-awning-red</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Color Usage Guidelines -->
+        <div class="animate-on-scroll" style="margin-top:2.5rem; padding:2rem; background:var(--fest-warm-cream); border-radius:12px; border:2px solid var(--fest-soft-teal);">
+          <h3 class="palette-group-title" style="margin-bottom:1rem;">Color Usage Guidelines</h3>
+          <ul style="list-style:none; padding:0;">
+            <li style="padding:0.5rem 0; border-bottom:1px solid rgba(0,0,0,0.05); font-size:0.9rem; line-height:1.6;">
+              <strong style="color:var(--fest-cobalt-blue);">Backgrounds:</strong> Use warm cream, ivory, or marble white as base backgrounds. Sections can alternate between pastel tones and warm white.
+            </li>
+            <li style="padding:0.5rem 0; border-bottom:1px solid rgba(0,0,0,0.05); font-size:0.9rem; line-height:1.6;">
+              <strong style="color:var(--fest-cobalt-blue);">Headings & Signage:</strong> Bold red, cobalt blue, or charcoal for maximum impact -- emulating large mall signage.
+            </li>
+            <li style="padding:0.5rem 0; border-bottom:1px solid rgba(0,0,0,0.05); font-size:0.9rem; line-height:1.6;">
+              <strong style="color:var(--fest-cobalt-blue);">Navigation & Wayfinding:</strong> Cobalt blue and warm gold -- referencing compass rose motifs and directory signs.
+            </li>
+            <li style="padding:0.5rem 0; border-bottom:1px solid rgba(0,0,0,0.05); font-size:0.9rem; line-height:1.6;">
+              <strong style="color:var(--fest-cobalt-blue);">Accent Borders:</strong> Sunflower yellow and magenta for badges, banners, and call-to-action elements.
+            </li>
+            <li style="padding:0.5rem 0; border-bottom:1px solid rgba(0,0,0,0.05); font-size:0.9rem; line-height:1.6;">
+              <strong style="color:var(--fest-cobalt-blue);">Checkerboard Patterns:</strong> Alternate between bold red/warm white or cobalt blue/warm white for floor-tile references.
+            </li>
+            <li style="padding:0.5rem 0; font-size:0.9rem; line-height:1.6;">
+              <strong style="color:var(--fest-cobalt-blue);">Overall Feeling:</strong> Bright and celebratory but grounded -- not neon. Pastels provide sophistication while primaries deliver festival impact.
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div class="diamond-divider alt"></div>
+
+    <!-- ============================================================
+         TYPOGRAPHY
+         ============================================================ -->
+    <section class="typography-section" id="typography">
+      <div class="typography-inner">
+        <div style="text-align:center;" class="animate-on-scroll">
+          <div class="section-arch" style="display:inline-block;">
+            <h2 class="section-title">Typography</h2>
+          </div>
+        </div>
+
+        <div class="brass-divider"><div class="diamond"></div></div>
+
+        <!-- Interpunct demo -->
+        <div style="text-align:center; margin-bottom:2rem;" class="animate-on-scroll">
+          <div class="dotted-title-demo">
+            <span>M</span><span>A</span><span>R</span><span>K</span><span>E</span><span>T</span><span>P</span><span>L</span><span>A</span><span>C</span><span>E</span>
+          </div>
+          <p style="font-family:'IBM Plex Mono', monospace; font-size:0.7rem; color:var(--fest-cool-grey); margin-top:0.4rem; letter-spacing:0.05em;">SIGNATURE INTERPUNCT MOTIF</p>
+        </div>
+
+        <div class="type-showcase-grid">
+          <!-- Display / Signage -->
+          <div class="type-card animate-on-scroll stagger-1">
+            <div class="type-card-awning red-awning">
+              <h3>Display / Signage</h3>
+              <span class="role-badge">Headlines</span>
+            </div>
+            <div class="type-card-body">
+              <div class="type-specimen">
+                <div class="type-specimen-label">Playfair Display 900</div>
+                <div class="type-sample-display">Grand Opening</div>
+              </div>
+              <div class="type-specimen">
+                <div class="type-specimen-label">DM Serif Display</div>
+                <div class="type-sample-heading">The Festival Pavilion</div>
+              </div>
+              <p style="font-size:0.8rem; color:var(--fest-cool-grey); margin-top:0.5rem; line-height:1.5;">
+                Tall serif fonts dominate -- high-contrast, elegant serifs with strong vertical emphasis.
+                These reference the large-scale lettering found on mall section signs and storefronts.
+              </p>
+            </div>
+          </div>
+
+          <!-- Body Text -->
+          <div class="type-card animate-on-scroll stagger-2">
+            <div class="type-card-awning blue-awning">
+              <h3>Body Text</h3>
+              <span class="role-badge">Readability</span>
+            </div>
+            <div class="type-card-body">
+              <div class="type-specimen">
+                <div class="type-specimen-label">Inter 400 -- Primary Body</div>
+                <div class="type-sample-body">
+                  Clean, legible sans-serif fonts for readability. Should feel modern but warm, not cold or industrial. The marketplace invites you to explore every corner.
+                </div>
+              </div>
+              <div class="type-specimen">
+                <div class="type-specimen-label">Also recommended</div>
+                <p style="font-size:0.82rem; color:var(--fest-cool-grey);">Source Sans Pro, Nunito Sans, Open Sans</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Script / Fun -->
+          <div class="type-card animate-on-scroll stagger-3">
+            <div class="type-card-awning green-awning">
+              <h3>Script / Decorative</h3>
+              <span class="role-badge">Accent</span>
+            </div>
+            <div class="type-card-body">
+              <div class="type-specimen">
+                <div class="type-specimen-label">Satisfy -- Script Accent</div>
+                <div class="type-sample-script">Welcome to the Market!</div>
+              </div>
+              <div class="type-specimen">
+                <div class="type-specimen-label">Lobster -- Fun Display</div>
+                <div class="type-sample-lobby">Fresh & Festive</div>
+              </div>
+              <p style="font-size:0.8rem; color:var(--fest-cool-grey); margin-top:0.5rem; line-height:1.5;">
+                Playful freeform or script fonts referencing hand-painted market stall signs, carnival lettering, and festive banners.
+              </p>
+            </div>
+          </div>
+
+          <!-- Monospaced / Labels -->
+          <div class="type-card animate-on-scroll stagger-4">
+            <div class="type-card-awning gold-awning">
+              <h3>Monospaced / Labels</h3>
+              <span class="role-badge">Technical</span>
+            </div>
+            <div class="type-card-body">
+              <div class="type-specimen">
+                <div class="type-specimen-label">IBM Plex Mono -- Price Tags & Labels</div>
+                <div class="type-sample-mono">$29.99 -- SALE PRICE<br>SKU: FEST-MKT-001</div>
+              </div>
+              <div class="type-specimen">
+                <div class="type-specimen-label">CSS Variable Reference</div>
+                <div class="type-sample-mono" style="font-size:0.78rem;">--fest-cobalt-blue: #1446A0;</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="diamond-divider"></div>
+
+    <!-- ============================================================
+         VISUAL CHARACTERISTICS
+         ============================================================ -->
+    <section class="characteristics-section" id="characteristics">
+      <div class="characteristics-inner">
+        <div style="text-align:center;" class="animate-on-scroll">
+          <div class="section-arch" style="display:inline-block;">
+            <h2 class="section-title">Visual Characteristics</h2>
+          </div>
+        </div>
+
+        <div class="brass-divider"><div class="diamond"></div></div>
+
+        <div class="char-grid">
+          <div class="char-item animate-on-scroll stagger-1">
+            <span class="char-item-icon" aria-hidden="true">&#9964;</span>
+            <h4>Architectural Roots</h4>
+            <p>Draws from 19th-century covered market halls and arcades, reinterpreted through a bright, postmodern lens with playful exaggeration.</p>
+          </div>
+
+          <div class="char-item animate-on-scroll stagger-2">
+            <span class="char-item-icon" aria-hidden="true">&#9733;</span>
+            <h4>Celebratory Tone</h4>
+            <p>Festive, optimistic -- evoking the excitement of exploration and discovery within a retail environment. Vibrant and accessible.</p>
+          </div>
+
+          <div class="char-item animate-on-scroll stagger-3">
+            <span class="char-item-icon" aria-hidden="true">&#9670;</span>
+            <h4>Key Values</h4>
+            <p>"Shop till you drop," exploration, spectacle, and community gathering. A nostalgic optimism for exuberant retail architecture.</p>
+          </div>
+
+          <div class="char-item animate-on-scroll stagger-4">
+            <span class="char-item-icon" aria-hidden="true">&#9635;</span>
+            <h4>Subject Matter</h4>
+            <p>Shopping malls, indoor marketplaces, food courts, retail signage, wayfinding systems, and festive commercial environments.</p>
+          </div>
+
+          <div class="char-item animate-on-scroll stagger-5">
+            <span class="char-item-icon" aria-hidden="true">&#9730;</span>
+            <h4>Overall Feeling</h4>
+            <p>Vibrant, accessible, and welcoming consumer spaces with playful postmodern design sensibilities and nostalgic charm.</p>
+          </div>
+
+          <div class="char-item animate-on-scroll stagger-6">
+            <span class="char-item-icon" aria-hidden="true">&#9998;</span>
+            <h4>Notable Designers</h4>
+            <p>Sibley/Peteet, Steinhilber Deutsch & Gard, and Michael Vanderbyl shaped the visual language of this era.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="diamond-divider alt"></div>
+
+    <!-- ============================================================
+         MOTIFS & PATTERNS
+         ============================================================ -->
+    <section class="motifs-section" id="motifs">
+      <div class="motifs-inner">
+        <div style="text-align:center;" class="animate-on-scroll">
+          <div class="section-arch" style="display:inline-block;">
+            <h2 class="section-title">Motifs & Patterns</h2>
+          </div>
+        </div>
+
+        <div class="brass-divider"><div class="diamond"></div></div>
+
+        <div class="motifs-grid">
+          <div class="motif-card animate-on-scroll stagger-1">
+            <div class="motif-card-demo demo-checkerboard"></div>
+            <div class="motif-card-label">
+              <h4>Checkerboard Tiles</h4>
+              <p>Mall floor tile patterns in muted tones</p>
+            </div>
+          </div>
+
+          <div class="motif-card animate-on-scroll stagger-2">
+            <div class="motif-card-demo demo-awning"></div>
+            <div class="motif-card-label">
+              <h4>Awning Stripes</h4>
+              <p>Striped canopy over market stalls</p>
+            </div>
+          </div>
+
+          <div class="motif-card animate-on-scroll stagger-3">
+            <div class="motif-card-demo demo-gingham"></div>
+            <div class="motif-card-label">
+              <h4>Gingham Check</h4>
+              <p>Picnic-style textile patterns</p>
+            </div>
+          </div>
+
+          <div class="motif-card animate-on-scroll stagger-4">
+            <div class="motif-card-demo demo-bunting"></div>
+            <div class="motif-card-label">
+              <h4>Pennant Bunting</h4>
+              <p>Celebratory flags and ribbons</p>
+            </div>
+          </div>
+
+          <div class="motif-card animate-on-scroll stagger-5">
+            <div class="motif-card-demo demo-diamond"></div>
+            <div class="motif-card-label">
+              <h4>Diamond Pattern</h4>
+              <p>Geometric tile borders and accents</p>
+            </div>
+          </div>
+
+          <div class="motif-card animate-on-scroll stagger-6">
+            <div class="motif-card-demo demo-compass">
+              <div class="compass-rose-large"></div>
+            </div>
+            <div class="motif-card-label">
+              <h4>Compass Rose</h4>
+              <p>Wayfinding and navigation motifs</p>
+            </div>
+          </div>
+
+          <div class="motif-card animate-on-scroll stagger-7">
+            <div class="motif-card-demo demo-neon">
+              <span class="neon-text">Open Late</span>
+            </div>
+            <div class="motif-card-label">
+              <h4>Neon Accents</h4>
+              <p>Subtle neon glow for signage</p>
+            </div>
+          </div>
+
+          <div class="motif-card animate-on-scroll stagger-8">
+            <div class="motif-card-demo demo-ribbon">
+              <span class="ribbon-flag">Grand Opening</span>
+            </div>
+            <div class="motif-card-label">
+              <h4>Ribbon Flags</h4>
+              <p>Pointed pennant label accents</p>
+            </div>
+          </div>
+
+          <div class="motif-card animate-on-scroll stagger-9">
+            <div class="motif-card-demo demo-marble">
+              <span style="font-family:'Playfair Display',serif; font-weight:700; color:var(--fest-cool-grey); font-size:0.8rem; text-transform:uppercase; letter-spacing:0.1em;">Polished Surface</span>
+            </div>
+            <div class="motif-card-label">
+              <h4>Marble Texture</h4>
+              <p>Light-colored polished stone surfaces</p>
+            </div>
+          </div>
+
+          <div class="motif-card animate-on-scroll stagger-10">
+            <div class="motif-card-demo demo-brass">
+              <span style="font-family:'Playfair Display',serif; font-weight:900; color:var(--fest-charcoal); font-size:1.4rem; text-transform:uppercase; letter-spacing:0.1em; text-shadow: 0 1px 0 rgba(255,255,255,0.3);">BRASS</span>
+            </div>
+            <div class="motif-card-label">
+              <h4>Brass & Gold</h4>
+              <p>Warm metallic trim and hardware</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Additional motifs as tags -->
+        <div style="text-align:center; margin-top:2.5rem;" class="animate-on-scroll">
+          <p style="font-family:'DM Serif Display',serif; font-size:1.1rem; color:var(--fest-cobalt-blue); margin-bottom:1rem;">Additional Recurring Motifs</p>
+          <div style="display:flex; flex-wrap:wrap; justify-content:center; gap:0.5rem; max-width:700px; margin:0 auto;">
+            <span class="keyword-tag blue">Arches</span>
+            <span class="keyword-tag red">Fountains</span>
+            <span class="keyword-tag gold">Glass Skylights</span>
+            <span class="keyword-tag teal">Indoor Awnings</span>
+            <span class="keyword-tag coral">Balloons & Confetti</span>
+            <span class="keyword-tag blue">Festival Carts</span>
+            <span class="keyword-tag red">Circular Logos</span>
+            <span class="keyword-tag gold">Large Signage</span>
+            <span class="keyword-tag teal">Grid Motifs</span>
+            <span class="keyword-tag coral">Silhouette Graphics</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="diamond-divider"></div>
+
+    <!-- ============================================================
+         LAYOUT PRINCIPLES
+         ============================================================ -->
+    <section class="layout-section" id="layout">
+      <div class="layout-inner">
+        <div style="text-align:center;" class="animate-on-scroll">
+          <div class="section-arch" style="display:inline-block;">
+            <h2 class="section-title">Layout Principles</h2>
+          </div>
+        </div>
+
+        <div class="brass-divider"><div class="diamond"></div></div>
+
+        <div class="layout-grid">
+          <div class="layout-card animate-on-scroll stagger-1">
+            <div class="layout-card-header">
+              <div class="icon-circle" aria-hidden="true">&#8634;</div>
+              <h4>Arcade Composition</h4>
+            </div>
+            <div class="layout-card-body">
+              <p>Layouts that guide the eye along a path, like walking through a covered market arcade. Vertical navigation or sidebar structures emulate a walkway with storefronts on each side.</p>
+            </div>
+          </div>
+
+          <div class="layout-card animate-on-scroll stagger-2">
+            <div class="layout-card-header">
+              <div class="icon-circle" aria-hidden="true">&#8963;</div>
+              <h4>Arched Section Headers</h4>
+            </div>
+            <div class="layout-card-body">
+              <p>Content sections framed with arch-shaped tops, referencing the architectural arches found in festival marketplaces. Created with large border-radius on pseudo-elements.</p>
+            </div>
+          </div>
+
+          <div class="layout-card animate-on-scroll stagger-3">
+            <div class="layout-card-header">
+              <div class="icon-circle" aria-hidden="true">&#9878;</div>
+              <h4>Symmetry & Balance</h4>
+            </div>
+            <div class="layout-card-body">
+              <p>Centered alignments, equal-weight columns, and bilateral symmetry reflecting classical marketplace architecture. Structure creates order within visual richness.</p>
+            </div>
+          </div>
+
+          <div class="layout-card animate-on-scroll stagger-4">
+            <div class="layout-card-header">
+              <div class="icon-circle" aria-hidden="true">&#10148;</div>
+              <h4>Clear Wayfinding</h4>
+            </div>
+            <div class="layout-card-body">
+              <p>Large, bold signage-style headings for section identification. Smaller serif text for descriptions, with compass or directional motifs for navigation elements.</p>
+            </div>
+          </div>
+
+          <div class="layout-card animate-on-scroll stagger-5">
+            <div class="layout-card-header">
+              <div class="icon-circle" aria-hidden="true">&#9632;</div>
+              <h4>Storefront Cards</h4>
+            </div>
+            <div class="layout-card-body">
+              <p>Individual content blocks styled as shop fronts or market stalls, each with its own awning header and bordered frame. Cards hover-lift on interaction to suggest depth.</p>
+            </div>
+          </div>
+
+          <div class="layout-card animate-on-scroll stagger-6">
+            <div class="layout-card-header">
+              <div class="icon-circle" aria-hidden="true">&#9673;</div>
+              <h4>Central Focal Point</h4>
+            </div>
+            <div class="layout-card-body">
+              <p>A prominent hero or centerpiece element draws the eye, referencing the indoor fountain as the heart of the mall. The visual anchor that orients the entire page experience.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="diamond-divider alt"></div>
+
+    <!-- ============================================================
+         DESIGN TECHNIQUES TABLE
+         ============================================================ -->
+    <section class="techniques-section" id="techniques">
+      <div class="techniques-inner">
+        <div style="text-align:center;" class="animate-on-scroll">
+          <div class="section-arch" style="display:inline-block;">
+            <h2 class="section-title">Design Techniques</h2>
+          </div>
+        </div>
+
+        <div class="brass-divider"><div class="diamond"></div></div>
+
+        <div class="animate-on-scroll">
+          <table class="techniques-table">
+            <thead>
+              <tr>
+                <th>Technique</th>
+                <th>Implementation</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="technique-name">Arched Section Headers</td>
+                <td><code class="technique-impl">border-radius: 100px 100px 0 0</code> on pseudo-elements</td>
+              </tr>
+              <tr>
+                <td class="technique-name">Awning Stripe Headers</td>
+                <td><code class="technique-impl">repeating-linear-gradient(90deg, ...)</code> in red/white or blue/white</td>
+              </tr>
+              <tr>
+                <td class="technique-name">Checkerboard Floor</td>
+                <td>Four <code class="technique-impl">linear-gradient(45deg, ...)</code> layers with offset positions</td>
+              </tr>
+              <tr>
+                <td class="technique-name">Diamond Pattern Borders</td>
+                <td>Rotated square gradients in contrasting primary colors</td>
+              </tr>
+              <tr>
+                <td class="technique-name">Pennant Bunting</td>
+                <td>Triangular gradients at <code class="technique-impl">135deg / 225deg</code> in alternating colors</td>
+              </tr>
+              <tr>
+                <td class="technique-name">Brass / Gold Accents</td>
+                <td>Multi-stop <code class="technique-impl">linear-gradient(135deg, ...)</code> with warm gold tones</td>
+              </tr>
+              <tr>
+                <td class="technique-name">Compass Rose Motif</td>
+                <td><code class="technique-impl">clip-path: polygon(...)</code> with 8-point star shape</td>
+              </tr>
+              <tr>
+                <td class="technique-name">Dotted Interpunct Titles</td>
+                <td><code class="technique-impl">letter-spacing: 0.3em</code> with <code class="technique-impl">::before</code> interpunct pseudo-elements</td>
+              </tr>
+              <tr>
+                <td class="technique-name">Tall Serif Signage</td>
+                <td>Playfair Display or DM Serif Display at large sizes, uppercase</td>
+              </tr>
+              <tr>
+                <td class="technique-name">Skylight Glow</td>
+                <td>Radial gradient overlay with soft blue tint, <code class="technique-impl">pointer-events: none</code></td>
+              </tr>
+              <tr>
+                <td class="technique-name">Neon Sign Accents</td>
+                <td>Layered <code class="technique-impl">text-shadow</code> with decreasing opacity at increasing blur</td>
+              </tr>
+              <tr>
+                <td class="technique-name">Storefront Cards</td>
+                <td>Bordered cards with awning-striped header bar and hover lift</td>
+              </tr>
+              <tr>
+                <td class="technique-name">Mall Directory Nav</td>
+                <td>Horizontal nav bar with tall serif links and divider borders</td>
+              </tr>
+              <tr>
+                <td class="technique-name">Ribbon Flag Labels</td>
+                <td><code class="technique-impl">clip-path: polygon(...)</code> with pointed right edge</td>
+              </tr>
+              <tr>
+                <td class="technique-name">Marble Texture</td>
+                <td>Layered angled gradients with very low opacity grey tones</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         CSS CODE SHOWCASE
+         ============================================================ -->
+    <section class="code-section" id="code">
+      <div class="code-inner">
+        <div style="text-align:center;" class="animate-on-scroll">
+          <h2 class="section-title" style="color:var(--fest-sunflower); display:inline-block;">CSS Custom Properties</h2>
+        </div>
+
+        <div class="brass-divider" style="max-width:400px;"><div class="diamond"></div></div>
+
+        <div class="code-block-wrapper animate-on-scroll">
+          <div class="code-block-header">
+            <div class="code-block-dot" style="background:#CC2936;"></div>
+            <div class="code-block-dot" style="background:#F5C518;"></div>
+            <div class="code-block-dot" style="background:#2E8B57;"></div>
+            <span class="code-block-title">festival-marketplace.css</span>
+          </div>
+          <pre class="code-block"><span class="sel">:root</span> {
+  <span class="cmt">/* Pastels / Muted Tones */</span>
+  <span class="prop">--fest-soft-teal</span>:      <span class="val">#7EC8B8</span>;
+  <span class="prop">--fest-muted-coral</span>:    <span class="val">#E8967A</span>;
+  <span class="prop">--fest-dusty-rose</span>:     <span class="val">#D4A0A0</span>;
+  <span class="prop">--fest-warm-cream</span>:     <span class="val">#FFF5E1</span>;
+  <span class="prop">--fest-pale-lavender</span>:  <span class="val">#C5B9D4</span>;
+
+  <span class="cmt">/* Strong Primaries */</span>
+  <span class="prop">--fest-bold-red</span>:       <span class="val">#CC2936</span>;
+  <span class="prop">--fest-cobalt-blue</span>:    <span class="val">#1446A0</span>;
+  <span class="prop">--fest-sunflower</span>:      <span class="val">#F5C518</span>;
+  <span class="prop">--fest-emerald</span>:        <span class="val">#2E8B57</span>;
+
+  <span class="cmt">/* Accents */</span>
+  <span class="prop">--fest-magenta</span>:        <span class="val">#D6336C</span>;
+  <span class="prop">--fest-warm-gold</span>:      <span class="val">#DAA520</span>;
+  <span class="prop">--fest-electric-teal</span>:  <span class="val">#00B4D8</span>;
+
+  <span class="cmt">/* Architectural Materials */</span>
+  <span class="prop">--fest-marble</span>:         <span class="val">#F0EDE8</span>;
+  <span class="prop">--fest-brass</span>:          <span class="val">#C5A55A</span>;
+  <span class="prop">--fest-awning-red</span>:     <span class="val">#B22234</span>;
+}</pre>
+        </div>
+
+        <div class="code-block-wrapper animate-on-scroll" style="margin-top:1.5rem;">
+          <div class="code-block-header">
+            <div class="code-block-dot" style="background:#CC2936;"></div>
+            <div class="code-block-dot" style="background:#F5C518;"></div>
+            <div class="code-block-dot" style="background:#2E8B57;"></div>
+            <span class="code-block-title">storefront-card.css</span>
+          </div>
+          <pre class="code-block"><span class="cmt">/* Storefront card with awning header */</span>
+<span class="sel">.fest-card</span> {
+  <span class="prop">background</span>: <span class="val">var(--fest-warm-white)</span>;
+  <span class="prop">border</span>: <span class="val">3px solid var(--fest-cobalt-blue)</span>;
+  <span class="prop">border-radius</span>: <span class="val">0 0 12px 12px</span>;
+  <span class="prop">overflow</span>: <span class="val">hidden</span>;
+  <span class="prop">box-shadow</span>: <span class="val">0 4px 12px rgba(0,0,0,0.08)</span>;
+  <span class="prop">transition</span>: <span class="val">transform 0.2s, box-shadow 0.2s</span>;
+}
+
+<span class="sel">.fest-card:hover</span> {
+  <span class="prop">transform</span>: <span class="val">translateY(-4px)</span>;
+  <span class="prop">box-shadow</span>: <span class="val">0 8px 24px rgba(0,0,0,0.12)</span>;
+}
+
+<span class="sel">.fest-card-header</span> {
+  <span class="prop">background</span>: <span class="val">repeating-linear-gradient(
+    90deg,
+    var(--fest-bold-red) 0px,
+    var(--fest-bold-red) 18px,
+    var(--fest-warm-white) 18px,
+    var(--fest-warm-white) 36px
+  )</span>;
+  <span class="prop">padding</span>: <span class="val">1rem 1.5rem</span>;
+  <span class="prop">border-bottom</span>: <span class="val">3px solid var(--fest-bold-red)</span>;
+}</pre>
+        </div>
+      </div>
+    </section>
+
+    <div class="diamond-divider"></div>
+
+    <!-- ============================================================
+         RELATED AESTHETICS
+         ============================================================ -->
+    <section class="related-section" id="related">
+      <div class="related-inner">
+        <div style="text-align:center;" class="animate-on-scroll">
+          <div class="section-arch" style="display:inline-block;">
+            <h2 class="section-title">Related Aesthetics</h2>
+          </div>
+        </div>
+
+        <div class="brass-divider"><div class="diamond"></div></div>
+
+        <div class="related-grid">
+          <div class="related-chip animate-on-scroll stagger-1">
+            <div class="related-chip-dot" style="background:var(--fest-bold-red);"></div>
+            <div>
+              <h5>American Kitsch</h5>
+              <p>Shares the celebratory, colorful, consumer-culture DNA; checkerboard patterns and retro signage overlap.</p>
+            </div>
+          </div>
+
+          <div class="related-chip animate-on-scroll stagger-2">
+            <div class="related-chip-dot" style="background:var(--fest-sunflower);"></div>
+            <div>
+              <h5>Memphis Design</h5>
+              <p>Core postmodern sibling; bold geometric patterns, primary colors, playful irreverence.</p>
+            </div>
+          </div>
+
+          <div class="related-chip animate-on-scroll stagger-3">
+            <div class="related-chip-dot" style="background:var(--fest-pale-lavender);"></div>
+            <div>
+              <h5>Memphis Lite</h5>
+              <p>Softer, more commercial version of Memphis; pastel geometrics in retail settings.</p>
+            </div>
+          </div>
+
+          <div class="related-chip animate-on-scroll stagger-4">
+            <div class="related-chip-dot" style="background:var(--fest-electric-teal);"></div>
+            <div>
+              <h5>Mallsoft</h5>
+              <p>Sonic/visual cousin; the vaporwave nostalgia for 1990s mall atmospheres and liminal retail spaces.</p>
+            </div>
+          </div>
+
+          <div class="related-chip animate-on-scroll stagger-5">
+            <div class="related-chip-dot" style="background:var(--fest-cool-grey);"></div>
+            <div>
+              <h5>Liminal Space</h5>
+              <p>The eerie, empty counterpart; vacant versions of the same architectural spaces become uncanny.</p>
+            </div>
+          </div>
+
+          <div class="related-chip animate-on-scroll stagger-6">
+            <div class="related-chip-dot" style="background:var(--fest-terracotta);"></div>
+            <div>
+              <h5>Factory Pomo</h5>
+              <p>Industrial postmodernism of the same era; bold forms and color in commercial architecture.</p>
+            </div>
+          </div>
+
+          <div class="related-chip animate-on-scroll stagger-7">
+            <div class="related-chip-dot" style="background:var(--fest-magenta);"></div>
+            <div>
+              <h5>Fanfare</h5>
+              <p>Direct overlap in celebratory motifs: flags, ribbons, confetti, bright primary colors.</p>
+            </div>
+          </div>
+
+          <div class="related-chip animate-on-scroll stagger-8">
+            <div class="related-chip-dot" style="background:var(--fest-cobalt-blue);"></div>
+            <div>
+              <h5>Neoclassical PoMo</h5>
+              <p>Shares the historical-reference approach; classical columns and arches in postmodern context.</p>
+            </div>
+          </div>
+
+          <div class="related-chip animate-on-scroll stagger-9">
+            <div class="related-chip-dot" style="background:var(--fest-muted-coral);"></div>
+            <div>
+              <h5>Vintage Americana</h5>
+              <p>The aged, nostalgic predecessor; Festival Marketplace modernizes its market-town sensibilities.</p>
+            </div>
+          </div>
+
+          <div class="related-chip animate-on-scroll stagger-10">
+            <div class="related-chip-dot" style="background:var(--fest-emerald);"></div>
+            <div>
+              <h5>Whimsicraft</h5>
+              <p>Shares playful, handmade quality; craft-fair and market-stall visual language.</p>
+            </div>
+          </div>
+
+          <div class="related-chip animate-on-scroll stagger-11">
+            <div class="related-chip-dot" style="background:var(--fest-charcoal);"></div>
+            <div>
+              <h5>Monochrome Luxe</h5>
+              <p>Contrasting aesthetic; the upscale, minimal version of retail design vs. Festival Marketplace's maximalism.</p>
+            </div>
+          </div>
+
+          <div class="related-chip animate-on-scroll stagger-12">
+            <div class="related-chip-dot" style="background:var(--fest-soft-teal);"></div>
+            <div>
+              <h5>Utopian Scholastic</h5>
+              <p>Shares the bright, optimistic, institutional design language of the same era.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Checkerboard floor strip -->
+    <div class="floor-strip"></div>
+
+  </main>
+
+  <!-- ============================================================
+       FOOTER
+       ============================================================ -->
+  <footer class="fest-footer">
+    <div class="footer-compass"></div>
+    <p class="footer-title">Thanks for Visiting the Marketplace</p>
+    <p class="footer-subtitle">
+      An architectural and graphic aesthetic of shopping malls from the mid-1980s to mid-1990s --
+      postmodern, celebratory, and unforgettable.
+    </p>
+    <p class="footer-era">Festival Marketplace &middot; Design Reference &middot; Est. 1985</p>
+  </footer>
+
+  <!-- ============================================================
+       JAVASCRIPT -- Scroll animations & balloon particles
+       ============================================================ -->
+  <script>
+    // Intersection Observer for scroll-triggered animations
+    (function() {
+      var observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      }, {
+        threshold: 0.12,
+        rootMargin: '0px 0px -40px 0px'
+      });
+
+      document.querySelectorAll('.animate-on-scroll').forEach(function(el) {
+        observer.observe(el);
+      });
+    })();
+
+    // Floating balloon particles
+    (function() {
+      var container = document.getElementById('balloons');
+      var colors = [
+        '#CC2936', '#1446A0', '#F5C518', '#2E8B57',
+        '#D6336C', '#00B4D8', '#E8967A', '#C5B9D4',
+        '#7EC8B8', '#DAA520'
+      ];
+
+      function createBalloon() {
+        var balloon = document.createElement('div');
+        balloon.className = 'balloon';
+        var color = colors[Math.floor(Math.random() * colors.length)];
+        balloon.style.background = color;
+        balloon.style.left = Math.random() * 100 + '%';
+        balloon.style.animationDuration = (12 + Math.random() * 18) + 's';
+        balloon.style.animationDelay = Math.random() * 8 + 's';
+        balloon.style.width = (20 + Math.random() * 16) + 'px';
+        balloon.style.height = (26 + Math.random() * 18) + 'px';
+        balloon.style.opacity = '0';
+        container.appendChild(balloon);
+
+        // Remove after animation
+        setTimeout(function() {
+          if (balloon.parentNode) {
+            balloon.parentNode.removeChild(balloon);
+          }
+        }, 32000);
+      }
+
+      // Initial batch
+      for (var i = 0; i < 8; i++) {
+        setTimeout(createBalloon, i * 1200);
+      }
+
+      // Continuous generation
+      setInterval(createBalloon, 3500);
+    })();
+
+    // Smooth active nav highlighting
+    (function() {
+      var sections = document.querySelectorAll('section[id]');
+      var navLinks = document.querySelectorAll('.fest-nav a');
+
+      window.addEventListener('scroll', function() {
+        var scrollPos = window.scrollY + 120;
+
+        sections.forEach(function(section) {
+          var top = section.offsetTop;
+          var height = section.offsetHeight;
+          var id = section.getAttribute('id');
+
+          if (scrollPos >= top && scrollPos < top + height) {
+            navLinks.forEach(function(link) {
+              link.style.background = '';
+              if (link.getAttribute('href') === '#' + id) {
+                link.style.background = 'var(--fest-bold-red)';
+              }
+            });
+          }
+        });
+      });
+    })();
+  </script>
+</body>
+</html>

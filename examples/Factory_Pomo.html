@@ -1,0 +1,2556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FACTORY POMO // Design Reference System</title>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Oswald:wght@400;600;700&family=Roboto+Slab:wght@400;700;900&family=Barlow+Condensed:wght@400;600;700&family=Bebas+Neue&family=Share+Tech+Mono&family=Saira:wght@300;400;600;700&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <style>
+    /* ===================================================
+       FACTORY POMO DESIGN SYSTEM
+       Industrial Postmodernism / Late 1980s-Mid 1990s
+       =================================================== */
+
+    :root {
+      /* Primary industrial colors */
+      --fp-red: #cc2222;
+      --fp-red-bright: #e03030;
+      --fp-blue: #1a4b8c;
+      --fp-blue-bright: #2255aa;
+      --fp-yellow: #f5c518;
+      --fp-yellow-bright: #ffcc00;
+
+      /* Secondary accents */
+      --fp-brown: #6b4226;
+      --fp-brown-light: #8b5e3c;
+      --fp-orange: #d4652f;
+      --fp-orange-bright: #e87020;
+      --fp-purple: #7b2d8e;
+      --fp-purple-bright: #9040a0;
+      --fp-teal: #008080;
+      --fp-teal-bright: #1a9e9e;
+
+      /* Neutrals */
+      --fp-black: #111111;
+      --fp-charcoal: #2b2b2b;
+      --fp-steel: #71797e;
+      --fp-steel-light: #8a9098;
+      --fp-fluorescent-white: #e8edf2;
+      --fp-white: #f0f4fa;
+
+      /* Functional assignments */
+      --fp-bg-primary: var(--fp-charcoal);
+      --fp-bg-secondary: var(--fp-black);
+      --fp-text-primary: var(--fp-fluorescent-white);
+      --fp-text-heading: var(--fp-yellow);
+      --fp-accent-primary: var(--fp-red);
+      --fp-accent-secondary: var(--fp-blue);
+      --fp-border: var(--fp-steel);
+    }
+
+    /* ---- RESET & BASE ---- */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--fp-charcoal);
+      color: var(--fp-fluorescent-white);
+      font-family: 'DM Sans', 'Saira', sans-serif;
+      font-weight: 400;
+      letter-spacing: 0.02em;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ---- ANIMATIONS ---- */
+    @keyframes fp-rotate {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes fp-rotate-reverse {
+      from { transform: rotate(360deg); }
+      to { transform: rotate(0deg); }
+    }
+
+    @keyframes fp-radar-sweep {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes fp-scan-line {
+      0% { top: -2px; }
+      100% { top: 100%; }
+    }
+
+    @keyframes fp-flicker {
+      0%, 97%, 100% { opacity: 1; }
+      98% { opacity: 0.85; }
+      99% { opacity: 0.95; }
+    }
+
+    @keyframes fp-pulse-glow {
+      0%, 100% { box-shadow: 0 0 8px rgba(0, 128, 128, 0.3); }
+      50% { box-shadow: 0 0 20px rgba(0, 128, 128, 0.6); }
+    }
+
+    @keyframes fp-slide-in-left {
+      from { transform: translateX(-60px); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+
+    @keyframes fp-slide-in-right {
+      from { transform: translateX(60px); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+
+    @keyframes fp-slide-up {
+      from { transform: translateY(40px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    @keyframes fp-stamp {
+      0% { transform: scale(1.8) rotate(-8deg); opacity: 0; }
+      60% { transform: scale(1) rotate(0deg); opacity: 1; }
+      75% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+
+    @keyframes fp-transmission {
+      0% { transform: scale(0.5); opacity: 0.8; }
+      100% { transform: scale(2.5); opacity: 0; }
+    }
+
+    /* ---- UTILITY CLASSES ---- */
+    .fp-animate { opacity: 0; }
+    .fp-animate.fp-visible { opacity: 1; }
+
+    .fp-sr-only {
+      position: absolute; width: 1px; height: 1px;
+      padding: 0; margin: -1px; overflow: hidden;
+      clip: rect(0,0,0,0); border: 0;
+    }
+
+    /* ===================================================
+       HEADER / HERO SECTION
+       =================================================== */
+
+    .fp-hero {
+      position: relative;
+      background: var(--fp-black);
+      text-align: center;
+      padding: 0;
+      overflow: hidden;
+    }
+
+    /* CRT scan-line overlay */
+    .fp-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent 0px,
+        transparent 2px,
+        rgba(0,0,0,0.08) 2px,
+        rgba(0,0,0,0.08) 4px
+      );
+      z-index: 3;
+      pointer-events: none;
+    }
+
+    .fp-hero-inner {
+      position: relative;
+      z-index: 2;
+      padding: 4rem 2rem 3rem;
+    }
+
+    /* Decorative gears in hero */
+    .fp-hero-gear {
+      position: absolute;
+      z-index: 1;
+      opacity: 0.12;
+    }
+
+    .fp-hero-gear svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    .fp-hero-gear--left {
+      top: -40px;
+      left: -60px;
+      width: 280px;
+      height: 280px;
+      animation: fp-rotate 20s linear infinite;
+    }
+
+    .fp-hero-gear--right {
+      top: 20px;
+      right: -80px;
+      width: 350px;
+      height: 350px;
+      animation: fp-rotate-reverse 25s linear infinite;
+    }
+
+    .fp-hero-gear--small {
+      bottom: -20px;
+      left: 15%;
+      width: 120px;
+      height: 120px;
+      animation: fp-rotate 15s linear infinite;
+    }
+
+    /* System status bar */
+    .fp-status-bar {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--fp-teal);
+      padding: 0.8rem 2rem;
+      background: rgba(0, 128, 128, 0.05);
+      border-bottom: 1px solid rgba(0, 128, 128, 0.2);
+      animation: fp-flicker 4s ease-in-out infinite;
+    }
+
+    .fp-status-bar span::before {
+      content: '//';
+      margin-right: 0.5em;
+      opacity: 0.5;
+    }
+
+    /* Hero title */
+    .fp-hero-title {
+      font-family: 'Archivo Black', 'Oswald', sans-serif;
+      font-size: clamp(3.2rem, 10vw, 9rem);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      line-height: 0.9;
+      color: var(--fp-yellow);
+      text-shadow:
+        4px 4px 0 var(--fp-red),
+        -1px -1px 0 rgba(0,0,0,0.8);
+      margin-bottom: 0.3rem;
+      animation: fp-stamp 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+
+    .fp-hero-title span {
+      display: block;
+      color: var(--fp-fluorescent-white);
+      font-size: 0.38em;
+      letter-spacing: 0.25em;
+      text-shadow: none;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 600;
+      margin-top: 0.2em;
+    }
+
+    .fp-hero-subtitle {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: clamp(0.75rem, 1.5vw, 1rem);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--fp-teal);
+      margin-top: 1.5rem;
+    }
+
+    /* Transmission rings decoration */
+    .fp-transmission-rings {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 0;
+    }
+
+    .fp-transmission-ring {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      border: 1px solid rgba(245, 197, 24, 0.1);
+      border-radius: 50%;
+      animation: fp-transmission 6s linear infinite;
+    }
+
+    .fp-transmission-ring:nth-child(1) { width: 100px; height: 100px; animation-delay: 0s; }
+    .fp-transmission-ring:nth-child(2) { width: 100px; height: 100px; animation-delay: 1.5s; }
+    .fp-transmission-ring:nth-child(3) { width: 100px; height: 100px; animation-delay: 3s; }
+    .fp-transmission-ring:nth-child(4) { width: 100px; height: 100px; animation-delay: 4.5s; }
+
+    /* Era tag */
+    .fp-era-tag {
+      display: inline-block;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--fp-black);
+      background: var(--fp-orange);
+      padding: 0.35em 1.2em;
+      margin-top: 1.5rem;
+    }
+
+    /* ---- HAZARD STRIPE DIVIDER ---- */
+    .fp-hazard-divider {
+      height: 14px;
+      background: repeating-linear-gradient(
+        -45deg,
+        var(--fp-yellow) 0px,
+        var(--fp-yellow) 10px,
+        var(--fp-black) 10px,
+        var(--fp-black) 20px
+      );
+      position: relative;
+    }
+
+    /* ---- PIPE DIVIDER ---- */
+    .fp-pipe-divider {
+      height: 10px;
+      background: linear-gradient(
+        180deg,
+        var(--fp-steel-light) 0%,
+        var(--fp-steel) 35%,
+        #555 65%,
+        var(--fp-steel) 100%
+      );
+      border-top: 1px solid rgba(255,255,255,0.2);
+      position: relative;
+    }
+
+    .fp-pipe-divider::before,
+    .fp-pipe-divider::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 18px;
+      height: 18px;
+      background: radial-gradient(circle at 40% 40%, var(--fp-steel-light), var(--fp-steel), #555);
+      border-radius: 50%;
+      border: 1px solid #555;
+      box-shadow: inset 0 1px 2px rgba(255,255,255,0.2);
+    }
+
+    .fp-pipe-divider::before { left: 24px; }
+    .fp-pipe-divider::after { right: 24px; }
+
+    /* ===================================================
+       SECTION: OVERVIEW / DESCRIPTION
+       =================================================== */
+
+    .fp-overview {
+      position: relative;
+      padding: 4rem 2rem;
+      background: var(--fp-charcoal);
+      overflow: hidden;
+    }
+
+    .fp-overview::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 300px;
+      height: 300px;
+      background:
+        radial-gradient(circle, transparent 58%, var(--fp-blue) 59%, var(--fp-blue) 61%, transparent 62%),
+        radial-gradient(circle, transparent 38%, var(--fp-blue) 39%, var(--fp-blue) 41%, transparent 42%),
+        radial-gradient(circle, transparent 18%, var(--fp-blue) 19%, var(--fp-blue) 21%, transparent 22%);
+      opacity: 0.08;
+      transform: translate(30%, -20%);
+    }
+
+    .fp-overview-content {
+      max-width: 900px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .fp-section-label {
+      display: inline-block;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--fp-teal);
+      border: 1px solid var(--fp-teal);
+      padding: 0.3em 1em;
+      margin-bottom: 1.5rem;
+    }
+
+    .fp-overview-text {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 1.15rem;
+      line-height: 1.8;
+      color: var(--fp-fluorescent-white);
+    }
+
+    .fp-overview-text strong {
+      color: var(--fp-yellow);
+      font-weight: 700;
+    }
+
+    .fp-overview-text em {
+      color: var(--fp-teal-bright);
+      font-style: normal;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 600;
+      font-size: 1.05em;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    /* ===================================================
+       SECTION: VISUAL CHARACTERISTICS
+       =================================================== */
+
+    .fp-visual-chars {
+      background: var(--fp-black);
+      padding: 4rem 0 0;
+    }
+
+    .fp-section-heading {
+      font-family: 'Archivo Black', sans-serif;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      line-height: 1;
+      color: var(--fp-yellow);
+      text-align: center;
+      padding: 0 2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .fp-section-heading-line {
+      display: block;
+      width: 80px;
+      height: 4px;
+      background: var(--fp-red);
+      margin: 1rem auto 2rem;
+    }
+
+    /* Motifs grid */
+    .fp-motifs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 0;
+      padding: 0;
+    }
+
+    .fp-motif-card {
+      background: var(--fp-charcoal);
+      border: 1px solid var(--fp-steel);
+      padding: 2rem 1.8rem;
+      position: relative;
+      overflow: hidden;
+      transition: background 0.3s ease;
+    }
+
+    .fp-motif-card:hover {
+      background: #333;
+    }
+
+    /* Corner rivets */
+    .fp-motif-card::before,
+    .fp-motif-card::after {
+      content: '';
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background: radial-gradient(circle at 40% 40%, var(--fp-steel-light), var(--fp-steel), #555);
+      border-radius: 50%;
+      border: 1px solid #555;
+    }
+
+    .fp-motif-card::before { top: 8px; left: 8px; }
+    .fp-motif-card::after { top: 8px; right: 8px; }
+
+    .fp-motif-icon {
+      font-size: 1.6rem;
+      margin-bottom: 0.8rem;
+      display: block;
+    }
+
+    .fp-motif-card h3 {
+      font-family: 'Oswald', sans-serif;
+      font-size: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--fp-yellow);
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .fp-motif-card p {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.85rem;
+      line-height: 1.5;
+      color: var(--fp-steel-light);
+    }
+
+    /* Motif card accent stripe */
+    .fp-motif-card .fp-card-stripe {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+    }
+
+    .fp-motif-card:nth-child(odd) .fp-card-stripe { background: var(--fp-red); }
+    .fp-motif-card:nth-child(even) .fp-card-stripe { background: var(--fp-blue-bright); }
+    .fp-motif-card:nth-child(3n) .fp-card-stripe { background: var(--fp-teal); }
+
+    /* ===================================================
+       SECTION: DESIGN PRINCIPLES - INVERSION PANEL
+       =================================================== */
+
+    .fp-principles {
+      padding: 0;
+    }
+
+    .fp-inversion-panel {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .fp-inversion-left {
+      background: var(--fp-red);
+      color: var(--fp-fluorescent-white);
+      padding: 4rem 3rem;
+    }
+
+    .fp-inversion-right {
+      background: var(--fp-fluorescent-white);
+      color: var(--fp-red);
+      padding: 4rem 3rem;
+    }
+
+    .fp-inversion-left h2,
+    .fp-inversion-right h2 {
+      font-family: 'Archivo Black', sans-serif;
+      font-size: clamp(1.5rem, 3vw, 2.2rem);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      line-height: 1.1;
+      margin-bottom: 2rem;
+    }
+
+    .fp-inversion-left h2 { color: var(--fp-yellow); }
+    .fp-inversion-right h2 { color: var(--fp-blue); }
+
+    .fp-principle-item {
+      margin-bottom: 1.5rem;
+      padding-left: 1.5rem;
+      position: relative;
+    }
+
+    .fp-principle-item::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0.4em;
+      width: 8px;
+      height: 8px;
+      transform: rotate(45deg);
+    }
+
+    .fp-inversion-left .fp-principle-item::before { background: var(--fp-yellow); }
+    .fp-inversion-right .fp-principle-item::before { background: var(--fp-blue); }
+
+    .fp-principle-item h4 {
+      font-family: 'Oswald', sans-serif;
+      font-size: 0.95rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-weight: 700;
+      margin-bottom: 0.25rem;
+    }
+
+    .fp-inversion-left .fp-principle-item h4 { color: var(--fp-fluorescent-white); }
+    .fp-inversion-right .fp-principle-item h4 { color: var(--fp-red); }
+
+    .fp-principle-item p {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem;
+      line-height: 1.5;
+      opacity: 0.9;
+    }
+
+    /* ===================================================
+       SECTION: COLOR PALETTE
+       =================================================== */
+
+    .fp-palette {
+      background: var(--fp-black);
+      padding: 4rem 2rem;
+    }
+
+    .fp-palette-intro {
+      max-width: 800px;
+      margin: 0 auto 3rem;
+      text-align: center;
+    }
+
+    .fp-palette-intro p {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 1.05rem;
+      line-height: 1.7;
+      color: var(--fp-steel-light);
+    }
+
+    .fp-palette-intro strong {
+      color: var(--fp-yellow);
+    }
+
+    /* Color swatches grid */
+    .fp-swatches {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 0;
+      max-width: 1200px;
+      margin: 0 auto;
+      border: 2px solid var(--fp-steel);
+    }
+
+    .fp-swatch {
+      padding: 0;
+      text-align: center;
+      border: 1px solid rgba(113, 121, 126, 0.3);
+      overflow: hidden;
+    }
+
+    .fp-swatch-color {
+      height: 80px;
+      position: relative;
+    }
+
+    .fp-swatch-color::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: rgba(0,0,0,0.3);
+    }
+
+    .fp-swatch-info {
+      background: var(--fp-charcoal);
+      padding: 0.8rem 0.6rem;
+    }
+
+    .fp-swatch-name {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--fp-fluorescent-white);
+      margin-bottom: 0.2rem;
+    }
+
+    .fp-swatch-hex {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--fp-teal);
+      letter-spacing: 0.05em;
+    }
+
+    .fp-swatch-usage {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.65rem;
+      color: var(--fp-steel-light);
+      margin-top: 0.3rem;
+      line-height: 1.3;
+    }
+
+    /* Color approaches */
+    .fp-color-approaches {
+      max-width: 1000px;
+      margin: 3rem auto 0;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1px;
+      background: var(--fp-steel);
+    }
+
+    .fp-color-approach {
+      background: var(--fp-charcoal);
+      padding: 1.5rem;
+    }
+
+    .fp-color-approach h4 {
+      font-family: 'Oswald', sans-serif;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--fp-orange);
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .fp-color-approach p {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.85rem;
+      line-height: 1.5;
+      color: var(--fp-steel-light);
+    }
+
+    /* ===================================================
+       SECTION: TYPOGRAPHY SHOWCASE
+       =================================================== */
+
+    .fp-typography {
+      background: var(--fp-charcoal);
+      padding: 4rem 2rem;
+      position: relative;
+    }
+
+    /* Metal ridging background */
+    .fp-typography::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        rgba(255,255,255,0.03) 0px,
+        rgba(255,255,255,0.03) 1px,
+        transparent 1px,
+        transparent 5px
+      );
+      pointer-events: none;
+    }
+
+    .fp-type-showcase {
+      max-width: 1100px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .fp-type-specimens {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0;
+      margin-top: 2rem;
+      border: 2px solid var(--fp-steel);
+    }
+
+    .fp-type-specimen {
+      display: grid;
+      grid-template-columns: 1fr 280px;
+      border-bottom: 1px solid var(--fp-steel);
+      overflow: hidden;
+    }
+
+    .fp-type-specimen:last-child { border-bottom: none; }
+
+    .fp-type-preview {
+      padding: 2rem 2.5rem;
+      display: flex;
+      align-items: center;
+      background: var(--fp-black);
+      overflow: hidden;
+    }
+
+    .fp-type-meta {
+      padding: 1.5rem 2rem;
+      background: var(--fp-charcoal);
+      border-left: 3px solid var(--fp-steel);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .fp-type-meta h4 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--fp-orange);
+      margin-bottom: 0.4rem;
+    }
+
+    .fp-type-meta .fp-type-style {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--fp-teal);
+      letter-spacing: 0.05em;
+      margin-bottom: 0.5rem;
+    }
+
+    .fp-type-meta p {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.8rem;
+      color: var(--fp-steel-light);
+      line-height: 1.4;
+    }
+
+    /* Individual type previews */
+    .fp-type-archivo {
+      font-family: 'Archivo Black', sans-serif;
+      font-size: clamp(2rem, 4vw, 3.5rem);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      line-height: 0.95;
+      color: var(--fp-yellow);
+    }
+
+    .fp-type-oswald {
+      font-family: 'Oswald', sans-serif;
+      font-size: clamp(1.6rem, 3vw, 2.5rem);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--fp-fluorescent-white);
+    }
+
+    .fp-type-roboto-slab {
+      font-family: 'Roboto Slab', serif;
+      font-size: clamp(1.6rem, 3vw, 2.5rem);
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--fp-red-bright);
+    }
+
+    .fp-type-bebas {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.2rem, 5vw, 4rem);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--fp-fluorescent-white);
+    }
+
+    .fp-type-barlow {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--fp-blue-bright);
+    }
+
+    .fp-type-share-tech {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: clamp(0.9rem, 1.5vw, 1.1rem);
+      letter-spacing: 0.05em;
+      color: var(--fp-teal);
+      text-transform: uppercase;
+    }
+
+    .fp-type-saira {
+      font-family: 'Saira', sans-serif;
+      font-size: clamp(1rem, 2vw, 1.4rem);
+      font-weight: 400;
+      letter-spacing: 0.03em;
+      color: var(--fp-steel-light);
+    }
+
+    .fp-type-dmsans {
+      font-family: 'DM Sans', sans-serif;
+      font-size: clamp(1rem, 1.8vw, 1.2rem);
+      font-weight: 400;
+      letter-spacing: 0.02em;
+      line-height: 1.6;
+      color: var(--fp-fluorescent-white);
+    }
+
+    /* ===================================================
+       SECTION: LAYOUT PRINCIPLES
+       =================================================== */
+
+    .fp-layout {
+      background: var(--fp-blue);
+      padding: 4rem 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .fp-layout .fp-section-heading {
+      color: var(--fp-yellow);
+    }
+
+    .fp-layout .fp-section-heading-line {
+      background: var(--fp-yellow);
+    }
+
+    .fp-layout-grid {
+      max-width: 1100px;
+      margin: 2rem auto 0;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0;
+    }
+
+    .fp-layout-card {
+      padding: 2.5rem 2rem;
+      position: relative;
+      border: 1px solid rgba(255,255,255,0.15);
+    }
+
+    .fp-layout-card:nth-child(odd) { background: rgba(0,0,0,0.25); }
+    .fp-layout-card:nth-child(even) { background: rgba(0,0,0,0.15); }
+
+    .fp-layout-card h3 {
+      font-family: 'Oswald', sans-serif;
+      font-size: 1.1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--fp-yellow);
+      font-weight: 700;
+      margin-bottom: 1rem;
+      padding-bottom: 0.6rem;
+      border-bottom: 2px solid var(--fp-yellow);
+      display: inline-block;
+    }
+
+    .fp-layout-card ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .fp-layout-card li {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem;
+      line-height: 1.5;
+      color: var(--fp-fluorescent-white);
+      padding: 0.4rem 0;
+      padding-left: 1.2rem;
+      position: relative;
+    }
+
+    .fp-layout-card li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0.75em;
+      width: 6px;
+      height: 6px;
+      background: var(--fp-orange);
+      transform: rotate(45deg);
+    }
+
+    /* ===================================================
+       SECTION: CSS TECHNIQUES
+       =================================================== */
+
+    .fp-techniques {
+      background: var(--fp-black);
+      padding: 4rem 2rem;
+    }
+
+    .fp-techniques-grid {
+      max-width: 1200px;
+      margin: 2rem auto 0;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 2px;
+      background: var(--fp-steel);
+    }
+
+    .fp-technique-card {
+      background: var(--fp-charcoal);
+      padding: 2rem;
+    }
+
+    .fp-technique-card h3 {
+      font-family: 'Oswald', sans-serif;
+      font-size: 0.95rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--fp-orange);
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+    }
+
+    /* Technique demos */
+    .fp-demo {
+      margin-bottom: 1rem;
+    }
+
+    .fp-demo-label {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--fp-teal);
+      margin-top: 0.8rem;
+    }
+
+    /* Gear demo */
+    .fp-demo-gear-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0;
+      padding: 2rem 0;
+    }
+
+    .fp-gear {
+      width: 100px;
+      height: 100px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .fp-gear svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    .fp-gear--spin { animation: fp-rotate 8s linear infinite; }
+    .fp-gear--spin-reverse { animation: fp-rotate-reverse 8s linear infinite; }
+
+    .fp-gear--large { width: 120px; height: 120px; }
+    .fp-gear--small { width: 70px; height: 70px; margin-left: -15px; }
+    .fp-gear--tiny { width: 50px; height: 50px; margin-left: -10px; }
+
+    /* Hazard demo */
+    .fp-demo-hazard {
+      height: 14px;
+      background: repeating-linear-gradient(
+        -45deg,
+        var(--fp-yellow) 0px,
+        var(--fp-yellow) 10px,
+        var(--fp-black) 10px,
+        var(--fp-black) 20px
+      );
+    }
+
+    .fp-demo-hazard-red {
+      height: 14px;
+      background: repeating-linear-gradient(
+        -45deg,
+        var(--fp-red) 0px,
+        var(--fp-red) 10px,
+        var(--fp-fluorescent-white) 10px,
+        var(--fp-fluorescent-white) 20px
+      );
+      margin-top: 6px;
+    }
+
+    /* Metal demo */
+    .fp-demo-metal {
+      height: 60px;
+      background:
+        repeating-linear-gradient(
+          0deg,
+          rgba(255,255,255,0.06) 0px,
+          rgba(255,255,255,0.06) 1px,
+          transparent 1px,
+          transparent 4px
+        ),
+        linear-gradient(180deg, var(--fp-steel) 0%, #5a6268 50%, var(--fp-steel) 100%);
+      border: 1px solid #555;
+    }
+
+    .fp-demo-corrugated {
+      height: 60px;
+      background:
+        repeating-linear-gradient(
+          90deg,
+          rgba(255,255,255,0.08) 0px,
+          rgba(0,0,0,0.05) 3px,
+          rgba(255,255,255,0.08) 6px
+        ),
+        var(--fp-steel);
+      border: 1px solid #555;
+      margin-top: 6px;
+    }
+
+    /* Radar demo */
+    .fp-demo-radar {
+      width: 160px;
+      height: 160px;
+      margin: 0 auto;
+      position: relative;
+      background: var(--fp-black);
+      border-radius: 50%;
+      overflow: hidden;
+      border: 2px solid var(--fp-teal);
+      animation: fp-pulse-glow 3s ease-in-out infinite;
+    }
+
+    .fp-demo-radar::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: 50%;
+      height: 50%;
+      background: conic-gradient(
+        from 0deg at 0% 100%,
+        rgba(0, 128, 128, 0.5) 0deg,
+        transparent 60deg
+      );
+      transform-origin: bottom left;
+      animation: fp-radar-sweep 3s linear infinite;
+    }
+
+    .fp-demo-radar::after {
+      content: '';
+      position: absolute;
+      inset: 15%;
+      border: 1px solid rgba(0, 128, 128, 0.3);
+      border-radius: 50%;
+      box-shadow:
+        inset 0 0 0 22px transparent,
+        inset 0 0 0 23px rgba(0, 128, 128, 0.2);
+    }
+
+    .fp-demo-radar-crosshair {
+      position: absolute;
+      inset: 0;
+    }
+
+    .fp-demo-radar-crosshair::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: rgba(0, 128, 128, 0.2);
+    }
+
+    .fp-demo-radar-crosshair::after {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: 0;
+      bottom: 0;
+      width: 1px;
+      background: rgba(0, 128, 128, 0.2);
+    }
+
+    /* Fluorescent glow demo */
+    .fp-demo-fluorescent {
+      padding: 1.5rem;
+      text-align: center;
+      background: var(--fp-black);
+      border: 1px solid var(--fp-steel);
+    }
+
+    .fp-demo-fluorescent-text {
+      font-family: 'Archivo Black', sans-serif;
+      font-size: 1.6rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--fp-fluorescent-white);
+      text-shadow:
+        0 0 5px rgba(232, 237, 242, 0.6),
+        0 0 15px rgba(232, 237, 242, 0.3),
+        0 0 30px rgba(232, 237, 242, 0.1);
+      animation: fp-flicker 3s ease-in-out infinite;
+    }
+
+    /* Panel demo */
+    .fp-demo-panel {
+      background: var(--fp-charcoal);
+      border: 2px solid var(--fp-steel);
+      padding: 1.5rem;
+      position: relative;
+    }
+
+    .fp-demo-panel::before,
+    .fp-demo-panel::after {
+      content: '';
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background: radial-gradient(circle at 40% 40%, var(--fp-steel-light), var(--fp-steel), #555);
+      border-radius: 50%;
+      border: 1px solid #555;
+    }
+
+    .fp-demo-panel::before { top: 6px; left: 6px; }
+    .fp-demo-panel::after { top: 6px; right: 6px; }
+
+    .fp-demo-panel-inner {
+      position: relative;
+    }
+
+    .fp-demo-panel-inner::before,
+    .fp-demo-panel-inner::after {
+      content: '';
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background: radial-gradient(circle at 40% 40%, var(--fp-steel-light), var(--fp-steel), #555);
+      border-radius: 50%;
+      border: 1px solid #555;
+    }
+
+    .fp-demo-panel-inner::before { bottom: -6px; left: -8px; }
+    .fp-demo-panel-inner::after { bottom: -6px; right: -8px; }
+
+    .fp-demo-panel-text {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--fp-teal);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      text-align: center;
+    }
+
+    /* Hazard border demo */
+    .fp-demo-hazard-border {
+      border: 6px solid transparent;
+      padding: 1.5rem;
+      text-align: center;
+      background:
+        linear-gradient(var(--fp-charcoal), var(--fp-charcoal)) padding-box,
+        repeating-linear-gradient(
+          -45deg,
+          var(--fp-yellow) 0px,
+          var(--fp-yellow) 10px,
+          var(--fp-black) 10px,
+          var(--fp-black) 20px
+        ) border-box;
+    }
+
+    .fp-demo-hazard-border p {
+      font-family: 'Oswald', sans-serif;
+      font-size: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--fp-yellow);
+    }
+
+    /* ===================================================
+       SECTION: MATERIALS & TEXTURES
+       =================================================== */
+
+    .fp-materials {
+      background: var(--fp-charcoal);
+      padding: 4rem 2rem;
+    }
+
+    .fp-materials-grid {
+      max-width: 1100px;
+      margin: 2rem auto 0;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 0;
+      border: 2px solid var(--fp-steel);
+    }
+
+    .fp-material-cell {
+      border: 1px solid rgba(113, 121, 126, 0.3);
+      overflow: hidden;
+    }
+
+    .fp-material-texture {
+      height: 80px;
+      position: relative;
+    }
+
+    .fp-material-info {
+      padding: 0.8rem;
+      background: var(--fp-black);
+    }
+
+    .fp-material-physical {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--fp-yellow);
+      margin-bottom: 0.2rem;
+    }
+
+    .fp-material-web {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.7rem;
+      color: var(--fp-steel-light);
+      line-height: 1.3;
+    }
+
+    /* Texture patterns */
+    .fp-tex-corrugated {
+      background:
+        repeating-linear-gradient(90deg, rgba(255,255,255,0.08) 0px, rgba(0,0,0,0.05) 3px, rgba(255,255,255,0.08) 6px),
+        var(--fp-steel);
+    }
+
+    .fp-tex-ibeam {
+      background: linear-gradient(180deg, var(--fp-steel-light) 0%, var(--fp-steel) 35%, #555 65%, var(--fp-steel) 100%);
+      border-top: 3px solid var(--fp-steel-light);
+      border-bottom: 3px solid #555;
+    }
+
+    .fp-tex-mesh {
+      background:
+        radial-gradient(circle, var(--fp-steel) 1px, transparent 1px),
+        var(--fp-charcoal);
+      background-size: 8px 8px;
+    }
+
+    .fp-tex-hazard {
+      background: repeating-linear-gradient(-45deg, var(--fp-yellow) 0px, var(--fp-yellow) 10px, var(--fp-black) 10px, var(--fp-black) 20px);
+    }
+
+    .fp-tex-brushed {
+      background:
+        repeating-linear-gradient(0deg, rgba(255,255,255,0.04) 0px, transparent 1px, transparent 2px),
+        linear-gradient(90deg, #888 0%, #999 30%, #888 50%, #999 80%, #888 100%);
+    }
+
+    .fp-tex-iron {
+      background:
+        conic-gradient(from 0deg, var(--fp-steel) 0deg 15deg, transparent 15deg 30deg, var(--fp-steel) 30deg 45deg, transparent 45deg 60deg, var(--fp-steel) 60deg 75deg, transparent 75deg 90deg, var(--fp-steel) 90deg 105deg, transparent 105deg 120deg, var(--fp-steel) 120deg 135deg, transparent 135deg 150deg, var(--fp-steel) 150deg 165deg, transparent 165deg 180deg, var(--fp-steel) 180deg 195deg, transparent 195deg 210deg, var(--fp-steel) 210deg 225deg, transparent 225deg 240deg, var(--fp-steel) 240deg 255deg, transparent 255deg 270deg, var(--fp-steel) 270deg 285deg, transparent 285deg 300deg, var(--fp-steel) 300deg 315deg, transparent 315deg 330deg, var(--fp-steel) 330deg 345deg, transparent 345deg 360deg);
+      border-radius: 0;
+    }
+
+    .fp-tex-concrete {
+      background: var(--fp-steel);
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.15'/%3E%3C/svg%3E");
+    }
+
+    .fp-tex-fluorescent {
+      background: var(--fp-black);
+      box-shadow: inset 0 0 30px rgba(232, 237, 242, 0.15), inset 0 0 60px rgba(232, 237, 242, 0.05);
+    }
+
+    .fp-tex-crt {
+      background:
+        repeating-linear-gradient(0deg, transparent 0px, transparent 2px, rgba(0,0,0,0.15) 2px, rgba(0,0,0,0.15) 4px),
+        var(--fp-black);
+    }
+
+    .fp-tex-rivets {
+      background:
+        radial-gradient(circle at 10px 10px, var(--fp-steel-light) 3px, transparent 4px),
+        radial-gradient(circle at 30px 30px, var(--fp-steel-light) 3px, transparent 4px),
+        var(--fp-charcoal);
+      background-size: 40px 40px;
+    }
+
+    .fp-tex-wire {
+      background:
+        linear-gradient(0deg, rgba(113,121,126,0.3) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(113,121,126,0.3) 1px, transparent 1px),
+        var(--fp-black);
+      background-size: 12px 12px;
+    }
+
+    /* ===================================================
+       SECTION: INFLUENCES & LINEAGE
+       =================================================== */
+
+    .fp-influences {
+      background: var(--fp-brown);
+      padding: 4rem 2rem;
+      position: relative;
+    }
+
+    .fp-influences .fp-section-heading {
+      color: var(--fp-yellow);
+    }
+
+    .fp-influences .fp-section-heading-line {
+      background: var(--fp-orange);
+    }
+
+    .fp-influences-grid {
+      max-width: 1100px;
+      margin: 2rem auto 0;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 2px;
+      background: var(--fp-brown-light);
+    }
+
+    .fp-influence-card {
+      background: rgba(0,0,0,0.35);
+      padding: 2rem;
+      transition: background 0.3s ease;
+    }
+
+    .fp-influence-card:hover {
+      background: rgba(0,0,0,0.5);
+    }
+
+    .fp-influence-card h3 {
+      font-family: 'Roboto Slab', serif;
+      font-size: 1rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--fp-yellow);
+      margin-bottom: 0.6rem;
+    }
+
+    .fp-influence-card p {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.85rem;
+      line-height: 1.5;
+      color: var(--fp-fluorescent-white);
+      opacity: 0.85;
+    }
+
+    /* ===================================================
+       SECTION: RELATED AESTHETICS
+       =================================================== */
+
+    .fp-related {
+      background: var(--fp-black);
+      padding: 4rem 2rem;
+    }
+
+    .fp-related-flow {
+      max-width: 1100px;
+      margin: 2rem auto 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      justify-content: center;
+    }
+
+    .fp-related-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--fp-fluorescent-white);
+      padding: 0.6rem 1.2rem;
+      border: 2px solid var(--fp-steel);
+      background: var(--fp-charcoal);
+      transition: all 0.25s ease;
+      cursor: default;
+    }
+
+    .fp-related-tag:hover {
+      border-color: var(--fp-yellow);
+      color: var(--fp-yellow);
+    }
+
+    .fp-related-tag .fp-tag-relation {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.6rem;
+      color: var(--fp-teal);
+      letter-spacing: 0.05em;
+    }
+
+    /* ===================================================
+       SECTION: CONSTRUCTIVIST DIAGONAL
+       =================================================== */
+
+    .fp-diagonal-section {
+      position: relative;
+      overflow: hidden;
+      padding: 5rem 2rem;
+      background: var(--fp-charcoal);
+    }
+
+    .fp-diagonal-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -10%;
+      width: 120%;
+      height: 100%;
+      background: var(--fp-red);
+      transform: skewY(-3deg);
+      transform-origin: top left;
+      z-index: 0;
+    }
+
+    .fp-diagonal-content {
+      position: relative;
+      z-index: 1;
+      max-width: 800px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .fp-diagonal-content h2 {
+      font-family: 'Archivo Black', sans-serif;
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--fp-yellow);
+      line-height: 1.1;
+      margin-bottom: 1rem;
+    }
+
+    .fp-diagonal-content p {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 1.1rem;
+      line-height: 1.7;
+      color: var(--fp-fluorescent-white);
+    }
+
+    .fp-diagonal-content p strong {
+      color: var(--fp-yellow);
+    }
+
+    /* ===================================================
+       FOOTER
+       =================================================== */
+
+    .fp-footer {
+      background: var(--fp-black);
+      padding: 3rem 2rem 2rem;
+      text-align: center;
+      position: relative;
+    }
+
+    .fp-footer::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: repeating-linear-gradient(
+        -45deg,
+        var(--fp-yellow) 0px,
+        var(--fp-yellow) 10px,
+        var(--fp-black) 10px,
+        var(--fp-black) 20px
+      );
+    }
+
+    .fp-footer-logo {
+      font-family: 'Archivo Black', sans-serif;
+      font-size: 1.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--fp-yellow);
+      margin-bottom: 0.5rem;
+    }
+
+    .fp-footer-sub {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--fp-teal);
+      margin-bottom: 2rem;
+    }
+
+    .fp-footer-credits {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.75rem;
+      color: var(--fp-steel);
+      line-height: 1.6;
+    }
+
+    .fp-footer-credits strong {
+      color: var(--fp-steel-light);
+    }
+
+    /* Gear decoration in footer */
+    .fp-footer-gears {
+      display: flex;
+      justify-content: center;
+      gap: 0;
+      margin: 1.5rem 0;
+      opacity: 0.15;
+    }
+
+    .fp-footer-gears svg { width: 40px; height: 40px; fill: var(--fp-steel); }
+
+    /* ===================================================
+       RESPONSIVE DESIGN
+       =================================================== */
+
+    @media (max-width: 900px) {
+      .fp-inversion-panel {
+        grid-template-columns: 1fr;
+      }
+
+      .fp-layout-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .fp-type-specimen {
+        grid-template-columns: 1fr;
+      }
+
+      .fp-type-meta {
+        border-left: none;
+        border-top: 2px solid var(--fp-steel);
+      }
+
+      .fp-status-bar {
+        flex-wrap: wrap;
+        gap: 0.5rem 1.5rem;
+        justify-content: center;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .fp-hero-inner {
+        padding: 3rem 1rem 2rem;
+      }
+
+      .fp-motifs-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .fp-swatches {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .fp-materials-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .fp-inversion-left,
+      .fp-inversion-right {
+        padding: 2.5rem 1.5rem;
+      }
+
+      .fp-influences-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .fp-techniques-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .fp-hero-gear--left,
+      .fp-hero-gear--right,
+      .fp-hero-gear--small {
+        display: none;
+      }
+    }
+
+    /* ===================================================
+       SCROLL REVEAL
+       =================================================== */
+    .fp-reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .fp-reveal.fp-revealed {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .fp-reveal-delay-1 { transition-delay: 0.1s; }
+    .fp-reveal-delay-2 { transition-delay: 0.2s; }
+    .fp-reveal-delay-3 { transition-delay: 0.3s; }
+    .fp-reveal-delay-4 { transition-delay: 0.4s; }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================
+       STATUS BAR
+       ============================================ -->
+  <div class="fp-status-bar">
+    <span>System Active</span>
+    <span>Design Reference v1.0</span>
+    <span>Factory Pomo Protocol</span>
+    <span id="fp-clock">--:--:--</span>
+  </div>
+
+  <!-- ============================================
+       HERO SECTION
+       ============================================ -->
+  <header class="fp-hero">
+    <!-- Decorative gears -->
+    <div class="fp-hero-gear fp-hero-gear--left">
+      <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M100 10L108 30L125 15L120 38L142 28L130 48L155 45L138 60L162 65L142 75L160 88L138 88L150 108L128 100L132 122L112 108L108 130L100 110L92 130L88 108L68 122L72 100L50 108L62 88L38 88L60 75L38 65L62 60L45 45L70 48L58 28L80 38L75 15L92 30Z" fill="currentColor"/>
+        <circle cx="100" cy="100" r="60" fill="currentColor"/>
+        <circle cx="100" cy="100" r="35" fill="#111"/>
+        <circle cx="100" cy="100" r="15" fill="currentColor"/>
+      </svg>
+    </div>
+    <div class="fp-hero-gear fp-hero-gear--right">
+      <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M100 5L106 28L120 10L118 35L138 22L128 45L152 38L136 58L160 55L140 70L165 72L142 82L162 92L138 92L152 110L128 102L135 125L115 110L112 132L100 112L88 132L85 110L65 125L72 102L48 110L62 92L38 92L58 82L35 72L60 70L40 55L64 58L48 38L72 45L62 22L82 35L80 10L94 28Z" fill="currentColor"/>
+        <circle cx="100" cy="100" r="55" fill="currentColor"/>
+        <circle cx="100" cy="100" r="30" fill="#111"/>
+        <circle cx="100" cy="100" r="12" fill="currentColor"/>
+      </svg>
+    </div>
+    <div class="fp-hero-gear fp-hero-gear--small">
+      <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M100 15L110 35L128 20L122 42L145 32L132 52L158 50L140 65L165 68L142 78L162 90L138 88L148 110L125 100L128 122L108 108L105 130L100 110L95 130L92 108L72 122L75 100L52 110L62 88L38 90L58 78L35 68L60 65L42 50L68 52L55 32L78 42L72 20L90 35Z" fill="currentColor"/>
+        <circle cx="100" cy="100" r="50" fill="currentColor"/>
+        <circle cx="100" cy="100" r="28" fill="#111"/>
+      </svg>
+    </div>
+
+    <!-- Transmission rings -->
+    <div class="fp-transmission-rings">
+      <div class="fp-transmission-ring"></div>
+      <div class="fp-transmission-ring"></div>
+      <div class="fp-transmission-ring"></div>
+      <div class="fp-transmission-ring"></div>
+    </div>
+
+    <div class="fp-hero-inner">
+      <h1 class="fp-hero-title">
+        Factory Pomo
+        <span>Design Reference System</span>
+      </h1>
+      <p class="fp-hero-subtitle">Industrial Postmodernism &mdash; c. 1985&ndash;1995</p>
+      <div class="fp-era-tag">Memphis-Milano + CAD + Constructivism + Bauhaus + WPA</div>
+    </div>
+  </header>
+
+  <!-- ============================================
+       HAZARD DIVIDER
+       ============================================ -->
+  <div class="fp-hazard-divider"></div>
+
+  <!-- ============================================
+       OVERVIEW SECTION
+       ============================================ -->
+  <section class="fp-overview">
+    <div class="fp-overview-content fp-reveal">
+      <div class="fp-section-label">SPEC 001 // Overview</div>
+      <p class="fp-overview-text">
+        Factory Pomo is a design aesthetic that coalesced in the late 1980s, merging the
+        <strong>clean, referential forms of Memphis-Milano</strong>, emerging
+        <em>CAD computer graphics</em> visual languages, and revivals of
+        <strong>Bauhaus, Russian Constructivism, WPA graphics</strong>, and
+        <em>early-to-mid 20th century industrial vernacular</em>. It synthesizes postmodern
+        playfulness with industrial seriousness, producing a look of
+        <strong>futuro-industrial machinery rendered through geometric abstraction and bold
+        primary color contrasts</strong>. Factory Pomo peaked from the mid-1980s to mid-1990s
+        before giving way to Cyber Gen-X Corporate and Y2K Futurism aesthetics.
+      </p>
+    </div>
+  </section>
+
+  <div class="fp-pipe-divider"></div>
+
+  <!-- ============================================
+       VISUAL CHARACTERISTICS
+       ============================================ -->
+  <section class="fp-visual-chars">
+    <h2 class="fp-section-heading fp-reveal">Core Motifs &amp; Patterns</h2>
+    <span class="fp-section-heading-line"></span>
+
+    <div class="fp-motifs-grid">
+      <div class="fp-motif-card fp-reveal fp-reveal-delay-1">
+        <span class="fp-motif-icon">&#9881;</span>
+        <h3>Gears &amp; Cogs</h3>
+        <p>Oversized decorative gear shapes, both as illustrations and structural design elements</p>
+        <div class="fp-card-stripe"></div>
+      </div>
+      <div class="fp-motif-card fp-reveal fp-reveal-delay-2">
+        <span class="fp-motif-icon">&#9644;</span>
+        <h3>Metal Ridging</h3>
+        <p>Parallel raised lines evoking corrugated metal, factory textures, and industrial surfaces</p>
+        <div class="fp-card-stripe"></div>
+      </div>
+      <div class="fp-motif-card fp-reveal fp-reveal-delay-3">
+        <span class="fp-motif-icon">&#9645;</span>
+        <h3>Isometric Drawings</h3>
+        <p>Factory assembly lines, conveyor belts, and machinery rendered in isometric projection</p>
+        <div class="fp-card-stripe"></div>
+      </div>
+      <div class="fp-motif-card fp-reveal fp-reveal-delay-1">
+        <span class="fp-motif-icon">&#9762;</span>
+        <h3>Atomic Symbology</h3>
+        <p>Radiation symbols, atom diagrams, electron orbits drawn from nuclear-age iconography</p>
+        <div class="fp-card-stripe"></div>
+      </div>
+      <div class="fp-motif-card fp-reveal fp-reveal-delay-2">
+        <span class="fp-motif-icon">&#9783;</span>
+        <h3>Radio Waves</h3>
+        <p>Broadcasting iconography, transmission towers, concentric signal arcs</p>
+        <div class="fp-card-stripe"></div>
+      </div>
+      <div class="fp-motif-card fp-reveal fp-reveal-delay-3">
+        <span class="fp-motif-icon">&#8982;</span>
+        <h3>Radar Graphics</h3>
+        <p>Sweep lines, scope circles, technical readouts from instrumentation displays</p>
+        <div class="fp-card-stripe"></div>
+      </div>
+      <div class="fp-motif-card fp-reveal fp-reveal-delay-1">
+        <span class="fp-motif-icon">&#9783;</span>
+        <h3>TV Test Patterns</h3>
+        <p>Color bars, geometric calibration targets from 1950s broadcast television</p>
+        <div class="fp-card-stripe"></div>
+      </div>
+      <div class="fp-motif-card fp-reveal fp-reveal-delay-2">
+        <span class="fp-motif-icon">&#9888;</span>
+        <h3>Hazard Tape</h3>
+        <p>Diagonal stripe warning tape in high-contrast color pairs from industrial safety</p>
+        <div class="fp-card-stripe"></div>
+      </div>
+      <div class="fp-motif-card fp-reveal fp-reveal-delay-3">
+        <span class="fp-motif-icon">&#10132;</span>
+        <h3>Technical Arrows</h3>
+        <p>Sharp directional indicators, lightning-bolt shapes, jagged industrial forms</p>
+        <div class="fp-card-stripe"></div>
+      </div>
+      <div class="fp-motif-card fp-reveal fp-reveal-delay-1">
+        <span class="fp-motif-icon">&#9638;</span>
+        <h3>Structural Elements</h3>
+        <p>Steel beams, space-frame trusses, pipe railings with mesh infill exposed as decoration</p>
+        <div class="fp-card-stripe"></div>
+      </div>
+      <div class="fp-motif-card fp-reveal fp-reveal-delay-2">
+        <span class="fp-motif-icon">&#9646;</span>
+        <h3>CRT Monitors</h3>
+        <p>Banks of television monitors used as decorative and informational display elements</p>
+        <div class="fp-card-stripe"></div>
+      </div>
+      <div class="fp-motif-card fp-reveal fp-reveal-delay-3">
+        <span class="fp-motif-icon">&#9793;</span>
+        <h3>Globe Sculptures</h3>
+        <p>Wire-frame or structural steel world globes as rotating decorative centerpieces</p>
+        <div class="fp-card-stripe"></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="fp-hazard-divider"></div>
+
+  <!-- ============================================
+       DESIGN PRINCIPLES (COLOR INVERSION PANEL)
+       ============================================ -->
+  <section class="fp-principles">
+    <div class="fp-inversion-panel">
+      <div class="fp-inversion-left fp-reveal">
+        <h2>Design Principles</h2>
+        <div class="fp-principle-item">
+          <h4>Strong Symmetry</h4>
+          <p>Balanced, mirrored compositions as the primary organizational method for layouts and visual elements</p>
+        </div>
+        <div class="fp-principle-item">
+          <h4>Color Inversion</h4>
+          <p>Symmetrical layouts where one half inverts the color scheme of the other -- exactly like this panel</p>
+        </div>
+        <div class="fp-principle-item">
+          <h4>Bold Geometric Shapes</h4>
+          <p>Circles, triangles, rectangles used as primary building blocks in simple, direct compositions</p>
+        </div>
+        <div class="fp-principle-item">
+          <h4>Industrial Meets Digital</h4>
+          <p>Physical factory objects rendered through early digital design tools, creating tangible-yet-abstract forms</p>
+        </div>
+      </div>
+      <div class="fp-inversion-right fp-reveal">
+        <h2>Design Principles</h2>
+        <div class="fp-principle-item">
+          <h4>Contrasting Saturation</h4>
+          <p>Bold juxtapositions at high saturation rather than gradual transitions between colors</p>
+        </div>
+        <div class="fp-principle-item">
+          <h4>Layered Complexity</h4>
+          <p>Mechanical elements, typography, and geometric shapes overlapping in dense compositions</p>
+        </div>
+        <div class="fp-principle-item">
+          <h4>Retro-Futurist Tension</h4>
+          <p>Depression-era and Constructivist visual language repurposed for a digital age, creating temporal dissonance</p>
+        </div>
+        <div class="fp-principle-item">
+          <h4>Flat, Ungraded Fills</h4>
+          <p>Solid color blocks rather than gradients, echoing early screen-printing and CAD output limitations</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="fp-pipe-divider"></div>
+
+  <!-- ============================================
+       COLOR PALETTE
+       ============================================ -->
+  <section class="fp-palette">
+    <h2 class="fp-section-heading fp-reveal">Color Palette</h2>
+    <span class="fp-section-heading-line"></span>
+
+    <div class="fp-palette-intro fp-reveal">
+      <p>Factory Pomo is <strong>primary-color-heavy with brown accents</strong>. The palette draws from industrial safety colors, Constructivist posters, and early desktop publishing capabilities.</p>
+    </div>
+
+    <div class="fp-swatches fp-reveal">
+      <div class="fp-swatch">
+        <div class="fp-swatch-color" style="background: #cc2222;"></div>
+        <div class="fp-swatch-info">
+          <div class="fp-swatch-name">Industrial Red</div>
+          <div class="fp-swatch-hex">#CC2222</div>
+          <div class="fp-swatch-usage">Primary accent, hazard elements, bold headings</div>
+        </div>
+      </div>
+      <div class="fp-swatch">
+        <div class="fp-swatch-color" style="background: #1a4b8c;"></div>
+        <div class="fp-swatch-info">
+          <div class="fp-swatch-name">Constructivist Blue</div>
+          <div class="fp-swatch-hex">#1A4B8C</div>
+          <div class="fp-swatch-usage">Backgrounds, structural elements</div>
+        </div>
+      </div>
+      <div class="fp-swatch">
+        <div class="fp-swatch-color" style="background: #f5c518;"></div>
+        <div class="fp-swatch-info">
+          <div class="fp-swatch-name">Signal Yellow</div>
+          <div class="fp-swatch-hex">#F5C518</div>
+          <div class="fp-swatch-usage">Warning accents, highlights, gear fills</div>
+        </div>
+      </div>
+      <div class="fp-swatch">
+        <div class="fp-swatch-color" style="background: #6b4226;"></div>
+        <div class="fp-swatch-info">
+          <div class="fp-swatch-name">Factory Brown</div>
+          <div class="fp-swatch-hex">#6B4226</div>
+          <div class="fp-swatch-usage">Earthy counterpoint, backgrounds</div>
+        </div>
+      </div>
+      <div class="fp-swatch">
+        <div class="fp-swatch-color" style="background: #d4652f;"></div>
+        <div class="fp-swatch-info">
+          <div class="fp-swatch-name">Industrial Orange</div>
+          <div class="fp-swatch-hex">#D4652F</div>
+          <div class="fp-swatch-usage">Secondary accent, hazard tape</div>
+        </div>
+      </div>
+      <div class="fp-swatch">
+        <div class="fp-swatch-color" style="background: #7b2d8e;"></div>
+        <div class="fp-swatch-info">
+          <div class="fp-swatch-name">Electric Purple</div>
+          <div class="fp-swatch-hex">#7B2D8E</div>
+          <div class="fp-swatch-usage">Late-80s accent, display elements</div>
+        </div>
+      </div>
+      <div class="fp-swatch">
+        <div class="fp-swatch-color" style="background: #008080;"></div>
+        <div class="fp-swatch-info">
+          <div class="fp-swatch-name">Teal</div>
+          <div class="fp-swatch-hex">#008080</div>
+          <div class="fp-swatch-usage">Cool counterbalance, secondary accent</div>
+        </div>
+      </div>
+      <div class="fp-swatch">
+        <div class="fp-swatch-color" style="background: #71797e;"></div>
+        <div class="fp-swatch-info">
+          <div class="fp-swatch-name">Steel Gray</div>
+          <div class="fp-swatch-hex">#71797E</div>
+          <div class="fp-swatch-usage">Structural elements, metal textures</div>
+        </div>
+      </div>
+      <div class="fp-swatch">
+        <div class="fp-swatch-color" style="background: #2b2b2b;"></div>
+        <div class="fp-swatch-info">
+          <div class="fp-swatch-name">Charcoal</div>
+          <div class="fp-swatch-hex">#2B2B2B</div>
+          <div class="fp-swatch-usage">Dark backgrounds, contrast base</div>
+        </div>
+      </div>
+      <div class="fp-swatch">
+        <div class="fp-swatch-color" style="background: #e8edf2;"></div>
+        <div class="fp-swatch-info">
+          <div class="fp-swatch-name">Fluorescent White</div>
+          <div class="fp-swatch-hex">#E8EDF2</div>
+          <div class="fp-swatch-usage">Harsh, bluish-white lighting effect</div>
+        </div>
+      </div>
+      <div class="fp-swatch">
+        <div class="fp-swatch-color" style="background: #111111;"></div>
+        <div class="fp-swatch-info">
+          <div class="fp-swatch-name">Black</div>
+          <div class="fp-swatch-hex">#111111</div>
+          <div class="fp-swatch-usage">Deep background, maximum contrast</div>
+        </div>
+      </div>
+      <div class="fp-swatch">
+        <div class="fp-swatch-color" style="background: linear-gradient(135deg, #e03030, #2255aa, #ffcc00);"></div>
+        <div class="fp-swatch-info">
+          <div class="fp-swatch-name">Primary Triad</div>
+          <div class="fp-swatch-hex">R + B + Y</div>
+          <div class="fp-swatch-usage">Core Factory Pomo combination</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Color Approaches -->
+    <div class="fp-color-approaches fp-reveal">
+      <div class="fp-color-approach">
+        <h4>High-Contrast Pairs</h4>
+        <p>Red/blue, yellow/black, orange/teal placed in direct opposition for maximum visual impact</p>
+      </div>
+      <div class="fp-color-approach">
+        <h4>Color Inversion</h4>
+        <p>Identical layout mirrored with swapped foreground/background colors across symmetry axes</p>
+      </div>
+      <div class="fp-color-approach">
+        <h4>Primary Dominance</h4>
+        <p>Restrict palette to 3-4 bold primaries; avoid pastels entirely for industrial authority</p>
+      </div>
+      <div class="fp-color-approach">
+        <h4>Warning Combinations</h4>
+        <p>Yellow/black hazard stripes, red/white danger signals drawn from industrial safety standards</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="fp-hazard-divider"></div>
+
+  <!-- ============================================
+       TYPOGRAPHY SHOWCASE
+       ============================================ -->
+  <section class="fp-typography">
+    <div class="fp-type-showcase">
+      <h2 class="fp-section-heading fp-reveal">Typography</h2>
+      <span class="fp-section-heading-line"></span>
+
+      <div class="fp-palette-intro fp-reveal">
+        <p>Factory Pomo typography is defined by <strong>heavy slab serifs</strong> and <strong>bold geometric sans-serifs</strong> -- tall, closely-spaced letterforms evoking factory signage and stamped metal, digitally sharpened into clean precision.</p>
+      </div>
+
+      <div class="fp-type-specimens fp-reveal">
+        <!-- Archivo Black -->
+        <div class="fp-type-specimen">
+          <div class="fp-type-preview">
+            <div class="fp-type-archivo">Factory Pomo</div>
+          </div>
+          <div class="fp-type-meta">
+            <h4>Archivo Black</h4>
+            <div class="fp-type-style">Heavy Geometric Sans // Display</div>
+            <p>Bold industrial weight with geometric construction. Used for hero headlines and display titles.</p>
+          </div>
+        </div>
+
+        <!-- Oswald -->
+        <div class="fp-type-specimen">
+          <div class="fp-type-preview">
+            <div class="fp-type-oswald">Industrial Design</div>
+          </div>
+          <div class="fp-type-meta">
+            <h4>Oswald</h4>
+            <div class="fp-type-style">Condensed Sans-Serif // Headlines</div>
+            <p>Tall, narrow proportions like factory signage. Primary heading typeface for sections and labels.</p>
+          </div>
+        </div>
+
+        <!-- Roboto Slab -->
+        <div class="fp-type-specimen">
+          <div class="fp-type-preview">
+            <div class="fp-type-roboto-slab">Machine Age</div>
+          </div>
+          <div class="fp-type-meta">
+            <h4>Roboto Slab</h4>
+            <div class="fp-type-style">Geometric Slab Serif // Headings</div>
+            <p>Clean slab serifs echoing Modula. Used for section titles and alternate heading styles.</p>
+          </div>
+        </div>
+
+        <!-- Bebas Neue -->
+        <div class="fp-type-specimen">
+          <div class="fp-type-preview">
+            <div class="fp-type-bebas">CONSTRUCTIVIST</div>
+          </div>
+          <div class="fp-type-meta">
+            <h4>Bebas Neue</h4>
+            <div class="fp-type-style">Condensed Uppercase // Display</div>
+            <p>Tall, tight letterforms with a Constructivist feel. Reserved for large display text and banners.</p>
+          </div>
+        </div>
+
+        <!-- Barlow Condensed -->
+        <div class="fp-type-specimen">
+          <div class="fp-type-preview">
+            <div class="fp-type-barlow">INDUSTRIAL PRECISION ENGINEERING</div>
+          </div>
+          <div class="fp-type-meta">
+            <h4>Barlow Condensed</h4>
+            <div class="fp-type-style">Condensed Sans // Subheadings</div>
+            <p>Industrial precision with narrow proportions. Used for subheadings, UI labels, and category markers.</p>
+          </div>
+        </div>
+
+        <!-- Share Tech Mono -->
+        <div class="fp-type-specimen">
+          <div class="fp-type-preview">
+            <div class="fp-type-share-tech">system_status: operational // mode: active</div>
+          </div>
+          <div class="fp-type-meta">
+            <h4>Share Tech Mono</h4>
+            <div class="fp-type-style">Monospaced Technical // Readouts</div>
+            <p>Evokes CRT displays and computer terminals. Used for technical data, readouts, and status labels.</p>
+          </div>
+        </div>
+
+        <!-- Saira -->
+        <div class="fp-type-specimen">
+          <div class="fp-type-preview">
+            <div class="fp-type-saira">Clean digital geometry with multiple weights for versatile technical content and label systems.</div>
+          </div>
+          <div class="fp-type-meta">
+            <h4>Saira</h4>
+            <div class="fp-type-style">Geometric Sans // Body &amp; Labels</div>
+            <p>Sharp, mechanical feel with good readability across weights. Used for body text and technical labels.</p>
+          </div>
+        </div>
+
+        <!-- DM Sans -->
+        <div class="fp-type-specimen">
+          <div class="fp-type-preview">
+            <div class="fp-type-dmsans">The neutral digital workhorse for extended reading. Highly readable body copy that stays out of the way while supporting the industrial display typefaces above.</div>
+          </div>
+          <div class="fp-type-meta">
+            <h4>DM Sans</h4>
+            <div class="fp-type-style">Clean Geometric Sans // Body Copy</div>
+            <p>Neutral, digital, highly readable. The primary body text typeface for paragraphs and descriptions.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="fp-pipe-divider"></div>
+
+  <!-- ============================================
+       LAYOUT PRINCIPLES
+       ============================================ -->
+  <section class="fp-layout">
+    <h2 class="fp-section-heading fp-reveal">Layout Principles</h2>
+    <span class="fp-section-heading-line" style="background: var(--fp-yellow);"></span>
+
+    <div class="fp-layout-grid">
+      <div class="fp-layout-card fp-reveal fp-reveal-delay-1">
+        <h3>Grid &amp; Structure</h3>
+        <ul>
+          <li>Symmetrical, centered compositions with bilateral symmetry</li>
+          <li>Isometric and axonometric grids for technical illustration sections</li>
+          <li>Dense, layered layouts with overlapping geometric elements</li>
+          <li>Modular grid with industrial rhythm like factory tiles</li>
+          <li>Strong horizontal and vertical axes as if mounted on steel beams</li>
+        </ul>
+      </div>
+      <div class="fp-layout-card fp-reveal fp-reveal-delay-2">
+        <h3>Section Organization</h3>
+        <ul>
+          <li>Industrial dividers: pipe/beam motifs, hazard stripes, gear-tooth borders</li>
+          <li>Panel-based layouts resembling control rooms and schematics</li>
+          <li>Asymmetric density within symmetric frames</li>
+          <li>Inset panels with steel-like borders and corner rivets</li>
+          <li>Contrasting background colors per section for visual rhythm</li>
+        </ul>
+      </div>
+      <div class="fp-layout-card fp-reveal fp-reveal-delay-3">
+        <h3>Spatial Characteristics</h3>
+        <ul>
+          <li>Tightly packed -- density over whitespace</li>
+          <li>Flat depth -- elements on same plane or clearly separated layers</li>
+          <li>Hard edges -- crisp boundaries, no feathering or blur</li>
+          <li>Full-bleed color blocks extending edge-to-edge</li>
+        </ul>
+      </div>
+      <div class="fp-layout-card fp-reveal fp-reveal-delay-4">
+        <h3>Responsive Strategy</h3>
+        <ul>
+          <li>Inversion panels collapse to stacked full-width blocks</li>
+          <li>Grid density reduces while maintaining industrial borders</li>
+          <li>Typography scales with clamp() for fluid sizing</li>
+          <li>Hazard and pipe dividers remain full-bleed at all sizes</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <div class="fp-hazard-divider"></div>
+
+  <!-- ============================================
+       CSS / DESIGN TECHNIQUES
+       ============================================ -->
+  <section class="fp-techniques">
+    <h2 class="fp-section-heading fp-reveal">CSS Techniques</h2>
+    <span class="fp-section-heading-line"></span>
+
+    <div class="fp-techniques-grid">
+      <!-- Gear Demo -->
+      <div class="fp-technique-card fp-reveal fp-reveal-delay-1">
+        <h3>Animated Gears</h3>
+        <div class="fp-demo">
+          <div class="fp-demo-gear-container">
+            <div class="fp-gear fp-gear--large fp-gear--spin">
+              <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                <path d="M100 8L108 30L125 12L120 38L145 25L130 50L158 42L138 62L165 60L142 75L165 80L140 85L158 100L138 98L145 118L125 108L120 128L108 112L100 130L92 112L80 128L75 108L55 118L62 98L42 100L60 85L35 80L58 75L35 60L62 62L42 42L70 50L55 25L80 38L75 12L92 30Z" fill="#71797e"/>
+                <circle cx="100" cy="100" r="52" fill="#71797e"/>
+                <circle cx="100" cy="100" r="30" fill="#2b2b2b"/>
+                <circle cx="100" cy="100" r="12" fill="#71797e"/>
+                <circle cx="100" cy="100" r="6" fill="#2b2b2b"/>
+              </svg>
+            </div>
+            <div class="fp-gear fp-gear--small fp-gear--spin-reverse">
+              <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                <path d="M100 12L108 32L125 18L120 40L142 30L130 52L155 45L138 62L162 62L142 76L162 85L140 88L155 105L132 100L138 120L118 110L115 128L105 112L100 128L95 112L85 128L82 110L62 120L68 100L45 105L60 88L38 85L58 76L38 62L62 62L45 45L70 52L58 30L80 40L75 18L92 32Z" fill="#f5c518"/>
+                <circle cx="100" cy="100" r="48" fill="#f5c518"/>
+                <circle cx="100" cy="100" r="26" fill="#2b2b2b"/>
+                <circle cx="100" cy="100" r="10" fill="#f5c518"/>
+              </svg>
+            </div>
+            <div class="fp-gear fp-gear--tiny fp-gear--spin">
+              <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                <path d="M100 15L108 35L125 22L120 42L142 32L130 52L155 48L138 62L160 65L140 78L160 88L138 90L150 108L128 100L132 120L112 108L108 128L100 110L92 128L88 108L68 120L72 100L50 108L62 90L40 88L60 78L40 65L62 62L45 48L70 52L58 32L80 42L75 22L92 35Z" fill="#cc2222"/>
+                <circle cx="100" cy="100" r="45" fill="#cc2222"/>
+                <circle cx="100" cy="100" r="24" fill="#2b2b2b"/>
+                <circle cx="100" cy="100" r="8" fill="#cc2222"/>
+              </svg>
+            </div>
+          </div>
+          <div class="fp-demo-label">CSS conic-gradient gear teeth + keyframe rotation</div>
+        </div>
+      </div>
+
+      <!-- Hazard Stripe Demo -->
+      <div class="fp-technique-card fp-reveal fp-reveal-delay-2">
+        <h3>Hazard Stripe Borders</h3>
+        <div class="fp-demo">
+          <div class="fp-demo-hazard"></div>
+          <div class="fp-demo-hazard-red"></div>
+          <div style="height: 12px;"></div>
+          <div class="fp-demo-hazard-border">
+            <p style="font-family: 'Oswald', sans-serif; font-size: 1rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--fp-yellow); padding: 0.8rem;">Hazard Border Container</p>
+          </div>
+          <div class="fp-demo-label">Repeating-linear-gradient at -45deg // yellow/black + red/white</div>
+        </div>
+      </div>
+
+      <!-- Metal Texture Demo -->
+      <div class="fp-technique-card fp-reveal fp-reveal-delay-3">
+        <h3>Metal Ridging Textures</h3>
+        <div class="fp-demo">
+          <div class="fp-demo-metal"></div>
+          <div class="fp-demo-corrugated"></div>
+          <div class="fp-demo-label">Layered repeating-linear-gradients for industrial surfaces</div>
+        </div>
+      </div>
+
+      <!-- Radar Demo -->
+      <div class="fp-technique-card fp-reveal fp-reveal-delay-1">
+        <h3>Radar Scope Animation</h3>
+        <div class="fp-demo">
+          <div class="fp-demo-radar">
+            <div class="fp-demo-radar-crosshair"></div>
+          </div>
+          <div class="fp-demo-label">Conic-gradient sweep + concentric ring box-shadows</div>
+        </div>
+      </div>
+
+      <!-- Fluorescent Glow Demo -->
+      <div class="fp-technique-card fp-reveal fp-reveal-delay-2">
+        <h3>Fluorescent Lighting</h3>
+        <div class="fp-demo">
+          <div class="fp-demo-fluorescent">
+            <div class="fp-demo-fluorescent-text">Neon Glow</div>
+          </div>
+          <div style="height: 12px;"></div>
+          <div class="fp-demo-panel">
+            <div class="fp-demo-panel-inner">
+              <div class="fp-demo-panel-text">Industrial Control Panel // Riveted</div>
+            </div>
+          </div>
+          <div class="fp-demo-label">Text-shadow glow + radial-gradient rivets</div>
+        </div>
+      </div>
+
+      <!-- Constructivist Diagonal Demo -->
+      <div class="fp-technique-card fp-reveal fp-reveal-delay-3">
+        <h3>Constructivist Diagonal</h3>
+        <div class="fp-demo">
+          <div style="position: relative; overflow: hidden; height: 120px; background: var(--fp-charcoal);">
+            <div style="position: absolute; top: 0; left: -10%; width: 120%; height: 100%; background: var(--fp-red); transform: skewY(-4deg); transform-origin: top left;"></div>
+            <div style="position: relative; z-index: 1; text-align: center; padding-top: 2.2rem;">
+              <span style="font-family: 'Bebas Neue', sans-serif; font-size: 2rem; letter-spacing: 0.12em; color: var(--fp-yellow);">WORKERS UNITE</span>
+            </div>
+          </div>
+          <div class="fp-demo-label">SkewY transform on pseudo-element background</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="fp-pipe-divider"></div>
+
+  <!-- ============================================
+       MATERIALS & TEXTURES
+       ============================================ -->
+  <section class="fp-materials">
+    <h2 class="fp-section-heading fp-reveal">Materials &amp; Textures</h2>
+    <span class="fp-section-heading-line"></span>
+
+    <div class="fp-palette-intro fp-reveal">
+      <p>Physical Factory Pomo materials translated to <strong>web equivalents</strong> through CSS techniques:</p>
+    </div>
+
+    <div class="fp-materials-grid fp-reveal">
+      <div class="fp-material-cell">
+        <div class="fp-material-texture fp-tex-corrugated"></div>
+        <div class="fp-material-info">
+          <div class="fp-material-physical">Corrugated Steel</div>
+          <div class="fp-material-web">Repeating linear gradients with alternating bands</div>
+        </div>
+      </div>
+      <div class="fp-material-cell">
+        <div class="fp-material-texture fp-tex-ibeam"></div>
+        <div class="fp-material-info">
+          <div class="fp-material-physical">Steel I-Beams</div>
+          <div class="fp-material-web">Heavy borders with metallic gradients</div>
+        </div>
+      </div>
+      <div class="fp-material-cell">
+        <div class="fp-material-texture fp-tex-mesh"></div>
+        <div class="fp-material-info">
+          <div class="fp-material-physical">Perforated Metal</div>
+          <div class="fp-material-web">Dot-pattern repeating radial gradients</div>
+        </div>
+      </div>
+      <div class="fp-material-cell">
+        <div class="fp-material-texture fp-tex-hazard"></div>
+        <div class="fp-material-info">
+          <div class="fp-material-physical">Warning Tape</div>
+          <div class="fp-material-web">Diagonal repeating linear gradients</div>
+        </div>
+      </div>
+      <div class="fp-material-cell">
+        <div class="fp-material-texture fp-tex-brushed"></div>
+        <div class="fp-material-info">
+          <div class="fp-material-physical">Brushed Aluminum</div>
+          <div class="fp-material-web">Horizontal gradient with light streaks</div>
+        </div>
+      </div>
+      <div class="fp-material-cell">
+        <div class="fp-material-texture fp-tex-crt"></div>
+        <div class="fp-material-info">
+          <div class="fp-material-physical">CRT Screen</div>
+          <div class="fp-material-web">Dark background + scan-line pattern</div>
+        </div>
+      </div>
+      <div class="fp-material-cell">
+        <div class="fp-material-texture fp-tex-fluorescent"></div>
+        <div class="fp-material-info">
+          <div class="fp-material-physical">Fluorescent Tube</div>
+          <div class="fp-material-web">White/blue box-shadow glow overlays</div>
+        </div>
+      </div>
+      <div class="fp-material-cell">
+        <div class="fp-material-texture fp-tex-rivets"></div>
+        <div class="fp-material-info">
+          <div class="fp-material-physical">Rivets &amp; Bolts</div>
+          <div class="fp-material-web">Small radial-gradient circles</div>
+        </div>
+      </div>
+      <div class="fp-material-cell">
+        <div class="fp-material-texture fp-tex-wire"></div>
+        <div class="fp-material-info">
+          <div class="fp-material-physical">Wire Mesh</div>
+          <div class="fp-material-web">Grid backgrounds with thin lines</div>
+        </div>
+      </div>
+      <div class="fp-material-cell">
+        <div class="fp-material-texture fp-tex-concrete"></div>
+        <div class="fp-material-info">
+          <div class="fp-material-physical">Concrete Floor</div>
+          <div class="fp-material-web">Noise overlay in gray tones</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       CONSTRUCTIVIST DIAGONAL QUOTE
+       ============================================ -->
+  <section class="fp-diagonal-section">
+    <div class="fp-diagonal-content fp-reveal">
+      <h2>Retro-Futurist Tension</h2>
+      <p>Factory Pomo synthesizes <strong>postmodern playfulness</strong> with <strong>industrial seriousness</strong>, producing a look of futuro-industrial machinery rendered through geometric abstraction. Depression-era and Constructivist visual language repurposed for a <strong>digital age</strong>.</p>
+    </div>
+  </section>
+
+  <div class="fp-pipe-divider"></div>
+
+  <!-- ============================================
+       INFLUENCES & LINEAGE
+       ============================================ -->
+  <section class="fp-influences">
+    <h2 class="fp-section-heading fp-reveal">Influences &amp; Design Lineage</h2>
+    <span class="fp-section-heading-line"></span>
+
+    <div class="fp-influences-grid">
+      <div class="fp-influence-card fp-reveal fp-reveal-delay-1">
+        <h3>Russian Constructivism</h3>
+        <p>Diagonal compositions, bold geometric typography, red/black/white palettes, propaganda poster aesthetics</p>
+      </div>
+      <div class="fp-influence-card fp-reveal fp-reveal-delay-2">
+        <h3>Bauhaus</h3>
+        <p>Geometric purity, primary color commitment, form-follows-function reinterpreted as form-follows-machine</p>
+      </div>
+      <div class="fp-influence-card fp-reveal fp-reveal-delay-3">
+        <h3>Art Deco</h3>
+        <p>Symmetry, decorative geometry, stylized industrial imagery, stepped and tiered architectural forms</p>
+      </div>
+      <div class="fp-influence-card fp-reveal fp-reveal-delay-1">
+        <h3>WPA Poster Art</h3>
+        <p>Heroic worker figures, strong flat color areas, industrial pride imagery from the American Depression era</p>
+      </div>
+      <div class="fp-influence-card fp-reveal fp-reveal-delay-2">
+        <h3>Diego Rivera Murals</h3>
+        <p>Factory floor panoramas, celebration of industrial labor, machine-human integration narratives</p>
+      </div>
+      <div class="fp-influence-card fp-reveal fp-reveal-delay-3">
+        <h3>Memphis-Milano</h3>
+        <p>Bold color, geometric playfulness, postmodern irreverence, anti-minimalism as a design philosophy</p>
+      </div>
+      <div class="fp-influence-card fp-reveal fp-reveal-delay-1">
+        <h3>Streamline Moderne</h3>
+        <p>Aerodynamic curves, chrome finishes, futuristic machine aesthetic from the 1930s-1940s</p>
+      </div>
+      <div class="fp-influence-card fp-reveal fp-reveal-delay-2">
+        <h3>High-Tech Architecture</h3>
+        <p>Exposed structural systems (Centre Pompidou, Lloyd's Building), colorful ducts, visible mechanical systems</p>
+      </div>
+      <div class="fp-influence-card fp-reveal fp-reveal-delay-3">
+        <h3>Early CAD Graphics</h3>
+        <p>Clean vector geometry, isometric views, limited-palette digital rendering from emerging computer tools</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="fp-hazard-divider"></div>
+
+  <!-- ============================================
+       RELATED AESTHETICS
+       ============================================ -->
+  <section class="fp-related">
+    <h2 class="fp-section-heading fp-reveal">Related Aesthetics</h2>
+    <span class="fp-section-heading-line"></span>
+
+    <div class="fp-related-flow fp-reveal">
+      <div class="fp-related-tag">
+        Memphis Lite
+        <span class="fp-tag-relation">// consumer pomo</span>
+      </div>
+      <div class="fp-related-tag">
+        Wacky Pomo
+        <span class="fp-tag-relation">// playful variant</span>
+      </div>
+      <div class="fp-related-tag">
+        Decoplex
+        <span class="fp-tag-relation">// deco revival</span>
+      </div>
+      <div class="fp-related-tag">
+        Early Cyber
+        <span class="fp-tag-relation">// CAD sibling</span>
+      </div>
+      <div class="fp-related-tag">
+        Cyberdelia
+        <span class="fp-tag-relation">// 90s digital</span>
+      </div>
+      <div class="fp-related-tag">
+        Silicon Dreams
+        <span class="fp-tag-relation">// tech utopia</span>
+      </div>
+      <div class="fp-related-tag">
+        Raygun Gothic
+        <span class="fp-tag-relation">// retro-futurism</span>
+      </div>
+      <div class="fp-related-tag">
+        Constructivism
+        <span class="fp-tag-relation">// direct ancestor</span>
+      </div>
+      <div class="fp-related-tag">
+        Art Deco
+        <span class="fp-tag-relation">// foundational</span>
+      </div>
+      <div class="fp-related-tag">
+        Memphis Design
+        <span class="fp-tag-relation">// parent movement</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       FOOTER
+       ============================================ -->
+  <footer class="fp-footer">
+    <div class="fp-footer-logo">Factory Pomo</div>
+    <div class="fp-footer-sub">// Design Reference System // v1.0 //</div>
+
+    <div class="fp-footer-gears">
+      <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" style="animation: fp-rotate 20s linear infinite;">
+        <path d="M100 15L108 35L125 20L120 42L142 32L130 52L155 48L138 62L160 65L140 78L160 88L138 90L150 108L128 100L132 120L112 108L108 128L100 110L92 128L88 108L68 120L72 100L50 108L62 90L40 88L60 78L40 65L62 62L45 48L70 52L58 32L80 42L75 20L92 35Z" fill="currentColor"/>
+        <circle cx="100" cy="100" r="45" fill="currentColor"/><circle cx="100" cy="100" r="24" fill="#111"/><circle cx="100" cy="100" r="8" fill="currentColor"/>
+      </svg>
+      <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" style="animation: fp-rotate-reverse 15s linear infinite; margin-left: -6px;">
+        <path d="M100 20L108 38L122 25L118 42L138 35L128 52L150 48L138 60L158 62L140 72L155 82L138 82L148 98L128 92L132 112L115 102L112 118L105 102L100 118L95 102L88 118L85 102L68 112L72 92L52 98L62 82L45 82L60 72L42 62L62 60L50 48L72 52L62 35L82 42L78 25L92 38Z" fill="currentColor"/>
+        <circle cx="100" cy="100" r="38" fill="currentColor"/><circle cx="100" cy="100" r="20" fill="#111"/>
+      </svg>
+      <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" style="animation: fp-rotate 12s linear infinite; margin-left: -6px;">
+        <path d="M100 22L106 38L118 28L116 44L132 36L125 52L145 48L134 60L152 62L138 72L150 82L135 82L142 96L126 90L128 106L115 98L112 112L104 100L100 112L96 100L88 112L85 98L72 106L74 90L58 96L65 82L50 82L62 72L48 62L66 60L55 48L75 52L68 36L84 44L82 28L94 38Z" fill="currentColor"/>
+        <circle cx="100" cy="100" r="35" fill="currentColor"/><circle cx="100" cy="100" r="18" fill="#111"/>
+      </svg>
+    </div>
+
+    <div class="fp-footer-credits">
+      <strong>Factory Pomo</strong> peaked mid-1980s to mid-1990s<br>
+      Merging Memphis-Milano, CAD graphics, Bauhaus, Constructivism, and WPA vernacular<br>
+      Before giving way to Cyber Gen-X Corporate and Y2K Futurism
+    </div>
+  </footer>
+
+  <!-- ============================================
+       JAVASCRIPT: Clock + Scroll Reveal
+       ============================================ -->
+  <script>
+    // Status bar clock
+    (function updateClock() {
+      const el = document.getElementById('fp-clock');
+      if (el) {
+        const now = new Date();
+        const h = String(now.getHours()).padStart(2, '0');
+        const m = String(now.getMinutes()).padStart(2, '0');
+        const s = String(now.getSeconds()).padStart(2, '0');
+        el.textContent = h + ':' + m + ':' + s;
+      }
+      setTimeout(updateClock, 1000);
+    })();
+
+    // Scroll reveal with IntersectionObserver
+    (function initReveal() {
+      const elements = document.querySelectorAll('.fp-reveal');
+      if (!elements.length) return;
+
+      const observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('fp-revealed');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, {
+        threshold: 0.12,
+        rootMargin: '0px 0px -40px 0px'
+      });
+
+      elements.forEach(function(el) {
+        observer.observe(el);
+      });
+    })();
+  </script>
+
+</body>
+</html>
