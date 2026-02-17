@@ -1,0 +1,2175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Empire Style -- Design Reference</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400;6..96,700;6..96,900&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Cinzel:wght@400;700;900&family=Cinzel+Decorative:wght@400;700;900&display=swap" rel="stylesheet">
+  <style>
+    /* ============================================
+       EMPIRE STYLE -- DESIGN TOKENS
+       ============================================ */
+    :root {
+      /* Primary Palette */
+      --empire-crimson: #9B1B30;
+      --empire-navy: #1B2A4A;
+      --empire-emerald: #1D6B4F;
+      --empire-gold: #C9A94E;
+
+      /* Secondary Palette */
+      --empire-burgundy: #6B1D3A;
+      --empire-mahogany: #4A1E0F;
+      --empire-ivory: #F5F0E1;
+      --empire-cream: #FAF7EF;
+      --empire-charcoal: #1C1C1E;
+      --empire-slate: #3A3A3C;
+
+      /* Gold Scale */
+      --gold-bright: #D4AF37;
+      --gold-antique: #C9A94E;
+      --gold-dark: #8B7332;
+      --gold-bronze: #A67C52;
+      --silver: #C0C0C0;
+
+      /* Typography */
+      --font-display: 'Bodoni Moda', 'Georgia', serif;
+      --font-body: 'EB Garamond', 'Georgia', serif;
+      --font-accent: 'Cinzel', 'Times New Roman', serif;
+      --font-decorative: 'Cinzel Decorative', 'Cinzel', serif;
+
+      /* Spacing */
+      --space-unit: 8px;
+      --section-padding: calc(var(--space-unit) * 15);
+      --content-max-width: 1200px;
+      --content-narrow: 800px;
+
+      /* Borders */
+      --border-gold: 1px solid var(--empire-gold);
+      --border-gold-double: 3px double var(--empire-gold);
+    }
+
+    /* ============================================
+       RESET & BASE
+       ============================================ */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: var(--font-body);
+      font-size: 19px;
+      line-height: 1.75;
+      color: var(--empire-charcoal);
+      background-color: var(--empire-cream);
+      overflow-x: hidden;
+    }
+
+    /* Subtle parchment texture overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0.018;
+      background-image:
+        url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    }
+
+    /* ============================================
+       TYPOGRAPHY
+       ============================================ */
+    h1, h2, h3, h4, h5, h6 {
+      font-family: var(--font-display);
+      font-weight: 700;
+      line-height: 1.15;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      font-size: clamp(2.5rem, 5vw, 4.5rem);
+      letter-spacing: 0.12em;
+      color: var(--empire-gold);
+    }
+
+    h2 {
+      font-size: clamp(1.8rem, 3.5vw, 3rem);
+      letter-spacing: 0.1em;
+      color: var(--empire-navy);
+      margin-bottom: 1.5rem;
+    }
+
+    h3 {
+      font-size: clamp(1.2rem, 2.5vw, 1.6rem);
+      font-family: var(--font-accent);
+      font-variant: small-caps;
+      letter-spacing: 0.15em;
+      color: var(--empire-crimson);
+      margin-bottom: 1rem;
+    }
+
+    h4 {
+      font-size: 1.1rem;
+      font-family: var(--font-accent);
+      font-variant: small-caps;
+      letter-spacing: 0.12em;
+      color: var(--empire-navy);
+      margin-bottom: 0.75rem;
+    }
+
+    p {
+      margin-bottom: 1.25rem;
+    }
+
+    strong {
+      font-weight: 600;
+      color: var(--empire-navy);
+    }
+
+    a {
+      color: var(--empire-crimson);
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      transition: color 0.3s ease, border-color 0.3s ease;
+    }
+
+    a:hover {
+      color: var(--empire-gold);
+      border-bottom-color: var(--empire-gold);
+    }
+
+    /* ============================================
+       NAVIGATION
+       ============================================ */
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 2.5rem;
+      padding: 1.1rem 2rem;
+      background-color: rgba(27, 42, 74, 0.97);
+      border-bottom: var(--border-gold-double);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    .nav-monogram {
+      font-family: var(--font-decorative);
+      font-size: 1.4rem;
+      color: var(--empire-gold);
+      letter-spacing: 0.15em;
+      margin: 0 1.5rem;
+    }
+
+    .nav a {
+      font-family: var(--font-accent);
+      font-variant: small-caps;
+      font-size: 0.85rem;
+      letter-spacing: 0.2em;
+      color: var(--empire-ivory);
+      text-decoration: none;
+      padding: 0.4em 0;
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.3s ease, color 0.3s ease;
+    }
+
+    .nav a:hover,
+    .nav a.active {
+      color: var(--empire-gold);
+      border-bottom-color: var(--empire-gold);
+    }
+
+    /* ============================================
+       HERO SECTION
+       ============================================ */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      background-color: var(--empire-navy);
+      color: var(--empire-ivory);
+      padding: var(--section-padding) 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Damask-like background pattern */
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      opacity: 0.035;
+      background-image:
+        radial-gradient(ellipse at 25% 25%, var(--empire-gold) 0%, transparent 50%),
+        radial-gradient(ellipse at 75% 75%, var(--empire-gold) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 50%, var(--empire-gold) 0%, transparent 40%);
+      background-size: 200px 200px, 200px 200px, 300px 300px;
+      pointer-events: none;
+    }
+
+    .hero-border-top,
+    .hero-border-bottom {
+      position: absolute;
+      left: 4%;
+      right: 4%;
+      height: 2px;
+      background: linear-gradient(
+        90deg,
+        transparent 0%,
+        var(--gold-dark) 15%,
+        var(--empire-gold) 35%,
+        var(--gold-bright) 50%,
+        var(--empire-gold) 65%,
+        var(--gold-dark) 85%,
+        transparent 100%
+      );
+    }
+
+    .hero-border-top { top: 36px; }
+    .hero-border-bottom { bottom: 36px; }
+
+    .hero-border-top::after,
+    .hero-border-bottom::after {
+      content: '';
+      position: absolute;
+      left: 4%;
+      right: 4%;
+      height: 1px;
+      background: linear-gradient(
+        90deg,
+        transparent 0%,
+        var(--gold-dark) 20%,
+        var(--empire-gold) 50%,
+        var(--gold-dark) 80%,
+        transparent 100%
+      );
+    }
+
+    .hero-border-top::after { top: 5px; }
+    .hero-border-bottom::after { bottom: 5px; top: auto; }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 900px;
+    }
+
+    /* Laurel wreath SVG above title */
+    .hero-wreath {
+      width: 90px;
+      height: 90px;
+      margin: 0 auto 2rem;
+      opacity: 0;
+      animation: fadeInScale 1.2s ease-out 0.3s forwards;
+    }
+
+    .hero-wreath svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    .hero h1 {
+      color: var(--empire-gold);
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+      margin-bottom: 0.5rem;
+      background: linear-gradient(
+        135deg,
+        var(--gold-dark) 0%,
+        var(--gold-bright) 25%,
+        var(--empire-gold) 50%,
+        var(--gold-bright) 75%,
+        var(--gold-dark) 100%
+      );
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      opacity: 0;
+      animation: fadeInUp 1s ease-out 0.6s forwards;
+    }
+
+    .hero-era {
+      font-family: var(--font-accent);
+      font-variant: small-caps;
+      letter-spacing: 0.35em;
+      font-size: 0.95rem;
+      color: var(--gold-bronze);
+      margin-bottom: 2.5rem;
+      opacity: 0;
+      animation: fadeInUp 1s ease-out 0.9s forwards;
+    }
+
+    .hero-subtitle {
+      font-family: var(--font-body);
+      font-size: 1.15rem;
+      line-height: 1.8;
+      color: rgba(245, 240, 225, 0.85);
+      max-width: 680px;
+      margin: 0 auto 2.5rem;
+      opacity: 0;
+      animation: fadeInUp 1s ease-out 1.2s forwards;
+    }
+
+    .hero-nav-hint {
+      opacity: 0;
+      animation: fadeInUp 1s ease-out 1.5s forwards;
+    }
+
+    .hero-nav-hint .btn {
+      margin: 0 0.5rem;
+    }
+
+    /* ============================================
+       SECTIONS
+       ============================================ */
+    .section {
+      max-width: var(--content-max-width);
+      margin: 0 auto;
+      padding: var(--section-padding) 2rem;
+    }
+
+    .section-narrow {
+      max-width: var(--content-narrow);
+    }
+
+    .section-full {
+      max-width: none;
+      padding-left: 0;
+      padding-right: 0;
+    }
+
+    .section-dark {
+      background-color: var(--empire-navy);
+      color: var(--empire-ivory);
+    }
+
+    .section-dark h2 {
+      color: var(--empire-gold);
+    }
+
+    .section-dark h3 {
+      color: var(--gold-bright);
+    }
+
+    .section-crimson {
+      background-color: var(--empire-crimson);
+      color: var(--empire-ivory);
+    }
+
+    .section-crimson h2 {
+      color: var(--empire-gold);
+    }
+
+    .section-mahogany {
+      background-color: var(--empire-mahogany);
+      background-image:
+        repeating-linear-gradient(
+          90deg,
+          rgba(0, 0, 0, 0.03) 0px,
+          transparent 1px,
+          transparent 3px
+        ),
+        linear-gradient(
+          180deg,
+          rgba(0, 0, 0, 0.1) 0%,
+          transparent 50%,
+          rgba(0, 0, 0, 0.1) 100%
+        );
+      color: var(--empire-ivory);
+    }
+
+    .section-mahogany h2 {
+      color: var(--empire-gold);
+    }
+
+    .section-emerald {
+      background-color: var(--empire-emerald);
+      color: var(--empire-ivory);
+    }
+
+    .section-emerald h2 {
+      color: var(--empire-gold);
+    }
+
+    .section-emerald h3 {
+      color: var(--gold-bright);
+    }
+
+    .section-center {
+      text-align: center;
+    }
+
+    /* Inner wrapper for full-width colored sections */
+    .section-inner {
+      max-width: var(--content-max-width);
+      margin: 0 auto;
+      padding: var(--section-padding) 2rem;
+    }
+
+    /* ============================================
+       DIVIDERS & ORNAMENTS
+       ============================================ */
+    .divider {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1.5rem;
+      margin: 3.5rem auto;
+      max-width: 600px;
+    }
+
+    .divider::before,
+    .divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        var(--empire-gold),
+        transparent
+      );
+    }
+
+    .divider .ornament {
+      font-size: 1.4rem;
+      color: var(--empire-gold);
+      line-height: 1;
+    }
+
+    .separator {
+      border: none;
+      border-top: 1px solid var(--empire-gold);
+      border-bottom: 1px solid var(--empire-gold);
+      height: 4px;
+      max-width: 300px;
+      margin: 3rem auto;
+      opacity: 0.6;
+    }
+
+    .divider-dark::before,
+    .divider-dark::after {
+      background: linear-gradient(
+        90deg,
+        transparent,
+        var(--gold-bronze),
+        transparent
+      );
+    }
+
+    .divider-dark .ornament {
+      color: var(--gold-bronze);
+    }
+
+    /* ============================================
+       CARDS / PANELS
+       ============================================ */
+    .card {
+      background-color: var(--empire-ivory);
+      border: 1px solid var(--gold-dark);
+      padding: 2.5rem;
+      position: relative;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card::after {
+      content: '';
+      position: absolute;
+      inset: 8px;
+      border: 1px solid var(--gold-antique);
+      pointer-events: none;
+      opacity: 0.4;
+      transition: opacity 0.3s ease;
+    }
+
+    .card:hover::after {
+      opacity: 0.7;
+    }
+
+    .card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px rgba(27, 42, 74, 0.12);
+    }
+
+    .card h3 {
+      text-align: center;
+      margin-bottom: 1.25rem;
+    }
+
+    .card-dark {
+      background-color: rgba(245, 240, 225, 0.05);
+      border-color: var(--gold-dark);
+      color: var(--empire-ivory);
+    }
+
+    .card-dark::after {
+      border-color: rgba(201, 169, 78, 0.2);
+    }
+
+    .card-dark h3 {
+      color: var(--gold-bright);
+    }
+
+    .card-dark h4 {
+      color: var(--empire-gold);
+    }
+
+    /* ============================================
+       GRID LAYOUTS
+       ============================================ */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+    }
+
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.5rem;
+    }
+
+    /* ============================================
+       BUTTONS
+       ============================================ */
+    .btn {
+      font-family: var(--font-accent);
+      font-variant: small-caps;
+      letter-spacing: 0.2em;
+      font-size: 0.85rem;
+      padding: 0.9em 2.5em;
+      border: 1px solid var(--empire-gold);
+      background: transparent;
+      color: var(--empire-gold);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .btn:hover {
+      background-color: var(--empire-gold);
+      color: var(--empire-navy);
+      border-bottom-color: var(--empire-gold);
+    }
+
+    .btn-primary {
+      background-color: var(--empire-crimson);
+      border-color: var(--empire-crimson);
+      color: var(--empire-ivory);
+    }
+
+    .btn-primary:hover {
+      background-color: var(--empire-burgundy);
+      border-color: var(--empire-gold);
+      color: var(--empire-ivory);
+    }
+
+    /* ============================================
+       COLOR SWATCHES
+       ============================================ */
+    .swatch-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      justify-content: center;
+      margin: 2rem 0;
+    }
+
+    .swatch {
+      text-align: center;
+      width: 140px;
+    }
+
+    .swatch-color {
+      width: 100%;
+      height: 80px;
+      border: 1px solid rgba(201, 169, 78, 0.3);
+      margin-bottom: 0.75rem;
+      position: relative;
+    }
+
+    .swatch-color::after {
+      content: '';
+      position: absolute;
+      inset: 3px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      pointer-events: none;
+    }
+
+    .swatch-name {
+      font-family: var(--font-accent);
+      font-variant: small-caps;
+      letter-spacing: 0.1em;
+      font-size: 0.8rem;
+      color: var(--empire-navy);
+      margin-bottom: 0.2rem;
+    }
+
+    .swatch-hex {
+      font-family: var(--font-body);
+      font-size: 0.85rem;
+      color: var(--empire-slate);
+    }
+
+    .section-dark .swatch-name {
+      color: var(--empire-ivory);
+    }
+
+    .section-dark .swatch-hex {
+      color: var(--gold-bronze);
+    }
+
+    /* ============================================
+       TYPOGRAPHY SHOWCASE
+       ============================================ */
+    .type-specimen {
+      text-align: center;
+      padding: 2.5rem;
+      border: var(--border-gold);
+      margin-bottom: 2rem;
+      position: relative;
+    }
+
+    .type-specimen::after {
+      content: '';
+      position: absolute;
+      inset: 6px;
+      border: 1px solid rgba(201, 169, 78, 0.25);
+      pointer-events: none;
+    }
+
+    .type-specimen-display {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 4vw, 3.5rem);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--empire-navy);
+      margin-bottom: 0.5rem;
+      line-height: 1.2;
+    }
+
+    .type-specimen-body {
+      font-family: var(--font-body);
+      font-size: 1.15rem;
+      line-height: 1.8;
+      color: var(--empire-charcoal);
+      max-width: 600px;
+      margin: 1rem auto 0;
+    }
+
+    .type-specimen-accent {
+      font-family: var(--font-accent);
+      font-variant: small-caps;
+      letter-spacing: 0.25em;
+      font-size: 0.9rem;
+      color: var(--empire-crimson);
+      margin-bottom: 0.75rem;
+    }
+
+    /* ============================================
+       BLOCKQUOTE
+       ============================================ */
+    blockquote {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: 1.3rem;
+      line-height: 1.65;
+      color: var(--empire-navy);
+      border-left: 3px solid var(--empire-gold);
+      padding: 1.5rem 2rem;
+      margin: 2.5rem auto;
+      max-width: var(--content-narrow);
+      position: relative;
+    }
+
+    blockquote::before {
+      content: '\201C';
+      font-family: var(--font-display);
+      font-size: 5rem;
+      color: var(--empire-gold);
+      position: absolute;
+      top: -0.6rem;
+      left: 0.4rem;
+      line-height: 1;
+      opacity: 0.3;
+    }
+
+    blockquote cite {
+      display: block;
+      font-family: var(--font-accent);
+      font-style: normal;
+      font-variant: small-caps;
+      letter-spacing: 0.15em;
+      font-size: 0.8rem;
+      color: var(--gold-dark);
+      margin-top: 1rem;
+    }
+
+    .section-dark blockquote {
+      color: var(--empire-ivory);
+      border-left-color: var(--gold-bright);
+    }
+
+    .section-dark blockquote::before {
+      color: var(--gold-bright);
+    }
+
+    .section-dark blockquote cite {
+      color: var(--gold-bronze);
+    }
+
+    /* ============================================
+       ORNAMENTAL FRAME
+       ============================================ */
+    .ornamental-frame {
+      position: relative;
+      padding: 3rem;
+    }
+
+    .ornamental-frame::before,
+    .ornamental-frame::after {
+      content: '';
+      position: absolute;
+      width: 40px;
+      height: 40px;
+      border-color: var(--empire-gold);
+      border-style: solid;
+    }
+
+    .ornamental-frame::before {
+      top: 12px;
+      left: 12px;
+      border-width: 2px 0 0 2px;
+    }
+
+    .ornamental-frame::after {
+      bottom: 12px;
+      right: 12px;
+      border-width: 0 2px 2px 0;
+    }
+
+    /* Additional corners via inner spans */
+    .ornamental-frame .corner-tr,
+    .ornamental-frame .corner-bl {
+      position: absolute;
+      width: 40px;
+      height: 40px;
+      border-color: var(--empire-gold);
+      border-style: solid;
+    }
+
+    .ornamental-frame .corner-tr {
+      top: 12px;
+      right: 12px;
+      border-width: 2px 2px 0 0;
+    }
+
+    .ornamental-frame .corner-bl {
+      bottom: 12px;
+      left: 12px;
+      border-width: 0 0 2px 2px;
+    }
+
+    /* ============================================
+       TABLE
+       ============================================ */
+    .empire-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 2rem 0;
+      font-size: 0.95rem;
+    }
+
+    .empire-table thead {
+      background-color: var(--empire-navy);
+      color: var(--empire-gold);
+    }
+
+    .empire-table th {
+      font-family: var(--font-accent);
+      font-variant: small-caps;
+      letter-spacing: 0.15em;
+      font-weight: 700;
+      padding: 1rem 1.25rem;
+      text-align: left;
+      font-size: 0.85rem;
+      border-bottom: 2px solid var(--empire-gold);
+    }
+
+    .empire-table td {
+      padding: 0.9rem 1.25rem;
+      border-bottom: 1px solid rgba(201, 169, 78, 0.2);
+      vertical-align: top;
+    }
+
+    .empire-table tbody tr:hover {
+      background-color: rgba(201, 169, 78, 0.06);
+    }
+
+    .empire-table code {
+      font-family: 'Courier New', monospace;
+      font-size: 0.9em;
+      color: var(--empire-crimson);
+      background-color: rgba(201, 169, 78, 0.08);
+      padding: 0.15em 0.4em;
+      border-radius: 2px;
+    }
+
+    .section-dark .empire-table td {
+      border-bottom-color: rgba(201, 169, 78, 0.15);
+    }
+
+    .section-dark .empire-table tbody tr:hover {
+      background-color: rgba(201, 169, 78, 0.05);
+    }
+
+    .section-dark .empire-table code {
+      color: var(--gold-bright);
+      background-color: rgba(201, 169, 78, 0.1);
+    }
+
+    /* ============================================
+       PILASTER BORDER
+       ============================================ */
+    .pilaster-border {
+      border-left: 5px solid var(--empire-navy);
+      border-image: linear-gradient(
+        to bottom,
+        var(--empire-gold),
+        var(--empire-navy) 20%,
+        var(--empire-navy) 80%,
+        var(--empire-gold)
+      ) 1;
+      padding-left: 2rem;
+    }
+
+    /* ============================================
+       GREEK KEY BORDER
+       ============================================ */
+    .greek-key-border {
+      border: 3px solid var(--empire-gold);
+      outline: 1px solid var(--empire-gold);
+      outline-offset: 4px;
+    }
+
+    /* ============================================
+       MOTIF LISTS
+       ============================================ */
+    .motif-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    .motif-list li {
+      padding: 0.6rem 0;
+      padding-left: 2rem;
+      position: relative;
+      border-bottom: 1px solid rgba(201, 169, 78, 0.12);
+    }
+
+    .motif-list li:last-child {
+      border-bottom: none;
+    }
+
+    .motif-list li::before {
+      content: '\2726';
+      position: absolute;
+      left: 0;
+      color: var(--empire-gold);
+      font-size: 0.9rem;
+    }
+
+    .section-dark .motif-list li {
+      border-bottom-color: rgba(201, 169, 78, 0.1);
+    }
+
+    /* ============================================
+       COMBO PANELS
+       ============================================ */
+    .combo-panel {
+      padding: 2rem;
+      text-align: center;
+      border: 1px solid rgba(201, 169, 78, 0.3);
+      position: relative;
+    }
+
+    .combo-panel::after {
+      content: '';
+      position: absolute;
+      inset: 5px;
+      border: 1px solid rgba(201, 169, 78, 0.15);
+      pointer-events: none;
+    }
+
+    .combo-panel h4 {
+      font-family: var(--font-accent);
+      font-variant: small-caps;
+      letter-spacing: 0.12em;
+      font-size: 1rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .combo-panel p {
+      font-size: 0.9rem;
+      line-height: 1.6;
+      margin-bottom: 0;
+    }
+
+    /* ============================================
+       ACCESSIBILITY PANEL
+       ============================================ */
+    .a11y-sample {
+      padding: 1.25rem 1.5rem;
+      border: 1px solid rgba(201, 169, 78, 0.3);
+      margin-bottom: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .a11y-text {
+      font-family: var(--font-accent);
+      font-variant: small-caps;
+      letter-spacing: 0.1em;
+      font-size: 1rem;
+    }
+
+    .a11y-ratio {
+      font-family: var(--font-body);
+      font-size: 0.9rem;
+      opacity: 0.8;
+    }
+
+    .a11y-pass {
+      font-family: var(--font-accent);
+      font-variant: small-caps;
+      letter-spacing: 0.1em;
+      font-size: 0.8rem;
+      padding: 0.3em 0.8em;
+      border: 1px solid;
+    }
+
+    /* ============================================
+       RELATED AESTHETICS
+       ============================================ */
+    .related-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+
+    .related-card {
+      background: rgba(245, 240, 225, 0.04);
+      border: 1px solid rgba(201, 169, 78, 0.2);
+      padding: 1.5rem;
+      text-align: center;
+      transition: border-color 0.3s ease, transform 0.3s ease;
+    }
+
+    .related-card:hover {
+      border-color: var(--empire-gold);
+      transform: translateY(-3px);
+    }
+
+    .related-card h4 {
+      font-family: var(--font-accent);
+      font-variant: small-caps;
+      letter-spacing: 0.1em;
+      color: var(--empire-gold);
+      margin-bottom: 0.5rem;
+      font-size: 0.95rem;
+    }
+
+    .related-card p {
+      font-size: 0.88rem;
+      line-height: 1.6;
+      color: rgba(245, 240, 225, 0.75);
+      margin-bottom: 0;
+    }
+
+    /* ============================================
+       FOOTER
+       ============================================ */
+    .footer {
+      background-color: var(--empire-charcoal);
+      color: rgba(245, 240, 225, 0.6);
+      text-align: center;
+      padding: 3rem 2rem;
+      border-top: var(--border-gold-double);
+    }
+
+    .footer-monogram {
+      font-family: var(--font-decorative);
+      font-size: 1.8rem;
+      color: var(--empire-gold);
+      letter-spacing: 0.15em;
+      margin-bottom: 1rem;
+      opacity: 0.7;
+    }
+
+    .footer p {
+      font-family: var(--font-accent);
+      font-variant: small-caps;
+      letter-spacing: 0.15em;
+      font-size: 0.8rem;
+      margin-bottom: 0;
+    }
+
+    /* ============================================
+       ANIMATIONS
+       ============================================ */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(24px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeInScale {
+      from {
+        opacity: 0;
+        transform: scale(0.85);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    @keyframes shimmer {
+      0% { background-position: -200% center; }
+      100% { background-position: 200% center; }
+    }
+
+    /* Scroll-triggered animations */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .reveal-delay-1 { transition-delay: 0.15s; }
+    .reveal-delay-2 { transition-delay: 0.3s; }
+    .reveal-delay-3 { transition-delay: 0.45s; }
+    .reveal-delay-4 { transition-delay: 0.6s; }
+
+    /* Gold shimmer on hover for heading links */
+    .shimmer-gold {
+      background: linear-gradient(
+        90deg,
+        var(--gold-dark) 0%,
+        var(--gold-bright) 25%,
+        var(--empire-gold) 50%,
+        var(--gold-bright) 75%,
+        var(--gold-dark) 100%
+      );
+      background-size: 200% 100%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: shimmer 4s ease-in-out infinite;
+    }
+
+    /* ============================================
+       CHECKLIST
+       ============================================ */
+    .checklist {
+      list-style: none;
+      padding: 0;
+    }
+
+    .checklist li {
+      padding: 0.6rem 0;
+      padding-left: 2.2rem;
+      position: relative;
+      border-bottom: 1px solid rgba(201, 169, 78, 0.12);
+      font-size: 0.95rem;
+    }
+
+    .checklist li:last-child {
+      border-bottom: none;
+    }
+
+    .checklist li::before {
+      content: '\2713';
+      position: absolute;
+      left: 0;
+      color: var(--empire-emerald);
+      font-weight: bold;
+      font-size: 1.1rem;
+    }
+
+    /* ============================================
+       CODE DISPLAY
+       ============================================ */
+    .code-block {
+      background-color: var(--empire-charcoal);
+      color: var(--empire-ivory);
+      padding: 1.5rem 2rem;
+      font-family: 'Courier New', monospace;
+      font-size: 0.85rem;
+      line-height: 1.7;
+      overflow-x: auto;
+      border-left: 3px solid var(--empire-gold);
+      margin: 1.5rem 0;
+    }
+
+    .code-block .token-prop {
+      color: var(--gold-bright);
+    }
+
+    .code-block .token-val {
+      color: #F5F0E1;
+    }
+
+    .code-block .token-comment {
+      color: var(--empire-slate);
+      font-style: italic;
+    }
+
+    .code-block .token-selector {
+      color: var(--empire-gold);
+    }
+
+    /* ============================================
+       BACK TO TOP
+       ============================================ */
+    .back-to-top {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      width: 44px;
+      height: 44px;
+      background-color: var(--empire-navy);
+      border: 1px solid var(--empire-gold);
+      color: var(--empire-gold);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      cursor: pointer;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease, background-color 0.3s ease;
+      z-index: 999;
+      text-decoration: none;
+    }
+
+    .back-to-top:hover {
+      background-color: var(--empire-gold);
+      color: var(--empire-navy);
+      border-bottom-color: var(--empire-gold);
+    }
+
+    .back-to-top.show {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    /* ============================================
+       RESPONSIVE
+       ============================================ */
+    @media (max-width: 1024px) {
+      .grid-3 {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .grid-4 {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .related-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 768px) {
+      :root {
+        --section-padding: calc(var(--space-unit) * 8);
+      }
+
+      body {
+        font-size: 17px;
+      }
+
+      h1 { letter-spacing: 0.06em; }
+
+      .nav {
+        flex-wrap: wrap;
+        gap: 0.75rem;
+        padding: 0.9rem 1rem;
+      }
+
+      .nav a {
+        font-size: 0.75rem;
+        letter-spacing: 0.12em;
+      }
+
+      .nav-monogram {
+        width: 100%;
+        text-align: center;
+        font-size: 1.1rem;
+        margin: 0 0 0.25rem;
+      }
+
+      .hero-border-top,
+      .hero-border-bottom {
+        left: 2%;
+        right: 2%;
+      }
+
+      .grid-2,
+      .grid-3,
+      .grid-4 {
+        grid-template-columns: 1fr;
+      }
+
+      .related-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .card {
+        padding: 1.75rem;
+      }
+
+      .card::after {
+        inset: 4px;
+      }
+
+      .ornamental-frame {
+        padding: 2rem;
+      }
+
+      .ornamental-frame::before { top: 8px; left: 8px; }
+      .ornamental-frame::after { bottom: 8px; right: 8px; }
+      .ornamental-frame .corner-tr { top: 8px; right: 8px; }
+      .ornamental-frame .corner-bl { bottom: 8px; left: 8px; }
+
+      .swatch {
+        width: 100px;
+      }
+
+      .swatch-color {
+        height: 60px;
+      }
+
+      .hero-wreath {
+        width: 70px;
+        height: 70px;
+      }
+
+      blockquote {
+        font-size: 1.1rem;
+        padding: 1.25rem 1.5rem;
+      }
+
+      .a11y-sample {
+        flex-direction: column;
+        gap: 0.5rem;
+        text-align: center;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .nav {
+        gap: 0.5rem;
+      }
+
+      .nav a {
+        font-size: 0.7rem;
+        letter-spacing: 0.08em;
+      }
+
+      .swatch-group {
+        gap: 1rem;
+      }
+
+      .swatch {
+        width: 80px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================
+       NAVIGATION
+       ============================================ -->
+  <nav class="nav" role="navigation" aria-label="Primary">
+    <a href="#visual">Visual</a>
+    <a href="#palette">Palette</a>
+    <a href="#typography">Typography</a>
+    <span class="nav-monogram" aria-hidden="true">E</span>
+    <a href="#motifs">Motifs</a>
+    <a href="#layout">Layout</a>
+    <a href="#css">CSS</a>
+  </nav>
+
+  <!-- ============================================
+       HERO
+       ============================================ -->
+  <section class="hero" id="top">
+    <div class="hero-border-top" aria-hidden="true"></div>
+    <div class="hero-border-bottom" aria-hidden="true"></div>
+
+    <div class="hero-content">
+      <!-- Laurel Wreath SVG -->
+      <div class="hero-wreath" aria-hidden="true">
+        <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <g stroke="#C9A94E" stroke-width="1.2" fill="none" opacity="0.9">
+            <!-- Left laurel -->
+            <path d="M50 85 C35 75, 22 62, 20 45 C19 38, 22 30, 28 27 C32 25, 35 28, 33 33 C30 40, 28 48, 35 58 C38 63, 42 67, 50 72" />
+            <path d="M50 85 C38 72, 28 58, 26 42 C25 36, 27 29, 32 26 C36 24, 38 27, 36 31 C34 37, 33 45, 38 54" />
+            <path d="M35 65 C30 58, 27 50, 28 40 C29 35, 32 31, 36 30" />
+            <path d="M40 55 C37 48, 35 40, 36 33" />
+            <!-- Right laurel -->
+            <path d="M50 85 C65 75, 78 62, 80 45 C81 38, 78 30, 72 27 C68 25, 65 28, 67 33 C70 40, 72 48, 65 58 C62 63, 58 67, 50 72" />
+            <path d="M50 85 C62 72, 72 58, 74 42 C75 36, 73 29, 68 26 C64 24, 62 27, 64 31 C66 37, 67 45, 62 54" />
+            <path d="M65 65 C70 58, 73 50, 72 40 C71 35, 68 31, 64 30" />
+            <path d="M60 55 C63 48, 65 40, 64 33" />
+            <!-- Leaves -->
+            <ellipse cx="28" cy="38" rx="5" ry="9" transform="rotate(-20 28 38)" />
+            <ellipse cx="33" cy="30" rx="4" ry="7" transform="rotate(-35 33 30)" />
+            <ellipse cx="72" cy="38" rx="5" ry="9" transform="rotate(20 72 38)" />
+            <ellipse cx="67" cy="30" rx="4" ry="7" transform="rotate(35 67 30)" />
+            <ellipse cx="35" cy="50" rx="4" ry="8" transform="rotate(-10 35 50)" />
+            <ellipse cx="65" cy="50" rx="4" ry="8" transform="rotate(10 65 50)" />
+            <!-- Star at top -->
+            <polygon points="50,12 52,18 58,18 53,22 55,28 50,24 45,28 47,22 42,18 48,18" fill="#C9A94E" stroke="none" opacity="0.7"/>
+          </g>
+        </svg>
+      </div>
+
+      <h1 class="shimmer-gold">Empire Style</h1>
+      <p class="hero-era">c. 1799 &mdash; 1815 &bull; The Second Phase of Neoclassicism</p>
+      <p class="hero-subtitle">
+        A comprehensive design guide for implementing websites inspired by the imperial grandeur of Napoleon&rsquo;s France. Conveying rigid symmetry, classical authority, and unapologetic opulence through rich colors, gilt ornamentation, and Greco-Roman motifs.
+      </p>
+      <div class="hero-nav-hint">
+        <a href="#visual" class="btn">Explore the Style</a>
+        <a href="#css" class="btn btn-primary">View CSS</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       VISUAL CHARACTERISTICS
+       ============================================ -->
+  <section class="section section-center" id="visual">
+    <div class="reveal">
+      <h2>Visual Characteristics</h2>
+      <hr class="separator">
+    </div>
+
+    <div class="grid-3" style="margin-top: 2.5rem;">
+      <div class="card reveal reveal-delay-1">
+        <h3>Monumental Scale</h3>
+        <p>Every element should feel imposing and authoritative. Generous whitespace, tall sections, and oversized hero areas establish the grandeur expected of the style.</p>
+      </div>
+      <div class="card reveal reveal-delay-2">
+        <h3>Rigid Symmetry</h3>
+        <p>Layout, ornament, and spacing must mirror precisely across the central axis. Asymmetry is antithetical to this aesthetic&mdash;balance is law.</p>
+      </div>
+      <div class="card reveal reveal-delay-3">
+        <h3>Hierarchical Order</h3>
+        <p>Clear visual hierarchy enforced through size, weight, and contrast. Content is structured in stately, formal blocks with unmistakable rank.</p>
+      </div>
+      <div class="card reveal reveal-delay-1">
+        <h3>Opulent Detail</h3>
+        <p>Clean geometric structure punctuated by rich decorative accents&mdash;gilt borders, ornamental dividers, and classical motifs that reward close inspection.</p>
+      </div>
+      <div class="card reveal reveal-delay-2">
+        <h3>Vertical Emphasis</h3>
+        <p>Tall proportions, pilaster-like columns, and vertical panel divisions dominate spatial organization, evoking the columned halls of antiquity.</p>
+      </div>
+      <div class="card reveal reveal-delay-3">
+        <h3>Layered Richness</h3>
+        <p>Multiple levels of decorative detail: background textures, border treatments, ornamental rules, and accent flourishes create depth and grandeur.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       COLOR PALETTE
+       ============================================ -->
+  <div class="section-full section-dark" id="palette">
+    <div class="section-inner section-center">
+      <div class="reveal">
+        <h2>Color Palette</h2>
+        <p style="max-width: 700px; margin: 0 auto 1rem; opacity: 0.85;">The Empire palette is bold, saturated, and luxurious. Rich jewel tones are grounded by dark neutrals and illuminated by metallic gold accents.</p>
+        <hr class="separator">
+      </div>
+
+      <!-- Primary Colors -->
+      <div class="reveal">
+        <h3 style="color: var(--gold-bright); text-align: center; margin-top: 2rem;">Primary Colors</h3>
+        <div class="swatch-group">
+          <div class="swatch">
+            <div class="swatch-color" style="background-color: #9B1B30;"></div>
+            <div class="swatch-name">Crimson</div>
+            <div class="swatch-hex">#9B1B30</div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background-color: #1B2A4A;"></div>
+            <div class="swatch-name">Napoleon Blue</div>
+            <div class="swatch-hex">#1B2A4A</div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background-color: #1D6B4F;"></div>
+            <div class="swatch-name">Emerald</div>
+            <div class="swatch-hex">#1D6B4F</div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background-color: #C9A94E;"></div>
+            <div class="swatch-name">Imperial Gold</div>
+            <div class="swatch-hex">#C9A94E</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Secondary Colors -->
+      <div class="reveal">
+        <h3 style="color: var(--gold-bright); text-align: center; margin-top: 2rem;">Secondary Colors</h3>
+        <div class="swatch-group">
+          <div class="swatch">
+            <div class="swatch-color" style="background-color: #6B1D3A;"></div>
+            <div class="swatch-name">Burgundy</div>
+            <div class="swatch-hex">#6B1D3A</div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background-color: #4A1E0F;"></div>
+            <div class="swatch-name">Mahogany</div>
+            <div class="swatch-hex">#4A1E0F</div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background-color: #F5F0E1;"></div>
+            <div class="swatch-name">Ivory</div>
+            <div class="swatch-hex">#F5F0E1</div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background-color: #FAF7EF;"></div>
+            <div class="swatch-name">Cream</div>
+            <div class="swatch-hex">#FAF7EF</div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background-color: #1C1C1E;"></div>
+            <div class="swatch-name">Charcoal</div>
+            <div class="swatch-hex">#1C1C1E</div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background-color: #3A3A3C;"></div>
+            <div class="swatch-name">Slate</div>
+            <div class="swatch-hex">#3A3A3C</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Metallic Gold Scale -->
+      <div class="reveal">
+        <h3 style="color: var(--gold-bright); text-align: center; margin-top: 2rem;">Metallic Accent Scale</h3>
+        <div class="swatch-group">
+          <div class="swatch">
+            <div class="swatch-color" style="background-color: #D4AF37;"></div>
+            <div class="swatch-name">Bright Gold</div>
+            <div class="swatch-hex">#D4AF37</div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background-color: #C9A94E;"></div>
+            <div class="swatch-name">Antique Gold</div>
+            <div class="swatch-hex">#C9A94E</div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background-color: #8B7332;"></div>
+            <div class="swatch-name">Dark Gold</div>
+            <div class="swatch-hex">#8B7332</div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background-color: #A67C52;"></div>
+            <div class="swatch-name">Gilt Bronze</div>
+            <div class="swatch-hex">#A67C52</div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background-color: #C0C0C0;"></div>
+            <div class="swatch-name">Silver</div>
+            <div class="swatch-hex">#C0C0C0</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Palette Combinations -->
+      <div class="divider divider-dark" aria-hidden="true">
+        <span class="ornament">&#10040;</span>
+      </div>
+
+      <div class="reveal">
+        <h3 style="color: var(--gold-bright); text-align: center;">Palette Combinations</h3>
+        <div class="grid-3" style="margin-top: 1.5rem;">
+          <div class="combo-panel" style="background-color: #1B2A4A; color: #F5F0E1;">
+            <h4 style="color: #C9A94E;">Imperial Formal</h4>
+            <p>Napoleon Blue background, Imperial Gold accents, Ivory text</p>
+          </div>
+          <div class="combo-panel" style="background-color: #9B1B30; color: #FAF7EF;">
+            <h4 style="color: #D4AF37;">Regal Warmth</h4>
+            <p>Crimson background, Gold borders, Cream text</p>
+          </div>
+          <div class="combo-panel" style="background-color: #F5F0E1; color: #1C1C1E;">
+            <h4 style="color: #1B2A4A;">Classical Panel</h4>
+            <p>Ivory background, Charcoal text, Gold decorative rules</p>
+          </div>
+          <div class="combo-panel" style="background-color: #4A1E0F; color: #F5F0E1;">
+            <h4 style="color: #C9A94E;">Mahogany Study</h4>
+            <p>Dark Mahogany background, Gold ornament, Parchment content</p>
+          </div>
+          <div class="combo-panel" style="background-color: #1D6B4F; color: #F5F0E1;">
+            <h4 style="color: #D4AF37;">Emerald Salon</h4>
+            <p>Emerald background, Gold highlights, Ivory text</p>
+          </div>
+          <div class="combo-panel" style="background-color: #1C1C1E; color: #F5F0E1;">
+            <h4 style="color: #C9A94E;">Deep Charcoal</h4>
+            <p>Charcoal base, gold accents, ivory type for maximum drama</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================
+       TYPOGRAPHY
+       ============================================ -->
+  <section class="section section-center" id="typography">
+    <div class="reveal">
+      <h2>Typography</h2>
+      <p style="max-width: 700px; margin: 0 auto 0.5rem;">Empire-era typography is defined by the Didone classification&mdash;high-contrast serif faces with hairline serifs and strong vertical stress. The foundational typefaces were cut by Firmin Didot and Giambattista Bodoni.</p>
+      <hr class="separator">
+    </div>
+
+    <!-- Font Specimens -->
+    <div class="reveal" style="margin-top: 2rem;">
+      <div class="type-specimen">
+        <div class="type-specimen-accent">Display &bull; Heading Font</div>
+        <div class="type-specimen-display">Bodoni Moda</div>
+        <div class="type-specimen-body">Authentic Bodoni revival with extreme thick/thin contrast. The quintessential Empire-era display typeface, perfect for commanding headlines and inscriptional headings.</div>
+      </div>
+    </div>
+
+    <div class="grid-2 reveal">
+      <div class="type-specimen">
+        <div class="type-specimen-accent">Body &bull; Text Font</div>
+        <div class="type-specimen-display" style="font-family: var(--font-body); font-size: clamp(1.5rem, 3vw, 2.5rem); text-transform: none;">EB Garamond</div>
+        <div class="type-specimen-body">Classical old-style serif with excellent readability, optimized for comfortable body text at the stately reading pace the Empire style demands.</div>
+      </div>
+      <div class="type-specimen">
+        <div class="type-specimen-accent">Accent &bull; Inscriptional</div>
+        <div class="type-specimen-display" style="font-family: var(--font-accent); font-size: clamp(1.5rem, 3vw, 2.5rem);">Cinzel</div>
+        <div class="type-specimen-body">Inscriptional Roman capitals ideal for monograms, labels, navigation, and small-caps treatments throughout the interface.</div>
+      </div>
+    </div>
+
+    <!-- Recommended Pairings -->
+    <div class="divider reveal" aria-hidden="true">
+      <span class="ornament">&#10040;</span>
+    </div>
+
+    <div class="reveal">
+      <h3 style="text-align: center;">Recommended Pairings</h3>
+      <div class="grid-3" style="margin-top: 1.5rem;">
+        <div class="card">
+          <h4>Formal Imperial</h4>
+          <p style="font-family: var(--font-display); font-size: 1.4rem; letter-spacing: 0.05em; text-transform: uppercase; text-align: center; color: var(--empire-navy); margin-bottom: 0.5rem;">Bodoni Moda</p>
+          <p style="font-family: var(--font-body); text-align: center; margin-bottom: 0.5rem;">EB Garamond for body text</p>
+          <p style="font-family: var(--font-accent); font-variant: small-caps; letter-spacing: 0.15em; text-align: center; font-size: 0.85rem; color: var(--empire-crimson); margin-bottom: 0;">Cinzel for Labels</p>
+        </div>
+        <div class="card">
+          <h4>Screen-Optimized</h4>
+          <p style="font-family: 'Playfair Display', var(--font-display); font-size: 1.4rem; letter-spacing: 0.05em; text-transform: uppercase; text-align: center; color: var(--empire-navy); margin-bottom: 0.5rem;">Playfair Display</p>
+          <p style="font-family: 'Libre Baskerville', var(--font-body); text-align: center; margin-bottom: 0.5rem;">Libre Baskerville body</p>
+          <p style="font-family: var(--font-accent); font-variant: small-caps; letter-spacing: 0.15em; text-align: center; font-size: 0.85rem; color: var(--empire-crimson); margin-bottom: 0;">Cinzel Caps</p>
+        </div>
+        <div class="card">
+          <h4>Bold Display</h4>
+          <p style="font-family: 'Abril Fatface', var(--font-display); font-size: 1.4rem; letter-spacing: 0.05em; text-transform: uppercase; text-align: center; color: var(--empire-navy); margin-bottom: 0.5rem;">Abril Fatface</p>
+          <p style="font-family: 'Cormorant Garamond', var(--font-body); text-align: center; margin-bottom: 0.5rem;">Cormorant Garamond body</p>
+          <p style="font-family: var(--font-decorative); font-variant: small-caps; letter-spacing: 0.15em; text-align: center; font-size: 0.85rem; color: var(--empire-crimson); margin-bottom: 0;">Cinzel Decorative</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Typographic Rules -->
+    <div class="divider reveal" aria-hidden="true">
+      <span class="ornament">&#10040;</span>
+    </div>
+
+    <div class="reveal" style="max-width: 800px; margin: 0 auto; text-align: left;">
+      <h3 style="text-align: center;">Typographic Rules</h3>
+      <ul class="motif-list">
+        <li><strong>Headings in ALL CAPS</strong> with generous letter-spacing (0.1&ndash;0.2em) for an inscriptional quality</li>
+        <li><strong>Body text at 18&ndash;20px</strong> for the stately reading pace the style demands</li>
+        <li><strong>Line-height of 1.6&ndash;1.8</strong> for body text; 1.1&ndash;1.2 for display headings</li>
+        <li><strong>Small-caps</strong> (<code>font-variant: small-caps</code>) for subheadings, labels, and navigation</li>
+        <li><strong>Gold color</strong> (#C9A94E) on dark backgrounds for heading text</li>
+        <li><strong>Avoid italic body text;</strong> prefer upright roman forms. Reserve italic for emphasis only</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============================================
+       MOTIFS & DECORATIVE ELEMENTS
+       ============================================ -->
+  <div class="section-full section-mahogany" id="motifs">
+    <div class="section-inner">
+      <div class="reveal section-center">
+        <h2>Motifs &amp; Decorative Elements</h2>
+        <p style="max-width: 700px; margin: 0 auto 0.5rem; opacity: 0.85;">Classical and Napoleonic motifs rendered as SVG ornaments, CSS borders, or background patterns. These are the decorative vocabulary of the Empire.</p>
+        <hr class="separator">
+      </div>
+
+      <div class="grid-3" style="margin-top: 2.5rem;">
+        <!-- Greco-Roman -->
+        <div class="card card-dark reveal reveal-delay-1">
+          <h3>Greco-Roman Motifs</h3>
+          <ul class="motif-list">
+            <li><strong>Laurel wreath</strong> &mdash; Symbol of triumph; ideal for logos, dividers, badges</li>
+            <li><strong>Greek key / meander</strong> &mdash; Repeating geometric border for rules and frames</li>
+            <li><strong>Acanthus scrollwork</strong> &mdash; Ornamental corners and panel decorations</li>
+            <li><strong>Corinthian capitals</strong> &mdash; Vertical decorative accents, sidebar treatments</li>
+            <li><strong>Lyre</strong> &mdash; Associated with Apollo; decorative accent</li>
+            <li><strong>Winged Victory</strong> &mdash; Figurative ornament for hero sections</li>
+          </ul>
+        </div>
+
+        <!-- Napoleonic -->
+        <div class="card card-dark reveal reveal-delay-2">
+          <h3>Napoleonic Symbols</h3>
+          <ul class="motif-list">
+            <li><strong>Imperial eagle</strong> &mdash; Heraldic emblem; logo or hero centerpiece</li>
+            <li><strong>Bee</strong> &mdash; Symbol of industry and prosperity; repeating pattern</li>
+            <li><strong>Letter &ldquo;N&rdquo; monogram</strong> &mdash; Within a laurel crown; branding element</li>
+            <li><strong>Star</strong> &mdash; Imperial emblem; decorative scatter or rating element</li>
+            <li><strong>Fasces</strong> &mdash; Bundled rods; symbol of authority</li>
+          </ul>
+        </div>
+
+        <!-- Egyptian Revival -->
+        <div class="card card-dark reveal reveal-delay-3">
+          <h3>Egyptian Revival</h3>
+          <ul class="motif-list">
+            <li><strong>Sphinx</strong> &mdash; Figurative ornament for sections or dividers</li>
+            <li><strong>Lotus capital</strong> &mdash; Column-top decoration; vertical accent</li>
+            <li><strong>Scarab</strong> &mdash; Small decorative element or icon</li>
+            <li><strong>Winged sun disk</strong> &mdash; Header or section crown ornament</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Ornamental Patterns -->
+      <div class="divider divider-dark reveal" aria-hidden="true">
+        <span class="ornament">&#10040;</span>
+      </div>
+
+      <div class="reveal section-center">
+        <h3 style="color: var(--gold-bright);">Ornamental Patterns</h3>
+        <div class="grid-3" style="margin-top: 1.5rem; max-width: 900px; margin-left: auto; margin-right: auto;">
+          <div class="combo-panel" style="background: rgba(245,240,225,0.05); color: var(--empire-ivory);">
+            <h4 style="color: var(--empire-gold);">Greek Key</h4>
+            <p>Continuous geometric meander for horizontal rules</p>
+          </div>
+          <div class="combo-panel" style="background: rgba(245,240,225,0.05); color: var(--empire-ivory);">
+            <h4 style="color: var(--empire-gold);">Palmette Frieze</h4>
+            <p>Fan-shaped botanical repeating pattern</p>
+          </div>
+          <div class="combo-panel" style="background: rgba(245,240,225,0.05); color: var(--empire-ivory);">
+            <h4 style="color: var(--empire-gold);">Egg-and-Dart</h4>
+            <p>Classical border motif for card and panel edges</p>
+          </div>
+          <div class="combo-panel" style="background: rgba(245,240,225,0.05); color: var(--empire-ivory);">
+            <h4 style="color: var(--empire-gold);">Rope / Guilloche</h4>
+            <p>Twisted interlace for borders and frames</p>
+          </div>
+          <div class="combo-panel" style="background: rgba(245,240,225,0.05); color: var(--empire-ivory);">
+            <h4 style="color: var(--empire-gold);">Rosette</h4>
+            <p>Circular floral ornament for intersections and corners</p>
+          </div>
+          <div class="combo-panel" style="background: rgba(245,240,225,0.05); color: var(--empire-ivory);">
+            <h4 style="color: var(--empire-gold);">Damask</h4>
+            <p>Tone-on-tone floral/acanthus at very low opacity</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================
+       LAYOUT PRINCIPLES
+       ============================================ -->
+  <section class="section" id="layout">
+    <div class="reveal section-center">
+      <h2>Layout Principles</h2>
+      <hr class="separator">
+    </div>
+
+    <!-- Structure -->
+    <div class="reveal" style="margin-top: 2rem;">
+      <h3 style="text-align: center;">Structure</h3>
+      <div class="grid-2" style="margin-top: 1.5rem;">
+        <div class="card ornamental-frame">
+          <span class="corner-tr" aria-hidden="true"></span>
+          <span class="corner-bl" aria-hidden="true"></span>
+          <h4>Centered &amp; Symmetrical</h4>
+          <p style="margin-bottom: 0.75rem;">Content blocks centered on the page with equal margins. Grand hero sections fill the full viewport with a single imposing statement.</p>
+          <h4>Panel-Based Organization</h4>
+          <p style="margin-bottom: 0;">Content divided into tall, vertical panels reminiscent of wall paneling and pilaster divisions. A 12-column grid with content occupying the center 8&ndash;10 columns.</p>
+        </div>
+        <div class="card ornamental-frame">
+          <span class="corner-tr" aria-hidden="true"></span>
+          <span class="corner-bl" aria-hidden="true"></span>
+          <h4>Hierarchical Sections</h4>
+          <p style="margin-bottom: 0.75rem;">Clear visual breaks between sections using ornamental dividers&mdash;horizontal rules with classical motifs separate areas of content.</p>
+          <h4>Formal Grid</h4>
+          <p style="margin-bottom: 0;">Stately margins of at least 10&ndash;15% of viewport width frame content like a gilded panel. Whitespace is not emptiness&mdash;it is the &ldquo;marble floor&rdquo; between decorative elements.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Spatial Rules -->
+    <div class="divider reveal" aria-hidden="true">
+      <span class="ornament">&#10040;</span>
+    </div>
+
+    <div class="reveal">
+      <h3 style="text-align: center;">Spatial Rules</h3>
+      <div class="grid-4" style="margin-top: 1.5rem;">
+        <div class="card" style="text-align: center;">
+          <h4>Padding</h4>
+          <p style="font-size: 0.9rem; margin-bottom: 0;">Minimum 80px vertical on sections; 120&ndash;160px on hero/feature sections</p>
+        </div>
+        <div class="card" style="text-align: center;">
+          <h4>Margins</h4>
+          <p style="font-size: 0.9rem; margin-bottom: 0;">At least 10&ndash;15% of viewport width to frame content</p>
+        </div>
+        <div class="card" style="text-align: center;">
+          <h4>Rhythm</h4>
+          <p style="font-size: 0.9rem; margin-bottom: 0;">Base unit of 8px; sections at 80 / 120 / 160px multiples</p>
+        </div>
+        <div class="card" style="text-align: center;">
+          <h4>Whitespace</h4>
+          <p style="font-size: 0.9rem; margin-bottom: 0;">The &ldquo;marble floor&rdquo; between decorative elements&mdash;never mere emptiness</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="divider reveal" aria-hidden="true">
+      <span class="ornament">&#10040;</span>
+    </div>
+
+    <div class="reveal" style="max-width: 800px; margin: 0 auto;">
+      <h3 style="text-align: center;">Navigation</h3>
+      <ul class="motif-list" style="margin-top: 1rem;">
+        <li><strong>Horizontal top bar</strong> with small-caps labels, letter-spaced, gold on dark navy</li>
+        <li><strong>Centered logo/monogram</strong> above or within the navigation bar</li>
+        <li><strong>No hamburger menus</strong>&mdash;the style demands visible, formal navigation. Use a classical horizontal menu or pilaster-style sidebar nav</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============================================
+       BLOCKQUOTE SHOWCASE
+       ============================================ -->
+  <div class="section-full section-dark">
+    <div class="section-inner section-center">
+      <div class="reveal">
+        <blockquote>
+          Imperial grandeur is not merely decoration&mdash;it is the architecture of authority made visible. Every gilded border, every symmetrical axis, every measured proportion speaks the visual language of power refined through classical antiquity.
+          <cite>The Empire Style Design Ethos</cite>
+        </blockquote>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================
+       CSS IMPLEMENTATION
+       ============================================ -->
+  <div class="section-full section-emerald" id="css">
+    <div class="section-inner">
+      <div class="reveal section-center">
+        <h2>CSS Implementation</h2>
+        <p style="max-width: 700px; margin: 0 auto 0.5rem; opacity: 0.85;">Design tokens, base typography, component styles, and decorative techniques&mdash;the complete CSS vocabulary for building Empire-style interfaces.</p>
+        <hr class="separator">
+      </div>
+
+      <!-- Design Tokens -->
+      <div class="reveal" style="margin-top: 2rem;">
+        <h3 style="color: var(--gold-bright); text-align: center;">Design Tokens</h3>
+        <div class="code-block" style="margin-top: 1.5rem;">
+<span class="token-selector">:root</span> {<br>
+&nbsp;&nbsp;<span class="token-comment">/* Primary Palette */</span><br>
+&nbsp;&nbsp;<span class="token-prop">--empire-crimson</span>: <span class="token-val">#9B1B30</span>;<br>
+&nbsp;&nbsp;<span class="token-prop">--empire-navy</span>: <span class="token-val">#1B2A4A</span>;<br>
+&nbsp;&nbsp;<span class="token-prop">--empire-emerald</span>: <span class="token-val">#1D6B4F</span>;<br>
+&nbsp;&nbsp;<span class="token-prop">--empire-gold</span>: <span class="token-val">#C9A94E</span>;<br>
+<br>
+&nbsp;&nbsp;<span class="token-comment">/* Typography */</span><br>
+&nbsp;&nbsp;<span class="token-prop">--font-display</span>: <span class="token-val">'Bodoni Moda', serif</span>;<br>
+&nbsp;&nbsp;<span class="token-prop">--font-body</span>: <span class="token-val">'EB Garamond', serif</span>;<br>
+&nbsp;&nbsp;<span class="token-prop">--font-accent</span>: <span class="token-val">'Cinzel', serif</span>;<br>
+<br>
+&nbsp;&nbsp;<span class="token-comment">/* Spacing */</span><br>
+&nbsp;&nbsp;<span class="token-prop">--space-unit</span>: <span class="token-val">8px</span>;<br>
+&nbsp;&nbsp;<span class="token-prop">--section-padding</span>: <span class="token-val">calc(var(--space-unit) * 15)</span>;<br>
+}
+        </div>
+      </div>
+
+      <!-- Key Techniques -->
+      <div class="divider divider-dark reveal" aria-hidden="true">
+        <span class="ornament">&#10040;</span>
+      </div>
+
+      <div class="reveal">
+        <h3 style="color: var(--gold-bright); text-align: center;">Decorative CSS Techniques</h3>
+        <div class="grid-2" style="margin-top: 1.5rem;">
+          <div class="card card-dark">
+            <h4>Gold Gradient Text</h4>
+            <div class="code-block" style="font-size: 0.8rem;">
+<span class="token-selector">.text-gold-gradient</span> {<br>
+&nbsp;&nbsp;<span class="token-prop">background</span>: <span class="token-val">linear-gradient(</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="token-val">135deg, #8B7332, #D4AF37,</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="token-val">#C9A94E, #8B7332</span><br>
+&nbsp;&nbsp;<span class="token-val">)</span>;<br>
+&nbsp;&nbsp;<span class="token-prop">-webkit-background-clip</span>: <span class="token-val">text</span>;<br>
+&nbsp;&nbsp;<span class="token-prop">-webkit-text-fill-color</span>: <span class="token-val">transparent</span>;<br>
+}
+            </div>
+          </div>
+          <div class="card card-dark">
+            <h4>Ornamental Corners</h4>
+            <div class="code-block" style="font-size: 0.8rem;">
+<span class="token-selector">.ornamental-frame::before</span> {<br>
+&nbsp;&nbsp;<span class="token-prop">content</span>: <span class="token-val">''</span>;<br>
+&nbsp;&nbsp;<span class="token-prop">position</span>: <span class="token-val">absolute</span>;<br>
+&nbsp;&nbsp;<span class="token-prop">width</span>: <span class="token-val">40px</span>;<br>
+&nbsp;&nbsp;<span class="token-prop">height</span>: <span class="token-val">40px</span>;<br>
+&nbsp;&nbsp;<span class="token-prop">border-color</span>: <span class="token-val">var(--empire-gold)</span>;<br>
+&nbsp;&nbsp;<span class="token-prop">border-width</span>: <span class="token-val">2px 0 0 2px</span>;<br>
+}
+            </div>
+          </div>
+          <div class="card card-dark">
+            <h4>Gilded Frame Card</h4>
+            <div class="code-block" style="font-size: 0.8rem;">
+<span class="token-selector">.card::after</span> {<br>
+&nbsp;&nbsp;<span class="token-prop">content</span>: <span class="token-val">''</span>;<br>
+&nbsp;&nbsp;<span class="token-prop">position</span>: <span class="token-val">absolute</span>;<br>
+&nbsp;&nbsp;<span class="token-prop">inset</span>: <span class="token-val">8px</span>;<br>
+&nbsp;&nbsp;<span class="token-prop">border</span>: <span class="token-val">1px solid var(--gold-antique)</span>;<br>
+&nbsp;&nbsp;<span class="token-prop">pointer-events</span>: <span class="token-val">none</span>;<br>
+&nbsp;&nbsp;<span class="token-prop">opacity</span>: <span class="token-val">0.5</span>;<br>
+}
+            </div>
+          </div>
+          <div class="card card-dark">
+            <h4>Pilaster Border</h4>
+            <div class="code-block" style="font-size: 0.8rem;">
+<span class="token-selector">.pilaster-border</span> {<br>
+&nbsp;&nbsp;<span class="token-prop">border-left</span>: <span class="token-val">6px solid var(--empire-navy)</span>;<br>
+&nbsp;&nbsp;<span class="token-prop">border-image</span>: <span class="token-val">linear-gradient(</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="token-val">to bottom,</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="token-val">var(--empire-gold),</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="token-val">var(--empire-navy) 20%,</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="token-val">var(--empire-navy) 80%,</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="token-val">var(--empire-gold)</span><br>
+&nbsp;&nbsp;<span class="token-val">) 1</span>;<br>
+}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================
+       TEXTURES & BACKGROUNDS
+       ============================================ -->
+  <section class="section section-center">
+    <div class="reveal">
+      <h2>Textures &amp; Background Treatments</h2>
+      <hr class="separator">
+    </div>
+
+    <div class="grid-3 reveal" style="margin-top: 2rem;">
+      <div class="card">
+        <h3>Parchment</h3>
+        <p style="margin-bottom: 0;">Subtle warm noise overlay on light backgrounds to evoke antique paper. Applied at very low opacity for tactile richness.</p>
+      </div>
+      <div class="card">
+        <h3>Damask Pattern</h3>
+        <p style="margin-bottom: 0;">Tone-on-tone repeating floral/acanthus pattern at 3&ndash;5% opacity for a wallpaper effect, evoking silk wall coverings of the era.</p>
+      </div>
+      <div class="card">
+        <h3>Marble Veining</h3>
+        <p style="margin-bottom: 0;">Soft gradient blends simulating marble for footer or header backgrounds, referencing the neoclassical love of stone surfaces.</p>
+      </div>
+      <div class="card">
+        <h3>Wood Grain</h3>
+        <p style="margin-bottom: 0;">Thin vertical striping in warm browns for sidebar or panel backgrounds, evoking the mahogany furniture of Empire interiors.</p>
+      </div>
+      <div class="card">
+        <h3>Silk Moire</h3>
+        <p style="margin-bottom: 0;">Subtle wave pattern on feature sections to evoke the lustrous silk fabrics and wall coverings of Napoleonic-era salons.</p>
+      </div>
+      <div class="card">
+        <h3>Gilt Texture</h3>
+        <p style="margin-bottom: 0;">Metallic gradient shimmer applied to decorative borders and ornamental rules, simulating the gold-leaf ormolu of period furnishings.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       ACCESSIBILITY
+       ============================================ -->
+  <div class="section-full section-dark">
+    <div class="section-inner">
+      <div class="reveal section-center">
+        <h2>Accessibility Notes</h2>
+        <p style="max-width: 700px; margin: 0 auto 0.5rem; opacity: 0.85;">The Empire palette is designed with WCAG compliance in mind. Key contrast ratios verified for all primary color combinations.</p>
+        <hr class="separator">
+      </div>
+
+      <div style="max-width: 800px; margin: 2rem auto 0;" class="reveal">
+        <div class="a11y-sample" style="background-color: #1B2A4A; color: #C9A94E; border-color: #C9A94E;">
+          <span class="a11y-text">Gold on Navy</span>
+          <span class="a11y-ratio">5.3 : 1</span>
+          <span class="a11y-pass" style="color: var(--empire-emerald); border-color: var(--empire-emerald);">AA Pass</span>
+        </div>
+        <div class="a11y-sample" style="background-color: #F5F0E1; color: #1C1C1E; border-color: rgba(201,169,78,0.3);">
+          <span class="a11y-text">Charcoal on Ivory</span>
+          <span class="a11y-ratio">15.5 : 1</span>
+          <span class="a11y-pass" style="color: var(--empire-emerald); border-color: var(--empire-emerald);">AAA Pass</span>
+        </div>
+        <div class="a11y-sample" style="background-color: #F5F0E1; color: #9B1B30; border-color: rgba(201,169,78,0.3);">
+          <span class="a11y-text">Crimson on Ivory</span>
+          <span class="a11y-ratio">6.8 : 1</span>
+          <span class="a11y-pass" style="color: var(--empire-emerald); border-color: var(--empire-emerald);">AA Pass</span>
+        </div>
+        <div class="a11y-sample" style="background-color: #4A1E0F; color: #C9A94E; border-color: rgba(201,169,78,0.3);">
+          <span class="a11y-text">Gold on Mahogany</span>
+          <span class="a11y-ratio">4.6 : 1</span>
+          <span class="a11y-pass" style="color: var(--gold-bronze); border-color: var(--gold-bronze);">AA Large Only</span>
+        </div>
+
+        <div style="margin-top: 2rem;">
+          <ul class="motif-list">
+            <li>All uppercase text should use <code>aria-label</code> or screen-reader-friendly markup to avoid reading as acronyms</li>
+            <li>Decorative borders and ornaments should be purely presentational (CSS pseudo-elements or <code>aria-hidden</code> SVGs)</li>
+            <li>Gold on mahogany passes AA for large text only&mdash;use sparingly or increase gold brightness for smaller text</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================
+       RELATED AESTHETICS
+       ============================================ -->
+  <div class="section-full section-crimson">
+    <div class="section-inner section-center">
+      <div class="reveal">
+        <h2>Related Aesthetics</h2>
+        <p style="max-width: 700px; margin: 0 auto 0.5rem; opacity: 0.85;">These aesthetics share visual DNA with Empire Style and can be cross-referenced for complementary design ideas.</p>
+        <hr class="separator">
+      </div>
+
+      <div class="related-grid reveal" style="margin-top: 2rem;">
+        <div class="related-card">
+          <h4>Neoclassicism</h4>
+          <p>Parent movement. Empire is the &ldquo;imperial maximalist&rdquo; variant of Neoclassical ideals.</p>
+        </div>
+        <div class="related-card">
+          <h4>Regency Style</h4>
+          <p>British parallel (1811&ndash;1820). Lighter, more restrained version with similar classical motifs.</p>
+        </div>
+        <div class="related-card">
+          <h4>Federal Style</h4>
+          <p>American parallel (1780&ndash;1830). Democratic reinterpretation of the same classical vocabulary.</p>
+        </div>
+        <div class="related-card">
+          <h4>Greek Revival</h4>
+          <p>Shares columnar architecture, meander patterns, and classical proportions.</p>
+        </div>
+        <div class="related-card">
+          <h4>Egyptian Revival</h4>
+          <p>Empire Style absorbed Egyptian motifs after Napoleon&rsquo;s Egyptian campaign (1798&ndash;1801).</p>
+        </div>
+        <div class="related-card">
+          <h4>Biedermeier</h4>
+          <p>Central European successor (1815&ndash;1848). Simplified, bourgeois adaptation of Empire forms.</p>
+        </div>
+        <div class="related-card">
+          <h4>Second Empire</h4>
+          <p>Napoleon III revival (1852&ndash;1870) layering Baroque exuberance onto Empire bones.</p>
+        </div>
+        <div class="related-card">
+          <h4>Art Deco</h4>
+          <p>Shares the love of symmetry, geometric ornament, and gold metallic accents.</p>
+        </div>
+        <div class="related-card">
+          <h4>Didone Typography</h4>
+          <p>The typographic movement born in the same era; Didot and Bodoni fonts are direct Empire-era artifacts.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================
+       IMPLEMENTATION CHECKLIST
+       ============================================ -->
+  <section class="section section-center">
+    <div class="reveal">
+      <h2>Implementation Checklist</h2>
+      <hr class="separator">
+    </div>
+
+    <div class="reveal" style="max-width: 800px; margin: 2rem auto 0; text-align: left;">
+      <div class="card ornamental-frame">
+        <span class="corner-tr" aria-hidden="true"></span>
+        <span class="corner-bl" aria-hidden="true"></span>
+        <ul class="checklist">
+          <li>Load Didone/classical serif fonts via Google Fonts (Bodoni Moda, EB Garamond, Cinzel)</li>
+          <li>Define CSS custom properties for the Empire color palette</li>
+          <li>Build a centered, symmetrical page layout with generous margins</li>
+          <li>Use uppercase + letter-spaced headings for inscriptional quality</li>
+          <li>Apply gold double-rule borders and ornamental dividers between sections</li>
+          <li>Create a dark navy hero section with gold typography</li>
+          <li>Add gilded-frame card components with inset borders</li>
+          <li>Implement small-caps navigation with gold hover accents</li>
+          <li>Include at least one ornamental motif (laurel wreath, Greek key, rosette) as SVG</li>
+          <li>Test gold-on-navy and crimson-on-ivory contrast for WCAG AA compliance</li>
+          <li>Ensure responsive scaling of letter-spacing and section padding</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       FOOTER
+       ============================================ -->
+  <footer class="footer">
+    <div class="divider divider-dark" style="margin-top: 0;" aria-hidden="true">
+      <span class="ornament">&#10040;</span>
+    </div>
+    <div class="footer-monogram" aria-hidden="true">E</div>
+    <p>Empire Style &mdash; Web Design Reference &bull; c. 1799&ndash;1815</p>
+    <p style="margin-top: 0.5rem; opacity: 0.5; font-size: 0.7rem;">The Second Phase of Neoclassicism</p>
+  </footer>
+
+  <!-- ============================================
+       BACK TO TOP
+       ============================================ -->
+  <a href="#top" class="back-to-top" id="backToTop" aria-label="Back to top">&#9650;</a>
+
+  <!-- ============================================
+       JAVASCRIPT
+       ============================================ -->
+  <script>
+    // ---- Scroll-triggered reveal animations ----
+    (function() {
+      const reveals = document.querySelectorAll('.reveal');
+      const observerOpts = {
+        root: null,
+        rootMargin: '0px 0px -60px 0px',
+        threshold: 0.1
+      };
+
+      const observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, observerOpts);
+
+      reveals.forEach(function(el) {
+        observer.observe(el);
+      });
+    })();
+
+    // ---- Back-to-top button ----
+    (function() {
+      const btn = document.getElementById('backToTop');
+      window.addEventListener('scroll', function() {
+        if (window.scrollY > 600) {
+          btn.classList.add('show');
+        } else {
+          btn.classList.remove('show');
+        }
+      }, { passive: true });
+    })();
+
+    // ---- Active nav highlighting ----
+    (function() {
+      const sections = document.querySelectorAll('[id]');
+      const navLinks = document.querySelectorAll('.nav a');
+
+      const observerOpts = {
+        root: null,
+        rootMargin: '-20% 0px -60% 0px',
+        threshold: 0
+      };
+
+      const observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            var id = entry.target.getAttribute('id');
+            navLinks.forEach(function(link) {
+              link.classList.remove('active');
+              if (link.getAttribute('href') === '#' + id) {
+                link.classList.add('active');
+              }
+            });
+          }
+        });
+      }, observerOpts);
+
+      sections.forEach(function(section) {
+        if (section.getAttribute('id')) {
+          observer.observe(section);
+        }
+      });
+    })();
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,1908 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EARLY CYBER // Design Aesthetic Reference</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Major+Mono+Display&family=Orbitron:wght@400;700;900&family=Press+Start+2P&family=Share+Tech+Mono&family=Silkscreen:wght@400;700&family=VT323&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   RESET & FOUNDATION
+   ============================================================ */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  /* Primary Palette */
+  --bg-deep: #000000;
+  --bg-alt: #0A0A2E;
+  --thermo-red: #FF1A1A;
+  --thermo-orange: #FF6600;
+  --thermo-yellow: #FFD700;
+  --thermo-green: #00FF41;
+  --thermo-cyan: #00FFFF;
+  --thermo-blue: #0044FF;
+  --thermo-magenta: #FF00FF;
+  --thermo-violet: #8800FF;
+
+  /* Greenscreen Palette */
+  --term-bg: #001100;
+  --phosphor-dark: #004400;
+  --phosphor-mid: #00AA00;
+  --phosphor-bright: #00FF41;
+  --phosphor-bloom: #66FF99;
+
+  /* Fractal Accents */
+  --fractal-blue: #0055FF;
+  --fractal-teal: #00CED1;
+  --fractal-gold: #FFBF00;
+  --fractal-rose: #FF3399;
+  --fractal-white: #EEFFFF;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'VT323', monospace;
+  font-size: 20px;
+  line-height: 1.6;
+  color: var(--phosphor-bright);
+  background: var(--bg-deep);
+  letter-spacing: 0.04em;
+  overflow-x: hidden;
+}
+
+/* ============================================================
+   SCANLINE OVERLAY (global)
+   ============================================================ */
+.scanlines {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0px,
+    transparent 2px,
+    rgba(0, 0, 0, 0.15) 2px,
+    rgba(0, 0, 0, 0.15) 4px
+  );
+}
+
+/* ============================================================
+   SCAN LINE SWEEP
+   ============================================================ */
+.scan-line {
+  position: fixed;
+  width: 100%;
+  height: 6px;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgba(0, 255, 65, 0.25),
+    rgba(0, 255, 65, 0.08),
+    transparent
+  );
+  animation: scan-sweep 6s linear infinite;
+  pointer-events: none;
+  z-index: 9998;
+}
+
+@keyframes scan-sweep {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100vh); }
+}
+
+/* ============================================================
+   SVG FILTERS (referenced via CSS)
+   ============================================================ */
+
+/* ============================================================
+   MAIN VIEWPORT / CRT CONTAINER
+   ============================================================ */
+.cyber-viewport {
+  max-width: 1100px;
+  margin: 40px auto;
+  background: var(--bg-deep);
+  border: 2px solid var(--phosphor-bright);
+  border-radius: 18px;
+  box-shadow:
+    0 0 40px rgba(0, 255, 65, 0.12),
+    0 0 80px rgba(0, 255, 65, 0.06),
+    inset 0 0 100px rgba(0, 0, 0, 0.8);
+  padding: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+/* HUD grid overlay */
+.hud-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(0, 255, 65, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 255, 65, 0.025) 1px, transparent 1px);
+  background-size: 32px 32px;
+  z-index: 10;
+}
+
+/* CRT vignette effect */
+.cyber-viewport::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 18px;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 50%,
+    rgba(0, 0, 0, 0.5) 100%
+  );
+  pointer-events: none;
+  z-index: 5;
+}
+
+/* ============================================================
+   MONITOR BEZEL / HEADER BAR
+   ============================================================ */
+.monitor-bezel {
+  background: linear-gradient(180deg, #111 0%, #0a0a0a 100%);
+  border-bottom: 1px solid var(--phosphor-dark);
+  padding: 12px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  z-index: 11;
+}
+
+.bezel-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.bezel-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.bezel-dot--red { background: var(--thermo-red); box-shadow: 0 0 6px var(--thermo-red); }
+.bezel-dot--yellow { background: var(--thermo-yellow); box-shadow: 0 0 6px var(--thermo-yellow); }
+.bezel-dot--green { background: var(--phosphor-bright); box-shadow: 0 0 6px var(--phosphor-bright); }
+
+.bezel-title {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 11px;
+  color: var(--phosphor-mid);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+}
+
+.bezel-right {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 11px;
+  color: var(--phosphor-dark);
+  letter-spacing: 0.1em;
+  animation: data-flicker 3s ease-in-out infinite;
+}
+
+/* ============================================================
+   INNER CONTENT AREA
+   ============================================================ */
+.screen-content {
+  padding: 50px 50px 60px;
+  position: relative;
+  z-index: 2;
+}
+
+@media (max-width: 768px) {
+  .cyber-viewport {
+    margin: 10px;
+    border-radius: 10px;
+  }
+  .screen-content {
+    padding: 24px 18px 32px;
+  }
+}
+
+/* ============================================================
+   HERO / TITLE AREA
+   ============================================================ */
+.hero {
+  text-align: center;
+  padding: 40px 0 60px;
+  position: relative;
+}
+
+.hero__pretitle {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 12px;
+  color: var(--phosphor-mid);
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+  animation: data-flicker 3s ease-in-out infinite;
+}
+
+.hero__title {
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 900;
+  font-size: clamp(2.5rem, 8vw, 5.5rem);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--thermo-cyan);
+  text-shadow:
+    0 0 10px var(--thermo-cyan),
+    0 0 30px rgba(0, 136, 255, 0.6),
+    0 0 60px rgba(0, 68, 255, 0.4),
+    0 0 100px rgba(0, 68, 255, 0.2);
+  animation: text-warp 5s ease-in-out infinite alternate;
+  line-height: 1.1;
+  margin-bottom: 8px;
+}
+
+@keyframes text-warp {
+  0% { transform: scaleX(1) scaleY(1); letter-spacing: 0.08em; }
+  50% { transform: scaleX(1.08) scaleY(0.92); letter-spacing: 0.14em; }
+  100% { transform: scaleX(0.95) scaleY(1.05); letter-spacing: 0.04em; }
+}
+
+.hero__subtitle {
+  font-family: 'VT323', monospace;
+  font-size: 22px;
+  color: var(--phosphor-bloom);
+  margin-top: 20px;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.5;
+}
+
+.hero__date-range {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 11px;
+  color: var(--thermo-orange);
+  letter-spacing: 0.2em;
+  margin-top: 24px;
+  text-shadow: 0 0 8px rgba(255, 102, 0, 0.5);
+}
+
+/* Targeting reticle decoration */
+.hero__reticle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 260px;
+  height: 260px;
+  border: 1px solid rgba(0, 255, 65, 0.1);
+  border-radius: 50%;
+  pointer-events: none;
+  animation: reticle-spin 20s linear infinite;
+}
+
+.hero__reticle::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 200px;
+  height: 200px;
+  border: 1px dashed rgba(0, 255, 65, 0.06);
+  border-radius: 50%;
+}
+
+@keyframes reticle-spin {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* ============================================================
+   THERMOGRAPHIC DIVIDER
+   ============================================================ */
+.thermo-divider {
+  height: 3px;
+  margin: 50px 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--thermo-red) 10%,
+    var(--thermo-orange) 22%,
+    var(--thermo-yellow) 35%,
+    var(--thermo-green) 48%,
+    var(--thermo-cyan) 62%,
+    var(--thermo-blue) 75%,
+    var(--thermo-violet) 88%,
+    transparent 100%
+  );
+  box-shadow: 0 0 12px rgba(0, 255, 255, 0.3);
+  animation: thermo-pulse 4s ease-in-out infinite alternate;
+}
+
+@keyframes thermo-pulse {
+  0% { opacity: 0.7; filter: hue-rotate(0deg); }
+  100% { opacity: 1; filter: hue-rotate(20deg); }
+}
+
+/* Thin version */
+.thermo-divider--thin {
+  height: 1px;
+  margin: 30px 0;
+  box-shadow: 0 0 6px rgba(0, 255, 255, 0.15);
+}
+
+/* ============================================================
+   SECTION HEADINGS
+   ============================================================ */
+.section-heading {
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 900;
+  font-size: clamp(1.3rem, 4vw, 2rem);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--thermo-cyan);
+  text-shadow:
+    0 0 8px var(--thermo-cyan),
+    0 0 20px rgba(0, 136, 255, 0.4);
+  margin-bottom: 24px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.section-heading::before {
+  content: '//';
+  color: var(--phosphor-dark);
+  font-size: 0.7em;
+}
+
+.section-heading__bracket {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 12px;
+  color: var(--phosphor-dark);
+  letter-spacing: 0.1em;
+  font-weight: 400;
+  margin-left: auto;
+}
+
+/* Sub-heading */
+.sub-heading {
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 700;
+  font-size: clamp(1rem, 3vw, 1.3rem);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--thermo-yellow);
+  text-shadow: 0 0 6px rgba(255, 215, 0, 0.3);
+  margin-top: 36px;
+  margin-bottom: 16px;
+}
+
+/* ============================================================
+   BODY TEXT & DESCRIPTION
+   ============================================================ */
+.body-text {
+  font-family: 'VT323', monospace;
+  font-size: 20px;
+  line-height: 1.65;
+  color: var(--phosphor-bloom);
+  max-width: 800px;
+}
+
+/* ============================================================
+   VISUAL CHARACTERISTICS LIST
+   ============================================================ */
+.char-list {
+  list-style: none;
+  display: grid;
+  gap: 12px;
+  margin: 16px 0;
+}
+
+.char-list__item {
+  font-family: 'VT323', monospace;
+  font-size: 19px;
+  color: var(--phosphor-bright);
+  padding: 10px 16px;
+  border-left: 2px solid var(--phosphor-dark);
+  background: rgba(0, 255, 65, 0.02);
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.char-list__item:hover {
+  border-left-color: var(--thermo-cyan);
+  background: rgba(0, 255, 255, 0.04);
+  color: var(--fractal-white);
+  text-shadow: 0 0 4px rgba(0, 255, 255, 0.2);
+}
+
+.char-list__item strong {
+  color: var(--thermo-cyan);
+  font-weight: normal;
+}
+
+.char-list__item::before {
+  content: '>';
+  color: var(--phosphor-dark);
+  margin-right: 10px;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 14px;
+}
+
+.char-list__item:hover::before {
+  color: var(--thermo-cyan);
+}
+
+/* ============================================================
+   COLOR PALETTE DISPLAY
+   ============================================================ */
+.palette-group {
+  margin: 24px 0 36px;
+}
+
+.palette-label {
+  font-family: 'Silkscreen', monospace;
+  font-size: 14px;
+  color: var(--phosphor-mid);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  margin-bottom: 14px;
+}
+
+.palette-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.color-chip {
+  width: 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.color-chip__swatch {
+  width: 64px;
+  height: 64px;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.color-chip__swatch::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 4px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.color-chip:hover .color-chip__swatch {
+  transform: scale(1.15);
+  box-shadow: 0 0 20px currentColor;
+}
+
+.color-chip__hex {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 10px;
+  color: var(--phosphor-dark);
+  letter-spacing: 0.05em;
+}
+
+.color-chip__name {
+  font-family: 'Silkscreen', monospace;
+  font-size: 8px;
+  color: var(--phosphor-dark);
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  line-height: 1.3;
+}
+
+@media (max-width: 600px) {
+  .color-chip {
+    width: 60px;
+  }
+  .color-chip__swatch {
+    width: 48px;
+    height: 48px;
+  }
+}
+
+/* ============================================================
+   USAGE NOTES PANEL
+   ============================================================ */
+.usage-panel {
+  border: 1px solid var(--phosphor-dark);
+  border-radius: 6px;
+  padding: 20px 24px;
+  background: rgba(0, 17, 0, 0.5);
+  margin: 24px 0;
+}
+
+.usage-panel__title {
+  font-family: 'Silkscreen', monospace;
+  font-size: 13px;
+  color: var(--thermo-yellow);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  margin-bottom: 12px;
+  text-shadow: 0 0 6px rgba(255, 215, 0, 0.3);
+}
+
+.usage-panel__list {
+  list-style: none;
+}
+
+.usage-panel__list li {
+  font-family: 'VT323', monospace;
+  font-size: 18px;
+  color: var(--phosphor-bright);
+  padding: 4px 0;
+  padding-left: 20px;
+  position: relative;
+}
+
+.usage-panel__list li::before {
+  content: '\25B8';
+  position: absolute;
+  left: 0;
+  color: var(--phosphor-mid);
+}
+
+/* ============================================================
+   TYPOGRAPHY SPECIMEN
+   ============================================================ */
+.type-specimen {
+  display: grid;
+  gap: 24px;
+  margin: 24px 0;
+}
+
+.type-sample {
+  padding: 20px 24px;
+  border: 1px solid rgba(0, 255, 65, 0.08);
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.4);
+  position: relative;
+  overflow: hidden;
+}
+
+.type-sample::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 3px;
+  height: 100%;
+}
+
+.type-sample--vt323::before { background: var(--thermo-green); }
+.type-sample--press-start::before { background: var(--thermo-red); }
+.type-sample--share-tech::before { background: var(--thermo-cyan); }
+.type-sample--orbitron::before { background: var(--thermo-orange); }
+.type-sample--silkscreen::before { background: var(--thermo-magenta); }
+.type-sample--major-mono::before { background: var(--thermo-violet); }
+
+.type-sample__label {
+  font-family: 'Silkscreen', monospace;
+  font-size: 10px;
+  color: var(--phosphor-dark);
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  margin-bottom: 8px;
+}
+
+.type-sample__preview {
+  line-height: 1.3;
+}
+
+.font-vt323 { font-family: 'VT323', monospace; font-size: 28px; color: var(--phosphor-bright); }
+.font-press-start { font-family: 'Press Start 2P', monospace; font-size: 16px; color: var(--thermo-red); }
+.font-share-tech { font-family: 'Share Tech Mono', monospace; font-size: 18px; color: var(--thermo-cyan); }
+.font-orbitron { font-family: 'Orbitron', sans-serif; font-weight: 900; font-size: 28px; color: var(--thermo-orange); text-transform: uppercase; }
+.font-silkscreen { font-family: 'Silkscreen', monospace; font-size: 16px; color: var(--thermo-magenta); }
+.font-major-mono { font-family: 'Major Mono Display', monospace; font-size: 24px; color: var(--thermo-violet); }
+
+.type-sample__use {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 11px;
+  color: var(--phosphor-dark);
+  margin-top: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+/* ============================================================
+   WARPED TEXT SHOWCASE
+   ============================================================ */
+.warped-showcase {
+  text-align: center;
+  padding: 40px 20px;
+  margin: 30px 0;
+  position: relative;
+  border: 1px solid rgba(0, 255, 65, 0.06);
+  border-radius: 8px;
+  background: radial-gradient(ellipse at center, rgba(0, 10, 46, 0.4) 0%, transparent 70%);
+}
+
+.warped-title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: clamp(2rem, 6vw, 4rem);
+  font-weight: 900;
+  text-transform: uppercase;
+  color: var(--thermo-cyan);
+  text-shadow:
+    0 0 10px var(--thermo-cyan),
+    0 0 30px rgba(0, 136, 255, 0.6),
+    0 0 60px rgba(0, 68, 255, 0.4);
+  filter: url('#fisheye-distort');
+  animation: text-warp 4s ease-in-out infinite alternate;
+}
+
+.thermo-text-demo {
+  font-family: 'Press Start 2P', monospace;
+  font-size: clamp(1rem, 3.5vw, 2rem);
+  background: linear-gradient(
+    90deg,
+    var(--thermo-red),
+    var(--thermo-orange),
+    var(--thermo-yellow),
+    var(--thermo-green),
+    var(--thermo-cyan),
+    var(--thermo-blue),
+    var(--thermo-violet),
+    var(--thermo-magenta)
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-top: 24px;
+  animation: hue-cycle 6s linear infinite;
+}
+
+@keyframes hue-cycle {
+  0% { filter: hue-rotate(0deg); }
+  100% { filter: hue-rotate(360deg); }
+}
+
+/* ============================================================
+   DESIGN ELEMENTS / MOTIFS GRID
+   ============================================================ */
+.motif-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+  margin: 24px 0;
+}
+
+.motif-card {
+  border: 1px solid var(--phosphor-dark);
+  border-radius: 6px;
+  padding: 20px;
+  background: rgba(0, 17, 0, 0.3);
+  transition: all 0.4s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.motif-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--thermo-cyan), transparent);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.motif-card:hover {
+  border-color: var(--thermo-cyan);
+  background: rgba(0, 255, 255, 0.03);
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.08);
+}
+
+.motif-card:hover::before {
+  opacity: 1;
+}
+
+.motif-card__icon {
+  font-size: 28px;
+  margin-bottom: 10px;
+  display: block;
+  filter: saturate(0.8);
+}
+
+.motif-card__title {
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  color: var(--thermo-cyan);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 8px;
+}
+
+.motif-card__desc {
+  font-family: 'VT323', monospace;
+  font-size: 17px;
+  color: var(--phosphor-bright);
+  line-height: 1.5;
+}
+
+/* ============================================================
+   COMPOSITION PRINCIPLES
+   ============================================================ */
+.principle-list {
+  list-style: none;
+  display: grid;
+  gap: 8px;
+  margin: 16px 0;
+}
+
+.principle-list__item {
+  font-family: 'VT323', monospace;
+  font-size: 19px;
+  color: var(--phosphor-bright);
+  padding: 10px 16px;
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  border-bottom: 1px solid rgba(0, 255, 65, 0.04);
+}
+
+.principle-list__item:last-child {
+  border-bottom: none;
+}
+
+.principle-list__marker {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 10px;
+  color: var(--phosphor-dark);
+  letter-spacing: 0.1em;
+  white-space: nowrap;
+  min-width: 36px;
+}
+
+.principle-list__item strong {
+  color: var(--thermo-cyan);
+  font-weight: normal;
+}
+
+/* ============================================================
+   CSS TECHNIQUES TABLE
+   ============================================================ */
+.tech-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 24px 0;
+  font-family: 'VT323', monospace;
+}
+
+.tech-table thead {
+  border-bottom: 2px solid var(--phosphor-dark);
+}
+
+.tech-table th {
+  font-family: 'Silkscreen', monospace;
+  font-size: 11px;
+  color: var(--thermo-cyan);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  text-align: left;
+  padding: 10px 12px;
+  font-weight: 400;
+}
+
+.tech-table td {
+  padding: 8px 12px;
+  border-bottom: 1px solid rgba(0, 255, 65, 0.04);
+  font-size: 17px;
+  vertical-align: top;
+}
+
+.tech-table td:first-child {
+  color: var(--thermo-yellow);
+  white-space: nowrap;
+  font-size: 16px;
+}
+
+.tech-table td:last-child {
+  color: var(--phosphor-bright);
+}
+
+.tech-table tbody tr:hover {
+  background: rgba(0, 255, 255, 0.02);
+}
+
+@media (max-width: 600px) {
+  .tech-table td:first-child {
+    white-space: normal;
+  }
+}
+
+/* ============================================================
+   MEDIA REFERENCES
+   ============================================================ */
+.media-section {
+  margin: 24px 0;
+}
+
+.media-category {
+  margin-bottom: 24px;
+}
+
+.media-category__title {
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--fractal-rose);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 10px;
+  text-shadow: 0 0 6px rgba(255, 51, 153, 0.3);
+}
+
+.media-list {
+  list-style: none;
+  display: grid;
+  gap: 4px;
+}
+
+.media-list__item {
+  font-family: 'VT323', monospace;
+  font-size: 18px;
+  color: var(--phosphor-bright);
+  padding: 4px 0 4px 20px;
+  position: relative;
+}
+
+.media-list__item::before {
+  content: '\25C6';
+  position: absolute;
+  left: 0;
+  color: var(--phosphor-dark);
+  font-size: 10px;
+  top: 8px;
+}
+
+.media-list__item em {
+  color: var(--thermo-cyan);
+  font-style: normal;
+}
+
+.media-list__item .year {
+  color: var(--phosphor-dark);
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 12px;
+}
+
+/* ============================================================
+   RELATED AESTHETICS
+   ============================================================ */
+.related-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 16px 0;
+}
+
+.related-tag {
+  font-family: 'Silkscreen', monospace;
+  font-size: 11px;
+  color: var(--phosphor-mid);
+  border: 1px solid var(--phosphor-dark);
+  padding: 6px 14px;
+  border-radius: 3px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  transition: all 0.3s ease;
+  cursor: default;
+}
+
+.related-tag:hover {
+  border-color: var(--thermo-cyan);
+  color: var(--thermo-cyan);
+  box-shadow: 0 0 10px rgba(0, 255, 255, 0.15);
+  text-shadow: 0 0 4px rgba(0, 255, 255, 0.3);
+}
+
+/* ============================================================
+   HUD CORNER DECORATIONS
+   ============================================================ */
+.hud-corner {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  pointer-events: none;
+  z-index: 11;
+}
+
+.hud-corner--tl { top: 50px; left: 12px; border-top: 1px solid var(--phosphor-dark); border-left: 1px solid var(--phosphor-dark); }
+.hud-corner--tr { top: 50px; right: 12px; border-top: 1px solid var(--phosphor-dark); border-right: 1px solid var(--phosphor-dark); }
+.hud-corner--bl { bottom: 12px; left: 12px; border-bottom: 1px solid var(--phosphor-dark); border-left: 1px solid var(--phosphor-dark); }
+.hud-corner--br { bottom: 12px; right: 12px; border-bottom: 1px solid var(--phosphor-dark); border-right: 1px solid var(--phosphor-dark); }
+
+/* ============================================================
+   FRACTAL CANVAS BACKGROUND
+   ============================================================ */
+.fractal-section-bg {
+  position: relative;
+  padding: 40px 0;
+}
+
+.fractal-section-bg__canvas {
+  position: absolute;
+  inset: 0;
+  opacity: 0.12;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.fractal-section-bg > *:not(.fractal-section-bg__canvas) {
+  position: relative;
+  z-index: 1;
+}
+
+/* ============================================================
+   WIREFRAME DECORATION (CSS-only)
+   ============================================================ */
+.wireframe-deco {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  margin: 30px 0;
+  opacity: 0.4;
+}
+
+.wireframe-shape {
+  border: 1px solid var(--phosphor-mid);
+  animation: wireframe-rotate 12s linear infinite;
+}
+
+.wireframe-shape--cube {
+  width: 60px;
+  height: 60px;
+  transform: perspective(200px) rotateX(20deg) rotateY(20deg);
+}
+
+.wireframe-shape--diamond {
+  width: 50px;
+  height: 50px;
+  transform: rotate(45deg);
+  animation-duration: 8s;
+  animation-direction: reverse;
+}
+
+.wireframe-shape--circle {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border-style: dashed;
+  animation-duration: 16s;
+}
+
+@keyframes wireframe-rotate {
+  from { transform: perspective(200px) rotateX(20deg) rotateY(0deg); }
+  to { transform: perspective(200px) rotateX(20deg) rotateY(360deg); }
+}
+
+/* ============================================================
+   FOOTER / STATUS BAR
+   ============================================================ */
+.status-bar {
+  border-top: 1px solid var(--phosphor-dark);
+  padding: 12px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  background: rgba(0, 0, 0, 0.4);
+}
+
+.status-bar__item {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 10px;
+  color: var(--phosphor-dark);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.status-bar__item--active {
+  color: var(--phosphor-mid);
+}
+
+/* ============================================================
+   ANIMATIONS
+   ============================================================ */
+@keyframes data-flicker {
+  0%, 92%, 100% { opacity: 1; }
+  93% { opacity: 0.7; }
+  94% { opacity: 1; }
+  96% { opacity: 0.4; }
+  97% { opacity: 1; }
+}
+
+@keyframes cyber-glitch {
+  0%, 95%, 100% { transform: translate(0, 0); filter: none; }
+  96% { transform: translate(-3px, 1px); filter: hue-rotate(90deg); }
+  97% { transform: translate(2px, -1px); filter: hue-rotate(180deg); }
+  98% { transform: translate(-1px, 2px); filter: hue-rotate(270deg); }
+  99% { transform: translate(3px, -2px); filter: hue-rotate(45deg); }
+}
+
+.glitch {
+  animation: cyber-glitch 4s step-end infinite;
+}
+
+/* Section fade-in on scroll */
+.section-block {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.section-block.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ============================================================
+   CODE BLOCK STYLING
+   ============================================================ */
+.code-block {
+  background: rgba(0, 0, 0, 0.6);
+  border: 1px solid var(--phosphor-dark);
+  border-radius: 4px;
+  padding: 16px 20px;
+  margin: 16px 0;
+  overflow-x: auto;
+  position: relative;
+}
+
+.code-block__label {
+  position: absolute;
+  top: 6px;
+  right: 10px;
+  font-family: 'Silkscreen', monospace;
+  font-size: 8px;
+  color: var(--phosphor-dark);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.code-block code {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 13px;
+  color: var(--phosphor-mid);
+  line-height: 1.6;
+  white-space: pre;
+}
+
+.code-block .kw { color: var(--thermo-cyan); }
+.code-block .val { color: var(--thermo-orange); }
+.code-block .prop { color: var(--phosphor-bright); }
+.code-block .comment { color: var(--phosphor-dark); }
+
+/* ============================================================
+   THERMOGRAPHIC BAR VISUALIZATION
+   ============================================================ */
+.thermo-bar-vis {
+  display: flex;
+  height: 8px;
+  margin: 20px 0 30px;
+  border-radius: 2px;
+  overflow: hidden;
+  box-shadow: 0 0 12px rgba(0, 255, 255, 0.1);
+}
+
+.thermo-bar-vis__segment {
+  flex: 1;
+  transition: flex 0.3s ease;
+}
+
+.thermo-bar-vis__segment:hover {
+  flex: 2;
+}
+
+/* ============================================================
+   FLOATING DATA READOUTS
+   ============================================================ */
+.data-readout {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 11px;
+  color: var(--phosphor-dark);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 3px 0;
+}
+
+.data-readout--highlight {
+  color: var(--phosphor-mid);
+}
+</style>
+</head>
+<body>
+
+<!-- SVG Filters -->
+<svg xmlns="http://www.w3.org/2000/svg" style="position:absolute;width:0;height:0;">
+  <filter id="fisheye-distort">
+    <feTurbulence type="turbulence" baseFrequency="0.012" numOctaves="2" result="turbulence" seed="3"/>
+    <feDisplacementMap in="SourceGraphic" in2="turbulence" scale="12" xChannelSelector="R" yChannelSelector="G"/>
+  </filter>
+  <filter id="posterize">
+    <feComponentTransfer>
+      <feFuncR type="discrete" tableValues="0 0.25 0.5 0.75 1"/>
+      <feFuncG type="discrete" tableValues="0 0.25 0.5 0.75 1"/>
+      <feFuncB type="discrete" tableValues="0 0.25 0.5 0.75 1"/>
+    </feComponentTransfer>
+  </filter>
+</svg>
+
+<!-- Scanlines Overlay -->
+<div class="scanlines"></div>
+
+<!-- Scan Line Sweep -->
+<div class="scan-line"></div>
+
+<!-- Main CRT Viewport -->
+<div class="cyber-viewport">
+
+  <!-- HUD Corner Decorations -->
+  <div class="hud-corner hud-corner--tl"></div>
+  <div class="hud-corner hud-corner--tr"></div>
+  <div class="hud-corner hud-corner--bl"></div>
+  <div class="hud-corner hud-corner--br"></div>
+
+  <!-- HUD Grid Overlay -->
+  <div class="hud-overlay"></div>
+
+  <!-- Monitor Bezel Bar -->
+  <div class="monitor-bezel">
+    <div class="bezel-left">
+      <span class="bezel-dot bezel-dot--red"></span>
+      <span class="bezel-dot bezel-dot--yellow"></span>
+      <span class="bezel-dot bezel-dot--green"></span>
+      <span class="bezel-title">CyberVision Display Terminal v2.4</span>
+    </div>
+    <div class="bezel-right" id="bezel-clock">SYS::00:00:00</div>
+  </div>
+
+  <!-- Screen Content -->
+  <div class="screen-content">
+
+    <!-- ==================== HERO ==================== -->
+    <header class="hero section-block">
+      <div class="hero__reticle"></div>
+      <div class="hero__pretitle">[ Aesthetic Design Reference :: Classification Active ]</div>
+      <h1 class="hero__title glitch">Early Cyber</h1>
+      <p class="hero__subtitle">
+        An aesthetic born from the first wave of desktop publishing and image manipulation software.
+        Raw, experimental energy of newly accessible digital tools -- pixelization, thermographic imagery,
+        fractals, and warped fonts -- before mainstream polish arrived.
+      </p>
+      <div class="hero__date-range">MID-1980s // MID-1990s</div>
+    </header>
+
+    <div class="thermo-divider"></div>
+
+    <!-- ==================== VISUAL CHARACTERISTICS ==================== -->
+    <section class="section-block" id="visual">
+      <h2 class="section-heading">Visual Characteristics <span class="section-heading__bracket">[SEC.01]</span></h2>
+
+      <ul class="char-list">
+        <li class="char-list__item"><strong>Harsh pixelated imagery</strong> -- low-resolution bitmap graphics with visible pixel structure, not smoothed or anti-aliased</li>
+        <li class="char-list__item"><strong>Thermographic color mapping</strong> -- false-color heat-map rendering applied to photographs and video, turning subjects into vivid rainbow gradients</li>
+        <li class="char-list__item"><strong>Warped and distorted typography</strong> -- letterforms stretched, squeezed, fisheye-warped, and liquified using early digital transformation tools</li>
+        <li class="char-list__item"><strong>Dot matrix patterns</strong> -- visible halftone-style dot grids from early printing and display technologies</li>
+        <li class="char-list__item"><strong>Posterization and solarization</strong> -- reduced color depth creating flat, banded areas of tone with inverted highlight regions</li>
+        <li class="char-list__item"><strong>Early greenscreen compositing</strong> -- crude chroma-key effects with visible edge artifacts and color spill</li>
+        <li class="char-list__item"><strong>Kaleidoscope effects</strong> -- mirrored and rotationally tiled imagery creating symmetrical mandala-like patterns</li>
+        <li class="char-list__item"><strong>HUD overlays</strong> -- wireframe targeting reticles, data readouts, and scan-line graphics layered over imagery</li>
+        <li class="char-list__item"><strong>Squash, stretch, and fisheye distortion</strong> -- exaggerated perspective warps applied to faces, objects, and text</li>
+        <li class="char-list__item"><strong>Fractals</strong> -- Mandelbrot and Julia set renders, often in rainbow colormaps, used as backgrounds and decorative elements</li>
+        <li class="char-list__item"><strong>Water-drop / ripple tools</strong> -- circular displacement distortions simulating liquid surface effects</li>
+        <li class="char-list__item"><strong>Glow effects</strong> -- soft luminous halos around text, lines, and shapes, often in neon colors against dark backgrounds</li>
+        <li class="char-list__item"><strong>Abstract CGI</strong> -- early 3D renders with visible polygon edges, flat shading, and primitive ray-tracing</li>
+      </ul>
+    </section>
+
+    <div class="thermo-divider thermo-divider--thin"></div>
+
+    <!-- ==================== COLOR PALETTE ==================== -->
+    <section class="section-block" id="palette">
+      <h2 class="section-heading">Color Palette <span class="section-heading__bracket">[SEC.02]</span></h2>
+
+      <p class="body-text" style="margin-bottom: 24px;">
+        The palette is fundamentally <strong style="color: var(--thermo-cyan);">rainbow-spectrum</strong> -- thermographic false color applied with maximum saturation.
+        Colors shift abruptly rather than blending smoothly, creating banded, posterized regions.
+      </p>
+
+      <!-- Thermographic Bar Visualization -->
+      <div class="thermo-bar-vis">
+        <div class="thermo-bar-vis__segment" style="background: #FF1A1A;"></div>
+        <div class="thermo-bar-vis__segment" style="background: #FF6600;"></div>
+        <div class="thermo-bar-vis__segment" style="background: #FFD700;"></div>
+        <div class="thermo-bar-vis__segment" style="background: #00FF41;"></div>
+        <div class="thermo-bar-vis__segment" style="background: #00FFFF;"></div>
+        <div class="thermo-bar-vis__segment" style="background: #0044FF;"></div>
+        <div class="thermo-bar-vis__segment" style="background: #8800FF;"></div>
+        <div class="thermo-bar-vis__segment" style="background: #FF00FF;"></div>
+      </div>
+
+      <!-- Primary Palette -->
+      <div class="palette-group">
+        <div class="palette-label">Primary Palette</div>
+        <div class="palette-row">
+          <div class="color-chip">
+            <div class="color-chip__swatch" style="background: #000000; color: #000000;"></div>
+            <div class="color-chip__hex">#000000</div>
+            <div class="color-chip__name">Deep BG</div>
+          </div>
+          <div class="color-chip">
+            <div class="color-chip__swatch" style="background: #0A0A2E; color: #0A0A2E;"></div>
+            <div class="color-chip__hex">#0A0A2E</div>
+            <div class="color-chip__name">Dark Navy</div>
+          </div>
+          <div class="color-chip">
+            <div class="color-chip__swatch" style="background: #FF1A1A; color: #FF1A1A;"></div>
+            <div class="color-chip__hex">#FF1A1A</div>
+            <div class="color-chip__name">Hot Red</div>
+          </div>
+          <div class="color-chip">
+            <div class="color-chip__swatch" style="background: #FF6600; color: #FF6600;"></div>
+            <div class="color-chip__hex">#FF6600</div>
+            <div class="color-chip__name">Blaze Orange</div>
+          </div>
+          <div class="color-chip">
+            <div class="color-chip__swatch" style="background: #FFD700; color: #FFD700;"></div>
+            <div class="color-chip__hex">#FFD700</div>
+            <div class="color-chip__name">Bright Yellow</div>
+          </div>
+          <div class="color-chip">
+            <div class="color-chip__swatch" style="background: #00FF41; color: #00FF41;"></div>
+            <div class="color-chip__hex">#00FF41</div>
+            <div class="color-chip__name">Neon Green</div>
+          </div>
+          <div class="color-chip">
+            <div class="color-chip__swatch" style="background: #00FFFF; color: #00FFFF;"></div>
+            <div class="color-chip__hex">#00FFFF</div>
+            <div class="color-chip__name">Elec. Cyan</div>
+          </div>
+          <div class="color-chip">
+            <div class="color-chip__swatch" style="background: #0044FF; color: #0044FF;"></div>
+            <div class="color-chip__hex">#0044FF</div>
+            <div class="color-chip__name">Deep Blue</div>
+          </div>
+          <div class="color-chip">
+            <div class="color-chip__swatch" style="background: #FF00FF; color: #FF00FF;"></div>
+            <div class="color-chip__hex">#FF00FF</div>
+            <div class="color-chip__name">Hot Magenta</div>
+          </div>
+          <div class="color-chip">
+            <div class="color-chip__swatch" style="background: #8800FF; color: #8800FF;"></div>
+            <div class="color-chip__hex">#8800FF</div>
+            <div class="color-chip__name">Deep Violet</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Greenscreen Palette -->
+      <div class="palette-group">
+        <div class="palette-label">Greenscreen Palette</div>
+        <div class="palette-row">
+          <div class="color-chip">
+            <div class="color-chip__swatch" style="background: #001100; color: #001100;"></div>
+            <div class="color-chip__hex">#001100</div>
+            <div class="color-chip__name">Near-Black</div>
+          </div>
+          <div class="color-chip">
+            <div class="color-chip__swatch" style="background: #004400; color: #004400;"></div>
+            <div class="color-chip__hex">#004400</div>
+            <div class="color-chip__name">Phos. Dark</div>
+          </div>
+          <div class="color-chip">
+            <div class="color-chip__swatch" style="background: #00AA00; color: #00AA00;"></div>
+            <div class="color-chip__hex">#00AA00</div>
+            <div class="color-chip__name">Phos. Mid</div>
+          </div>
+          <div class="color-chip">
+            <div class="color-chip__swatch" style="background: #00FF41; color: #00FF41;"></div>
+            <div class="color-chip__hex">#00FF41</div>
+            <div class="color-chip__name">Phos. Bright</div>
+          </div>
+          <div class="color-chip">
+            <div class="color-chip__swatch" style="background: #66FF99; color: #66FF99;"></div>
+            <div class="color-chip__hex">#66FF99</div>
+            <div class="color-chip__name">Phos. Bloom</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Fractal Accent Colors -->
+      <div class="palette-group">
+        <div class="palette-label">Fractal Accent Colors</div>
+        <div class="palette-row">
+          <div class="color-chip">
+            <div class="color-chip__swatch" style="background: #0055FF; color: #0055FF;"></div>
+            <div class="color-chip__hex">#0055FF</div>
+            <div class="color-chip__name">Cobalt</div>
+          </div>
+          <div class="color-chip">
+            <div class="color-chip__swatch" style="background: #00CED1; color: #00CED1;"></div>
+            <div class="color-chip__hex">#00CED1</div>
+            <div class="color-chip__name">Electric</div>
+          </div>
+          <div class="color-chip">
+            <div class="color-chip__swatch" style="background: #FFBF00; color: #FFBF00;"></div>
+            <div class="color-chip__hex">#FFBF00</div>
+            <div class="color-chip__name">Amber</div>
+          </div>
+          <div class="color-chip">
+            <div class="color-chip__swatch" style="background: #FF3399; color: #FF3399;"></div>
+            <div class="color-chip__hex">#FF3399</div>
+            <div class="color-chip__name">Neon Pink</div>
+          </div>
+          <div class="color-chip">
+            <div class="color-chip__swatch" style="background: #EEFFFF; color: #EEFFFF;"></div>
+            <div class="color-chip__hex">#EEFFFF</div>
+            <div class="color-chip__name">Bloom White</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Usage Notes -->
+      <div class="usage-panel">
+        <div class="usage-panel__title">Usage Notes</div>
+        <ul class="usage-panel__list">
+          <li>Backgrounds are predominantly black or very dark to let neon and thermographic colors glow</li>
+          <li>Color transitions should be abrupt and banded, not smooth gradients -- use hard color stops</li>
+          <li>Rainbow gradients should feel synthetic and computational, not natural</li>
+          <li>Green-on-black monochrome is equally authentic for terminal/HUD overlays</li>
+          <li>Avoid pastels, earth tones, or muted palettes entirely</li>
+        </ul>
+      </div>
+    </section>
+
+    <div class="thermo-divider thermo-divider--thin"></div>
+
+    <!-- ==================== TYPOGRAPHY ==================== -->
+    <section class="section-block" id="typography">
+      <h2 class="section-heading">Typography <span class="section-heading__bracket">[SEC.03]</span></h2>
+
+      <ul class="char-list" style="margin-bottom: 24px;">
+        <li class="char-list__item"><strong>Warped and distorted display fonts</strong> -- the defining typographic trait; letterforms are never "clean"</li>
+        <li class="char-list__item"><strong>Fisheye and bulge distortion</strong> applied to headlines</li>
+        <li class="char-list__item"><strong>Pixelated bitmap fonts</strong> for body text and HUD readouts</li>
+        <li class="char-list__item"><strong>Monospaced terminal fonts</strong> for data overlays and technical text</li>
+        <li class="char-list__item"><strong>No conventional serif or sans-serif body text</strong> -- everything should feel digitally processed</li>
+      </ul>
+
+      <h3 class="sub-heading">Font Specimens</h3>
+
+      <div class="type-specimen">
+        <div class="type-sample type-sample--vt323">
+          <div class="type-sample__label">VT323 -- Terminal text, HUD readouts</div>
+          <div class="type-sample__preview font-vt323">ABCDEFGHIJKLM 0123456789 !@#$%</div>
+          <div class="type-sample__use">CRT-style pixel font // Monospace</div>
+        </div>
+        <div class="type-sample type-sample--press-start">
+          <div class="type-sample__label">Press Start 2P -- Headings, pixel-heavy sections</div>
+          <div class="type-sample__preview font-press-start">ABCDEFGHIJ 0123456789</div>
+          <div class="type-sample__use">Blocky pixel font // Display</div>
+        </div>
+        <div class="type-sample type-sample--share-tech">
+          <div class="type-sample__label">Share Tech Mono -- Data overlays, technical readouts</div>
+          <div class="type-sample__preview font-share-tech">ABCDEFGHIJKLMNOP 0123456789 !@#$%&</div>
+          <div class="type-sample__use">Clean monospace with digital feel</div>
+        </div>
+        <div class="type-sample type-sample--orbitron">
+          <div class="type-sample__label">Orbitron -- Futuristic headings</div>
+          <div class="type-sample__preview font-orbitron">EARLY CYBER 2094</div>
+          <div class="type-sample__use">Geometric, digital display typeface</div>
+        </div>
+        <div class="type-sample type-sample--silkscreen">
+          <div class="type-sample__label">Silkscreen -- Small UI text, labels</div>
+          <div class="type-sample__preview font-silkscreen">ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789</div>
+          <div class="type-sample__use">Minimal pixel font // UI elements</div>
+        </div>
+        <div class="type-sample type-sample--major-mono">
+          <div class="type-sample__label">Major Mono Display -- Decorative headlines</div>
+          <div class="type-sample__preview font-major-mono">Early Cyber Vision</div>
+          <div class="type-sample__use">Monospace with quirky digital character</div>
+        </div>
+      </div>
+
+      <!-- Warped Text Showcase -->
+      <h3 class="sub-heading">Warped Text Effects</h3>
+      <div class="warped-showcase">
+        <div class="warped-title">DISTORTION</div>
+        <div class="thermo-text-demo">THERMOGRAPHIC</div>
+      </div>
+    </section>
+
+    <div class="thermo-divider"></div>
+
+    <!-- ==================== KEY DESIGN ELEMENTS ==================== -->
+    <section class="section-block" id="elements">
+      <h2 class="section-heading">Key Design Elements <span class="section-heading__bracket">[SEC.04]</span></h2>
+
+      <div class="motif-grid">
+        <div class="motif-card">
+          <span class="motif-card__icon" aria-hidden="true">&#x2588;&#x2593;&#x2591;</span>
+          <div class="motif-card__title">Thermographic Imagery</div>
+          <div class="motif-card__desc">Photographs processed through false-color thermal mapping. Bodies rendered as rainbow heat signatures. Abrupt color bands rather than smooth gradients.</div>
+        </div>
+        <div class="motif-card">
+          <span class="motif-card__icon" aria-hidden="true">&#x221E;</span>
+          <div class="motif-card__title">Fractals</div>
+          <div class="motif-card__desc">Mandelbrot and Julia set renders as backgrounds or decorative panels. Rainbow or electric color ramps. Deep zoom with spiraling, self-similar structures.</div>
+        </div>
+        <div class="motif-card">
+          <span class="motif-card__icon" aria-hidden="true">&#x25C7;&#x25C6;</span>
+          <div class="motif-card__title">Wireframe 3D</div>
+          <div class="motif-card__desc">Simple geometric solids in wireframe rendering. Green or cyan lines on black. Visible polygon edges, no texture mapping or smooth shading.</div>
+        </div>
+        <div class="motif-card">
+          <span class="motif-card__icon" aria-hidden="true">&#x2316;</span>
+          <div class="motif-card__title">HUD Overlays</div>
+          <div class="motif-card__desc">Targeting reticles and crosshairs. Numeric data readouts with rapidly changing values. Scan-line sweeps and radar displays. Grid coordinates.</div>
+        </div>
+        <div class="motif-card">
+          <span class="motif-card__icon" aria-hidden="true">&#x2742;</span>
+          <div class="motif-card__title">Kaleidoscope Patterns</div>
+          <div class="motif-card__desc">Rotationally symmetric mirrored imagery. Derived from processed video or photos. Mandala-like decorative frames and backgrounds.</div>
+        </div>
+        <div class="motif-card">
+          <span class="motif-card__icon" aria-hidden="true">&#x2237;</span>
+          <div class="motif-card__title">Dot Matrix & Halftone</div>
+          <div class="motif-card__desc">Visible dot patterns from early digital printing. Oversized halftone dots as texture overlays. Grid-aligned circular elements creating tonal variation.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Wireframe Decoration -->
+    <div class="wireframe-deco">
+      <div class="wireframe-shape wireframe-shape--cube"></div>
+      <div class="wireframe-shape wireframe-shape--diamond"></div>
+      <div class="wireframe-shape wireframe-shape--circle"></div>
+      <div class="wireframe-shape wireframe-shape--cube"></div>
+      <div class="wireframe-shape wireframe-shape--diamond"></div>
+    </div>
+
+    <div class="thermo-divider thermo-divider--thin"></div>
+
+    <!-- ==================== COMPOSITION & LAYOUT ==================== -->
+    <section class="section-block" id="composition">
+      <h2 class="section-heading">Composition & Layout <span class="section-heading__bracket">[SEC.05]</span></h2>
+
+      <ol class="principle-list">
+        <li class="principle-list__item">
+          <span class="principle-list__marker">[01]</span>
+          <span><strong>Screen-as-monitor metaphor</strong> -- the viewport represents a CRT monitor or early digital display; frame content within a "screen" boundary</span>
+        </li>
+        <li class="principle-list__item">
+          <span class="principle-list__marker">[02]</span>
+          <span><strong>Dark field composition</strong> -- imagery floats on black or very dark backgrounds, as if displayed in a darkened room</span>
+        </li>
+        <li class="principle-list__item">
+          <span class="principle-list__marker">[03]</span>
+          <span><strong>Centered focal point</strong> -- key imagery or text placed centrally, often with radial symmetry</span>
+        </li>
+        <li class="principle-list__item">
+          <span class="principle-list__marker">[04]</span>
+          <span><strong>Layered data overlays</strong> -- HUD elements, readouts, and grid lines layered over primary content</span>
+        </li>
+        <li class="principle-list__item">
+          <span class="principle-list__marker">[05]</span>
+          <span><strong>Scan-line horizontal bias</strong> -- composition follows horizontal bands and sweep lines</span>
+        </li>
+        <li class="principle-list__item">
+          <span class="principle-list__marker">[06]</span>
+          <span><strong>Generous negative space</strong> -- isolated glowing elements against darkness create dramatic contrast</span>
+        </li>
+        <li class="principle-list__item">
+          <span class="principle-list__marker">[07]</span>
+          <span><strong>Frame-within-frame</strong> -- content enclosed in monitor bezels, wireframe boxes, or HUD targeting brackets</span>
+        </li>
+        <li class="principle-list__item">
+          <span class="principle-list__marker">[08]</span>
+          <span><strong>No conventional grid layouts</strong> -- arrangement feels like a display terminal, not a magazine page</span>
+        </li>
+      </ol>
+    </section>
+
+    <div class="thermo-divider thermo-divider--thin"></div>
+
+    <!-- ==================== TEXTURES & SURFACE EFFECTS ==================== -->
+    <section class="section-block" id="textures">
+      <h2 class="section-heading">Textures & Surface Effects <span class="section-heading__bracket">[SEC.06]</span></h2>
+
+      <p class="body-text" style="margin-bottom: 20px;">
+        The Early Cyber surface language is defined by CRT display artifacts, digital processing residue, and the raw output of first-generation image manipulation software.
+      </p>
+
+      <div class="code-block">
+        <div class="code-block__label">CSS // Scanline Overlay</div>
+        <code><span class="comment">/* Repeating 2px scanlines */</span>
+<span class="kw">.scanlines</span> {
+  <span class="prop">background</span>: <span class="val">repeating-linear-gradient(
+    to bottom,
+    transparent 0px, transparent 2px,
+    rgba(0,0,0,0.2) 2px, rgba(0,0,0,0.2) 4px
+  )</span>;
+}</code>
+      </div>
+
+      <div class="code-block">
+        <div class="code-block__label">CSS // Neon Glow</div>
+        <code><span class="kw">.neon-glow</span> {
+  <span class="prop">color</span>: <span class="val">#00FFFF</span>;
+  <span class="prop">text-shadow</span>:
+    <span class="val">0 0 4px #00FFFF,
+    0 0 11px #00FFFF,
+    0 0 19px #00FFFF,
+    0 0 40px #0088FF,
+    0 0 80px #0088FF</span>;
+}</code>
+      </div>
+
+      <div class="code-block">
+        <div class="code-block__label">CSS // Thermographic Gradient</div>
+        <code><span class="kw">.thermographic</span> {
+  <span class="prop">background</span>: <span class="val">linear-gradient(180deg,
+    #FF1A1A 0%, #FF6600 15%, #FFD700 30%,
+    #00FF41 45%, #00FFFF 60%, #0044FF 75%,
+    #8800FF 90%, #FF00FF 100%
+  )</span>;
+}</code>
+      </div>
+
+      <div class="code-block">
+        <div class="code-block__label">CSS // Pixelation Effect</div>
+        <code><span class="kw">.pixelated</span> {
+  <span class="prop">image-rendering</span>: <span class="val">pixelated</span>;
+  <span class="prop">image-rendering</span>: <span class="val">crisp-edges</span>;
+}</code>
+      </div>
+    </section>
+
+    <div class="thermo-divider thermo-divider--thin"></div>
+
+    <!-- ==================== SVG FILTERS ==================== -->
+    <section class="section-block" id="filters">
+      <h2 class="section-heading">SVG Distortion Filters <span class="section-heading__bracket">[SEC.07]</span></h2>
+
+      <p class="body-text" style="margin-bottom: 20px;">
+        SVG filters provide the key distortion effects that define Early Cyber typography and imagery -- fisheye warps, posterization, and solarization.
+      </p>
+
+      <div class="code-block">
+        <div class="code-block__label">SVG // Fisheye Distortion</div>
+        <code><span class="kw">&lt;filter</span> <span class="prop">id</span>=<span class="val">"fisheye-distort"</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;feTurbulence</span> <span class="prop">type</span>=<span class="val">"turbulence"</span>
+    <span class="prop">baseFrequency</span>=<span class="val">"0.01"</span> <span class="prop">numOctaves</span>=<span class="val">"2"</span><span class="kw">/&gt;</span>
+  <span class="kw">&lt;feDisplacementMap</span> <span class="prop">in</span>=<span class="val">"SourceGraphic"</span>
+    <span class="prop">scale</span>=<span class="val">"15"</span><span class="kw">/&gt;</span>
+<span class="kw">&lt;/filter&gt;</span></code>
+      </div>
+
+      <div class="code-block">
+        <div class="code-block__label">CSS // Solarization</div>
+        <code><span class="kw">.solarized</span> {
+  <span class="prop">filter</span>: <span class="val">saturate(2) contrast(1.5)
+          invert(0.15) hue-rotate(30deg)</span>;
+}</code>
+      </div>
+    </section>
+
+    <div class="thermo-divider thermo-divider--thin"></div>
+
+    <!-- ==================== ANIMATION & MOTION ==================== -->
+    <section class="section-block" id="animation">
+      <h2 class="section-heading">Animation & Motion <span class="section-heading__bracket">[SEC.08]</span></h2>
+
+      <div class="code-block">
+        <div class="code-block__label">CSS // Scan-Line Sweep</div>
+        <code><span class="kw">@keyframes</span> <span class="val">scan-sweep</span> {
+  <span class="prop">0%</span>   { <span class="prop">transform</span>: <span class="val">translateY(-100%)</span>; }
+  <span class="prop">100%</span> { <span class="prop">transform</span>: <span class="val">translateY(100vh)</span>; }
+}
+<span class="comment">/* 6s linear infinite */</span></code>
+      </div>
+
+      <div class="code-block">
+        <div class="code-block__label">CSS // Data Flicker</div>
+        <code><span class="kw">@keyframes</span> <span class="val">data-flicker</span> {
+  <span class="prop">0%, 92%, 100%</span> { <span class="prop">opacity</span>: <span class="val">1</span>; }
+  <span class="prop">93%</span>            { <span class="prop">opacity</span>: <span class="val">0.7</span>; }
+  <span class="prop">96%</span>            { <span class="prop">opacity</span>: <span class="val">0.4</span>; }
+}
+<span class="comment">/* Simulates CRT data readout instability */</span></code>
+      </div>
+
+      <div class="code-block">
+        <div class="code-block__label">CSS // Glitch Displacement</div>
+        <code><span class="kw">@keyframes</span> <span class="val">cyber-glitch</span> {
+  <span class="prop">0%, 95%, 100%</span> { <span class="prop">transform</span>: <span class="val">translate(0,0)</span>; }
+  <span class="prop">96%</span>  { <span class="prop">transform</span>: <span class="val">translate(-3px,1px)</span>;
+         <span class="prop">filter</span>: <span class="val">hue-rotate(90deg)</span>; }
+  <span class="prop">97%</span>  { <span class="prop">transform</span>: <span class="val">translate(2px,-1px)</span>;
+         <span class="prop">filter</span>: <span class="val">hue-rotate(180deg)</span>; }
+}
+<span class="comment">/* step-end timing for harsh digital artifacts */</span></code>
+      </div>
+    </section>
+
+    <div class="thermo-divider thermo-divider--thin"></div>
+
+    <!-- ==================== CSS TECHNIQUES TABLE ==================== -->
+    <section class="section-block" id="techniques">
+      <h2 class="section-heading">CSS Techniques Summary <span class="section-heading__bracket">[SEC.09]</span></h2>
+
+      <div style="overflow-x: auto;">
+        <table class="tech-table">
+          <thead>
+            <tr>
+              <th>Technique</th>
+              <th>CSS Property / Approach</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Thermographic color</td><td>linear-gradient with rainbow hard stops on text or backgrounds</td></tr>
+            <tr><td>Neon glow</td><td>Multiple text-shadow or box-shadow with same-hue colors at increasing blur</td></tr>
+            <tr><td>CRT scanlines</td><td>repeating-linear-gradient with 2px transparent/dark alternation</td></tr>
+            <tr><td>Screen curvature</td><td>border-radius + deep inset box-shadow</td></tr>
+            <tr><td>Pixelation</td><td>image-rendering: pixelated on images and canvases</td></tr>
+            <tr><td>Fisheye distortion</td><td>SVG feTurbulence + feDisplacementMap filters</td></tr>
+            <tr><td>Posterization</td><td>SVG feComponentTransfer with discrete table values</td></tr>
+            <tr><td>Solarization</td><td>Combined saturate(), contrast(), invert(), hue-rotate() filters</td></tr>
+            <tr><td>HUD grid overlay</td><td>Two-axis linear-gradient background-image at fixed intervals</td></tr>
+            <tr><td>Wireframe borders</td><td>Thin solid borders (1px solid) in neon green or cyan on black</td></tr>
+            <tr><td>Data flicker</td><td>@keyframes with rapid opacity steps</td></tr>
+            <tr><td>Monitor frame</td><td>border-radius + border + box-shadow to simulate CRT housing</td></tr>
+            <tr><td>Rainbow text</td><td>background-clip: text with multi-stop linear gradient</td></tr>
+            <tr><td>Greenscreen mono</td><td>Single hue (green) at varying lightness for all UI elements</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <div class="thermo-divider"></div>
+
+    <!-- ==================== CULTURAL CONTEXT ==================== -->
+    <section class="section-block" id="culture">
+      <h2 class="section-heading">Cultural Context <span class="section-heading__bracket">[SEC.10]</span></h2>
+
+      <div class="media-section">
+        <div class="media-category">
+          <h3 class="media-category__title">Television</h3>
+          <ul class="media-list">
+            <li class="media-list__item"><em>Doctor Who</em> title sequences <span class="year">(1982-1986)</span> -- pioneering use of early CGI</li>
+            <li class="media-list__item">ITV <em>The Chart Show</em> <span class="year">(1986-1998)</span> -- computer-generated graphics for music programming</li>
+            <li class="media-list__item"><em>GamesMaster</em> intro <span class="year">(1992-1998)</span> -- CG head, wireframe environments, thermographic visuals</li>
+            <li class="media-list__item"><em>Red Dwarf</em> <span class="year">(1988-1999)</span> -- lo-fi spaceship computer interfaces</li>
+            <li class="media-list__item"><em>ReBoot</em> <span class="year">(1994)</span> -- first fully CGI-animated television series</li>
+          </ul>
+        </div>
+
+        <div class="media-category">
+          <h3 class="media-category__title">Film</h3>
+          <ul class="media-list">
+            <li class="media-list__item"><em>The Lawnmower Man</em> <span class="year">(1992)</span> -- virtual reality sequences with primitive CGI</li>
+            <li class="media-list__item"><em>Hackers</em> <span class="year">(1995)</span> -- stylized representations of cyberspace</li>
+            <li class="media-list__item"><em>Johnny Mnemonic</em> <span class="year">(1995)</span> -- data visualization and VR environments</li>
+            <li class="media-list__item"><em>Batman Forever</em> <span class="year">(1995)</span> -- neon-soaked Gotham computer interfaces</li>
+          </ul>
+        </div>
+
+        <div class="media-category">
+          <h3 class="media-category__title">Music</h3>
+          <ul class="media-list">
+            <li class="media-list__item"><em>Tangerine Dream</em> -- album artwork with fractal imagery and electronic landscapes</li>
+            <li class="media-list__item">Billy Idol, <em>Cyberpunk</em> <span class="year">(1993)</span> -- thermographic and distorted digital imagery</li>
+            <li class="media-list__item"><em>Cabaret Voltaire</em> -- pioneering electronic music with early digital video art</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div class="thermo-divider thermo-divider--thin"></div>
+
+    <!-- ==================== RELATED AESTHETICS ==================== -->
+    <section class="section-block" id="related">
+      <h2 class="section-heading">Related Aesthetics <span class="section-heading__bracket">[SEC.11]</span></h2>
+
+      <div class="related-tags">
+        <span class="related-tag">Cyberdelia</span>
+        <span class="related-tag">Cyberpunk</span>
+        <span class="related-tag">Silicon Dreams</span>
+        <span class="related-tag">Cassette Futurism</span>
+        <span class="related-tag">Synthwave</span>
+        <span class="related-tag">Vaporwave</span>
+        <span class="related-tag">Y2K Futurism</span>
+        <span class="related-tag">Metalheart</span>
+        <span class="related-tag">Pixel UI</span>
+        <span class="related-tag">Acid Design</span>
+        <span class="related-tag">90s Cool</span>
+      </div>
+    </section>
+
+  </div><!-- /.screen-content -->
+
+  <!-- Status Bar -->
+  <div class="status-bar">
+    <span class="status-bar__item status-bar__item--active" id="status-mem">MEM: 640K</span>
+    <span class="status-bar__item">RES: 1024x768</span>
+    <span class="status-bar__item">DEPTH: 8-BIT</span>
+    <span class="status-bar__item status-bar__item--active" id="status-fps">FPS: 30</span>
+    <span class="status-bar__item" id="status-signal">SIGNAL: ACTIVE</span>
+  </div>
+
+</div><!-- /.cyber-viewport -->
+
+<!-- Fractal Canvas Background (rendered behind viewport) -->
+<canvas id="fractal-canvas" style="position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1;opacity:0.06;pointer-events:none;"></canvas>
+
+<script>
+// ============================================================
+// BEZEL CLOCK
+// ============================================================
+(function() {
+  const clock = document.getElementById('bezel-clock');
+  if (!clock) return;
+  function update() {
+    const now = new Date();
+    const h = String(now.getHours()).padStart(2, '0');
+    const m = String(now.getMinutes()).padStart(2, '0');
+    const s = String(now.getSeconds()).padStart(2, '0');
+    clock.textContent = 'SYS::' + h + ':' + m + ':' + s;
+  }
+  update();
+  setInterval(update, 1000);
+})();
+
+// ============================================================
+// STATUS BAR MEMORY FLICKER
+// ============================================================
+(function() {
+  const mem = document.getElementById('status-mem');
+  const fps = document.getElementById('status-fps');
+  if (!mem || !fps) return;
+  setInterval(function() {
+    const m = Math.floor(Math.random() * 64) + 576;
+    mem.textContent = 'MEM: ' + m + 'K';
+    const f = Math.floor(Math.random() * 6) + 27;
+    fps.textContent = 'FPS: ' + f;
+  }, 2000);
+})();
+
+// ============================================================
+// SECTION SCROLL REVEAL
+// ============================================================
+(function() {
+  const sections = document.querySelectorAll('.section-block');
+  const observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.08 });
+
+  sections.forEach(function(section) {
+    observer.observe(section);
+  });
+})();
+
+// ============================================================
+// FRACTAL BACKGROUND RENDERER (Mandelbrot)
+// ============================================================
+(function() {
+  const canvas = document.getElementById('fractal-canvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+
+  let W, H;
+  function resize() {
+    W = canvas.width = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  // Render a simple Mandelbrot set with thermographic coloring
+  function renderFractal() {
+    const maxIter = 60;
+    const imgData = ctx.createImageData(W, H);
+    const data = imgData.data;
+
+    // Viewport in complex plane
+    const xMin = -2.2, xMax = 0.8, yMin = -1.2, yMax = 1.2;
+
+    // Thermographic color map (abrupt bands)
+    const colors = [
+      [255, 26, 26],    // red
+      [255, 102, 0],    // orange
+      [255, 215, 0],    // yellow
+      [0, 255, 65],     // green
+      [0, 255, 255],    // cyan
+      [0, 68, 255],     // blue
+      [136, 0, 255],    // violet
+      [255, 0, 255],    // magenta
+    ];
+
+    // Downsample for performance
+    const step = Math.max(1, Math.floor(Math.min(W, H) / 400));
+
+    for (let px = 0; px < W; px += step) {
+      for (let py = 0; py < H; py += step) {
+        const x0 = xMin + (px / W) * (xMax - xMin);
+        const y0 = yMin + (py / H) * (yMax - yMin);
+        let x = 0, y = 0, iter = 0;
+        while (x * x + y * y <= 4 && iter < maxIter) {
+          const xt = x * x - y * y + x0;
+          y = 2 * x * y + y0;
+          x = xt;
+          iter++;
+        }
+
+        let r = 0, g = 0, b = 0;
+        if (iter < maxIter) {
+          const ci = Math.floor((iter / maxIter) * colors.length) % colors.length;
+          r = colors[ci][0];
+          g = colors[ci][1];
+          b = colors[ci][2];
+        }
+
+        // Fill the step x step block
+        for (let dx = 0; dx < step && px + dx < W; dx++) {
+          for (let dy = 0; dy < step && py + dy < H; dy++) {
+            const idx = ((py + dy) * W + (px + dx)) * 4;
+            data[idx] = r;
+            data[idx + 1] = g;
+            data[idx + 2] = b;
+            data[idx + 3] = 255;
+          }
+        }
+      }
+    }
+
+    ctx.putImageData(imgData, 0, 0);
+  }
+
+  // Render once after a short delay to not block page load
+  setTimeout(renderFractal, 300);
+
+  // Re-render on resize (debounced)
+  let resizeTimer;
+  window.addEventListener('resize', function() {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(renderFractal, 500);
+  });
+})();
+</script>
+
+</body>
+</html>
