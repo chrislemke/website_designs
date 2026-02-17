@@ -1,0 +1,2317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nautical -- Maritime Design Aesthetic</title>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,300;1,400&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Roboto+Slab:wght@300;400;500;700&family=Special+Elite&display=swap" rel="stylesheet">
+  <style>
+    /* ========================================
+       CSS CUSTOM PROPERTIES
+       ======================================== */
+    :root {
+      /* Base */
+      --naut-white: #ffffff;
+      --naut-cream: #fdf5e6;
+      --naut-sand: #c2b280;
+
+      /* Blues */
+      --naut-navy: #1b2a4a;
+      --naut-deep-ocean: #0a2342;
+      --naut-blue: #2563a8;
+      --naut-sky: #87ceeb;
+      --naut-seafoam: #93c5b6;
+      --naut-cyan: #00b4d8;
+
+      /* Accents */
+      --naut-red: #c8102e;
+      --naut-brass: #b5832a;
+      --naut-pink: #f8d7da;
+
+      /* Neutrals */
+      --naut-driftwood: #8b7355;
+      --naut-gray: #8e9aaf;
+      --naut-rope: #c4a36e;
+
+      /* Functional */
+      --naut-bg-primary: var(--naut-white);
+      --naut-bg-secondary: var(--naut-cream);
+      --naut-bg-dark: var(--naut-navy);
+      --naut-text-primary: var(--naut-navy);
+      --naut-text-light: var(--naut-cream);
+      --naut-accent: var(--naut-red);
+      --naut-border: var(--naut-navy);
+    }
+
+    /* ========================================
+       RESET & BASE
+       ======================================== */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      overflow-x: hidden;
+    }
+
+    body {
+      background: var(--naut-white);
+      color: var(--naut-navy);
+      font-family: 'Lato', 'Helvetica Neue', sans-serif;
+      font-weight: 400;
+      letter-spacing: 0.02em;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* ========================================
+       TYPOGRAPHY
+       ======================================== */
+    h1, h2, h3, h4 {
+      font-family: 'Oswald', 'Arial Narrow', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--naut-navy);
+      font-weight: 700;
+    }
+
+    .display-heading {
+      font-family: 'Playfair Display', 'Georgia', serif;
+      font-size: clamp(2.8rem, 8vw, 6.5rem);
+      letter-spacing: 0.06em;
+      line-height: 1.05;
+      text-transform: uppercase;
+      font-weight: 900;
+    }
+
+    .serif-text {
+      font-family: 'Source Serif 4', 'Georgia', serif;
+      font-weight: 400;
+      line-height: 1.8;
+    }
+
+    .logbook-text {
+      font-family: 'Special Elite', 'Courier New', monospace;
+    }
+
+    /* ========================================
+       TOP STRIPE ACCENT BAR
+       ======================================== */
+    .top-stripe {
+      height: 8px;
+      background: repeating-linear-gradient(
+        90deg,
+        var(--naut-navy) 0px,
+        var(--naut-navy) 20px,
+        var(--naut-white) 20px,
+        var(--naut-white) 24px,
+        var(--naut-red) 24px,
+        var(--naut-red) 28px,
+        var(--naut-white) 28px,
+        var(--naut-white) 32px
+      );
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+    }
+
+    /* ========================================
+       NAVIGATION
+       ======================================== */
+    nav {
+      position: fixed;
+      top: 8px;
+      left: 0;
+      right: 0;
+      z-index: 999;
+      background: rgba(27, 42, 74, 0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      padding: 0.8rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: background 0.3s ease;
+    }
+
+    nav .logo {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: 1.3rem;
+      color: var(--naut-white);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    nav .logo .anchor-icon {
+      display: inline-block;
+      font-size: 1.1rem;
+      opacity: 0.8;
+    }
+
+    nav .nav-links {
+      display: flex;
+      gap: 1.8rem;
+      list-style: none;
+    }
+
+    nav .nav-links a {
+      color: var(--naut-cream);
+      text-decoration: none;
+      font-family: 'Oswald', sans-serif;
+      font-weight: 400;
+      font-size: 0.85rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      opacity: 0.75;
+      transition: opacity 0.3s ease;
+      position: relative;
+    }
+
+    nav .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--naut-red);
+      transition: width 0.3s ease;
+    }
+
+    nav .nav-links a:hover {
+      opacity: 1;
+    }
+
+    nav .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    /* ========================================
+       HERO SECTION
+       ======================================== */
+    .hero {
+      background: var(--naut-deep-ocean);
+      color: var(--naut-white);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 6rem 2rem 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Animated wave layers at bottom of hero */
+    .hero-waves {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 120px;
+      pointer-events: none;
+    }
+
+    .hero-waves svg {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 200%;
+      height: 100%;
+    }
+
+    .wave-1 {
+      animation: wave-drift 8s linear infinite;
+      opacity: 0.15;
+    }
+
+    .wave-2 {
+      animation: wave-drift 12s linear infinite reverse;
+      opacity: 0.1;
+    }
+
+    .wave-3 {
+      animation: wave-drift 6s linear infinite;
+      opacity: 0.2;
+    }
+
+    @keyframes wave-drift {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* Star field in hero */
+    .hero-stars {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      pointer-events: none;
+    }
+
+    .star {
+      position: absolute;
+      width: 3px;
+      height: 3px;
+      background: var(--naut-white);
+      border-radius: 50%;
+      animation: star-twinkle 3s ease-in-out infinite;
+    }
+
+    @keyframes star-twinkle {
+      0%, 100% { opacity: 0.2; }
+      50% { opacity: 0.8; }
+    }
+
+    /* Compass rose behind hero text */
+    .hero-compass {
+      position: absolute;
+      width: 500px;
+      height: 500px;
+      opacity: 0.04;
+      pointer-events: none;
+    }
+
+    .hero-compass::before,
+    .hero-compass::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--naut-white);
+      clip-path: polygon(50% 0%, 58% 42%, 100% 50%, 58% 58%, 50% 100%, 42% 58%, 0% 50%, 42% 42%);
+    }
+
+    .hero-compass::after {
+      transform: rotate(45deg);
+      opacity: 0.6;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 900px;
+    }
+
+    .hero-tagline {
+      font-family: 'Oswald', sans-serif;
+      font-weight: 300;
+      font-size: 0.95rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--naut-sky);
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: fade-up 0.8s ease forwards 0.3s;
+    }
+
+    .hero .display-heading {
+      color: var(--naut-white);
+      margin-bottom: 0.5rem;
+      opacity: 0;
+      animation: fade-up 0.8s ease forwards 0.5s;
+    }
+
+    .hero-subtitle {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-weight: 400;
+      font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+      color: var(--naut-sky);
+      margin-top: 1rem;
+      letter-spacing: 0.05em;
+      opacity: 0;
+      animation: fade-up 0.8s ease forwards 0.7s;
+    }
+
+    .hero-divider {
+      width: 100px;
+      margin: 2rem auto;
+      border: none;
+      border-top: 3px double var(--naut-rope);
+      opacity: 0;
+      animation: fade-up 0.8s ease forwards 0.9s;
+    }
+
+    .hero-desc {
+      font-family: 'Source Serif 4', serif;
+      font-weight: 300;
+      font-size: 1.1rem;
+      line-height: 1.9;
+      color: rgba(253, 245, 230, 0.85);
+      max-width: 650px;
+      margin: 0 auto;
+      opacity: 0;
+      animation: fade-up 0.8s ease forwards 1.1s;
+    }
+
+    .hero-scroll-indicator {
+      position: absolute;
+      bottom: 140px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+      opacity: 0;
+      animation: fade-up 0.8s ease forwards 1.5s;
+    }
+
+    .hero-scroll-indicator .wheel {
+      width: 26px;
+      height: 42px;
+      border: 2px solid rgba(253, 245, 230, 0.4);
+      border-radius: 13px;
+      display: flex;
+      justify-content: center;
+      padding-top: 8px;
+    }
+
+    .hero-scroll-indicator .wheel-dot {
+      width: 4px;
+      height: 8px;
+      background: var(--naut-cream);
+      border-radius: 2px;
+      animation: scroll-bounce 1.5s ease-in-out infinite;
+    }
+
+    @keyframes scroll-bounce {
+      0%, 100% { transform: translateY(0); opacity: 1; }
+      50% { transform: translateY(10px); opacity: 0.3; }
+    }
+
+    @keyframes fade-up {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ========================================
+       SECTION BASE STYLES
+       ======================================== */
+    .section {
+      padding: 5rem 2rem;
+      position: relative;
+    }
+
+    .section-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .section-heading {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .section-heading h2 {
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      margin-bottom: 0.75rem;
+    }
+
+    .section-heading .heading-sub {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-weight: 400;
+      font-size: 1.1rem;
+      color: var(--naut-gray);
+      letter-spacing: 0.03em;
+    }
+
+    /* Rope divider decoration */
+    .rope-divider {
+      height: 0;
+      border: none;
+      border-top: 3px double var(--naut-rope);
+      margin: 0 auto;
+      width: 80px;
+    }
+
+    /* ========================================
+       WAVE SECTION DIVIDERS
+       ======================================== */
+    .wave-divider {
+      width: 100%;
+      height: 60px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .wave-divider.to-cream svg { fill: var(--naut-cream); }
+    .wave-divider.to-white svg { fill: var(--naut-white); }
+    .wave-divider.to-navy svg { fill: var(--naut-navy); }
+    .wave-divider.from-navy { background: var(--naut-navy); }
+    .wave-divider.from-cream { background: var(--naut-cream); }
+    .wave-divider.from-white { background: var(--naut-white); }
+
+    .wave-divider svg {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    /* ========================================
+       OVERVIEW SECTION (cream bg)
+       ======================================== */
+    .overview-section {
+      background: var(--naut-cream);
+    }
+
+    .overview-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: start;
+    }
+
+    .overview-text {
+      font-family: 'Source Serif 4', serif;
+      font-size: 1.05rem;
+      line-height: 1.9;
+    }
+
+    .overview-text p + p {
+      margin-top: 1.2rem;
+    }
+
+    .overview-aside {
+      background: var(--naut-white);
+      border: 2px solid var(--naut-navy);
+      border-radius: 4px;
+      padding: 2.5rem;
+      position: relative;
+    }
+
+    .overview-aside::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 5px;
+      background: repeating-linear-gradient(
+        90deg,
+        var(--naut-navy) 0px,
+        var(--naut-navy) 20px,
+        var(--naut-red) 20px,
+        var(--naut-red) 24px
+      );
+    }
+
+    .overview-aside h3 {
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+      padding-top: 0.5rem;
+    }
+
+    .keyword-list {
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .keyword-list li {
+      background: var(--naut-navy);
+      color: var(--naut-cream);
+      font-family: 'Oswald', sans-serif;
+      font-weight: 400;
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 0.35rem 0.8rem;
+      border-radius: 2px;
+    }
+
+    .keyword-list li.accent {
+      background: var(--naut-red);
+      color: var(--naut-white);
+    }
+
+    .keyword-list li.seafoam {
+      background: var(--naut-seafoam);
+      color: var(--naut-navy);
+    }
+
+    /* ========================================
+       VISUAL CHARACTERISTICS (white bg)
+       ======================================== */
+    .motifs-section {
+      background: var(--naut-white);
+    }
+
+    .motifs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .motif-item {
+      text-align: center;
+      padding: 2rem 1rem;
+      border: 1px solid rgba(27, 42, 74, 0.12);
+      border-radius: 4px;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .motif-item:hover {
+      border-color: var(--naut-navy);
+      transform: translateY(-4px);
+      box-shadow: 0 12px 32px rgba(10, 35, 66, 0.12);
+    }
+
+    .motif-icon {
+      font-size: 2rem;
+      margin-bottom: 0.75rem;
+      display: block;
+      color: var(--naut-navy);
+      opacity: 0.7;
+    }
+
+    .motif-item h4 {
+      font-family: 'Oswald', sans-serif;
+      font-size: 0.85rem;
+      letter-spacing: 0.12em;
+      margin-bottom: 0.4rem;
+    }
+
+    .motif-item p {
+      font-size: 0.85rem;
+      color: var(--naut-gray);
+      line-height: 1.5;
+    }
+
+    /* ========================================
+       COLOR PALETTE SECTION (navy bg)
+       ======================================== */
+    .palette-section {
+      background: var(--naut-navy);
+      color: var(--naut-cream);
+    }
+
+    .palette-section .section-heading h2 {
+      color: var(--naut-white);
+    }
+
+    .palette-section .heading-sub {
+      color: var(--naut-sky);
+    }
+
+    .palette-section .rope-divider {
+      border-color: var(--naut-brass);
+    }
+
+    .palette-display {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .swatch {
+      text-align: center;
+      opacity: 0;
+      animation: fade-up 0.6s ease forwards;
+    }
+
+    .swatch.visible {
+      opacity: 1;
+    }
+
+    .swatch-color {
+      width: 100%;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      margin-bottom: 0.75rem;
+      border: 3px solid rgba(253, 245, 230, 0.15);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      position: relative;
+    }
+
+    .swatch:hover .swatch-color {
+      transform: scale(1.1);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    }
+
+    /* Porthole effect on swatches */
+    .swatch-color::after {
+      content: '';
+      position: absolute;
+      inset: 4px;
+      border-radius: 50%;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .swatch-name {
+      font-family: 'Oswald', sans-serif;
+      font-weight: 400;
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--naut-cream);
+    }
+
+    .swatch-hex {
+      font-family: 'Special Elite', monospace;
+      font-size: 0.75rem;
+      color: var(--naut-gray);
+      margin-top: 0.25rem;
+    }
+
+    /* Color scheme approaches */
+    .approaches-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+
+    .approach-card {
+      padding: 1.5rem;
+      border-radius: 4px;
+      border: 1px solid rgba(253, 245, 230, 0.15);
+      transition: border-color 0.3s ease, transform 0.3s ease;
+    }
+
+    .approach-card:hover {
+      border-color: var(--naut-cyan);
+      transform: translateY(-3px);
+    }
+
+    .approach-card h4 {
+      font-family: 'Oswald', sans-serif;
+      font-size: 0.9rem;
+      letter-spacing: 0.1em;
+      color: var(--naut-cyan);
+      margin-bottom: 0.6rem;
+    }
+
+    .approach-card p {
+      font-size: 0.9rem;
+      color: rgba(253, 245, 230, 0.7);
+      line-height: 1.6;
+    }
+
+    /* ========================================
+       DESIGN PRINCIPLES (cream bg)
+       ======================================== */
+    .principles-section {
+      background: var(--naut-cream);
+    }
+
+    .principles-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+      list-style: none;
+    }
+
+    .principle-item {
+      display: flex;
+      gap: 1.2rem;
+      align-items: flex-start;
+    }
+
+    .principle-marker {
+      flex-shrink: 0;
+      width: 48px;
+      height: 48px;
+      background: var(--naut-navy);
+      color: var(--naut-white);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: 1.2rem;
+      border-radius: 50%;
+      border: 2px solid var(--naut-navy);
+      box-shadow: 0 0 0 3px var(--naut-cream), 0 0 0 5px var(--naut-driftwood);
+    }
+
+    .principle-content h4 {
+      font-size: 0.95rem;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.3rem;
+    }
+
+    .principle-content p {
+      font-size: 0.9rem;
+      color: var(--naut-driftwood);
+      line-height: 1.6;
+    }
+
+    /* ========================================
+       TYPOGRAPHY SECTION (white bg)
+       ======================================== */
+    .typography-section {
+      background: var(--naut-white);
+    }
+
+    .type-showcase {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      margin-top: 2rem;
+    }
+
+    .type-specimen {
+      padding: 2rem;
+      border: 1px solid rgba(27, 42, 74, 0.1);
+      border-radius: 4px;
+      transition: box-shadow 0.3s ease;
+    }
+
+    .type-specimen:hover {
+      box-shadow: 0 8px 30px rgba(10, 35, 66, 0.08);
+    }
+
+    .type-label {
+      font-family: 'Oswald', sans-serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--naut-red);
+      margin-bottom: 0.5rem;
+      display: inline-block;
+      background: var(--naut-pink);
+      padding: 0.2rem 0.6rem;
+      border-radius: 2px;
+    }
+
+    .type-sample-display {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.8rem;
+      font-weight: 900;
+      line-height: 1.1;
+      color: var(--naut-navy);
+      margin-bottom: 0.5rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .type-sample-heading {
+      font-family: 'Oswald', sans-serif;
+      font-size: 1.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--naut-navy);
+      margin-bottom: 0.5rem;
+    }
+
+    .type-sample-body {
+      font-family: 'Source Serif 4', serif;
+      font-size: 1rem;
+      line-height: 1.8;
+      color: var(--naut-navy);
+    }
+
+    .type-sample-slab {
+      font-family: 'Roboto Slab', serif;
+      font-size: 1.2rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      color: var(--naut-navy);
+      margin-bottom: 0.5rem;
+    }
+
+    .type-sample-logbook {
+      font-family: 'Special Elite', monospace;
+      font-size: 1rem;
+      line-height: 1.7;
+      color: var(--naut-driftwood);
+    }
+
+    .type-sample-ui {
+      font-family: 'Lato', sans-serif;
+      font-size: 0.95rem;
+      line-height: 1.7;
+      color: var(--naut-navy);
+    }
+
+    .type-meta {
+      font-family: 'Lato', sans-serif;
+      font-size: 0.78rem;
+      color: var(--naut-gray);
+      margin-top: 0.5rem;
+      letter-spacing: 0.02em;
+    }
+
+    /* ========================================
+       CSS TECHNIQUES SECTION (navy bg)
+       ======================================== */
+    .techniques-section {
+      background: var(--naut-navy);
+      color: var(--naut-cream);
+    }
+
+    .techniques-section .section-heading h2 {
+      color: var(--naut-white);
+    }
+
+    .techniques-section .heading-sub {
+      color: var(--naut-sky);
+    }
+
+    .techniques-section .rope-divider {
+      border-color: var(--naut-brass);
+    }
+
+    .tech-demos {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+
+    .tech-demo {
+      border: 1px solid rgba(253, 245, 230, 0.12);
+      border-radius: 4px;
+      overflow: hidden;
+      transition: border-color 0.3s ease;
+    }
+
+    .tech-demo:hover {
+      border-color: var(--naut-cyan);
+    }
+
+    .tech-demo-preview {
+      height: 160px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .tech-demo-info {
+      padding: 1.2rem;
+    }
+
+    .tech-demo-info h4 {
+      font-family: 'Oswald', sans-serif;
+      font-size: 0.85rem;
+      letter-spacing: 0.12em;
+      color: var(--naut-cyan);
+      margin-bottom: 0.4rem;
+    }
+
+    .tech-demo-info p {
+      font-size: 0.85rem;
+      color: rgba(253, 245, 230, 0.65);
+      line-height: 1.5;
+    }
+
+    /* Stripe demo */
+    .demo-stripes {
+      background: repeating-linear-gradient(
+        to bottom,
+        var(--naut-white) 0px,
+        var(--naut-white) 18px,
+        var(--naut-navy) 18px,
+        var(--naut-navy) 24px
+      );
+    }
+
+    /* Wave demo */
+    .demo-waves {
+      background: linear-gradient(180deg, #14305a 0%, #1e3456 100%);
+      display: flex;
+      align-items: flex-end;
+    }
+
+    .demo-waves svg {
+      width: 200%;
+      height: 60px;
+      animation: wave-drift 6s linear infinite;
+    }
+
+    /* Rope border demo */
+    .demo-rope {
+      background: var(--naut-cream);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .demo-rope-inner {
+      width: 70%;
+      height: 60%;
+      border: 4px solid var(--naut-rope);
+      border-image: repeating-linear-gradient(
+        45deg,
+        var(--naut-rope) 0px,
+        var(--naut-driftwood) 4px,
+        var(--naut-rope) 8px
+      ) 4;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      color: var(--naut-navy);
+      font-size: 1.1rem;
+    }
+
+    /* Porthole demo */
+    .demo-porthole {
+      background: var(--naut-deep-ocean);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .demo-porthole-ring {
+      width: 110px;
+      height: 110px;
+      border-radius: 50%;
+      border: 8px solid var(--naut-gray);
+      box-shadow:
+        inset 0 0 30px rgba(0, 180, 216, 0.2),
+        0 0 0 3px var(--naut-driftwood),
+        0 0 0 6px var(--naut-gray);
+      background: linear-gradient(135deg, var(--naut-sky), var(--naut-seafoam));
+      animation: porthole-glow 4s ease-in-out infinite;
+    }
+
+    @keyframes porthole-glow {
+      0%, 100% { box-shadow: inset 0 0 30px rgba(0, 180, 216, 0.2), 0 0 0 3px var(--naut-driftwood), 0 0 0 6px var(--naut-gray); }
+      50% { box-shadow: inset 0 0 40px rgba(0, 180, 216, 0.35), 0 0 0 3px var(--naut-driftwood), 0 0 0 6px var(--naut-gray), 0 0 20px rgba(0, 180, 216, 0.15); }
+    }
+
+    /* Compass demo */
+    .demo-compass {
+      background: var(--naut-cream);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .demo-compass-inner {
+      width: 100px;
+      height: 100px;
+      position: relative;
+      animation: compass-spin 20s linear infinite;
+    }
+
+    .demo-compass-inner::before,
+    .demo-compass-inner::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--naut-navy);
+      clip-path: polygon(50% 0%, 58% 42%, 100% 50%, 58% 58%, 50% 100%, 42% 58%, 0% 50%, 42% 42%);
+    }
+
+    .demo-compass-inner::after {
+      transform: rotate(45deg);
+      opacity: 0.4;
+    }
+
+    @keyframes compass-spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Shimmer demo */
+    .demo-shimmer {
+      background: linear-gradient(
+        135deg,
+        var(--naut-sky) 0%,
+        var(--naut-seafoam) 25%,
+        var(--naut-cyan) 50%,
+        var(--naut-pink) 75%,
+        var(--naut-sky) 100%
+      );
+      background-size: 200% 200%;
+      animation: naut-shimmer 6s ease-in-out infinite;
+    }
+
+    @keyframes naut-shimmer {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* ========================================
+       SUB-STYLES SECTION (cream bg)
+       ======================================== */
+    .substyles-section {
+      background: var(--naut-cream);
+    }
+
+    .substyles-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .substyle-card {
+      background: var(--naut-white);
+      border: 2px solid var(--naut-navy);
+      border-radius: 4px;
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .substyle-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 16px 40px rgba(10, 35, 66, 0.15);
+    }
+
+    .substyle-header {
+      padding: 1.2rem 1.5rem;
+      position: relative;
+    }
+
+    .substyle-classic .substyle-header {
+      background: var(--naut-navy);
+      color: var(--naut-white);
+    }
+
+    .substyle-coastal .substyle-header {
+      background: linear-gradient(135deg, var(--naut-sky), var(--naut-seafoam));
+      color: var(--naut-navy);
+    }
+
+    .substyle-dark .substyle-header {
+      background: var(--naut-deep-ocean);
+      color: var(--naut-gray);
+    }
+
+    .substyle-preppy .substyle-header {
+      background: var(--naut-white);
+      color: var(--naut-navy);
+      border-bottom: 4px solid var(--naut-red);
+    }
+
+    .substyle-header h4 {
+      font-family: 'Oswald', sans-serif;
+      font-size: 1rem;
+      letter-spacing: 0.12em;
+    }
+
+    .substyle-classic .substyle-header h4 { color: var(--naut-white); }
+    .substyle-coastal .substyle-header h4 { color: var(--naut-navy); }
+    .substyle-dark .substyle-header h4 { color: var(--naut-cream); }
+    .substyle-preppy .substyle-header h4 { color: var(--naut-navy); }
+
+    .substyle-body {
+      padding: 1.5rem;
+    }
+
+    .substyle-body p {
+      font-size: 0.9rem;
+      line-height: 1.6;
+      color: var(--naut-driftwood);
+    }
+
+    .substyle-swatches {
+      display: flex;
+      gap: 0.4rem;
+      margin-top: 1rem;
+    }
+
+    .substyle-swatches span {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      border: 1px solid rgba(27, 42, 74, 0.15);
+    }
+
+    /* ========================================
+       MATERIALS SECTION (white bg)
+       ======================================== */
+    .materials-section {
+      background: var(--naut-white);
+    }
+
+    .materials-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 2rem;
+      font-size: 0.9rem;
+    }
+
+    .materials-table thead th {
+      background: var(--naut-navy);
+      color: var(--naut-cream);
+      font-family: 'Oswald', sans-serif;
+      font-weight: 400;
+      font-size: 0.8rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 0.8rem 1.2rem;
+      text-align: left;
+    }
+
+    .materials-table tbody td {
+      padding: 0.8rem 1.2rem;
+      border-bottom: 1px solid rgba(27, 42, 74, 0.08);
+      vertical-align: top;
+    }
+
+    .materials-table tbody tr:nth-child(even) {
+      background: var(--naut-cream);
+    }
+
+    .materials-table tbody tr:hover {
+      background: rgba(135, 206, 235, 0.1);
+    }
+
+    .materials-table td:first-child {
+      font-family: 'Oswald', sans-serif;
+      font-weight: 500;
+      font-size: 0.85rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--naut-navy);
+      white-space: nowrap;
+    }
+
+    .materials-table td:nth-child(2) {
+      color: var(--naut-driftwood);
+    }
+
+    /* ========================================
+       RELATED AESTHETICS (navy bg)
+       ======================================== */
+    .related-section {
+      background: var(--naut-navy);
+      color: var(--naut-cream);
+    }
+
+    .related-section .section-heading h2 {
+      color: var(--naut-white);
+    }
+
+    .related-section .heading-sub {
+      color: var(--naut-sky);
+    }
+
+    .related-section .rope-divider {
+      border-color: var(--naut-brass);
+    }
+
+    .related-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .related-item {
+      padding: 1.2rem;
+      border: 1px solid rgba(253, 245, 230, 0.1);
+      border-radius: 4px;
+      transition: all 0.3s ease;
+    }
+
+    .related-item:hover {
+      border-color: var(--naut-cyan);
+      background: rgba(253, 245, 230, 0.03);
+    }
+
+    .related-item h4 {
+      font-family: 'Oswald', sans-serif;
+      font-size: 0.8rem;
+      letter-spacing: 0.12em;
+      color: var(--naut-sky);
+      margin-bottom: 0.4rem;
+    }
+
+    .related-item p {
+      font-size: 0.82rem;
+      color: rgba(253, 245, 230, 0.55);
+      line-height: 1.5;
+    }
+
+    /* ========================================
+       PENNANT LABELS
+       ======================================== */
+    .pennant {
+      display: inline-block;
+      background: var(--naut-red);
+      color: var(--naut-white);
+      padding: 0.4rem 1.5rem 0.4rem 0.8rem;
+      font-family: 'Oswald', sans-serif;
+      font-weight: 400;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      clip-path: polygon(0 0, 90% 0, 100% 50%, 90% 100%, 0 100%);
+      margin-bottom: 1rem;
+    }
+
+    /* ========================================
+       FOOTER
+       ======================================== */
+    .footer-wave {
+      background: var(--naut-cream);
+      height: 60px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .footer-wave svg {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    footer {
+      background: var(--naut-deep-ocean);
+      color: var(--naut-cream);
+      text-align: center;
+      padding: 3rem 2rem;
+      position: relative;
+    }
+
+    .footer-compass {
+      width: 60px;
+      height: 60px;
+      margin: 0 auto 1.5rem;
+      position: relative;
+      opacity: 0.3;
+    }
+
+    .footer-compass::before,
+    .footer-compass::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--naut-cream);
+      clip-path: polygon(50% 0%, 58% 42%, 100% 50%, 58% 58%, 50% 100%, 42% 58%, 0% 50%, 42% 42%);
+    }
+
+    .footer-compass::after {
+      transform: rotate(45deg);
+      opacity: 0.5;
+    }
+
+    footer h3 {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: 1.3rem;
+      letter-spacing: 0.08em;
+      color: var(--naut-white);
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+
+    footer p {
+      font-family: 'Source Serif 4', serif;
+      font-weight: 300;
+      font-style: italic;
+      font-size: 0.95rem;
+      color: var(--naut-gray);
+      margin-bottom: 0.3rem;
+    }
+
+    .footer-rope {
+      width: 60px;
+      margin: 1.5rem auto;
+      border: none;
+      border-top: 3px double var(--naut-brass);
+    }
+
+    .footer-note {
+      font-family: 'Lato', sans-serif;
+      font-weight: 300;
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      color: var(--naut-gray);
+      text-transform: uppercase;
+    }
+
+    /* ========================================
+       ANIMATED LIGHTHOUSE (hero decoration)
+       ======================================== */
+    .lighthouse-container {
+      position: absolute;
+      right: 8%;
+      bottom: 130px;
+      width: 60px;
+      height: 200px;
+      opacity: 0.12;
+      z-index: 1;
+    }
+
+    .lighthouse-beam {
+      position: absolute;
+      top: 10px;
+      left: 50%;
+      width: 4px;
+      height: 4px;
+      background: var(--naut-cream);
+      border-radius: 50%;
+    }
+
+    .lighthouse-beam::before {
+      content: '';
+      position: absolute;
+      top: -2px;
+      left: -60px;
+      width: 120px;
+      height: 8px;
+      background: linear-gradient(90deg, transparent, rgba(253, 245, 230, 0.6), transparent);
+      transform-origin: 62px center;
+      animation: lighthouse-sweep 6s ease-in-out infinite;
+    }
+
+    @keyframes lighthouse-sweep {
+      0% { transform: rotate(-30deg); }
+      50% { transform: rotate(30deg); }
+      100% { transform: rotate(-30deg); }
+    }
+
+    .lighthouse-tower {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 20px;
+      height: 120px;
+      background: repeating-linear-gradient(
+        to bottom,
+        var(--naut-white) 0px,
+        var(--naut-white) 15px,
+        var(--naut-red) 15px,
+        var(--naut-red) 30px
+      );
+      clip-path: polygon(15% 0%, 85% 0%, 100% 100%, 0% 100%);
+    }
+
+    /* ========================================
+       SCROLL ANIMATIONS
+       ======================================== */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+
+    /* ========================================
+       RESPONSIVE
+       ======================================== */
+    @media (max-width: 768px) {
+      nav .nav-links {
+        display: none;
+      }
+
+      .overview-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .type-showcase {
+        grid-template-columns: 1fr;
+      }
+
+      .motifs-grid {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      }
+
+      .lighthouse-container {
+        display: none;
+      }
+
+      .section {
+        padding: 3.5rem 1.5rem;
+      }
+
+      .hero {
+        padding: 5rem 1.5rem 3rem;
+      }
+
+      .materials-table {
+        font-size: 0.8rem;
+      }
+
+      .materials-table thead th,
+      .materials-table tbody td {
+        padding: 0.6rem 0.8rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .palette-display {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .substyles-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .related-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .approaches-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Fixed top stripe -->
+  <div class="top-stripe"></div>
+
+  <!-- Navigation -->
+  <nav>
+    <div class="logo">
+      <span class="anchor-icon">&#9875;</span>
+      Nautical
+    </div>
+    <ul class="nav-links">
+      <li><a href="#overview">Overview</a></li>
+      <li><a href="#motifs">Motifs</a></li>
+      <li><a href="#palette">Palette</a></li>
+      <li><a href="#principles">Principles</a></li>
+      <li><a href="#typography">Typography</a></li>
+      <li><a href="#techniques">Techniques</a></li>
+      <li><a href="#substyles">Variations</a></li>
+    </ul>
+  </nav>
+
+  <!-- ============ HERO ============ -->
+  <section class="hero">
+    <!-- Background decorations -->
+    <div class="hero-stars" id="heroStars"></div>
+    <div class="hero-compass"></div>
+
+    <!-- Lighthouse decoration -->
+    <div class="lighthouse-container">
+      <div class="lighthouse-beam"></div>
+      <div class="lighthouse-tower"></div>
+    </div>
+
+    <!-- Content -->
+    <div class="hero-content">
+      <p class="hero-tagline">A Design Aesthetic Reference</p>
+      <h1 class="display-heading">Nautical</h1>
+      <p class="hero-subtitle">Serenity, Simplicity &amp; the Working Sea</p>
+      <hr class="hero-divider">
+      <p class="hero-desc">
+        An aesthetic centered around sailing, maritime life, and living near the sea.
+        Rocky coastlines, harbors, lighthouses, and the open water -- where naval discipline
+        meets coastal ease.
+      </p>
+    </div>
+
+    <!-- Scroll indicator -->
+    <div class="hero-scroll-indicator">
+      <div class="wheel">
+        <div class="wheel-dot"></div>
+      </div>
+    </div>
+
+    <!-- Animated waves -->
+    <div class="hero-waves">
+      <svg class="wave-1" viewBox="0 0 2880 60" preserveAspectRatio="none">
+        <path fill="#fdf5e6" d="M0,30 C240,50 480,10 720,30 C960,50 1200,10 1440,30 C1680,50 1920,10 2160,30 C2400,50 2640,10 2880,30 L2880,60 L0,60 Z"/>
+      </svg>
+      <svg class="wave-2" viewBox="0 0 2880 60" preserveAspectRatio="none">
+        <path fill="#fdf5e6" d="M0,40 C360,20 720,50 1080,30 C1440,10 1800,45 2160,25 C2520,5 2700,40 2880,30 L2880,60 L0,60 Z"/>
+      </svg>
+      <svg class="wave-3" viewBox="0 0 2880 60" preserveAspectRatio="none">
+        <path fill="#fdf5e6" d="M0,35 C180,55 360,15 540,35 C720,55 900,15 1080,35 C1260,55 1440,15 1620,35 C1800,55 1980,15 2160,35 C2340,55 2520,15 2700,35 C2880,55 2880,60 2880,60 L0,60 Z"/>
+      </svg>
+    </div>
+  </section>
+
+  <!-- ============ OVERVIEW ============ -->
+  <section class="section overview-section" id="overview">
+    <div class="section-inner">
+      <div class="section-heading reveal">
+        <span class="pennant">Maritime Heritage</span>
+        <h2>What is Nautical?</h2>
+        <hr class="rope-divider">
+        <p class="heading-sub">Also known as Sailorcore, Navy, or Marine</p>
+      </div>
+
+      <div class="overview-grid">
+        <div class="overview-text reveal reveal-delay-1">
+          <p>
+            Nautical is an aesthetic centered around sailing, maritime life, and living near the sea.
+            It represents <strong>serenity, simplicity, environmentalism</strong>, and an
+            <strong>appreciation of nature</strong> -- specifically the ocean, coastline, and seafaring
+            tradition. The style draws from life on boats, in lighthouses, along rocky coasts and docks,
+            evoking the calm and adventure of the open water.
+          </p>
+          <p>
+            It is distinct from Tropical aesthetics, which focus on warm sandy beaches; Nautical
+            emphasizes <strong>rocky coastlines, harbors, lighthouses, and the working sea</strong>.
+            The visual language borrows from naval uniforms, signal flags, navigation instruments,
+            and the functional beauty of maritime craft.
+          </p>
+          <p>
+            At its core, the Nautical aesthetic balances two complementary forces: the crisp
+            discipline of naval tradition and the relaxed ease of coastal living. This tension
+            produces designs that are simultaneously orderly and inviting, structured yet breezy.
+          </p>
+        </div>
+
+        <div class="overview-aside reveal reveal-delay-2">
+          <h3>Core Qualities</h3>
+          <ul class="keyword-list">
+            <li>Serenity</li>
+            <li>Simplicity</li>
+            <li class="seafoam">Environmentalism</li>
+            <li>Maritime Tradition</li>
+            <li class="accent">Adventure</li>
+            <li>Coastal Living</li>
+            <li>Naval Discipline</li>
+            <li class="seafoam">Nature</li>
+            <li>Open Water</li>
+            <li class="accent">Seafaring</li>
+            <li>Rocky Coastlines</li>
+            <li>Harbors</li>
+            <li>Lighthouses</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ VISUAL MOTIFS ============ -->
+  <div class="wave-divider from-cream to-white">
+    <svg viewBox="0 0 1440 60" preserveAspectRatio="none">
+      <path d="M0,30 C360,55 720,5 1080,30 C1260,42 1350,25 1440,30 L1440,60 L0,60 Z"/>
+    </svg>
+  </div>
+
+  <section class="section motifs-section" id="motifs">
+    <div class="section-inner">
+      <div class="section-heading reveal">
+        <span class="pennant">Visual Language</span>
+        <h2>Core Motifs &amp; Patterns</h2>
+        <hr class="rope-divider">
+        <p class="heading-sub">The iconic symbols of maritime design</p>
+      </div>
+
+      <div class="motifs-grid">
+        <div class="motif-item reveal">
+          <span class="motif-icon">&#9781;</span>
+          <h4>Nautical Stripes</h4>
+          <p>Navy and white horizontal striping from Breton sailor shirts</p>
+        </div>
+        <div class="motif-item reveal reveal-delay-1">
+          <span class="motif-icon">&#9875;</span>
+          <h4>Anchors</h4>
+          <p>Universal nautical symbol as decorative accents and focal elements</p>
+        </div>
+        <div class="motif-item reveal reveal-delay-2">
+          <span class="motif-icon">&#9784;</span>
+          <h4>Ship Wheels</h4>
+          <p>Helms as centerpieces and ornamental dividers</p>
+        </div>
+        <div class="motif-item reveal reveal-delay-3">
+          <span class="motif-icon">&#9733;</span>
+          <h4>Lighthouses</h4>
+          <p>Striped coastal beacons -- the signature Nautical icon</p>
+        </div>
+        <div class="motif-item reveal">
+          <span class="motif-icon">&#9973;</span>
+          <h4>Sailing Vessels</h4>
+          <p>Sailboats, schooners, and tall ships with billowing sails</p>
+        </div>
+        <div class="motif-item reveal reveal-delay-1">
+          <span class="motif-icon">&#8734;</span>
+          <h4>Rope &amp; Knots</h4>
+          <p>Nautical rope borders, sailor's knots, and coiled cordage</p>
+        </div>
+        <div class="motif-item reveal reveal-delay-2">
+          <span class="motif-icon">&#9678;</span>
+          <h4>Compass Roses</h4>
+          <p>Navigation instruments and directional star patterns</p>
+        </div>
+        <div class="motif-item reveal reveal-delay-3">
+          <span class="motif-icon">&#9826;</span>
+          <h4>Signal Flags</h4>
+          <p>Maritime pennant bunting and signal flag patterns</p>
+        </div>
+        <div class="motif-item reveal">
+          <span class="motif-icon">&#8776;</span>
+          <h4>Waves</h4>
+          <p>Stylized ocean swells, whitecaps, and rippling water</p>
+        </div>
+        <div class="motif-item reveal reveal-delay-1">
+          <span class="motif-icon">&#9055;</span>
+          <h4>Sea Life</h4>
+          <p>Dolphins, starfish, shells, seahorses, and seagulls</p>
+        </div>
+        <div class="motif-item reveal reveal-delay-2">
+          <span class="motif-icon">&#9632;</span>
+          <h4>Docks</h4>
+          <p>Weathered wood planking, pilings, and mooring posts</p>
+        </div>
+        <div class="motif-item reveal reveal-delay-3">
+          <span class="motif-icon">&#9734;</span>
+          <h4>Navigation Stars</h4>
+          <p>Five-pointed stars common in coastal home decor</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ COLOR PALETTE ============ -->
+  <div class="wave-divider from-white to-navy">
+    <svg viewBox="0 0 1440 60" preserveAspectRatio="none">
+      <path d="M0,25 C480,55 960,5 1440,35 L1440,60 L0,60 Z"/>
+    </svg>
+  </div>
+
+  <section class="section palette-section" id="palette">
+    <div class="section-inner">
+      <div class="section-heading reveal">
+        <span class="pennant">Signal Colors</span>
+        <h2>Color Palette</h2>
+        <hr class="rope-divider">
+        <p class="heading-sub">The maritime spectrum from deep ocean to coastal sunrise</p>
+      </div>
+
+      <div class="palette-display reveal">
+        <div class="swatch">
+          <div class="swatch-color" style="background: #1b2a4a;"></div>
+          <div class="swatch-name">Navy Blue</div>
+          <div class="swatch-hex">#1B2A4A</div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background: #0a2342;"></div>
+          <div class="swatch-name">Deep Ocean</div>
+          <div class="swatch-hex">#0A2342</div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background: #2563a8;"></div>
+          <div class="swatch-name">Blue</div>
+          <div class="swatch-hex">#2563A8</div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background: #87ceeb;"></div>
+          <div class="swatch-name">Sky Blue</div>
+          <div class="swatch-hex">#87CEEB</div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background: #93c5b6;"></div>
+          <div class="swatch-name">Seafoam</div>
+          <div class="swatch-hex">#93C5B6</div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background: #00b4d8;"></div>
+          <div class="swatch-name">Cyan</div>
+          <div class="swatch-hex">#00B4D8</div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background: #c8102e;"></div>
+          <div class="swatch-name">Signal Red</div>
+          <div class="swatch-hex">#C8102E</div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background: #ffffff; border-color: rgba(27,42,74,0.2);"></div>
+          <div class="swatch-name">White</div>
+          <div class="swatch-hex">#FFFFFF</div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background: #fdf5e6;"></div>
+          <div class="swatch-name">Cream</div>
+          <div class="swatch-hex">#FDF5E6</div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background: #c2b280;"></div>
+          <div class="swatch-name">Sand</div>
+          <div class="swatch-hex">#C2B280</div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background: #8b7355;"></div>
+          <div class="swatch-name">Driftwood</div>
+          <div class="swatch-hex">#8B7355</div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background: #8e9aaf;"></div>
+          <div class="swatch-name">Weathered Gray</div>
+          <div class="swatch-hex">#8E9AAF</div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background: #b5832a;"></div>
+          <div class="swatch-name">Brass Gold</div>
+          <div class="swatch-hex">#B5832A</div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background: #c4a36e;"></div>
+          <div class="swatch-name">Rope Tan</div>
+          <div class="swatch-hex">#C4A36E</div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background: #f8d7da;"></div>
+          <div class="swatch-name">Light Pink</div>
+          <div class="swatch-hex">#F8D7DA</div>
+        </div>
+      </div>
+
+      <!-- Approaches -->
+      <div class="approaches-grid reveal">
+        <div class="approach-card">
+          <h4>Light Base with Navy Accents</h4>
+          <p>White or cream backgrounds with navy headings, borders, and striping -- the most classic approach.</p>
+        </div>
+        <div class="approach-card">
+          <h4>Dark Base with Light Accents</h4>
+          <p>Deep ocean or navy background with white and cyan text -- dramatic, nighttime-at-sea mood.</p>
+        </div>
+        <div class="approach-card">
+          <h4>High-Contrast Tricolor</h4>
+          <p>Navy, white, and red used in strong blocks -- signal flag and uniform aesthetic.</p>
+        </div>
+        <div class="approach-card">
+          <h4>Coastal Warm</h4>
+          <p>Cream and sand tones with seafoam and sky blue accents -- relaxed beach house feel.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ DESIGN PRINCIPLES ============ -->
+  <div class="wave-divider from-navy to-cream">
+    <svg viewBox="0 0 1440 60" preserveAspectRatio="none">
+      <path d="M0,20 C360,50 720,10 1080,35 C1260,48 1350,25 1440,30 L1440,60 L0,60 Z"/>
+    </svg>
+  </div>
+
+  <section class="section principles-section" id="principles">
+    <div class="section-inner">
+      <div class="section-heading reveal">
+        <span class="pennant">Ship's Orders</span>
+        <h2>Design Principles</h2>
+        <hr class="rope-divider">
+        <p class="heading-sub">The guiding rules of Nautical composition</p>
+      </div>
+
+      <ul class="principles-list">
+        <li class="principle-item reveal">
+          <div class="principle-marker">I</div>
+          <div class="principle-content">
+            <h4>Clean &amp; Crisp</h4>
+            <p>Sharp, orderly composition reflecting naval discipline and uniform tradition.</p>
+          </div>
+        </li>
+        <li class="principle-item reveal reveal-delay-1">
+          <div class="principle-marker">II</div>
+          <div class="principle-content">
+            <h4>Horizontal Emphasis</h4>
+            <p>Echoing the horizon line where sea meets sky; stripe patterns reinforce this direction.</p>
+          </div>
+        </li>
+        <li class="principle-item reveal reveal-delay-2">
+          <div class="principle-marker">III</div>
+          <div class="principle-content">
+            <h4>Relaxed yet Structured</h4>
+            <p>A balance between casual coastal ease and maritime order.</p>
+          </div>
+        </li>
+        <li class="principle-item reveal reveal-delay-3">
+          <div class="principle-marker">IV</div>
+          <div class="principle-content">
+            <h4>Natural Light &amp; Airiness</h4>
+            <p>Open, bright compositions suggesting sea breezes and sunlit coasts.</p>
+          </div>
+        </li>
+        <li class="principle-item reveal">
+          <div class="principle-marker">V</div>
+          <div class="principle-content">
+            <h4>Weathered Character</h4>
+            <p>Subtle age and patina conveying time spent at sea without looking distressed.</p>
+          </div>
+        </li>
+        <li class="principle-item reveal reveal-delay-1">
+          <div class="principle-marker">VI</div>
+          <div class="principle-content">
+            <h4>Symmetrical Balance</h4>
+            <p>Evoking the measured, functional design of ships and navigational charts.</p>
+          </div>
+        </li>
+        <li class="principle-item reveal reveal-delay-2">
+          <div class="principle-marker">VII</div>
+          <div class="principle-content">
+            <h4>Strong Contrast</h4>
+            <p>Navy on white, red on white; the high-contrast palette of signal flags and uniforms.</p>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============ TYPOGRAPHY ============ -->
+  <div class="wave-divider from-cream to-white">
+    <svg viewBox="0 0 1440 60" preserveAspectRatio="none">
+      <path d="M0,35 C240,10 480,50 720,25 C960,0 1200,45 1440,20 L1440,60 L0,60 Z"/>
+    </svg>
+  </div>
+
+  <section class="section typography-section" id="typography">
+    <div class="section-inner">
+      <div class="section-heading reveal">
+        <span class="pennant">Ship's Lettering</span>
+        <h2>Typography</h2>
+        <hr class="rope-divider">
+        <p class="heading-sub">Naval precision meets coastal charm</p>
+      </div>
+
+      <div class="type-showcase">
+        <div class="type-specimen reveal">
+          <span class="type-label">Display / Hero</span>
+          <div class="type-sample-display">Playfair Display</div>
+          <p class="type-meta">Elegant transitional serif -- used for hero text, feature titles, and display headings. Evokes engraved ship names and maritime tradition.</p>
+        </div>
+
+        <div class="type-specimen reveal reveal-delay-1">
+          <span class="type-label">Headlines</span>
+          <div class="type-sample-heading">Oswald Bold</div>
+          <p class="type-meta">Condensed sans-serif -- used for headings, section titles, and labels. References naval signage and harbor markings.</p>
+        </div>
+
+        <div class="type-specimen reveal">
+          <span class="type-label">Body Text</span>
+          <p class="type-sample-body">The calm waters of the harbor reflected the last light of evening, as lanterns were lit along the dock and the rigging creaked softly in the salt breeze.</p>
+          <p class="type-meta">Source Serif 4 -- clean, readable serif for body text and paragraphs. Crisp and functional like logbook entries.</p>
+        </div>
+
+        <div class="type-specimen reveal reveal-delay-1">
+          <span class="type-label">UI / Interface</span>
+          <p class="type-sample-ui">Lato is a clean humanist sans-serif used for body text, UI elements, navigation, and functional interface components throughout the design system.</p>
+          <p class="type-meta">Lato -- versatile humanist sans-serif for interactive elements and secondary body text.</p>
+        </div>
+
+        <div class="type-specimen reveal">
+          <span class="type-label">Subheadings</span>
+          <div class="type-sample-slab">Roboto Slab -- Sturdy &amp; Maritime</div>
+          <p class="type-meta">Slab serif -- used for subheadings and captions. References dock signage and cargo markings.</p>
+        </div>
+
+        <div class="type-specimen reveal reveal-delay-1">
+          <span class="type-label">Decorative / Logbook</span>
+          <p class="type-sample-logbook">Captain's Log, Day 47: Fair winds and following seas. The lighthouse at Cape Horn visible on the starboard bow at dawn.</p>
+          <p class="type-meta">Special Elite -- typewriter style for decorative text and logbook references. Adds vintage character.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CSS TECHNIQUES ============ -->
+  <div class="wave-divider from-white to-navy">
+    <svg viewBox="0 0 1440 60" preserveAspectRatio="none">
+      <path d="M0,30 C360,55 720,5 1080,30 C1260,42 1350,18 1440,25 L1440,60 L0,60 Z"/>
+    </svg>
+  </div>
+
+  <section class="section techniques-section" id="techniques">
+    <div class="section-inner">
+      <div class="section-heading reveal">
+        <span class="pennant">Craft &amp; Code</span>
+        <h2>CSS Techniques</h2>
+        <hr class="rope-divider">
+        <p class="heading-sub">Live demonstrations of Nautical design patterns</p>
+      </div>
+
+      <div class="tech-demos">
+        <div class="tech-demo reveal">
+          <div class="tech-demo-preview demo-stripes"></div>
+          <div class="tech-demo-info">
+            <h4>Breton Stripes</h4>
+            <p>Classic horizontal striping in navy and white, referencing the iconic Breton sailor shirt pattern.</p>
+          </div>
+        </div>
+
+        <div class="tech-demo reveal reveal-delay-1">
+          <div class="tech-demo-preview demo-waves">
+            <svg viewBox="0 0 2880 60" preserveAspectRatio="none" style="height:100%;opacity:0.6;">
+              <path fill="#87ceeb" d="M0,30 C240,50 480,10 720,30 C960,50 1200,10 1440,30 C1680,50 1920,10 2160,30 C2400,50 2640,10 2880,30 L2880,60 L0,60 Z"/>
+            </svg>
+          </div>
+          <div class="tech-demo-info">
+            <h4>Animated Waves</h4>
+            <p>CSS-animated SVG wave patterns for section dividers and decorative backgrounds.</p>
+          </div>
+        </div>
+
+        <div class="tech-demo reveal reveal-delay-2">
+          <div class="tech-demo-preview demo-rope">
+            <div class="demo-rope-inner">Rope Border</div>
+          </div>
+          <div class="tech-demo-info">
+            <h4>Rope Border</h4>
+            <p>Twisted rope-style border using repeating linear gradients at 45 degrees.</p>
+          </div>
+        </div>
+
+        <div class="tech-demo reveal">
+          <div class="tech-demo-preview demo-porthole">
+            <div class="demo-porthole-ring"></div>
+          </div>
+          <div class="tech-demo-info">
+            <h4>Porthole Frame</h4>
+            <p>Circular porthole image frame with metallic ring, bolts, and inner glow effects.</p>
+          </div>
+        </div>
+
+        <div class="tech-demo reveal reveal-delay-1">
+          <div class="tech-demo-preview demo-compass">
+            <div class="demo-compass-inner"></div>
+          </div>
+          <div class="tech-demo-info">
+            <h4>Compass Rose</h4>
+            <p>Pure CSS compass rose using clip-path polygons with subtle rotation animation.</p>
+          </div>
+        </div>
+
+        <div class="tech-demo reveal reveal-delay-2">
+          <div class="tech-demo-preview demo-shimmer"></div>
+          <div class="tech-demo-info">
+            <h4>Water Shimmer</h4>
+            <p>Iridescent gradient animation mimicking light playing on water surfaces.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SUB-STYLES ============ -->
+  <div class="wave-divider from-navy to-cream">
+    <svg viewBox="0 0 1440 60" preserveAspectRatio="none">
+      <path d="M0,25 C480,50 960,10 1440,35 L1440,60 L0,60 Z"/>
+    </svg>
+  </div>
+
+  <section class="section substyles-section" id="substyles">
+    <div class="section-inner">
+      <div class="section-heading reveal">
+        <span class="pennant">Variations</span>
+        <h2>Sub-styles &amp; Variations</h2>
+        <hr class="rope-divider">
+        <p class="heading-sub">Four interpretations of the maritime aesthetic</p>
+      </div>
+
+      <div class="substyles-grid">
+        <div class="substyle-card substyle-classic reveal">
+          <div class="substyle-header">
+            <h4>Classic Nautical</h4>
+          </div>
+          <div class="substyle-body">
+            <p>Traditional maritime aesthetic rooted in naval uniforms and tall ships. Navy, white, and red tricolor palette with crisp stripes, brass accents, and polished wood. Formal and orderly -- the aesthetic of yacht clubs and naval officers.</p>
+            <div class="substyle-swatches">
+              <span style="background: #1b2a4a;"></span>
+              <span style="background: #ffffff;"></span>
+              <span style="background: #c8102e;"></span>
+              <span style="background: #b5832a;"></span>
+              <span style="background: #8b7355;"></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="substyle-card substyle-coastal reveal reveal-delay-1">
+          <div class="substyle-header">
+            <h4>Coastal / Beach House</h4>
+          </div>
+          <div class="substyle-body">
+            <p>Relaxed, lighter interpretation focused on shore life. Softer palette with sky blue, seafoam, cream, sand, and driftwood. Weathered and whitewashed textures. Shell and starfish motifs replace anchors and compasses.</p>
+            <div class="substyle-swatches">
+              <span style="background: #87ceeb;"></span>
+              <span style="background: #93c5b6;"></span>
+              <span style="background: #fdf5e6;"></span>
+              <span style="background: #c2b280;"></span>
+              <span style="background: #8b7355;"></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="substyle-card substyle-dark reveal reveal-delay-2">
+          <div class="substyle-header">
+            <h4>Dark Nautical</h4>
+          </div>
+          <div class="substyle-body">
+            <p>A moodier, more dramatic variant. Deep ocean blues, stormy grays, and near-black backgrounds. References night sailing, shipwrecks, and the deep sea. Heavier use of rope and aged wood textures. Can overlap with the Pirate aesthetic.</p>
+            <div class="substyle-swatches">
+              <span style="background: #0a2342;"></span>
+              <span style="background: #14305a;"></span>
+              <span style="background: #8e9aaf;"></span>
+              <span style="background: #8b7355;"></span>
+              <span style="background: #c4a36e;"></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="substyle-card substyle-preppy reveal reveal-delay-3">
+          <div class="substyle-header">
+            <h4>Preppy Nautical</h4>
+          </div>
+          <div class="substyle-body">
+            <p>Nautical filtered through prep school and resort-wear culture. Bright, clean palette with navy, white, and bold accent colors. Monogrammed elements and cable-knit patterns. Polished and affluent -- the aesthetic of regattas and New England summers.</p>
+            <div class="substyle-swatches">
+              <span style="background: #1b2a4a;"></span>
+              <span style="background: #ffffff;"></span>
+              <span style="background: #c8102e;"></span>
+              <span style="background: #2e8b57;"></span>
+              <span style="background: #ffd700;"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ MATERIALS ============ -->
+  <div class="wave-divider from-cream to-white">
+    <svg viewBox="0 0 1440 60" preserveAspectRatio="none">
+      <path d="M0,30 C360,55 720,5 1080,30 C1260,42 1350,25 1440,30 L1440,60 L0,60 Z"/>
+    </svg>
+  </div>
+
+  <section class="section materials-section" id="materials">
+    <div class="section-inner">
+      <div class="section-heading reveal">
+        <span class="pennant">Tactile Craft</span>
+        <h2>Materials &amp; Textures</h2>
+        <hr class="rope-divider">
+        <p class="heading-sub">Physical materials and their web design equivalents</p>
+      </div>
+
+      <div class="reveal">
+        <table class="materials-table">
+          <thead>
+            <tr>
+              <th>Physical Material</th>
+              <th>Web Equivalent</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Weathered Wood</td>
+              <td>Warm brown-gray textured backgrounds with plank-line patterns</td>
+            </tr>
+            <tr>
+              <td>Canvas / Sail Cloth</td>
+              <td>Off-white or cream backgrounds with very subtle woven texture</td>
+            </tr>
+            <tr>
+              <td>Brass Fittings</td>
+              <td>Warm gold-brown gradient accents for buttons, icons, borders</td>
+            </tr>
+            <tr>
+              <td>Rope / Cordage</td>
+              <td>Twisted double-line borders, tan/brown textured dividers</td>
+            </tr>
+            <tr>
+              <td>Sea Glass</td>
+              <td>Translucent frosted blue-green overlays, glass-morphism panels</td>
+            </tr>
+            <tr>
+              <td>Whitewashed Wood</td>
+              <td>Pale, nearly-white surfaces with faint grain showing through</td>
+            </tr>
+            <tr>
+              <td>Polished Teak</td>
+              <td>Rich warm-brown surfaces with horizontal line patterns</td>
+            </tr>
+            <tr>
+              <td>Ship Hull Paint</td>
+              <td>Deep, flat navy backgrounds -- solid and authoritative</td>
+            </tr>
+            <tr>
+              <td>Linen / Cotton</td>
+              <td>Light cream with minimal noise texture for backgrounds</td>
+            </tr>
+            <tr>
+              <td>Oxidized Copper</td>
+              <td>Muted seafoam green accent details on metal-like elements</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ RELATED AESTHETICS ============ -->
+  <div class="wave-divider from-white to-navy">
+    <svg viewBox="0 0 1440 60" preserveAspectRatio="none">
+      <path d="M0,20 C240,50 480,10 720,40 C960,10 1200,45 1440,20 L1440,60 L0,60 Z"/>
+    </svg>
+  </div>
+
+  <section class="section related-section" id="related">
+    <div class="section-inner">
+      <div class="section-heading reveal">
+        <span class="pennant">Fleet Companions</span>
+        <h2>Related Aesthetics</h2>
+        <hr class="rope-divider">
+        <p class="heading-sub">Neighboring waters in the sea of design</p>
+      </div>
+
+      <div class="related-grid">
+        <div class="related-item reveal">
+          <h4>Coastal Style</h4>
+          <p>Closest relative; shares palette and motifs, more focused on interior and home design.</p>
+        </div>
+        <div class="related-item reveal reveal-delay-1">
+          <h4>Tropical</h4>
+          <p>Warm-weather counterpart; sandy beaches and palm trees vs. rocky coasts and lighthouses.</p>
+        </div>
+        <div class="related-item reveal reveal-delay-2">
+          <h4>Dark Nautical</h4>
+          <p>Moody, dramatic variant with stormy seas and deep-ocean palette.</p>
+        </div>
+        <div class="related-item reveal reveal-delay-3">
+          <h4>Pirate</h4>
+          <p>Adventure-oriented maritime aesthetic with aged and distressed materials.</p>
+        </div>
+        <div class="related-item reveal">
+          <h4>Preppy</h4>
+          <p>Shares navy-and-white palette, stripe patterns, and maritime references.</p>
+        </div>
+        <div class="related-item reveal reveal-delay-1">
+          <h4>Seapunk</h4>
+          <p>Digital-age reinterpretation with neon blues, 3D renders, and internet culture.</p>
+        </div>
+        <div class="related-item reveal reveal-delay-2">
+          <h4>Ocean Grunge</h4>
+          <p>Darker, rougher coastal aesthetic with eroded and weathered textures.</p>
+        </div>
+        <div class="related-item reveal reveal-delay-3">
+          <h4>Poolcore</h4>
+          <p>Water-adjacent aesthetic focused on chlorine-blue swimming pools.</p>
+        </div>
+        <div class="related-item reveal">
+          <h4>Newlyn School</h4>
+          <p>Fine art movement depicting maritime scenes and fishing communities.</p>
+        </div>
+        <div class="related-item reveal reveal-delay-1">
+          <h4>St Ives School</h4>
+          <p>Coastal art movement referencing sea, light, and landscape.</p>
+        </div>
+        <div class="related-item reveal reveal-delay-2">
+          <h4>VSCO Girl</h4>
+          <p>Shares casual beach culture elements like shell jewelry and ocean photography.</p>
+        </div>
+        <div class="related-item reveal reveal-delay-3">
+          <h4>Vacation Dadcore</h4>
+          <p>Casual leisure aesthetic overlapping on resort and boating wear.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FOOTER ============ -->
+  <div class="wave-divider from-navy" style="background: var(--naut-navy);">
+    <svg viewBox="0 0 1440 60" preserveAspectRatio="none">
+      <path fill="#0a2342" d="M0,30 C360,55 720,5 1080,30 C1260,42 1350,18 1440,25 L1440,60 L0,60 Z"/>
+    </svg>
+  </div>
+
+  <footer>
+    <div class="footer-compass"></div>
+    <h3>Anchored in Clean Design</h3>
+    <p>Where naval discipline meets the ease of coastal living</p>
+    <hr class="footer-rope">
+    <p class="footer-note">Nautical Design Aesthetic Reference</p>
+  </footer>
+
+  <!-- Bottom stripe -->
+  <div class="top-stripe" style="position: relative;"></div>
+
+  <!-- ============ JAVASCRIPT ============ -->
+  <script>
+    // Generate stars in hero
+    (function() {
+      var container = document.getElementById('heroStars');
+      if (!container) return;
+      for (var i = 0; i < 40; i++) {
+        var star = document.createElement('div');
+        star.className = 'star';
+        star.style.left = Math.random() * 100 + '%';
+        star.style.top = Math.random() * 60 + '%';
+        star.style.animationDelay = (Math.random() * 3) + 's';
+        star.style.animationDuration = (2 + Math.random() * 3) + 's';
+        var size = 1 + Math.random() * 2;
+        star.style.width = size + 'px';
+        star.style.height = size + 'px';
+        container.appendChild(star);
+      }
+    })();
+
+    // Scroll reveal animation using IntersectionObserver
+    (function() {
+      var revealElements = document.querySelectorAll('.reveal');
+      if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function(entries) {
+          entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('visible');
+              observer.unobserve(entry.target);
+            }
+          });
+        }, {
+          threshold: 0.15,
+          rootMargin: '0px 0px -40px 0px'
+        });
+
+        revealElements.forEach(function(el) {
+          observer.observe(el);
+        });
+      } else {
+        // Fallback: just show everything
+        revealElements.forEach(function(el) {
+          el.classList.add('visible');
+        });
+      }
+    })();
+
+    // Smooth scroll for nav links
+    document.querySelectorAll('nav a[href^="#"]').forEach(function(anchor) {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        var target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          var offset = 70; // nav height
+          var top = target.getBoundingClientRect().top + window.pageYOffset - offset;
+          window.scrollTo({ top: top, behavior: 'smooth' });
+        }
+      });
+    });
+
+    // Nav background opacity change on scroll
+    (function() {
+      var nav = document.querySelector('nav');
+      window.addEventListener('scroll', function() {
+        if (window.scrollY > 100) {
+          nav.style.background = 'rgba(10, 35, 66, 0.97)';
+        } else {
+          nav.style.background = 'rgba(27, 42, 74, 0.92)';
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

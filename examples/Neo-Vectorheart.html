@@ -1,0 +1,2585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Neo-Vectorheart // Design Aesthetic Showcase</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Chakra+Petch:wght@400;600;700&family=Bebas+Neue&family=Rajdhani:wght@400;500;600;700&family=Inter:wght@300;400;500&family=Share+Tech+Mono&family=Exo+2:wght@400;600;700&family=Audiowide&display=swap" rel="stylesheet">
+  <style>
+    /* ============================================
+       NEO-VECTORHEART // CSS SYSTEM
+       ============================================ */
+
+    :root {
+      /* Monochrome base */
+      --nv-black: #000000;
+      --nv-near-black: #0a0a0a;
+      --nv-dark: #141414;
+      --nv-surface: #1e1e1e;
+      --nv-mid-dark: #242424;
+      --nv-gray: #555555;
+      --nv-mid-gray: #888888;
+      --nv-light-gray: #cccccc;
+      --nv-near-white: #f0f0f0;
+      --nv-white: #ffffff;
+
+      /* Accent: Volt Green */
+      --nv-accent: #00FF66;
+      --nv-accent-dim: rgba(0, 255, 102, 0.3);
+      --nv-accent-glow: rgba(0, 255, 102, 0.15);
+      --nv-accent-ultra-dim: rgba(0, 255, 102, 0.06);
+
+      /* Functional mappings */
+      --nv-bg-primary: var(--nv-black);
+      --nv-bg-secondary: var(--nv-dark);
+      --nv-bg-surface: var(--nv-surface);
+      --nv-text-primary: var(--nv-white);
+      --nv-text-secondary: var(--nv-mid-gray);
+      --nv-text-muted: var(--nv-gray);
+      --nv-border: var(--nv-white);
+      --nv-border-subtle: var(--nv-mid-dark);
+    }
+
+    /* ============================================
+       RESET & BASE
+       ============================================ */
+
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--nv-bg-primary);
+      color: var(--nv-text-primary);
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      font-size: 1rem;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3, h4 {
+      font-family: 'Chakra Petch', 'Rajdhani', sans-serif;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--nv-white);
+      line-height: 1.05;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    ::selection {
+      background: var(--nv-accent);
+      color: var(--nv-black);
+    }
+
+    /* ============================================
+       KEYFRAMES
+       ============================================ */
+
+    @keyframes nv-slide-diagonal {
+      from {
+        transform: translate(-40px, 40px);
+        opacity: 0;
+      }
+      to {
+        transform: translate(0, 0);
+        opacity: 1;
+      }
+    }
+
+    @keyframes nv-slide-up {
+      from {
+        transform: translateY(30px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    @keyframes nv-slide-left {
+      from {
+        transform: translateX(-50px);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+
+    @keyframes nv-fade-in {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes nv-pulse-glow {
+      0%, 100% { box-shadow: 0 0 4px var(--nv-accent), 0 0 16px var(--nv-accent-dim); }
+      50% { box-shadow: 0 0 8px var(--nv-accent), 0 0 30px var(--nv-accent-dim); }
+    }
+
+    @keyframes nv-scan-line {
+      0% { transform: translateY(-100%); }
+      100% { transform: translateY(100vh); }
+    }
+
+    @keyframes nv-diagonal-sweep {
+      0% { transform: translateX(-200%) rotate(-45deg); }
+      100% { transform: translateX(200%) rotate(-45deg); }
+    }
+
+    @keyframes nv-text-glitch {
+      0%, 100% { clip-path: inset(0 0 0 0); }
+      5% { clip-path: inset(20% 0 60% 0); transform: translate(-3px, 0); }
+      10% { clip-path: inset(60% 0 10% 0); transform: translate(3px, 0); }
+      15% { clip-path: inset(0 0 0 0); transform: translate(0, 0); }
+    }
+
+    @keyframes nv-accent-line-grow {
+      from { width: 0; }
+      to { width: 100%; }
+    }
+
+    @keyframes nv-chevron-float {
+      0%, 100% { transform: rotate(45deg) translateY(0); }
+      50% { transform: rotate(45deg) translateY(-12px); }
+    }
+
+    @keyframes nv-counter-tick {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes nv-border-trace {
+      0% { stroke-dashoffset: 1200; }
+      100% { stroke-dashoffset: 0; }
+    }
+
+    /* ============================================
+       SCANLINE OVERLAY
+       ============================================ */
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0, 0, 0, 0.03) 2px,
+        rgba(0, 0, 0, 0.03) 4px
+      );
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    /* ============================================
+       NAVIGATION
+       ============================================ */
+
+    .nv-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 2.5rem;
+      background: rgba(0, 0, 0, 0.92);
+      border-bottom: 2px solid var(--nv-white);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+
+    .nv-nav-brand {
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 900;
+      font-size: 0.9rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--nv-white);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .nv-nav-brand .slash {
+      color: var(--nv-accent);
+      font-weight: 400;
+    }
+
+    .nv-nav-brand .version {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.55rem;
+      color: var(--nv-accent);
+      opacity: 0.6;
+      letter-spacing: 0.08em;
+    }
+
+    .nv-nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nv-nav-links a {
+      color: var(--nv-text-secondary);
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      transition: color 0.15s ease;
+      position: relative;
+    }
+
+    .nv-nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--nv-accent);
+      transition: width 0.15s ease;
+    }
+
+    .nv-nav-links a:hover {
+      color: var(--nv-accent);
+    }
+
+    .nv-nav-links a:hover::after {
+      width: 100%;
+    }
+
+    /* ============================================
+       HERO SECTION
+       ============================================ */
+
+    .nv-hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 8rem 4rem 6rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Diagonal stripe pattern */
+    .nv-hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 60px,
+        rgba(255, 255, 255, 0.012) 60px,
+        rgba(255, 255, 255, 0.012) 62px
+      );
+      pointer-events: none;
+    }
+
+    /* Large background diagonal line */
+    .nv-hero-diag-1 {
+      position: absolute;
+      top: -10%;
+      left: -20%;
+      width: 200%;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--nv-accent), transparent);
+      transform: rotate(-35deg);
+      opacity: 0.3;
+      box-shadow: 0 0 20px var(--nv-accent-dim);
+    }
+
+    .nv-hero-diag-2 {
+      position: absolute;
+      top: 30%;
+      left: -20%;
+      width: 200%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--nv-white), transparent);
+      transform: rotate(-35deg);
+      opacity: 0.08;
+    }
+
+    .nv-hero-diag-3 {
+      position: absolute;
+      top: 60%;
+      right: -20%;
+      width: 200%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--nv-white), transparent);
+      transform: rotate(-35deg);
+      opacity: 0.05;
+    }
+
+    /* Decorative vector shapes */
+    .nv-hero-shape-chevron {
+      position: absolute;
+      width: 180px;
+      height: 180px;
+      clip-path: polygon(0 0, 50% 0, 100% 50%, 50% 100%, 0 100%, 50% 50%);
+      background: var(--nv-white);
+      opacity: 0.025;
+      top: 15%;
+      right: 8%;
+      animation: nv-chevron-float 6s ease-in-out infinite;
+    }
+
+    .nv-hero-shape-chevron-2 {
+      position: absolute;
+      width: 90px;
+      height: 90px;
+      clip-path: polygon(0 0, 50% 0, 100% 50%, 50% 100%, 0 100%, 50% 50%);
+      background: var(--nv-accent);
+      opacity: 0.04;
+      top: 22%;
+      right: 14%;
+      animation: nv-chevron-float 6s ease-in-out 1s infinite;
+    }
+
+    .nv-hero-shape-triangle {
+      position: absolute;
+      width: 0;
+      height: 0;
+      border-left: 80px solid transparent;
+      border-right: 80px solid transparent;
+      border-bottom: 140px solid var(--nv-accent);
+      opacity: 0.035;
+      bottom: 12%;
+      left: 5%;
+      transform: rotate(-15deg);
+    }
+
+    .nv-hero-shape-parallelogram {
+      position: absolute;
+      width: 300px;
+      height: 80px;
+      background: var(--nv-white);
+      opacity: 0.015;
+      transform: skewX(-25deg);
+      bottom: 30%;
+      right: -5%;
+    }
+
+    /* Coordinate annotations */
+    .nv-hero-coord {
+      position: absolute;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.55rem;
+      color: var(--nv-accent);
+      opacity: 0.3;
+      letter-spacing: 0.08em;
+    }
+
+    .nv-hero-coord-1 {
+      top: 18%;
+      left: 4%;
+      transform: rotate(-90deg);
+      transform-origin: left bottom;
+    }
+
+    .nv-hero-coord-2 {
+      bottom: 8%;
+      right: 4%;
+    }
+
+    .nv-hero-coord-3 {
+      top: 35%;
+      right: 3%;
+      transform: rotate(90deg);
+      transform-origin: right top;
+    }
+
+    /* Hero content */
+    .nv-hero-overline {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.65rem;
+      color: var(--nv-accent);
+      letter-spacing: 0.12em;
+      opacity: 0.6;
+      margin-bottom: 1.5rem;
+      position: relative;
+      z-index: 2;
+      animation: nv-fade-in 0.5s ease forwards;
+    }
+
+    .nv-hero-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: clamp(3.5rem, 10vw, 9rem);
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      line-height: 0.88;
+      text-transform: uppercase;
+      position: relative;
+      z-index: 2;
+      animation: nv-slide-left 0.6s ease forwards;
+    }
+
+    .nv-hero-title .accent {
+      color: var(--nv-accent);
+      text-shadow:
+        0 0 10px var(--nv-accent-dim),
+        0 0 40px var(--nv-accent-glow);
+    }
+
+    .nv-hero-title .tm {
+      font-size: 0.2em;
+      vertical-align: super;
+      opacity: 0.5;
+      font-weight: 400;
+      letter-spacing: 0;
+    }
+
+    .nv-hero-title .outline-text {
+      -webkit-text-stroke: 2px var(--nv-white);
+      color: transparent;
+    }
+
+    .nv-hero-subtitle {
+      margin-top: 2rem;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 500;
+      color: var(--nv-text-secondary);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      position: relative;
+      z-index: 2;
+      max-width: 600px;
+      animation: nv-slide-diagonal 0.7s ease 0.2s forwards;
+      opacity: 0;
+    }
+
+    .nv-hero-subtitle .accent-word {
+      color: var(--nv-accent);
+    }
+
+    .nv-hero-actions {
+      margin-top: 3rem;
+      display: flex;
+      gap: 1.5rem;
+      align-items: center;
+      position: relative;
+      z-index: 2;
+      animation: nv-slide-up 0.6s ease 0.4s forwards;
+      opacity: 0;
+    }
+
+    /* Accent line beneath hero */
+    .nv-hero-accent-line {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      height: 3px;
+      background: var(--nv-accent);
+      box-shadow: 0 0 12px var(--nv-accent-dim);
+      z-index: 2;
+      animation: nv-accent-line-grow 1.2s ease 0.6s forwards;
+      width: 0;
+    }
+
+    /* ============================================
+       BUTTONS
+       ============================================ */
+
+    .nv-btn {
+      display: inline-block;
+      padding: 0.85rem 2.8rem;
+      border: 3px solid var(--nv-white);
+      background: transparent;
+      color: var(--nv-white);
+      font-family: 'Chakra Petch', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      cursor: pointer;
+      position: relative;
+      transition: all 0.15s ease;
+      transform: skewX(-8deg);
+    }
+
+    .nv-btn:hover {
+      background: var(--nv-accent);
+      border-color: var(--nv-accent);
+      color: var(--nv-black);
+    }
+
+    .nv-btn--brutal {
+      transform: skewX(0);
+      box-shadow: 5px 5px 0 var(--nv-white);
+    }
+
+    .nv-btn--brutal:hover {
+      transform: translate(2px, 2px);
+      box-shadow: 3px 3px 0 var(--nv-accent);
+      background: var(--nv-accent);
+      border-color: var(--nv-accent);
+      color: var(--nv-black);
+    }
+
+    .nv-btn--accent-outline {
+      border-color: var(--nv-accent);
+      color: var(--nv-accent);
+    }
+
+    .nv-btn--accent-outline:hover {
+      background: var(--nv-accent);
+      color: var(--nv-black);
+    }
+
+    /* ============================================
+       SECTION SYSTEM
+       ============================================ */
+
+    .nv-section {
+      position: relative;
+      padding: 7rem 4rem;
+    }
+
+    .nv-section--dark {
+      background: var(--nv-black);
+      color: var(--nv-white);
+    }
+
+    .nv-section--surface {
+      background: var(--nv-dark);
+      color: var(--nv-white);
+    }
+
+    .nv-section--light {
+      background: var(--nv-white);
+      color: var(--nv-black);
+    }
+
+    .nv-section-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* Diagonal dividers */
+    .nv-divider {
+      height: 80px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .nv-divider--slash {
+      background: var(--nv-black);
+      clip-path: polygon(0 0, 100% 0, 100% 100%, 0 40%);
+    }
+
+    .nv-divider--slash-reverse {
+      background: var(--nv-dark);
+      clip-path: polygon(0 0, 100% 0, 100% 40%, 0 100%);
+    }
+
+    .nv-divider--line {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .nv-divider--line::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: var(--nv-white);
+    }
+
+    .nv-divider--line::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: var(--nv-white);
+      transform: rotate(-3deg);
+    }
+
+    /* Section headers */
+    .nv-section-label {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.6rem;
+      color: var(--nv-accent);
+      opacity: 0.6;
+      letter-spacing: 0.12em;
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+
+    .nv-section-title {
+      font-family: 'Bebas Neue', 'Chakra Petch', sans-serif;
+      font-size: clamp(2.5rem, 6vw, 5rem);
+      letter-spacing: 0.04em;
+      line-height: 0.95;
+      margin-bottom: 1rem;
+    }
+
+    .nv-section-title .accent {
+      color: var(--nv-accent);
+    }
+
+    .nv-section-subtitle {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 1rem;
+      font-weight: 500;
+      color: var(--nv-text-secondary);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      max-width: 700px;
+    }
+
+    .nv-section--light .nv-section-label {
+      color: #006633;
+    }
+
+    .nv-section--light .nv-section-title {
+      color: var(--nv-black);
+    }
+
+    .nv-section--light .nv-section-subtitle {
+      color: #444;
+    }
+
+    /* ============================================
+       ABOUT / INTRO SECTION
+       ============================================ */
+
+    .nv-intro-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      margin-top: 3rem;
+      align-items: start;
+    }
+
+    .nv-intro-text {
+      font-size: 1rem;
+      line-height: 1.75;
+      color: var(--nv-text-secondary);
+    }
+
+    .nv-intro-text p + p {
+      margin-top: 1.25rem;
+    }
+
+    .nv-intro-text strong {
+      color: var(--nv-white);
+      font-weight: 500;
+    }
+
+    .nv-intro-sidebar {
+      position: relative;
+    }
+
+    /* Angular info panel */
+    .nv-info-panel {
+      background: var(--nv-surface);
+      border: 2px solid var(--nv-white);
+      clip-path: polygon(0 0, calc(100% - 24px) 0, 100% 24px, 100% 100%, 24px 100%, 0 calc(100% - 24px));
+      padding: 2.5rem;
+      position: relative;
+    }
+
+    .nv-info-panel::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 20px;
+      height: 20px;
+      background: var(--nv-accent);
+      clip-path: polygon(0 0, 100% 0, 100% 100%);
+    }
+
+    .nv-info-panel-label {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.55rem;
+      color: var(--nv-accent);
+      opacity: 0.6;
+      letter-spacing: 0.12em;
+      margin-bottom: 1.25rem;
+      display: block;
+    }
+
+    .nv-info-list {
+      list-style: none;
+    }
+
+    .nv-info-list li {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--nv-near-white);
+      padding: 0.6rem 0;
+      border-bottom: 1px solid var(--nv-mid-dark);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .nv-info-list li:last-child {
+      border-bottom: none;
+    }
+
+    .nv-info-list li::before {
+      content: '';
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      background: var(--nv-accent);
+      clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%);
+      flex-shrink: 0;
+    }
+
+    /* ============================================
+       COLOR PALETTE SECTION
+       ============================================ */
+
+    .nv-palette-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+
+    .nv-color-card {
+      background: var(--nv-surface);
+      border: 2px solid var(--nv-white);
+      position: relative;
+      transition: transform 0.15s ease;
+    }
+
+    .nv-color-card:hover {
+      transform: translate(-3px, -3px);
+      box-shadow: 6px 6px 0 var(--nv-white);
+    }
+
+    .nv-color-swatch {
+      height: 100px;
+      width: 100%;
+    }
+
+    .nv-color-info {
+      padding: 1rem 1.25rem;
+      border-top: 2px solid var(--nv-white);
+    }
+
+    .nv-color-name {
+      font-family: 'Chakra Petch', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 0.25rem;
+    }
+
+    .nv-color-hex {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.65rem;
+      color: var(--nv-text-muted);
+      letter-spacing: 0.06em;
+    }
+
+    /* Accent palette section */
+    .nv-accent-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+
+    .nv-accent-card {
+      border: 2px solid var(--nv-white);
+      padding: 1.5rem;
+      position: relative;
+      transition: all 0.15s ease;
+    }
+
+    .nv-accent-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+    }
+
+    .nv-accent-card:hover {
+      transform: translate(-2px, -2px);
+      box-shadow: 4px 4px 0 var(--nv-white);
+    }
+
+    .nv-accent-dot {
+      width: 16px;
+      height: 16px;
+      border-radius: 0;
+      clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%);
+      margin-bottom: 0.75rem;
+    }
+
+    .nv-accent-card-name {
+      font-family: 'Chakra Petch', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 0.25rem;
+    }
+
+    .nv-accent-card-hex {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.6rem;
+      color: var(--nv-text-muted);
+      letter-spacing: 0.06em;
+      margin-bottom: 0.5rem;
+    }
+
+    .nv-accent-card-desc {
+      font-size: 0.78rem;
+      color: var(--nv-text-secondary);
+      line-height: 1.5;
+    }
+
+    /* ============================================
+       TYPOGRAPHY SECTION
+       ============================================ */
+
+    .nv-type-showcase {
+      margin-top: 3rem;
+    }
+
+    .nv-type-specimen {
+      border: 2px solid var(--nv-white);
+      margin-bottom: 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .nv-type-specimen-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.75rem 1.5rem;
+      border-bottom: 2px solid var(--nv-white);
+      background: var(--nv-surface);
+    }
+
+    .nv-type-specimen-name {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+
+    .nv-type-specimen-meta {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.55rem;
+      color: var(--nv-accent);
+      opacity: 0.6;
+      letter-spacing: 0.08em;
+    }
+
+    .nv-type-specimen-body {
+      padding: 2.5rem;
+      position: relative;
+    }
+
+    .nv-type-specimen-body::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 16px;
+      height: 16px;
+      background: var(--nv-accent);
+      clip-path: polygon(0 0, 100% 0, 100% 100%);
+    }
+
+    .nv-type-orbitron {
+      font-family: 'Orbitron', sans-serif;
+      font-size: clamp(2rem, 5vw, 4rem);
+      font-weight: 900;
+      letter-spacing: -0.02em;
+      line-height: 0.95;
+      text-transform: uppercase;
+    }
+
+    .nv-type-chakra {
+      font-family: 'Chakra Petch', sans-serif;
+      font-size: clamp(1.8rem, 4vw, 3.2rem);
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      line-height: 1;
+      text-transform: uppercase;
+    }
+
+    .nv-type-bebas {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.5rem, 6vw, 5rem);
+      letter-spacing: 0.04em;
+      line-height: 0.9;
+      text-transform: uppercase;
+    }
+
+    .nv-type-rajdhani {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .nv-type-mono {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.75rem;
+      letter-spacing: 0.06em;
+      color: var(--nv-accent);
+      opacity: 0.7;
+    }
+
+    .nv-type-inter {
+      font-family: 'Inter', sans-serif;
+      font-size: 1rem;
+      line-height: 1.7;
+      color: var(--nv-text-secondary);
+    }
+
+    .nv-type-audiowide {
+      font-family: 'Audiowide', sans-serif;
+      font-size: clamp(1.5rem, 4vw, 3rem);
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+    }
+
+    /* ============================================
+       ELEMENTS / MOTIFS SECTION
+       ============================================ */
+
+    .nv-elements-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+
+    .nv-element-card {
+      background: var(--nv-surface);
+      border: 3px solid var(--nv-black);
+      padding: 2.5rem;
+      position: relative;
+      box-shadow: 6px 6px 0 var(--nv-black);
+    }
+
+    .nv-element-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 20px;
+      height: 20px;
+      background: #006633;
+      clip-path: polygon(0 0, 100% 0, 100% 100%);
+    }
+
+    .nv-element-card-num {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.6rem;
+      font-weight: 700;
+      color: #006633;
+      letter-spacing: 0.12em;
+      margin-bottom: 0.75rem;
+      display: block;
+    }
+
+    .nv-element-card h4 {
+      font-family: 'Chakra Petch', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--nv-black);
+      margin-bottom: 0.75rem;
+    }
+
+    .nv-element-card p {
+      font-size: 0.88rem;
+      line-height: 1.6;
+      color: #444;
+    }
+
+    /* ============================================
+       COMPOSITION / LAYOUT SECTION
+       ============================================ */
+
+    .nv-composition-demo {
+      margin-top: 3rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      min-height: 500px;
+    }
+
+    .nv-comp-panel {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .nv-comp-panel--skewed {
+      background: var(--nv-surface);
+      border: 2px solid var(--nv-white);
+      transform: skewX(-4deg);
+      padding: 3rem 2.5rem;
+    }
+
+    .nv-comp-panel--skewed > * {
+      transform: skewX(4deg);
+    }
+
+    .nv-comp-panel--clipped {
+      background: var(--nv-surface);
+      border: 2px solid var(--nv-white);
+      clip-path: polygon(0 0, calc(100% - 30px) 0, 100% 30px, 100% 100%, 30px 100%, 0 calc(100% - 30px));
+      padding: 3rem 2.5rem;
+    }
+
+    .nv-comp-label {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.55rem;
+      color: var(--nv-accent);
+      opacity: 0.6;
+      letter-spacing: 0.1em;
+      margin-bottom: 1rem;
+      display: block;
+    }
+
+    .nv-comp-heading {
+      font-family: 'Chakra Petch', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+
+    .nv-comp-text {
+      font-size: 0.88rem;
+      line-height: 1.65;
+      color: var(--nv-text-secondary);
+    }
+
+    /* Diagonal stripes on panel */
+    .nv-comp-panel--skewed::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 30px,
+        rgba(255, 255, 255, 0.015) 30px,
+        rgba(255, 255, 255, 0.015) 32px
+      );
+      pointer-events: none;
+    }
+
+    /* ============================================
+       CSS TECHNIQUES SECTION
+       ============================================ */
+
+    .nv-tech-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+
+    .nv-tech-card {
+      background: var(--nv-surface);
+      border: 2px solid var(--nv-white);
+      position: relative;
+      overflow: hidden;
+      transition: all 0.15s ease;
+    }
+
+    .nv-tech-card:hover {
+      transform: translate(-3px, -3px);
+      box-shadow: 6px 6px 0 var(--nv-accent);
+      border-color: var(--nv-accent);
+    }
+
+    .nv-tech-card-demo {
+      height: 160px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      border-bottom: 2px solid var(--nv-white);
+    }
+
+    .nv-tech-card:hover .nv-tech-card-demo {
+      border-bottom-color: var(--nv-accent);
+    }
+
+    .nv-tech-card-body {
+      padding: 1.5rem;
+    }
+
+    .nv-tech-card-label {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.5rem;
+      color: var(--nv-accent);
+      opacity: 0.6;
+      letter-spacing: 0.1em;
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+
+    .nv-tech-card h4 {
+      font-family: 'Chakra Petch', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+
+    .nv-tech-card p {
+      font-size: 0.78rem;
+      line-height: 1.5;
+      color: var(--nv-text-secondary);
+    }
+
+    /* Demo: Diagonal lines */
+    .demo-diagonal-lines {
+      background: var(--nv-near-black);
+    }
+
+    .demo-diagonal-lines::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 14px,
+        rgba(255, 255, 255, 0.06) 14px,
+        rgba(255, 255, 255, 0.06) 16px
+      );
+    }
+
+    .demo-diagonal-lines::after {
+      content: '';
+      position: absolute;
+      width: 150%;
+      height: 2px;
+      background: var(--nv-accent);
+      top: 50%;
+      left: -25%;
+      transform: rotate(-45deg);
+      box-shadow: 0 0 12px var(--nv-accent-dim);
+    }
+
+    /* Demo: Brutalist shadow */
+    .demo-shadow {
+      background: var(--nv-near-black);
+    }
+
+    .demo-shadow-box {
+      width: 80px;
+      height: 80px;
+      background: var(--nv-surface);
+      border: 3px solid var(--nv-white);
+      box-shadow: 6px 6px 0 var(--nv-white);
+      position: relative;
+    }
+
+    .demo-shadow-box::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 14px;
+      height: 14px;
+      background: var(--nv-accent);
+      clip-path: polygon(0 0, 100% 0, 100% 100%);
+    }
+
+    /* Demo: Vector shapes */
+    .demo-vectors {
+      background: var(--nv-near-black);
+      gap: 1rem;
+    }
+
+    .demo-chevron {
+      width: 40px;
+      height: 40px;
+      clip-path: polygon(0 0, 50% 0, 100% 50%, 50% 100%, 0 100%, 50% 50%);
+      background: var(--nv-white);
+    }
+
+    .demo-parallelogram {
+      width: 70px;
+      height: 35px;
+      background: var(--nv-accent);
+      transform: skewX(-20deg);
+    }
+
+    .demo-triangle {
+      width: 0;
+      height: 0;
+      border-left: 22px solid transparent;
+      border-right: 22px solid transparent;
+      border-bottom: 38px solid var(--nv-white);
+    }
+
+    /* Demo: Glow effect */
+    .demo-glow {
+      background: var(--nv-near-black);
+    }
+
+    .demo-glow-line {
+      width: 80%;
+      height: 3px;
+      background: var(--nv-accent);
+      animation: nv-pulse-glow 2s ease-in-out infinite;
+    }
+
+    /* Demo: Clip path */
+    .demo-clippath {
+      background: var(--nv-near-black);
+    }
+
+    .demo-clipped-box {
+      width: 90px;
+      height: 90px;
+      background: var(--nv-surface);
+      border: 2px solid var(--nv-white);
+      clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% 100%, 18px 100%, 0 calc(100% - 18px));
+    }
+
+    /* Demo: Skew */
+    .demo-skew {
+      background: var(--nv-near-black);
+    }
+
+    .demo-skew-panel {
+      width: 100px;
+      height: 60px;
+      background: var(--nv-surface);
+      border: 2px solid var(--nv-white);
+      transform: skewX(-12deg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .demo-skew-text {
+      font-family: 'Chakra Petch', sans-serif;
+      font-size: 0.6rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      transform: skewX(12deg);
+    }
+
+    /* ============================================
+       ANIMATION SECTION
+       ============================================ */
+
+    .nv-animation-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+
+    .nv-anim-card {
+      background: var(--nv-surface);
+      border: 2px solid var(--nv-white);
+      overflow: hidden;
+    }
+
+    .nv-anim-card-demo {
+      height: 180px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      border-bottom: 2px solid var(--nv-white);
+      background: var(--nv-near-black);
+    }
+
+    .nv-anim-card-body {
+      padding: 1.5rem;
+    }
+
+    .nv-anim-card h4 {
+      font-family: 'Chakra Petch', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 0.35rem;
+    }
+
+    .nv-anim-card p {
+      font-size: 0.78rem;
+      color: var(--nv-text-secondary);
+      line-height: 1.5;
+    }
+
+    /* Diagonal slide anim demo */
+    .anim-diag-box {
+      width: 50px;
+      height: 50px;
+      background: var(--nv-accent);
+      animation: nv-slide-diagonal 1.5s ease infinite alternate;
+    }
+
+    /* Pulse glow demo */
+    .anim-pulse-circle {
+      width: 20px;
+      height: 20px;
+      background: var(--nv-accent);
+      clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%);
+      animation: nv-pulse-glow 2s ease-in-out infinite;
+    }
+
+    /* Glitch demo */
+    .anim-glitch-text {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      animation: nv-text-glitch 3s ease-in-out infinite;
+      position: relative;
+    }
+
+    /* Sweep demo */
+    .anim-sweep-container {
+      width: 100%;
+      height: 100%;
+      position: relative;
+    }
+
+    .anim-sweep-line {
+      position: absolute;
+      width: 200%;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--nv-accent), transparent);
+      top: 50%;
+      left: -50%;
+      animation: nv-diagonal-sweep 4s linear infinite;
+    }
+
+    /* ============================================
+       INFLUENCES SECTION
+       ============================================ */
+
+    .nv-influences-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+
+    .nv-influence-item {
+      border: 2px solid var(--nv-white);
+      padding: 1.5rem;
+      position: relative;
+      background: var(--nv-surface);
+      transition: all 0.15s ease;
+    }
+
+    .nv-influence-item:hover {
+      transform: translate(-2px, -2px);
+      box-shadow: 4px 4px 0 var(--nv-accent);
+      border-color: var(--nv-accent);
+    }
+
+    .nv-influence-item::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 4px;
+      height: 100%;
+      background: var(--nv-accent);
+      opacity: 0;
+      transition: opacity 0.15s ease;
+    }
+
+    .nv-influence-item:hover::before {
+      opacity: 1;
+    }
+
+    .nv-influence-name {
+      font-family: 'Chakra Petch', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+
+    .nv-influence-desc {
+      font-size: 0.78rem;
+      color: var(--nv-text-secondary);
+      line-height: 1.5;
+    }
+
+    /* ============================================
+       RELATED AESTHETICS SECTION
+       ============================================ */
+
+    .nv-related-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+
+    .nv-related-card {
+      background: var(--nv-surface);
+      border: 2px solid var(--nv-white);
+      padding: 1.5rem;
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+      transition: all 0.15s ease;
+    }
+
+    .nv-related-card:hover {
+      border-color: var(--nv-accent);
+      transform: translateX(-3px);
+    }
+
+    .nv-related-card-marker {
+      width: 12px;
+      height: 12px;
+      background: var(--nv-accent);
+      clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%);
+      flex-shrink: 0;
+      margin-top: 0.3rem;
+    }
+
+    .nv-related-card-name {
+      font-family: 'Chakra Petch', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 0.35rem;
+    }
+
+    .nv-related-card-desc {
+      font-size: 0.78rem;
+      color: var(--nv-text-secondary);
+      line-height: 1.5;
+    }
+
+    /* ============================================
+       FOOTER
+       ============================================ */
+
+    .nv-footer {
+      border-top: 2px solid var(--nv-white);
+      padding: 2rem 4rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+    }
+
+    .nv-footer::before {
+      content: '';
+      position: absolute;
+      top: -1px;
+      left: 0;
+      width: 120px;
+      height: 3px;
+      background: var(--nv-accent);
+      box-shadow: 0 0 12px var(--nv-accent-dim);
+    }
+
+    .nv-footer-brand {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .nv-footer-brand span {
+      color: var(--nv-accent);
+    }
+
+    .nv-footer-meta {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.55rem;
+      color: var(--nv-text-muted);
+      letter-spacing: 0.08em;
+    }
+
+    .nv-footer-copy {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--nv-text-muted);
+    }
+
+    /* ============================================
+       SCROLL REVEAL
+       ============================================ */
+
+    .nv-reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+
+    .nv-reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .nv-reveal-diagonal {
+      opacity: 0;
+      transform: translate(-30px, 30px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+
+    .nv-reveal-diagonal.visible {
+      opacity: 1;
+      transform: translate(0, 0);
+    }
+
+    /* Staggered delays */
+    .nv-delay-1 { transition-delay: 0.1s; }
+    .nv-delay-2 { transition-delay: 0.2s; }
+    .nv-delay-3 { transition-delay: 0.3s; }
+    .nv-delay-4 { transition-delay: 0.4s; }
+    .nv-delay-5 { transition-delay: 0.5s; }
+    .nv-delay-6 { transition-delay: 0.6s; }
+
+    /* ============================================
+       DIAGONAL ACCENT BAR BETWEEN SECTIONS
+       ============================================ */
+
+    .nv-accent-bar {
+      height: 4px;
+      background: var(--nv-accent);
+      box-shadow: 0 0 16px var(--nv-accent-dim);
+      position: relative;
+    }
+
+    .nv-accent-bar::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 40px;
+      height: 4px;
+      background: var(--nv-white);
+    }
+
+    /* ============================================
+       RESPONSIVE
+       ============================================ */
+
+    @media (max-width: 1024px) {
+      .nv-tech-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .nv-influences-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .nv-nav {
+        padding: 0.8rem 1.5rem;
+      }
+
+      .nv-nav-links {
+        gap: 1rem;
+      }
+
+      .nv-nav-links a {
+        font-size: 0.65rem;
+        letter-spacing: 0.1em;
+      }
+
+      .nv-hero {
+        padding: 6rem 1.5rem 4rem;
+        min-height: 90vh;
+      }
+
+      .nv-section {
+        padding: 4rem 1.5rem;
+      }
+
+      .nv-intro-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+
+      .nv-palette-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .nv-accent-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .nv-elements-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .nv-composition-demo {
+        grid-template-columns: 1fr;
+      }
+
+      .nv-tech-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .nv-animation-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .nv-influences-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .nv-footer {
+        padding: 1.5rem;
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .nv-hero-title {
+        font-size: clamp(2.5rem, 15vw, 4rem);
+      }
+
+      .nv-section-title {
+        font-size: clamp(2rem, 8vw, 3rem);
+      }
+
+      .nv-palette-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .nv-nav-brand .version {
+        display: none;
+      }
+    }
+
+    /* ============================================
+       UTILITY CLASSES
+       ============================================ */
+
+    .nv-accent-text {
+      color: var(--nv-accent);
+    }
+
+    .nv-glow-text {
+      color: var(--nv-accent);
+      text-shadow:
+        0 0 6px var(--nv-accent-dim),
+        0 0 20px var(--nv-accent-glow);
+    }
+
+    .nv-tm::after {
+      content: '\2122';
+      font-size: 0.45em;
+      vertical-align: super;
+      opacity: 0.6;
+      margin-left: 0.15em;
+      font-weight: 400;
+    }
+
+    .nv-reg::after {
+      content: '\00AE';
+      font-size: 0.4em;
+      vertical-align: super;
+      opacity: 0.5;
+      margin-left: 0.1em;
+    }
+
+    .nv-section-divider-line {
+      border: none;
+      height: 2px;
+      background: var(--nv-white);
+      margin: 3rem 0;
+    }
+
+    .nv-section--light .nv-section-divider-line {
+      background: var(--nv-black);
+    }
+
+    /* ============================================
+       DECORATIVE BACKGROUND ELEMENTS
+       ============================================ */
+
+    .nv-bg-grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
+    }
+
+    .nv-bg-diagonal-stripes {
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 40px,
+        rgba(255, 255, 255, 0.012) 40px,
+        rgba(255, 255, 255, 0.012) 42px
+      );
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ========================================
+       NAVIGATION
+       ======================================== -->
+  <nav class="nv-nav">
+    <div class="nv-nav-brand">
+      NEO<span class="slash">//</span>VECTORHEART
+      <span class="version">v2.0.26</span>
+    </div>
+    <div class="nv-nav-links">
+      <a href="#about">ABOUT</a>
+      <a href="#palette">PALETTE</a>
+      <a href="#type">TYPE</a>
+      <a href="#elements">ELEMENTS</a>
+      <a href="#techniques">TECHNIQUES</a>
+      <a href="#motion">MOTION</a>
+      <a href="#lineage">LINEAGE</a>
+    </div>
+  </nav>
+
+  <!-- ========================================
+       HERO SECTION
+       ======================================== -->
+  <section class="nv-hero">
+    <!-- Background decorative elements -->
+    <div class="nv-hero-diag-1"></div>
+    <div class="nv-hero-diag-2"></div>
+    <div class="nv-hero-diag-3"></div>
+    <div class="nv-hero-shape-chevron"></div>
+    <div class="nv-hero-shape-chevron-2"></div>
+    <div class="nv-hero-shape-triangle"></div>
+    <div class="nv-hero-shape-parallelogram"></div>
+
+    <!-- Coordinate annotations -->
+    <span class="nv-hero-coord nv-hero-coord-1">X:00 Y:00 // ORIGIN.POINT</span>
+    <span class="nv-hero-coord nv-hero-coord-2">SYS.RENDER // ACTIVE</span>
+    <span class="nv-hero-coord nv-hero-coord-3">VEC.DENSITY: 0.97</span>
+
+    <span class="nv-hero-overline">// DESIGN AESTHETIC REFERENCE :: NEO-Y2K.VARIANT.003</span>
+
+    <h1 class="nv-hero-title">
+      NEO<span class="accent">-</span><br>
+      <span class="accent">VECTOR</span><br>
+      HEART<span class="tm">TM</span>
+    </h1>
+
+    <p class="nv-hero-subtitle">
+      Angular vector geometry meets <span class="accent-word">Neubrutalist</span> design language and gamer-grunge maximalism. Sleek. Dynamic. <span class="accent-word">Visually aggressive.</span>
+    </p>
+
+    <div class="nv-hero-actions">
+      <a href="#about" class="nv-btn">EXPLORE AESTHETIC</a>
+      <a href="#palette" class="nv-btn nv-btn--accent-outline" style="transform: skewX(-8deg);">VIEW SYSTEM</a>
+    </div>
+
+    <div class="nv-hero-accent-line"></div>
+  </section>
+
+  <!-- ========================================
+       ABOUT SECTION
+       ======================================== -->
+  <div class="nv-accent-bar"></div>
+
+  <section class="nv-section nv-section--surface" id="about">
+    <div class="nv-bg-diagonal-stripes"></div>
+    <div class="nv-section-inner">
+      <span class="nv-section-label nv-reveal">SEC::001 // OVERVIEW</span>
+      <h2 class="nv-section-title nv-reveal nv-delay-1">WHAT IS <span class="accent">NEO-VECTORHEART</span></h2>
+      <p class="nv-section-subtitle nv-reveal nv-delay-2">A pseudo-revival of the Vectorheart aesthetic that emerged in the late 2010s as part of the broader Neo-Y2K movement.</p>
+
+      <div class="nv-intro-grid">
+        <div class="nv-intro-text nv-reveal nv-delay-3">
+          <p>Neo-Vectorheart fuses the angular vector geometry and monochromatic rigor of the original Vectorheart style -- pioneered by <strong>The Designers Republic</strong> and <strong>Bionic Systems</strong> -- with Neubrutalist design language and gamer-grunge maximalism.</p>
+          <p>The result is sleek, dynamic, and visually aggressive: <strong>striking vector shapes</strong> and <strong>sharp diagonal compositions</strong> rendered in predominantly black-and-white palettes with bold accent color punctuation.</p>
+          <p>It is less abstract than original Vectorheart and more grounded in contemporary digital culture, particularly <strong>gaming</strong>, <strong>logo design</strong>, and <strong>cyberpunk-influenced graphics</strong>.</p>
+        </div>
+        <div class="nv-intro-sidebar nv-reveal-diagonal nv-delay-4">
+          <div class="nv-info-panel">
+            <span class="nv-info-panel-label">// DEFINING CHARACTERISTICS</span>
+            <ul class="nv-info-list">
+              <li>Monochromatic dominance</li>
+              <li>45-degree diagonal compositions</li>
+              <li>Neubrutalist borders and shadows</li>
+              <li>Single vivid accent color</li>
+              <li>Angular vector shapes</li>
+              <li>Technical annotations</li>
+              <li>Logo-like constructs</li>
+              <li>Futuristic typography</li>
+              <li>Gamer-grunge energy</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================
+       COLOR PALETTE SECTION
+       ======================================== -->
+  <section class="nv-section nv-section--dark" id="palette">
+    <div class="nv-bg-grid"></div>
+    <div class="nv-section-inner">
+      <span class="nv-section-label nv-reveal">SEC::002 // COLOR SYSTEM</span>
+      <h2 class="nv-section-title nv-reveal nv-delay-1"><span class="accent">MONO</span>CHROMATIC<br>DOMINANCE</h2>
+      <p class="nv-section-subtitle nv-reveal nv-delay-2">Black and white dominate. All other hues function as accent colors rather than primary ones. This high-contrast monochrome foundation is what gives the aesthetic its sharp, logo-ready quality.</p>
+
+      <div class="nv-palette-grid nv-reveal nv-delay-3">
+        <div class="nv-color-card">
+          <div class="nv-color-swatch" style="background: #000000;"></div>
+          <div class="nv-color-info">
+            <div class="nv-color-name">Pure Black</div>
+            <div class="nv-color-hex">#000000 // PRIMARY BG</div>
+          </div>
+        </div>
+        <div class="nv-color-card">
+          <div class="nv-color-swatch" style="background: #0A0A0A;"></div>
+          <div class="nv-color-info">
+            <div class="nv-color-name">Near Black</div>
+            <div class="nv-color-hex">#0A0A0A // BASE</div>
+          </div>
+        </div>
+        <div class="nv-color-card">
+          <div class="nv-color-swatch" style="background: #141414;"></div>
+          <div class="nv-color-info">
+            <div class="nv-color-name">Dark Charcoal</div>
+            <div class="nv-color-hex">#141414 // SECONDARY BG</div>
+          </div>
+        </div>
+        <div class="nv-color-card">
+          <div class="nv-color-swatch" style="background: #1E1E1E;"></div>
+          <div class="nv-color-info">
+            <div class="nv-color-name">Surface</div>
+            <div class="nv-color-hex">#1E1E1E // PANELS</div>
+          </div>
+        </div>
+        <div class="nv-color-card">
+          <div class="nv-color-swatch" style="background: #555555;"></div>
+          <div class="nv-color-info">
+            <div class="nv-color-name">Muted</div>
+            <div class="nv-color-hex">#555555 // MUTED</div>
+          </div>
+        </div>
+        <div class="nv-color-card">
+          <div class="nv-color-swatch" style="background: #888888;"></div>
+          <div class="nv-color-info">
+            <div class="nv-color-name">Mid Gray</div>
+            <div class="nv-color-hex">#888888 // SECONDARY TEXT</div>
+          </div>
+        </div>
+        <div class="nv-color-card">
+          <div class="nv-color-swatch" style="background: #F0F0F0;"></div>
+          <div class="nv-color-info">
+            <div class="nv-color-name">Near White</div>
+            <div class="nv-color-hex">#F0F0F0 // PRIMARY TEXT</div>
+          </div>
+        </div>
+        <div class="nv-color-card">
+          <div class="nv-color-swatch" style="background: #FFFFFF; border-bottom: 2px solid #1E1E1E;"></div>
+          <div class="nv-color-info">
+            <div class="nv-color-name">Pure White</div>
+            <div class="nv-color-hex">#FFFFFF // BORDERS / SHAPES</div>
+          </div>
+        </div>
+      </div>
+
+      <hr class="nv-section-divider-line" style="opacity: 0.15;">
+
+      <span class="nv-section-label nv-reveal">// ACCENT PALETTE</span>
+      <h3 class="nv-reveal nv-delay-1" style="font-size: 1.5rem; margin-top: 0.5rem; margin-bottom: 0.5rem;">HIGH-VOLTAGE INTERRUPTIONS</h3>
+      <p class="nv-section-subtitle nv-reveal nv-delay-2" style="margin-bottom: 0;">One accent per composition. Choose a single vivid hue and deploy it with surgical precision. Color is an event, not a default.</p>
+
+      <div class="nv-accent-grid nv-reveal nv-delay-3">
+        <div class="nv-accent-card" style="border-top: 4px solid #00FF66;">
+          <div class="nv-accent-dot" style="background: #00FF66;"></div>
+          <div class="nv-accent-card-name" style="color: #00FF66;">Volt Green</div>
+          <div class="nv-accent-card-hex">#00FF66 / #39FF14</div>
+          <div class="nv-accent-card-desc">Gaming-inflected energy, terminal glow, active states</div>
+        </div>
+        <div class="nv-accent-card" style="border-top: 4px solid #00FFFF;">
+          <div class="nv-accent-dot" style="background: #00FFFF;"></div>
+          <div class="nv-accent-card-name" style="color: #00FFFF;">Electric Cyan</div>
+          <div class="nv-accent-card-hex">#00FFFF / #00D4FF</div>
+          <div class="nv-accent-card-desc">Tech-forward, cyberpunk undertones</div>
+        </div>
+        <div class="nv-accent-card" style="border-top: 4px solid #FF00FF;">
+          <div class="nv-accent-dot" style="background: #FF00FF;"></div>
+          <div class="nv-accent-card-name" style="color: #FF00FF;">Hot Magenta</div>
+          <div class="nv-accent-card-hex">#FF00FF / #FF0066</div>
+          <div class="nv-accent-card-desc">Aggressive, attention-grabbing highlights</div>
+        </div>
+        <div class="nv-accent-card" style="border-top: 4px solid #FF0033;">
+          <div class="nv-accent-dot" style="background: #FF0033;"></div>
+          <div class="nv-accent-card-name" style="color: #FF0033;">Signal Red</div>
+          <div class="nv-accent-card-hex">#FF0033 / #FF1A1A</div>
+          <div class="nv-accent-card-desc">Alert states, aggressive emphasis</div>
+        </div>
+        <div class="nv-accent-card" style="border-top: 4px solid #CCFF00;">
+          <div class="nv-accent-dot" style="background: #CCFF00;"></div>
+          <div class="nv-accent-card-name" style="color: #CCFF00;">Acid Yellow</div>
+          <div class="nv-accent-card-hex">#CCFF00 / #DFFF00</div>
+          <div class="nv-accent-card-desc">High-visibility labels, caution elements</div>
+        </div>
+        <div class="nv-accent-card" style="border-top: 4px solid #BF00FF;">
+          <div class="nv-accent-dot" style="background: #BF00FF;"></div>
+          <div class="nv-accent-card-name" style="color: #BF00FF;">UV Purple</div>
+          <div class="nv-accent-card-hex">#BF00FF / #9B30FF</div>
+          <div class="nv-accent-card-desc">Cyberpunk accent, glow effects</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================
+       TYPOGRAPHY SECTION
+       ======================================== -->
+  <div class="nv-accent-bar"></div>
+
+  <section class="nv-section nv-section--surface" id="type">
+    <div class="nv-bg-diagonal-stripes"></div>
+    <div class="nv-section-inner">
+      <span class="nv-section-label nv-reveal">SEC::003 // TYPOGRAPHY</span>
+      <h2 class="nv-section-title nv-reveal nv-delay-1">FUTURISTIC.<br><span class="accent">GEOMETRIC.</span> BOLD.</h2>
+      <p class="nv-section-subtitle nv-reveal nv-delay-2">Angular, geometric, tech-forward fonts that feel engineered and digitally precise. Bold, uppercase, condensed -- headlines are loud, compressed, and commanding.</p>
+
+      <div class="nv-type-showcase">
+        <div class="nv-type-specimen nv-reveal nv-delay-3">
+          <div class="nv-type-specimen-header">
+            <span class="nv-type-specimen-name">ORBITRON // DISPLAY</span>
+            <span class="nv-type-specimen-meta">WEIGHT: 900 // SPACING: -0.02EM</span>
+          </div>
+          <div class="nv-type-specimen-body">
+            <div class="nv-type-orbitron">VECTOR<span class="nv-glow-text">HEART</span></div>
+          </div>
+        </div>
+
+        <div class="nv-type-specimen nv-reveal nv-delay-4">
+          <div class="nv-type-specimen-header">
+            <span class="nv-type-specimen-name">CHAKRA PETCH // HEADLINE</span>
+            <span class="nv-type-specimen-meta">WEIGHT: 700 // SPACING: 0.06EM</span>
+          </div>
+          <div class="nv-type-specimen-body">
+            <div class="nv-type-chakra">ANGULAR PRECISION MEETS<br>GAMER-GRUNGE <span class="nv-accent-text">MAXIMALISM</span></div>
+          </div>
+        </div>
+
+        <div class="nv-type-specimen nv-reveal nv-delay-5">
+          <div class="nv-type-specimen-header">
+            <span class="nv-type-specimen-name">BEBAS NEUE // DISPLAY</span>
+            <span class="nv-type-specimen-meta">WEIGHT: 400 // CONDENSED</span>
+          </div>
+          <div class="nv-type-specimen-body">
+            <div class="nv-type-bebas">DESIGN IS NOT DECORATION<br>IT IS <span class="nv-accent-text">COMMUNICATION</span></div>
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+          <div class="nv-type-specimen nv-reveal nv-delay-3">
+            <div class="nv-type-specimen-header">
+              <span class="nv-type-specimen-name">RAJDHANI // LABEL</span>
+              <span class="nv-type-specimen-meta">UI TEXT</span>
+            </div>
+            <div class="nv-type-specimen-body">
+              <div class="nv-type-rajdhani">SUBHEADINGS AND LABELS<br>TECHNICAL INTERFACE TEXT<br>NAVIGATION ELEMENTS</div>
+            </div>
+          </div>
+
+          <div class="nv-type-specimen nv-reveal nv-delay-4">
+            <div class="nv-type-specimen-header">
+              <span class="nv-type-specimen-name">SHARE TECH MONO // CODE</span>
+              <span class="nv-type-specimen-meta">DECORATIVE</span>
+            </div>
+            <div class="nv-type-specimen-body">
+              <div class="nv-type-mono">
+                // SYS.RENDER :: ACTIVE<br>
+                VEC.COORD: X:4096 Y:2160<br>
+                DENSITY: 0.97 // SHARP<br>
+                OUTPUT: VECTORHEART.v2<br>
+                STATUS: ONLINE_________
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="nv-type-specimen nv-reveal nv-delay-5">
+          <div class="nv-type-specimen-header">
+            <span class="nv-type-specimen-name">AUDIOWIDE // DISPLAY</span>
+            <span class="nv-type-specimen-meta">WEIGHT: 400 // WIDE</span>
+          </div>
+          <div class="nv-type-specimen-body">
+            <div class="nv-type-audiowide">WIDE FUTURISTIC <span class="nv-accent-text">BOLD</span></div>
+          </div>
+        </div>
+
+        <div class="nv-type-specimen nv-reveal nv-delay-6">
+          <div class="nv-type-specimen-header">
+            <span class="nv-type-specimen-name">INTER // BODY</span>
+            <span class="nv-type-specimen-meta">WEIGHT: 400 // LINE-HEIGHT: 1.6</span>
+          </div>
+          <div class="nv-type-specimen-body">
+            <div class="nv-type-inter">Neo-Vectorheart typography is entirely sans-serif and monospace. No serif fonts are permitted. White text on black (or inverted) with high contrast is non-negotiable. Tight or negative letter-spacing on headlines creates density and visual force. All-caps is the default for headings and labels -- industrial, utilitarian, tech-aggressive.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================
+       ELEMENTS / MOTIFS SECTION (INVERTED)
+       ======================================== -->
+  <section class="nv-section nv-section--light" id="elements">
+    <div class="nv-section-inner">
+      <span class="nv-section-label nv-reveal">SEC::004 // VISUAL ELEMENTS</span>
+      <h2 class="nv-section-title nv-reveal nv-delay-1">DEFINING <span class="accent">MOTIFS</span></h2>
+      <p class="nv-section-subtitle nv-reveal nv-delay-2">Hard-edged, flat geometric forms rendered as clean vectors. Never organic. Never hand-drawn. Logo-ready precision at every scale.</p>
+
+      <div class="nv-elements-grid">
+        <div class="nv-element-card nv-reveal nv-delay-3">
+          <span class="nv-element-card-num">MOTIF::001</span>
+          <h4>Diagonal Lines</h4>
+          <p>45-degree and 60-degree diagonal lines are the signature structural motif. Slashes, chevrons, and angled dividers create aggressive directional energy throughout every composition.</p>
+        </div>
+        <div class="nv-element-card nv-reveal nv-delay-4">
+          <span class="nv-element-card-num">MOTIF::002</span>
+          <h4>Vector Shapes</h4>
+          <p>Hard-edged, flat geometric forms -- triangles, parallelograms, chevrons, abstract polygons -- rendered as clean vectors with monochromatic precision.</p>
+        </div>
+        <div class="nv-element-card nv-reveal nv-delay-5">
+          <span class="nv-element-card-num">MOTIF::003</span>
+          <h4>Neubrutalist Borders</h4>
+          <p>Bold outlines and hard borders: thick, visible strokes on elements with flat, offset box-shadows at fixed angles instead of diffused drop shadows.</p>
+        </div>
+        <div class="nv-element-card nv-reveal nv-delay-6">
+          <span class="nv-element-card-num">MOTIF::004</span>
+          <h4>TM / Copyright Symbols</h4>
+          <p>Liberal decorative use of trademark, copyright, and registered symbols inherited from original Vectorheart. Ironic corporate-culture references as design texture.</p>
+        </div>
+        <div class="nv-element-card nv-reveal nv-delay-3">
+          <span class="nv-element-card-num">MOTIF::005</span>
+          <h4>Technical Annotations</h4>
+          <p>Monospaced data strings, coordinates, and alphanumeric codes used decoratively. System-level language rendered as compositional element.</p>
+        </div>
+        <div class="nv-element-card nv-reveal nv-delay-4">
+          <span class="nv-element-card-num">MOTIF::006</span>
+          <h4>Logo Abundance</h4>
+          <p>Repeated, rotated, and stacked logo-like elements as compositional texture. Every element feels like it could be a brand mark -- structured, angular, purposeful.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================
+       COMPOSITION / LAYOUT SECTION
+       ======================================== -->
+  <div class="nv-accent-bar"></div>
+
+  <section class="nv-section nv-section--dark" id="composition">
+    <div class="nv-bg-grid"></div>
+    <div class="nv-section-inner">
+      <span class="nv-section-label nv-reveal">SEC::005 // COMPOSITION</span>
+      <h2 class="nv-section-title nv-reveal nv-delay-1">LAYOUT <span class="accent">&amp;</span><br>STRUCTURE</h2>
+      <p class="nv-section-subtitle nv-reveal nv-delay-2">Diagonal dominance. Angular containers. Asymmetric, dynamic compositions with strong directional thrust. Nothing feels static.</p>
+
+      <div class="nv-composition-demo nv-reveal nv-delay-3">
+        <div class="nv-comp-panel nv-comp-panel--skewed">
+          <span class="nv-comp-label">// SKEWED CONTAINER</span>
+          <h3 class="nv-comp-heading">DIAGONAL<br><span class="nv-accent-text">DOMINANCE</span></h3>
+          <p class="nv-comp-text">Major layout divisions follow 45-degree or 60-degree angles. Sections are sliced diagonally, not horizontally. Use <code style="color: var(--nv-accent); font-family: 'Share Tech Mono', monospace; font-size: 0.8em;">clip-path</code> and <code style="color: var(--nv-accent); font-family: 'Share Tech Mono', monospace; font-size: 0.8em;">transform: skew()</code> to create non-rectangular panels.</p>
+        </div>
+        <div class="nv-comp-panel nv-comp-panel--clipped">
+          <span class="nv-comp-label">// CLIPPED CONTAINER</span>
+          <h3 class="nv-comp-heading">HARD-EDGE<br><span class="nv-accent-text">FLAT DESIGN</span></h3>
+          <p class="nv-comp-text">No rounded corners. No soft gradients. No blur effects. Everything is crisp and geometric. Maximum-minimalist philosophy: visually complex compositions built from minimal, precisely placed elements.</p>
+        </div>
+      </div>
+
+      <hr class="nv-section-divider-line" style="opacity: 0.15; margin-top: 4rem;">
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; margin-top: 2rem;" class="nv-reveal nv-delay-4">
+        <div>
+          <span class="nv-section-label">// NEUBRUTALIST INFLUENCE</span>
+          <h3 style="font-size: 1.2rem; margin-top: 0.5rem; margin-bottom: 1rem;">BOLD STRUCTURAL LANGUAGE</h3>
+          <ul style="list-style: none;">
+            <li style="padding: 0.5rem 0; border-bottom: 1px solid var(--nv-mid-dark); font-family: 'Rajdhani', sans-serif; font-size: 0.88rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--nv-text-secondary); display: flex; gap: 0.75rem; align-items: center;">
+              <span style="color: var(--nv-accent);">></span> Thick visible borders (2-4px solid)
+            </li>
+            <li style="padding: 0.5rem 0; border-bottom: 1px solid var(--nv-mid-dark); font-family: 'Rajdhani', sans-serif; font-size: 0.88rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--nv-text-secondary); display: flex; gap: 0.75rem; align-items: center;">
+              <span style="color: var(--nv-accent);">></span> Flat offset shadows at 45 degrees
+            </li>
+            <li style="padding: 0.5rem 0; border-bottom: 1px solid var(--nv-mid-dark); font-family: 'Rajdhani', sans-serif; font-size: 0.88rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--nv-text-secondary); display: flex; gap: 0.75rem; align-items: center;">
+              <span style="color: var(--nv-accent);">></span> Geometric content blocks
+            </li>
+            <li style="padding: 0.5rem 0; border-bottom: 1px solid var(--nv-mid-dark); font-family: 'Rajdhani', sans-serif; font-size: 0.88rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--nv-text-secondary); display: flex; gap: 0.75rem; align-items: center;">
+              <span style="color: var(--nv-accent);">></span> Deliberate visual tension
+            </li>
+            <li style="padding: 0.5rem 0; font-family: 'Rajdhani', sans-serif; font-size: 0.88rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--nv-text-secondary); display: flex; gap: 0.75rem; align-items: center;">
+              <span style="color: var(--nv-accent);">></span> Asymmetric placement
+            </li>
+          </ul>
+        </div>
+        <div>
+          <span class="nv-section-label">// SECTION ORGANIZATION</span>
+          <h3 style="font-size: 1.2rem; margin-top: 0.5rem; margin-bottom: 1rem;">COMPOSITIONAL RHYTHM</h3>
+          <ul style="list-style: none;">
+            <li style="padding: 0.5rem 0; border-bottom: 1px solid var(--nv-mid-dark); font-family: 'Rajdhani', sans-serif; font-size: 0.88rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--nv-text-secondary); display: flex; gap: 0.75rem; align-items: center;">
+              <span style="color: var(--nv-accent);">></span> Diagonal dividers between sections
+            </li>
+            <li style="padding: 0.5rem 0; border-bottom: 1px solid var(--nv-mid-dark); font-family: 'Rajdhani', sans-serif; font-size: 0.88rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--nv-text-secondary); display: flex; gap: 0.75rem; align-items: center;">
+              <span style="color: var(--nv-accent);">></span> High contrast section alternation
+            </li>
+            <li style="padding: 0.5rem 0; border-bottom: 1px solid var(--nv-mid-dark); font-family: 'Rajdhani', sans-serif; font-size: 0.88rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--nv-text-secondary); display: flex; gap: 0.75rem; align-items: center;">
+              <span style="color: var(--nv-accent);">></span> Angular accent bars
+            </li>
+            <li style="padding: 0.5rem 0; border-bottom: 1px solid var(--nv-mid-dark); font-family: 'Rajdhani', sans-serif; font-size: 0.88rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--nv-text-secondary); display: flex; gap: 0.75rem; align-items: center;">
+              <span style="color: var(--nv-accent);">></span> Dense header zones
+            </li>
+            <li style="padding: 0.5rem 0; font-family: 'Rajdhani', sans-serif; font-size: 0.88rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--nv-text-secondary); display: flex; gap: 0.75rem; align-items: center;">
+              <span style="color: var(--nv-accent);">></span> Floating vector shape decorations
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================
+       CSS TECHNIQUES SECTION
+       ======================================== -->
+  <section class="nv-section nv-section--surface" id="techniques">
+    <div class="nv-bg-diagonal-stripes"></div>
+    <div class="nv-section-inner">
+      <span class="nv-section-label nv-reveal">SEC::006 // CSS TECHNIQUES</span>
+      <h2 class="nv-section-title nv-reveal nv-delay-1">DESIGN <span class="accent">TOOLKIT</span></h2>
+      <p class="nv-section-subtitle nv-reveal nv-delay-2">Core CSS patterns and techniques that define the Neo-Vectorheart implementation layer.</p>
+
+      <div class="nv-tech-grid">
+        <div class="nv-tech-card nv-reveal nv-delay-3">
+          <div class="nv-tech-card-demo demo-diagonal-lines"></div>
+          <div class="nv-tech-card-body">
+            <span class="nv-tech-card-label">TECHNIQUE::001</span>
+            <h4>Diagonal Accents</h4>
+            <p>45-degree decorative lines and stripe patterns using repeating-linear-gradient at precise angles.</p>
+          </div>
+        </div>
+
+        <div class="nv-tech-card nv-reveal nv-delay-4">
+          <div class="nv-tech-card-demo demo-shadow">
+            <div class="demo-shadow-box"></div>
+          </div>
+          <div class="nv-tech-card-body">
+            <span class="nv-tech-card-label">TECHNIQUE::002</span>
+            <h4>Brutalist Shadow</h4>
+            <p>Hard 45-degree offset box-shadows with no blur radius. Flat, geometric, confrontational.</p>
+          </div>
+        </div>
+
+        <div class="nv-tech-card nv-reveal nv-delay-5">
+          <div class="nv-tech-card-demo demo-vectors" style="display: flex;">
+            <div class="demo-chevron"></div>
+            <div class="demo-parallelogram"></div>
+            <div class="demo-triangle"></div>
+          </div>
+          <div class="nv-tech-card-body">
+            <span class="nv-tech-card-label">TECHNIQUE::003</span>
+            <h4>Vector Shapes</h4>
+            <p>Chevrons, parallelograms, and triangles via clip-path, skew transforms, and border tricks.</p>
+          </div>
+        </div>
+
+        <div class="nv-tech-card nv-reveal nv-delay-3">
+          <div class="nv-tech-card-demo demo-glow">
+            <div class="demo-glow-line"></div>
+          </div>
+          <div class="nv-tech-card-body">
+            <span class="nv-tech-card-label">TECHNIQUE::004</span>
+            <h4>Accent Glow</h4>
+            <p>Neon glow on accent-colored elements using layered box-shadow with decreasing opacity.</p>
+          </div>
+        </div>
+
+        <div class="nv-tech-card nv-reveal nv-delay-4">
+          <div class="nv-tech-card-demo demo-clippath">
+            <div class="demo-clipped-box"></div>
+          </div>
+          <div class="nv-tech-card-body">
+            <span class="nv-tech-card-label">TECHNIQUE::005</span>
+            <h4>Angular Clip Paths</h4>
+            <p>clip-path polygon to create non-rectangular containers with cut corners and angular edges.</p>
+          </div>
+        </div>
+
+        <div class="nv-tech-card nv-reveal nv-delay-5">
+          <div class="nv-tech-card-demo demo-skew">
+            <div class="demo-skew-panel">
+              <span class="demo-skew-text">SKEWED</span>
+            </div>
+          </div>
+          <div class="nv-tech-card-body">
+            <span class="nv-tech-card-label">TECHNIQUE::006</span>
+            <h4>Skew Transform</h4>
+            <p>Parallelogram panels using skewX with counter-skew on child content to maintain readability.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================
+       ANIMATION SECTION
+       ======================================== -->
+  <div class="nv-accent-bar"></div>
+
+  <section class="nv-section nv-section--dark" id="motion">
+    <div class="nv-bg-grid"></div>
+    <div class="nv-section-inner">
+      <span class="nv-section-label nv-reveal">SEC::007 // MOTION</span>
+      <h2 class="nv-section-title nv-reveal nv-delay-1">ANIMATION <span class="accent">&amp;</span><br>MOTION</h2>
+      <p class="nv-section-subtitle nv-reveal nv-delay-2">Minimal, sharp transitions. Snap transformations. No organic motion -- everything moves mechanically and precisely. No bounce, wobble, or spring physics.</p>
+
+      <div class="nv-animation-grid">
+        <div class="nv-anim-card nv-reveal nv-delay-3">
+          <div class="nv-anim-card-demo">
+            <div class="anim-diag-box"></div>
+          </div>
+          <div class="nv-anim-card-body">
+            <h4>Diagonal Slide-In</h4>
+            <p>Elements enter along 45-degree paths. Short durations (300ms), ease timing. Mechanical precision.</p>
+          </div>
+        </div>
+
+        <div class="nv-anim-card nv-reveal nv-delay-4">
+          <div class="nv-anim-card-demo">
+            <div class="anim-pulse-circle"></div>
+          </div>
+          <div class="nv-anim-card-body">
+            <h4>Accent Glow Pulse</h4>
+            <p>Subtle pulsing glow on accent-colored elements. 2s cycle, ease-in-out. The accent breathes without dominating.</p>
+          </div>
+        </div>
+
+        <div class="nv-anim-card nv-reveal nv-delay-5">
+          <div class="nv-anim-card-demo">
+            <div class="anim-glitch-text">VECTOR<span class="nv-accent-text">HEART</span></div>
+          </div>
+          <div class="nv-anim-card-body">
+            <h4>Glitch Effect</h4>
+            <p>Digital interference via clip-path animation. Brief, mechanical disruption that reinforces the tech-dystopian feel.</p>
+          </div>
+        </div>
+
+        <div class="nv-anim-card nv-reveal nv-delay-6">
+          <div class="nv-anim-card-demo">
+            <div class="anim-sweep-container">
+              <div class="anim-sweep-line"></div>
+            </div>
+          </div>
+          <div class="nv-anim-card-body">
+            <h4>Diagonal Sweep</h4>
+            <p>Linear sweep of accent-colored line across surfaces. Continuous, deliberate scanning motion.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================
+       INFLUENCES SECTION
+       ======================================== -->
+  <section class="nv-section nv-section--surface" id="lineage">
+    <div class="nv-bg-diagonal-stripes"></div>
+    <div class="nv-section-inner">
+      <span class="nv-section-label nv-reveal">SEC::008 // CULTURAL LINEAGE</span>
+      <h2 class="nv-section-title nv-reveal nv-delay-1">REFERENCES <span class="accent">&amp;</span><br>INFLUENCES</h2>
+      <p class="nv-section-subtitle nv-reveal nv-delay-2">The visual lineage that defines the Neo-Vectorheart aesthetic.</p>
+
+      <div class="nv-influences-grid">
+        <div class="nv-influence-item nv-reveal nv-delay-3">
+          <div class="nv-influence-name">The Designers Republic</div>
+          <div class="nv-influence-desc">Pioneering Sheffield studio whose angular, logo-saturated, ironic-corporate vector work defined original Vectorheart.</div>
+        </div>
+        <div class="nv-influence-item nv-reveal nv-delay-4">
+          <div class="nv-influence-name">Bionic Systems</div>
+          <div class="nv-influence-desc">Early 2000s design firm producing maximalist vector compositions.</div>
+        </div>
+        <div class="nv-influence-item nv-reveal nv-delay-5">
+          <div class="nv-influence-name">Peter Saville</div>
+          <div class="nv-influence-desc">Factory Records album art with its Swiss-influenced typographic precision.</div>
+        </div>
+        <div class="nv-influence-item nv-reveal nv-delay-3">
+          <div class="nv-influence-name">Gaming Culture</div>
+          <div class="nv-influence-desc">Esports branding, tournament graphics, streamer overlays, gamer-grunge maximalism.</div>
+        </div>
+        <div class="nv-influence-item nv-reveal nv-delay-4">
+          <div class="nv-influence-name">Cyberpunk Media</div>
+          <div class="nv-influence-desc">Dark, high-contrast, tech-dystopian visual language as foundational mood.</div>
+        </div>
+        <div class="nv-influence-item nv-reveal nv-delay-5">
+          <div class="nv-influence-name">Neo-Y2K Movement</div>
+          <div class="nv-influence-desc">Broader revival of late-1990s/early-2000s digital aesthetics through a contemporary lens.</div>
+        </div>
+        <div class="nv-influence-item nv-reveal nv-delay-3">
+          <div class="nv-influence-name">Swiss Modernism</div>
+          <div class="nv-influence-desc">International Typographic Style -- grid precision and typographic hierarchy as structural backbone.</div>
+        </div>
+        <div class="nv-influence-item nv-reveal nv-delay-4">
+          <div class="nv-influence-name">Neubrutalism</div>
+          <div class="nv-influence-desc">Bold borders, flat shadows, geometric blocks, confrontational layout language.</div>
+        </div>
+        <div class="nv-influence-item nv-reveal nv-delay-5">
+          <div class="nv-influence-name">Logo Design Communities</div>
+          <div class="nv-influence-desc">Behance/Dribbble monochromatic logo culture of the late 2010s.</div>
+        </div>
+      </div>
+
+      <hr class="nv-section-divider-line" style="opacity: 0.15; margin-top: 4rem;">
+
+      <span class="nv-section-label nv-reveal">// RELATED AESTHETICS</span>
+      <h3 class="nv-reveal nv-delay-1" style="font-size: 1.5rem; margin-top: 0.5rem; margin-bottom: 2rem;">AESTHETIC NEIGHBORS</h3>
+
+      <div class="nv-related-grid">
+        <div class="nv-related-card nv-reveal nv-delay-2">
+          <div class="nv-related-card-marker"></div>
+          <div>
+            <div class="nv-related-card-name">Vectorheart</div>
+            <div class="nv-related-card-desc">Direct ancestor. Neo-Vectorheart is the contemporary revival of this early-2000s aesthetic.</div>
+          </div>
+        </div>
+        <div class="nv-related-card nv-reveal nv-delay-3">
+          <div class="nv-related-card-marker"></div>
+          <div>
+            <div class="nv-related-card-name">Neo-Y2K</div>
+            <div class="nv-related-card-desc">Parent movement. Neo-Vectorheart is one expression within the broader Neo-Y2K revival.</div>
+          </div>
+        </div>
+        <div class="nv-related-card nv-reveal nv-delay-4">
+          <div class="nv-related-card-marker"></div>
+          <div>
+            <div class="nv-related-card-name">Neubrutalism</div>
+            <div class="nv-related-card-desc">Key influence. Contributes bold borders, flat shadows, and confrontational layout language.</div>
+          </div>
+        </div>
+        <div class="nv-related-card nv-reveal nv-delay-5">
+          <div class="nv-related-card-marker"></div>
+          <div>
+            <div class="nv-related-card-name">Cyberpunk</div>
+            <div class="nv-related-card-desc">Shares dark, high-contrast, tech-dystopian visual sensibility.</div>
+          </div>
+        </div>
+        <div class="nv-related-card nv-reveal nv-delay-2">
+          <div class="nv-related-card-marker"></div>
+          <div>
+            <div class="nv-related-card-name">Acid Design</div>
+            <div class="nv-related-card-desc">Sibling. Shares neon accents on dark backgrounds and rave-adjacent visual energy.</div>
+          </div>
+        </div>
+        <div class="nv-related-card nv-reveal nv-delay-3">
+          <div class="nv-related-card-marker"></div>
+          <div>
+            <div class="nv-related-card-name">Cyberminimalism</div>
+            <div class="nv-related-card-desc">Shares monochromatic precision and digital sleekness, but Neo-Vectorheart is more maximalist.</div>
+          </div>
+        </div>
+        <div class="nv-related-card nv-reveal nv-delay-4">
+          <div class="nv-related-card-marker"></div>
+          <div>
+            <div class="nv-related-card-name">Gamer</div>
+            <div class="nv-related-card-desc">Gamer-grunge maximalism is a primary influence on Neo-Vectorheart compositions.</div>
+          </div>
+        </div>
+        <div class="nv-related-card nv-reveal nv-delay-5">
+          <div class="nv-related-card-marker"></div>
+          <div>
+            <div class="nv-related-card-name">Hexatron</div>
+            <div class="nv-related-card-desc">Shares geometric precision and tech-futurist dark aesthetics.</div>
+          </div>
+        </div>
+        <div class="nv-related-card nv-reveal nv-delay-2">
+          <div class="nv-related-card-marker"></div>
+          <div>
+            <div class="nv-related-card-name">Vectorbloom</div>
+            <div class="nv-related-card-desc">Sibling. Organic vector art from the same design lineage.</div>
+          </div>
+        </div>
+        <div class="nv-related-card nv-reveal nv-delay-3">
+          <div class="nv-related-card-marker"></div>
+          <div>
+            <div class="nv-related-card-name">Metalheart</div>
+            <div class="nv-related-card-desc">Shares dark, angular, tech-aggressive design language but emphasizes 3D metallic forms.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================
+       FOOTER
+       ======================================== -->
+  <footer class="nv-footer">
+    <div class="nv-footer-brand">NEO<span>//</span>VECTORHEART</div>
+    <div class="nv-footer-meta">SYS.STATUS // ONLINE // BUILD.2026.02</div>
+    <div class="nv-footer-copy">DESIGN AESTHETIC REFERENCE &copy; 2026</div>
+  </footer>
+
+  <!-- ========================================
+       JAVASCRIPT: Scroll Reveal + Interactions
+       ======================================== -->
+  <script>
+    // Scroll-triggered reveal animation
+    (function() {
+      const revealElements = document.querySelectorAll('.nv-reveal, .nv-reveal-diagonal');
+
+      function checkVisibility() {
+        const windowHeight = window.innerHeight;
+        const triggerPoint = windowHeight * 0.88;
+
+        revealElements.forEach(function(el) {
+          const elementTop = el.getBoundingClientRect().top;
+          if (elementTop < triggerPoint) {
+            el.classList.add('visible');
+          }
+        });
+      }
+
+      // Check on load
+      checkVisibility();
+
+      // Check on scroll with throttle
+      let ticking = false;
+      window.addEventListener('scroll', function() {
+        if (!ticking) {
+          window.requestAnimationFrame(function() {
+            checkVisibility();
+            ticking = false;
+          });
+          ticking = true;
+        }
+      });
+    })();
+
+    // Smooth scroll for nav links
+    document.querySelectorAll('.nv-nav-links a').forEach(function(link) {
+      link.addEventListener('click', function(e) {
+        var href = this.getAttribute('href');
+        if (href && href.startsWith('#')) {
+          e.preventDefault();
+          var target = document.querySelector(href);
+          if (target) {
+            var navHeight = document.querySelector('.nv-nav').offsetHeight;
+            var targetPos = target.getBoundingClientRect().top + window.scrollY - navHeight;
+            window.scrollTo({ top: targetPos, behavior: 'smooth' });
+          }
+        }
+      });
+    });
+
+    // Hero button smooth scroll
+    document.querySelectorAll('.nv-hero-actions a').forEach(function(link) {
+      link.addEventListener('click', function(e) {
+        var href = this.getAttribute('href');
+        if (href && href.startsWith('#')) {
+          e.preventDefault();
+          var target = document.querySelector(href);
+          if (target) {
+            var navHeight = document.querySelector('.nv-nav').offsetHeight;
+            var targetPos = target.getBoundingClientRect().top + window.scrollY - navHeight;
+            window.scrollTo({ top: targetPos, behavior: 'smooth' });
+          }
+        }
+      });
+    });
+
+    // Nav background opacity on scroll
+    (function() {
+      var nav = document.querySelector('.nv-nav');
+      var scrollTicking = false;
+
+      window.addEventListener('scroll', function() {
+        if (!scrollTicking) {
+          window.requestAnimationFrame(function() {
+            if (window.scrollY > 50) {
+              nav.style.background = 'rgba(0, 0, 0, 0.98)';
+            } else {
+              nav.style.background = 'rgba(0, 0, 0, 0.92)';
+            }
+            scrollTicking = false;
+          });
+          scrollTicking = true;
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

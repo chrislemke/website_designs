@@ -1,0 +1,1858 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Neon Ooze -- Design Aesthetic Showcase</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bangers&family=Bungee+Shade&family=Creepster&family=Fredoka+One&family=Nunito:wght@400;600;700;800&family=Permanent+Marker&family=Rubik+Mono+One&display=swap" rel="stylesheet">
+<style>
+/* ========================================
+   CSS CUSTOM PROPERTIES
+   ======================================== */
+:root {
+  /* Backgrounds */
+  --ooze-black: #0a0a0a;
+  --ooze-dark-green: #0b1a0b;
+  --ooze-deep-purple: #1a0033;
+  --ooze-sludge: #2d1f0e;
+
+  /* Neon accents */
+  --ooze-slime: #39ff14;
+  --ooze-slime-bright: #00ff41;
+  --ooze-toxic-yellow: #ccff00;
+  --ooze-purple: #bf00ff;
+  --ooze-blue: #00bfff;
+  --ooze-pink: #ff00ff;
+  --ooze-orange: #ff6600;
+  --ooze-hazard-yellow: #ffd700;
+
+  /* Text */
+  --ooze-text: #e8e8d0;
+  --ooze-text-dim: #9a9a7a;
+
+  /* Functional */
+  --ooze-bg-primary: var(--ooze-black);
+  --ooze-bg-secondary: var(--ooze-dark-green);
+  --ooze-accent-primary: var(--ooze-slime);
+  --ooze-accent-secondary: var(--ooze-purple);
+  --ooze-border: var(--ooze-slime);
+}
+
+/* ========================================
+   RESET & BASE
+   ======================================== */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
+  scrollbar-color: var(--ooze-slime) var(--ooze-black);
+}
+
+html::-webkit-scrollbar {
+  width: 8px;
+}
+html::-webkit-scrollbar-track {
+  background: var(--ooze-black);
+}
+html::-webkit-scrollbar-thumb {
+  background: var(--ooze-slime);
+  border-radius: 4px;
+  box-shadow: 0 0 6px rgba(57, 255, 20, 0.5);
+}
+
+body {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 400;
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: var(--ooze-text);
+  background-color: var(--ooze-black);
+  background-image:
+    radial-gradient(ellipse at 20% 80%, rgba(57, 255, 20, 0.03) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 20%, rgba(191, 0, 255, 0.02) 0%, transparent 50%),
+    linear-gradient(rgba(57, 255, 20, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(57, 255, 20, 0.025) 1px, transparent 1px);
+  background-size: 100% 100%, 100% 100%, 40px 40px, 40px 40px;
+  overflow-x: hidden;
+  letter-spacing: 0.01em;
+}
+
+::selection {
+  background: rgba(57, 255, 20, 0.35);
+  color: #fff;
+}
+
+a {
+  color: var(--ooze-blue);
+  text-decoration: none;
+  text-shadow: 0 0 6px rgba(0, 191, 255, 0.4);
+  transition: all 0.3s ease;
+}
+a:hover {
+  color: var(--ooze-slime);
+  text-shadow: 0 0 10px rgba(57, 255, 20, 0.6);
+}
+
+/* ========================================
+   GLOBAL VIGNETTE
+   ======================================== */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 40%,
+    rgba(0, 0, 0, 0.55) 100%
+  );
+  pointer-events: none;
+  z-index: 1000;
+}
+
+/* ========================================
+   KEYFRAME ANIMATIONS
+   ======================================== */
+@keyframes bubble-rise {
+  0% { transform: translateY(0) scale(1); opacity: 0.7; }
+  50% { transform: translateY(-50px) scale(1.15); opacity: 0.4; }
+  100% { transform: translateY(-100px) scale(0.7); opacity: 0; }
+}
+
+@keyframes bubble-rise-alt {
+  0% { transform: translateY(0) scale(0.8); opacity: 0.6; }
+  40% { transform: translateY(-35px) scale(1.05); opacity: 0.5; }
+  100% { transform: translateY(-75px) scale(0.5); opacity: 0; }
+}
+
+@keyframes radioactive-pulse {
+  0%, 100% {
+    box-shadow: 0 0 5px var(--ooze-slime), 0 0 15px rgba(57, 255, 20, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 12px var(--ooze-slime), 0 0 35px rgba(57, 255, 20, 0.5), 0 0 55px rgba(57, 255, 20, 0.15);
+  }
+}
+
+@keyframes neon-flicker {
+  0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+    text-shadow:
+      0 0 7px var(--ooze-slime),
+      0 0 10px var(--ooze-slime),
+      0 0 21px var(--ooze-slime),
+      0 0 42px rgba(57, 255, 20, 0.5),
+      0 0 80px rgba(57, 255, 20, 0.2);
+  }
+  20%, 24%, 55% {
+    text-shadow: 0 0 2px rgba(57, 255, 20, 0.3);
+  }
+}
+
+@keyframes text-glow-pulse {
+  0%, 100% {
+    text-shadow:
+      0 0 7px var(--ooze-pink),
+      0 0 15px rgba(255, 0, 255, 0.4),
+      3px 3px 0 rgba(0, 0, 0, 0.8);
+  }
+  50% {
+    text-shadow:
+      0 0 12px var(--ooze-pink),
+      0 0 25px rgba(255, 0, 255, 0.6),
+      0 0 45px rgba(255, 0, 255, 0.2),
+      3px 3px 0 rgba(0, 0, 0, 0.8);
+  }
+}
+
+@keyframes drip-down {
+  0% { transform: translateY(-5px); opacity: 0; }
+  30% { opacity: 1; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes ooze-in {
+  0% { opacity: 0; transform: translateY(-20px) scaleY(0.8); filter: blur(4px); }
+  60% { transform: translateY(4px) scaleY(1.03); filter: blur(0); }
+  100% { opacity: 1; transform: translateY(0) scaleY(1); filter: blur(0); }
+}
+
+@keyframes float-subtle {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+@keyframes slime-morph {
+  0%, 100% { border-radius: 60% 40% 55% 45% / 50% 60% 40% 50%; }
+  25% { border-radius: 45% 55% 40% 60% / 60% 45% 55% 40%; }
+  50% { border-radius: 55% 45% 60% 40% / 40% 55% 45% 60%; }
+  75% { border-radius: 40% 60% 45% 55% / 55% 40% 60% 45%; }
+}
+
+@keyframes hazard-scroll {
+  0% { background-position: 0 0; }
+  100% { background-position: 22.6px 0; }
+}
+
+@keyframes scan-line {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100vh); }
+}
+
+@keyframes splat-in {
+  0% { transform: scale(0) rotate(-10deg); opacity: 0; }
+  60% { transform: scale(1.15) rotate(2deg); }
+  100% { transform: scale(1) rotate(0deg); opacity: 1; }
+}
+
+/* ========================================
+   SCANLINE OVERLAY
+   ======================================== */
+.scanlines {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 999;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent 0px,
+    transparent 2px,
+    rgba(0, 0, 0, 0.06) 2px,
+    rgba(0, 0, 0, 0.06) 4px
+  );
+}
+
+/* ========================================
+   FLOATING BUBBLES (ambient background)
+   ======================================== */
+.ambient-bubbles {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.ambient-bubbles span {
+  position: absolute;
+  bottom: -20px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, rgba(57, 255, 20, 0.35), rgba(57, 255, 20, 0.05));
+  animation: bubble-rise linear infinite;
+}
+
+.ambient-bubbles span:nth-child(1) { width: 10px; height: 10px; left: 8%; animation-duration: 7s; animation-delay: 0s; }
+.ambient-bubbles span:nth-child(2) { width: 6px; height: 6px; left: 22%; animation-duration: 9s; animation-delay: 2s; }
+.ambient-bubbles span:nth-child(3) { width: 14px; height: 14px; left: 40%; animation-duration: 11s; animation-delay: 1s; }
+.ambient-bubbles span:nth-child(4) { width: 8px; height: 8px; left: 55%; animation-duration: 8s; animation-delay: 3s; }
+.ambient-bubbles span:nth-child(5) { width: 12px; height: 12px; left: 70%; animation-duration: 10s; animation-delay: 0.5s; }
+.ambient-bubbles span:nth-child(6) { width: 5px; height: 5px; left: 85%; animation-duration: 6s; animation-delay: 4s; }
+.ambient-bubbles span:nth-child(7) { width: 9px; height: 9px; left: 15%; animation-duration: 12s; animation-delay: 5s; }
+.ambient-bubbles span:nth-child(8) { width: 7px; height: 7px; left: 62%; animation-duration: 8.5s; animation-delay: 1.5s; }
+.ambient-bubbles span:nth-child(9) { width: 11px; height: 11px; left: 48%; animation-duration: 13s; animation-delay: 6s; }
+.ambient-bubbles span:nth-child(10) { width: 4px; height: 4px; left: 92%; animation-duration: 7.5s; animation-delay: 2.5s; }
+
+/* ========================================
+   LAYOUT WRAPPER
+   ======================================== */
+.page-wrapper {
+  position: relative;
+  z-index: 1;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+/* ========================================
+   HERO SECTION
+   ======================================== */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 4rem 1rem;
+  position: relative;
+}
+
+.hero-biohazard {
+  font-size: clamp(4rem, 12vw, 9rem);
+  color: var(--ooze-hazard-yellow);
+  text-shadow:
+    0 0 15px rgba(255, 215, 0, 0.6),
+    0 0 40px rgba(255, 215, 0, 0.3);
+  animation: float-subtle 4s ease-in-out infinite, ooze-in 1s ease-out both;
+  margin-bottom: 1rem;
+  filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.4));
+  user-select: none;
+}
+
+.hero h1 {
+  font-family: 'Bungee Shade', cursive;
+  font-size: clamp(2.8rem, 9vw, 7.5rem);
+  text-transform: uppercase;
+  color: var(--ooze-slime);
+  text-shadow:
+    0 0 10px var(--ooze-slime),
+    0 0 20px var(--ooze-slime),
+    0 0 40px rgba(57, 255, 20, 0.5),
+    0 0 80px rgba(57, 255, 20, 0.2),
+    5px 5px 0 var(--ooze-deep-purple);
+  letter-spacing: 0.06em;
+  line-height: 1.05;
+  animation: neon-flicker 5s infinite, ooze-in 1.2s ease-out 0.2s both;
+  margin-bottom: 1.5rem;
+}
+
+.hero-tagline {
+  font-family: 'Creepster', cursive;
+  font-size: clamp(1.2rem, 3.5vw, 2.2rem);
+  color: var(--ooze-pink);
+  text-transform: uppercase;
+  text-shadow:
+    0 0 7px var(--ooze-pink),
+    0 0 15px rgba(255, 0, 255, 0.4),
+    3px 3px 0 rgba(0, 0, 0, 0.8);
+  letter-spacing: 0.08em;
+  animation: text-glow-pulse 3s ease-in-out infinite, ooze-in 1.2s ease-out 0.5s both;
+  margin-bottom: 2.5rem;
+}
+
+.hero-description {
+  max-width: 750px;
+  font-size: 1.1rem;
+  line-height: 1.85;
+  color: var(--ooze-text);
+  animation: ooze-in 1.2s ease-out 0.7s both;
+}
+
+.hero-description strong {
+  color: var(--ooze-slime-bright);
+  text-shadow: 0 0 6px rgba(0, 255, 65, 0.4);
+}
+
+.hero-scroll-hint {
+  margin-top: 3rem;
+  animation: float-subtle 2.5s ease-in-out infinite, ooze-in 1.2s ease-out 1s both;
+  font-size: 2rem;
+  color: var(--ooze-slime);
+  text-shadow: 0 0 10px rgba(57, 255, 20, 0.5);
+  user-select: none;
+}
+
+/* ========================================
+   SLIME DRIP DIVIDER
+   ======================================== */
+.ooze-divider {
+  height: 0;
+  border: none;
+  border-top: 2px solid var(--ooze-slime);
+  margin: 4rem auto;
+  width: 80%;
+  position: relative;
+  filter: drop-shadow(0 0 6px rgba(57, 255, 20, 0.5));
+}
+
+.ooze-divider::before {
+  content: '\2622';
+  position: absolute;
+  top: -0.7em;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--ooze-black);
+  padding: 0 0.6em;
+  color: var(--ooze-slime);
+  font-size: 1.3rem;
+  text-shadow: 0 0 10px rgba(57, 255, 20, 0.7);
+}
+
+.ooze-divider::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 28px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 30' preserveAspectRatio='none'%3E%3Cpath d='M0,0 Q10,0 10,8 Q10,20 15,25 Q18,28 20,20 Q22,8 25,0 Q40,0 45,0 Q45,10 50,18 Q53,22 55,15 Q57,5 60,0 Q80,0 85,0 Q85,12 90,22 Q92,26 95,18 Q98,8 100,0 Q120,0 125,0 Q125,6 128,12 Q130,16 132,10 Q135,4 138,0 Q155,0 160,0 Q160,14 165,24 Q168,30 172,20 Q175,10 178,0 L200,0' fill='%2339ff14' /%3E%3C/svg%3E") repeat-x;
+  background-size: 200px 28px;
+  pointer-events: none;
+  filter: drop-shadow(0 0 6px rgba(57, 255, 20, 0.6));
+}
+
+/* ========================================
+   SECTION HEADINGS
+   ======================================== */
+.section-heading {
+  font-family: 'Creepster', cursive;
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  text-transform: uppercase;
+  color: var(--ooze-pink);
+  text-shadow:
+    0 0 7px var(--ooze-pink),
+    0 0 15px rgba(255, 0, 255, 0.4),
+    3px 3px 0 rgba(0, 0, 0, 0.8);
+  letter-spacing: 0.04em;
+  margin-bottom: 2rem;
+  text-align: center;
+  animation: text-glow-pulse 4s ease-in-out infinite;
+}
+
+.section-heading .biohazard-icon {
+  color: var(--ooze-hazard-yellow);
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+  margin: 0 0.3em;
+  font-style: normal;
+}
+
+.section-subheading {
+  font-family: 'Bangers', cursive;
+  font-size: clamp(1.3rem, 3vw, 1.8rem);
+  text-transform: uppercase;
+  color: var(--ooze-toxic-yellow);
+  text-shadow: 0 0 8px rgba(204, 255, 0, 0.5);
+  letter-spacing: 0.05em;
+  margin-bottom: 1.2rem;
+  margin-top: 2.5rem;
+}
+
+/* ========================================
+   CONTENT SECTIONS
+   ======================================== */
+.content-section {
+  padding: 3rem 0;
+  position: relative;
+}
+
+/* ========================================
+   OOZE CARDS
+   ======================================== */
+.ooze-card {
+  background: linear-gradient(
+    170deg,
+    rgba(11, 26, 11, 0.92) 0%,
+    rgba(10, 10, 10, 0.96) 100%
+  );
+  border: 2px solid var(--ooze-slime);
+  border-radius: 4px;
+  padding: 2rem 2.2rem;
+  position: relative;
+  box-shadow:
+    0 0 8px rgba(57, 255, 20, 0.2),
+    inset 0 0 30px rgba(57, 255, 20, 0.03);
+  margin-bottom: 2rem;
+  transition: box-shadow 0.4s ease, border-color 0.4s ease;
+}
+
+.ooze-card:hover {
+  box-shadow:
+    0 0 15px rgba(57, 255, 20, 0.35),
+    0 0 40px rgba(57, 255, 20, 0.1),
+    inset 0 0 40px rgba(57, 255, 20, 0.05);
+}
+
+.ooze-card::before {
+  content: '\2622';
+  position: absolute;
+  top: -12px;
+  right: 16px;
+  font-size: 1.4rem;
+  color: var(--ooze-hazard-yellow);
+  background: var(--ooze-black);
+  padding: 0 0.4em;
+  text-shadow: 0 0 8px rgba(255, 215, 0, 0.5);
+}
+
+.ooze-card.card-purple {
+  border-color: var(--ooze-purple);
+  box-shadow:
+    0 0 8px rgba(191, 0, 255, 0.2),
+    inset 0 0 30px rgba(191, 0, 255, 0.03);
+}
+
+.ooze-card.card-purple:hover {
+  box-shadow:
+    0 0 15px rgba(191, 0, 255, 0.35),
+    0 0 40px rgba(191, 0, 255, 0.1),
+    inset 0 0 40px rgba(191, 0, 255, 0.05);
+}
+
+.ooze-card.card-blue {
+  border-color: var(--ooze-blue);
+  box-shadow:
+    0 0 8px rgba(0, 191, 255, 0.2),
+    inset 0 0 30px rgba(0, 191, 255, 0.03);
+}
+
+.ooze-card.card-blue:hover {
+  box-shadow:
+    0 0 15px rgba(0, 191, 255, 0.35),
+    0 0 40px rgba(0, 191, 255, 0.1),
+    inset 0 0 40px rgba(0, 191, 255, 0.05);
+}
+
+.ooze-card.card-orange {
+  border-color: var(--ooze-orange);
+  box-shadow:
+    0 0 8px rgba(255, 102, 0, 0.2),
+    inset 0 0 30px rgba(255, 102, 0, 0.03);
+}
+
+.ooze-card.card-orange:hover {
+  box-shadow:
+    0 0 15px rgba(255, 102, 0, 0.35),
+    0 0 40px rgba(255, 102, 0, 0.1),
+    inset 0 0 40px rgba(255, 102, 0, 0.05);
+}
+
+/* ========================================
+   HAZARD STRIPE BAR
+   ======================================== */
+.hazard-bar {
+  height: 10px;
+  background: repeating-linear-gradient(
+    -45deg,
+    #000 0px,
+    #000 8px,
+    var(--ooze-hazard-yellow) 8px,
+    var(--ooze-hazard-yellow) 16px
+  );
+  background-size: 22.6px 100%;
+  animation: hazard-scroll 1s linear infinite;
+  margin: 3rem 0;
+  box-shadow: 0 0 8px rgba(255, 215, 0, 0.3);
+}
+
+/* ========================================
+   COLOR PALETTE DISPLAY
+   ======================================== */
+.palette-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.palette-swatch {
+  position: relative;
+  aspect-ratio: 1;
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 0.8rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: default;
+  overflow: hidden;
+}
+
+.palette-swatch:hover {
+  transform: scale(1.08) rotate(-1deg);
+}
+
+.palette-swatch::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 6px;
+  border: 2px solid rgba(255, 255, 255, 0.15);
+  pointer-events: none;
+}
+
+.palette-swatch .swatch-name {
+  font-family: 'Bangers', cursive;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  line-height: 1.2;
+}
+
+.palette-swatch .swatch-hex {
+  font-family: 'Rubik Mono One', monospace;
+  font-size: 0.6rem;
+  opacity: 0.85;
+  margin-top: 0.2rem;
+}
+
+.swatch-dark-text { color: #0a0a0a; }
+.swatch-light-text { color: #e8e8d0; }
+
+/* ========================================
+   TYPOGRAPHY SHOWCASE
+   ======================================== */
+.type-specimen {
+  margin-bottom: 2rem;
+  padding: 1.5rem 2rem;
+  border-left: 3px solid var(--ooze-slime);
+  background: rgba(11, 26, 11, 0.4);
+}
+
+.type-label {
+  font-family: 'Permanent Marker', cursive;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  color: var(--ooze-text-dim);
+  margin-bottom: 0.5rem;
+  letter-spacing: 0.1em;
+}
+
+.type-bungee {
+  font-family: 'Bungee Shade', cursive;
+  font-size: clamp(1.8rem, 4vw, 3rem);
+  color: var(--ooze-slime);
+  text-shadow:
+    0 0 10px var(--ooze-slime),
+    0 0 20px rgba(57, 255, 20, 0.4),
+    4px 4px 0 var(--ooze-deep-purple);
+  text-transform: uppercase;
+  line-height: 1.2;
+}
+
+.type-creepster {
+  font-family: 'Creepster', cursive;
+  font-size: clamp(1.6rem, 3.5vw, 2.5rem);
+  color: var(--ooze-pink);
+  text-shadow:
+    0 0 7px var(--ooze-pink),
+    0 0 15px rgba(255, 0, 255, 0.4),
+    3px 3px 0 rgba(0, 0, 0, 0.8);
+  text-transform: uppercase;
+  line-height: 1.2;
+}
+
+.type-fredoka {
+  font-family: 'Fredoka One', cursive;
+  font-size: clamp(1.6rem, 3.5vw, 2.5rem);
+  color: var(--ooze-purple);
+  text-shadow:
+    0 0 8px var(--ooze-purple),
+    0 0 18px rgba(191, 0, 255, 0.4),
+    3px 3px 0 rgba(0, 0, 0, 0.8);
+  text-transform: uppercase;
+  line-height: 1.2;
+}
+
+.type-bangers {
+  font-family: 'Bangers', cursive;
+  font-size: clamp(1.4rem, 3vw, 2.2rem);
+  color: var(--ooze-toxic-yellow);
+  text-shadow: 0 0 8px rgba(204, 255, 0, 0.5);
+  text-transform: uppercase;
+  line-height: 1.2;
+}
+
+.type-permanent-marker {
+  font-family: 'Permanent Marker', cursive;
+  font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+  color: var(--ooze-orange);
+  text-shadow: 0 0 8px rgba(255, 102, 0, 0.4);
+  line-height: 1.3;
+}
+
+.type-rubik-mono {
+  font-family: 'Rubik Mono One', monospace;
+  font-size: clamp(1rem, 2vw, 1.5rem);
+  color: var(--ooze-blue);
+  text-shadow: 0 0 8px rgba(0, 191, 255, 0.4);
+  text-transform: uppercase;
+  line-height: 1.3;
+}
+
+.type-nunito {
+  font-family: 'Nunito', sans-serif;
+  font-size: 1.1rem;
+  color: var(--ooze-text);
+  line-height: 1.7;
+}
+
+/* ========================================
+   MOTIF SHOWCASE GRID
+   ======================================== */
+.motif-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.motif-item {
+  background: linear-gradient(170deg, rgba(11, 26, 11, 0.85) 0%, rgba(10, 10, 10, 0.92) 100%);
+  border: 1px solid rgba(57, 255, 20, 0.25);
+  border-radius: 4px;
+  padding: 1.8rem;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s ease;
+}
+
+.motif-item:hover {
+  border-color: var(--ooze-slime);
+  box-shadow: 0 0 12px rgba(57, 255, 20, 0.2);
+}
+
+.motif-item .motif-icon {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  display: block;
+  filter: drop-shadow(0 0 8px currentColor);
+}
+
+.motif-item h4 {
+  font-family: 'Bangers', cursive;
+  font-size: 1.3rem;
+  color: var(--ooze-toxic-yellow);
+  text-transform: uppercase;
+  text-shadow: 0 0 6px rgba(204, 255, 0, 0.4);
+  margin-bottom: 0.6rem;
+  letter-spacing: 0.04em;
+}
+
+.motif-item p {
+  font-size: 0.95rem;
+  color: var(--ooze-text-dim);
+  line-height: 1.6;
+}
+
+/* ========================================
+   CSS TECHNIQUES DEMO AREA
+   ======================================== */
+.demo-container {
+  margin: 2rem 0;
+  padding: 2.5rem;
+  border: 2px solid var(--ooze-slime);
+  border-radius: 4px;
+  position: relative;
+  background: rgba(10, 10, 10, 0.9);
+  animation: radioactive-pulse 3s ease-in-out infinite;
+}
+
+.demo-container .demo-label {
+  position: absolute;
+  top: -0.75em;
+  left: 1.5rem;
+  font-family: 'Permanent Marker', cursive;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  color: var(--ooze-hazard-yellow);
+  background: var(--ooze-black);
+  padding: 0 0.7em;
+  letter-spacing: 0.1em;
+  text-shadow: 0 0 6px rgba(255, 215, 0, 0.5);
+}
+
+/* Splat shape demo */
+.demo-splat {
+  background: radial-gradient(
+    ellipse at 40% 50%,
+    rgba(57, 255, 20, 0.14) 0%,
+    rgba(57, 255, 20, 0.04) 50%,
+    transparent 70%
+  );
+  border-radius: 60% 40% 55% 45% / 50% 60% 40% 50%;
+  padding: 3rem;
+  text-align: center;
+  animation: slime-morph 8s ease-in-out infinite;
+  border: 1px solid rgba(57, 255, 20, 0.2);
+  margin: 1rem auto;
+  max-width: 500px;
+}
+
+.demo-splat-text {
+  font-family: 'Fredoka One', cursive;
+  font-size: clamp(1.5rem, 4vw, 2.5rem);
+  color: var(--ooze-slime);
+  text-shadow:
+    0 0 7px var(--ooze-slime),
+    0 0 10px var(--ooze-slime),
+    0 0 21px var(--ooze-slime),
+    0 0 42px rgba(57, 255, 20, 0.5);
+  text-transform: uppercase;
+}
+
+/* Bubbling container demo */
+.demo-bubble-container {
+  width: 100%;
+  height: 120px;
+  background: linear-gradient(180deg, rgba(57, 255, 20, 0.02) 0%, rgba(57, 255, 20, 0.08) 100%);
+  border: 1px solid rgba(57, 255, 20, 0.2);
+  border-radius: 4px;
+  position: relative;
+  overflow: hidden;
+  margin: 1rem 0;
+}
+
+.demo-bubble-container .bubble {
+  position: absolute;
+  bottom: -15px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, rgba(57, 255, 20, 0.45), rgba(57, 255, 20, 0.08));
+  box-shadow: 0 0 6px rgba(57, 255, 20, 0.3);
+}
+
+.demo-bubble-container .bubble:nth-child(1) { width: 14px; height: 14px; left: 12%; animation: bubble-rise 4s ease-in-out infinite; }
+.demo-bubble-container .bubble:nth-child(2) { width: 8px; height: 8px; left: 28%; animation: bubble-rise-alt 5s ease-in-out 1s infinite; }
+.demo-bubble-container .bubble:nth-child(3) { width: 11px; height: 11px; left: 45%; animation: bubble-rise 6s ease-in-out 2s infinite; }
+.demo-bubble-container .bubble:nth-child(4) { width: 6px; height: 6px; left: 58%; animation: bubble-rise-alt 4.5s ease-in-out 0.5s infinite; }
+.demo-bubble-container .bubble:nth-child(5) { width: 16px; height: 16px; left: 72%; animation: bubble-rise 7s ease-in-out 1.5s infinite; }
+.demo-bubble-container .bubble:nth-child(6) { width: 9px; height: 9px; left: 88%; animation: bubble-rise-alt 5.5s ease-in-out 3s infinite; }
+
+.demo-bubble-container .liquid-surface {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 25px;
+  background: linear-gradient(180deg, rgba(57, 255, 20, 0.15) 0%, rgba(57, 255, 20, 0.35) 100%);
+  box-shadow: 0 -3px 15px rgba(57, 255, 20, 0.25);
+}
+
+/* ========================================
+   CULTURAL REFERENCES
+   ======================================== */
+.ref-list {
+  list-style: none;
+  padding: 0;
+  margin: 1.5rem 0;
+}
+
+.ref-list li {
+  padding: 0.7rem 0 0.7rem 2.2rem;
+  position: relative;
+  border-bottom: 1px solid rgba(57, 255, 20, 0.08);
+  transition: all 0.3s ease;
+}
+
+.ref-list li:hover {
+  background: rgba(57, 255, 20, 0.03);
+  padding-left: 2.6rem;
+}
+
+.ref-list li::before {
+  content: '\2622';
+  position: absolute;
+  left: 0;
+  top: 0.75rem;
+  color: var(--ooze-slime);
+  font-size: 0.9rem;
+  text-shadow: 0 0 6px rgba(57, 255, 20, 0.5);
+}
+
+.ref-list li strong {
+  color: var(--ooze-slime-bright);
+  font-family: 'Bangers', cursive;
+  letter-spacing: 0.03em;
+  font-size: 1.05em;
+}
+
+.ref-list li span {
+  color: var(--ooze-text-dim);
+}
+
+/* ========================================
+   RELATED AESTHETICS TABLE
+   ======================================== */
+.related-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin: 1.5rem 0;
+  overflow: hidden;
+  border-radius: 4px;
+  border: 1px solid rgba(57, 255, 20, 0.2);
+}
+
+.related-table thead th {
+  font-family: 'Bangers', cursive;
+  text-transform: uppercase;
+  font-size: 1rem;
+  letter-spacing: 0.06em;
+  color: var(--ooze-slime);
+  text-shadow: 0 0 6px rgba(57, 255, 20, 0.4);
+  background: rgba(11, 26, 11, 0.8);
+  padding: 1rem 1.2rem;
+  text-align: left;
+  border-bottom: 2px solid var(--ooze-slime);
+}
+
+.related-table tbody td {
+  padding: 0.9rem 1.2rem;
+  border-bottom: 1px solid rgba(57, 255, 20, 0.08);
+  vertical-align: top;
+}
+
+.related-table tbody tr {
+  transition: background 0.3s ease;
+}
+
+.related-table tbody tr:hover {
+  background: rgba(57, 255, 20, 0.04);
+}
+
+.related-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.related-table td:first-child {
+  font-family: 'Bangers', cursive;
+  color: var(--ooze-purple);
+  text-shadow: 0 0 6px rgba(191, 0, 255, 0.3);
+  font-size: 1.05rem;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+}
+
+.related-table td:last-child {
+  color: var(--ooze-text-dim);
+  font-size: 0.95rem;
+}
+
+/* ========================================
+   CALLOUT BOX
+   ======================================== */
+.ooze-callout {
+  font-family: 'Bangers', cursive;
+  font-size: 1.3em;
+  color: var(--ooze-toxic-yellow);
+  text-shadow: 0 0 8px rgba(204, 255, 0, 0.5);
+  text-transform: uppercase;
+  text-align: center;
+  padding: 1rem;
+  letter-spacing: 0.05em;
+}
+
+/* ========================================
+   PRINCIPLES LIST
+   ======================================== */
+.principles-list {
+  list-style: none;
+  padding: 0;
+  margin: 1.5rem 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+}
+
+.principles-list li {
+  padding: 1.2rem 1.5rem;
+  background: rgba(11, 26, 11, 0.5);
+  border-left: 3px solid var(--ooze-purple);
+  border-radius: 0 4px 4px 0;
+  transition: all 0.3s ease;
+}
+
+.principles-list li:hover {
+  background: rgba(11, 26, 11, 0.7);
+  border-left-color: var(--ooze-pink);
+  transform: translateX(4px);
+}
+
+.principles-list li strong {
+  font-family: 'Bangers', cursive;
+  color: var(--ooze-pink);
+  text-shadow: 0 0 5px rgba(255, 0, 255, 0.3);
+  display: block;
+  font-size: 1.1em;
+  margin-bottom: 0.3rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.principles-list li span {
+  color: var(--ooze-text-dim);
+  font-size: 0.95rem;
+}
+
+/* ========================================
+   FOOTER
+   ======================================== */
+.ooze-footer {
+  text-align: center;
+  padding: 4rem 1rem 3rem;
+  position: relative;
+}
+
+.ooze-footer .footer-symbol {
+  font-size: 3rem;
+  color: var(--ooze-slime);
+  text-shadow: 0 0 15px rgba(57, 255, 20, 0.5);
+  animation: float-subtle 3s ease-in-out infinite;
+  display: block;
+  margin-bottom: 1.5rem;
+}
+
+.ooze-footer .footer-text {
+  font-family: 'Creepster', cursive;
+  font-size: 1.3rem;
+  color: var(--ooze-text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.ooze-footer .footer-subtext {
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.8rem;
+  color: rgba(154, 154, 122, 0.5);
+  margin-top: 0.5rem;
+}
+
+/* ========================================
+   ANIMATION SHOWCASE PANELS
+   ======================================== */
+.anim-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+  margin: 1.5rem 0;
+}
+
+.anim-panel {
+  background: rgba(10, 10, 10, 0.85);
+  border: 1px solid rgba(57, 255, 20, 0.2);
+  border-radius: 4px;
+  padding: 2rem 1.5rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 140px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.anim-panel:hover {
+  border-color: var(--ooze-slime);
+}
+
+.anim-panel .anim-label {
+  font-family: 'Permanent Marker', cursive;
+  font-size: 0.75rem;
+  color: var(--ooze-text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  position: absolute;
+  bottom: 0.7rem;
+  left: 0;
+  right: 0;
+}
+
+.anim-flicker-demo {
+  font-family: 'Creepster', cursive;
+  font-size: 2rem;
+  color: var(--ooze-slime);
+  animation: neon-flicker 4s infinite;
+  text-transform: uppercase;
+}
+
+.anim-pulse-demo {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: 2px solid var(--ooze-slime);
+  animation: radioactive-pulse 2s ease-in-out infinite;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  color: var(--ooze-hazard-yellow);
+  text-shadow: 0 0 8px rgba(255, 215, 0, 0.5);
+}
+
+.anim-morph-demo {
+  width: 80px;
+  height: 80px;
+  background: radial-gradient(circle at 35% 35%, rgba(191, 0, 255, 0.4), rgba(191, 0, 255, 0.1));
+  border: 2px solid var(--ooze-purple);
+  box-shadow: 0 0 12px rgba(191, 0, 255, 0.3);
+  animation: slime-morph 6s ease-in-out infinite;
+}
+
+.anim-float-demo {
+  font-size: 2.5rem;
+  animation: float-subtle 3s ease-in-out infinite;
+  filter: drop-shadow(0 0 10px rgba(0, 191, 255, 0.5));
+  color: var(--ooze-blue);
+}
+
+/* ========================================
+   TECHNIQUE TABLE
+   ======================================== */
+.technique-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+
+.technique-card {
+  padding: 1.2rem 1.5rem;
+  background: rgba(11, 26, 11, 0.5);
+  border: 1px solid rgba(57, 255, 20, 0.12);
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.technique-card:hover {
+  border-color: rgba(57, 255, 20, 0.3);
+  background: rgba(11, 26, 11, 0.7);
+}
+
+.technique-card .tech-name {
+  font-family: 'Bangers', cursive;
+  color: var(--ooze-blue);
+  text-shadow: 0 0 5px rgba(0, 191, 255, 0.3);
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 0.4rem;
+}
+
+.technique-card .tech-desc {
+  font-family: 'Rubik Mono One', monospace;
+  font-size: 0.65rem;
+  color: var(--ooze-text-dim);
+  line-height: 1.5;
+  word-break: break-word;
+}
+
+/* ========================================
+   MATERIAL SHOWCASE
+   ======================================== */
+.material-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+
+.material-chip {
+  padding: 1rem;
+  border-radius: 4px;
+  text-align: center;
+  transition: all 0.4s ease;
+  cursor: default;
+  position: relative;
+  overflow: hidden;
+}
+
+.material-chip:hover {
+  transform: scale(1.05);
+}
+
+.material-chip .material-label {
+  font-family: 'Permanent Marker', cursive;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  position: relative;
+  z-index: 1;
+}
+
+.mat-slime {
+  background: linear-gradient(180deg, rgba(57, 255, 20, 0.15), rgba(57, 255, 20, 0.05));
+  border: 1px solid rgba(57, 255, 20, 0.3);
+  color: var(--ooze-slime);
+  border-radius: 60% 40% 55% 45% / 50% 60% 40% 50%;
+  animation: slime-morph 10s ease-in-out infinite;
+}
+
+.mat-barrel {
+  background: repeating-linear-gradient(-45deg, #000 0px, #000 6px, rgba(255, 215, 0, 0.2) 6px, rgba(255, 215, 0, 0.2) 12px);
+  border: 1px solid rgba(255, 215, 0, 0.3);
+  color: var(--ooze-hazard-yellow);
+}
+
+.mat-sewer {
+  background: linear-gradient(170deg, rgba(11, 26, 11, 0.9), rgba(10, 10, 10, 0.95));
+  background-image:
+    linear-gradient(rgba(57, 255, 20, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(57, 255, 20, 0.06) 1px, transparent 1px);
+  background-size: 20px 20px;
+  border: 1px solid rgba(57, 255, 20, 0.15);
+  color: var(--ooze-text-dim);
+}
+
+.mat-radioactive {
+  background: radial-gradient(circle at center, rgba(57, 255, 20, 0.2), rgba(57, 255, 20, 0.02));
+  border: 1px solid rgba(57, 255, 20, 0.3);
+  color: var(--ooze-slime);
+  animation: radioactive-pulse 2.5s ease-in-out infinite;
+}
+
+.mat-glass {
+  background: linear-gradient(135deg, rgba(191, 0, 255, 0.08), rgba(0, 191, 255, 0.08));
+  border: 1px solid rgba(191, 0, 255, 0.2);
+  backdrop-filter: blur(2px);
+  color: var(--ooze-purple);
+}
+
+.mat-vhs {
+  background: linear-gradient(180deg, rgba(255, 0, 255, 0.08), rgba(0, 0, 0, 0.9));
+  border: 1px solid rgba(255, 0, 255, 0.2);
+  color: var(--ooze-pink);
+}
+
+/* ========================================
+   RESPONSIVE DESIGN
+   ======================================== */
+@media (max-width: 768px) {
+  .page-wrapper {
+    padding: 0 1rem;
+  }
+
+  .ooze-card {
+    padding: 1.5rem;
+  }
+
+  .palette-grid {
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 0.7rem;
+  }
+
+  .palette-swatch {
+    padding: 0.5rem;
+  }
+
+  .palette-swatch .swatch-name {
+    font-size: 0.7rem;
+  }
+
+  .palette-swatch .swatch-hex {
+    font-size: 0.5rem;
+  }
+
+  .motif-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .anim-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .principles-list {
+    grid-template-columns: 1fr;
+  }
+
+  .technique-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .material-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .related-table {
+    font-size: 0.9rem;
+  }
+
+  .related-table td, .related-table th {
+    padding: 0.7rem 0.8rem;
+  }
+
+  .hero {
+    padding: 3rem 0.5rem;
+    min-height: 90vh;
+  }
+
+  .ooze-divider {
+    width: 90%;
+  }
+}
+
+@media (max-width: 480px) {
+  .anim-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .material-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .palette-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* ========================================
+   SCROLL REVEAL ANIMATION
+   ======================================== */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ========================================
+   REDUCE MOTION
+   ======================================== */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- Ambient background bubbles -->
+<div class="ambient-bubbles">
+  <span></span><span></span><span></span><span></span><span></span>
+  <span></span><span></span><span></span><span></span><span></span>
+</div>
+
+<!-- Scanline overlay -->
+<div class="scanlines"></div>
+
+<div class="page-wrapper">
+
+  <!-- ==========================================
+       HERO SECTION
+       ========================================== -->
+  <section class="hero">
+    <div class="hero-biohazard">&#9762;</div>
+    <h1>Neon Ooze</h1>
+    <p class="hero-tagline">Dripping Slime. Toxic Waste. Radioactive Glow.</p>
+    <p class="hero-description">
+      An aesthetic rooted in <strong>1980s--90s children's gross-out marketing culture</strong>, defined by
+      dripping slime, toxic waste imagery, radioactive glow, lurid neon colors, and gleefully disgusting motifs.
+      Neon Ooze channels the visual language of <strong>Nickelodeon slime dumps</strong>, B-movie toxic mutants,
+      mad-scientist laboratories, and creepy-crawly creature features into a hyper-saturated, deliberately
+      provocative design style. The mood is <strong>playfully menacing</strong> -- gross enough to thrill kids,
+      bright enough to sell toys, and just unsettling enough to hint at genuine environmental anxiety about
+      nuclear waste and pollution.
+    </p>
+    <div class="hero-scroll-hint">&#9660;</div>
+  </section>
+
+  <hr class="ooze-divider">
+
+  <!-- ==========================================
+       COLOR PALETTE
+       ========================================== -->
+  <section class="content-section reveal">
+    <h2 class="section-heading"><i class="biohazard-icon">&#9762;</i> Color Palette <i class="biohazard-icon">&#9762;</i></h2>
+
+    <div class="ooze-card">
+      <h3 class="section-subheading">Core Principle</h3>
+      <p>
+        Neon Ooze uses <strong style="color:var(--ooze-slime);text-shadow:0 0 5px rgba(57,255,20,0.4)">toxic neon colors at maximum saturation</strong>
+        against <strong style="color:var(--ooze-text-dim)">dark, murky backgrounds</strong>. The palette simulates
+        the glow of radioactive substances in a dark laboratory or sewer. Colors should look like they emit light --
+        luminous, almost painful to look at, and distinctly unnatural.
+      </p>
+
+      <div class="palette-grid">
+        <div class="palette-swatch" style="background:#39ff14; box-shadow: 0 0 20px rgba(57,255,20,0.5);">
+          <span class="swatch-name swatch-dark-text">Slime Green</span>
+          <span class="swatch-hex swatch-dark-text">#39FF14</span>
+        </div>
+        <div class="palette-swatch" style="background:#ccff00; box-shadow: 0 0 15px rgba(204,255,0,0.4);">
+          <span class="swatch-name swatch-dark-text">Toxic Yellow-Green</span>
+          <span class="swatch-hex swatch-dark-text">#CCFF00</span>
+        </div>
+        <div class="palette-swatch" style="background:#bf00ff; box-shadow: 0 0 18px rgba(191,0,255,0.5);">
+          <span class="swatch-name swatch-light-text">Electric Purple</span>
+          <span class="swatch-hex swatch-light-text">#BF00FF</span>
+        </div>
+        <div class="palette-swatch" style="background:#4b0082; box-shadow: 0 0 12px rgba(75,0,130,0.4);">
+          <span class="swatch-name swatch-light-text">Deep Purple</span>
+          <span class="swatch-hex swatch-light-text">#4B0082</span>
+        </div>
+        <div class="palette-swatch" style="background:#00bfff; box-shadow: 0 0 18px rgba(0,191,255,0.5);">
+          <span class="swatch-name swatch-dark-text">Neon Blue</span>
+          <span class="swatch-hex swatch-dark-text">#00BFFF</span>
+        </div>
+        <div class="palette-swatch" style="background:#ff00ff; box-shadow: 0 0 20px rgba(255,0,255,0.5);">
+          <span class="swatch-name swatch-dark-text">Hot Pink</span>
+          <span class="swatch-hex swatch-dark-text">#FF00FF</span>
+        </div>
+        <div class="palette-swatch" style="background:#ff6600; box-shadow: 0 0 15px rgba(255,102,0,0.4);">
+          <span class="swatch-name swatch-dark-text">Hazard Orange</span>
+          <span class="swatch-hex swatch-dark-text">#FF6600</span>
+        </div>
+        <div class="palette-swatch" style="background:#0a0a0a; border: 1px solid rgba(57,255,20,0.2);">
+          <span class="swatch-name swatch-light-text">Sewer Black</span>
+          <span class="swatch-hex swatch-light-text">#0A0A0A</span>
+        </div>
+        <div class="palette-swatch" style="background:#0b1a0b; border: 1px solid rgba(57,255,20,0.2);">
+          <span class="swatch-name swatch-light-text">Murky Green-Black</span>
+          <span class="swatch-hex swatch-light-text">#0B1A0B</span>
+        </div>
+        <div class="palette-swatch" style="background:#2d1f0e; border: 1px solid rgba(255,102,0,0.15);">
+          <span class="swatch-name swatch-light-text">Toxic Sludge</span>
+          <span class="swatch-hex swatch-light-text">#2D1F0E</span>
+        </div>
+        <div class="palette-swatch" style="background:#ffd700; box-shadow: 0 0 15px rgba(255,215,0,0.4);">
+          <span class="swatch-name swatch-dark-text">Biohazard Yellow</span>
+          <span class="swatch-hex swatch-dark-text">#FFD700</span>
+        </div>
+        <div class="palette-swatch" style="background:#e8e8d0;">
+          <span class="swatch-name swatch-dark-text">Bone White</span>
+          <span class="swatch-hex swatch-dark-text">#E8E8D0</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="ooze-card card-purple">
+      <h3 class="section-subheading">Color Usage Principles</h3>
+      <ul class="principles-list">
+        <li>
+          <strong>Dark, Cold Base With Neon Overlays</strong>
+          <span>Near-black backgrounds so neon colors appear to glow through contrast</span>
+        </li>
+        <li>
+          <strong>Green Dominates</strong>
+          <span>Slime green is the signature color and should be the most prominent accent</span>
+        </li>
+        <li>
+          <strong>Purple & Blue as Supporting Neons</strong>
+          <span>Used for variety but never overwhelming the green</span>
+        </li>
+        <li>
+          <strong>Hot Pink for Typography</strong>
+          <span>Especially display text and logos, as seen in classic Nickelodeon and toy branding</span>
+        </li>
+        <li>
+          <strong>Avoid Pastels & Earth Tones</strong>
+          <span>Everything should feel radioactive and oversaturated</span>
+        </li>
+        <li>
+          <strong>Hazard Yellow Sparingly</strong>
+          <span>Used for biohazard/warning symbols and small detail elements</span>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <div class="hazard-bar"></div>
+
+  <!-- ==========================================
+       TYPOGRAPHY
+       ========================================== -->
+  <section class="content-section reveal">
+    <h2 class="section-heading"><i class="biohazard-icon">&#9762;</i> Typography <i class="biohazard-icon">&#9762;</i></h2>
+
+    <div class="ooze-card">
+      <p style="margin-bottom: 1.5rem;">
+        Neon Ooze typography is <strong style="color:var(--ooze-pink);text-shadow:0 0 5px rgba(255,0,255,0.4)">chunky, exaggerated, distorted, and dripping</strong>.
+        Letters should look like they are melting, oozing, or mutating. The style draws from 1990s toy packaging,
+        VHS horror covers, and Nickelodeon show titles. Thick, heavy letterforms with irregular baselines,
+        dripping effects, 3D extrusion, outline treatments -- all-caps, loud, aggressive, attention-grabbing.
+      </p>
+
+      <div class="type-specimen">
+        <div class="type-label">Bungee Shade -- Hero Headings</div>
+        <div class="type-bungee">Toxic Mutation</div>
+      </div>
+
+      <div class="type-specimen" style="border-left-color: var(--ooze-pink);">
+        <div class="type-label">Creepster -- Section Headings</div>
+        <div class="type-creepster">Creature Feature</div>
+      </div>
+
+      <div class="type-specimen" style="border-left-color: var(--ooze-purple);">
+        <div class="type-label">Fredoka One -- Friendly-Grotesque</div>
+        <div class="type-fredoka">Bubbly Blobs</div>
+      </div>
+
+      <div class="type-specimen" style="border-left-color: var(--ooze-toxic-yellow);">
+        <div class="type-label">Bangers -- Subheadings & Callouts</div>
+        <div class="type-bangers">POW! SPLAT! OOZE!</div>
+      </div>
+
+      <div class="type-specimen" style="border-left-color: var(--ooze-orange);">
+        <div class="type-label">Permanent Marker -- Accent Text</div>
+        <div class="type-permanent-marker">Scrawled on the Lab Wall</div>
+      </div>
+
+      <div class="type-specimen" style="border-left-color: var(--ooze-blue);">
+        <div class="type-label">Rubik Mono One -- Lab-Style Technical</div>
+        <div class="type-rubik-mono">SPECIMEN #0042</div>
+      </div>
+
+      <div class="type-specimen" style="border-left-color: var(--ooze-text-dim);">
+        <div class="type-label">Nunito -- Body Text</div>
+        <div class="type-nunito">The bubbling green liquid cast an eerie glow across the laboratory walls. Something was growing in the vat -- something that shouldn't exist. The scientist reached for the hazmat gloves, eyes wide behind splattered safety goggles.</div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="ooze-divider">
+
+  <!-- ==========================================
+       KEY DESIGN ELEMENTS & MOTIFS
+       ========================================== -->
+  <section class="content-section reveal">
+    <h2 class="section-heading"><i class="biohazard-icon">&#9762;</i> Key Design Motifs <i class="biohazard-icon">&#9762;</i></h2>
+
+    <div class="motif-grid">
+      <div class="motif-item">
+        <span class="motif-icon" style="color: var(--ooze-slime);">&#127783;&#65039;</span>
+        <h4>Slime & Ooze Effects</h4>
+        <p>The defining visual element. Drip borders, splat shapes, slime trails, and bubble clusters suggesting viscous, flowing liquid everywhere.</p>
+      </div>
+      <div class="motif-item">
+        <span class="motif-icon" style="color: var(--ooze-hazard-yellow);">&#9762;</span>
+        <h4>Toxic / Nuclear Imagery</h4>
+        <p>Biohazard symbols, radioactive trefoils, warning stripes, glowing containers -- the visual language of hazardous contamination.</p>
+      </div>
+      <div class="motif-item">
+        <span class="motif-icon" style="color: var(--ooze-blue);">&#9883;</span>
+        <h4>Mad Science Lab</h4>
+        <p>Test tubes and beakers, bubbling liquids, electrical arcs, circuit and pipe patterns -- the domain of the unhinged inventor.</p>
+      </div>
+      <div class="motif-item">
+        <span class="motif-icon" style="color: var(--ooze-purple);">&#128375;</span>
+        <h4>Creepy Crawlies</h4>
+        <p>Insects, floating eyeballs, tentacles, worms -- small grotesque details that populate the margins and backgrounds.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="hazard-bar"></div>
+
+  <!-- ==========================================
+       DESIGN PRINCIPLES
+       ========================================== -->
+  <section class="content-section reveal">
+    <h2 class="section-heading"><i class="biohazard-icon">&#9762;</i> Design Principles <i class="biohazard-icon">&#9762;</i></h2>
+
+    <div class="ooze-card card-blue">
+      <ul class="principles-list">
+        <li>
+          <strong>Deliberate Grossness</strong>
+          <span>The design should provoke a visceral "ewww" reaction while remaining fun</span>
+        </li>
+        <li>
+          <strong>Aggressive Energy</strong>
+          <span>Nothing should feel calm, sterile, or refined</span>
+        </li>
+        <li>
+          <strong>Playful Menace</strong>
+          <span>Threatening enough to be exciting, bright enough to be entertaining</span>
+        </li>
+        <li>
+          <strong>Maximum Contrast</strong>
+          <span>Neon on black, always pushing toward the limits of readability</span>
+        </li>
+        <li>
+          <strong>Organic Chaos Over Geometric Order</strong>
+          <span>Blobs, splats, and drips instead of straight lines and grids</span>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <hr class="ooze-divider">
+
+  <!-- ==========================================
+       LAYOUT PRINCIPLES
+       ========================================== -->
+  <section class="content-section reveal">
+    <h2 class="section-heading"><i class="biohazard-icon">&#9762;</i> Layout Principles <i class="biohazard-icon">&#9762;</i></h2>
+
+    <div class="ooze-card card-orange">
+      <h3 class="section-subheading">Structure</h3>
+      <ul class="ref-list">
+        <li><strong>Dark, immersive backgrounds</strong> <span>-- the page should feel like peering into a murky sewer or abandoned laboratory</span></li>
+        <li><strong>Asymmetric, irregular compositions</strong> <span>-- avoid rigid grids; use off-kilter placement suggesting things that have oozed into position</span></li>
+        <li><strong>Generous neon borders and dividers</strong> <span>-- glowing lines that separate content areas</span></li>
+        <li><strong>Layered depth</strong> <span>-- overlapping drip effects, splat shapes, and glow layers creating visual richness</span></li>
+        <li><strong>Contained chaos</strong> <span>-- within each section, allow messy organic shapes, but maintain overall navigability</span></li>
+      </ul>
+    </div>
+
+    <div class="ooze-card">
+      <h3 class="section-subheading">Section Organization</h3>
+      <ul class="ref-list">
+        <li><strong>Slime-drip dividers</strong> <span>between sections (SVG drip shapes along horizontal rules)</span></li>
+        <li><strong>Neon glow borders</strong> <span>around content panels</span></li>
+        <li><strong>Hierarchy through color temperature</strong> <span>-- slime green for primary, pink/purple for secondary, blue for tertiary</span></li>
+        <li><strong>Splat-shaped containers</strong> <span>for featured content (irregular blob outlines instead of rectangles)</span></li>
+        <li><strong>Elements breaking containers</strong> <span>-- drips extending beyond borders, splats overlapping sections</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <div class="hazard-bar"></div>
+
+  <!-- ==========================================
+       CSS TECHNIQUES & LIVE DEMOS
+       ========================================== -->
+  <section class="content-section reveal">
+    <h2 class="section-heading"><i class="biohazard-icon">&#9762;</i> CSS Techniques <i class="biohazard-icon">&#9762;</i></h2>
+
+    <div class="technique-cards">
+      <div class="technique-card">
+        <div class="tech-name">Neon Glow Text</div>
+        <div class="tech-desc">Multiple text-shadow layers with same-hue colors at increasing blur radius</div>
+      </div>
+      <div class="technique-card">
+        <div class="tech-name">Glowing Borders</div>
+        <div class="tech-desc">box-shadow with neon colors + border in matching hue</div>
+      </div>
+      <div class="technique-card">
+        <div class="tech-name">Slime Drips</div>
+        <div class="tech-desc">SVG path with irregular curves as background-image or ::after pseudo-element</div>
+      </div>
+      <div class="technique-card">
+        <div class="tech-name">Radioactive Pulse</div>
+        <div class="tech-desc">@keyframes animating box-shadow spread and opacity</div>
+      </div>
+      <div class="technique-card">
+        <div class="tech-name">Hazard Stripes</div>
+        <div class="tech-desc">repeating-linear-gradient(-45deg, ...) as border-image</div>
+      </div>
+      <div class="technique-card">
+        <div class="tech-name">Splat Shapes</div>
+        <div class="tech-desc">Irregular border-radius values (60% 40% 55% 45% / 50% 60% 40% 50%)</div>
+      </div>
+      <div class="technique-card">
+        <div class="tech-name">Sewer Atmosphere</div>
+        <div class="tech-desc">Radial gradients with low-opacity greens and purples on black</div>
+      </div>
+      <div class="technique-card">
+        <div class="tech-name">Bubble Effects</div>
+        <div class="tech-desc">@keyframes with translateY and opacity on pseudo-element circles</div>
+      </div>
+      <div class="technique-card">
+        <div class="tech-name">Lab Tile Grid</div>
+        <div class="tech-desc">linear-gradient grid pattern at low opacity over dark backgrounds</div>
+      </div>
+      <div class="technique-card">
+        <div class="tech-name">Vignette</div>
+        <div class="tech-desc">radial-gradient from transparent center to dark edges via ::after overlay</div>
+      </div>
+    </div>
+
+    <h3 class="section-subheading" style="margin-top: 3rem;">Live Demos</h3>
+
+    <!-- Splat Shape Demo -->
+    <div class="demo-container" style="margin-bottom:2.5rem;">
+      <span class="demo-label">Morphing Splat Shape</span>
+      <div class="demo-splat">
+        <div class="demo-splat-text">Splat!</div>
+      </div>
+    </div>
+
+    <!-- Bubbling Container Demo -->
+    <div class="demo-container" style="margin-bottom:2.5rem;">
+      <span class="demo-label">Toxic Bubbling Liquid</span>
+      <div class="demo-bubble-container">
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="liquid-surface"></div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="ooze-divider">
+
+  <!-- ==========================================
+       ANIMATION & MOTION
+       ========================================== -->
+  <section class="content-section reveal">
+    <h2 class="section-heading"><i class="biohazard-icon">&#9762;</i> Animation & Motion <i class="biohazard-icon">&#9762;</i></h2>
+
+    <div class="ooze-card">
+      <p style="margin-bottom: 1.5rem;">
+        Motion in Neon Ooze is <strong style="color:var(--ooze-slime-bright);text-shadow:0 0 4px rgba(0,255,65,0.3)">viscous, pulsing, and unstable</strong>.
+        Think slow dripping, bubbling effervescence, flickering neon, and radioactive pulses.
+        Movement should feel organic and slightly unsettling -- never mechanical or predictable.
+      </p>
+
+      <div class="anim-grid">
+        <div class="anim-panel">
+          <div class="anim-flicker-demo">Flicker</div>
+          <span class="anim-label">Neon Flicker</span>
+        </div>
+        <div class="anim-panel">
+          <div class="anim-pulse-demo">&#9762;</div>
+          <span class="anim-label">Radioactive Pulse</span>
+        </div>
+        <div class="anim-panel">
+          <div class="anim-morph-demo"></div>
+          <span class="anim-label">Slime Morph</span>
+        </div>
+        <div class="anim-panel">
+          <div class="anim-float-demo">&#9883;</div>
+          <span class="anim-label">Eerie Float</span>
+        </div>
+      </div>
+
+      <ul class="ref-list" style="margin-top: 2rem;">
+        <li><strong>Dripping motion</strong> <span>-- slow, viscous downward movement with ease-in timing</span></li>
+        <li><strong>Bubbling</strong> <span>-- small circles rising and fading, staggered with animation-delay</span></li>
+        <li><strong>Pulsing glow</strong> <span>-- rhythmic brightening and dimming simulating radioactive energy</span></li>
+        <li><strong>Splattering</strong> <span>-- on hover, elements "splat" outward with scale + irregular border-radius</span></li>
+        <li><strong>Flickering</strong> <span>-- rapid opacity flicker on neon elements suggesting unstable power</span></li>
+        <li><strong>Oozing text reveal</strong> <span>-- text that drips into place using clip-path animation</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <div class="hazard-bar"></div>
+
+  <!-- ==========================================
+       MATERIALS & TEXTURES
+       ========================================== -->
+  <section class="content-section reveal">
+    <h2 class="section-heading"><i class="biohazard-icon">&#9762;</i> Materials & Textures <i class="biohazard-icon">&#9762;</i></h2>
+
+    <div class="ooze-card card-purple">
+      <p style="margin-bottom:1.5rem;">Visual metaphors translated into CSS surfaces -- each material suggests a physical substance from the Neon Ooze universe.</p>
+
+      <div class="material-grid">
+        <div class="material-chip mat-slime">
+          <span class="material-label">Green Slime</span>
+        </div>
+        <div class="material-chip mat-barrel">
+          <span class="material-label">Toxic Barrel</span>
+        </div>
+        <div class="material-chip mat-sewer">
+          <span class="material-label">Sewer Tile</span>
+        </div>
+        <div class="material-chip mat-radioactive">
+          <span class="material-label">Radioactive</span>
+        </div>
+        <div class="material-chip mat-glass">
+          <span class="material-label">Lab Glass</span>
+        </div>
+        <div class="material-chip mat-vhs">
+          <span class="material-label">VHS Plastic</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="ooze-divider">
+
+  <!-- ==========================================
+       CULTURAL REFERENCES
+       ========================================== -->
+  <section class="content-section reveal">
+    <h2 class="section-heading"><i class="biohazard-icon">&#9762;</i> Cultural References <i class="biohazard-icon">&#9762;</i></h2>
+
+    <div class="ooze-card">
+      <p style="margin-bottom: 1rem;">The visual identity draws from:</p>
+      <ul class="ref-list">
+        <li><strong>Nickelodeon (1990s era)</strong> <span>-- green slime, bright orange-and-green branding, chaotic kid energy</span></li>
+        <li><strong>Goosebumps book covers</strong> <span>-- dripping typography, lurid greens and purples, creepy-fun horror</span></li>
+        <li><strong>EarthBound (1995)</strong> <span>-- green slime splatter graphic design on Nintendo marketing</span></li>
+        <li><strong>Toxic Avenger / Troma Films</strong> <span>-- low-budget horror with neon-toxic color grading</span></li>
+        <li><strong>Creepy Crawlers oven toys</strong> <span>-- gooey, brightly colored mold-making aesthetic</span></li>
+        <li><strong>Captain Planet villains</strong> <span>-- toxic waste, pollution, radioactive sludge as visual motifs</span></li>
+        <li><strong>Boogerman (1994)</strong> <span>-- gross-out video game with slime, snot, and neon palette</span></li>
+        <li><strong>Trash Pack / Garbage Pail Kids</strong> <span>-- grotesque character design in neon packaging</span></li>
+        <li><strong>90s skateboard graphics (Slime Balls)</strong> <span>-- dripping slime logos on neon backgrounds</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <div class="hazard-bar"></div>
+
+  <!-- ==========================================
+       RELATED AESTHETICS
+       ========================================== -->
+  <section class="content-section reveal">
+    <h2 class="section-heading"><i class="biohazard-icon">&#9762;</i> Related Aesthetics <i class="biohazard-icon">&#9762;</i></h2>
+
+    <div class="ooze-card card-blue">
+      <table class="related-table">
+        <thead>
+          <tr>
+            <th>Aesthetic</th>
+            <th>Relationship to Neon Ooze</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Slimepunk</td>
+            <td>Closely related; emphasizes toxic/radioactive imagery with punk-adjacent DIY attitude</td>
+          </tr>
+          <tr>
+            <td>Wacky Pomo</td>
+            <td>Shares 90s kid-culture roots, bright neons, blob shapes, and anti-refined sensibility</td>
+          </tr>
+          <tr>
+            <td>Acid Design</td>
+            <td>Parallel neon-on-black palette but more rave/club culture vs. kid/gross-out culture</td>
+          </tr>
+          <tr>
+            <td>Psychedelia</td>
+            <td>Shared interest in lurid color and visual distortion, but different cultural origin</td>
+          </tr>
+          <tr>
+            <td>Kidcore</td>
+            <td>Overlapping era and child-targeting aesthetic, but Kidcore is wholesome where Neon Ooze is gross</td>
+          </tr>
+          <tr>
+            <td>Y2K Futurism</td>
+            <td>Shares neon palette and 90s nostalgia, but cleaner and more tech-optimistic</td>
+          </tr>
+          <tr>
+            <td>Goblincore</td>
+            <td>Shared love of the grotesque and creepy-crawly, but Goblincore is earthy/natural vs. neon/synthetic</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <hr class="ooze-divider">
+
+  <!-- ==========================================
+       FOOTER
+       ========================================== -->
+  <footer class="ooze-footer">
+    <span class="footer-symbol">&#9762;</span>
+    <p class="footer-text">Neon Ooze Design Aesthetic</p>
+    <p class="footer-subtext">A showcase of dripping, glowing, gleefully disgusting design</p>
+  </footer>
+
+</div>
+
+<!-- ==========================================
+     SCROLL REVEAL SCRIPT
+     ========================================== -->
+<script>
+(function() {
+  // Intersection Observer for scroll-reveal
+  var reveals = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window) {
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    reveals.forEach(function(el) { observer.observe(el); });
+  } else {
+    // Fallback: show everything
+    reveals.forEach(function(el) { el.classList.add('visible'); });
+  }
+})();
+</script>
+
+</body>
+</html>
