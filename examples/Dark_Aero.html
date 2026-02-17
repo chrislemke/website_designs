@@ -1,0 +1,1946 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dark Aero -- Design Reference</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;600;700&family=Orbitron:wght@400;500;700;900&family=Inter:wght@300;400;500&family=Rajdhani:wght@400;500;600&family=Chakra+Petch:wght@400;600;700&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ===== CUSTOM PROPERTIES ===== */
+    :root {
+      --da-black: #0a0a0a;
+      --da-obsidian: #1a1a2e;
+      --da-void: #111111;
+      --da-graphite: #2d2d30;
+      --da-slate: #3a3a3d;
+      --da-chrome-dark: #4a4a4d;
+      --da-chrome: #b0b0b4;
+      --da-chrome-light: #c8c8cc;
+      --da-white: #e8e8ec;
+      --da-bright: #f0f0f4;
+      --da-blue: #0088ff;
+      --da-blue-light: #00aaff;
+      --da-blue-deep: #0066cc;
+      --da-green: #00cc66;
+      --da-green-light: #00ff88;
+      --da-red: #ff3355;
+      --da-red-light: #ff4466;
+      --da-yellow: #ffaa00;
+      --da-yellow-light: #ffcc33;
+      --da-glow-blue: rgba(0, 136, 255, 0.25);
+      --da-glow-green: rgba(0, 204, 102, 0.2);
+      --da-glow-red: rgba(255, 51, 85, 0.2);
+      --da-glass: rgba(255, 255, 255, 0.06);
+      --da-glass-border: rgba(255, 255, 255, 0.1);
+    }
+
+    /* ===== RESET & BASE ===== */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+      background: var(--da-black);
+      color: var(--da-chrome);
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+      letter-spacing: 0.02em;
+      line-height: 1.7;
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    /* ===== TYPOGRAPHY ===== */
+    h1, h2, h3, h4 {
+      font-family: 'Exo 2', sans-serif;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      color: var(--da-white);
+      line-height: 1.2;
+    }
+
+    h2 {
+      font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+      margin-bottom: 1rem;
+    }
+
+    h3 {
+      font-size: clamp(1.1rem, 2vw, 1.4rem);
+      margin-bottom: 0.75rem;
+    }
+
+    p {
+      margin-bottom: 1rem;
+    }
+
+    a {
+      color: var(--da-blue-light);
+      text-decoration: none;
+      transition: color 0.25s, text-shadow 0.25s;
+    }
+
+    a:hover {
+      color: var(--da-bright);
+      text-shadow: 0 0 12px var(--da-glow-blue);
+    }
+
+    /* ===== AMBIENT BACKGROUND ===== */
+    .ambient-layer {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .bokeh {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0;
+      pointer-events: none;
+      animation: bokeh-in 2s ease-out forwards;
+    }
+
+    .bokeh--1 {
+      width: 500px;
+      height: 500px;
+      background: var(--da-blue);
+      top: -5%;
+      left: -8%;
+      opacity: 0;
+      animation: bokeh-float-1 18s ease-in-out infinite, bokeh-in 2s 0.3s ease-out forwards;
+    }
+
+    .bokeh--2 {
+      width: 350px;
+      height: 350px;
+      background: var(--da-green);
+      bottom: 10%;
+      right: -5%;
+      opacity: 0;
+      animation: bokeh-float-2 22s ease-in-out infinite, bokeh-in 2s 0.6s ease-out forwards;
+    }
+
+    .bokeh--3 {
+      width: 250px;
+      height: 250px;
+      background: #8800ff;
+      top: 40%;
+      left: 60%;
+      opacity: 0;
+      animation: bokeh-float-3 15s ease-in-out infinite, bokeh-in 2s 0.9s ease-out forwards;
+    }
+
+    .bokeh--4 {
+      width: 180px;
+      height: 180px;
+      background: var(--da-blue-deep);
+      top: 70%;
+      left: 15%;
+      opacity: 0;
+      animation: bokeh-float-2 20s ease-in-out infinite reverse, bokeh-in 2s 1.2s ease-out forwards;
+    }
+
+    @keyframes bokeh-in {
+      to { opacity: 0.09; }
+    }
+
+    @keyframes bokeh-float-1 {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      25% { transform: translate(40px, 30px) scale(1.1); }
+      50% { transform: translate(20px, -20px) scale(0.95); }
+      75% { transform: translate(-30px, 20px) scale(1.05); }
+    }
+
+    @keyframes bokeh-float-2 {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      33% { transform: translate(-25px, -35px) scale(1.08); }
+      66% { transform: translate(30px, 20px) scale(0.92); }
+    }
+
+    @keyframes bokeh-float-3 {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(-20px, 30px) scale(1.12); }
+    }
+
+    /* ===== NAVIGATION ===== */
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(10, 10, 10, 0.7);
+      backdrop-filter: blur(24px) saturate(1.3);
+      -webkit-backdrop-filter: blur(24px) saturate(1.3);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      transition: background 0.4s;
+    }
+
+    .nav-logo {
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 700;
+      font-size: 0.85rem;
+      letter-spacing: 0.18em;
+      color: var(--da-bright);
+      text-transform: uppercase;
+      text-shadow: 0 0 16px var(--da-glow-blue);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 500;
+      font-size: 0.8rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--da-chrome);
+      position: relative;
+      padding-bottom: 4px;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      width: 0;
+      height: 1px;
+      background: var(--da-blue);
+      box-shadow: 0 0 6px var(--da-glow-blue);
+      transition: width 0.3s, left 0.3s;
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+      left: 0;
+    }
+
+    .nav-links a:hover {
+      color: var(--da-blue-light);
+      text-shadow: 0 0 8px var(--da-glow-blue);
+    }
+
+    /* ===== HERO SECTION ===== */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 8rem 2rem 6rem;
+      overflow: hidden;
+    }
+
+    /* Piano gloss effect */
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 50%;
+      background: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.04) 0%,
+        rgba(255, 255, 255, 0.01) 50%,
+        transparent 100%
+      );
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* Aurora overlay */
+    .hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 90% 60% at 25% 45%, rgba(0, 136, 255, 0.1) 0%, transparent 55%),
+        radial-gradient(ellipse 70% 50% at 75% 55%, rgba(0, 204, 102, 0.06) 0%, transparent 50%),
+        radial-gradient(ellipse 50% 70% at 50% 30%, rgba(136, 0, 255, 0.04) 0%, transparent 45%);
+      pointer-events: none;
+      z-index: 1;
+      animation: aurora-shift 10s ease-in-out infinite;
+    }
+
+    @keyframes aurora-shift {
+      0%, 100% { opacity: 0.7; transform: scale(1) translateY(0); }
+      50% { opacity: 1; transform: scale(1.04) translateY(-1%); }
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 900px;
+    }
+
+    .hero-label {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--da-blue-light);
+      margin-bottom: 1.5rem;
+      text-shadow: 0 0 12px var(--da-glow-blue);
+      opacity: 0;
+      animation: fade-up 0.8s 0.3s ease-out forwards;
+    }
+
+    .hero-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: clamp(3rem, 8vw, 7rem);
+      font-weight: 900;
+      letter-spacing: 0.1em;
+      line-height: 1.05;
+      color: var(--da-bright);
+      text-shadow:
+        0 0 30px var(--da-glow-blue),
+        0 0 80px rgba(0, 136, 255, 0.08);
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: fade-up 1s 0.5s ease-out forwards;
+    }
+
+    .hero-title span {
+      display: block;
+      background: linear-gradient(135deg, var(--da-bright) 0%, var(--da-blue-light) 60%, var(--da-blue) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-subtitle {
+      font-family: 'Exo 2', sans-serif;
+      font-size: clamp(1rem, 2vw, 1.3rem);
+      font-weight: 300;
+      letter-spacing: 0.04em;
+      color: var(--da-chrome-light);
+      line-height: 1.6;
+      max-width: 650px;
+      margin: 0 auto 2.5rem;
+      opacity: 0;
+      animation: fade-up 0.8s 0.8s ease-out forwards;
+    }
+
+    .hero-divider {
+      width: 200px;
+      height: 2px;
+      border: none;
+      margin: 0 auto 2rem;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        var(--da-blue) 20%,
+        var(--da-blue-light) 50%,
+        var(--da-blue) 80%,
+        transparent
+      );
+      box-shadow: 0 0 16px var(--da-glow-blue);
+      opacity: 0;
+      animation: fade-up 0.8s 1s ease-out forwards;
+    }
+
+    /* Spectrum visualizer in hero */
+    .hero-spectrum {
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      gap: 3px;
+      height: 50px;
+      margin-top: 2rem;
+      opacity: 0;
+      animation: fade-up 0.8s 1.2s ease-out forwards;
+    }
+
+    .spectrum-bar {
+      width: 3px;
+      border-radius: 2px 2px 0 0;
+      background: linear-gradient(0deg, var(--da-blue) 0%, var(--da-blue-light) 100%);
+      box-shadow: 0 0 6px var(--da-glow-blue);
+      animation: spectrum-bounce 1.2s ease-in-out infinite alternate;
+    }
+
+    @keyframes spectrum-bounce {
+      0% { height: 15%; }
+      100% { height: 100%; }
+    }
+
+    @keyframes fade-up {
+      from {
+        opacity: 0;
+        transform: translateY(24px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* ===== MAIN CONTENT ===== */
+    .main-content {
+      position: relative;
+      z-index: 2;
+    }
+
+    /* ===== SECTION STYLES ===== */
+    .section {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 5rem 2rem;
+      position: relative;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 3.5rem;
+    }
+
+    .section-label {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--da-blue);
+      margin-bottom: 0.75rem;
+      text-shadow: 0 0 8px var(--da-glow-blue);
+    }
+
+    .section-title {
+      font-family: 'Chakra Petch', 'Exo 2', sans-serif;
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 700;
+      letter-spacing: 0.08em;
+    }
+
+    .section-desc {
+      max-width: 700px;
+      margin: 1rem auto 0;
+      font-size: 1rem;
+      color: var(--da-chrome);
+    }
+
+    /* Neon section divider */
+    .section-divider {
+      width: 100%;
+      max-width: 600px;
+      height: 1px;
+      border: none;
+      margin: 0 auto;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(0, 136, 255, 0.3) 30%,
+        rgba(0, 136, 255, 0.3) 70%,
+        transparent
+      );
+    }
+
+    /* ===== GLASS CARD ===== */
+    .glass-card {
+      background: var(--da-glass);
+      backdrop-filter: blur(20px) saturate(1.2);
+      -webkit-backdrop-filter: blur(20px) saturate(1.2);
+      border: 1px solid var(--da-glass-border);
+      border-radius: 16px;
+      padding: 2.2rem;
+      position: relative;
+      overflow: hidden;
+      box-shadow:
+        0 8px 32px rgba(0, 0, 0, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.08);
+      transition: border-color 0.35s, box-shadow 0.35s, transform 0.35s;
+    }
+
+    .glass-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 8%;
+      right: 8%;
+      height: 1px;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.22),
+        transparent
+      );
+    }
+
+    .glass-card:hover {
+      border-color: rgba(0, 136, 255, 0.25);
+      box-shadow:
+        0 8px 32px rgba(0, 0, 0, 0.4),
+        0 0 20px rgba(0, 136, 255, 0.08),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      transform: translateY(-2px);
+    }
+
+    /* ===== DARK CARD (darker surface variant) ===== */
+    .dark-card {
+      background: linear-gradient(
+        160deg,
+        rgba(45, 45, 48, 0.6) 0%,
+        rgba(26, 26, 30, 0.8) 100%
+      );
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--da-glass-border);
+      border-radius: 14px;
+      padding: 2rem;
+      position: relative;
+      overflow: hidden;
+      box-shadow:
+        0 8px 24px rgba(0, 0, 0, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.05);
+      transition: border-color 0.35s, box-shadow 0.35s, transform 0.35s;
+    }
+
+    .dark-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 10%;
+      right: 10%;
+      height: 1px;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.18),
+        transparent
+      );
+    }
+
+    .dark-card:hover {
+      border-color: rgba(0, 136, 255, 0.2);
+      box-shadow:
+        0 8px 24px rgba(0, 0, 0, 0.5),
+        0 0 14px rgba(0, 136, 255, 0.06),
+        inset 0 1px 0 rgba(255, 255, 255, 0.07);
+      transform: translateY(-2px);
+    }
+
+    /* ===== OVERVIEW SECTION ===== */
+    .overview-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .overview-card-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.2rem;
+      background: linear-gradient(135deg, rgba(0, 136, 255, 0.12) 0%, rgba(0, 136, 255, 0.04) 100%);
+      border: 1px solid rgba(0, 136, 255, 0.2);
+      box-shadow: 0 0 10px rgba(0, 136, 255, 0.1);
+      font-size: 1.2rem;
+    }
+
+    .overview-card h3 {
+      font-family: 'Exo 2', sans-serif;
+      color: var(--da-white);
+    }
+
+    .overview-card p {
+      font-size: 0.92rem;
+      color: var(--da-chrome);
+      margin-bottom: 0;
+    }
+
+    /* ===== MOTIFS SECTION ===== */
+    .motifs-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 1rem;
+      list-style: none;
+    }
+
+    .motif-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      padding: 1.2rem 1.5rem;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      transition: background 0.3s, border-color 0.3s;
+    }
+
+    .motif-item:hover {
+      background: rgba(0, 136, 255, 0.04);
+      border-color: rgba(0, 136, 255, 0.12);
+    }
+
+    .motif-bullet {
+      flex-shrink: 0;
+      width: 6px;
+      height: 6px;
+      margin-top: 10px;
+      border-radius: 50%;
+      background: var(--da-blue);
+      box-shadow: 0 0 8px var(--da-glow-blue);
+    }
+
+    .motif-item strong {
+      color: var(--da-white);
+      font-weight: 500;
+    }
+
+    .motif-item p {
+      font-size: 0.9rem;
+      margin: 0;
+      line-height: 1.6;
+    }
+
+    /* ===== COLOR PALETTE ===== */
+    .palette-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 1rem;
+    }
+
+    .color-swatch {
+      border-radius: 14px;
+      overflow: hidden;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .color-swatch:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    }
+
+    .swatch-color {
+      height: 80px;
+      position: relative;
+    }
+
+    .swatch-color::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 40%;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.1) 0%, transparent 100%);
+      border-radius: 13px 13px 0 0;
+    }
+
+    .swatch-info {
+      padding: 0.8rem 1rem;
+    }
+
+    .swatch-name {
+      font-family: 'Exo 2', sans-serif;
+      font-weight: 500;
+      font-size: 0.82rem;
+      color: var(--da-white);
+      letter-spacing: 0.03em;
+    }
+
+    .swatch-hex {
+      font-family: 'Rajdhani', monospace;
+      font-size: 0.72rem;
+      color: var(--da-chrome-dark);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-top: 2px;
+    }
+
+    /* Neon glow on accent swatches */
+    .swatch-neon-blue .swatch-color {
+      box-shadow: inset 0 -4px 20px rgba(0, 136, 255, 0.3);
+    }
+    .swatch-neon-green .swatch-color {
+      box-shadow: inset 0 -4px 20px rgba(0, 204, 102, 0.3);
+    }
+    .swatch-neon-red .swatch-color {
+      box-shadow: inset 0 -4px 20px rgba(255, 51, 85, 0.3);
+    }
+    .swatch-neon-yellow .swatch-color {
+      box-shadow: inset 0 -4px 20px rgba(255, 170, 0, 0.3);
+    }
+
+    /* ===== TYPOGRAPHY SECTION ===== */
+    .type-showcase {
+      display: grid;
+      gap: 1.5rem;
+    }
+
+    .type-specimen {
+      padding: 2rem 2.2rem;
+    }
+
+    .type-specimen-label {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--da-blue);
+      text-shadow: 0 0 6px var(--da-glow-blue);
+      margin-bottom: 0.75rem;
+    }
+
+    .type-specimen-display {
+      margin-bottom: 0.5rem;
+    }
+
+    .type-specimen-meta {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.75rem;
+      color: var(--da-chrome-dark);
+      letter-spacing: 0.12em;
+    }
+
+    .type-orbitron {
+      font-family: 'Orbitron', sans-serif;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 900;
+      letter-spacing: 0.1em;
+      color: var(--da-bright);
+      text-shadow: 0 0 24px var(--da-glow-blue), 0 0 60px rgba(0, 136, 255, 0.08);
+    }
+
+    .type-chakra {
+      font-family: 'Chakra Petch', sans-serif;
+      font-size: clamp(1.6rem, 3.5vw, 2.6rem);
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: var(--da-white);
+    }
+
+    .type-exo {
+      font-family: 'Exo 2', sans-serif;
+      font-size: clamp(1.4rem, 3vw, 2.2rem);
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      color: var(--da-white);
+    }
+
+    .type-rajdhani {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--da-chrome-dark);
+    }
+
+    .type-inter {
+      font-family: 'Inter', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 300;
+      letter-spacing: 0.02em;
+      line-height: 1.75;
+      color: var(--da-chrome);
+    }
+
+    /* ===== LAYOUT PRINCIPLES ===== */
+    .layout-principles-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .layout-card {
+      padding: 1.8rem 2rem;
+    }
+
+    .layout-card h3 {
+      font-family: 'Chakra Petch', sans-serif;
+      font-size: 1.05rem;
+      letter-spacing: 0.06em;
+      margin-bottom: 0.6rem;
+    }
+
+    .layout-card p {
+      font-size: 0.9rem;
+      margin: 0;
+      color: var(--da-chrome);
+    }
+
+    /* ===== CSS TECHNIQUES ===== */
+    .techniques-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .technique-demo {
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid var(--da-glass-border);
+      background: rgba(17, 17, 17, 0.8);
+    }
+
+    .technique-preview {
+      height: 160px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .technique-info {
+      padding: 1.5rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .technique-info h3 {
+      font-family: 'Exo 2', sans-serif;
+      font-size: 1rem;
+      margin-bottom: 0.4rem;
+    }
+
+    .technique-info p {
+      font-size: 0.85rem;
+      color: var(--da-chrome);
+      margin: 0;
+    }
+
+    /* Piano gloss preview */
+    .preview-piano {
+      background: linear-gradient(180deg, #1a1a1a 0%, #0a0a0a 40%, #050505 100%);
+    }
+
+    .preview-piano::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 50%;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 60%, transparent 100%);
+    }
+
+    /* Aero glass preview */
+    .preview-glass {
+      background:
+        radial-gradient(ellipse at 30% 50%, rgba(0, 136, 255, 0.15), transparent 60%),
+        linear-gradient(180deg, #1a1a2e, #0e0e18);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+
+    .preview-glass-panel {
+      width: 80%;
+      height: 70%;
+      background: rgba(255, 255, 255, 0.07);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 12px;
+      position: relative;
+    }
+
+    .preview-glass-panel::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 10%;
+      right: 10%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    }
+
+    /* Neon glow preview */
+    .preview-neon {
+      background: var(--da-black);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+    }
+
+    .preview-neon-line {
+      width: 60%;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--da-blue), transparent);
+      box-shadow: 0 0 12px var(--da-glow-blue), 0 0 30px rgba(0, 136, 255, 0.15);
+      animation: neon-pulse 3s ease-in-out infinite;
+    }
+
+    .preview-neon-text {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      color: var(--da-blue-light);
+      text-shadow: 0 0 10px var(--da-glow-blue), 0 0 30px rgba(0, 136, 255, 0.15);
+      animation: neon-pulse 3s ease-in-out infinite;
+    }
+
+    @keyframes neon-pulse {
+      0%, 100% { opacity: 0.8; }
+      50% { opacity: 1; }
+    }
+
+    /* Aurora preview */
+    .preview-aurora {
+      background: var(--da-black);
+      position: relative;
+    }
+
+    .preview-aurora::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 50% at 20% 40%, rgba(0, 136, 255, 0.15) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 40% at 70% 60%, rgba(0, 204, 102, 0.1) 0%, transparent 50%),
+        radial-gradient(ellipse 50% 60% at 50% 30%, rgba(136, 0, 255, 0.08) 0%, transparent 50%);
+      animation: aurora-shift 8s ease-in-out infinite;
+    }
+
+    /* Bokeh preview */
+    .preview-bokeh {
+      background: #0e0e14;
+      position: relative;
+    }
+
+    .preview-bokeh-dot {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(20px);
+      opacity: 0.25;
+    }
+
+    /* Graphite preview */
+    .preview-graphite {
+      background:
+        repeating-linear-gradient(90deg, transparent, transparent 1px, rgba(255, 255, 255, 0.015) 1px, rgba(255, 255, 255, 0.015) 2px),
+        linear-gradient(180deg, #2d2d30 0%, #222225 50%, #2a2a2d 100%);
+    }
+
+    .preview-graphite::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 40%;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.04), transparent);
+    }
+
+    /* ===== MATERIALS TABLE ===== */
+    .materials-table-wrap {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .materials-table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 600px;
+    }
+
+    .materials-table th,
+    .materials-table td {
+      text-align: left;
+      padding: 1rem 1.2rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .materials-table th {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--da-blue);
+      text-shadow: 0 0 6px var(--da-glow-blue);
+      border-bottom: 1px solid rgba(0, 136, 255, 0.2);
+    }
+
+    .materials-table td {
+      font-size: 0.9rem;
+    }
+
+    .materials-table td:first-child {
+      font-family: 'Exo 2', sans-serif;
+      font-weight: 500;
+      color: var(--da-white);
+      white-space: nowrap;
+    }
+
+    .materials-table tbody tr {
+      transition: background 0.25s;
+    }
+
+    .materials-table tbody tr:hover {
+      background: rgba(0, 136, 255, 0.04);
+    }
+
+    /* ===== BRANDS SECTION ===== */
+    .brands-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      justify-content: center;
+    }
+
+    .brand-tag {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      padding: 0.5rem 1.2rem;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: var(--da-chrome-light);
+      transition: border-color 0.3s, background 0.3s, color 0.3s, box-shadow 0.3s;
+      cursor: default;
+    }
+
+    .brand-tag:hover {
+      border-color: rgba(0, 136, 255, 0.3);
+      background: rgba(0, 136, 255, 0.06);
+      color: var(--da-blue-light);
+      box-shadow: 0 0 10px rgba(0, 136, 255, 0.08);
+    }
+
+    /* ===== RELATED AESTHETICS ===== */
+    .related-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1rem;
+    }
+
+    .related-card {
+      padding: 1.5rem 1.8rem;
+    }
+
+    .related-card h3 {
+      font-family: 'Chakra Petch', sans-serif;
+      font-size: 0.95rem;
+      letter-spacing: 0.06em;
+      margin-bottom: 0.4rem;
+    }
+
+    .related-card p {
+      font-size: 0.85rem;
+      color: var(--da-chrome);
+      margin: 0;
+      line-height: 1.55;
+    }
+
+    .related-badge {
+      display: inline-block;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.62rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 0.2rem 0.6rem;
+      border-radius: 4px;
+      margin-bottom: 0.8rem;
+    }
+
+    .badge-parent {
+      background: rgba(0, 136, 255, 0.15);
+      color: var(--da-blue-light);
+      border: 1px solid rgba(0, 136, 255, 0.3);
+    }
+
+    .badge-related {
+      background: rgba(0, 204, 102, 0.1);
+      color: var(--da-green-light);
+      border: 1px solid rgba(0, 204, 102, 0.2);
+    }
+
+    .badge-successor {
+      background: rgba(255, 170, 0, 0.1);
+      color: var(--da-yellow-light);
+      border: 1px solid rgba(255, 170, 0, 0.2);
+    }
+
+    .badge-contemporary {
+      background: rgba(255, 51, 85, 0.1);
+      color: var(--da-red-light);
+      border: 1px solid rgba(255, 51, 85, 0.2);
+    }
+
+    /* ===== BUTTON ===== */
+    .da-button {
+      display: inline-block;
+      padding: 0.75rem 2.4rem;
+      border-radius: 10px;
+      border: 1px solid rgba(0, 136, 255, 0.4);
+      background: linear-gradient(180deg, rgba(0, 136, 255, 0.15) 0%, rgba(0, 136, 255, 0.05) 100%);
+      color: var(--da-blue-light);
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      cursor: pointer;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      box-shadow: 0 0 12px rgba(0, 136, 255, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+      transition: all 0.3s ease;
+      text-decoration: none;
+    }
+
+    .da-button:hover {
+      background: linear-gradient(180deg, rgba(0, 136, 255, 0.25) 0%, rgba(0, 136, 255, 0.1) 100%);
+      border-color: rgba(0, 170, 255, 0.6);
+      box-shadow: 0 0 20px rgba(0, 136, 255, 0.3), 0 0 40px rgba(0, 136, 255, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      color: var(--da-bright);
+      text-shadow: 0 0 8px var(--da-glow-blue);
+      transform: translateY(-1px);
+    }
+
+    /* ===== FOOTER ===== */
+    .footer {
+      text-align: center;
+      padding: 3rem 2rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.04);
+      position: relative;
+      z-index: 2;
+    }
+
+    .footer p {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--da-chrome-dark);
+    }
+
+    /* ===== SCROLL ANIMATION ===== */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+      }
+
+      .section {
+        padding: 3.5rem 1.2rem;
+      }
+
+      .hero {
+        padding: 7rem 1.2rem 4rem;
+        min-height: auto;
+      }
+
+      .glass-card, .dark-card {
+        padding: 1.5rem;
+      }
+
+      .motifs-list {
+        grid-template-columns: 1fr;
+      }
+
+      .palette-grid {
+        grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+      }
+
+      .techniques-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-spectrum {
+        display: none;
+      }
+
+      .overview-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero-title {
+        font-size: 2.4rem;
+      }
+
+      .palette-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .brands-grid {
+        gap: 0.5rem;
+      }
+
+      .brand-tag {
+        font-size: 0.7rem;
+        padding: 0.4rem 0.8rem;
+      }
+    }
+
+    /* ===== CUSTOM SCROLLBAR ===== */
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--da-black);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--da-graphite);
+      border-radius: 3px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--da-slate);
+    }
+
+    /* ===== WAVEFORM LINE ===== */
+    .waveform-container {
+      width: 100%;
+      height: 60px;
+      margin: 2rem 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .waveform-container svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    .waveform-path {
+      fill: none;
+      stroke: var(--da-blue);
+      stroke-width: 1.5;
+      filter: drop-shadow(0 0 6px rgba(0, 136, 255, 0.4));
+      stroke-dasharray: 1200;
+      stroke-dashoffset: 1200;
+      animation: waveform-draw 3s ease-out forwards;
+    }
+
+    @keyframes waveform-draw {
+      to { stroke-dashoffset: 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Ambient bokeh layer -->
+  <div class="ambient-layer">
+    <div class="bokeh bokeh--1"></div>
+    <div class="bokeh bokeh--2"></div>
+    <div class="bokeh bokeh--3"></div>
+    <div class="bokeh bokeh--4"></div>
+  </div>
+
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="nav-logo">Dark Aero</div>
+    <ul class="nav-links">
+      <li><a href="#overview">Overview</a></li>
+      <li><a href="#motifs">Motifs</a></li>
+      <li><a href="#palette">Palette</a></li>
+      <li><a href="#typography">Type</a></li>
+      <li><a href="#layout">Layout</a></li>
+      <li><a href="#techniques">Techniques</a></li>
+      <li><a href="#brands">Brands</a></li>
+    </ul>
+  </nav>
+
+  <!-- Hero -->
+  <header class="hero">
+    <div class="hero-content">
+      <p class="hero-label">Design Reference</p>
+      <h1 class="hero-title"><span>Dark Aero</span></h1>
+      <hr class="hero-divider">
+      <p class="hero-subtitle">
+        The middle ground between Frutiger Aero and Skeuomorphism -- combining depth-filled imagery with a darker, more restrained color palette. Sleek, clean, and charged with futuristic allure.
+      </p>
+      <div class="hero-spectrum" aria-hidden="true"></div>
+    </div>
+  </header>
+
+  <main class="main-content">
+
+    <!-- Overview Section -->
+    <section class="section" id="overview">
+      <div class="section-header reveal">
+        <p class="section-label">Foundation</p>
+        <h2 class="section-title">Design Overview</h2>
+        <p class="section-desc">Dark Aero achieves a less cluttered look while maintaining a strong sense of technological wonder through piano gloss finishes, aero glass effects, and neon highlights against dark surfaces.</p>
+      </div>
+
+      <div class="overview-grid">
+        <div class="glass-card overview-card reveal">
+          <div class="overview-card-icon">&#9670;</div>
+          <h3>Dark-Dominant</h3>
+          <p>Dark backgrounds establish depth. Bright elements command attention through selective luminance, creating dramatic high-contrast compositions.</p>
+        </div>
+        <div class="glass-card overview-card reveal">
+          <div class="overview-card-icon">&#9674;</div>
+          <h3>Sleek Minimalism</h3>
+          <p>Fewer colors and cleaner surfaces than Frutiger Aero. Every element is intentional -- restrained yet purposeful in its design language.</p>
+        </div>
+        <div class="glass-card overview-card reveal">
+          <div class="overview-card-icon">&#9656;</div>
+          <h3>Depth Through Layering</h3>
+          <p>Aero glass panels, bokeh effects, and translucent overlays create a convincing sense of Z-axis depth and spatial complexity.</p>
+        </div>
+        <div class="glass-card overview-card reveal">
+          <div class="overview-card-icon">&#10038;</div>
+          <h3>Technological Wonder</h3>
+          <p>Design conveys futurism, precision engineering, and digital sophistication through material authenticity and electronic-inspired visuals.</p>
+        </div>
+        <div class="glass-card overview-card reveal">
+          <div class="overview-card-icon">&#9711;</div>
+          <h3>Material Authenticity</h3>
+          <p>Surfaces feel like real materials -- polished glass, brushed metal, glossy plastic. Skeuomorphic rendering in a dark palette.</p>
+        </div>
+        <div class="glass-card overview-card reveal">
+          <div class="overview-card-icon">&#9830;</div>
+          <h3>Color Restraint</h3>
+          <p>The palette is mostly achromatic. Chromatic accents are used sparingly -- blue as default, with green, red, and yellow for semantic purposes.</p>
+        </div>
+      </div>
+    </section>
+
+    <hr class="section-divider reveal">
+
+    <!-- Core Motifs -->
+    <section class="section" id="motifs">
+      <div class="section-header reveal">
+        <p class="section-label">Visual Identity</p>
+        <h2 class="section-title">Core Motifs &amp; Patterns</h2>
+      </div>
+
+      <ul class="motifs-list">
+        <li class="motif-item reveal">
+          <div class="motif-bullet"></div>
+          <div>
+            <p><strong>Piano Black Gloss</strong> -- High-gloss black surfaces with deep reflections. The signature material of Dark Aero.</p>
+          </div>
+        </li>
+        <li class="motif-item reveal">
+          <div class="motif-bullet"></div>
+          <div>
+            <p><strong>Aero Glass</strong> -- Translucent, frosted-glass UI panels with blur and transparency layered over dark backgrounds.</p>
+          </div>
+        </li>
+        <li class="motif-item reveal">
+          <div class="motif-bullet"></div>
+          <div>
+            <p><strong>Glossy &amp; Graphite Textures</strong> -- Polished dark surfaces ranging from mirror-black to matte graphite.</p>
+          </div>
+        </li>
+        <li class="motif-item reveal">
+          <div class="motif-bullet"></div>
+          <div>
+            <p><strong>Neon Highlights</strong> -- Vivid colored accents (blue, green, red, yellow) glowing against dark backdrops.</p>
+          </div>
+        </li>
+        <li class="motif-item reveal">
+          <div class="motif-bullet"></div>
+          <div>
+            <p><strong>Auroras</strong> -- Flowing, luminous color gradients reminiscent of the Northern Lights, used as background elements.</p>
+          </div>
+        </li>
+        <li class="motif-item reveal">
+          <div class="motif-bullet"></div>
+          <div>
+            <p><strong>Bokeh Effects</strong> -- Soft, out-of-focus light circles creating depth and atmospheric glow.</p>
+          </div>
+        </li>
+        <li class="motif-item reveal">
+          <div class="motif-bullet"></div>
+          <div>
+            <p><strong>Electronic-Inspired Visuals</strong> -- Waveforms, spectrum bars, laser beams, electronic pulses, circuit-like patterns.</p>
+          </div>
+        </li>
+        <li class="motif-item reveal">
+          <div class="motif-bullet"></div>
+          <div>
+            <p><strong>Skeuomorphic Elements</strong> -- Realistic material textures (glass, metal, carbon fiber) rendered in a dark palette.</p>
+          </div>
+        </li>
+        <li class="motif-item reveal">
+          <div class="motif-bullet"></div>
+          <div>
+            <p><strong>Dark Material Textures</strong> -- Graphite, obsidian, dark cement, brushed dark metal, carbon fiber weave.</p>
+          </div>
+        </li>
+        <li class="motif-item reveal">
+          <div class="motif-bullet"></div>
+          <div>
+            <p><strong>Futuristic Design Language</strong> -- Sleek curves, beveled edges, and contoured forms suggesting advanced technology.</p>
+          </div>
+        </li>
+      </ul>
+    </section>
+
+    <hr class="section-divider reveal">
+
+    <!-- Color Palette -->
+    <section class="section" id="palette">
+      <div class="section-header reveal">
+        <p class="section-label">Chromatics</p>
+        <h2 class="section-title">Color Palette</h2>
+        <p class="section-desc">Primarily achromatic dark palette with chrome metallic neutrals. Neon-on-dark contrast model with vivid saturated accents against near-black backgrounds.</p>
+      </div>
+
+      <!-- Dark Bases -->
+      <h3 class="reveal" style="margin-bottom: 1rem; font-family: 'Rajdhani', sans-serif; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--da-chrome-dark);">Base &amp; Surface Tones</h3>
+      <div class="palette-grid reveal" style="margin-bottom: 2.5rem;">
+        <div class="color-swatch">
+          <div class="swatch-color" style="background: #0a0a0a;"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">Piano Black</div>
+            <div class="swatch-hex">#0A0A0A</div>
+          </div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch-color" style="background: #111111;"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">Void</div>
+            <div class="swatch-hex">#111111</div>
+          </div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch-color" style="background: #1a1a2e;"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">Obsidian</div>
+            <div class="swatch-hex">#1A1A2E</div>
+          </div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch-color" style="background: #16161a;"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">Deep Obsidian</div>
+            <div class="swatch-hex">#16161A</div>
+          </div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch-color" style="background: #2d2d30;"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">Graphite</div>
+            <div class="swatch-hex">#2D2D30</div>
+          </div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch-color" style="background: #3a3a3d;"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">Slate</div>
+            <div class="swatch-hex">#3A3A3D</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Neutrals -->
+      <h3 class="reveal" style="margin-bottom: 1rem; font-family: 'Rajdhani', sans-serif; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--da-chrome-dark);">Chrome &amp; Neutral Tones</h3>
+      <div class="palette-grid reveal" style="margin-bottom: 2.5rem;">
+        <div class="color-swatch">
+          <div class="swatch-color" style="background: #4a4a4d;"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">Dark Chrome</div>
+            <div class="swatch-hex">#4A4A4D</div>
+          </div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch-color" style="background: #555558;"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">Mid Chrome</div>
+            <div class="swatch-hex">#555558</div>
+          </div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch-color" style="background: #b0b0b4;"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">Silver Chrome</div>
+            <div class="swatch-hex">#B0B0B4</div>
+          </div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch-color" style="background: #c8c8cc;"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">Chrome Light</div>
+            <div class="swatch-hex">#C8C8CC</div>
+          </div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch-color" style="background: #e8e8ec;"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">Gloss White</div>
+            <div class="swatch-hex">#E8E8EC</div>
+          </div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch-color" style="background: #f0f0f4;"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">Bright</div>
+            <div class="swatch-hex">#F0F0F4</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Accents -->
+      <h3 class="reveal" style="margin-bottom: 1rem; font-family: 'Rajdhani', sans-serif; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--da-chrome-dark);">Neon &amp; Electric Accents</h3>
+      <div class="palette-grid reveal">
+        <div class="color-swatch swatch-neon-blue">
+          <div class="swatch-color" style="background: linear-gradient(135deg, #0088ff, #00aaff);"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">Neon Blue</div>
+            <div class="swatch-hex">#0088FF / #00AAFF</div>
+          </div>
+        </div>
+        <div class="color-swatch swatch-neon-blue">
+          <div class="swatch-color" style="background: linear-gradient(135deg, #0066cc, #3399ff);"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">Aurora Blue</div>
+            <div class="swatch-hex">#0066CC / #3399FF</div>
+          </div>
+        </div>
+        <div class="color-swatch swatch-neon-green">
+          <div class="swatch-color" style="background: linear-gradient(135deg, #00cc66, #00ff88);"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">Electric Green</div>
+            <div class="swatch-hex">#00CC66 / #00FF88</div>
+          </div>
+        </div>
+        <div class="color-swatch swatch-neon-red">
+          <div class="swatch-color" style="background: linear-gradient(135deg, #ff3355, #ff4466);"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">Signal Red</div>
+            <div class="swatch-hex">#FF3355 / #FF4466</div>
+          </div>
+        </div>
+        <div class="color-swatch swatch-neon-yellow">
+          <div class="swatch-color" style="background: linear-gradient(135deg, #ffaa00, #ffcc33);"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">Amber Yellow</div>
+            <div class="swatch-hex">#FFAA00 / #FFCC33</div>
+          </div>
+        </div>
+        <div class="color-swatch swatch-neon-blue">
+          <div class="swatch-color" style="background: rgba(0, 136, 255, 0.15); border-bottom: 1px solid rgba(255,255,255,0.04);"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">Bokeh Glow</div>
+            <div class="swatch-hex">rgba(0,136,255,0.15)</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <hr class="section-divider reveal">
+
+    <!-- Typography -->
+    <section class="section" id="typography">
+      <div class="section-header reveal">
+        <p class="section-label">Typefaces</p>
+        <h2 class="section-title">Typography</h2>
+        <p class="section-desc">Clean, futuristic, and highly legible against dark backgrounds. Geometric or humanist sans-serifs with generous letter-spacing for a futuristic, airy feel.</p>
+      </div>
+
+      <div class="type-showcase">
+        <div class="dark-card type-specimen reveal">
+          <p class="type-specimen-label">Display / Hero</p>
+          <p class="type-specimen-display type-orbitron">DARK AERO</p>
+          <p class="type-specimen-meta">Orbitron -- 900 weight -- 0.1em tracking -- Luminous text glow</p>
+        </div>
+
+        <div class="dark-card type-specimen reveal">
+          <p class="type-specimen-label">Headlines</p>
+          <p class="type-specimen-display type-chakra">Chakra Petch Display</p>
+          <p class="type-specimen-meta">Chakra Petch -- 700 weight -- 0.08em tracking -- Tech-angular character</p>
+        </div>
+
+        <div class="dark-card type-specimen reveal">
+          <p class="type-specimen-label">Subheadings</p>
+          <p class="type-specimen-display type-exo">Exo 2 Headings</p>
+          <p class="type-specimen-meta">Exo 2 -- 600 weight -- 0.06em tracking -- Geometric, futuristic</p>
+        </div>
+
+        <div class="dark-card type-specimen reveal">
+          <p class="type-specimen-label">Technical Labels</p>
+          <p class="type-specimen-display type-rajdhani">RAJDHANI SYSTEM INTERFACE -- 0.22EM</p>
+          <p class="type-specimen-meta">Rajdhani -- 600 weight -- Uppercase -- 0.22em tracking -- Technical precision</p>
+        </div>
+
+        <div class="dark-card type-specimen reveal">
+          <p class="type-specimen-label">Body Copy</p>
+          <p class="type-specimen-display type-inter">Inter is used for body text and paragraphs. Light weight with thin strokes reads well on dark backgrounds without being fragile. The generous line-height of 1.7 creates comfortable, breathable reading.</p>
+          <p class="type-specimen-meta">Inter -- 300 weight -- 0.02em tracking -- 1.7 line-height</p>
+        </div>
+      </div>
+
+      <div class="waveform-container reveal" aria-hidden="true">
+        <svg viewBox="0 0 1200 60" preserveAspectRatio="none">
+          <path class="waveform-path" d="M0,30 Q50,10 100,30 T200,30 T300,25 T400,35 T500,20 T600,40 T700,28 T800,32 T900,18 T1000,35 T1100,25 T1200,30" />
+        </svg>
+      </div>
+    </section>
+
+    <hr class="section-divider reveal">
+
+    <!-- Layout Principles -->
+    <section class="section" id="layout">
+      <div class="section-header reveal">
+        <p class="section-label">Spatial Composition</p>
+        <h2 class="section-title">Layout Principles</h2>
+        <p class="section-desc">Dark, expansive backgrounds establish depth and immersion. Content floats on the dark canvas, drawing attention inward through generous negative space.</p>
+      </div>
+
+      <div class="layout-principles-grid">
+        <div class="dark-card layout-card reveal">
+          <h3>Expansive Dark Backgrounds</h3>
+          <p>Full-bleed dark sections that establish immersive depth. Dark space provides atmosphere and breathing room -- it is never truly empty.</p>
+        </div>
+        <div class="dark-card layout-card reveal">
+          <h3>Centered, Focused Content</h3>
+          <p>Content floats on the dark canvas with centered alignment, drawing attention inward through cinematic, widescreen-inspired proportions.</p>
+        </div>
+        <div class="dark-card layout-card reveal">
+          <h3>Layered Glass Panels</h3>
+          <p>Aero glass cards float above the background with translucent surfaces. Shadows, blur, and transparency create a convincing sense of depth.</p>
+        </div>
+        <div class="dark-card layout-card reveal">
+          <h3>Luminous Dividers</h3>
+          <p>Thin neon accent lines with gradient fade at edges separate sections. Hierarchy is established through luminance and glow intensity.</p>
+        </div>
+        <div class="dark-card layout-card reveal">
+          <h3>Dark-on-Darker Nesting</h3>
+          <p>Panels slightly lighter than their parent surface create visual separation. Rounded-rectangle containers echo the ubiquitous late-2000s UI shape.</p>
+        </div>
+        <div class="dark-card layout-card reveal">
+          <h3>Ambient Light Effects</h3>
+          <p>Subtle bokeh circles and aurora gradients in background layers add atmospheric richness without competing with foreground content.</p>
+        </div>
+      </div>
+    </section>
+
+    <hr class="section-divider reveal">
+
+    <!-- CSS Techniques -->
+    <section class="section" id="techniques">
+      <div class="section-header reveal">
+        <p class="section-label">Implementation</p>
+        <h2 class="section-title">CSS Techniques</h2>
+        <p class="section-desc">Live demonstrations of core Dark Aero visual techniques. Each preview is rendered using the actual CSS patterns described in the design specification.</p>
+      </div>
+
+      <div class="techniques-grid">
+        <div class="technique-demo reveal">
+          <div class="technique-preview preview-piano"></div>
+          <div class="technique-info">
+            <h3>Piano Black Gloss</h3>
+            <p>Near-black gradient base with a white-to-transparent overlay on the top half, simulating reflected light on a polished surface.</p>
+          </div>
+        </div>
+
+        <div class="technique-demo reveal">
+          <div class="technique-preview preview-glass">
+            <div class="preview-glass-panel"></div>
+          </div>
+          <div class="technique-info">
+            <h3>Aero Glass Panel</h3>
+            <p>Semi-transparent background with backdrop-filter blur, subtle white border, and an inner shine line along the top edge.</p>
+          </div>
+        </div>
+
+        <div class="technique-demo reveal">
+          <div class="technique-preview preview-neon">
+            <div class="preview-neon-text">NEON</div>
+            <div class="preview-neon-line"></div>
+          </div>
+          <div class="technique-info">
+            <h3>Neon Glow Accents</h3>
+            <p>Bright saturated color combined with matching-hue text-shadow and box-shadow for realistic neon tube illumination effects.</p>
+          </div>
+        </div>
+
+        <div class="technique-demo reveal">
+          <div class="technique-preview preview-aurora"></div>
+          <div class="technique-info">
+            <h3>Aurora Background</h3>
+            <p>Multiple overlapping radial gradients with different hues and animated opacity shift, creating flowing Northern Lights.</p>
+          </div>
+        </div>
+
+        <div class="technique-demo reveal">
+          <div class="technique-preview preview-bokeh">
+            <div class="preview-bokeh-dot" style="width:80px;height:80px;background:var(--da-blue);top:20%;left:15%;filter:blur(25px);animation:bokeh-float-1 8s ease-in-out infinite;"></div>
+            <div class="preview-bokeh-dot" style="width:50px;height:50px;background:var(--da-green);top:50%;left:55%;filter:blur(18px);animation:bokeh-float-2 10s ease-in-out infinite;opacity:0.2;"></div>
+            <div class="preview-bokeh-dot" style="width:40px;height:40px;background:#8800ff;top:30%;left:70%;filter:blur(15px);animation:bokeh-float-3 7s ease-in-out infinite;opacity:0.18;"></div>
+            <div class="preview-bokeh-dot" style="width:60px;height:60px;background:var(--da-blue-deep);bottom:15%;left:30%;filter:blur(22px);animation:bokeh-float-2 12s ease-in-out infinite reverse;opacity:0.2;"></div>
+          </div>
+          <div class="technique-info">
+            <h3>Bokeh Light Effects</h3>
+            <p>Large border-radius circles with heavy blur and low opacity, floating with staggered CSS animations for atmospheric depth.</p>
+          </div>
+        </div>
+
+        <div class="technique-demo reveal">
+          <div class="technique-preview preview-graphite"></div>
+          <div class="technique-info">
+            <h3>Graphite Texture</h3>
+            <p>Fine repeating-linear-gradient creating hairline texture over a dark base gradient, simulating brushed metal or graphite surface.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <hr class="section-divider reveal">
+
+    <!-- Materials Table -->
+    <section class="section" id="materials">
+      <div class="section-header reveal">
+        <p class="section-label">Material Language</p>
+        <h2 class="section-title">Materials &amp; Textures</h2>
+        <p class="section-desc">Physical Dark Aero materials mapped to their web CSS equivalents. Each material metaphor translates to a specific combination of gradients, filters, and shadows.</p>
+      </div>
+
+      <div class="glass-card materials-table-wrap reveal">
+        <table class="materials-table">
+          <thead>
+            <tr>
+              <th>Physical Material</th>
+              <th>Web Equivalent</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Piano Black Gloss</td>
+              <td>Near-black background with <code>::before</code> gloss overlay (white gradient, top-half, low opacity)</td>
+            </tr>
+            <tr>
+              <td>Aero Glass</td>
+              <td>Semi-transparent background + <code>backdrop-filter: blur(20px)</code> + subtle white border</td>
+            </tr>
+            <tr>
+              <td>Brushed Dark Metal</td>
+              <td>Dark gray base gradient + fine <code>repeating-linear-gradient</code> texture overlay</td>
+            </tr>
+            <tr>
+              <td>Obsidian</td>
+              <td>Very dark gradient with slight blue-purple undertone</td>
+            </tr>
+            <tr>
+              <td>Dark Cement</td>
+              <td>Dark gray with scattered faint <code>radial-gradient</code> spots for texture</td>
+            </tr>
+            <tr>
+              <td>Neon Light Tubes</td>
+              <td>Bright saturated color + <code>text-shadow</code> / <code>box-shadow</code> glow in matching hue</td>
+            </tr>
+            <tr>
+              <td>Bokeh Circles</td>
+              <td>Large <code>border-radius: 50%</code> elements with <code>filter: blur()</code> and low opacity</td>
+            </tr>
+            <tr>
+              <td>Aurora / Northern Lights</td>
+              <td>Multiple overlapping <code>radial-gradient</code> layers with different hues, animated</td>
+            </tr>
+            <tr>
+              <td>Chrome Trim</td>
+              <td>Thin lines or borders using silver-to-white linear gradients</td>
+            </tr>
+            <tr>
+              <td>Spectrum Display</td>
+              <td>Flex-row of narrow bars with gradient fills and staggered CSS animations</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <hr class="section-divider reveal">
+
+    <!-- Associated Brands -->
+    <section class="section" id="brands">
+      <div class="section-header reveal">
+        <p class="section-label">Cultural Context</p>
+        <h2 class="section-title">Associated Brands &amp; Interfaces</h2>
+        <p class="section-desc">Products and interfaces that exemplify the Dark Aero aesthetic -- from operating systems and gaming consoles to consumer electronics and automotive design.</p>
+      </div>
+
+      <div class="brands-grid reveal">
+        <span class="brand-tag">Microsoft Windows 7</span>
+        <span class="brand-tag">Windows Longhorn (concept)</span>
+        <span class="brand-tag">Sony PlayStation 3</span>
+        <span class="brand-tag">Sony PSP</span>
+        <span class="brand-tag">Apple iPhone 3G / 3GS</span>
+        <span class="brand-tag">BlackBerry OS 5.0-7.1</span>
+        <span class="brand-tag">BlackBerry 10</span>
+        <span class="brand-tag">Nintendo 3DS</span>
+        <span class="brand-tag">Nintendo Wii U</span>
+        <span class="brand-tag">5 Gum</span>
+        <span class="brand-tag">Alienware</span>
+        <span class="brand-tag">Pontiac</span>
+        <span class="brand-tag">Windows 10 Wallpaper</span>
+      </div>
+    </section>
+
+    <hr class="section-divider reveal">
+
+    <!-- Related Aesthetics -->
+    <section class="section" id="related">
+      <div class="section-header reveal">
+        <p class="section-label">Connections</p>
+        <h2 class="section-title">Related Aesthetics</h2>
+      </div>
+
+      <div class="related-grid">
+        <div class="dark-card related-card reveal">
+          <span class="related-badge badge-parent">Parent</span>
+          <h3>Frutiger Aero</h3>
+          <p>Dark Aero is Frutiger Aero's dark-palette variant, retaining glass and depth but dropping the colorful, nature-inspired motifs.</p>
+        </div>
+        <div class="dark-card related-card reveal">
+          <span class="related-badge badge-parent">Shared Roots</span>
+          <h3>Skeuomorphism</h3>
+          <p>Shares realistic material rendering. Dark Aero borrows skeuomorphism's darker, more serious tonal approach.</p>
+        </div>
+        <div class="dark-card related-card reveal">
+          <span class="related-badge badge-related">Related</span>
+          <h3>Metalheart</h3>
+          <p>Shares dark metallic surfaces and technological heaviness in its visual language.</p>
+        </div>
+        <div class="dark-card related-card reveal">
+          <span class="related-badge badge-related">Related</span>
+          <h3>Hexatron</h3>
+          <p>Shares geometric precision and dark technological futurism as core design values.</p>
+        </div>
+        <div class="dark-card related-card reveal">
+          <span class="related-badge badge-related">Related</span>
+          <h3>Y2K Futurism</h3>
+          <p>Broader umbrella. Dark Aero is a later, more refined expression of Y2K tech optimism.</p>
+        </div>
+        <div class="dark-card related-card reveal">
+          <span class="related-badge badge-related">Related</span>
+          <h3>Abstract Tech</h3>
+          <p>Shares electronic/digital visual motifs and dark backgrounds as a foundational element.</p>
+        </div>
+        <div class="dark-card related-card reveal">
+          <span class="related-badge badge-contemporary">Contemporary</span>
+          <h3>Recession Pop</h3>
+          <p>Economic-era counterpoint, sharing some dark and restrained qualities of the period.</p>
+        </div>
+        <div class="dark-card related-card reveal">
+          <span class="related-badge badge-successor">Successor</span>
+          <h3>Flat Design</h3>
+          <p>The minimalist movement that eventually replaced Dark Aero's rich textures and depth effects.</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>Dark Aero Design Reference -- Piano Gloss, Aero Glass, Neon Light</p>
+  </footer>
+
+  <script>
+    // Generate spectrum bars
+    (function() {
+      var spectrumEl = document.querySelector('.hero-spectrum');
+      if (!spectrumEl) return;
+      var barCount = 40;
+      for (var i = 0; i < barCount; i++) {
+        var bar = document.createElement('div');
+        bar.className = 'spectrum-bar';
+        var delay = (Math.random() * 0.8).toFixed(2);
+        var duration = (0.6 + Math.random() * 0.8).toFixed(2);
+        bar.style.animationDelay = delay + 's';
+        bar.style.animationDuration = duration + 's';
+        bar.style.height = (10 + Math.random() * 40) + 'px';
+        spectrumEl.appendChild(bar);
+      }
+    })();
+
+    // Intersection Observer for scroll reveals
+    (function() {
+      var reveals = document.querySelectorAll('.reveal');
+      if (!reveals.length) return;
+
+      var observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            // Stagger children if they share a parent grid
+            var parent = entry.target.parentElement;
+            if (parent) {
+              var siblings = parent.querySelectorAll('.reveal');
+              var idx = Array.prototype.indexOf.call(siblings, entry.target);
+              if (idx > 0) {
+                entry.target.style.transitionDelay = (idx * 0.08) + 's';
+              }
+            }
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, {
+        threshold: 0.1,
+        rootMargin: '0px 0px -40px 0px'
+      });
+
+      reveals.forEach(function(el) {
+        observer.observe(el);
+      });
+    })();
+
+    // Smooth nav background on scroll
+    (function() {
+      var nav = document.querySelector('.nav');
+      if (!nav) return;
+      var scrolled = false;
+
+      window.addEventListener('scroll', function() {
+        if (window.scrollY > 60 && !scrolled) {
+          nav.style.background = 'rgba(10, 10, 10, 0.92)';
+          nav.style.borderBottomColor = 'rgba(0, 136, 255, 0.1)';
+          scrolled = true;
+        } else if (window.scrollY <= 60 && scrolled) {
+          nav.style.background = 'rgba(10, 10, 10, 0.7)';
+          nav.style.borderBottomColor = 'rgba(255, 255, 255, 0.06)';
+          scrolled = false;
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
