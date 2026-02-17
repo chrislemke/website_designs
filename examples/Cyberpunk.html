@@ -1,0 +1,2256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CYBERPUNK // Design Reference Terminal</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Share+Tech+Mono&family=Rajdhani:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    /* ===== CUSTOM PROPERTIES ===== */
+    :root {
+      --cyber-bg-void: #0a0a0f;
+      --cyber-bg-dark: #12121a;
+      --cyber-bg-panel: #1a1a2e;
+      --cyber-bg-elevated: #2a2a3e;
+      --cyber-cyan: #00f0ff;
+      --cyber-blue: #0080ff;
+      --cyber-magenta: #ff0080;
+      --cyber-green: #00ff41;
+      --cyber-amber: #ffb800;
+      --cyber-red: #ff1744;
+      --cyber-purple: #b000ff;
+      --cyber-text-primary: #e0e0ec;
+      --cyber-text-secondary: #6a6a8a;
+      --cyber-text-glow: #00f0ff;
+      --cyber-dim-grid: #2a2a40;
+      --cyber-glow-cyan: 0 0 10px rgba(0, 240, 255, 0.5), 0 0 40px rgba(0, 240, 255, 0.15);
+      --cyber-glow-magenta: 0 0 10px rgba(255, 0, 128, 0.5), 0 0 40px rgba(255, 0, 128, 0.15);
+      --cyber-glow-green: 0 0 10px rgba(0, 255, 65, 0.5), 0 0 40px rgba(0, 255, 65, 0.15);
+      --cyber-glow-purple: 0 0 10px rgba(176, 0, 255, 0.5), 0 0 40px rgba(176, 0, 255, 0.15);
+      --cyber-border: 1px solid rgba(0, 240, 255, 0.15);
+      --cyber-border-bright: 1px solid rgba(0, 240, 255, 0.4);
+    }
+
+    /* ===== RESET & BASE ===== */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      scrollbar-width: thin;
+      scrollbar-color: var(--cyber-cyan) var(--cyber-bg-dark);
+    }
+
+    html::-webkit-scrollbar { width: 6px; }
+    html::-webkit-scrollbar-track { background: var(--cyber-bg-dark); }
+    html::-webkit-scrollbar-thumb {
+      background: var(--cyber-cyan);
+      border-radius: 0;
+    }
+
+    body {
+      background: var(--cyber-bg-void);
+      color: var(--cyber-text-primary);
+      font-family: 'Share Tech Mono', 'Fira Code', monospace;
+      font-size: 0.95rem;
+      line-height: 1.7;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Global scan lines */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0, 240, 255, 0.015) 2px,
+        rgba(0, 240, 255, 0.015) 4px
+      );
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    /* ===== TYPOGRAPHY ===== */
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      line-height: 1.2;
+      color: var(--cyber-text-primary);
+    }
+
+    a {
+      color: var(--cyber-cyan);
+      text-decoration: none;
+      transition: color 0.2s, text-shadow 0.2s;
+    }
+    a:hover {
+      text-shadow: 0 0 8px rgba(0, 240, 255, 0.5);
+    }
+
+    ::selection {
+      background: rgba(0, 240, 255, 0.25);
+      color: #fff;
+    }
+
+    /* ===== ANIMATIONS ===== */
+    @keyframes cyber-glitch {
+      0%, 100% { clip-path: inset(0 0 0 0); transform: translate(0); }
+      20% { clip-path: inset(20% 0 60% 0); transform: translate(-3px, 2px); }
+      40% { clip-path: inset(60% 0 10% 0); transform: translate(3px, -1px); }
+      60% { clip-path: inset(40% 0 30% 0); transform: translate(-2px, 1px); }
+      80% { clip-path: inset(10% 0 70% 0); transform: translate(2px, -2px); }
+    }
+
+    @keyframes flicker {
+      0%, 100% { opacity: 1; }
+      3% { opacity: 0.4; }
+      6% { opacity: 1; }
+      7% { opacity: 0.6; }
+      9% { opacity: 1; }
+      50% { opacity: 1; }
+      52% { opacity: 0.8; }
+      53% { opacity: 1; }
+    }
+
+    @keyframes text-reveal {
+      from { clip-path: inset(0 100% 0 0); }
+      to { clip-path: inset(0 0 0 0); }
+    }
+
+    @keyframes slide-up {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes pulse-glow {
+      0%, 100% { box-shadow: 0 0 5px rgba(0, 240, 255, 0.3), 0 0 20px rgba(0, 240, 255, 0.1); }
+      50% { box-shadow: 0 0 15px rgba(0, 240, 255, 0.5), 0 0 50px rgba(0, 240, 255, 0.2); }
+    }
+
+    @keyframes rain-fall {
+      0% { transform: translateY(-100vh); }
+      100% { transform: translateY(100vh); }
+    }
+
+    @keyframes data-stream {
+      0% { transform: translateY(-100%); }
+      100% { transform: translateY(100%); }
+    }
+
+    @keyframes horizontal-scan {
+      0% { top: -5%; }
+      100% { top: 105%; }
+    }
+
+    @keyframes border-trace {
+      0% { background-position: 0% 0%; }
+      100% { background-position: 200% 0%; }
+    }
+
+    @keyframes typing-cursor {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    @keyframes fade-in {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    /* ===== RAIN EFFECT ===== */
+    .rain-container {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .rain-drop {
+      position: absolute;
+      width: 1px;
+      background: linear-gradient(to bottom, transparent, rgba(0, 240, 255, 0.15), transparent);
+      animation: rain-fall linear infinite;
+    }
+
+    /* ===== HORIZONTAL SCAN BAR ===== */
+    .scan-bar {
+      position: fixed;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, rgba(0, 240, 255, 0.08), rgba(0, 240, 255, 0.15), rgba(0, 240, 255, 0.08), transparent);
+      animation: horizontal-scan 8s linear infinite;
+      pointer-events: none;
+      z-index: 9998;
+    }
+
+    /* ===== VIGNETTE ===== */
+    .vignette {
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(ellipse at center, transparent 50%, rgba(0, 0, 0, 0.5) 100%);
+      pointer-events: none;
+      z-index: 9997;
+    }
+
+    /* ===== NAVIGATION ===== */
+    .cyber-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      background: rgba(10, 10, 15, 0.88);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(0, 240, 255, 0.1);
+    }
+
+    .cyber-nav__inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 14px 40px;
+    }
+
+    .cyber-nav__logo {
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 900;
+      font-size: 1rem;
+      color: var(--cyber-cyan);
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      text-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .cyber-nav__logo-prefix {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--cyber-text-secondary);
+      letter-spacing: 0.1em;
+    }
+
+    .cyber-nav__links {
+      display: flex;
+      gap: 28px;
+      list-style: none;
+    }
+
+    .cyber-nav__links a {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.8rem;
+      color: var(--cyber-text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      position: relative;
+      padding: 4px 0;
+    }
+
+    .cyber-nav__links a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 1px;
+      background: var(--cyber-cyan);
+      box-shadow: 0 0 6px rgba(0, 240, 255, 0.5);
+      transition: width 0.3s ease;
+    }
+
+    .cyber-nav__links a:hover {
+      color: var(--cyber-cyan);
+    }
+
+    .cyber-nav__links a:hover::after {
+      width: 100%;
+    }
+
+    .cyber-nav__status {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--cyber-green);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .cyber-nav__status-dot {
+      width: 6px;
+      height: 6px;
+      background: var(--cyber-green);
+      border-radius: 50%;
+      box-shadow: 0 0 6px rgba(0, 255, 65, 0.6);
+      animation: flicker 4s infinite;
+    }
+
+    .mobile-menu-btn {
+      display: none;
+      background: none;
+      border: 1px solid rgba(0, 240, 255, 0.3);
+      color: var(--cyber-cyan);
+      padding: 6px 12px;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.75rem;
+      cursor: pointer;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    /* ===== CONTAINER ===== */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 40px;
+    }
+
+    /* ===== SECTION LABEL ===== */
+    .section-label {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.6rem;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--cyber-text-secondary);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .section-label::before {
+      content: '//';
+      color: var(--cyber-cyan);
+    }
+
+    /* ===== HERO ===== */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 120px 40px 80px;
+      overflow: hidden;
+    }
+
+    /* Grid floor */
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: -10%;
+      right: -10%;
+      height: 45%;
+      background:
+        linear-gradient(to bottom, transparent, rgba(0, 240, 255, 0.025)),
+        repeating-linear-gradient(90deg, transparent, transparent 79px, rgba(0, 240, 255, 0.05) 79px, rgba(0, 240, 255, 0.05) 80px),
+        repeating-linear-gradient(0deg, transparent, transparent 79px, rgba(0, 240, 255, 0.05) 79px, rgba(0, 240, 255, 0.05) 80px);
+      transform: perspective(500px) rotateX(50deg);
+      transform-origin: bottom;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .hero__content {
+      position: relative;
+      z-index: 5;
+      max-width: 900px;
+    }
+
+    .hero__tag {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.8rem;
+      color: var(--cyber-magenta);
+      letter-spacing: 0.15em;
+      margin-bottom: 24px;
+      animation: text-reveal 1s ease forwards;
+      animation-delay: 0.3s;
+      opacity: 0;
+      animation-fill-mode: forwards;
+    }
+    .hero__tag { animation: slide-up 0.8s ease 0.3s forwards; opacity: 0; }
+
+    .hero__title {
+      font-size: clamp(2.8rem, 7vw, 5.5rem);
+      font-weight: 900;
+      color: var(--cyber-cyan);
+      text-shadow:
+        0 0 20px rgba(0, 240, 255, 0.6),
+        0 0 80px rgba(0, 240, 255, 0.2),
+        0 0 120px rgba(0, 240, 255, 0.1);
+      margin-bottom: 8px;
+      letter-spacing: 0.12em;
+      position: relative;
+      animation: slide-up 0.8s ease 0.5s forwards;
+      opacity: 0;
+    }
+
+    .hero__title-sub {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: clamp(1rem, 2.5vw, 1.6rem);
+      font-weight: 400;
+      color: var(--cyber-text-secondary);
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      margin-bottom: 32px;
+      animation: slide-up 0.8s ease 0.7s forwards;
+      opacity: 0;
+    }
+
+    .hero__description {
+      font-size: 1rem;
+      color: var(--cyber-text-secondary);
+      max-width: 650px;
+      margin: 0 auto 40px;
+      line-height: 1.9;
+      animation: slide-up 0.8s ease 0.9s forwards;
+      opacity: 0;
+    }
+
+    .hero__cta-group {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+      animation: slide-up 0.8s ease 1.1s forwards;
+      opacity: 0;
+    }
+
+    /* Glitch effect on hero title */
+    .glitch {
+      position: relative;
+    }
+
+    .glitch::before,
+    .glitch::after {
+      content: attr(data-text);
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+
+    .glitch::before {
+      color: var(--cyber-magenta);
+      animation: cyber-glitch 4s infinite linear alternate;
+      z-index: -1;
+    }
+
+    .glitch::after {
+      color: var(--cyber-cyan);
+      animation: cyber-glitch 3s infinite linear alternate-reverse;
+      z-index: -1;
+    }
+
+    /* ===== BUTTONS ===== */
+    .cyber-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: transparent;
+      color: var(--cyber-cyan);
+      border: 1px solid var(--cyber-cyan);
+      padding: 14px 36px;
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 700;
+      font-size: 0.8rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      cursor: pointer;
+      position: relative;
+      clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+      transition: all 0.3s ease;
+    }
+
+    .cyber-btn:hover {
+      background: var(--cyber-cyan);
+      color: var(--cyber-bg-void);
+      box-shadow: var(--cyber-glow-cyan);
+      text-shadow: none;
+    }
+
+    .cyber-btn--magenta {
+      color: var(--cyber-magenta);
+      border-color: var(--cyber-magenta);
+    }
+    .cyber-btn--magenta:hover {
+      background: var(--cyber-magenta);
+      color: var(--cyber-bg-void);
+      box-shadow: var(--cyber-glow-magenta);
+    }
+
+    .cyber-btn--ghost {
+      border-color: rgba(0, 240, 255, 0.3);
+      color: var(--cyber-text-secondary);
+      clip-path: none;
+    }
+    .cyber-btn--ghost:hover {
+      border-color: var(--cyber-cyan);
+      color: var(--cyber-cyan);
+      background: transparent;
+      box-shadow: none;
+    }
+
+    /* ===== SECTION DIVIDER ===== */
+    .section-divider {
+      border: none;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(0, 240, 255, 0.15), rgba(0, 240, 255, 0.3), rgba(0, 240, 255, 0.15), transparent);
+      margin: 0;
+    }
+
+    /* ===== SECTION: VISUAL CHARACTERISTICS ===== */
+    .section {
+      padding: 100px 0;
+      position: relative;
+    }
+
+    .section__header {
+      margin-bottom: 56px;
+    }
+
+    .section__title {
+      font-size: clamp(1.5rem, 3vw, 2.2rem);
+      margin-bottom: 16px;
+    }
+
+    .section__subtitle {
+      color: var(--cyber-text-secondary);
+      font-size: 0.9rem;
+      max-width: 600px;
+      line-height: 1.8;
+    }
+
+    /* ===== CYBER CARDS ===== */
+    .cyber-card {
+      background: rgba(26, 26, 46, 0.6);
+      border: 1px solid rgba(0, 240, 255, 0.12);
+      border-radius: 2px;
+      padding: 28px;
+      position: relative;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+    }
+
+    .cyber-card:hover {
+      border-color: rgba(0, 240, 255, 0.35);
+      box-shadow: 0 0 15px rgba(0, 240, 255, 0.1), inset 0 0 30px rgba(0, 240, 255, 0.02);
+      transform: translateY(-2px);
+    }
+
+    /* Corner accents */
+    .cyber-card::before,
+    .cyber-card::after {
+      content: '';
+      position: absolute;
+      width: 14px;
+      height: 14px;
+      border-color: var(--cyber-cyan);
+      border-style: solid;
+      transition: border-color 0.3s ease;
+    }
+
+    .cyber-card::before {
+      top: -1px;
+      left: -1px;
+      border-width: 2px 0 0 2px;
+    }
+
+    .cyber-card::after {
+      bottom: -1px;
+      right: -1px;
+      border-width: 0 2px 2px 0;
+    }
+
+    .cyber-card--magenta::before,
+    .cyber-card--magenta::after { border-color: var(--cyber-magenta); }
+    .cyber-card--magenta { border-color: rgba(255, 0, 128, 0.12); }
+    .cyber-card--magenta:hover {
+      border-color: rgba(255, 0, 128, 0.35);
+      box-shadow: 0 0 15px rgba(255, 0, 128, 0.1);
+    }
+
+    .cyber-card--green::before,
+    .cyber-card--green::after { border-color: var(--cyber-green); }
+    .cyber-card--green { border-color: rgba(0, 255, 65, 0.12); }
+    .cyber-card--green:hover {
+      border-color: rgba(0, 255, 65, 0.35);
+      box-shadow: 0 0 15px rgba(0, 255, 65, 0.1);
+    }
+
+    .cyber-card--purple::before,
+    .cyber-card--purple::after { border-color: var(--cyber-purple); }
+    .cyber-card--purple { border-color: rgba(176, 0, 255, 0.12); }
+    .cyber-card--purple:hover {
+      border-color: rgba(176, 0, 255, 0.35);
+      box-shadow: 0 0 15px rgba(176, 0, 255, 0.1);
+    }
+
+    .cyber-card__label {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.6rem;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--cyber-cyan);
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .cyber-card--magenta .cyber-card__label { color: var(--cyber-magenta); }
+    .cyber-card--green .cyber-card__label { color: var(--cyber-green); }
+    .cyber-card--purple .cyber-card__label { color: var(--cyber-purple); }
+
+    .cyber-card__title {
+      font-size: 1rem;
+      margin-bottom: 12px;
+      letter-spacing: 0.06em;
+    }
+
+    .cyber-card__text {
+      color: var(--cyber-text-secondary);
+      font-size: 0.85rem;
+      line-height: 1.7;
+    }
+
+    /* ===== TRAITS GRID ===== */
+    .traits-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 20px;
+    }
+
+    /* ===== COLOR PALETTE SECTION ===== */
+    .palette-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 16px;
+    }
+
+    .color-swatch {
+      background: rgba(26, 26, 46, 0.5);
+      border: 1px solid rgba(0, 240, 255, 0.08);
+      padding: 0;
+      overflow: hidden;
+      transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s;
+      cursor: pointer;
+    }
+
+    .color-swatch:hover {
+      border-color: rgba(0, 240, 255, 0.3);
+      transform: translateY(-2px);
+    }
+
+    .color-swatch__preview {
+      height: 60px;
+      position: relative;
+    }
+
+    .color-swatch__preview::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0, 0, 0, 0.1) 2px,
+        rgba(0, 0, 0, 0.1) 4px
+      );
+    }
+
+    .color-swatch__info {
+      padding: 12px 14px;
+    }
+
+    .color-swatch__name {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.6rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--cyber-text-primary);
+      margin-bottom: 4px;
+    }
+
+    .color-swatch__hex {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--cyber-text-secondary);
+    }
+
+    .color-swatch__role {
+      font-size: 0.7rem;
+      color: var(--cyber-text-secondary);
+      margin-top: 4px;
+      opacity: 0.7;
+    }
+
+    /* ===== TYPOGRAPHY SECTION ===== */
+    .font-showcase {
+      display: grid;
+      gap: 24px;
+    }
+
+    .font-card {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      align-items: center;
+      background: rgba(26, 26, 46, 0.4);
+      border: 1px solid rgba(0, 240, 255, 0.08);
+      padding: 28px;
+      transition: border-color 0.3s;
+    }
+
+    .font-card:hover {
+      border-color: rgba(0, 240, 255, 0.2);
+    }
+
+    .font-card__sample {
+      font-size: 2rem;
+      line-height: 1.3;
+    }
+
+    .font-card__meta {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .font-card__name {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--cyber-cyan);
+    }
+
+    .font-card__style {
+      font-size: 0.8rem;
+      color: var(--cyber-text-secondary);
+    }
+
+    .font-card__use {
+      font-size: 0.75rem;
+      color: var(--cyber-text-secondary);
+      opacity: 0.7;
+    }
+
+    /* Font pairing table */
+    .cyber-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.85rem;
+    }
+
+    .cyber-table th {
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 500;
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--cyber-cyan);
+      text-align: left;
+      padding: 14px 16px;
+      border-bottom: 1px solid rgba(0, 240, 255, 0.2);
+      background: rgba(0, 240, 255, 0.03);
+    }
+
+    .cyber-table td {
+      padding: 12px 16px;
+      color: var(--cyber-text-primary);
+      border-bottom: 1px solid rgba(0, 240, 255, 0.06);
+    }
+
+    .cyber-table tr:hover td {
+      background: rgba(0, 240, 255, 0.03);
+    }
+
+    .cyber-table .text-muted {
+      color: var(--cyber-text-secondary);
+    }
+
+    /* ===== LAYOUT PRINCIPLES ===== */
+    .principles-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .principle-item {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      padding: 20px 24px;
+      background: rgba(26, 26, 46, 0.3);
+      border-left: 2px solid var(--cyber-cyan);
+      transition: background 0.3s, border-color 0.3s;
+    }
+
+    .principle-item:hover {
+      background: rgba(26, 26, 46, 0.6);
+      border-left-color: var(--cyber-magenta);
+    }
+
+    .principle-item__number {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 700;
+      color: var(--cyber-cyan);
+      min-width: 28px;
+      padding-top: 2px;
+    }
+
+    .principle-item:hover .principle-item__number {
+      color: var(--cyber-magenta);
+    }
+
+    .principle-item__text {
+      color: var(--cyber-text-secondary);
+      font-size: 0.88rem;
+      line-height: 1.7;
+    }
+
+    .principle-item__text strong {
+      color: var(--cyber-text-primary);
+    }
+
+    /* ===== CSS TECHNIQUES / CODE BLOCKS ===== */
+    .code-block {
+      background: rgba(18, 18, 26, 0.9);
+      border: 1px solid rgba(0, 240, 255, 0.1);
+      border-radius: 2px;
+      overflow: hidden;
+      margin: 24px 0;
+    }
+
+    .code-block__header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 16px;
+      background: rgba(0, 240, 255, 0.04);
+      border-bottom: 1px solid rgba(0, 240, 255, 0.08);
+    }
+
+    .code-block__title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.6rem;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--cyber-cyan);
+    }
+
+    .code-block__lang {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.65rem;
+      color: var(--cyber-text-secondary);
+      background: rgba(0, 240, 255, 0.08);
+      padding: 2px 8px;
+    }
+
+    .code-block pre {
+      padding: 20px;
+      overflow-x: auto;
+      font-family: 'Fira Code', 'Share Tech Mono', monospace;
+      font-size: 0.8rem;
+      line-height: 1.6;
+      color: var(--cyber-text-secondary);
+      scrollbar-width: thin;
+      scrollbar-color: rgba(0, 240, 255, 0.2) transparent;
+    }
+
+    .code-block pre::-webkit-scrollbar { height: 4px; }
+    .code-block pre::-webkit-scrollbar-track { background: transparent; }
+    .code-block pre::-webkit-scrollbar-thumb { background: rgba(0, 240, 255, 0.2); }
+
+    .code-block .kw { color: var(--cyber-magenta); }
+    .code-block .prop { color: var(--cyber-cyan); }
+    .code-block .val { color: var(--cyber-green); }
+    .code-block .str { color: var(--cyber-amber); }
+    .code-block .cmt { color: #4a4a6a; font-style: italic; }
+    .code-block .sel { color: var(--cyber-purple); }
+    .code-block .num { color: var(--cyber-amber); }
+
+    /* ===== TERMINAL SECTION ===== */
+    .terminal {
+      background: rgba(10, 10, 15, 0.95);
+      border: 1px solid rgba(0, 255, 65, 0.15);
+      border-radius: 2px;
+      overflow: hidden;
+      margin: 32px 0;
+    }
+
+    .terminal__header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 16px;
+      background: rgba(0, 255, 65, 0.05);
+      border-bottom: 1px solid rgba(0, 255, 65, 0.1);
+    }
+
+    .terminal__dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      border: 1px solid;
+    }
+
+    .terminal__dot--red { border-color: var(--cyber-red); background: rgba(255, 23, 68, 0.3); }
+    .terminal__dot--amber { border-color: var(--cyber-amber); background: rgba(255, 184, 0, 0.3); }
+    .terminal__dot--green { border-color: var(--cyber-green); background: rgba(0, 255, 65, 0.3); }
+
+    .terminal__title {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--cyber-text-secondary);
+      margin-left: 8px;
+    }
+
+    .terminal__body {
+      padding: 20px;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.82rem;
+      line-height: 1.8;
+      color: var(--cyber-green);
+    }
+
+    .terminal__line {
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    .terminal__prompt {
+      color: var(--cyber-cyan);
+    }
+
+    .terminal__output {
+      color: var(--cyber-text-secondary);
+    }
+
+    .terminal__cursor {
+      display: inline-block;
+      width: 8px;
+      height: 14px;
+      background: var(--cyber-green);
+      vertical-align: text-bottom;
+      animation: typing-cursor 1s step-end infinite;
+    }
+
+    /* ===== DOS AND DONTS ===== */
+    .dos-donts {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    .do-list, .dont-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .do-list__header, .dont-list__header {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding-bottom: 12px;
+      margin-bottom: 4px;
+    }
+
+    .do-list__header {
+      color: var(--cyber-green);
+      border-bottom: 1px solid rgba(0, 255, 65, 0.2);
+    }
+
+    .dont-list__header {
+      color: var(--cyber-red);
+      border-bottom: 1px solid rgba(255, 23, 68, 0.2);
+    }
+
+    .do-item, .dont-item {
+      font-size: 0.85rem;
+      color: var(--cyber-text-secondary);
+      padding: 8px 0;
+      padding-left: 20px;
+      position: relative;
+      line-height: 1.6;
+    }
+
+    .do-item::before {
+      content: '+';
+      position: absolute;
+      left: 0;
+      color: var(--cyber-green);
+      font-weight: bold;
+    }
+
+    .dont-item::before {
+      content: '-';
+      position: absolute;
+      left: 0;
+      color: var(--cyber-red);
+      font-weight: bold;
+    }
+
+    /* ===== RELATED AESTHETICS ===== */
+    .related-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+    }
+
+    .related-card {
+      background: rgba(26, 26, 46, 0.3);
+      border: 1px solid rgba(0, 240, 255, 0.06);
+      padding: 20px;
+      transition: border-color 0.3s, background 0.3s;
+    }
+
+    .related-card:hover {
+      border-color: rgba(0, 240, 255, 0.2);
+      background: rgba(26, 26, 46, 0.5);
+    }
+
+    .related-card__name {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--cyber-text-primary);
+      margin-bottom: 8px;
+    }
+
+    .related-card__desc {
+      font-size: 0.8rem;
+      color: var(--cyber-text-secondary);
+      line-height: 1.6;
+    }
+
+    /* ===== CTA SECTION ===== */
+    .cta-section {
+      text-align: center;
+      padding: 120px 40px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-section::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 30% 50%, rgba(255, 0, 128, 0.06) 0%, transparent 60%),
+        radial-gradient(ellipse at 70% 50%, rgba(0, 240, 255, 0.06) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    .cta-section__content {
+      position: relative;
+      z-index: 2;
+    }
+
+    .cta-section__title {
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      color: var(--cyber-magenta);
+      text-shadow: 0 0 20px rgba(255, 0, 128, 0.5), 0 0 60px rgba(255, 0, 128, 0.15);
+      margin-bottom: 16px;
+    }
+
+    .cta-section__text {
+      color: var(--cyber-text-secondary);
+      font-size: 1rem;
+      margin-bottom: 36px;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.8;
+    }
+
+    /* ===== FOOTER ===== */
+    .cyber-footer {
+      border-top: 1px solid rgba(0, 240, 255, 0.08);
+      padding: 40px;
+      position: relative;
+    }
+
+    .cyber-footer__inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 40px;
+      align-items: start;
+    }
+
+    .cyber-footer__col {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .cyber-footer__heading {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.6rem;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--cyber-cyan);
+      margin-bottom: 8px;
+    }
+
+    .cyber-footer__text {
+      font-size: 0.75rem;
+      color: var(--cyber-text-secondary);
+      line-height: 1.6;
+    }
+
+    .cyber-footer__bar {
+      margin-top: 32px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(0, 240, 255, 0.06);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1200px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .cyber-footer__copyright {
+      font-size: 0.7rem;
+      color: var(--cyber-text-secondary);
+      opacity: 0.6;
+    }
+
+    .cyber-footer__tagline {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--cyber-text-secondary);
+      opacity: 0.4;
+    }
+
+    /* ===== DATA BADGE ===== */
+    .data-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.65rem;
+      padding: 3px 10px;
+      border: 1px solid;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .data-badge--cyan { color: var(--cyber-cyan); border-color: rgba(0, 240, 255, 0.3); }
+    .data-badge--magenta { color: var(--cyber-magenta); border-color: rgba(255, 0, 128, 0.3); }
+    .data-badge--green { color: var(--cyber-green); border-color: rgba(0, 255, 65, 0.3); }
+    .data-badge--amber { color: var(--cyber-amber); border-color: rgba(255, 184, 0, 0.3); }
+
+    /* ===== PROGRESS BAR ===== */
+    .progress-bar {
+      height: 3px;
+      background: rgba(0, 240, 255, 0.1);
+      border-radius: 0;
+      overflow: hidden;
+      margin: 16px 0 8px;
+    }
+
+    .progress-bar__fill {
+      height: 100%;
+      background: var(--cyber-cyan);
+      box-shadow: 0 0 8px rgba(0, 240, 255, 0.5);
+      transition: width 1s ease;
+    }
+
+    /* ===== DESIGN PRINCIPLES SECTION ===== */
+    .design-principles {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    .design-principle-card {
+      padding: 24px;
+      background: rgba(26, 26, 46, 0.3);
+      border: 1px solid rgba(0, 240, 255, 0.06);
+      transition: border-color 0.3s;
+    }
+
+    .design-principle-card:hover {
+      border-color: rgba(0, 240, 255, 0.2);
+    }
+
+    .design-principle-card__title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--cyber-cyan);
+      margin-bottom: 10px;
+    }
+
+    .design-principle-card__text {
+      font-size: 0.85rem;
+      color: var(--cyber-text-secondary);
+      line-height: 1.7;
+    }
+
+    /* ===== SECTION RESPONSIVE ===== */
+    .section-responsive {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      align-items: start;
+    }
+
+    /* ===== SCROLL ANIMATIONS ===== */
+    .reveal {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Stagger children */
+    .stagger-children > .reveal:nth-child(1) { transition-delay: 0.05s; }
+    .stagger-children > .reveal:nth-child(2) { transition-delay: 0.1s; }
+    .stagger-children > .reveal:nth-child(3) { transition-delay: 0.15s; }
+    .stagger-children > .reveal:nth-child(4) { transition-delay: 0.2s; }
+    .stagger-children > .reveal:nth-child(5) { transition-delay: 0.25s; }
+    .stagger-children > .reveal:nth-child(6) { transition-delay: 0.3s; }
+    .stagger-children > .reveal:nth-child(7) { transition-delay: 0.35s; }
+    .stagger-children > .reveal:nth-child(8) { transition-delay: 0.4s; }
+    .stagger-children > .reveal:nth-child(9) { transition-delay: 0.45s; }
+    .stagger-children > .reveal:nth-child(10) { transition-delay: 0.5s; }
+    .stagger-children > .reveal:nth-child(11) { transition-delay: 0.55s; }
+    .stagger-children > .reveal:nth-child(12) { transition-delay: 0.6s; }
+    .stagger-children > .reveal:nth-child(13) { transition-delay: 0.65s; }
+    .stagger-children > .reveal:nth-child(14) { transition-delay: 0.7s; }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 1024px) {
+      .dos-donts { grid-template-columns: 1fr; }
+      .design-principles { grid-template-columns: 1fr; }
+      .section-responsive { grid-template-columns: 1fr; }
+      .cyber-footer__inner { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 768px) {
+      .container { padding: 0 20px; }
+      .section { padding: 60px 0; }
+
+      .hero { min-height: auto; padding: 100px 20px 60px; }
+
+      .cyber-nav__inner { padding: 12px 20px; }
+      .cyber-nav__links { display: none; }
+      .cyber-nav__status { display: none; }
+      .mobile-menu-btn { display: block; }
+
+      .traits-grid { grid-template-columns: 1fr; }
+      .palette-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
+      .font-card { grid-template-columns: 1fr; }
+      .font-card__sample { font-size: 1.5rem; }
+
+      .cyber-table { font-size: 0.75rem; }
+      .cyber-table th, .cyber-table td { padding: 8px 10px; }
+
+      .related-grid { grid-template-columns: 1fr; }
+
+      .cyber-footer__inner { grid-template-columns: 1fr; gap: 24px; }
+      .cyber-footer__bar { flex-direction: column; gap: 8px; text-align: center; }
+
+      .cta-section { padding: 80px 20px; }
+    }
+
+    @media (max-width: 480px) {
+      .hero__cta-group { flex-direction: column; align-items: center; }
+      .cyber-btn { width: 100%; max-width: 280px; }
+      .palette-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Rain effect container -->
+  <div class="rain-container" id="rain"></div>
+
+  <!-- Horizontal scan bar -->
+  <div class="scan-bar"></div>
+
+  <!-- Vignette overlay -->
+  <div class="vignette"></div>
+
+  <!-- ===== NAVIGATION ===== -->
+  <nav class="cyber-nav">
+    <div class="cyber-nav__inner">
+      <div class="cyber-nav__logo">
+        <span class="cyber-nav__logo-prefix">[SYS]</span>
+        CYBERPUNK
+      </div>
+      <ul class="cyber-nav__links">
+        <li><a href="#visual">Visual</a></li>
+        <li><a href="#palette">Palette</a></li>
+        <li><a href="#typography">Type</a></li>
+        <li><a href="#layout">Layout</a></li>
+        <li><a href="#techniques">CSS</a></li>
+        <li><a href="#guidelines">Guide</a></li>
+        <li><a href="#related">Related</a></li>
+      </ul>
+      <div class="cyber-nav__status">
+        <span class="cyber-nav__status-dot"></span>
+        ONLINE
+      </div>
+      <button class="mobile-menu-btn" onclick="document.querySelector('.cyber-nav__links').style.display = document.querySelector('.cyber-nav__links').style.display === 'flex' ? 'none' : 'flex'">MENU</button>
+    </div>
+  </nav>
+
+  <!-- ===== HERO ===== -->
+  <section class="hero" id="hero">
+    <div class="hero__content">
+      <div class="hero__tag">// DESIGN REFERENCE TERMINAL v2.077</div>
+      <h1 class="hero__title glitch" data-text="CYBERPUNK">CYBERPUNK</h1>
+      <div class="hero__title-sub">Design Aesthetic Reference</div>
+      <p class="hero__description">
+        A neon-soaked dystopian aesthetic rooted in the science fiction subgenre of the same name.
+        Rain-slick megacity streets, holographic advertisements, glitch artifacts, and corporate decay --
+        a world of high technology and low life.
+      </p>
+      <div class="hero__cta-group">
+        <a href="#visual" class="cyber-btn">Initialize System</a>
+        <a href="#palette" class="cyber-btn cyber-btn--ghost">View Palette</a>
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-divider">
+
+  <!-- ===== VISUAL CHARACTERISTICS ===== -->
+  <section class="section" id="visual">
+    <div class="container">
+      <div class="section__header reveal">
+        <div class="section-label">Section 01</div>
+        <h2 class="section__title">Visual Characteristics</h2>
+        <p class="section__subtitle">
+          The visual language draws from 1980s sci-fi cinema -- Blade Runner, Akira, Ghost in the Shell --
+          combining dense urban layering with electric neon lighting, CRT scan lines, and corrupted digital interfaces.
+        </p>
+      </div>
+
+      <!-- Core Design Traits -->
+      <h3 style="font-size: 0.85rem; color: var(--cyber-cyan); letter-spacing: 0.15em; margin-bottom: 24px;" class="reveal">
+        Core Design Traits
+      </h3>
+      <div class="traits-grid stagger-children">
+        <div class="cyber-card reveal">
+          <div class="cyber-card__label">// trait.01</div>
+          <h4 class="cyber-card__title">Dark Backgrounds</h4>
+          <p class="cyber-card__text">Deep navy, charcoal, or pure black simulating nighttime megacity environments. Darkness is the dominant canvas -- light is always artificial, always neon.</p>
+        </div>
+        <div class="cyber-card cyber-card--magenta reveal">
+          <div class="cyber-card__label">// trait.02</div>
+          <h4 class="cyber-card__title">Neon Accent Colors</h4>
+          <p class="cyber-card__text">Electric cyan, hot magenta, toxic green, and warning amber used sparingly for maximum impact. Color is light: every colored element should appear to emit its own glow.</p>
+        </div>
+        <div class="cyber-card cyber-card--green reveal">
+          <div class="cyber-card__label">// trait.03</div>
+          <h4 class="cyber-card__title">Glitch & Distortion</h4>
+          <p class="cyber-card__text">Chromatic aberration, scan lines, pixel displacement, and data corruption artifacts. Glitch effects should feel intentional -- controlled chaos.</p>
+        </div>
+        <div class="cyber-card cyber-card--purple reveal">
+          <div class="cyber-card__label">// trait.04</div>
+          <h4 class="cyber-card__title">Terminal Typography</h4>
+          <p class="cyber-card__text">Monospaced and code-like fonts that evoke hacker culture and machine interfaces. Typography should feel utilitarian and machine-generated.</p>
+        </div>
+        <div class="cyber-card reveal">
+          <div class="cyber-card__label">// trait.05</div>
+          <h4 class="cyber-card__title">Dense Compositions</h4>
+          <p class="cyber-card__text">Overlapping UI panels, translucent overlays, and information-rich layouts. Layer information densely but maintain readability through luminance contrast.</p>
+        </div>
+        <div class="cyber-card cyber-card--magenta reveal">
+          <div class="cyber-card__label">// trait.06</div>
+          <h4 class="cyber-card__title">Holographic Elements</h4>
+          <p class="cyber-card__text">Glass-like panels with backdrop blur and neon-tinted borders. Layered depth through translucency creates an in-world terminal feeling.</p>
+        </div>
+        <div class="cyber-card cyber-card--green reveal">
+          <div class="cyber-card__label">// trait.07</div>
+          <h4 class="cyber-card__title">Grid & Wireframes</h4>
+          <p class="cyber-card__text">Visible structural scaffolding suggesting exposed digital infrastructure. Faint grid overlays reveal the underlying data architecture.</p>
+        </div>
+        <div class="cyber-card cyber-card--purple reveal">
+          <div class="cyber-card__label">// trait.08</div>
+          <h4 class="cyber-card__title">CRT Screen Effects</h4>
+          <p class="cyber-card__text">Scan lines, screen flicker, phosphor glow, and vignette darkening at edges. These atmospheric details create immersion and narrative depth.</p>
+        </div>
+        <div class="cyber-card reveal">
+          <div class="cyber-card__label">// trait.09</div>
+          <h4 class="cyber-card__title">Corporate Motifs</h4>
+          <p class="cyber-card__text">Fictional mega-corp logos, barcode elements, and Japanese/CJK character accents suggesting a globalized megacity culture.</p>
+        </div>
+        <div class="cyber-card cyber-card--magenta reveal">
+          <div class="cyber-card__label">// trait.10</div>
+          <h4 class="cyber-card__title">Rain & Particles</h4>
+          <p class="cyber-card__text">Animated rain streaks, floating dust motes, and fog overlays. Atmospheric particles bring the dystopian environment to life.</p>
+        </div>
+      </div>
+
+      <!-- Design Principles -->
+      <div style="margin-top: 64px;">
+        <h3 style="font-size: 0.85rem; color: var(--cyber-magenta); letter-spacing: 0.15em; margin-bottom: 24px;" class="reveal">
+          Design Principles
+        </h3>
+        <div class="design-principles stagger-children">
+          <div class="design-principle-card reveal">
+            <div class="design-principle-card__title">Visual Tension</div>
+            <p class="design-principle-card__text">Embrace the tension between high technology and urban decay. The interface itself is a narrative element -- a diegetic in-world terminal.</p>
+          </div>
+          <div class="design-principle-card reveal">
+            <div class="design-principle-card__title">Darkness as Canvas</div>
+            <p class="design-principle-card__text">Use darkness as the dominant canvas. Light is always artificial, always neon. Every colored element should appear to emit its own glow.</p>
+          </div>
+          <div class="design-principle-card reveal">
+            <div class="design-principle-card__title">Controlled Chaos</div>
+            <p class="design-principle-card__text">Glitch effects should feel intentional, not broken. Reserve warm colors (amber, red) for warnings. Cool colors (cyan, blue) for information.</p>
+          </div>
+          <div class="design-principle-card reveal">
+            <div class="design-principle-card__title">Machine Aesthetic</div>
+            <p class="design-principle-card__text">Typography should feel utilitarian and machine-generated, never decorative or calligraphic. Layer information densely but maintain readability.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-divider">
+
+  <!-- ===== COLOR PALETTE ===== -->
+  <section class="section" id="palette">
+    <div class="container">
+      <div class="section__header reveal">
+        <div class="section-label">Section 02</div>
+        <h2 class="section__title">Color Palette</h2>
+        <p class="section__subtitle">
+          Neon Megacity Palette -- dark backgrounds pierced by vivid neon accents.
+          Cool colors for interactive and informational tones. Warm colors for warnings and danger.
+        </p>
+      </div>
+
+      <div class="palette-grid stagger-children">
+        <div class="color-swatch reveal">
+          <div class="color-swatch__preview" style="background: #0A0A0F;"></div>
+          <div class="color-swatch__info">
+            <div class="color-swatch__name">Void Black</div>
+            <div class="color-swatch__hex">#0A0A0F</div>
+            <div class="color-swatch__role">Primary background</div>
+          </div>
+        </div>
+        <div class="color-swatch reveal">
+          <div class="color-swatch__preview" style="background: #12121A;"></div>
+          <div class="color-swatch__info">
+            <div class="color-swatch__name">Dark Steel</div>
+            <div class="color-swatch__hex">#12121A</div>
+            <div class="color-swatch__role">Card backgrounds</div>
+          </div>
+        </div>
+        <div class="color-swatch reveal">
+          <div class="color-swatch__preview" style="background: #1A1A2E;"></div>
+          <div class="color-swatch__info">
+            <div class="color-swatch__name">Gunmetal</div>
+            <div class="color-swatch__hex">#1A1A2E</div>
+            <div class="color-swatch__role">Elevated panels</div>
+          </div>
+        </div>
+        <div class="color-swatch reveal">
+          <div class="color-swatch__preview" style="background: #2A2A3E;"></div>
+          <div class="color-swatch__info">
+            <div class="color-swatch__name">Slate Circuit</div>
+            <div class="color-swatch__hex">#2A2A3E</div>
+            <div class="color-swatch__role">Borders, dividers</div>
+          </div>
+        </div>
+        <div class="color-swatch reveal">
+          <div class="color-swatch__preview" style="background: #00F0FF; box-shadow: 0 0 20px rgba(0,240,255,0.4);"></div>
+          <div class="color-swatch__info">
+            <div class="color-swatch__name">Neon Cyan</div>
+            <div class="color-swatch__hex">#00F0FF</div>
+            <div class="color-swatch__role">Primary accent, links</div>
+          </div>
+        </div>
+        <div class="color-swatch reveal">
+          <div class="color-swatch__preview" style="background: #0080FF; box-shadow: 0 0 20px rgba(0,128,255,0.4);"></div>
+          <div class="color-swatch__info">
+            <div class="color-swatch__name">Electric Blue</div>
+            <div class="color-swatch__hex">#0080FF</div>
+            <div class="color-swatch__role">Secondary accent</div>
+          </div>
+        </div>
+        <div class="color-swatch reveal">
+          <div class="color-swatch__preview" style="background: #FF0080; box-shadow: 0 0 20px rgba(255,0,128,0.4);"></div>
+          <div class="color-swatch__info">
+            <div class="color-swatch__name">Hot Magenta</div>
+            <div class="color-swatch__hex">#FF0080</div>
+            <div class="color-swatch__role">Highlight accent</div>
+          </div>
+        </div>
+        <div class="color-swatch reveal">
+          <div class="color-swatch__preview" style="background: #00FF41; box-shadow: 0 0 20px rgba(0,255,65,0.4);"></div>
+          <div class="color-swatch__info">
+            <div class="color-swatch__name">Toxic Green</div>
+            <div class="color-swatch__hex">#00FF41</div>
+            <div class="color-swatch__role">Terminal text, success</div>
+          </div>
+        </div>
+        <div class="color-swatch reveal">
+          <div class="color-swatch__preview" style="background: #FFB800; box-shadow: 0 0 20px rgba(255,184,0,0.4);"></div>
+          <div class="color-swatch__info">
+            <div class="color-swatch__name">Warning Amber</div>
+            <div class="color-swatch__hex">#FFB800</div>
+            <div class="color-swatch__role">Warnings, caution</div>
+          </div>
+        </div>
+        <div class="color-swatch reveal">
+          <div class="color-swatch__preview" style="background: #FF1744; box-shadow: 0 0 20px rgba(255,23,68,0.4);"></div>
+          <div class="color-swatch__info">
+            <div class="color-swatch__name">Danger Red</div>
+            <div class="color-swatch__hex">#FF1744</div>
+            <div class="color-swatch__role">Error states, critical</div>
+          </div>
+        </div>
+        <div class="color-swatch reveal">
+          <div class="color-swatch__preview" style="background: #B000FF; box-shadow: 0 0 20px rgba(176,0,255,0.4);"></div>
+          <div class="color-swatch__info">
+            <div class="color-swatch__name">Holo Purple</div>
+            <div class="color-swatch__hex">#B000FF</div>
+            <div class="color-swatch__role">Tertiary, decorative</div>
+          </div>
+        </div>
+        <div class="color-swatch reveal">
+          <div class="color-swatch__preview" style="background: #E0E0EC;"></div>
+          <div class="color-swatch__info">
+            <div class="color-swatch__name">Ghost White</div>
+            <div class="color-swatch__hex">#E0E0EC</div>
+            <div class="color-swatch__role">Primary text</div>
+          </div>
+        </div>
+        <div class="color-swatch reveal">
+          <div class="color-swatch__preview" style="background: #6A6A8A;"></div>
+          <div class="color-swatch__info">
+            <div class="color-swatch__name">Muted Steel</div>
+            <div class="color-swatch__hex">#6A6A8A</div>
+            <div class="color-swatch__role">Secondary text</div>
+          </div>
+        </div>
+        <div class="color-swatch reveal">
+          <div class="color-swatch__preview" style="background: #2A2A40;"></div>
+          <div class="color-swatch__info">
+            <div class="color-swatch__name">Dim Grid</div>
+            <div class="color-swatch__hex">#2A2A40</div>
+            <div class="color-swatch__role">Grid lines, structure</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CSS Variables Code Block -->
+      <div class="code-block reveal" style="margin-top: 48px;">
+        <div class="code-block__header">
+          <span class="code-block__title">CSS Custom Properties</span>
+          <span class="code-block__lang">CSS</span>
+        </div>
+        <pre><span class="sel">:root</span> {
+  <span class="cmt">/* Backgrounds */</span>
+  <span class="prop">--cyber-bg-void</span>: <span class="val">#0a0a0f</span>;
+  <span class="prop">--cyber-bg-dark</span>: <span class="val">#12121a</span>;
+  <span class="prop">--cyber-bg-panel</span>: <span class="val">#1a1a2e</span>;
+  <span class="prop">--cyber-bg-elevated</span>: <span class="val">#2a2a3e</span>;
+
+  <span class="cmt">/* Neon accents */</span>
+  <span class="prop">--cyber-cyan</span>: <span class="val">#00f0ff</span>;
+  <span class="prop">--cyber-blue</span>: <span class="val">#0080ff</span>;
+  <span class="prop">--cyber-magenta</span>: <span class="val">#ff0080</span>;
+  <span class="prop">--cyber-green</span>: <span class="val">#00ff41</span>;
+  <span class="prop">--cyber-amber</span>: <span class="val">#ffb800</span>;
+  <span class="prop">--cyber-red</span>: <span class="val">#ff1744</span>;
+  <span class="prop">--cyber-purple</span>: <span class="val">#b000ff</span>;
+
+  <span class="cmt">/* Glows */</span>
+  <span class="prop">--cyber-glow-cyan</span>: <span class="val">0 0 10px rgba(0, 240, 255, 0.5), 0 0 40px rgba(0, 240, 255, 0.15)</span>;
+  <span class="prop">--cyber-glow-magenta</span>: <span class="val">0 0 10px rgba(255, 0, 128, 0.5), 0 0 40px rgba(255, 0, 128, 0.15)</span>;
+}</pre>
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-divider">
+
+  <!-- ===== TYPOGRAPHY ===== -->
+  <section class="section" id="typography">
+    <div class="container">
+      <div class="section__header reveal">
+        <div class="section-label">Section 03</div>
+        <h2 class="section__title">Typography</h2>
+        <p class="section__subtitle">
+          Monospaced and mechanical. Angular and utilitarian. Uppercase-heavy for display.
+          No rounded, friendly shapes -- letterforms feel stamped or engineered.
+        </p>
+      </div>
+
+      <!-- Font Samples -->
+      <div class="font-showcase stagger-children">
+        <div class="font-card reveal">
+          <div class="font-card__sample" style="font-family: 'Orbitron', sans-serif; font-weight: 900; color: var(--cyber-cyan); text-shadow: 0 0 10px rgba(0,240,255,0.3);">
+            NEON DISTRICT 2077
+          </div>
+          <div class="font-card__meta">
+            <div class="font-card__name">Orbitron</div>
+            <div class="font-card__style">Geometric, futuristic display</div>
+            <div class="font-card__use">Headlines, display text, UI chrome</div>
+            <div class="progress-bar"><div class="progress-bar__fill" style="width: 95%;"></div></div>
+            <span style="font-size: 0.65rem; color: var(--cyber-text-secondary);">Usage frequency: 95%</span>
+          </div>
+        </div>
+        <div class="font-card reveal">
+          <div class="font-card__sample" style="font-family: 'Share Tech Mono', monospace; color: var(--cyber-green);">
+            > sys.init --protocol=ghost_
+          </div>
+          <div class="font-card__meta">
+            <div class="font-card__name">Share Tech Mono</div>
+            <div class="font-card__style">Monospaced, techy</div>
+            <div class="font-card__use">Terminal text, code blocks, data readouts</div>
+            <div class="progress-bar"><div class="progress-bar__fill" style="width: 90%;"></div></div>
+            <span style="font-size: 0.65rem; color: var(--cyber-text-secondary);">Usage frequency: 90%</span>
+          </div>
+        </div>
+        <div class="font-card reveal">
+          <div class="font-card__sample" style="font-family: 'Rajdhani', sans-serif; font-weight: 600; color: var(--cyber-text-primary);">
+            Megacity Navigation Label
+          </div>
+          <div class="font-card__meta">
+            <div class="font-card__name">Rajdhani</div>
+            <div class="font-card__style">Condensed, semi-rounded</div>
+            <div class="font-card__use">Subheadings, navigation, labels</div>
+            <div class="progress-bar"><div class="progress-bar__fill" style="width: 70%;"></div></div>
+            <span style="font-size: 0.65rem; color: var(--cyber-text-secondary);">Usage frequency: 70%</span>
+          </div>
+        </div>
+        <div class="font-card reveal">
+          <div class="font-card__sample" style="font-family: 'Fira Code', monospace; font-size: 1.4rem; color: var(--cyber-amber);">
+            const net = await decrypt(ice);
+          </div>
+          <div class="font-card__meta">
+            <div class="font-card__name">Fira Code</div>
+            <div class="font-card__style">Monospace with ligatures</div>
+            <div class="font-card__use">Code blocks, technical content</div>
+            <div class="progress-bar"><div class="progress-bar__fill" style="width: 75%;"></div></div>
+            <span style="font-size: 0.65rem; color: var(--cyber-text-secondary);">Usage frequency: 75%</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Font Pairing Table -->
+      <div style="margin-top: 48px;" class="reveal">
+        <h3 style="font-size: 0.85rem; color: var(--cyber-cyan); letter-spacing: 0.15em; margin-bottom: 20px;">
+          Font Pairing Suggestions
+        </h3>
+        <div style="overflow-x: auto;">
+          <table class="cyber-table">
+            <thead>
+              <tr>
+                <th>Heading Font</th>
+                <th>Body Font</th>
+                <th>Character</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong style="color: var(--cyber-cyan);">Orbitron</strong> (700)</td>
+                <td>Share Tech Mono (400)</td>
+                <td class="text-muted">Classic cyberpunk terminal, high-tech</td>
+              </tr>
+              <tr>
+                <td><strong style="color: var(--cyber-cyan);">Exo 2</strong> (700)</td>
+                <td>IBM Plex Mono (400)</td>
+                <td class="text-muted">Clean futuristic, readable</td>
+              </tr>
+              <tr>
+                <td><strong style="color: var(--cyber-cyan);">Rajdhani</strong> (600)</td>
+                <td>Fira Code (400)</td>
+                <td class="text-muted">Condensed tech, developer-oriented</td>
+              </tr>
+              <tr>
+                <td><strong style="color: var(--cyber-cyan);">Audiowide</strong> (400)</td>
+                <td>Space Mono (400)</td>
+                <td class="text-muted">Retro-futuristic, editorial</td>
+              </tr>
+              <tr>
+                <td><strong style="color: var(--cyber-cyan);">Electrolize</strong> (400)</td>
+                <td>Share Tech Mono (400)</td>
+                <td class="text-muted">Dashboard, data-heavy interfaces</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-divider">
+
+  <!-- ===== LAYOUT PRINCIPLES ===== -->
+  <section class="section" id="layout">
+    <div class="container">
+      <div class="section__header reveal">
+        <div class="section-label">Section 04</div>
+        <h2 class="section__title">Layout Principles</h2>
+        <p class="section__subtitle">
+          HUD-like panel layouts suggesting a multi-monitor command center.
+          More content per viewport than typical web design -- Cyberpunk is maximalist within its dark frame.
+        </p>
+      </div>
+
+      <div class="section-responsive">
+        <div>
+          <h3 style="font-size: 0.85rem; color: var(--cyber-cyan); letter-spacing: 0.15em; margin-bottom: 20px;" class="reveal">
+            Grid & Structure
+          </h3>
+          <div class="principles-list stagger-children">
+            <div class="principle-item reveal">
+              <span class="principle-item__number">01</span>
+              <p class="principle-item__text"><strong>Dark, full-bleed backgrounds</strong> -- the entire viewport is a dark canvas; there is no white space, only darkness</p>
+            </div>
+            <div class="principle-item reveal">
+              <span class="principle-item__number">02</span>
+              <p class="principle-item__text"><strong>Asymmetric panel layouts</strong> -- HUD-like panels of varying sizes, suggesting a multi-monitor command center</p>
+            </div>
+            <div class="principle-item reveal">
+              <span class="principle-item__number">03</span>
+              <p class="principle-item__text"><strong>Visible grid lines</strong> -- faint grid overlays that suggest the underlying data architecture</p>
+            </div>
+            <div class="principle-item reveal">
+              <span class="principle-item__number">04</span>
+              <p class="principle-item__text"><strong>Dense information layouts</strong> -- more content per viewport; maximalist within the dark frame</p>
+            </div>
+            <div class="principle-item reveal">
+              <span class="principle-item__number">05</span>
+              <p class="principle-item__text"><strong>Layered depth through translucency</strong> -- panels with <code style="color: var(--cyber-green);">backdrop-filter: blur()</code> float over background imagery</p>
+            </div>
+            <div class="principle-item reveal">
+              <span class="principle-item__number">06</span>
+              <p class="principle-item__text"><strong>Neon border accents</strong> -- thin glowing borders delineate panels instead of shadows or spacing</p>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <h3 style="font-size: 0.85rem; color: var(--cyber-magenta); letter-spacing: 0.15em; margin-bottom: 20px;" class="reveal">
+            Section Organization
+          </h3>
+          <div class="principles-list stagger-children">
+            <div class="principle-item reveal" style="border-left-color: var(--cyber-magenta);">
+              <span class="principle-item__number" style="color: var(--cyber-magenta);">NAV</span>
+              <p class="principle-item__text">Dark translucent top bar with neon-accented active states and monospaced labels</p>
+            </div>
+            <div class="principle-item reveal" style="border-left-color: var(--cyber-magenta);">
+              <span class="principle-item__number" style="color: var(--cyber-magenta);">HERO</span>
+              <p class="principle-item__text">Full-viewport dark background with massive glowing headline, atmospheric particles</p>
+            </div>
+            <div class="principle-item reveal" style="border-left-color: var(--cyber-magenta);">
+              <span class="principle-item__number" style="color: var(--cyber-magenta);">DATA</span>
+              <p class="principle-item__text">Grid of semi-transparent cards with neon borders displaying metrics or features</p>
+            </div>
+            <div class="principle-item reveal" style="border-left-color: var(--cyber-magenta);">
+              <span class="principle-item__number" style="color: var(--cyber-magenta);">TERM</span>
+              <p class="principle-item__text">Monospaced text block styled as a command-line interface</p>
+            </div>
+            <div class="principle-item reveal" style="border-left-color: var(--cyber-magenta);">
+              <span class="principle-item__number" style="color: var(--cyber-magenta);">CTA</span>
+              <p class="principle-item__text">Dark background with single neon-glowing button and stark headline</p>
+            </div>
+            <div class="principle-item reveal" style="border-left-color: var(--cyber-magenta);">
+              <span class="principle-item__number" style="color: var(--cyber-magenta);">FOOT</span>
+              <p class="principle-item__text">Dense, data-rich footer with grid lines and muted secondary text</p>
+            </div>
+          </div>
+
+          <h3 style="font-size: 0.85rem; color: var(--cyber-amber); letter-spacing: 0.15em; margin: 32px 0 20px;" class="reveal">
+            Responsive Approach
+          </h3>
+          <div class="principles-list stagger-children">
+            <div class="principle-item reveal" style="border-left-color: var(--cyber-amber);">
+              <span class="principle-item__number" style="color: var(--cyber-amber);">R1</span>
+              <p class="principle-item__text">Maintain dark backgrounds at all breakpoints -- never introduce light backgrounds on mobile</p>
+            </div>
+            <div class="principle-item reveal" style="border-left-color: var(--cyber-amber);">
+              <span class="principle-item__number" style="color: var(--cyber-amber);">R2</span>
+              <p class="principle-item__text">Stack panels vertically on mobile; reduce grid complexity to single-column</p>
+            </div>
+            <div class="principle-item reveal" style="border-left-color: var(--cyber-amber);">
+              <span class="principle-item__number" style="color: var(--cyber-amber);">R3</span>
+              <p class="principle-item__text">Preserve neon glow effects but reduce blur radius on lower-powered devices</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-divider">
+
+  <!-- ===== CSS TECHNIQUES ===== -->
+  <section class="section" id="techniques">
+    <div class="container">
+      <div class="section__header reveal">
+        <div class="section-label">Section 05</div>
+        <h2 class="section__title">CSS / Design Techniques</h2>
+        <p class="section__subtitle">
+          Production-ready CSS patterns for building cyberpunk interfaces.
+          Copy-paste components with neon glows, clip-paths, and atmospheric effects.
+        </p>
+      </div>
+
+      <!-- Cyber Card CSS -->
+      <div class="reveal">
+        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 8px;">
+          <h3 style="font-size: 0.85rem; color: var(--cyber-cyan); letter-spacing: 0.15em;">Cyberpunk Card Component</h3>
+          <span class="data-badge data-badge--cyan">Component</span>
+        </div>
+        <div class="code-block">
+          <div class="code-block__header">
+            <span class="code-block__title">Card + Corner Accents</span>
+            <span class="code-block__lang">CSS</span>
+          </div>
+          <pre><span class="sel">.cyber-card</span> {
+  <span class="prop">background</span>: <span class="val">rgba(26, 26, 46, 0.8)</span>;
+  <span class="prop">border</span>: <span class="val">1px solid rgba(0, 240, 255, 0.15)</span>;
+  <span class="prop">border-radius</span>: <span class="num">2px</span>;
+  <span class="prop">padding</span>: <span class="num">28px</span>;
+  <span class="prop">backdrop-filter</span>: <span class="val">blur(10px)</span>;
+  <span class="prop">transition</span>: <span class="val">border-color 0.3s, box-shadow 0.3s</span>;
+}
+
+<span class="sel">.cyber-card:hover</span> {
+  <span class="prop">border-color</span>: <span class="val">rgba(0, 240, 255, 0.4)</span>;
+  <span class="prop">box-shadow</span>: <span class="val">var(--cyber-glow-cyan)</span>;
+}
+
+<span class="cmt">/* Corner accent marks */</span>
+<span class="sel">.cyber-card::before</span> {
+  <span class="prop">top</span>: <span class="num">-1px</span>; <span class="prop">left</span>: <span class="num">-1px</span>;
+  <span class="prop">border-width</span>: <span class="val">2px 0 0 2px</span>;
+}
+
+<span class="sel">.cyber-card::after</span> {
+  <span class="prop">bottom</span>: <span class="num">-1px</span>; <span class="prop">right</span>: <span class="num">-1px</span>;
+  <span class="prop">border-width</span>: <span class="val">0 2px 2px 0</span>;
+}</pre>
+        </div>
+      </div>
+
+      <!-- Cyber Button CSS -->
+      <div class="reveal" style="margin-top: 40px;">
+        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 8px;">
+          <h3 style="font-size: 0.85rem; color: var(--cyber-magenta); letter-spacing: 0.15em;">Cyberpunk Button</h3>
+          <span class="data-badge data-badge--magenta">Interactive</span>
+        </div>
+        <div class="code-block">
+          <div class="code-block__header">
+            <span class="code-block__title">Button with Clip-Path</span>
+            <span class="code-block__lang">CSS</span>
+          </div>
+          <pre><span class="sel">.cyber-button</span> {
+  <span class="prop">background</span>: <span class="val">transparent</span>;
+  <span class="prop">color</span>: <span class="val">var(--cyber-cyan)</span>;
+  <span class="prop">border</span>: <span class="val">1px solid var(--cyber-cyan)</span>;
+  <span class="prop">padding</span>: <span class="num">12px 32px</span>;
+  <span class="prop">font-family</span>: <span class="str">'Orbitron'</span>, <span class="val">sans-serif</span>;
+  <span class="prop">font-weight</span>: <span class="num">700</span>;
+  <span class="prop">letter-spacing</span>: <span class="num">0.1em</span>;
+  <span class="prop">text-transform</span>: <span class="val">uppercase</span>;
+  <span class="prop">clip-path</span>: <span class="val">polygon(
+    0 0, calc(100% - 10px) 0,
+    100% 10px, 100% 100%,
+    10px 100%, 0 calc(100% - 10px)
+  )</span>;
+}
+
+<span class="sel">.cyber-button:hover</span> {
+  <span class="prop">background</span>: <span class="val">var(--cyber-cyan)</span>;
+  <span class="prop">color</span>: <span class="val">var(--cyber-bg-void)</span>;
+  <span class="prop">box-shadow</span>: <span class="val">var(--cyber-glow-cyan)</span>;
+}</pre>
+        </div>
+        <div style="display: flex; gap: 12px; flex-wrap: wrap; margin-top: 16px;">
+          <button class="cyber-btn">Cyan Default</button>
+          <button class="cyber-btn cyber-btn--magenta">Magenta Var</button>
+          <button class="cyber-btn cyber-btn--ghost">Ghost Style</button>
+        </div>
+      </div>
+
+      <!-- Glitch Effect CSS -->
+      <div class="reveal" style="margin-top: 40px;">
+        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 8px;">
+          <h3 style="font-size: 0.85rem; color: var(--cyber-green); letter-spacing: 0.15em;">Glitch Text Effect</h3>
+          <span class="data-badge data-badge--green">Animation</span>
+        </div>
+        <div class="code-block">
+          <div class="code-block__header">
+            <span class="code-block__title">Glitch with Pseudo-Elements</span>
+            <span class="code-block__lang">CSS</span>
+          </div>
+          <pre><span class="kw">@keyframes</span> <span class="val">cyber-glitch</span> {
+  <span class="num">0%</span>, <span class="num">100%</span> {
+    <span class="prop">clip-path</span>: <span class="val">inset(0 0 0 0)</span>;
+    <span class="prop">transform</span>: <span class="val">translate(0)</span>;
+  }
+  <span class="num">20%</span> {
+    <span class="prop">clip-path</span>: <span class="val">inset(20% 0 60% 0)</span>;
+    <span class="prop">transform</span>: <span class="val">translate(-3px, 2px)</span>;
+  }
+  <span class="num">40%</span> {
+    <span class="prop">clip-path</span>: <span class="val">inset(60% 0 10% 0)</span>;
+    <span class="prop">transform</span>: <span class="val">translate(3px, -1px)</span>;
+  }
+}
+
+<span class="sel">.cyber-glitch::before</span> {
+  <span class="prop">color</span>: <span class="val">var(--cyber-magenta)</span>;
+  <span class="prop">animation</span>: <span class="val">cyber-glitch 3s infinite linear alternate</span>;
+}
+
+<span class="sel">.cyber-glitch::after</span> {
+  <span class="prop">color</span>: <span class="val">var(--cyber-cyan)</span>;
+  <span class="prop">animation</span>: <span class="val">cyber-glitch 2s infinite linear alternate-reverse</span>;
+}</pre>
+        </div>
+      </div>
+
+      <!-- Scan Lines CSS -->
+      <div class="reveal" style="margin-top: 40px;">
+        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 8px;">
+          <h3 style="font-size: 0.85rem; color: var(--cyber-amber); letter-spacing: 0.15em;">Scan Line Overlay</h3>
+          <span class="data-badge data-badge--amber">Atmosphere</span>
+        </div>
+        <div class="code-block">
+          <div class="code-block__header">
+            <span class="code-block__title">CRT Scan Lines</span>
+            <span class="code-block__lang">CSS</span>
+          </div>
+          <pre><span class="sel">.cyber-scanlines::after</span> {
+  <span class="prop">content</span>: <span class="str">''</span>;
+  <span class="prop">position</span>: <span class="val">absolute</span>;
+  <span class="prop">inset</span>: <span class="num">0</span>;
+  <span class="prop">background</span>: <span class="val">repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.15) 2px,
+    rgba(0, 0, 0, 0.15) 4px
+  )</span>;
+  <span class="prop">pointer-events</span>: <span class="val">none</span>;
+}</pre>
+        </div>
+      </div>
+
+      <!-- Terminal Example -->
+      <div class="reveal" style="margin-top: 48px;">
+        <h3 style="font-size: 0.85rem; color: var(--cyber-green); letter-spacing: 0.15em; margin-bottom: 16px;">
+          Terminal Component Demo
+        </h3>
+        <div class="terminal">
+          <div class="terminal__header">
+            <span class="terminal__dot terminal__dot--red"></span>
+            <span class="terminal__dot terminal__dot--amber"></span>
+            <span class="terminal__dot terminal__dot--green"></span>
+            <span class="terminal__title">cyberpunk-terminal :: ~/design-system</span>
+          </div>
+          <div class="terminal__body">
+            <span class="terminal__line"><span class="terminal__prompt">root@neokorp:~$</span> cat design-system.config</span>
+            <span class="terminal__line terminal__output">{</span>
+            <span class="terminal__line terminal__output">  "aesthetic": "cyberpunk",</span>
+            <span class="terminal__line terminal__output">  "palette": "neon-megacity",</span>
+            <span class="terminal__line terminal__output">  "typography": "monospaced-terminal",</span>
+            <span class="terminal__line terminal__output">  "effects": ["scanlines", "glitch", "neon-glow", "rain"],</span>
+            <span class="terminal__line terminal__output">  "status": "operational"</span>
+            <span class="terminal__line terminal__output">}</span>
+            <span class="terminal__line" style="margin-top: 4px;"><span class="terminal__prompt">root@neokorp:~$</span> ./initialize --mode=dark --glow=max</span>
+            <span class="terminal__line" style="color: var(--cyber-green);">[OK] Design system loaded. All modules active.</span>
+            <span class="terminal__line" style="color: var(--cyber-amber);">[WARN] Neon intensity at 100%. Wear appropriate eyewear.</span>
+            <span class="terminal__line"><span class="terminal__prompt">root@neokorp:~$</span> <span class="terminal__cursor"></span></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-divider">
+
+  <!-- ===== DO'S AND DON'TS ===== -->
+  <section class="section" id="guidelines">
+    <div class="container">
+      <div class="section__header reveal">
+        <div class="section-label">Section 06</div>
+        <h2 class="section__title">Design Guidelines</h2>
+        <p class="section__subtitle">
+          Critical rules for maintaining the cyberpunk aesthetic without breaking immersion or sacrificing usability.
+        </p>
+      </div>
+
+      <div class="dos-donts reveal">
+        <div class="do-list">
+          <div class="do-list__header">+ Execute</div>
+          <div class="do-item">Use very dark backgrounds (near-black) as the primary canvas</div>
+          <div class="do-item">Apply neon glow effects to key interactive elements and headings via text-shadow and box-shadow</div>
+          <div class="do-item">Use monospaced fonts for body text and data to maintain the terminal aesthetic</div>
+          <div class="do-item">Add subtle scan line overlays and grid patterns to create atmosphere</div>
+          <div class="do-item">Use clip-path for angular, cut-corner shapes on buttons and panels</div>
+          <div class="do-item">Apply backdrop-filter: blur() to create holographic translucent panels</div>
+          <div class="do-item">Reserve bright neon colors for interactive and high-priority elements only</div>
+          <div class="do-item">Include small atmospheric details: corner brackets, data labels, progress bars</div>
+        </div>
+        <div class="dont-list">
+          <div class="dont-list__header">- Avoid</div>
+          <div class="dont-item">White or light backgrounds -- they break the immersion completely</div>
+          <div class="dont-item">Overuse glitch animations -- they should be accents, not constant distractions</div>
+          <div class="dont-item">Apply neon glow to everything -- when everything glows, nothing stands out</div>
+          <div class="dont-item">Use rounded, friendly typefaces -- they conflict with the angular, mechanical mood</div>
+          <div class="dont-item">Mix more than 2-3 neon accent colors on a single page; maintain a focused palette</div>
+          <div class="dont-item">Forget readability -- neon on dark must still meet contrast requirements for body text</div>
+          <div class="dont-item">Use organic, natural textures -- everything should feel synthetic and manufactured</div>
+          <div class="dont-item">Add cute or whimsical illustrations -- the tone is serious, gritty, and urban</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-divider">
+
+  <!-- ===== RELATED AESTHETICS ===== -->
+  <section class="section" id="related">
+    <div class="container">
+      <div class="section__header reveal">
+        <div class="section-label">Section 07</div>
+        <h2 class="section__title">Related Aesthetics</h2>
+        <p class="section__subtitle">
+          Adjacent visual languages that share DNA with the cyberpunk aesthetic, each with distinct differences in tone and execution.
+        </p>
+      </div>
+
+      <div class="related-grid stagger-children">
+        <div class="related-card reveal">
+          <div class="related-card__name">Synthwave</div>
+          <p class="related-card__desc">Shares the neon-on-dark palette and 1980s roots, but Synthwave is nostalgic and celebratory while Cyberpunk is dystopian and critical.</p>
+        </div>
+        <div class="related-card reveal">
+          <div class="related-card__name">Vaporwave</div>
+          <p class="related-card__desc">Both reference technology culture, but Vaporwave is ironic and pastel while Cyberpunk is earnest and high-contrast.</p>
+        </div>
+        <div class="related-card reveal">
+          <div class="related-card__name">Y2K Futurism</div>
+          <p class="related-card__desc">Late-90s techno-optimism with chrome and glass; Cyberpunk is the darker, more cynical cousin.</p>
+        </div>
+        <div class="related-card reveal">
+          <div class="related-card__name">Silicon Dreams</div>
+          <p class="related-card__desc">Shares digital themes but with a cleaner, more corporate-utopian presentation.</p>
+        </div>
+        <div class="related-card reveal">
+          <div class="related-card__name">RGB Gamer</div>
+          <p class="related-card__desc">Overlaps in neon-on-dark color schemes but lacks the narrative dystopian context.</p>
+        </div>
+        <div class="related-card reveal">
+          <div class="related-card__name">Glassmorphism</div>
+          <p class="related-card__desc">The translucent panel technique is shared; Cyberpunk uses it within a darker, grittier frame.</p>
+        </div>
+        <div class="related-card reveal">
+          <div class="related-card__name">8-Bit</div>
+          <p class="related-card__desc">Both reference digital culture; 8-Bit is retro and playful, Cyberpunk is forward-looking and tense.</p>
+        </div>
+        <div class="related-card reveal">
+          <div class="related-card__name">Steampunk</div>
+          <p class="related-card__desc">Both are "-punk" aesthetics that critique technology and society, but from different eras (Victorian vs. near-future).</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-divider">
+
+  <!-- ===== CTA SECTION ===== -->
+  <section class="cta-section">
+    <div class="cta-section__content reveal">
+      <div class="section-label" style="justify-content: center; margin-bottom: 16px;">System Prompt</div>
+      <h2 class="cta-section__title glitch" data-text="JACK INTO THE GRID">Jack Into The Grid</h2>
+      <p class="cta-section__text">
+        The visual language of a world that has not yet arrived.
+        Build interfaces that feel like they belong in the neon glow of a dying megacity.
+      </p>
+      <a href="#hero" class="cyber-btn cyber-btn--magenta">Reinitialize</a>
+    </div>
+  </section>
+
+  <hr class="section-divider">
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="cyber-footer">
+    <div class="cyber-footer__inner">
+      <div class="cyber-footer__col">
+        <div class="cyber-footer__heading">System</div>
+        <span class="cyber-footer__text">Cyberpunk Design Reference</span>
+        <span class="cyber-footer__text">Version 2.077</span>
+        <span class="cyber-footer__text">Status: <span style="color: var(--cyber-green);">OPERATIONAL</span></span>
+      </div>
+      <div class="cyber-footer__col">
+        <div class="cyber-footer__heading">Fonts</div>
+        <span class="cyber-footer__text">Orbitron -- Display</span>
+        <span class="cyber-footer__text">Share Tech Mono -- Terminal</span>
+        <span class="cyber-footer__text">Rajdhani -- Navigation</span>
+        <span class="cyber-footer__text">Fira Code -- Code</span>
+      </div>
+      <div class="cyber-footer__col">
+        <div class="cyber-footer__heading">References</div>
+        <span class="cyber-footer__text">Blade Runner (1982)</span>
+        <span class="cyber-footer__text">Akira (1988)</span>
+        <span class="cyber-footer__text">Ghost in the Shell (1995)</span>
+      </div>
+    </div>
+    <div class="cyber-footer__bar">
+      <span class="cyber-footer__copyright">[ CYBERPUNK DESIGN SYSTEM ] // All systems nominal</span>
+      <span class="cyber-footer__tagline">Built in the neon glow of a dying world</span>
+    </div>
+  </footer>
+
+  <!-- ===== JAVASCRIPT ===== -->
+  <script>
+    // Rain effect
+    (function createRain() {
+      const container = document.getElementById('rain');
+      const dropCount = Math.min(60, Math.floor(window.innerWidth / 25));
+
+      for (let i = 0; i < dropCount; i++) {
+        const drop = document.createElement('div');
+        drop.className = 'rain-drop';
+        const left = Math.random() * 100;
+        const height = 40 + Math.random() * 80;
+        const duration = 1.5 + Math.random() * 2.5;
+        const delay = Math.random() * 4;
+        const opacity = 0.15 + Math.random() * 0.25;
+
+        drop.style.cssText = `
+          left: ${left}%;
+          height: ${height}px;
+          opacity: ${opacity};
+          animation-duration: ${duration}s;
+          animation-delay: ${delay}s;
+        `;
+        container.appendChild(drop);
+      }
+    })();
+
+    // Scroll reveal
+    (function initScrollReveal() {
+      const reveals = document.querySelectorAll('.reveal');
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      }, {
+        threshold: 0.1,
+        rootMargin: '0px 0px -40px 0px'
+      });
+
+      reveals.forEach(el => observer.observe(el));
+    })();
+
+    // Smooth scroll for nav links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+        // Close mobile menu if open
+        const navLinks = document.querySelector('.cyber-nav__links');
+        if (window.innerWidth <= 768) {
+          navLinks.style.display = 'none';
+        }
+      });
+    });
+
+    // Nav background opacity on scroll
+    (function initNavScroll() {
+      const nav = document.querySelector('.cyber-nav');
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 50) {
+          nav.style.background = 'rgba(10, 10, 15, 0.95)';
+        } else {
+          nav.style.background = 'rgba(10, 10, 15, 0.88)';
+        }
+      }, { passive: true });
+    })();
+
+    // Typing effect for terminal cursor line
+    (function addRandomFlicker() {
+      const glitchElements = document.querySelectorAll('.glitch');
+      setInterval(() => {
+        glitchElements.forEach(el => {
+          if (Math.random() > 0.92) {
+            el.style.animation = 'none';
+            el.offsetHeight; // trigger reflow
+            el.style.animation = '';
+          }
+        });
+      }, 3000);
+    })();
+
+    // Reduce motion for users who prefer it
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      document.querySelectorAll('.rain-drop').forEach(d => d.style.display = 'none');
+      document.querySelector('.scan-bar').style.display = 'none';
+      document.querySelectorAll('.glitch').forEach(el => {
+        el.classList.remove('glitch');
+      });
+      document.querySelectorAll('.reveal').forEach(el => {
+        el.classList.add('visible');
+        el.style.transition = 'none';
+      });
+    }
+  </script>
+</body>
+</html>
