@@ -1,0 +1,1961 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>American Kitsch -- Design Reference</title>
+  <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Montserrat:wght@400;700;800;900&family=Lato:wght@300;400;700&family=Pacifico&family=Fredoka+One&display=swap" rel="stylesheet">
+  <style>
+    /* ============================================================
+       CSS CUSTOM PROPERTIES
+       ============================================================ */
+    :root {
+      /* Pastels */
+      --kitsch-mint:        #98D4BB;
+      --kitsch-baby-pink:   #F4B8C1;
+      --kitsch-powder-blue: #B0D4E8;
+      --kitsch-cream:       #FFF8E7;
+      --kitsch-butter:      #FCE9A0;
+
+      /* Accents */
+      --kitsch-cherry-red:  #C8102E;
+      --kitsch-turquoise:   #40BFA2;
+      --kitsch-cobalt:      #0047AB;
+      --kitsch-sunshine:    #FFD700;
+
+      /* Neutrals */
+      --kitsch-white:       #FFFDF5;
+      --kitsch-charcoal:    #36454F;
+      --kitsch-navy:        #1B2A4A;
+      --kitsch-tan:         #D2B48C;
+      --kitsch-brown:       #6B4226;
+    }
+
+    /* ============================================================
+       RESET & BASE
+       ============================================================ */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Lato', 'Helvetica Neue', sans-serif;
+      font-weight: 400;
+      line-height: 1.6;
+      color: var(--kitsch-charcoal);
+      background-color: var(--kitsch-cream);
+      background-image:
+        linear-gradient(
+          to bottom,
+          rgba(210, 180, 140, 0.08) 0%,
+          rgba(210, 180, 140, 0.02) 50%,
+          rgba(210, 180, 140, 0.08) 100%
+        );
+      overflow-x: hidden;
+    }
+
+    /* ============================================================
+       ANIMATIONS
+       ============================================================ */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeInScale {
+      from {
+        opacity: 0;
+        transform: scale(0.85);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    @keyframes spin-slow {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    @keyframes twinkle {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.6; transform: scale(0.85); }
+    }
+
+    @keyframes marquee {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    @keyframes pop-in {
+      0% { transform: scale(0) rotate(-15deg); opacity: 0; }
+      60% { transform: scale(1.15) rotate(3deg); opacity: 1; }
+      100% { transform: scale(1) rotate(0deg); opacity: 1; }
+    }
+
+    @keyframes wiggle {
+      0%, 100% { transform: rotate(0deg); }
+      25% { transform: rotate(-3deg); }
+      75% { transform: rotate(3deg); }
+    }
+
+    .animate-on-scroll {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .animate-on-scroll.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ============================================================
+       CHECKERBOARD BANNER (top decorative strip)
+       ============================================================ */
+    .checker-strip {
+      height: 20px;
+      background-image:
+        linear-gradient(45deg, var(--kitsch-cherry-red) 25%, transparent 25%),
+        linear-gradient(-45deg, var(--kitsch-cherry-red) 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, var(--kitsch-cherry-red) 75%),
+        linear-gradient(-45deg, transparent 75%, var(--kitsch-cherry-red) 75%);
+      background-size: 20px 20px;
+      background-position: 0 0, 0 10px, 10px -10px, -10px 0;
+      background-color: var(--kitsch-white);
+    }
+
+    /* ============================================================
+       HERO / HEADER
+       ============================================================ */
+    .hero {
+      background: var(--kitsch-powder-blue);
+      text-align: center;
+      padding: 5rem 2rem 4rem;
+      border-bottom: 6px solid var(--kitsch-cherry-red);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-image: radial-gradient(
+        circle, rgba(255,255,255,0.25) 10%, transparent 11%
+      );
+      background-size: 40px 40px;
+      pointer-events: none;
+    }
+
+    /* Decorative starbursts in hero */
+    .hero-starburst {
+      position: absolute;
+      width: 100px;
+      height: 100px;
+      background: var(--kitsch-sunshine);
+      clip-path: polygon(
+        50% 0%, 61% 35%, 98% 35%, 68% 57%,
+        79% 91%, 50% 70%, 21% 91%, 32% 57%,
+        2% 35%, 39% 35%
+      );
+      opacity: 0.3;
+      animation: spin-slow 20s linear infinite;
+    }
+
+    .hero-starburst:nth-child(1) {
+      top: 15%; left: 5%;
+      width: 80px; height: 80px;
+      animation-duration: 25s;
+    }
+
+    .hero-starburst:nth-child(2) {
+      top: 10%; right: 8%;
+      width: 60px; height: 60px;
+      animation-direction: reverse;
+      animation-duration: 18s;
+    }
+
+    .hero-starburst:nth-child(3) {
+      bottom: 15%; left: 12%;
+      width: 50px; height: 50px;
+      animation-duration: 30s;
+      opacity: 0.2;
+    }
+
+    .hero-starburst:nth-child(4) {
+      bottom: 20%; right: 5%;
+      width: 70px; height: 70px;
+      animation-direction: reverse;
+      animation-duration: 22s;
+      opacity: 0.25;
+    }
+
+    .hero h1 {
+      font-family: 'Abril Fatface', 'Georgia', serif;
+      font-weight: 400;
+      font-size: clamp(2.5rem, 6vw, 5rem);
+      color: var(--kitsch-navy);
+      text-shadow:
+        3px 3px 0 var(--kitsch-sunshine),
+        6px 6px 0 rgba(27, 42, 74, 0.08);
+      letter-spacing: 0.03em;
+      position: relative;
+      z-index: 2;
+      animation: fadeInScale 1s ease forwards;
+    }
+
+    .hero .subtitle {
+      font-family: 'Pacifico', cursive;
+      font-size: clamp(1.1rem, 2.5vw, 1.6rem);
+      color: var(--kitsch-cherry-red);
+      margin-top: 0.75rem;
+      position: relative;
+      z-index: 2;
+      animation: fadeInUp 1s 0.3s ease both;
+    }
+
+    .hero .era-tag {
+      display: inline-block;
+      margin-top: 1.5rem;
+      background: var(--kitsch-cherry-red);
+      color: var(--kitsch-white);
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      padding: 0.5rem 1.8rem;
+      border-radius: 50px;
+      box-shadow: 3px 3px 0 var(--kitsch-navy);
+      position: relative;
+      z-index: 2;
+      animation: pop-in 0.6s 0.7s ease both;
+    }
+
+    /* ============================================================
+       SCROLLING MARQUEE
+       ============================================================ */
+    .marquee-wrapper {
+      overflow: hidden;
+      background: var(--kitsch-navy);
+      padding: 0.6rem 0;
+      border-bottom: 3px solid var(--kitsch-cherry-red);
+    }
+
+    .marquee-track {
+      display: flex;
+      width: max-content;
+      animation: marquee 30s linear infinite;
+    }
+
+    .marquee-track span {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--kitsch-butter);
+      white-space: nowrap;
+      padding: 0 2rem;
+    }
+
+    .marquee-track .dot {
+      color: var(--kitsch-cherry-red);
+      font-size: 1rem;
+    }
+
+    /* ============================================================
+       INTRO SECTION
+       ============================================================ */
+    .intro {
+      max-width: 850px;
+      margin: 0 auto;
+      padding: 4rem 2rem 2rem;
+      text-align: center;
+    }
+
+    .intro blockquote {
+      font-family: 'Lato', sans-serif;
+      font-weight: 300;
+      font-size: clamp(1.05rem, 2vw, 1.25rem);
+      font-style: italic;
+      color: var(--kitsch-brown);
+      line-height: 1.8;
+      border-left: 5px solid var(--kitsch-cherry-red);
+      padding: 1.5rem 2rem;
+      background: rgba(244, 184, 193, 0.15);
+      border-radius: 0 12px 12px 0;
+      text-align: left;
+    }
+
+    .intro blockquote strong {
+      color: var(--kitsch-cherry-red);
+      font-weight: 700;
+    }
+
+    /* ============================================================
+       SECTION HEADERS
+       ============================================================ */
+    .section-header {
+      text-align: center;
+      padding: 3rem 2rem 1.5rem;
+      position: relative;
+    }
+
+    .section-header h2 {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 900;
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--kitsch-cherry-red);
+      text-shadow: 2px 2px 0 var(--kitsch-sunshine);
+      display: inline-block;
+      position: relative;
+    }
+
+    .section-header h2::after {
+      content: '';
+      display: block;
+      width: 60%;
+      height: 4px;
+      background: var(--kitsch-cherry-red);
+      margin: 0.5rem auto 0;
+      border-radius: 2px;
+    }
+
+    .section-header .script-label {
+      font-family: 'Pacifico', cursive;
+      font-size: 1.1rem;
+      color: var(--kitsch-turquoise);
+      margin-top: 0.3rem;
+    }
+
+    /* ============================================================
+       SECTION DIVIDERS
+       ============================================================ */
+    .section-divider {
+      height: 4px;
+      max-width: 1200px;
+      margin: 1rem auto 0;
+      background: repeating-linear-gradient(
+        90deg,
+        var(--kitsch-cherry-red) 0px,
+        var(--kitsch-cherry-red) 20px,
+        transparent 20px,
+        transparent 30px
+      );
+    }
+
+    /* Scalloped divider variant */
+    .scallop-divider {
+      max-width: 1200px;
+      margin: 0 auto;
+      height: 20px;
+      background-image:
+        radial-gradient(circle at 10px 15px, var(--kitsch-cherry-red) 12px, transparent 12px);
+      background-size: 24px 20px;
+      background-repeat: repeat-x;
+      opacity: 0.3;
+    }
+
+    /* ============================================================
+       CARD GRID LAYOUT
+       ============================================================ */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 1.5rem 2rem 3rem;
+    }
+
+    .card {
+      background: var(--kitsch-white);
+      border: 3px solid var(--kitsch-cherry-red);
+      border-radius: 12px;
+      padding: 2rem;
+      box-shadow: 5px 5px 0 var(--kitsch-charcoal);
+      text-align: left;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card:hover {
+      transform: translate(-2px, -2px);
+      box-shadow: 7px 7px 0 var(--kitsch-charcoal);
+    }
+
+    .card h3 {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 1.15rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--kitsch-navy);
+      margin-bottom: 0.75rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 3px dashed var(--kitsch-baby-pink);
+    }
+
+    .card p, .card li {
+      font-size: 0.95rem;
+      line-height: 1.7;
+      color: var(--kitsch-charcoal);
+    }
+
+    .card ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .card ul li {
+      padding: 0.35rem 0;
+      padding-left: 1.4rem;
+      position: relative;
+    }
+
+    .card ul li::before {
+      content: '\2605';
+      position: absolute;
+      left: 0;
+      color: var(--kitsch-cherry-red);
+      font-size: 0.8rem;
+      top: 0.45rem;
+    }
+
+    /* Card color variants */
+    .card--pink {
+      background: linear-gradient(135deg, #FFF8F9, var(--kitsch-baby-pink));
+      border-color: var(--kitsch-cherry-red);
+    }
+
+    .card--mint {
+      background: linear-gradient(135deg, #F0FFF8, var(--kitsch-mint));
+      border-color: var(--kitsch-turquoise);
+      box-shadow: 5px 5px 0 rgba(64, 191, 162, 0.4);
+    }
+
+    .card--mint:hover {
+      box-shadow: 7px 7px 0 rgba(64, 191, 162, 0.4);
+    }
+
+    .card--blue {
+      background: linear-gradient(135deg, #F5FAFF, var(--kitsch-powder-blue));
+      border-color: var(--kitsch-cobalt);
+      box-shadow: 5px 5px 0 rgba(0, 71, 171, 0.25);
+    }
+
+    .card--blue:hover {
+      box-shadow: 7px 7px 0 rgba(0, 71, 171, 0.25);
+    }
+
+    .card--butter {
+      background: linear-gradient(135deg, #FFFEF5, var(--kitsch-butter));
+      border-color: var(--kitsch-brown);
+      box-shadow: 5px 5px 0 rgba(107, 66, 38, 0.3);
+    }
+
+    .card--butter:hover {
+      box-shadow: 7px 7px 0 rgba(107, 66, 38, 0.3);
+    }
+
+    /* ============================================================
+       STARBURST BADGE
+       ============================================================ */
+    .starburst-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 80px;
+      height: 80px;
+      background: var(--kitsch-sunshine);
+      clip-path: polygon(
+        50% 0%, 61% 35%, 98% 35%, 68% 57%,
+        79% 91%, 50% 70%, 21% 91%, 32% 57%,
+        2% 35%, 39% 35%
+      );
+      font-family: 'Fredoka One', cursive;
+      font-size: 0.7rem;
+      color: var(--kitsch-cherry-red);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      animation: float 3s ease-in-out infinite;
+      position: absolute;
+      top: -10px;
+      right: -10px;
+    }
+
+    /* ============================================================
+       COLOR PALETTE SECTION
+       ============================================================ */
+    .palette-section {
+      background: var(--kitsch-navy);
+      padding: 3rem 2rem;
+      position: relative;
+    }
+
+    .palette-section .section-header h2 {
+      color: var(--kitsch-butter);
+      text-shadow: 2px 2px 0 rgba(0,0,0,0.3);
+    }
+
+    .palette-section .section-header h2::after {
+      background: var(--kitsch-butter);
+    }
+
+    .palette-section .section-header .script-label {
+      color: var(--kitsch-baby-pink);
+    }
+
+    .palette-group {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 1rem 0;
+    }
+
+    .palette-group-title {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--kitsch-cream);
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+
+    .palette-row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .color-swatch {
+      width: 130px;
+      background: var(--kitsch-white);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 4px 4px 0 rgba(0,0,0,0.3);
+      transition: transform 0.3s ease;
+      cursor: default;
+    }
+
+    .color-swatch:hover {
+      transform: scale(1.05) rotate(-1deg);
+    }
+
+    .color-swatch .swatch-color {
+      height: 80px;
+      border-bottom: 3px solid rgba(0,0,0,0.1);
+    }
+
+    .color-swatch .swatch-info {
+      padding: 0.6rem;
+      text-align: center;
+    }
+
+    .color-swatch .swatch-name {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--kitsch-charcoal);
+    }
+
+    .color-swatch .swatch-hex {
+      font-family: 'Lato', monospace;
+      font-size: 0.75rem;
+      color: var(--kitsch-brown);
+      margin-top: 0.15rem;
+    }
+
+    /* ============================================================
+       TYPOGRAPHY SHOWCASE
+       ============================================================ */
+    .typo-showcase {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 1.5rem 2rem 3rem;
+    }
+
+    .typo-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+    }
+
+    .typo-sample {
+      background: var(--kitsch-white);
+      border: 3px solid var(--kitsch-tan);
+      border-radius: 12px;
+      padding: 2rem;
+      box-shadow: 4px 4px 0 var(--kitsch-tan);
+      text-align: center;
+      transition: transform 0.3s ease;
+    }
+
+    .typo-sample:hover {
+      transform: rotate(-1deg);
+    }
+
+    .typo-sample .role-label {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--kitsch-white);
+      background: var(--kitsch-cherry-red);
+      display: inline-block;
+      padding: 0.3rem 1rem;
+      border-radius: 50px;
+      margin-bottom: 1rem;
+    }
+
+    .typo-sample .font-preview {
+      margin-bottom: 0.75rem;
+      color: var(--kitsch-navy);
+    }
+
+    .typo-sample .font-names {
+      font-family: 'Lato', sans-serif;
+      font-size: 0.8rem;
+      color: var(--kitsch-brown);
+      line-height: 1.6;
+    }
+
+    /* ============================================================
+       DESIGN ELEMENTS / MOTIFS SECTION
+       ============================================================ */
+    .motifs-section {
+      background: var(--kitsch-baby-pink);
+      padding: 0 0 3rem;
+      position: relative;
+    }
+
+    .motifs-section::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-image: radial-gradient(
+        circle, rgba(255,255,255,0.35) 10%, transparent 11%
+      );
+      background-size: 30px 30px;
+      pointer-events: none;
+    }
+
+    .motifs-section .section-header h2 {
+      color: var(--kitsch-navy);
+    }
+
+    .motifs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1.2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      position: relative;
+      z-index: 2;
+    }
+
+    .motif-item {
+      background: var(--kitsch-white);
+      border: 2px solid var(--kitsch-cherry-red);
+      border-radius: 10px;
+      padding: 1.2rem 1rem;
+      text-align: center;
+      box-shadow: 3px 3px 0 var(--kitsch-charcoal);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .motif-item:hover {
+      transform: translateY(-4px) rotate(1deg);
+      box-shadow: 5px 7px 0 var(--kitsch-charcoal);
+    }
+
+    .motif-item .motif-icon {
+      font-size: 2rem;
+      margin-bottom: 0.4rem;
+      display: block;
+    }
+
+    .motif-item .motif-name {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--kitsch-navy);
+    }
+
+    .motif-item .motif-desc {
+      font-size: 0.8rem;
+      color: var(--kitsch-brown);
+      margin-top: 0.3rem;
+      line-height: 1.4;
+    }
+
+    /* ============================================================
+       CSS PATTERNS DEMO
+       ============================================================ */
+    .patterns-demo {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem 3rem;
+    }
+
+    .pattern-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+    }
+
+    .pattern-card {
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 5px 5px 0 var(--kitsch-charcoal);
+      border: 3px solid var(--kitsch-charcoal);
+    }
+
+    .pattern-preview {
+      height: 120px;
+      position: relative;
+    }
+
+    .pattern-label {
+      background: var(--kitsch-white);
+      padding: 1rem;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--kitsch-navy);
+      text-align: center;
+    }
+
+    .pattern-label span {
+      font-family: 'Lato', sans-serif;
+      font-weight: 400;
+      font-size: 0.8rem;
+      color: var(--kitsch-brown);
+      display: block;
+      margin-top: 0.3rem;
+      text-transform: none;
+      letter-spacing: 0;
+    }
+
+    /* Pattern: Checkerboard */
+    .preview-checkerboard {
+      background-color: var(--kitsch-white);
+      background-image:
+        linear-gradient(45deg, var(--kitsch-cherry-red) 25%, transparent 25%),
+        linear-gradient(-45deg, var(--kitsch-cherry-red) 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, var(--kitsch-cherry-red) 75%),
+        linear-gradient(-45deg, transparent 75%, var(--kitsch-cherry-red) 75%);
+      background-size: 40px 40px;
+      background-position: 0 0, 0 20px, 20px -20px, -20px 0;
+    }
+
+    /* Pattern: Polka dots */
+    .preview-polka {
+      background-color: var(--kitsch-mint);
+      background-image: radial-gradient(
+        circle, var(--kitsch-white) 12%, transparent 13%
+      );
+      background-size: 30px 30px;
+    }
+
+    /* Pattern: Starburst */
+    .preview-starburst {
+      background: var(--kitsch-butter);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .preview-starburst .star {
+      width: 80px;
+      height: 80px;
+      background: var(--kitsch-cherry-red);
+      clip-path: polygon(
+        50% 0%, 61% 35%, 98% 35%, 68% 57%,
+        79% 91%, 50% 70%, 21% 91%, 32% 57%,
+        2% 35%, 39% 35%
+      );
+      animation: spin-slow 12s linear infinite;
+    }
+
+    /* Pattern: Gingham */
+    .preview-gingham {
+      background-color: var(--kitsch-white);
+      background-image:
+        linear-gradient(90deg, rgba(200, 16, 46, 0.15) 50%, transparent 50%),
+        linear-gradient(rgba(200, 16, 46, 0.15) 50%, transparent 50%);
+      background-size: 20px 20px;
+    }
+
+    /* ============================================================
+       TEXTURES SECTION
+       ============================================================ */
+    .textures-section {
+      background: linear-gradient(135deg, var(--kitsch-powder-blue), var(--kitsch-mint));
+      padding: 0 0 3rem;
+    }
+
+    .textures-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 1.5rem 2rem;
+    }
+
+    .texture-card {
+      background: var(--kitsch-white);
+      border-radius: 12px;
+      border: 3px solid var(--kitsch-charcoal);
+      overflow: hidden;
+      box-shadow: 4px 4px 0 rgba(0,0,0,0.2);
+      transition: transform 0.3s ease;
+    }
+
+    .texture-card:hover {
+      transform: rotate(1deg) scale(1.02);
+    }
+
+    .texture-preview {
+      height: 80px;
+    }
+
+    .texture-preview.glossy {
+      background: linear-gradient(
+        to bottom,
+        #f7f7f7 0%, #d4d4d4 50%, #bcbcbc 51%, #e0e0e0 100%
+      );
+      border-bottom: 2px solid var(--kitsch-charcoal);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.6);
+    }
+
+    .texture-preview.vintage-paper {
+      background-color: var(--kitsch-cream);
+      background-image:
+        linear-gradient(
+          to bottom,
+          rgba(210, 180, 140, 0.12) 0%,
+          rgba(210, 180, 140, 0.02) 50%,
+          rgba(210, 180, 140, 0.12) 100%
+        );
+      border-bottom: 2px solid var(--kitsch-tan);
+    }
+
+    .texture-preview.fabric {
+      background-color: var(--kitsch-white);
+      background-image:
+        linear-gradient(90deg, rgba(200, 16, 46, 0.12) 50%, transparent 50%),
+        linear-gradient(rgba(200, 16, 46, 0.12) 50%, transparent 50%);
+      background-size: 14px 14px;
+      border-bottom: 2px solid var(--kitsch-baby-pink);
+    }
+
+    .texture-preview.polished {
+      background: linear-gradient(
+        135deg,
+        var(--kitsch-powder-blue) 0%,
+        var(--kitsch-white) 30%,
+        var(--kitsch-mint) 60%,
+        var(--kitsch-white) 100%
+      );
+      border-bottom: 2px solid var(--kitsch-turquoise);
+    }
+
+    .texture-info {
+      padding: 1rem 1.2rem;
+    }
+
+    .texture-info h4 {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      color: var(--kitsch-navy);
+      margin-bottom: 0.3rem;
+    }
+
+    .texture-info p {
+      font-size: 0.85rem;
+      color: var(--kitsch-brown);
+      line-height: 1.5;
+    }
+
+    /* ============================================================
+       LAYOUT PRINCIPLES
+       ============================================================ */
+    .layout-section {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem 3rem;
+    }
+
+    .layout-principles {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .principle-card {
+      background: var(--kitsch-white);
+      border: 3px solid var(--kitsch-cobalt);
+      border-radius: 12px;
+      padding: 1.5rem;
+      box-shadow: 4px 4px 0 rgba(0, 71, 171, 0.25);
+      text-align: center;
+      transition: transform 0.3s ease;
+      position: relative;
+    }
+
+    .principle-card:hover {
+      transform: translateY(-4px);
+    }
+
+    .principle-card .principle-icon {
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+
+    .principle-card h4 {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      color: var(--kitsch-cobalt);
+      margin-bottom: 0.5rem;
+    }
+
+    .principle-card p {
+      font-size: 0.88rem;
+      color: var(--kitsch-charcoal);
+      line-height: 1.5;
+    }
+
+    /* ============================================================
+       TECHNIQUES TABLE SECTION
+       ============================================================ */
+    .techniques-section {
+      background: var(--kitsch-butter);
+      padding: 0 0 3rem;
+      position: relative;
+    }
+
+    .techniques-section::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 20px;
+      background-image:
+        radial-gradient(circle at 12px 20px, var(--kitsch-butter) 12px, transparent 12px);
+      background-size: 24px 20px;
+      background-repeat: repeat-x;
+      background-color: var(--kitsch-cream);
+      margin-top: -20px;
+    }
+
+    .techniques-table-wrap {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      overflow-x: auto;
+    }
+
+    .techniques-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      background: var(--kitsch-white);
+      border: 3px solid var(--kitsch-brown);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 5px 5px 0 rgba(107, 66, 38, 0.25);
+    }
+
+    .techniques-table thead {
+      background: var(--kitsch-cherry-red);
+    }
+
+    .techniques-table th {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--kitsch-white);
+      padding: 1rem 1.2rem;
+      text-align: left;
+    }
+
+    .techniques-table td {
+      padding: 0.85rem 1.2rem;
+      border-bottom: 1px solid rgba(210, 180, 140, 0.4);
+      font-size: 0.9rem;
+      vertical-align: top;
+    }
+
+    .techniques-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .techniques-table tr:nth-child(even) {
+      background: rgba(252, 233, 160, 0.2);
+    }
+
+    .techniques-table tr:hover td {
+      background: rgba(244, 184, 193, 0.15);
+    }
+
+    .techniques-table td:first-child {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      color: var(--kitsch-navy);
+      white-space: nowrap;
+    }
+
+    .techniques-table td code {
+      background: rgba(27, 42, 74, 0.08);
+      padding: 0.15rem 0.5rem;
+      border-radius: 4px;
+      font-size: 0.82rem;
+      font-family: 'Courier New', monospace;
+      color: var(--kitsch-navy);
+    }
+
+    /* ============================================================
+       RELATED AESTHETICS
+       ============================================================ */
+    .related-section {
+      padding: 0 0 3rem;
+    }
+
+    .related-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1.5rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 1.5rem 2rem;
+    }
+
+    .related-card {
+      background: var(--kitsch-white);
+      border-radius: 12px;
+      border: 3px solid var(--kitsch-turquoise);
+      padding: 1.5rem;
+      box-shadow: 4px 4px 0 rgba(64, 191, 162, 0.3);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .related-card:hover {
+      transform: translate(-2px, -3px);
+      box-shadow: 6px 7px 0 rgba(64, 191, 162, 0.3);
+    }
+
+    .related-card h4 {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 1rem;
+      color: var(--kitsch-navy);
+      margin-bottom: 0.4rem;
+    }
+
+    .related-card p {
+      font-size: 0.88rem;
+      color: var(--kitsch-brown);
+      line-height: 1.5;
+    }
+
+    /* ============================================================
+       COLOR USAGE GUIDELINES
+       ============================================================ */
+    .usage-section {
+      background: var(--kitsch-mint);
+      padding: 0 0 3rem;
+    }
+
+    .usage-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 1.5rem 2rem;
+    }
+
+    .usage-card {
+      background: var(--kitsch-white);
+      border: 2px solid var(--kitsch-charcoal);
+      border-radius: 10px;
+      padding: 1.5rem;
+      box-shadow: 3px 3px 0 var(--kitsch-charcoal);
+    }
+
+    .usage-card h4 {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--kitsch-cherry-red);
+      margin-bottom: 0.5rem;
+    }
+
+    .usage-card p {
+      font-size: 0.9rem;
+      color: var(--kitsch-charcoal);
+      line-height: 1.6;
+    }
+
+    /* ============================================================
+       FOOTER
+       ============================================================ */
+    .footer {
+      background: var(--kitsch-navy);
+      color: var(--kitsch-cream);
+      text-align: center;
+      padding: 3rem 2rem;
+      position: relative;
+    }
+
+    .footer::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 6px;
+      background: repeating-linear-gradient(
+        90deg,
+        var(--kitsch-cherry-red) 0px,
+        var(--kitsch-cherry-red) 30px,
+        var(--kitsch-white) 30px,
+        var(--kitsch-white) 60px
+      );
+    }
+
+    .footer .footer-title {
+      font-family: 'Pacifico', cursive;
+      font-size: clamp(1.5rem, 3vw, 2.2rem);
+      color: var(--kitsch-sunshine);
+      margin-bottom: 0.5rem;
+    }
+
+    .footer p {
+      font-size: 0.9rem;
+      color: rgba(255, 248, 231, 0.7);
+      max-width: 600px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    .footer .footer-stars {
+      margin-top: 1.5rem;
+      font-size: 1.5rem;
+      letter-spacing: 0.5em;
+      color: var(--kitsch-cherry-red);
+    }
+
+    .footer .footer-stars span {
+      display: inline-block;
+      animation: twinkle 2s ease-in-out infinite;
+    }
+
+    .footer .footer-stars span:nth-child(2) { animation-delay: 0.4s; }
+    .footer .footer-stars span:nth-child(3) { animation-delay: 0.8s; }
+    .footer .footer-stars span:nth-child(4) { animation-delay: 1.2s; }
+    .footer .footer-stars span:nth-child(5) { animation-delay: 1.6s; }
+
+    /* ============================================================
+       RESPONSIVE
+       ============================================================ */
+    @media (max-width: 768px) {
+      .hero {
+        padding: 3.5rem 1.5rem 3rem;
+      }
+
+      .hero-starburst {
+        display: none;
+      }
+
+      .card-grid,
+      .typo-grid,
+      .motifs-grid,
+      .pattern-grid,
+      .layout-principles,
+      .related-grid,
+      .usage-grid,
+      .textures-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .palette-row {
+        gap: 0.75rem;
+      }
+
+      .color-swatch {
+        width: 100px;
+      }
+
+      .color-swatch .swatch-color {
+        height: 60px;
+      }
+
+      .techniques-table td,
+      .techniques-table th {
+        padding: 0.7rem 0.8rem;
+        font-size: 0.82rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .color-swatch {
+        width: 80px;
+      }
+
+      .color-swatch .swatch-name {
+        font-size: 0.6rem;
+      }
+
+      .color-swatch .swatch-hex {
+        font-size: 0.65rem;
+      }
+
+      .motifs-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.8rem;
+      }
+    }
+
+    /* ============================================================
+       BACK TO TOP BUTTON
+       ============================================================ */
+    .back-to-top {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      width: 50px;
+      height: 50px;
+      background: var(--kitsch-cherry-red);
+      color: var(--kitsch-white);
+      border: 3px solid var(--kitsch-white);
+      border-radius: 50%;
+      font-size: 1.3rem;
+      cursor: pointer;
+      box-shadow: 3px 3px 0 var(--kitsch-charcoal);
+      z-index: 100;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.3s ease, transform 0.3s ease, background 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .back-to-top.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .back-to-top:hover {
+      background: var(--kitsch-navy);
+      animation: wiggle 0.4s ease;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============ CHECKERBOARD TOP STRIP ============ -->
+  <div class="checker-strip" aria-hidden="true"></div>
+
+  <!-- ============ HERO ============ -->
+  <header class="hero">
+    <div class="hero-starburst" aria-hidden="true"></div>
+    <div class="hero-starburst" aria-hidden="true"></div>
+    <div class="hero-starburst" aria-hidden="true"></div>
+    <div class="hero-starburst" aria-hidden="true"></div>
+
+    <h1>American Kitsch</h1>
+    <p class="subtitle">A Design Reference Guide</p>
+    <span class="era-tag">1920s -- 1960s</span>
+  </header>
+
+  <!-- ============ MARQUEE ============ -->
+  <div class="marquee-wrapper" aria-hidden="true">
+    <div class="marquee-track">
+      <span><span class="dot">&starf;</span> Magazine Covers</span>
+      <span><span class="dot">&starf;</span> Movie Posters</span>
+      <span><span class="dot">&starf;</span> Billboards</span>
+      <span><span class="dot">&starf;</span> Advertisements</span>
+      <span><span class="dot">&starf;</span> Propaganda</span>
+      <span><span class="dot">&starf;</span> Norman Rockwell</span>
+      <span><span class="dot">&starf;</span> Saturday Evening Post</span>
+      <span><span class="dot">&starf;</span> Suburban Life</span>
+      <span><span class="dot">&starf;</span> Magazine Covers</span>
+      <span><span class="dot">&starf;</span> Movie Posters</span>
+      <span><span class="dot">&starf;</span> Billboards</span>
+      <span><span class="dot">&starf;</span> Advertisements</span>
+      <span><span class="dot">&starf;</span> Propaganda</span>
+      <span><span class="dot">&starf;</span> Norman Rockwell</span>
+      <span><span class="dot">&starf;</span> Saturday Evening Post</span>
+      <span><span class="dot">&starf;</span> Suburban Life</span>
+    </div>
+  </div>
+
+  <!-- ============ INTRO ============ -->
+  <section class="intro animate-on-scroll">
+    <blockquote>
+      An aesthetic style prevalent in the United States from the 1920s to the 1960s,
+      found on magazine covers, movie posters, billboards, advertisements, and propaganda.
+      Also known as <strong>1950s Commercial Illustrations</strong>.
+    </blockquote>
+  </section>
+
+  <!-- ============ VISUAL CHARACTERISTICS ============ -->
+  <div class="section-header animate-on-scroll">
+    <h2>Visual Characteristics</h2>
+    <p class="script-label">What makes it kitsch</p>
+  </div>
+  <div class="section-divider"></div>
+
+  <div class="card-grid">
+    <div class="card card--pink animate-on-scroll">
+      <div class="starburst-badge" aria-hidden="true">WOW!</div>
+      <h3>Illustration Style</h3>
+      <p>Cartoonish yet realistic depictions of people, with a touch of exaggeration and humor. Think Norman Rockwell's iconic Saturday Evening Post covers and Frances Tipton Hunter's charming magazine illustrations.</p>
+    </div>
+
+    <div class="card card--mint animate-on-scroll">
+      <h3>Tone &amp; Subject Matter</h3>
+      <ul>
+        <li>Heartwarming, accessible, idealized representations of ordinary American life</li>
+        <li>Domestic scenes and everyday moments</li>
+        <li>Suburban life and community gatherings</li>
+        <li>Holiday celebrations</li>
+      </ul>
+    </div>
+
+    <div class="card card--blue animate-on-scroll">
+      <h3>Period &amp; Influence</h3>
+      <ul>
+        <li>Peak era: 1940s through 1960s, with roots in the 1920s</li>
+        <li>Norman Rockwell's Saturday Evening Post covers</li>
+        <li>Frances Tipton Hunter's magazine illustrations</li>
+        <li>Mid-century commercial advertising</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ============ COLOR PALETTE ============ -->
+  <section class="palette-section">
+    <div class="section-header animate-on-scroll">
+      <h2>Color Palette</h2>
+      <p class="script-label">Vivid, warm, and bright</p>
+    </div>
+    <div class="section-divider" style="background-image: repeating-linear-gradient(90deg, var(--kitsch-butter) 0px, var(--kitsch-butter) 20px, transparent 20px, transparent 30px);"></div>
+
+    <!-- Pastels -->
+    <div class="palette-group animate-on-scroll">
+      <p class="palette-group-title">Pastels</p>
+      <div class="palette-row">
+        <div class="color-swatch">
+          <div class="swatch-color" style="background: #98D4BB;"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">Mint Green</div>
+            <div class="swatch-hex">#98D4BB</div>
+          </div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch-color" style="background: #F4B8C1;"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">Baby Pink</div>
+            <div class="swatch-hex">#F4B8C1</div>
+          </div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch-color" style="background: #B0D4E8;"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">Powder Blue</div>
+            <div class="swatch-hex">#B0D4E8</div>
+          </div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch-color" style="background: #FFF8E7;"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">Cream</div>
+            <div class="swatch-hex">#FFF8E7</div>
+          </div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch-color" style="background: #FCE9A0;"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">Butter Yellow</div>
+            <div class="swatch-hex">#FCE9A0</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Accents -->
+    <div class="palette-group animate-on-scroll">
+      <p class="palette-group-title">Accents</p>
+      <div class="palette-row">
+        <div class="color-swatch">
+          <div class="swatch-color" style="background: #C8102E;"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">Cherry Red</div>
+            <div class="swatch-hex">#C8102E</div>
+          </div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch-color" style="background: #40BFA2;"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">Turquoise</div>
+            <div class="swatch-hex">#40BFA2</div>
+          </div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch-color" style="background: #0047AB;"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">Cobalt Blue</div>
+            <div class="swatch-hex">#0047AB</div>
+          </div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch-color" style="background: #FFD700;"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">Sunshine</div>
+            <div class="swatch-hex">#FFD700</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Neutrals -->
+    <div class="palette-group animate-on-scroll">
+      <p class="palette-group-title">Neutrals</p>
+      <div class="palette-row">
+        <div class="color-swatch">
+          <div class="swatch-color" style="background: #FFFDF5;"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">Warm White</div>
+            <div class="swatch-hex">#FFFDF5</div>
+          </div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch-color" style="background: #36454F;"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">Charcoal</div>
+            <div class="swatch-hex">#36454F</div>
+          </div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch-color" style="background: #1B2A4A;"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">Navy</div>
+            <div class="swatch-hex">#1B2A4A</div>
+          </div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch-color" style="background: #D2B48C;"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">Tan</div>
+            <div class="swatch-hex">#D2B48C</div>
+          </div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch-color" style="background: #6B4226;"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">Brown</div>
+            <div class="swatch-hex">#6B4226</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ COLOR USAGE GUIDELINES ============ -->
+  <section class="usage-section">
+    <div class="section-header animate-on-scroll">
+      <h2>Color Usage Guidelines</h2>
+      <p class="script-label">How to use the palette</p>
+    </div>
+    <div class="section-divider"></div>
+    <div class="usage-grid">
+      <div class="usage-card animate-on-scroll">
+        <h4>Backgrounds</h4>
+        <p>Use pastels (cream, butter yellow, powder blue) or warm white. Avoid stark pure white; the palette is warm and slightly tinted.</p>
+      </div>
+      <div class="usage-card animate-on-scroll">
+        <h4>Headings &amp; Bold Text</h4>
+        <p>Cherry red or navy for high contrast with punch. These colors demand attention and anchor the visual hierarchy.</p>
+      </div>
+      <div class="usage-card animate-on-scroll">
+        <h4>Accent Borders &amp; Highlights</h4>
+        <p>Turquoise and cherry red for call-to-action elements, badges, and decorative borders.</p>
+      </div>
+      <div class="usage-card animate-on-scroll">
+        <h4>Illustration Panels / Cards</h4>
+        <p>Baby pink or mint green backgrounds with charcoal text. Provides warmth while maintaining readability.</p>
+      </div>
+      <div class="usage-card animate-on-scroll">
+        <h4>Overall Feeling</h4>
+        <p>Vivid and bright, heavily influenced by 1950s fashion and advertising. Saturated but not neon; warm rather than cool.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TYPOGRAPHY ============ -->
+  <div class="section-header animate-on-scroll">
+    <h2>Typography</h2>
+    <p class="script-label">Fonts that speak the era</p>
+  </div>
+  <div class="section-divider"></div>
+
+  <div class="typo-showcase">
+    <div class="typo-grid">
+      <div class="typo-sample animate-on-scroll">
+        <span class="role-label">Display</span>
+        <p class="font-preview" style="font-family: 'Abril Fatface', serif; font-size: 2.2rem; line-height: 1.2;">
+          Hello, America!
+        </p>
+        <p class="font-names">
+          Abril Fatface, Playfair Display,<br>Fredoka One, Bungee
+        </p>
+      </div>
+
+      <div class="typo-sample animate-on-scroll">
+        <span class="role-label">Headings</span>
+        <p class="font-preview" style="font-family: 'Montserrat', sans-serif; font-weight: 900; font-size: 1.8rem; text-transform: uppercase; letter-spacing: 0.05em; line-height: 1.2;">
+          Bold Headlines
+        </p>
+        <p class="font-names">
+          Montserrat (Bold/Black),<br>Oswald, Raleway (Bold)
+        </p>
+      </div>
+
+      <div class="typo-sample animate-on-scroll">
+        <span class="role-label">Body</span>
+        <p class="font-preview" style="font-family: 'Lato', sans-serif; font-size: 1.1rem; line-height: 1.7;">
+          Clean, legible text for everyday reading. Readability over decoration -- just like Mom's apple pie recipe.
+        </p>
+        <p class="font-names">
+          Lato, Source Sans Pro,<br>Open Sans, Libre Baskerville
+        </p>
+      </div>
+
+      <div class="typo-sample animate-on-scroll">
+        <span class="role-label">Script / Accent</span>
+        <p class="font-preview" style="font-family: 'Pacifico', cursive; font-size: 1.8rem; color: var(--kitsch-turquoise); line-height: 1.3;">
+          Swell, just swell!
+        </p>
+        <p class="font-names">
+          Pacifico, Sacramento,<br>Dancing Script
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ FONT GUIDELINES ============ -->
+  <div class="card-grid" style="padding-top: 0;">
+    <div class="card card--butter animate-on-scroll" style="grid-column: 1 / -1; max-width: 900px; margin: 0 auto; width: 100%;">
+      <h3>Typography Guidelines</h3>
+      <ul>
+        <li><strong>Headlines:</strong> Bold, high-contrast display typefaces with a retro advertising feel. Slightly rounded or condensed sans-serifs work well. Consider slab serifs for a poster-like quality.</li>
+        <li><strong>Body text:</strong> Clean, legible sans-serif or transitional serif fonts. Readability over decoration.</li>
+        <li><strong>Accent / decorative text:</strong> Hand-lettered or script styles for callouts, quotes, and decorative labels -- referencing mid-century sign painting.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ============ KEY DESIGN ELEMENTS / MOTIFS ============ -->
+  <section class="motifs-section">
+    <div class="section-header animate-on-scroll">
+      <h2>Key Design Motifs</h2>
+      <p class="script-label">Recurring visual elements</p>
+    </div>
+    <div class="section-divider" style="margin-bottom: 1.5rem;"></div>
+
+    <div class="motifs-grid">
+      <div class="motif-item animate-on-scroll">
+        <span class="motif-icon" aria-hidden="true">&#9734;</span>
+        <span class="motif-name">Stars &amp; Stripes</span>
+        <p class="motif-desc">Patriotic accents, badge elements</p>
+      </div>
+      <div class="motif-item animate-on-scroll">
+        <span class="motif-icon" aria-hidden="true">&#10038;</span>
+        <span class="motif-name">Atomic Starbursts</span>
+        <p class="motif-desc">Mid-century modern decorative bursts</p>
+      </div>
+      <div class="motif-item animate-on-scroll">
+        <span class="motif-icon" aria-hidden="true">&#9638;</span>
+        <span class="motif-name">Checkered Patterns</span>
+        <p class="motif-desc">Diner-style checkerboard</p>
+      </div>
+      <div class="motif-item animate-on-scroll">
+        <span class="motif-icon" aria-hidden="true">&#9679;</span>
+        <span class="motif-name">Polka Dots</span>
+        <p class="motif-desc">Playful accents on backgrounds</p>
+      </div>
+      <div class="motif-item animate-on-scroll">
+        <span class="motif-icon" aria-hidden="true">&#10084;</span>
+        <span class="motif-name">Scalloped Edges</span>
+        <p class="motif-desc">Decorative borders on cards and sections</p>
+      </div>
+      <div class="motif-item animate-on-scroll">
+        <span class="motif-icon" aria-hidden="true">&#9733;</span>
+        <span class="motif-name">Pin-up Illustration</span>
+        <p class="motif-desc">Exaggerated, colorful character art</p>
+      </div>
+      <div class="motif-item animate-on-scroll">
+        <span class="motif-icon" aria-hidden="true">&#9781;</span>
+        <span class="motif-name">Retro Appliances</span>
+        <p class="motif-desc">Stylized stoves, fridges, TVs</p>
+      </div>
+      <div class="motif-item animate-on-scroll">
+        <span class="motif-icon" aria-hidden="true">&#9951;</span>
+        <span class="motif-name">Classic Automobiles</span>
+        <p class="motif-desc">Tail-fin cars, chrome details</p>
+      </div>
+      <div class="motif-item animate-on-scroll">
+        <span class="motif-icon" aria-hidden="true">&#9750;</span>
+        <span class="motif-name">Domestic Scenes</span>
+        <p class="motif-desc">Kitchen, living room, front yard</p>
+      </div>
+      <div class="motif-item animate-on-scroll">
+        <span class="motif-icon" aria-hidden="true">&#9962;</span>
+        <span class="motif-name">Suburban Houses</span>
+        <p class="motif-desc">Orderly, symmetrical settings</p>
+      </div>
+      <div class="motif-item animate-on-scroll">
+        <span class="motif-icon" aria-hidden="true">&#10070;</span>
+        <span class="motif-name">White Picket Fences</span>
+        <p class="motif-desc">Borders, dividers, decorative edges</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ DECORATIVE CSS PATTERNS ============ -->
+  <div class="section-header animate-on-scroll">
+    <h2>CSS Patterns</h2>
+    <p class="script-label">Decorative backgrounds in pure CSS</p>
+  </div>
+  <div class="section-divider"></div>
+
+  <div class="patterns-demo">
+    <div class="pattern-grid">
+      <div class="pattern-card animate-on-scroll">
+        <div class="pattern-preview preview-checkerboard"></div>
+        <div class="pattern-label">
+          Checkerboard
+          <span>45-degree rotated squares in cherry red and white</span>
+        </div>
+      </div>
+      <div class="pattern-card animate-on-scroll">
+        <div class="pattern-preview preview-polka"></div>
+        <div class="pattern-label">
+          Polka Dots
+          <span>Radial gradients on mint green background</span>
+        </div>
+      </div>
+      <div class="pattern-card animate-on-scroll">
+        <div class="pattern-preview preview-starburst">
+          <div class="star" aria-hidden="true"></div>
+        </div>
+        <div class="pattern-label">
+          Starburst
+          <span>CSS clip-path polygon for star / badge shapes</span>
+        </div>
+      </div>
+      <div class="pattern-card animate-on-scroll">
+        <div class="pattern-preview preview-gingham"></div>
+        <div class="pattern-label">
+          Gingham / Fabric
+          <span>Overlapping linear gradients for textile look</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ TEXTURES & MATERIALS ============ -->
+  <section class="textures-section">
+    <div class="section-header animate-on-scroll">
+      <h2>Textures &amp; Materials</h2>
+      <p class="script-label">Surface quality and finish</p>
+    </div>
+    <div class="section-divider"></div>
+
+    <div class="textures-grid">
+      <div class="texture-card animate-on-scroll">
+        <div class="texture-preview glossy"></div>
+        <div class="texture-info">
+          <h4>Chrome / Glossy</h4>
+          <p>Shiny, polished finishes -- chrome-like gradients, glossy buttons and badges. Multi-stop linear gradients with inset box-shadow.</p>
+        </div>
+      </div>
+      <div class="texture-card animate-on-scroll">
+        <div class="texture-preview vintage-paper"></div>
+        <div class="texture-info">
+          <h4>Vintage Paper</h4>
+          <p>Slightly aged paper -- subtle off-white or cream textures for backgrounds to evoke vintage print. Warm gradient overlays.</p>
+        </div>
+      </div>
+      <div class="texture-card animate-on-scroll">
+        <div class="texture-preview fabric"></div>
+        <div class="texture-info">
+          <h4>Fabric Textures</h4>
+          <p>Gingham, checkered, and polka-dot patterns referencing 1950s fashion fabrics. Overlapping semi-transparent gradients.</p>
+        </div>
+      </div>
+      <div class="texture-card animate-on-scroll">
+        <div class="texture-preview polished"></div>
+        <div class="texture-info">
+          <h4>Smooth &amp; Clean</h4>
+          <p>The aesthetic favors cleanliness and order over grunge or distress. Smooth, pristine surfaces echoing suburban ideals.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ LAYOUT PRINCIPLES ============ -->
+  <div class="section-header animate-on-scroll">
+    <h2>Layout Principles</h2>
+    <p class="script-label">Structure and spatial composition</p>
+  </div>
+  <div class="section-divider"></div>
+
+  <section class="layout-section">
+    <div class="layout-principles">
+      <div class="principle-card animate-on-scroll">
+        <span class="principle-icon" aria-hidden="true">&#9881;</span>
+        <h4>Symmetrical &amp; Orderly</h4>
+        <p>Reflecting the ordered suburban ideal. Center-aligned headers and balanced grid layouts.</p>
+      </div>
+      <div class="principle-card animate-on-scroll">
+        <span class="principle-icon" aria-hidden="true">&#9650;</span>
+        <h4>Clear Visual Hierarchy</h4>
+        <p>Large, bold headlines above clean body text. Distinct sections separated by decorative dividers.</p>
+      </div>
+      <div class="principle-card animate-on-scroll">
+        <span class="principle-icon" aria-hidden="true">&#9635;</span>
+        <h4>Card-Based Layouts</h4>
+        <p>Content blocks presented as "postcards" or "magazine panels" with rounded corners and colored backgrounds.</p>
+      </div>
+      <div class="principle-card animate-on-scroll">
+        <span class="principle-icon" aria-hidden="true">&#9723;</span>
+        <h4>Generous White Space</h4>
+        <p>Clean and uncluttered, echoing the tidy suburban aesthetic. Let each element breathe.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ DESIGN TECHNIQUES ============ -->
+  <section class="techniques-section">
+    <div class="section-header animate-on-scroll" style="padding-top: 4rem;">
+      <h2>Design Techniques</h2>
+      <p class="script-label">How to achieve the look</p>
+    </div>
+    <div class="section-divider" style="background-image: repeating-linear-gradient(90deg, var(--kitsch-brown) 0px, var(--kitsch-brown) 20px, transparent 20px, transparent 30px);"></div>
+
+    <div class="techniques-table-wrap animate-on-scroll" style="margin-top: 1.5rem;">
+      <table class="techniques-table">
+        <thead>
+          <tr>
+            <th>Technique</th>
+            <th>Implementation</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Retro Drop Shadows</td>
+            <td><code>box-shadow: 4px 4px 0 #36454F;</code> -- hard offset, no blur</td>
+          </tr>
+          <tr>
+            <td>Rounded Vintage Cards</td>
+            <td><code>border-radius: 12px; border: 3px solid;</code></td>
+          </tr>
+          <tr>
+            <td>Bold Color Blocking</td>
+            <td>Large sections of solid pastel or accent color</td>
+          </tr>
+          <tr>
+            <td>Decorative Borders</td>
+            <td>Scalloped edges, dashed lines, checkered strips</td>
+          </tr>
+          <tr>
+            <td>Text with Punch</td>
+            <td>Large uppercase headings with <code>text-shadow</code></td>
+          </tr>
+          <tr>
+            <td>Starburst Badges</td>
+            <td>CSS <code>clip-path</code> stars for "NEW!" / "WOW!" callouts</td>
+          </tr>
+          <tr>
+            <td>Glossy / Chrome</td>
+            <td>Multi-stop linear gradients with inset <code>box-shadow</code></td>
+          </tr>
+          <tr>
+            <td>Vintage Paper Feel</td>
+            <td>Cream backgrounds with subtle warm gradient overlay</td>
+          </tr>
+          <tr>
+            <td>Illustration Panels</td>
+            <td>Images with thick borders and caption text below</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ============ RELATED AESTHETICS ============ -->
+  <section class="related-section">
+    <div class="section-header animate-on-scroll">
+      <h2>Related Aesthetics</h2>
+      <p class="script-label">Styles that share visual DNA</p>
+    </div>
+    <div class="section-divider"></div>
+
+    <div class="related-grid">
+      <div class="related-card animate-on-scroll">
+        <h4>50s Suburbia</h4>
+        <p>Core overlap -- shares color palette, domestic motifs, and fashion references.</p>
+      </div>
+      <div class="related-card animate-on-scroll">
+        <h4>Americana</h4>
+        <p>Broader patriotic and folk identity; overlaps on flags, diners, and national symbolism.</p>
+      </div>
+      <div class="related-card animate-on-scroll">
+        <h4>Vintage Americana</h4>
+        <p>Aged, nostalgic version of Americana; sepia and worn textures lend a faded charm.</p>
+      </div>
+      <div class="related-card animate-on-scroll">
+        <h4>Camp</h4>
+        <p>Exaggerated, over-the-top embrace of "bad taste" and kitsch -- theatrical and playful.</p>
+      </div>
+      <div class="related-card animate-on-scroll">
+        <h4>Diner</h4>
+        <p>Chrome, neon, checkered floors, jukebox culture -- the quintessential roadside stop.</p>
+      </div>
+      <div class="related-card animate-on-scroll">
+        <h4>Pin-up</h4>
+        <p>Illustration style with glamorous, exaggerated figures -- bold color and confident poses.</p>
+      </div>
+      <div class="related-card animate-on-scroll">
+        <h4>Heroic Realism</h4>
+        <p>Propaganda poster style; bold, flat color, strong figures -- idealized strength and purpose.</p>
+      </div>
+      <div class="related-card animate-on-scroll">
+        <h4>Raggare</h4>
+        <p>Scandinavian 1950s Americana subculture; classic cars and rockabilly attitude.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FOOTER ============ -->
+  <div class="checker-strip" aria-hidden="true"></div>
+  <footer class="footer">
+    <p class="footer-title">Made with love, American style</p>
+    <p>A design reference for the American Kitsch aesthetic -- cartoonish yet realistic, heartwarming and idealized, vivid and bright. From Norman Rockwell to suburban dreams.</p>
+    <div class="footer-stars" aria-hidden="true">
+      <span>&#9733;</span>
+      <span>&#9733;</span>
+      <span>&#9733;</span>
+      <span>&#9733;</span>
+      <span>&#9733;</span>
+    </div>
+  </footer>
+
+  <!-- ============ BACK TO TOP ============ -->
+  <button class="back-to-top" id="backToTop" aria-label="Back to top" title="Back to top">&#9650;</button>
+
+  <!-- ============================================================
+       JAVASCRIPT -- Scroll animations & back-to-top
+       ============================================================ -->
+  <script>
+    (function() {
+      // Intersection Observer for scroll-triggered animations
+      var animatedElements = document.querySelectorAll('.animate-on-scroll');
+
+      if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function(entries) {
+          entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('visible');
+              observer.unobserve(entry.target);
+            }
+          });
+        }, {
+          threshold: 0.1,
+          rootMargin: '0px 0px -40px 0px'
+        });
+
+        animatedElements.forEach(function(el) {
+          observer.observe(el);
+        });
+      } else {
+        // Fallback: show everything immediately
+        animatedElements.forEach(function(el) {
+          el.classList.add('visible');
+        });
+      }
+
+      // Back to top button
+      var backToTopBtn = document.getElementById('backToTop');
+
+      window.addEventListener('scroll', function() {
+        if (window.scrollY > 600) {
+          backToTopBtn.classList.add('visible');
+        } else {
+          backToTopBtn.classList.remove('visible');
+        }
+      });
+
+      backToTopBtn.addEventListener('click', function() {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+
+      // Add staggered animation delays to grid children
+      var grids = document.querySelectorAll('.card-grid, .motifs-grid, .palette-row, .pattern-grid, .typo-grid, .layout-principles, .related-grid, .usage-grid, .textures-grid');
+      grids.forEach(function(grid) {
+        var children = grid.querySelectorAll('.animate-on-scroll');
+        children.forEach(function(child, i) {
+          child.style.transitionDelay = (i * 0.08) + 's';
+        });
+      });
+    })();
+  </script>
+
+</body>
+</html>

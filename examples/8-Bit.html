@@ -1,0 +1,1362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>8-BIT AESTHETIC -- DESIGN REFERENCE</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+<style>
+/* ===== RESET & BASE ===== */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --bg: #000000;
+  --primary: #B13425;
+  --secondary: #6B8CFF;
+  --accent: #FAC000;
+  --highlight: #FCFCFC;
+  --green: #00A800;
+  --cyan: #00BCBC;
+  --peach: #F8B878;
+  --navy: #00006C;
+  --gray: #7C7C7C;
+  --gb-darkest: #0F380F;
+  --gb-dark: #306230;
+  --gb-light: #8BAC0F;
+  --gb-lightest: #9BBC0F;
+  --grid: 8px;
+}
+
+html {
+  scroll-behavior: auto;
+}
+
+body {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 10px;
+  line-height: 2.2;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--highlight);
+  background-color: var(--bg);
+  image-rendering: pixelated;
+  overflow-x: hidden;
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16'%3E%3Crect x='6' y='0' width='4' height='16' fill='white'/%3E%3Crect x='0' y='6' width='16' height='4' fill='white'/%3E%3C/svg%3E") 8 8, crosshair;
+}
+
+/* ===== CRT SCANLINE OVERLAY ===== */
+.crt-overlay {
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0px,
+    transparent 2px,
+    rgba(0, 0, 0, 0.12) 2px,
+    rgba(0, 0, 0, 0.12) 4px
+  );
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+}
+
+/* ===== PIXEL GRID BACKGROUND ===== */
+.pixel-grid {
+  background-image:
+    linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+  background-size: 8px 8px;
+}
+
+/* ===== HUD / STATUS BAR ===== */
+.hud {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background: var(--navy);
+  border-bottom: 4px solid var(--secondary);
+  padding: 8px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 8px;
+  gap: 16px;
+}
+
+.hud-left, .hud-right {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.hud-score {
+  color: var(--accent);
+}
+
+.hud-lives {
+  color: var(--primary);
+}
+
+.hud-level {
+  color: var(--green);
+}
+
+.hud-timer {
+  color: var(--cyan);
+}
+
+/* ===== MAIN CONTAINER ===== */
+.screen {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 56px 24px 64px;
+  min-height: 100vh;
+  position: relative;
+}
+
+/* ===== TITLE SECTION ===== */
+.title-block {
+  text-align: center;
+  padding: 48px 0 40px;
+  position: relative;
+}
+
+.title-block h1 {
+  font-size: 32px;
+  color: var(--accent);
+  text-shadow:
+    4px 4px 0px var(--primary),
+    8px 8px 0px rgba(0,0,0,0.5);
+  margin-bottom: 16px;
+  animation: title-flash 3s step-end infinite;
+  line-height: 1.4;
+}
+
+@keyframes title-flash {
+  0%, 90% { color: var(--accent); }
+  92% { color: var(--highlight); }
+  94% { color: var(--accent); }
+  96% { color: var(--primary); }
+  98% { color: var(--accent); }
+}
+
+.title-block .subtitle {
+  font-size: 10px;
+  color: var(--secondary);
+  text-shadow: 2px 2px 0px #000;
+  margin-bottom: 24px;
+}
+
+.title-stars {
+  color: var(--accent);
+  font-size: 8px;
+  letter-spacing: 8px;
+}
+
+.press-start {
+  margin-top: 32px;
+  font-size: 10px;
+  color: var(--highlight);
+  animation: blink-8bit 1s step-end infinite;
+}
+
+@keyframes blink-8bit {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+
+/* ===== PIXEL DECORATIONS ===== */
+.pixel-coin {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  background: var(--accent);
+  box-shadow:
+    2px 0 0 var(--peach),
+    0 2px 0 var(--peach),
+    -2px 0 0 #B8860B,
+    0 -2px 0 #B8860B;
+  animation: coin-spin 0.6s steps(4) infinite;
+  vertical-align: middle;
+  margin: 0 4px;
+}
+
+@keyframes coin-spin {
+  0% { transform: scaleX(1); }
+  25% { transform: scaleX(0.3); }
+  50% { transform: scaleX(1); }
+  75% { transform: scaleX(0.3); }
+}
+
+/* ===== SECTION STYLING ===== */
+.section {
+  margin-bottom: 48px;
+  padding: 24px;
+  border: 4px solid var(--gray);
+  background: rgba(0, 0, 108, 0.25);
+  position: relative;
+}
+
+.section::before {
+  content: '';
+  position: absolute;
+  top: -4px;
+  left: -4px;
+  right: -4px;
+  bottom: -4px;
+  border: 2px solid rgba(107, 140, 255, 0.2);
+  pointer-events: none;
+}
+
+.section-header {
+  font-size: 14px;
+  color: var(--accent);
+  text-shadow:
+    3px 3px 0px #000,
+    3px 0 0px #000,
+    0 3px 0px #000;
+  margin-bottom: 24px;
+  padding-bottom: 8px;
+  border-bottom: 4px solid var(--primary);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.section-header .pixel-icon {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+/* ===== CONTENT TEXT ===== */
+p, .desc {
+  font-family: 'VT323', monospace;
+  font-size: 20px;
+  line-height: 1.6;
+  text-transform: none;
+  color: #c0c0c0;
+  margin-bottom: 16px;
+}
+
+.section p:last-child {
+  margin-bottom: 0;
+}
+
+/* ===== LISTS ===== */
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+ul li {
+  font-family: 'VT323', monospace;
+  font-size: 19px;
+  text-transform: none;
+  line-height: 1.5;
+  padding: 6px 0 6px 24px;
+  position: relative;
+  color: #c0c0c0;
+  border-bottom: 1px solid rgba(124, 124, 124, 0.15);
+  transition: all 0.1s steps(2);
+}
+
+ul li:last-child {
+  border-bottom: none;
+}
+
+ul li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 8px;
+  height: 8px;
+  background: var(--primary);
+}
+
+ul li:hover {
+  color: var(--highlight);
+  background: rgba(107, 140, 255, 0.08);
+}
+
+ul li:hover::before {
+  background: var(--accent);
+}
+
+ul li strong {
+  color: var(--highlight);
+  font-family: 'Press Start 2P', monospace;
+  font-size: 9px;
+  text-transform: uppercase;
+}
+
+/* ===== COLOR PALETTE TABLE ===== */
+.palette-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 16px;
+  margin: 16px 0;
+}
+
+.color-block {
+  border: 3px solid var(--gray);
+  background: rgba(0,0,0,0.4);
+  padding: 0;
+  transition: all 0.1s steps(2);
+  overflow: hidden;
+}
+
+.color-block:hover {
+  border-color: var(--highlight);
+  transform: scale(1.04);
+}
+
+.color-swatch {
+  height: 48px;
+  width: 100%;
+  image-rendering: pixelated;
+}
+
+.color-info {
+  padding: 8px;
+}
+
+.color-name {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 7px;
+  color: var(--highlight);
+  margin-bottom: 4px;
+  display: block;
+}
+
+.color-hex {
+  font-family: 'VT323', monospace;
+  font-size: 18px;
+  color: var(--gray);
+}
+
+/* ===== GAMEBOY PALETTE ===== */
+.gameboy-palette {
+  display: flex;
+  gap: 0;
+  margin: 16px 0;
+  border: 4px solid var(--gb-dark);
+  overflow: hidden;
+  max-width: 400px;
+}
+
+.gb-shade {
+  flex: 1;
+  height: 56px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: 4px;
+}
+
+.gb-shade span {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 6px;
+  text-shadow: 1px 1px 0 rgba(0,0,0,0.5);
+}
+
+/* ===== TYPOGRAPHY SHOWCASE ===== */
+.font-showcase {
+  margin: 16px 0;
+  padding: 16px;
+  border: 3px dashed var(--gray);
+}
+
+.font-example {
+  margin-bottom: 16px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(124, 124, 124, 0.2);
+}
+
+.font-example:last-child {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.font-label {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 7px;
+  color: var(--secondary);
+  margin-bottom: 8px;
+  display: block;
+}
+
+.font-press-start {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 14px;
+  color: var(--highlight);
+  text-shadow: 2px 2px 0 #000;
+}
+
+.font-vt323 {
+  font-family: 'VT323', monospace;
+  font-size: 28px;
+  color: var(--green);
+}
+
+/* ===== CODE BLOCKS ===== */
+.code-block {
+  background: #0a0a1a;
+  border: 3px solid var(--gray);
+  padding: 16px;
+  margin: 16px 0;
+  overflow-x: auto;
+  position: relative;
+}
+
+.code-block::before {
+  content: 'CSS';
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: var(--gray);
+  color: var(--bg);
+  font-family: 'Press Start 2P', monospace;
+  font-size: 6px;
+  padding: 2px 8px;
+}
+
+.code-block code {
+  font-family: 'VT323', monospace;
+  font-size: 18px;
+  text-transform: none;
+  line-height: 1.5;
+  color: var(--green);
+  white-space: pre;
+}
+
+.code-block .code-prop {
+  color: var(--cyan);
+}
+
+.code-block .code-val {
+  color: var(--peach);
+}
+
+.code-block .code-sel {
+  color: var(--accent);
+}
+
+.code-block .code-comment {
+  color: var(--gray);
+}
+
+/* ===== DIALOG BOX ===== */
+.dialog-box {
+  border: 4px solid var(--highlight);
+  background: var(--navy);
+  padding: 16px 20px;
+  margin: 24px 0;
+  position: relative;
+  box-shadow: 6px 6px 0 rgba(0,0,0,0.5);
+}
+
+.dialog-box::after {
+  content: '';
+  position: absolute;
+  bottom: -16px;
+  left: 24px;
+  width: 0;
+  height: 0;
+  border-left: 12px solid transparent;
+  border-right: 12px solid transparent;
+  border-top: 12px solid var(--highlight);
+}
+
+.dialog-box p {
+  color: var(--highlight);
+  margin: 0;
+}
+
+.dialog-cursor {
+  display: inline-block;
+  width: 10px;
+  height: 3px;
+  background: var(--highlight);
+  animation: blink-8bit 0.6s step-end infinite;
+  vertical-align: middle;
+  margin-left: 4px;
+}
+
+/* ===== PIXEL ART SPRITES ===== */
+.sprite-row {
+  display: flex;
+  gap: 32px;
+  justify-content: center;
+  margin: 24px 0;
+  flex-wrap: wrap;
+}
+
+.sprite {
+  display: grid;
+  gap: 0;
+  image-rendering: pixelated;
+}
+
+.sprite-heart {
+  grid-template-columns: repeat(8, 6px);
+  grid-template-rows: repeat(7, 6px);
+}
+
+.sprite-star {
+  grid-template-columns: repeat(8, 6px);
+  grid-template-rows: repeat(8, 6px);
+}
+
+.sprite-mushroom {
+  grid-template-columns: repeat(8, 6px);
+  grid-template-rows: repeat(8, 6px);
+}
+
+.px { background: transparent; }
+.pr { background: var(--primary); }
+.pw { background: var(--highlight); }
+.py { background: var(--accent); }
+.pg { background: var(--green); }
+.pb { background: var(--peach); }
+
+.sprite-label {
+  text-align: center;
+  font-size: 7px;
+  color: var(--gray);
+  margin-top: 8px;
+}
+
+/* ===== HEALTH BAR ===== */
+.health-bar-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 16px 0;
+}
+
+.health-label {
+  font-size: 8px;
+  color: var(--highlight);
+  min-width: 30px;
+}
+
+.health-bar {
+  flex: 1;
+  height: 16px;
+  border: 3px solid var(--highlight);
+  background: var(--bg);
+  padding: 2px;
+  max-width: 300px;
+}
+
+.health-fill {
+  height: 100%;
+  transition: width 0.3s steps(8);
+}
+
+.health-fill.hp { background: var(--green); }
+.health-fill.mp { background: var(--secondary); }
+.health-fill.xp { background: var(--accent); }
+
+/* ===== RELATED AESTHETICS TAGS ===== */
+.tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 16px 0;
+}
+
+.tag {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 7px;
+  padding: 6px 12px;
+  border: 2px solid var(--gray);
+  color: var(--secondary);
+  background: rgba(0, 0, 108, 0.3);
+  transition: all 0.1s steps(2);
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.tag:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: rgba(250, 192, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+/* ===== IMPLEMENTATION NOTES ===== */
+.note-box {
+  border-left: 4px solid var(--accent);
+  padding: 12px 16px;
+  margin: 16px 0;
+  background: rgba(250, 192, 0, 0.05);
+}
+
+.note-box p {
+  font-size: 17px;
+  color: var(--peach);
+}
+
+/* ===== TECHNIQUE CARDS ===== */
+.technique-card {
+  border: 3px solid var(--gray);
+  margin: 16px 0;
+  overflow: hidden;
+}
+
+.technique-card-header {
+  background: var(--primary);
+  padding: 8px 12px;
+  font-size: 8px;
+  color: var(--highlight);
+  text-shadow: 2px 2px 0 rgba(0,0,0,0.5);
+}
+
+.technique-card-body {
+  padding: 16px;
+}
+
+/* ===== FOOTER ===== */
+.footer {
+  text-align: center;
+  padding: 32px 0;
+  border-top: 4px solid var(--gray);
+  margin-top: 48px;
+}
+
+.footer p {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 8px;
+  color: var(--gray);
+  text-transform: uppercase;
+}
+
+.game-over {
+  font-size: 24px;
+  color: var(--primary);
+  text-shadow: 3px 3px 0 #000;
+  margin-bottom: 16px;
+  animation: title-flash 4s step-end infinite;
+}
+
+/* ===== SCREEN WIPE TRANSITION ON LOAD ===== */
+.screen-wipe {
+  position: fixed;
+  inset: 0;
+  background: var(--bg);
+  z-index: 10000;
+  animation: wipe-out 0.8s steps(8) 0.5s forwards;
+}
+
+@keyframes wipe-out {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-100%); }
+}
+
+/* ===== SECTION ENTRANCE ANIMATIONS ===== */
+.section {
+  opacity: 0;
+  transform: translateY(16px);
+}
+
+.section.visible {
+  animation: section-in 0.3s steps(4) forwards;
+}
+
+@keyframes section-in {
+  0% { opacity: 0; transform: translateY(16px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== FLOATING PIXEL PARTICLES ===== */
+.particle-container {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.particle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  opacity: 0.3;
+  animation: float-up linear infinite;
+}
+
+@keyframes float-up {
+  0% {
+    transform: translateY(100vh) translateX(0);
+    opacity: 0;
+  }
+  10% { opacity: 0.3; }
+  90% { opacity: 0.3; }
+  100% {
+    transform: translateY(-20px) translateX(20px);
+    opacity: 0;
+  }
+}
+
+/* ===== SEPARATOR ===== */
+.pixel-separator {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin: 32px 0;
+}
+
+.pixel-separator .dot {
+  width: 8px;
+  height: 8px;
+  background: var(--gray);
+}
+
+.pixel-separator .dot:nth-child(2) { background: var(--primary); }
+.pixel-separator .dot:nth-child(4) { background: var(--secondary); }
+.pixel-separator .dot:nth-child(6) { background: var(--accent); }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 640px) {
+  body { font-size: 8px; }
+  .title-block h1 { font-size: 20px; }
+  .section-header { font-size: 11px; }
+  .screen { padding: 48px 12px 48px; }
+  .palette-grid { grid-template-columns: repeat(2, 1fr); }
+  p, .desc { font-size: 17px; }
+  ul li { font-size: 16px; }
+  .hud { font-size: 6px; gap: 8px; padding: 4px 8px; }
+  .hud-left, .hud-right { gap: 12px; }
+  .code-block code { font-size: 14px; }
+  .sprite-heart, .sprite-star, .sprite-mushroom {
+    grid-template-columns: repeat(8, 5px);
+    grid-template-rows: repeat(8, 5px);
+  }
+  .sprite-heart { grid-template-rows: repeat(7, 5px); }
+  .tag { font-size: 6px; padding: 4px 8px; }
+}
+
+@media (max-width: 400px) {
+  .title-block h1 { font-size: 16px; }
+  .palette-grid { grid-template-columns: 1fr; }
+  .gameboy-palette { flex-direction: column; max-width: 100%; }
+  .gb-shade { height: 40px; }
+}
+</style>
+</head>
+<body class="pixel-grid">
+
+<!-- Screen wipe transition -->
+<div class="screen-wipe"></div>
+
+<!-- CRT Scanline Overlay -->
+<div class="crt-overlay"></div>
+
+<!-- Floating Particles -->
+<div class="particle-container" id="particles"></div>
+
+<!-- HUD -->
+<div class="hud">
+  <div class="hud-left">
+    <span class="hud-score">SCORE <span id="hud-score-val">000000</span></span>
+    <span class="hud-lives">&#9829;&#9829;&#9829;</span>
+  </div>
+  <div class="hud-right">
+    <span class="hud-level">LVL 01</span>
+    <span class="hud-timer">TIME <span id="hud-timer-val">999</span></span>
+  </div>
+</div>
+
+<div class="screen">
+
+  <!-- ===== TITLE ===== -->
+  <div class="title-block">
+    <div class="title-stars">* * * * * * *</div>
+    <h1>8-Bit</h1>
+    <p class="subtitle">-- Design Reference --</p>
+    <p class="desc" style="max-width: 600px; margin: 0 auto;">The visual language of early home computers and game consoles from the late 1970s through the 1980s</p>
+    <div class="press-start">[ Press Start ]</div>
+  </div>
+
+  <div class="pixel-separator">
+    <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+    <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+    <div class="dot"></div>
+  </div>
+
+  <!-- ===== OVERVIEW ===== -->
+  <div class="section" data-anim>
+    <h2 class="section-header">
+      <span class="pixel-icon" style="background: var(--secondary); box-shadow: inset -4px -4px 0 var(--navy);"></span>
+      Overview
+    </h2>
+    <div class="dialog-box">
+      <p>The 8-Bit aesthetic is rooted in the visual style of early home computers and game consoles -- NES, Commodore 64, ZX Spectrum, Atari 2600, Game Boy. It is defined by severe hardware constraints that produce a distinctive blocky, pixelated visual language. Modern interpretations intentionally embrace these limitations as a stylistic choice.<span class="dialog-cursor"></span></p>
+    </div>
+  </div>
+
+  <!-- ===== VISUAL CHARACTERISTICS ===== -->
+  <div class="section" data-anim>
+    <h2 class="section-header">
+      <span class="pixel-icon" style="background: var(--green); box-shadow: inset -4px -4px 0 #006400;"></span>
+      Visual Characteristics
+    </h2>
+    <ul>
+      <li><strong>Blocky pixel art</strong> -- large, prominently visible pixels forming simplified shapes</li>
+      <li><strong>No dithering</strong> -- flat sections of solid color with minimal gradation</li>
+      <li><strong>No outlines on sprites</strong> -- shapes defined by color blocks alone, not drawn borders</li>
+      <li><strong>No anti-aliasing</strong> -- hard, jagged edges are a feature, not a defect</li>
+      <li><strong>Minimal shading</strong> -- no gradients; light and shadow conveyed through discrete color steps</li>
+      <li><strong>Tile-based construction</strong> -- graphics built on an 8x8 pixel grid (some systems used 8x16)</li>
+      <li><strong>Three-color sprites</strong> -- maximum per individual sprite plus transparency</li>
+      <li><strong>Simple animation cycles</strong> -- few frames, looping motions</li>
+      <li><strong>Sprite flickering</strong> -- authentic artifact from exceeding horizontal display limits</li>
+      <li><strong>CRT scanlines</strong> -- subtle black spacing between pixel rows, softening the image</li>
+    </ul>
+
+    <!-- Sprite examples -->
+    <div class="sprite-row" style="margin-top: 24px;">
+      <div>
+        <!-- Heart sprite -->
+        <div class="sprite sprite-heart">
+          <div class="px"></div><div class="pr"></div><div class="pr"></div><div class="px"></div><div class="px"></div><div class="pr"></div><div class="pr"></div><div class="px"></div>
+          <div class="pr"></div><div class="pr"></div><div class="pr"></div><div class="pr"></div><div class="pr"></div><div class="pr"></div><div class="pr"></div><div class="pr"></div>
+          <div class="pr"></div><div class="pr"></div><div class="pw"></div><div class="pr"></div><div class="pr"></div><div class="pr"></div><div class="pr"></div><div class="pr"></div>
+          <div class="pr"></div><div class="pr"></div><div class="pr"></div><div class="pr"></div><div class="pr"></div><div class="pr"></div><div class="pr"></div><div class="pr"></div>
+          <div class="px"></div><div class="pr"></div><div class="pr"></div><div class="pr"></div><div class="pr"></div><div class="pr"></div><div class="pr"></div><div class="px"></div>
+          <div class="px"></div><div class="px"></div><div class="pr"></div><div class="pr"></div><div class="pr"></div><div class="pr"></div><div class="px"></div><div class="px"></div>
+          <div class="px"></div><div class="px"></div><div class="px"></div><div class="pr"></div><div class="pr"></div><div class="px"></div><div class="px"></div><div class="px"></div>
+        </div>
+        <div class="sprite-label">Heart</div>
+      </div>
+      <div>
+        <!-- Star sprite -->
+        <div class="sprite sprite-star">
+          <div class="px"></div><div class="px"></div><div class="px"></div><div class="py"></div><div class="py"></div><div class="px"></div><div class="px"></div><div class="px"></div>
+          <div class="px"></div><div class="px"></div><div class="px"></div><div class="py"></div><div class="py"></div><div class="px"></div><div class="px"></div><div class="px"></div>
+          <div class="py"></div><div class="py"></div><div class="py"></div><div class="py"></div><div class="py"></div><div class="py"></div><div class="py"></div><div class="py"></div>
+          <div class="px"></div><div class="py"></div><div class="py"></div><div class="pw"></div><div class="py"></div><div class="py"></div><div class="py"></div><div class="px"></div>
+          <div class="px"></div><div class="px"></div><div class="py"></div><div class="py"></div><div class="py"></div><div class="py"></div><div class="px"></div><div class="px"></div>
+          <div class="px"></div><div class="py"></div><div class="py"></div><div class="py"></div><div class="py"></div><div class="py"></div><div class="py"></div><div class="px"></div>
+          <div class="py"></div><div class="py"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="py"></div><div class="py"></div>
+          <div class="py"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="py"></div>
+        </div>
+        <div class="sprite-label">Star</div>
+      </div>
+      <div>
+        <!-- Mushroom sprite -->
+        <div class="sprite sprite-mushroom">
+          <div class="px"></div><div class="px"></div><div class="pr"></div><div class="pr"></div><div class="pr"></div><div class="pr"></div><div class="px"></div><div class="px"></div>
+          <div class="px"></div><div class="pr"></div><div class="pw"></div><div class="pr"></div><div class="pr"></div><div class="pw"></div><div class="pr"></div><div class="px"></div>
+          <div class="pr"></div><div class="pw"></div><div class="pw"></div><div class="pr"></div><div class="pr"></div><div class="pw"></div><div class="pw"></div><div class="pr"></div>
+          <div class="pr"></div><div class="pr"></div><div class="pr"></div><div class="pr"></div><div class="pr"></div><div class="pr"></div><div class="pr"></div><div class="pr"></div>
+          <div class="px"></div><div class="pb"></div><div class="pb"></div><div class="pb"></div><div class="pb"></div><div class="pb"></div><div class="pb"></div><div class="px"></div>
+          <div class="px"></div><div class="px"></div><div class="pb"></div><div class="pb"></div><div class="pb"></div><div class="pb"></div><div class="px"></div><div class="px"></div>
+          <div class="px"></div><div class="pb"></div><div class="pb"></div><div class="pb"></div><div class="pb"></div><div class="pb"></div><div class="pb"></div><div class="px"></div>
+          <div class="px"></div><div class="pb"></div><div class="pb"></div><div class="pb"></div><div class="pb"></div><div class="pb"></div><div class="pb"></div><div class="px"></div>
+        </div>
+        <div class="sprite-label">Mushroom</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== COLOR PALETTE ===== -->
+  <div class="section" data-anim>
+    <h2 class="section-header">
+      <span class="pixel-icon" style="background: var(--accent); box-shadow: inset -4px -4px 0 #B8860B;"></span>
+      Color Palette
+    </h2>
+    <p>The 8-Bit palette is defined by extreme restriction and bold separation. As few as 4 colors per scene, up to 64 simultaneous on-screen colors from a maximum bank of 256. Bold, distinct color separation -- no smooth gradients. High contrast between adjacent color blocks. All colors fully opaque and discrete.</p>
+
+    <h3 style="font-size: 9px; color: var(--secondary); margin: 24px 0 12px; text-shadow: 2px 2px 0 #000;">NES-Inspired Palette</h3>
+
+    <div class="palette-grid">
+      <div class="color-block">
+        <div class="color-swatch" style="background: #000000;"></div>
+        <div class="color-info">
+          <span class="color-name">Background</span>
+          <span class="color-hex">#000000</span>
+        </div>
+      </div>
+      <div class="color-block">
+        <div class="color-swatch" style="background: #B13425;"></div>
+        <div class="color-info">
+          <span class="color-name">Primary / Red</span>
+          <span class="color-hex">#B13425</span>
+        </div>
+      </div>
+      <div class="color-block">
+        <div class="color-swatch" style="background: #6B8CFF;"></div>
+        <div class="color-info">
+          <span class="color-name">Secondary / Blue</span>
+          <span class="color-hex">#6B8CFF</span>
+        </div>
+      </div>
+      <div class="color-block">
+        <div class="color-swatch" style="background: #FAC000;"></div>
+        <div class="color-info">
+          <span class="color-name">Accent / Gold</span>
+          <span class="color-hex">#FAC000</span>
+        </div>
+      </div>
+      <div class="color-block">
+        <div class="color-swatch" style="background: #FCFCFC;"></div>
+        <div class="color-info">
+          <span class="color-name">Highlight / White</span>
+          <span class="color-hex">#FCFCFC</span>
+        </div>
+      </div>
+      <div class="color-block">
+        <div class="color-swatch" style="background: #00A800;"></div>
+        <div class="color-info">
+          <span class="color-name">Grass / Green</span>
+          <span class="color-hex">#00A800</span>
+        </div>
+      </div>
+      <div class="color-block">
+        <div class="color-swatch" style="background: #00BCBC;"></div>
+        <div class="color-info">
+          <span class="color-name">Sky / Cyan</span>
+          <span class="color-hex">#00BCBC</span>
+        </div>
+      </div>
+      <div class="color-block">
+        <div class="color-swatch" style="background: #F8B878;"></div>
+        <div class="color-info">
+          <span class="color-name">Skin / Peach</span>
+          <span class="color-hex">#F8B878</span>
+        </div>
+      </div>
+      <div class="color-block">
+        <div class="color-swatch" style="background: #00006C;"></div>
+        <div class="color-info">
+          <span class="color-name">Dark / Navy</span>
+          <span class="color-hex">#00006C</span>
+        </div>
+      </div>
+      <div class="color-block">
+        <div class="color-swatch" style="background: #7C7C7C;"></div>
+        <div class="color-info">
+          <span class="color-name">Mid Tone / Gray</span>
+          <span class="color-hex">#7C7C7C</span>
+        </div>
+      </div>
+    </div>
+
+    <h3 style="font-size: 9px; color: var(--gb-light); margin: 24px 0 12px; text-shadow: 2px 2px 0 #000;">Game Boy Monochrome Variant</h3>
+
+    <div class="gameboy-palette">
+      <div class="gb-shade" style="background: #0F380F;">
+        <span style="color: #9BBC0F;">#0F380F</span>
+      </div>
+      <div class="gb-shade" style="background: #306230;">
+        <span style="color: #9BBC0F;">#306230</span>
+      </div>
+      <div class="gb-shade" style="background: #8BAC0F;">
+        <span style="color: #0F380F;">#8BAC0F</span>
+      </div>
+      <div class="gb-shade" style="background: #9BBC0F;">
+        <span style="color: #0F380F;">#9BBC0F</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== TYPOGRAPHY ===== -->
+  <div class="section" data-anim>
+    <h2 class="section-header">
+      <span class="pixel-icon" style="background: var(--cyan); box-shadow: inset -4px -4px 0 #007070;"></span>
+      Typography
+    </h2>
+    <ul>
+      <li><strong>Monospace exclusively</strong> -- every character occupies the same horizontal space</li>
+      <li><strong>Blocky letterforms</strong> -- matching the overall pixel grid</li>
+      <li><strong>Drop-shadow text</strong> -- offset by 1-2 pixels in a darker color for legibility</li>
+      <li><strong>Uppercase-dominant</strong> -- many 8-bit systems had limited or no lowercase character sets</li>
+      <li><strong>Fixed-size text</strong> -- no font scaling; rendered at pixel-native sizes</li>
+    </ul>
+
+    <div class="font-showcase">
+      <div class="font-example">
+        <span class="font-label">Press Start 2P -- NES-era pixel font</span>
+        <div class="font-press-start">ABCDEFGHIJKLM<br>0123456789!?</div>
+      </div>
+      <div class="font-example">
+        <span class="font-label">VT323 -- Terminal-style pixel font</span>
+        <div class="font-vt323">The quick brown fox jumps over the lazy dog. 0123456789</div>
+      </div>
+    </div>
+
+    <div class="note-box">
+      <p>Also recommended: Silkscreen for clean body text, 04b03 / 04b08 for minimal UI text. Keep sizes at pixel-grid multiples: 8px, 16px, 24px, 32px.</p>
+    </div>
+  </div>
+
+  <!-- ===== KEY DESIGN ELEMENTS ===== -->
+  <div class="section" data-anim>
+    <h2 class="section-header">
+      <span class="pixel-icon" style="background: var(--primary); box-shadow: inset -4px -4px 0 #6B1A12;"></span>
+      Key Design Elements
+    </h2>
+
+    <div class="technique-card">
+      <div class="technique-card-header">Grid System</div>
+      <div class="technique-card-body">
+        <ul>
+          <li>Everything aligns to an <strong>8x8 pixel grid</strong> (or multiples: 16, 24, 32)</li>
+          <li>Borders, padding, and margins should be multiples of 8px</li>
+          <li>No sub-pixel rendering; all measurements snap to whole pixels</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="technique-card">
+      <div class="technique-card-header">Sprites and Icons</div>
+      <div class="technique-card-body">
+        <ul>
+          <li>Icons rendered as pixel art at small native resolutions (16x16, 32x32, 64x64)</li>
+          <li>Scaled up using nearest-neighbor interpolation for hard pixel edges</li>
+          <li>Three colors maximum per sprite (plus background/transparency)</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="technique-card">
+      <div class="technique-card-header">Backgrounds</div>
+      <div class="technique-card-body">
+        <ul>
+          <li>Solid flat colors or simple repeating tile patterns</li>
+          <li>No photographic imagery; no complex gradients</li>
+          <li>Parallax scrolling layers can add depth</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="technique-card">
+      <div class="technique-card-header">Borders and Dividers</div>
+      <div class="technique-card-body">
+        <ul>
+          <li>Single-pixel solid borders scaled to grid</li>
+          <li>Box-drawing characters for UI panels: simple rectangles, no rounded corners</li>
+          <li>Dashed or dotted borders formed from pixel blocks</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="technique-card">
+      <div class="technique-card-header">Animation</div>
+      <div class="technique-card-body">
+        <ul>
+          <li>Frame-by-frame sprite animation with few frames (2-4 frame loops)</li>
+          <li>Blinking/flashing elements for emphasis</li>
+          <li>Screen transitions: hard cuts, wipes, or fade-to-black (no smooth fades)</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="technique-card">
+      <div class="technique-card-header">UI Components</div>
+      <div class="technique-card-body">
+        <ul>
+          <li>Dialog boxes with thick pixel borders and solid background fills</li>
+          <li>Health bars, score counters, and status indicators drawn with block elements</li>
+          <li>Buttons rendered as raised pixel rectangles with 1-2px shadow offset</li>
+        </ul>
+        <div class="health-bar-container" style="margin-top: 12px;">
+          <span class="health-label">HP</span>
+          <div class="health-bar"><div class="health-fill hp" style="width: 85%;"></div></div>
+        </div>
+        <div class="health-bar-container">
+          <span class="health-label">MP</span>
+          <div class="health-bar"><div class="health-fill mp" style="width: 60%;"></div></div>
+        </div>
+        <div class="health-bar-container">
+          <span class="health-label">XP</span>
+          <div class="health-bar"><div class="health-fill xp" style="width: 40%;"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== LAYOUT PRINCIPLES ===== -->
+  <div class="section" data-anim>
+    <h2 class="section-header">
+      <span class="pixel-icon" style="background: var(--peach); box-shadow: inset -4px -4px 0 #B8860B;"></span>
+      Layout Principles
+    </h2>
+    <ul>
+      <li><strong>Low density</strong> -- few elements on screen at once; generous negative space</li>
+      <li><strong>Tile-based composition</strong> -- content arranged on an implicit grid of 8px units</li>
+      <li><strong>Horizontal constraints</strong> -- limited horizontal sprite counts leading to vertically-oriented or stacked layouts</li>
+      <li><strong>Fixed-width containers</strong> -- avoid fluid/responsive scaling; snap to fixed pixel dimensions</li>
+      <li><strong>Centered or left-aligned</strong> -- right-alignment and complex multi-column layouts are rare</li>
+      <li><strong>HUD pattern</strong> -- persistent information strip at top or bottom of viewport (score, lives, level)</li>
+    </ul>
+  </div>
+
+  <!-- ===== CSS TECHNIQUES ===== -->
+  <div class="section" data-anim>
+    <h2 class="section-header">
+      <span class="pixel-icon" style="background: var(--green); box-shadow: inset -4px -4px 0 #006400;"></span>
+      CSS / Design Techniques
+    </h2>
+
+    <div class="technique-card">
+      <div class="technique-card-header">Pixel-Perfect Rendering</div>
+      <div class="technique-card-body">
+        <p>Prevent browsers from smoothing scaled pixel art:</p>
+        <div class="code-block">
+          <code><span class="code-sel">img, canvas</span> {
+  <span class="code-prop">image-rendering</span>: <span class="code-val">pixelated</span>;
+  <span class="code-prop">image-rendering</span>: <span class="code-val">crisp-edges</span>;
+  <span class="code-prop">-ms-interpolation-mode</span>: <span class="code-val">nearest-neighbor</span>;
+}</code>
+        </div>
+      </div>
+    </div>
+
+    <div class="technique-card">
+      <div class="technique-card-header">CRT Scanline Effect</div>
+      <div class="technique-card-body">
+        <p>Simulated scanlines using a repeating gradient overlay:</p>
+        <div class="code-block">
+          <code><span class="code-sel">.crt-overlay</span> {
+  <span class="code-prop">background</span>: <span class="code-val">repeating-linear-gradient(
+    to bottom,
+    transparent 0px,
+    transparent 2px,
+    rgba(0,0,0,0.15) 2px,
+    rgba(0,0,0,0.15) 4px
+  )</span>;
+  <span class="code-prop">pointer-events</span>: <span class="code-val">none</span>;
+  <span class="code-prop">position</span>: <span class="code-val">fixed</span>;
+  <span class="code-prop">inset</span>: <span class="code-val">0</span>;
+}</code>
+        </div>
+      </div>
+    </div>
+
+    <div class="technique-card">
+      <div class="technique-card-header">Screen Glow / CRT Vignette</div>
+      <div class="technique-card-body">
+        <div class="code-block">
+          <code><span class="code-sel">.crt-screen</span> {
+  <span class="code-prop">box-shadow</span>:
+    <span class="code-val">inset 0 0 60px rgba(0,0,0,0.4)</span>,
+    <span class="code-val">0 0 40px rgba(100,200,255,0.15)</span>;
+  <span class="code-prop">border-radius</span>: <span class="code-val">12px</span>;
+}</code>
+        </div>
+      </div>
+    </div>
+
+    <div class="technique-card">
+      <div class="technique-card-header">Pixel Grid Background</div>
+      <div class="technique-card-body">
+        <div class="code-block">
+          <code><span class="code-sel">.pixel-grid</span> {
+  <span class="code-prop">background-image</span>:
+    <span class="code-val">linear-gradient(
+      rgba(255,255,255,0.03) 1px,
+      transparent 1px)</span>,
+    <span class="code-val">linear-gradient(90deg,
+      rgba(255,255,255,0.03) 1px,
+      transparent 1px)</span>;
+  <span class="code-prop">background-size</span>: <span class="code-val">8px 8px</span>;
+}</code>
+        </div>
+      </div>
+    </div>
+
+    <div class="technique-card">
+      <div class="technique-card-header">Blinking "Press Start" Effect</div>
+      <div class="technique-card-body">
+        <div class="code-block">
+          <code><span class="code-sel">@keyframes blink-8bit</span> {
+  <span class="code-prop">0%, 49%</span> { <span class="code-val">opacity: 1</span>; }
+  <span class="code-prop">50%, 100%</span> { <span class="code-val">opacity: 0</span>; }
+}
+
+<span class="code-sel">.blink</span> {
+  <span class="code-prop">animation</span>: <span class="code-val">blink-8bit 1s step-end infinite</span>;
+}</code>
+        </div>
+      </div>
+    </div>
+
+    <div class="technique-card">
+      <div class="technique-card-header">Step Transitions (No Smooth Easing)</div>
+      <div class="technique-card-body">
+        <div class="code-block">
+          <code><span class="code-comment">/* Use step functions instead of smooth easing */</span>
+<span class="code-sel">.step-transition</span> {
+  <span class="code-prop">transition</span>: <span class="code-val">all 0.3s steps(4)</span>;
+}</code>
+        </div>
+      </div>
+    </div>
+
+    <div class="technique-card">
+      <div class="technique-card-header">Blocky Drop-Shadow Text</div>
+      <div class="technique-card-body">
+        <div class="code-block">
+          <code><span class="code-sel">.pixel-text-shadow</span> {
+  <span class="code-prop">text-shadow</span>:
+    <span class="code-val">2px 0 0 #000</span>,
+    <span class="code-val">0 2px 0 #000</span>,
+    <span class="code-val">2px 2px 0 #000</span>;
+}</code>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== RELATED AESTHETICS ===== -->
+  <div class="section" data-anim>
+    <h2 class="section-header">
+      <span class="pixel-icon" style="background: var(--secondary); box-shadow: inset -4px -4px 0 var(--navy);"></span>
+      Related Aesthetics
+    </h2>
+    <p>For cross-referencing and blending styles:</p>
+    <div class="tag-list">
+      <span class="tag">Arcadecore</span>
+      <span class="tag">Cassette Futurism</span>
+      <span class="tag">Early Cyber</span>
+      <span class="tag">Lo-Fi</span>
+      <span class="tag">Low Poly</span>
+      <span class="tag">PC-98</span>
+      <span class="tag">Pixelscape</span>
+      <span class="tag">Pixel UI</span>
+      <span class="tag">Shanzhai</span>
+    </div>
+  </div>
+
+  <!-- ===== IMPLEMENTATION NOTES ===== -->
+  <div class="section" data-anim>
+    <h2 class="section-header">
+      <span class="pixel-icon" style="background: var(--accent); box-shadow: inset -4px -4px 0 #B8860B;"></span>
+      Implementation Notes
+    </h2>
+    <div class="note-box">
+      <p>Modern recreations often accidentally produce 16-bit visuals (SNES/Genesis era) with too many colors, too much detail, and smooth gradients. Authentic 8-bit requires deliberate restraint.</p>
+    </div>
+    <div class="note-box">
+      <p>CRT monitors introduced black spacing between pixel rows and slight color bleeding, which softened the raw pixel output. Modern displays render pixels with razor-sharp edges, making raw 8-bit art appear harsher than it originally looked. Consider adding scanline overlays or slight blur.</p>
+    </div>
+    <div class="note-box">
+      <p>When scaling pixel art for modern displays, always use integer multiples (2x, 3x, 4x) and image-rendering: pixelated to avoid blurry sub-pixel interpolation.</p>
+    </div>
+    <div class="note-box">
+      <p>Sound design is part of the aesthetic: chiptune audio (square waves, triangle waves, noise channels) reinforces the visual style. Consider audio elements with 8-bit sound effects for interactions.</p>
+    </div>
+  </div>
+
+  <div class="pixel-separator">
+    <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+    <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+    <div class="dot"></div>
+  </div>
+
+  <!-- ===== FOOTER ===== -->
+  <div class="footer">
+    <div class="game-over">Game Over</div>
+    <p>Insert Coin to Continue</p>
+    <p style="margin-top: 16px; color: var(--gray);">
+      <span class="pixel-coin"></span>
+      8-Bit Design Reference
+      <span class="pixel-coin"></span>
+    </p>
+  </div>
+
+</div>
+
+<script>
+// ===== Floating pixel particles =====
+(function() {
+  const container = document.getElementById('particles');
+  const colors = ['#B13425', '#6B8CFF', '#FAC000', '#00A800', '#00BCBC', '#F8B878'];
+  const count = 20;
+  for (let i = 0; i < count; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    p.style.left = Math.random() * 100 + '%';
+    p.style.background = colors[Math.floor(Math.random() * colors.length)];
+    p.style.animationDuration = (8 + Math.random() * 12) + 's';
+    p.style.animationDelay = (Math.random() * 10) + 's';
+    p.style.width = (2 + Math.floor(Math.random() * 3) * 2) + 'px';
+    p.style.height = p.style.width;
+    container.appendChild(p);
+  }
+})();
+
+// ===== Intersection Observer for section animations =====
+(function() {
+  const sections = document.querySelectorAll('[data-anim]');
+  const observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  sections.forEach(function(s) { observer.observe(s); });
+})();
+
+// ===== HUD Score Counter =====
+(function() {
+  const scoreEl = document.getElementById('hud-score-val');
+  let score = 0;
+  setInterval(function() {
+    score += Math.floor(Math.random() * 100) * 10;
+    if (score > 999999) score = 0;
+    scoreEl.textContent = String(score).padStart(6, '0');
+  }, 3000);
+})();
+
+// ===== HUD Timer Countdown =====
+(function() {
+  const timerEl = document.getElementById('hud-timer-val');
+  let time = 999;
+  setInterval(function() {
+    time--;
+    if (time < 0) time = 999;
+    timerEl.textContent = String(time).padStart(3, '0');
+  }, 1000);
+})();
+
+// ===== Health bar interactive animation =====
+(function() {
+  const fills = document.querySelectorAll('.health-fill');
+  setInterval(function() {
+    fills.forEach(function(fill) {
+      const base = parseFloat(fill.style.width);
+      const delta = (Math.random() - 0.4) * 15;
+      let newW = base + delta;
+      if (newW > 100) newW = 100;
+      if (newW < 10) newW = 10;
+      fill.style.width = newW + '%';
+    });
+  }, 2500);
+})();
+
+// ===== Remove screen wipe after animation =====
+setTimeout(function() {
+  const wipe = document.querySelector('.screen-wipe');
+  if (wipe) wipe.remove();
+}, 1500);
+</script>
+</body>
+</html>

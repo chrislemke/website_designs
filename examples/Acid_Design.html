@@ -1,0 +1,2111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ACID DESIGN -- Visual Style Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Monoton&family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&family=Russo+One&display=swap" rel="stylesheet">
+<style>
+/* ========== RESET & BASE ========== */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --black: #000000;
+  --near-black: #0A0A0A;
+  --dark: #111111;
+  --electric-green: #39FF14;
+  --hot-magenta: #FF00FF;
+  --neon-pink: #FF1493;
+  --acid-yellow: #CCFF00;
+  --acid-yellow-alt: #DFFF00;
+  --cyan: #00FFFF;
+  --electric-blue: #0FF0FC;
+  --neon-orange: #FF6600;
+  --uv-purple: #BF00FF;
+  --chrome-light: #ffffff;
+  --chrome-mid: #999999;
+  --chrome-dark: #333333;
+}
+
+html {
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
+  scrollbar-color: var(--electric-green) var(--black);
+}
+
+body {
+  background: var(--black);
+  color: #ccc;
+  font-family: 'Share Tech Mono', monospace;
+  overflow-x: hidden;
+  line-height: 1.6;
+  cursor: crosshair;
+}
+
+::selection {
+  background: var(--hot-magenta);
+  color: var(--black);
+}
+
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--black); }
+::-webkit-scrollbar-thumb {
+  background: var(--electric-green);
+  box-shadow: 0 0 8px var(--electric-green);
+}
+
+/* ========== SVG FILTERS ========== */
+.svg-filters {
+  position: absolute;
+  width: 0;
+  height: 0;
+}
+
+/* ========== SCANLINE OVERLAY ========== */
+body::after {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.15) 2px,
+    rgba(0, 0, 0, 0.15) 4px
+  );
+  pointer-events: none;
+  z-index: 10000;
+}
+
+/* ========== NOISE GRAIN OVERLAY ========== */
+body::before {
+  content: '';
+  position: fixed;
+  top: -50%; left: -50%;
+  width: 200%; height: 200%;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 9999;
+  animation: grain 0.5s steps(4) infinite;
+}
+
+@keyframes grain {
+  0%, 100% { transform: translate(0, 0); }
+  25% { transform: translate(-5%, -5%); }
+  50% { transform: translate(5%, 5%); }
+  75% { transform: translate(-2%, 3%); }
+}
+
+/* ========== HERO SECTION ========== */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: var(--black);
+}
+
+.hero-bg-pattern {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background:
+    repeating-conic-gradient(
+      var(--near-black) 0% 25%, transparent 0% 50%
+    ) 0 0 / 60px 60px;
+  opacity: 0.3;
+  animation: checkerboard-drift 20s linear infinite;
+}
+
+@keyframes checkerboard-drift {
+  0% { transform: rotate(0deg) scale(1.2); }
+  50% { transform: rotate(3deg) scale(1.4); }
+  100% { transform: rotate(0deg) scale(1.2); }
+}
+
+.hero-laser {
+  position: absolute;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--hot-magenta), transparent);
+  animation: laser-sweep 4s ease-in-out infinite;
+  opacity: 0.7;
+}
+.hero-laser:nth-child(2) {
+  top: 30%;
+  width: 120%;
+  left: -10%;
+  animation-delay: 0s;
+  background: linear-gradient(90deg, transparent, var(--cyan), transparent);
+  transform: rotate(-5deg);
+}
+.hero-laser:nth-child(3) {
+  top: 60%;
+  width: 110%;
+  left: -5%;
+  animation-delay: 1.5s;
+  background: linear-gradient(90deg, transparent, var(--electric-green), transparent);
+  transform: rotate(3deg);
+}
+.hero-laser:nth-child(4) {
+  top: 80%;
+  width: 130%;
+  left: -15%;
+  animation-delay: 2.8s;
+  background: linear-gradient(90deg, transparent, var(--neon-orange), transparent);
+  transform: rotate(-2deg);
+}
+
+@keyframes laser-sweep {
+  0%, 100% { opacity: 0; transform: translateX(-10%) rotate(inherit); }
+  10% { opacity: 0.9; }
+  50% { opacity: 0.6; transform: translateX(5%) rotate(inherit); }
+  90% { opacity: 0.9; }
+}
+
+.hero-wireframe {
+  position: absolute;
+  width: 400px;
+  height: 400px;
+  right: -50px;
+  top: 50%;
+  transform: translateY(-50%);
+  opacity: 0.15;
+  animation: wireframe-rotate 30s linear infinite;
+}
+
+@keyframes wireframe-rotate {
+  from { transform: translateY(-50%) rotate(0deg); }
+  to { transform: translateY(-50%) rotate(360deg); }
+}
+
+.hero-content {
+  position: relative;
+  z-index: 10;
+  text-align: center;
+  padding: 2rem;
+}
+
+.hero-title {
+  font-family: 'Monoton', cursive;
+  font-size: clamp(4rem, 12vw, 10rem);
+  color: var(--electric-green);
+  text-shadow:
+    0 0 7px var(--electric-green),
+    0 0 10px var(--electric-green),
+    0 0 21px var(--electric-green),
+    0 0 42px #0fa,
+    0 0 82px #0fa,
+    0 0 120px #0fa;
+  line-height: 1;
+  letter-spacing: 0.05em;
+  animation: title-flicker 5s ease-in-out infinite, title-glitch 8s ease-in-out infinite;
+}
+
+@keyframes title-flicker {
+  0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+    text-shadow:
+      0 0 7px var(--electric-green),
+      0 0 10px var(--electric-green),
+      0 0 21px var(--electric-green),
+      0 0 42px #0fa,
+      0 0 82px #0fa,
+      0 0 120px #0fa;
+  }
+  20%, 24%, 55% {
+    text-shadow: none;
+  }
+}
+
+@keyframes title-glitch {
+  0%, 90%, 100% { transform: translate(0); }
+  91% { transform: translate(-3px, 2px); }
+  92% { transform: translate(3px, -2px); }
+  93% { transform: translate(-2px, -1px); }
+  94% { transform: translate(2px, 1px); }
+}
+
+.hero-subtitle {
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 400;
+  font-size: clamp(0.8rem, 2vw, 1.2rem);
+  color: var(--cyan);
+  text-transform: uppercase;
+  letter-spacing: 0.5em;
+  margin-top: 1.5rem;
+  text-shadow: 0 0 10px var(--cyan), 0 0 20px var(--cyan);
+  animation: subtitle-pulse 3s ease-in-out infinite;
+}
+
+@keyframes subtitle-pulse {
+  0%, 100% { opacity: 0.7; }
+  50% { opacity: 1; }
+}
+
+.hero-tagline {
+  max-width: 700px;
+  margin: 2rem auto 0;
+  font-size: clamp(0.85rem, 1.5vw, 1rem);
+  color: #888;
+  line-height: 1.8;
+}
+
+.hero-scroll-indicator {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  animation: scroll-bounce 2s ease-in-out infinite;
+}
+
+.hero-scroll-indicator span {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.7rem;
+  color: var(--acid-yellow);
+  text-transform: uppercase;
+  letter-spacing: 0.3em;
+}
+
+.hero-scroll-indicator .arrow {
+  width: 2px;
+  height: 30px;
+  background: linear-gradient(to bottom, var(--acid-yellow), transparent);
+}
+
+@keyframes scroll-bounce {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(10px); }
+}
+
+/* ========== SMILEY DECORATION ========== */
+.smiley {
+  position: absolute;
+  font-size: 3rem;
+  opacity: 0.12;
+  animation: smiley-float 6s ease-in-out infinite;
+  filter: hue-rotate(0deg);
+}
+.smiley:nth-child(6) { top: 15%; left: 5%; animation-delay: 0s; }
+.smiley:nth-child(7) { top: 75%; left: 85%; animation-delay: 2s; font-size: 2rem; }
+.smiley:nth-child(8) { top: 40%; left: 90%; animation-delay: 4s; font-size: 4rem; }
+
+@keyframes smiley-float {
+  0%, 100% { transform: translateY(0) rotate(0deg); filter: hue-rotate(0deg); }
+  33% { transform: translateY(-15px) rotate(10deg); filter: hue-rotate(90deg); }
+  66% { transform: translateY(10px) rotate(-5deg); filter: hue-rotate(180deg); }
+}
+
+/* ========== SECTION STYLING ========== */
+.section {
+  position: relative;
+  padding: clamp(3rem, 8vw, 6rem) clamp(1.5rem, 5vw, 4rem);
+  overflow: hidden;
+}
+
+.section-divider {
+  height: 4px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    var(--hot-magenta) 20%,
+    var(--cyan) 40%,
+    var(--electric-green) 60%,
+    var(--acid-yellow) 80%,
+    transparent 100%
+  );
+  box-shadow: 0 0 15px var(--hot-magenta), 0 0 30px var(--cyan);
+  animation: divider-shift 4s linear infinite;
+  background-size: 200% 100%;
+}
+
+@keyframes divider-shift {
+  0% { background-position: 0% 0%; }
+  100% { background-position: 200% 0%; }
+}
+
+.section-title {
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 900;
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  text-transform: uppercase;
+  margin-bottom: 2rem;
+  position: relative;
+  display: inline-block;
+}
+
+.section-title.chrome {
+  background: linear-gradient(
+    135deg,
+    #333 0%, #fff 10%, #333 20%,
+    #fff 30%, #666 40%, #fff 50%,
+    #333 60%, #fff 70%, #333 80%,
+    #fff 90%, #333 100%
+  );
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: chrome-shift 5s linear infinite;
+}
+
+@keyframes chrome-shift {
+  0% { background-position: 0% 0%; }
+  100% { background-position: 200% 200%; }
+}
+
+.section-title.neon-green {
+  color: var(--electric-green);
+  text-shadow:
+    0 0 7px var(--electric-green),
+    0 0 15px var(--electric-green),
+    0 0 30px var(--electric-green);
+}
+
+.section-title.neon-magenta {
+  color: var(--hot-magenta);
+  text-shadow:
+    0 0 7px var(--hot-magenta),
+    0 0 15px var(--hot-magenta),
+    0 0 30px var(--hot-magenta);
+}
+
+.section-title.neon-cyan {
+  color: var(--cyan);
+  text-shadow:
+    0 0 7px var(--cyan),
+    0 0 15px var(--cyan),
+    0 0 30px var(--cyan);
+}
+
+.section-title.neon-yellow {
+  color: var(--acid-yellow);
+  text-shadow:
+    0 0 7px var(--acid-yellow),
+    0 0 15px var(--acid-yellow),
+    0 0 30px var(--acid-yellow);
+}
+
+.section-title.neon-orange {
+  color: var(--neon-orange);
+  text-shadow:
+    0 0 7px var(--neon-orange),
+    0 0 15px var(--neon-orange),
+    0 0 30px var(--neon-orange);
+}
+
+.section-title.neon-purple {
+  color: var(--uv-purple);
+  text-shadow:
+    0 0 7px var(--uv-purple),
+    0 0 15px var(--uv-purple),
+    0 0 30px var(--uv-purple);
+}
+
+.section-number {
+  font-family: 'Monoton', cursive;
+  font-size: clamp(5rem, 15vw, 12rem);
+  position: absolute;
+  top: -0.2em;
+  right: 1rem;
+  opacity: 0.04;
+  color: var(--electric-green);
+  line-height: 1;
+  pointer-events: none;
+}
+
+/* ========== INTRO / OVERVIEW ========== */
+.intro-section {
+  background: var(--near-black);
+}
+
+.intro-content {
+  max-width: 900px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.intro-text {
+  font-size: clamp(1rem, 1.8vw, 1.2rem);
+  line-height: 1.9;
+  color: #aaa;
+  border-left: 3px solid var(--hot-magenta);
+  padding-left: 1.5rem;
+  box-shadow: -3px 0 15px var(--hot-magenta);
+}
+
+.intro-text em {
+  color: var(--acid-yellow);
+  font-style: normal;
+  text-shadow: 0 0 8px var(--acid-yellow);
+}
+
+.keywords {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  margin-top: 2rem;
+}
+
+.keyword {
+  padding: 0.4rem 1rem;
+  border: 1px solid var(--electric-green);
+  color: var(--electric-green);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  transition: all 0.3s ease;
+  clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+  padding-left: 1.2rem;
+  padding-right: 1.2rem;
+}
+
+.keyword:hover {
+  background: var(--electric-green);
+  color: var(--black);
+  box-shadow: 0 0 15px var(--electric-green);
+}
+
+.keyword.magenta {
+  border-color: var(--hot-magenta);
+  color: var(--hot-magenta);
+}
+.keyword.magenta:hover {
+  background: var(--hot-magenta);
+  color: var(--black);
+  box-shadow: 0 0 15px var(--hot-magenta);
+}
+
+.keyword.cyan {
+  border-color: var(--cyan);
+  color: var(--cyan);
+}
+.keyword.cyan:hover {
+  background: var(--cyan);
+  color: var(--black);
+  box-shadow: 0 0 15px var(--cyan);
+}
+
+.keyword.yellow {
+  border-color: var(--acid-yellow);
+  color: var(--acid-yellow);
+}
+.keyword.yellow:hover {
+  background: var(--acid-yellow);
+  color: var(--black);
+  box-shadow: 0 0 15px var(--acid-yellow);
+}
+
+/* ========== COLOR PALETTE ========== */
+.color-section {
+  background: var(--black);
+}
+
+.color-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.color-card {
+  position: relative;
+  background: var(--dark);
+  border: 1px solid rgba(255,255,255,0.05);
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.color-card:hover {
+  transform: translateY(-5px) scale(1.02);
+}
+
+.color-swatch {
+  height: 120px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.color-swatch::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 30px;
+  background: linear-gradient(to top, var(--dark), transparent);
+}
+
+.color-info {
+  padding: 1rem;
+}
+
+.color-name {
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 700;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 0.3rem;
+}
+
+.color-hex {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.85rem;
+  opacity: 0.6;
+}
+
+.color-card[data-color="green"] .color-swatch { background: var(--electric-green); }
+.color-card[data-color="green"] .color-name { color: var(--electric-green); }
+.color-card[data-color="green"]:hover { box-shadow: 0 0 25px var(--electric-green); }
+
+.color-card[data-color="magenta"] .color-swatch { background: var(--hot-magenta); }
+.color-card[data-color="magenta"] .color-name { color: var(--hot-magenta); }
+.color-card[data-color="magenta"]:hover { box-shadow: 0 0 25px var(--hot-magenta); }
+
+.color-card[data-color="yellow"] .color-swatch { background: var(--acid-yellow); }
+.color-card[data-color="yellow"] .color-name { color: var(--acid-yellow); }
+.color-card[data-color="yellow"]:hover { box-shadow: 0 0 25px var(--acid-yellow); }
+
+.color-card[data-color="cyan"] .color-swatch { background: var(--cyan); }
+.color-card[data-color="cyan"] .color-name { color: var(--cyan); }
+.color-card[data-color="cyan"]:hover { box-shadow: 0 0 25px var(--cyan); }
+
+.color-card[data-color="orange"] .color-swatch { background: var(--neon-orange); }
+.color-card[data-color="orange"] .color-name { color: var(--neon-orange); }
+.color-card[data-color="orange"]:hover { box-shadow: 0 0 25px var(--neon-orange); }
+
+.color-card[data-color="purple"] .color-swatch { background: var(--uv-purple); }
+.color-card[data-color="purple"] .color-name { color: var(--uv-purple); }
+.color-card[data-color="purple"]:hover { box-shadow: 0 0 25px var(--uv-purple); }
+
+.colorful-black-demo {
+  max-width: 1200px;
+  margin: 3rem auto 0;
+  padding: 2rem;
+  background: var(--black);
+  border: 1px solid rgba(255,255,255,0.05);
+  position: relative;
+}
+
+.colorful-black-demo h3 {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1rem;
+  color: var(--acid-yellow);
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  margin-bottom: 1rem;
+  text-shadow: 0 0 10px var(--acid-yellow);
+}
+
+.colorful-black-demo p {
+  color: #777;
+  font-size: 0.9rem;
+  line-height: 1.7;
+}
+
+.colorful-black-demo .avoid {
+  margin-top: 1rem;
+  color: var(--neon-orange);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+/* ========== TYPOGRAPHY ========== */
+.typo-section {
+  background: var(--near-black);
+}
+
+.typo-showcase {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.typo-demo {
+  margin-bottom: 3rem;
+  padding: 2rem;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.05);
+  position: relative;
+  overflow: hidden;
+}
+
+.typo-demo::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+}
+
+.typo-demo:nth-child(1)::before { background: var(--electric-green); box-shadow: 0 0 10px var(--electric-green); }
+.typo-demo:nth-child(2)::before { background: var(--hot-magenta); box-shadow: 0 0 10px var(--hot-magenta); }
+.typo-demo:nth-child(3)::before { background: var(--cyan); box-shadow: 0 0 10px var(--cyan); }
+.typo-demo:nth-child(4)::before { background: var(--acid-yellow); box-shadow: 0 0 10px var(--acid-yellow); }
+
+.typo-label {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.3em;
+  color: #555;
+  margin-bottom: 0.8rem;
+}
+
+.typo-display-glow {
+  font-family: 'Monoton', cursive;
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  color: var(--electric-green);
+  text-shadow:
+    0 0 7px var(--electric-green),
+    0 0 10px var(--electric-green),
+    0 0 21px var(--electric-green),
+    0 0 42px #0fa,
+    0 0 82px #0fa;
+  line-height: 1.2;
+}
+
+.typo-display-chrome {
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 900;
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  background: linear-gradient(
+    135deg,
+    #333 0%, #fff 10%, #333 20%,
+    #fff 30%, #666 40%, #fff 50%,
+    #333 60%, #fff 70%, #333 80%,
+    #fff 90%, #333 100%
+  );
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: chrome-shift 4s linear infinite;
+  line-height: 1.2;
+}
+
+.typo-display-iridescent {
+  font-family: 'Russo One', sans-serif;
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  background: linear-gradient(135deg, #ff00ff, #00ffff, #ff00ff, #ffff00, #ff00ff);
+  background-size: 400% 400%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: holo-shift 3s ease infinite;
+  line-height: 1.2;
+}
+
+@keyframes holo-shift {
+  0% { background-position: 0% 50%; filter: hue-rotate(0deg); }
+  50% { background-position: 100% 50%; filter: hue-rotate(45deg); }
+  100% { background-position: 0% 50%; filter: hue-rotate(0deg); }
+}
+
+.typo-display-glitch {
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 900;
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  color: white;
+  position: relative;
+  line-height: 1.2;
+  animation: glitch-base 3s ease-in-out infinite;
+}
+
+.typo-display-glitch::before,
+.typo-display-glitch::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.typo-display-glitch::before {
+  color: var(--cyan);
+  animation: glitch-1 2s ease-in-out infinite;
+  clip-path: polygon(0 0, 100% 0, 100% 35%, 0 35%);
+}
+
+.typo-display-glitch::after {
+  color: var(--hot-magenta);
+  animation: glitch-2 2s ease-in-out infinite;
+  clip-path: polygon(0 65%, 100% 65%, 100% 100%, 0 100%);
+}
+
+@keyframes glitch-base {
+  0%, 95%, 100% { transform: translate(0); }
+  96% { transform: translate(-3px, 1px); }
+  97% { transform: translate(2px, -1px); }
+  98% { transform: translate(-1px, 2px); }
+}
+
+@keyframes glitch-1 {
+  0%, 90%, 100% { transform: translate(0); }
+  92% { transform: translate(4px, 0); }
+  94% { transform: translate(-3px, 0); }
+  96% { transform: translate(2px, 0); }
+}
+
+@keyframes glitch-2 {
+  0%, 88%, 100% { transform: translate(0); }
+  90% { transform: translate(-4px, 0); }
+  93% { transform: translate(3px, 0); }
+  95% { transform: translate(-2px, 0); }
+}
+
+.typo-desc {
+  margin-top: 1rem;
+  font-size: 0.85rem;
+  color: #666;
+  line-height: 1.6;
+}
+
+.typo-technique {
+  display: inline-block;
+  margin-top: 0.5rem;
+  font-size: 0.7rem;
+  color: var(--electric-green);
+  background: rgba(57, 255, 20, 0.08);
+  padding: 0.2rem 0.6rem;
+  border: 1px solid rgba(57, 255, 20, 0.2);
+  font-family: 'Share Tech Mono', monospace;
+}
+
+/* ========== DESIGN ELEMENTS ========== */
+.elements-section {
+  background: var(--black);
+}
+
+.elements-grid {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.element-card {
+  background: var(--near-black);
+  border: 1px solid rgba(255,255,255,0.05);
+  padding: 2rem;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s ease;
+}
+
+.element-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  transition: all 0.4s ease;
+}
+
+.element-card:nth-child(1)::after { background: var(--hot-magenta); }
+.element-card:nth-child(2)::after { background: var(--cyan); }
+.element-card:nth-child(3)::after { background: var(--electric-green); }
+.element-card:nth-child(4)::after { background: var(--acid-yellow); }
+.element-card:nth-child(5)::after { background: var(--neon-orange); }
+.element-card:nth-child(6)::after { background: var(--uv-purple); }
+.element-card:nth-child(7)::after { background: var(--hot-magenta); }
+.element-card:nth-child(8)::after { background: var(--cyan); }
+
+.element-card:hover {
+  transform: skewY(-1deg);
+  border-color: rgba(255,255,255,0.1);
+}
+
+.element-card:hover::after {
+  height: 4px;
+  box-shadow: 0 0 15px currentColor;
+}
+
+.element-icon {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  display: block;
+}
+
+.element-card h3 {
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 700;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 0.8rem;
+}
+
+.element-card:nth-child(1) h3 { color: var(--hot-magenta); }
+.element-card:nth-child(2) h3 { color: var(--cyan); }
+.element-card:nth-child(3) h3 { color: var(--electric-green); }
+.element-card:nth-child(4) h3 { color: var(--acid-yellow); }
+.element-card:nth-child(5) h3 { color: var(--neon-orange); }
+.element-card:nth-child(6) h3 { color: var(--uv-purple); }
+.element-card:nth-child(7) h3 { color: var(--hot-magenta); }
+.element-card:nth-child(8) h3 { color: var(--cyan); }
+
+.element-card p {
+  font-size: 0.85rem;
+  color: #666;
+  line-height: 1.6;
+}
+
+/* ========== COMPOSITION & LAYOUT ========== */
+.composition-section {
+  background: var(--near-black);
+}
+
+.composition-grid {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+}
+
+.comp-principle {
+  padding: 2rem;
+  position: relative;
+  border: 1px solid rgba(255,255,255,0.04);
+  background: rgba(255,255,255,0.01);
+  transition: all 0.3s ease;
+}
+
+.comp-principle:hover {
+  background: rgba(255,255,255,0.03);
+  border-color: rgba(255,255,255,0.08);
+}
+
+.comp-principle h3 {
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 700;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 0.8rem;
+}
+
+.comp-principle:nth-child(1) h3 { color: var(--hot-magenta); }
+.comp-principle:nth-child(2) h3 { color: var(--electric-green); }
+.comp-principle:nth-child(3) h3 { color: var(--cyan); }
+.comp-principle:nth-child(4) h3 { color: var(--acid-yellow); }
+.comp-principle:nth-child(5) h3 { color: var(--neon-orange); }
+
+.comp-principle .latin {
+  font-style: italic;
+  color: #555;
+  font-size: 0.8rem;
+}
+
+.comp-principle p {
+  font-size: 0.85rem;
+  color: #666;
+  line-height: 1.6;
+}
+
+.comp-principle .technique-tag {
+  display: inline-block;
+  margin-top: 0.8rem;
+  margin-right: 0.4rem;
+  font-size: 0.65rem;
+  padding: 0.2rem 0.5rem;
+  border: 1px solid rgba(255,255,255,0.1);
+  color: #555;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Overlapping demo */
+.overlap-demo {
+  grid-column: 1 / -1;
+  position: relative;
+  height: 250px;
+  margin-top: 1rem;
+}
+
+.overlap-box {
+  position: absolute;
+  padding: 1rem;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  border: 1px solid;
+  transition: all 0.5s ease;
+}
+
+.overlap-box:nth-child(1) {
+  top: 10%;
+  left: 5%;
+  width: 250px;
+  height: 120px;
+  background: rgba(255, 0, 255, 0.1);
+  border-color: var(--hot-magenta);
+  color: var(--hot-magenta);
+  transform: rotate(-3deg);
+  z-index: 3;
+}
+
+.overlap-box:nth-child(2) {
+  top: 25%;
+  left: 15%;
+  width: 300px;
+  height: 100px;
+  background: rgba(0, 255, 255, 0.08);
+  border-color: var(--cyan);
+  color: var(--cyan);
+  transform: rotate(2deg);
+  z-index: 2;
+}
+
+.overlap-box:nth-child(3) {
+  top: 5%;
+  left: 35%;
+  width: 200px;
+  height: 150px;
+  background: rgba(57, 255, 20, 0.06);
+  border-color: var(--electric-green);
+  color: var(--electric-green);
+  transform: rotate(-1deg);
+  z-index: 4;
+}
+
+.overlap-box:nth-child(4) {
+  top: 40%;
+  left: 50%;
+  width: 280px;
+  height: 90px;
+  background: rgba(204, 255, 0, 0.07);
+  border-color: var(--acid-yellow);
+  color: var(--acid-yellow);
+  transform: rotate(4deg);
+  z-index: 1;
+}
+
+.overlap-box:hover {
+  z-index: 10;
+  transform: rotate(0deg) scale(1.05);
+}
+
+/* ========== TEXTURES & SURFACES ========== */
+.textures-section {
+  background: var(--black);
+}
+
+.textures-grid {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+.texture-card {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.05);
+}
+
+.texture-preview {
+  height: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.texture-preview.chrome-preview {
+  background: linear-gradient(
+    135deg,
+    #222 0%, #888 10%, #222 20%,
+    #aaa 30%, #444 40%, #ccc 50%,
+    #222 60%, #999 70%, #222 80%,
+    #bbb 90%, #222 100%
+  );
+  background-size: 200% 200%;
+  animation: chrome-shift 6s linear infinite;
+}
+
+.texture-preview.iridescent-preview {
+  background: linear-gradient(135deg, #ff00ff, #00ffff, #ff00ff, #ffff00, #ff00ff);
+  background-size: 400% 400%;
+  animation: holo-shift 3s ease infinite;
+}
+
+.texture-preview.scanline-preview {
+  background:
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0, 255, 255, 0.07) 2px,
+      rgba(0, 255, 255, 0.07) 4px
+    ),
+    radial-gradient(ellipse at center, #1a1a2e 0%, #000 70%);
+}
+
+.texture-preview.noise-preview {
+  background: var(--near-black);
+}
+
+.texture-preview.noise-preview::before {
+  content: '';
+  position: absolute;
+  top: -50%; left: -50%;
+  width: 200%; height: 200%;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.15'/%3E%3C/svg%3E");
+  animation: grain 0.3s steps(6) infinite;
+}
+
+.texture-label {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 1rem;
+  background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+}
+
+.texture-label h3 {
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 700;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #ddd;
+}
+
+.texture-label p {
+  font-size: 0.75rem;
+  color: #666;
+  margin-top: 0.3rem;
+}
+
+/* ========== CSS TECHNIQUES TABLE ========== */
+.techniques-section {
+  background: var(--near-black);
+}
+
+.techniques-table-wrap {
+  max-width: 1100px;
+  margin: 0 auto;
+  overflow-x: auto;
+}
+
+.techniques-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+
+.techniques-table thead th {
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 700;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--acid-yellow);
+  text-shadow: 0 0 8px var(--acid-yellow);
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 2px solid var(--acid-yellow);
+}
+
+.techniques-table tbody tr {
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  transition: background 0.3s ease;
+}
+
+.techniques-table tbody tr:hover {
+  background: rgba(255,255,255,0.03);
+}
+
+.techniques-table td {
+  padding: 0.8rem 1rem;
+  vertical-align: top;
+}
+
+.techniques-table td:first-child {
+  color: var(--cyan);
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+}
+
+.techniques-table td:last-child {
+  color: #888;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.8rem;
+}
+
+.techniques-table code {
+  background: rgba(57, 255, 20, 0.08);
+  color: var(--electric-green);
+  padding: 0.15rem 0.4rem;
+  font-size: 0.75rem;
+  border: 1px solid rgba(57, 255, 20, 0.15);
+}
+
+/* ========== ANIMATION & MOTION ========== */
+.motion-section {
+  background: var(--black);
+}
+
+.motion-grid {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+}
+
+.motion-card {
+  background: var(--near-black);
+  border: 1px solid rgba(255,255,255,0.05);
+  padding: 2rem 1.5rem;
+  text-align: center;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.motion-card:hover {
+  border-color: rgba(255,255,255,0.1);
+}
+
+.motion-icon {
+  width: 60px;
+  height: 60px;
+  margin: 0 auto 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+}
+
+.motion-icon.glitch-icon {
+  color: var(--hot-magenta);
+  animation: glitch-icon-anim 3s ease-in-out infinite;
+  text-shadow: 0 0 10px var(--hot-magenta);
+}
+
+@keyframes glitch-icon-anim {
+  0%, 85%, 100% { transform: translate(0); text-shadow: 0 0 10px var(--hot-magenta); }
+  86% { transform: translate(-3px, 1px); text-shadow: 3px 0 var(--cyan), -3px 0 var(--hot-magenta); }
+  88% { transform: translate(2px, -2px); text-shadow: -2px 0 var(--cyan), 2px 0 var(--hot-magenta); }
+  90% { transform: translate(-1px, 1px); text-shadow: 1px 0 var(--cyan), -1px 0 var(--hot-magenta); }
+}
+
+.motion-icon.flicker-icon {
+  color: var(--acid-yellow);
+  animation: flicker-icon 2s ease-in-out infinite;
+}
+
+@keyframes flicker-icon {
+  0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+    opacity: 1;
+    text-shadow: 0 0 15px var(--acid-yellow);
+  }
+  20%, 24%, 55% { opacity: 0.3; text-shadow: none; }
+}
+
+.motion-icon.rotate-icon {
+  color: var(--cyan);
+  animation: rotate-icon 8s linear infinite;
+  text-shadow: 0 0 10px var(--cyan);
+}
+
+@keyframes rotate-icon {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.motion-icon.wave-icon {
+  color: var(--electric-green);
+  animation: wave-icon 3s ease-in-out infinite;
+  text-shadow: 0 0 10px var(--electric-green);
+}
+
+@keyframes wave-icon {
+  0%, 100% { transform: scale(1) rotate(0deg); }
+  25% { transform: scale(1.1) rotate(3deg); }
+  75% { transform: scale(0.9) rotate(-3deg); }
+}
+
+.motion-icon.scroll-icon {
+  color: var(--neon-orange);
+  text-shadow: 0 0 10px var(--neon-orange);
+  animation: scroll-icon 2s linear infinite;
+}
+
+@keyframes scroll-icon {
+  0% { transform: translateY(-5px); opacity: 0.5; }
+  50% { transform: translateY(5px); opacity: 1; }
+  100% { transform: translateY(-5px); opacity: 0.5; }
+}
+
+.motion-card h3 {
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 700;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 0.6rem;
+  color: #ddd;
+}
+
+.motion-card p {
+  font-size: 0.8rem;
+  color: #555;
+  line-height: 1.5;
+}
+
+/* ========== DESIGNERS / INFLUENCES ========== */
+.designers-section {
+  background: var(--near-black);
+}
+
+.designers-grid {
+  max-width: 1000px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+.designer-card {
+  padding: 1.5rem;
+  border: 1px solid rgba(255,255,255,0.05);
+  background: rgba(255,255,255,0.01);
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.designer-card:hover {
+  border-color: rgba(255,255,255,0.1);
+  background: rgba(255,255,255,0.03);
+}
+
+.designer-card h3 {
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 700;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.5rem;
+}
+
+.designer-card:nth-child(1) h3 { color: var(--hot-magenta); }
+.designer-card:nth-child(2) h3 { color: var(--electric-green); }
+.designer-card:nth-child(3) h3 { color: var(--cyan); }
+
+.designer-card p {
+  font-size: 0.8rem;
+  color: #666;
+  line-height: 1.6;
+}
+
+.origin-info {
+  max-width: 1000px;
+  margin: 2rem auto 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+.origin-card {
+  padding: 1.5rem;
+  border: 1px solid rgba(255,255,255,0.05);
+  background: rgba(255,255,255,0.01);
+}
+
+.origin-card h4 {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--acid-yellow);
+  margin-bottom: 0.5rem;
+}
+
+.origin-card p {
+  font-size: 0.85rem;
+  color: #777;
+}
+
+/* ========== RELATED AESTHETICS ========== */
+.related-section {
+  background: var(--black);
+}
+
+.related-tags {
+  max-width: 1000px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.related-tag {
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 700;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 0.8rem 1.5rem;
+  border: 1px solid;
+  position: relative;
+  transition: all 0.3s ease;
+  clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%);
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+
+.related-tag:nth-child(12n+1) { border-color: var(--hot-magenta); color: var(--hot-magenta); }
+.related-tag:nth-child(12n+2) { border-color: var(--electric-green); color: var(--electric-green); }
+.related-tag:nth-child(12n+3) { border-color: var(--cyan); color: var(--cyan); }
+.related-tag:nth-child(12n+4) { border-color: var(--acid-yellow); color: var(--acid-yellow); }
+.related-tag:nth-child(12n+5) { border-color: var(--neon-orange); color: var(--neon-orange); }
+.related-tag:nth-child(12n+6) { border-color: var(--uv-purple); color: var(--uv-purple); }
+.related-tag:nth-child(12n+7) { border-color: var(--hot-magenta); color: var(--hot-magenta); }
+.related-tag:nth-child(12n+8) { border-color: var(--electric-green); color: var(--electric-green); }
+.related-tag:nth-child(12n+9) { border-color: var(--cyan); color: var(--cyan); }
+.related-tag:nth-child(12n+10) { border-color: var(--acid-yellow); color: var(--acid-yellow); }
+.related-tag:nth-child(12n+11) { border-color: var(--neon-orange); color: var(--neon-orange); }
+.related-tag:nth-child(12n+12) { border-color: var(--uv-purple); color: var(--uv-purple); }
+
+.related-tag:hover {
+  background: currentColor;
+  color: var(--black);
+  box-shadow: 0 0 20px currentColor;
+  transform: skewX(-3deg) scale(1.05);
+}
+
+/* ========== FOOTER ========== */
+.footer {
+  position: relative;
+  padding: 3rem 2rem;
+  text-align: center;
+  background: var(--near-black);
+  overflow: hidden;
+}
+
+.footer-text {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.3em;
+  color: #333;
+}
+
+.footer-glow {
+  font-family: 'Monoton', cursive;
+  font-size: clamp(1.5rem, 4vw, 2.5rem);
+  color: var(--electric-green);
+  text-shadow:
+    0 0 7px var(--electric-green),
+    0 0 10px var(--electric-green),
+    0 0 21px var(--electric-green),
+    0 0 42px #0fa;
+  margin-bottom: 1rem;
+}
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 768px) {
+  .composition-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .overlap-demo {
+    height: 400px;
+  }
+
+  .overlap-box {
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    width: 100% !important;
+    height: auto !important;
+    transform: none !important;
+    margin-bottom: 0.5rem;
+  }
+
+  .origin-info {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-wireframe {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .color-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .elements-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .motion-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ========== INTERSECTION OBSERVER ANIMATIONS ========== */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+.reveal-delay-4 { transition-delay: 0.4s; }
+.reveal-delay-5 { transition-delay: 0.5s; }
+.reveal-delay-6 { transition-delay: 0.6s; }
+
+/* ========== DECORATIVE FLOATING ELEMENTS ========== */
+.deco-circle {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid;
+  pointer-events: none;
+  opacity: 0.06;
+}
+
+.deco-line {
+  position: absolute;
+  height: 1px;
+  pointer-events: none;
+  opacity: 0.08;
+}
+</style>
+</head>
+<body>
+
+<!-- SVG Filters for advanced effects -->
+<svg class="svg-filters">
+  <defs>
+    <filter id="noise-filter">
+      <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch" result="noise"/>
+      <feColorMatrix type="saturate" values="0" in="noise" result="desaturatedNoise"/>
+      <feBlend in="SourceGraphic" in2="desaturatedNoise" mode="overlay"/>
+    </filter>
+    <filter id="warp-filter">
+      <feTurbulence type="turbulence" baseFrequency="0.01" numOctaves="3" result="turbulence"/>
+      <feDisplacementMap in="SourceGraphic" in2="turbulence" scale="5" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+  </defs>
+</svg>
+
+<!-- ==================== HERO ==================== -->
+<section class="hero">
+  <div class="hero-bg-pattern"></div>
+  <div class="hero-laser"></div>
+  <div class="hero-laser"></div>
+  <div class="hero-laser"></div>
+  <div class="hero-laser"></div>
+
+  <!-- Decorative smileys -->
+  <span class="smiley" aria-hidden="true">&#x263A;</span>
+  <span class="smiley" aria-hidden="true">&#x263A;</span>
+  <span class="smiley" aria-hidden="true">&#x263A;</span>
+
+  <!-- Wireframe globe -->
+  <svg class="hero-wireframe" viewBox="0 0 200 200" aria-hidden="true">
+    <circle cx="100" cy="100" r="80" fill="none" stroke="var(--electric-green)" stroke-width="0.5" opacity="0.5"/>
+    <ellipse cx="100" cy="100" rx="80" ry="30" fill="none" stroke="var(--electric-green)" stroke-width="0.3" opacity="0.4"/>
+    <ellipse cx="100" cy="100" rx="80" ry="55" fill="none" stroke="var(--electric-green)" stroke-width="0.3" opacity="0.3"/>
+    <ellipse cx="100" cy="100" rx="30" ry="80" fill="none" stroke="var(--electric-green)" stroke-width="0.3" opacity="0.4"/>
+    <ellipse cx="100" cy="100" rx="55" ry="80" fill="none" stroke="var(--electric-green)" stroke-width="0.3" opacity="0.3"/>
+    <line x1="20" y1="100" x2="180" y2="100" stroke="var(--electric-green)" stroke-width="0.3" opacity="0.3"/>
+    <line x1="100" y1="20" x2="100" y2="180" stroke="var(--electric-green)" stroke-width="0.3" opacity="0.3"/>
+  </svg>
+
+  <div class="hero-content">
+    <h1 class="hero-title">ACID</h1>
+    <p class="hero-subtitle">Design Aesthetic &mdash; Style Guide</p>
+    <p class="hero-tagline">
+      A visual language rooted in 1990s Acid House and rave flyer art, revived in mid-2010s design communities.
+      It expresses visual dissonance and confusion to convey subjective emotions and unique, individualized identity.
+    </p>
+  </div>
+
+  <div class="hero-scroll-indicator">
+    <span>Scroll</span>
+    <div class="arrow"></div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ==================== OVERVIEW ==================== -->
+<section class="section intro-section">
+  <span class="section-number" aria-hidden="true">01</span>
+  <div class="intro-content">
+    <h2 class="section-title neon-magenta reveal">Overview</h2>
+    <div class="intro-text reveal reveal-delay-1">
+      Acid Design channels an <em>anti-utopian</em> or <em>dystopian</em> mood, reflecting contemporary anxieties
+      and digital culture with ironic, darkly humorous, or cynical perspectives. The aesthetic thrives on
+      <em>visual dissonance</em> -- dense, chaotic compositions that reject clean minimalism in favor of
+      layered, overwhelming sensory experiences. Every surface screams, every color burns, every letterform
+      melts and refracts.
+    </div>
+    <div class="keywords reveal reveal-delay-2">
+      <span class="keyword">Rave Culture</span>
+      <span class="keyword magenta">Dystopian</span>
+      <span class="keyword cyan">Dissonance</span>
+      <span class="keyword yellow">Neon</span>
+      <span class="keyword">Visual Chaos</span>
+      <span class="keyword magenta">Anti-Utopian</span>
+      <span class="keyword cyan">Psychedelic</span>
+      <span class="keyword yellow">Digital</span>
+      <span class="keyword">Chrome</span>
+      <span class="keyword magenta">Ironic</span>
+      <span class="keyword cyan">Fluorescent</span>
+      <span class="keyword yellow">Cynical</span>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ==================== COLOR PALETTE ==================== -->
+<section class="section color-section">
+  <span class="section-number" aria-hidden="true">02</span>
+  <div style="max-width:1200px;margin:0 auto;">
+    <h2 class="section-title neon-green reveal">Color Palette</h2>
+  </div>
+
+  <div class="color-grid reveal reveal-delay-1">
+    <div class="color-card" data-color="green">
+      <div class="color-swatch"></div>
+      <div class="color-info">
+        <div class="color-name">Electric Green</div>
+        <div class="color-hex">#39FF14</div>
+      </div>
+    </div>
+
+    <div class="color-card" data-color="magenta">
+      <div class="color-swatch"></div>
+      <div class="color-info">
+        <div class="color-name">Hot Magenta</div>
+        <div class="color-hex">#FF00FF / #FF1493</div>
+      </div>
+    </div>
+
+    <div class="color-card" data-color="yellow">
+      <div class="color-swatch"></div>
+      <div class="color-info">
+        <div class="color-name">Acid Yellow</div>
+        <div class="color-hex">#CCFF00 / #DFFF00</div>
+      </div>
+    </div>
+
+    <div class="color-card" data-color="cyan">
+      <div class="color-swatch"></div>
+      <div class="color-info">
+        <div class="color-name">Cyan / Electric Blue</div>
+        <div class="color-hex">#00FFFF / #0FF0FC</div>
+      </div>
+    </div>
+
+    <div class="color-card" data-color="orange">
+      <div class="color-swatch"></div>
+      <div class="color-info">
+        <div class="color-name">Neon Orange</div>
+        <div class="color-hex">#FF6600</div>
+      </div>
+    </div>
+
+    <div class="color-card" data-color="purple">
+      <div class="color-swatch"></div>
+      <div class="color-info">
+        <div class="color-name">Ultraviolet Purple</div>
+        <div class="color-hex">#BF00FF</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="colorful-black-demo reveal reveal-delay-2">
+    <h3>// Core Technique: "Colorful Black"</h3>
+    <p>
+      Use black as the dominant background color so that saturated, fluorescent accent colors appear
+      significantly more vibrant through contrast. The dark base acts as a void that amplifies every
+      neon hue placed upon it. Backgrounds should be near-black or pure black
+      (<code style="color:var(--electric-green);background:rgba(57,255,20,0.1);padding:0.1em 0.3em;font-size:0.85em;">#000000</code>,
+      <code style="color:var(--electric-green);background:rgba(57,255,20,0.1);padding:0.1em 0.3em;font-size:0.85em;">#0A0A0A</code>,
+      <code style="color:var(--electric-green);background:rgba(57,255,20,0.1);padding:0.1em 0.3em;font-size:0.85em;">#111111</code>).
+    </p>
+    <p class="avoid">// Avoid: Pastels, muted tones, earth tones, or large expanses of white</p>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ==================== TYPOGRAPHY ==================== -->
+<section class="section typo-section">
+  <span class="section-number" aria-hidden="true">03</span>
+  <div class="typo-showcase">
+    <h2 class="section-title chrome reveal">Typography</h2>
+
+    <div class="typo-demo reveal reveal-delay-1">
+      <div class="typo-label">Neon Glow Treatment</div>
+      <div class="typo-display-glow">Neon Glow</div>
+      <p class="typo-desc">
+        Experimental, geometric, jagged letterforms with layered text-shadow creating a neon bloom effect.
+        Multiple shadows at increasing blur radius simulate the light bleed of actual neon signage.
+      </p>
+      <span class="typo-technique">text-shadow: multi-layer neon bloom</span>
+    </div>
+
+    <div class="typo-demo reveal reveal-delay-2">
+      <div class="typo-label">Chrome / Metallic Surface</div>
+      <div class="typo-display-chrome">CHROME</div>
+      <p class="typo-desc">
+        Linear gradients alternating between white, gray, and dark gray simulate reflective metal surfaces.
+        Applied via background-clip: text, the type appears to have physical materiality --
+        futuristic and tactile.
+      </p>
+      <span class="typo-technique">background-clip: text + metallic gradient</span>
+    </div>
+
+    <div class="typo-demo reveal reveal-delay-3">
+      <div class="typo-label">Iridescent / Holographic</div>
+      <div class="typo-display-iridescent">IRIDESCENT</div>
+      <p class="typo-desc">
+        Hue-rotate animations on gradient backgrounds create color-shifting, holographic effects.
+        The surface appears to change like oil on water or a holographic sticker --
+        liquid and otherworldly.
+      </p>
+      <span class="typo-technique">hue-rotate animation + gradient background-clip</span>
+    </div>
+
+    <div class="typo-demo reveal reveal-delay-4">
+      <div class="typo-label">Glitch Distortion</div>
+      <div class="typo-display-glitch" data-text="GLITCH">GLITCH</div>
+      <p class="typo-desc">
+        Rapid, short-duration shifts in position and color channels using pseudo-elements with
+        clip-path regions. The effect suggests digital corruption -- data breaking down,
+        signal interference.
+      </p>
+      <span class="typo-technique">::before/::after + clip-path + translate animation</span>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ==================== DESIGN ELEMENTS ==================== -->
+<section class="section elements-section">
+  <span class="section-number" aria-hidden="true">04</span>
+  <div style="max-width:1200px;margin:0 auto 2rem;">
+    <h2 class="section-title neon-cyan reveal">Key Design Elements</h2>
+  </div>
+
+  <div class="elements-grid">
+    <div class="element-card reveal reveal-delay-1">
+      <span class="element-icon" aria-hidden="true">&#9678;</span>
+      <h3>Psychedelic & Op-Art Patterns</h3>
+      <p>Checkerboards, warped stripes, moir&eacute; patterns, spiral distortions. Visual noise that overwhelms and hypnotizes.</p>
+    </div>
+
+    <div class="element-card reveal reveal-delay-2">
+      <span class="element-icon" aria-hidden="true">&#9672;</span>
+      <h3>Wireframe Models</h3>
+      <p>3D wireframe globes, geometric solids, grid planes receding into perspective. The skeleton of digital reality exposed.</p>
+    </div>
+
+    <div class="element-card reveal reveal-delay-3">
+      <span class="element-icon" aria-hidden="true">&#9711;</span>
+      <h3>Chrome & Liquid Metal</h3>
+      <p>Reflective, mercurial textures on text and shapes. Surfaces that appear molten, shifting, alive with reflected light.</p>
+    </div>
+
+    <div class="element-card reveal reveal-delay-4">
+      <span class="element-icon" aria-hidden="true">&#9674;</span>
+      <h3>Glass & Plastic Renderings</h3>
+      <p>Translucent, refractive materials with specular highlights. Objects that bend light and reveal layered depth.</p>
+    </div>
+
+    <div class="element-card reveal reveal-delay-5">
+      <span class="element-icon" aria-hidden="true">&#10038;</span>
+      <h3>Laser Effects</h3>
+      <p>Sharp beams of colored light cutting across compositions. High-energy lines that slice through the visual field.</p>
+    </div>
+
+    <div class="element-card reveal reveal-delay-6">
+      <span class="element-icon" aria-hidden="true">&#9786;</span>
+      <h3>Smiley Faces</h3>
+      <p>The iconic 90s rave smiley, often distorted or deconstructed. A symbol of ecstatic culture turned ironic emblem.</p>
+    </div>
+
+    <div class="element-card reveal reveal-delay-1">
+      <span class="element-icon" aria-hidden="true">&#9793;</span>
+      <h3>World Globes</h3>
+      <p>Rendered as wireframes or with technological overlays. The planet as data object, networked and surveilled.</p>
+    </div>
+
+    <div class="element-card reveal reveal-delay-2">
+      <span class="element-icon" aria-hidden="true">&#9889;</span>
+      <h3>Technological Symbols</h3>
+      <p>Circuit-like patterns, data visualization motifs, HUD-style overlays. The visual language of machine intelligence.</p>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ==================== COMPOSITION ==================== -->
+<section class="section composition-section">
+  <span class="section-number" aria-hidden="true">05</span>
+  <div style="max-width:1200px;margin:0 auto 2rem;">
+    <h2 class="section-title neon-yellow reveal">Composition & Layout</h2>
+  </div>
+
+  <div class="composition-grid">
+    <div class="comp-principle reveal reveal-delay-1">
+      <h3>Horror Vacui <span class="latin">(Fear of Empty Space)</span></h3>
+      <p>Fill the entire composition. Avoid large areas of negative space. Every pixel is contested territory.</p>
+      <span class="technique-tag">dense layouts</span>
+      <span class="technique-tag">maximalism</span>
+    </div>
+
+    <div class="comp-principle reveal reveal-delay-2">
+      <h3>Dense, Layered Arrangements</h3>
+      <p>Elements should overlap and stack, appearing random or chaotic but creating continuous visual flow.</p>
+      <span class="technique-tag">z-index stacking</span>
+      <span class="technique-tag">absolute positioning</span>
+    </div>
+
+    <div class="comp-principle reveal reveal-delay-3">
+      <h3>Fragmented Geometric Patterns</h3>
+      <p>Break layouts into angular, overlapping sections rather than clean grids. Shatter the expected structure.</p>
+      <span class="technique-tag">clip-path: polygon()</span>
+      <span class="technique-tag">transform: skew()</span>
+    </div>
+
+    <div class="comp-principle reveal reveal-delay-4">
+      <h3>Dynamic Disorder</h3>
+      <p>The composition should feel energetic and restless, not calm or orderly. Perpetual visual motion.</p>
+      <span class="technique-tag">transform: rotate()</span>
+      <span class="technique-tag">mix-blend-mode</span>
+    </div>
+
+    <div class="comp-principle reveal reveal-delay-5" style="grid-column: 1 / -1;">
+      <h3>Overlapping Elements</h3>
+      <p>Text over images, shapes over text, layers upon layers. Use CSS Grid with overlapping grid-row/grid-column,
+         mix-blend-mode (screen, overlay, difference) for layered color interactions, and z-index stacking to create depth.</p>
+      <span class="technique-tag">CSS Grid overlap</span>
+      <span class="technique-tag">mix-blend-mode: screen</span>
+      <span class="technique-tag">mix-blend-mode: difference</span>
+    </div>
+
+    <!-- Interactive overlap demo -->
+    <div class="overlap-demo reveal">
+      <div class="overlap-box">Layer 01 // Magenta<br><small style="opacity:0.5;font-size:0.6rem;">z-index: 3 / rotate(-3deg)</small></div>
+      <div class="overlap-box">Layer 02 // Cyan<br><small style="opacity:0.5;font-size:0.6rem;">z-index: 2 / rotate(2deg)</small></div>
+      <div class="overlap-box">Layer 03 // Green<br><small style="opacity:0.5;font-size:0.6rem;">z-index: 4 / rotate(-1deg)</small></div>
+      <div class="overlap-box">Layer 04 // Yellow<br><small style="opacity:0.5;font-size:0.6rem;">z-index: 1 / rotate(4deg)</small></div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ==================== TEXTURES ==================== -->
+<section class="section textures-section">
+  <span class="section-number" aria-hidden="true">06</span>
+  <div style="max-width:1200px;margin:0 auto 2rem;">
+    <h2 class="section-title neon-orange reveal">Textures & Surfaces</h2>
+  </div>
+
+  <div class="textures-grid">
+    <div class="texture-card reveal reveal-delay-1">
+      <div class="texture-preview chrome-preview">
+        <span style="font-family:'Orbitron',sans-serif;font-weight:900;font-size:2rem;background:linear-gradient(135deg,#333 0%,#fff 10%,#333 20%,#fff 30%,#666 40%,#fff 50%,#333 60%,#fff 70%,#333 80%,#fff 90%,#333 100%);background-size:200% 200%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:chrome-shift 4s linear infinite;z-index:1;position:relative;">METAL</span>
+      </div>
+      <div class="texture-label">
+        <h3>Chrome / Metallic</h3>
+        <p>Alternating white-gray-dark gradients simulate reflective metal</p>
+      </div>
+    </div>
+
+    <div class="texture-card reveal reveal-delay-2">
+      <div class="texture-preview iridescent-preview">
+        <span style="font-family:'Orbitron',sans-serif;font-weight:900;font-size:2rem;color:rgba(0,0,0,0.6);z-index:1;position:relative;mix-blend-mode:overlay;">HOLO</span>
+      </div>
+      <div class="texture-label">
+        <h3>Iridescent / Holographic</h3>
+        <p>Animated hue-rotate on gradient backgrounds for color-shifting</p>
+      </div>
+    </div>
+
+    <div class="texture-card reveal reveal-delay-3">
+      <div class="texture-preview scanline-preview">
+        <span style="font-family:'Orbitron',sans-serif;font-weight:900;font-size:2rem;color:var(--cyan);text-shadow:0 0 10px var(--cyan);z-index:1;position:relative;">CRT</span>
+      </div>
+      <div class="texture-label">
+        <h3>Scanlines</h3>
+        <p>Thin repeating horizontal lines via repeating-linear-gradient</p>
+      </div>
+    </div>
+
+    <div class="texture-card reveal reveal-delay-4">
+      <div class="texture-preview noise-preview">
+        <span style="font-family:'Orbitron',sans-serif;font-weight:900;font-size:2rem;color:var(--acid-yellow);text-shadow:0 0 10px var(--acid-yellow);z-index:1;position:relative;">GRAIN</span>
+      </div>
+      <div class="texture-label">
+        <h3>Noise / Grain</h3>
+        <p>SVG noise filters or CSS pseudo-elements with grain textures</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ==================== CSS TECHNIQUES ==================== -->
+<section class="section techniques-section">
+  <span class="section-number" aria-hidden="true">07</span>
+  <div class="techniques-table-wrap">
+    <h2 class="section-title neon-purple reveal">CSS Techniques</h2>
+
+    <table class="techniques-table reveal reveal-delay-1">
+      <thead>
+        <tr>
+          <th>Technique</th>
+          <th>CSS Property / Approach</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Neon Glow</td>
+          <td>Multiple <code>text-shadow</code> or <code>box-shadow</code> with same-hue colors at increasing blur</td>
+        </tr>
+        <tr>
+          <td>Chrome Text</td>
+          <td><code>background-clip: text</code> with metallic linear gradient</td>
+        </tr>
+        <tr>
+          <td>Overlapping Layout</td>
+          <td>CSS Grid with overlapping <code>grid-row</code> / <code>grid-column</code>, or absolute positioning</td>
+        </tr>
+        <tr>
+          <td>Color Blending</td>
+          <td><code>mix-blend-mode: screen</code>, <code>difference</code>, <code>overlay</code></td>
+        </tr>
+        <tr>
+          <td>Angular Clipping</td>
+          <td><code>clip-path: polygon(...)</code></td>
+        </tr>
+        <tr>
+          <td>Warped Patterns</td>
+          <td>SVG <code>feTurbulence</code> + <code>feDisplacementMap</code> filters</td>
+        </tr>
+        <tr>
+          <td>Scanlines</td>
+          <td><code>repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.3) 2px, rgba(0,0,0,0.3) 4px)</code></td>
+        </tr>
+        <tr>
+          <td>Noise Grain</td>
+          <td>SVG filter with <code>feTurbulence</code> as overlay</td>
+        </tr>
+        <tr>
+          <td>Holographic Shift</td>
+          <td>Animated <code>hue-rotate</code> filter on gradient background</td>
+        </tr>
+        <tr>
+          <td>Geometric Rotation</td>
+          <td><code>transform: rotate()</code> with <code>animation</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ==================== ANIMATION & MOTION ==================== -->
+<section class="section motion-section">
+  <span class="section-number" aria-hidden="true">08</span>
+  <div style="max-width:1200px;margin:0 auto 2rem;">
+    <h2 class="section-title neon-green reveal">Animation & Motion</h2>
+  </div>
+
+  <div class="motion-grid">
+    <div class="motion-card reveal reveal-delay-1">
+      <div class="motion-icon glitch-icon" aria-hidden="true">&#9608;</div>
+      <h3>Glitch Effects</h3>
+      <p>Rapid, short-duration shifts in position, color channels, or clip regions. Digital corruption made visible.</p>
+    </div>
+
+    <div class="motion-card reveal reveal-delay-2">
+      <div class="motion-icon flicker-icon" aria-hidden="true">&#9728;</div>
+      <h3>Flicker</h3>
+      <p>Intermittent opacity changes on text or decorative elements. The pulse of a dying CRT monitor.</p>
+    </div>
+
+    <div class="motion-card reveal reveal-delay-3">
+      <div class="motion-icon rotate-icon" aria-hidden="true">&#10070;</div>
+      <h3>Rotation & Drift</h3>
+      <p>Slow, continuous rotation on geometric decorative elements. Hypnotic, perpetual orbital motion.</p>
+    </div>
+
+    <div class="motion-card reveal reveal-delay-4">
+      <div class="motion-icon wave-icon" aria-hidden="true">&#8776;</div>
+      <h3>Distortion Waves</h3>
+      <p>CSS or SVG filter-based displacement effects. Reality bending and warping under digital pressure.</p>
+    </div>
+
+    <div class="motion-card reveal reveal-delay-5">
+      <div class="motion-icon scroll-icon" aria-hidden="true">&#8650;</div>
+      <h3>Scrolling Patterns</h3>
+      <p>Infinite scrolling backgrounds using @keyframes with background-position or transform: translate().</p>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ==================== DESIGNERS ==================== -->
+<section class="section designers-section">
+  <span class="section-number" aria-hidden="true">09</span>
+  <div style="max-width:1000px;margin:0 auto 2rem;">
+    <h2 class="section-title neon-magenta reveal">Notable Designers</h2>
+  </div>
+
+  <div class="designers-grid">
+    <div class="designer-card reveal reveal-delay-1">
+      <h3>David Rudnick</h3>
+      <p>Typographic and identity work with distorted, chrome-treated letterforms. A master of metallic surface and alien geometry.</p>
+    </div>
+
+    <div class="designer-card reveal reveal-delay-2">
+      <h3>Jonathan Castro</h3>
+      <p>Dense, layered compositions with rave and cyberpunk motifs. Horror vacui embodied -- every surface vibrating with information.</p>
+    </div>
+
+    <div class="designer-card reveal reveal-delay-3">
+      <h3>GUCCIMAZE</h3>
+      <p>Jagged, angular custom typography with metallic textures. Letterforms that look forged in chrome and shattered glass.</p>
+    </div>
+  </div>
+
+  <div class="origin-info reveal reveal-delay-4">
+    <div class="origin-card">
+      <h4>Origin Era</h4>
+      <p>1990s Acid House and rave flyer art -- born in underground club culture, photocopied and wheat-pasted on city walls.</p>
+    </div>
+    <div class="origin-card">
+      <h4>Revival</h4>
+      <p>Mid-2010s Instagram design communities -- digital natives rediscovering and remixing the raw energy of rave visual culture.</p>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ==================== RELATED AESTHETICS ==================== -->
+<section class="section related-section">
+  <span class="section-number" aria-hidden="true">10</span>
+  <div style="max-width:1000px;margin:0 auto 2rem;text-align:center;">
+    <h2 class="section-title neon-cyan reveal">Related Aesthetics</h2>
+  </div>
+
+  <div class="related-tags reveal reveal-delay-1">
+    <span class="related-tag">Acid House</span>
+    <span class="related-tag">Barber Beats</span>
+    <span class="related-tag">Cyberdelia</span>
+    <span class="related-tag">Cyberpunk</span>
+    <span class="related-tag">Neo-Vectorheart</span>
+    <span class="related-tag">Neubrutalism</span>
+    <span class="related-tag">New Beat</span>
+    <span class="related-tag">Psychedelia</span>
+    <span class="related-tag">Rave</span>
+    <span class="related-tag">Retrofuturism</span>
+    <span class="related-tag">Vectorheart</span>
+    <span class="related-tag">Y2K Futurism</span>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ==================== FOOTER ==================== -->
+<footer class="footer">
+  <div class="footer-glow">ACID</div>
+  <p class="footer-text">Design Aesthetic Reference &mdash; Visual Style Guide</p>
+</footer>
+
+<!-- ==================== JAVASCRIPT ==================== -->
+<script>
+// Intersection Observer for scroll reveal animations
+document.addEventListener('DOMContentLoaded', function() {
+  const reveals = document.querySelectorAll('.reveal');
+
+  const observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, {
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px'
+  });
+
+  reveals.forEach(function(el) {
+    observer.observe(el);
+  });
+
+  // Add floating decorative circles to sections
+  var sections = document.querySelectorAll('.section');
+  var colors = [
+    'var(--electric-green)',
+    'var(--hot-magenta)',
+    'var(--cyan)',
+    'var(--acid-yellow)',
+    'var(--neon-orange)',
+    'var(--uv-purple)'
+  ];
+
+  sections.forEach(function(section, index) {
+    for (var i = 0; i < 3; i++) {
+      var circle = document.createElement('div');
+      circle.className = 'deco-circle';
+      var size = 40 + Math.random() * 120;
+      circle.style.width = size + 'px';
+      circle.style.height = size + 'px';
+      circle.style.borderColor = colors[(index + i) % colors.length];
+      circle.style.top = (Math.random() * 80 + 10) + '%';
+      circle.style.left = (Math.random() * 80 + 10) + '%';
+      section.appendChild(circle);
+    }
+  });
+});
+</script>
+
+</body>
+</html>
