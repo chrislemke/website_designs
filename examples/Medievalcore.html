@@ -1,0 +1,2422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Medievalcore - A Design Aesthetic</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800;900&family=Cinzel+Decorative:wght@400;700;900&family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Cormorant+SC:wght@400;500;600;700&family=UnifrakturMaguntia&family=MedievalSharp&family=Almendra:ital,wght@0,400;0,700;1,400&family=Uncial+Antiqua&display=swap" rel="stylesheet">
+  <style>
+    /* ========================================
+       CSS CUSTOM PROPERTIES
+       ======================================== */
+    :root {
+      /* Base */
+      --medieval-midnight: #111318;
+      --medieval-charcoal: #1e2028;
+      --medieval-stone: #2a2d36;
+      --medieval-stone-light: #5a5a5a;
+      --medieval-parchment: #f2e8d5;
+      --medieval-parchment-dark: #d4c4a8;
+
+      /* Metallics */
+      --medieval-gold: #b8860b;
+      --medieval-gold-light: #d4a033;
+      --medieval-gold-bright: #e8b84b;
+      --medieval-silver: #8a8d8f;
+      --medieval-silver-light: #a8aaac;
+      --medieval-bronze: #8c6239;
+
+      /* Heraldic / Jewel tones */
+      --medieval-crimson: #8b0000;
+      --medieval-crimson-bright: #a41420;
+      --medieval-royal-blue: #1a3a6e;
+      --medieval-royal-blue-light: #2b4c8c;
+      --medieval-forest: #2d5a27;
+      --medieval-forest-light: #3b6e34;
+      --medieval-purple: #4a1a6b;
+      --medieval-purple-light: #5c2d82;
+
+      /* Functional */
+      --medieval-bg-primary: var(--medieval-midnight);
+      --medieval-bg-secondary: var(--medieval-charcoal);
+      --medieval-bg-elevated: var(--medieval-stone);
+      --medieval-text-primary: var(--medieval-parchment);
+      --medieval-text-secondary: var(--medieval-parchment-dark);
+      --medieval-accent: var(--medieval-gold);
+      --medieval-accent-hover: var(--medieval-gold-bright);
+      --medieval-border: var(--medieval-gold);
+    }
+
+    /* ========================================
+       RESET & BASE
+       ======================================== */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--medieval-bg-primary);
+      color: var(--medieval-text-primary);
+      font-family: 'EB Garamond', 'Georgia', serif;
+      font-size: 1.125rem;
+      font-weight: 400;
+      letter-spacing: 0.02em;
+      line-height: 1.8;
+      overflow-x: hidden;
+    }
+
+    /* ========================================
+       STONE TEXTURE OVERLAY (entire page)
+       ======================================== */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        repeating-linear-gradient(
+          0deg,
+          transparent,
+          transparent 50px,
+          rgba(255, 255, 255, 0.015) 50px,
+          rgba(255, 255, 255, 0.015) 51px
+        ),
+        repeating-linear-gradient(
+          90deg,
+          transparent,
+          transparent 80px,
+          rgba(255, 255, 255, 0.01) 80px,
+          rgba(255, 255, 255, 0.01) 81px
+        );
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ========================================
+       TYPOGRAPHY
+       ======================================== */
+    h1, h2, h3, h4 {
+      font-family: 'Cinzel', serif;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--medieval-gold);
+      font-weight: 600;
+    }
+
+    h2 {
+      font-size: clamp(1.5rem, 4vw, 2.4rem);
+      margin-bottom: 0.5rem;
+    }
+
+    h3 {
+      font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+      margin-bottom: 0.4rem;
+    }
+
+    a {
+      color: var(--medieval-gold-light);
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    a:hover {
+      color: var(--medieval-gold-bright);
+    }
+
+    /* Gold gradient text utility */
+    .gold-text {
+      background: linear-gradient(135deg, #8c6239, #b8860b, #d4a033, #e8b84b, #d4a033, #b8860b);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* ========================================
+       ANIMATIONS
+       ======================================== */
+
+    /* Candle flicker */
+    @keyframes candleFlicker {
+      0%, 100% { opacity: 1; }
+      10% { opacity: 0.92; }
+      20% { opacity: 0.97; }
+      30% { opacity: 0.88; }
+      40% { opacity: 1; }
+      50% { opacity: 0.95; }
+      60% { opacity: 0.90; }
+      70% { opacity: 1; }
+      80% { opacity: 0.93; }
+      90% { opacity: 0.98; }
+    }
+
+    @keyframes goldShimmer {
+      0% { background-position: -200% center; }
+      100% { background-position: 200% center; }
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(40px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes revealLine {
+      from { width: 0; }
+      to { width: 100%; }
+    }
+
+    @keyframes floatGlow {
+      0%, 100% {
+        box-shadow: 0 0 30px rgba(184, 134, 11, 0.15), 0 0 60px rgba(184, 134, 11, 0.05);
+      }
+      50% {
+        box-shadow: 0 0 40px rgba(184, 134, 11, 0.25), 0 0 80px rgba(184, 134, 11, 0.1);
+      }
+    }
+
+    @keyframes bannerReveal {
+      from {
+        clip-path: polygon(50% 0%, 50% 0%, 50% 100%, 50% 100%);
+      }
+      to {
+        clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+      }
+    }
+
+    .animate-on-scroll {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .animate-on-scroll.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ========================================
+       BATTLEMENT TOP BORDER
+       ======================================== */
+    .battlement-top {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 12px;
+      z-index: 1000;
+      background: repeating-linear-gradient(
+        90deg,
+        var(--medieval-gold) 0px,
+        var(--medieval-gold) 24px,
+        transparent 24px,
+        transparent 32px
+      );
+      opacity: 0.6;
+    }
+
+    /* ========================================
+       HERO SECTION
+       ======================================== */
+    .hero {
+      position: relative;
+      text-align: center;
+      padding: 10rem 2rem 7rem;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    /* Radial candlelight glow behind hero */
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 30%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 80vw;
+      height: 80vh;
+      background: radial-gradient(
+        ellipse at center,
+        rgba(232, 184, 75, 0.08) 0%,
+        rgba(184, 134, 11, 0.04) 30%,
+        rgba(140, 98, 57, 0.02) 50%,
+        transparent 70%
+      );
+      pointer-events: none;
+      animation: candleFlicker 4s ease-in-out infinite;
+    }
+
+    /* Chainmail texture overlay */
+    .hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        radial-gradient(circle at 10px 10px, rgba(138, 141, 143, 0.04) 2px, transparent 2px),
+        radial-gradient(circle at 20px 20px, rgba(138, 141, 143, 0.04) 2px, transparent 2px);
+      background-size: 20px 20px;
+      pointer-events: none;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+    }
+
+    /* Crown icon above title */
+    .hero-crown {
+      font-size: 2.5rem;
+      color: var(--medieval-gold);
+      margin-bottom: 1.5rem;
+      animation: fadeIn 1.5s ease-out 0.2s both;
+      filter: drop-shadow(0 0 12px rgba(184, 134, 11, 0.3));
+    }
+
+    .hero-title {
+      font-family: 'UnifrakturMaguntia', cursive;
+      font-size: clamp(3.5rem, 10vw, 8rem);
+      letter-spacing: 0.05em;
+      text-transform: none;
+      line-height: 1.1;
+      color: transparent;
+      background: linear-gradient(
+        135deg,
+        #8c6239 0%,
+        #b8860b 20%,
+        #d4a033 35%,
+        #e8b84b 50%,
+        #d4a033 65%,
+        #b8860b 80%,
+        #8c6239 100%
+      );
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: none;
+      filter: drop-shadow(0 4px 20px rgba(184, 134, 11, 0.2));
+      animation: fadeInUp 1.2s ease-out 0.4s both, goldShimmer 8s ease-in-out infinite;
+      margin-bottom: 1rem;
+    }
+
+    .hero-subtitle {
+      font-family: 'Cormorant SC', serif;
+      font-size: clamp(0.85rem, 2vw, 1.1rem);
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--medieval-silver-light);
+      animation: fadeInUp 1.2s ease-out 0.7s both;
+      margin-bottom: 2rem;
+    }
+
+    .hero-tagline {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+      font-style: italic;
+      color: var(--medieval-parchment-dark);
+      max-width: 600px;
+      animation: fadeInUp 1.2s ease-out 1s both;
+      line-height: 1.6;
+    }
+
+    /* Decorative arch frame around hero */
+    .hero-arch {
+      position: absolute;
+      top: 5%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: min(90vw, 700px);
+      height: 92%;
+      border: 1px solid rgba(184, 134, 11, 0.15);
+      border-radius: 50% 50% 0 0 / 20% 20% 0 0;
+      pointer-events: none;
+      animation: fadeIn 2s ease-out 1.5s both;
+    }
+
+    .hero-arch::before {
+      content: '';
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      right: 8px;
+      bottom: 8px;
+      border: 1px solid rgba(184, 134, 11, 0.08);
+      border-radius: 50% 50% 0 0 / 20% 20% 0 0;
+    }
+
+    /* ========================================
+       NAVIGATION (Scroll indicator)
+       ======================================== */
+    .scroll-hint {
+      position: absolute;
+      bottom: 3rem;
+      left: 50%;
+      transform: translateX(-50%);
+      text-align: center;
+      animation: fadeIn 1.5s ease-out 2s both;
+      z-index: 2;
+    }
+
+    .scroll-hint span {
+      font-family: 'Cormorant SC', serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--medieval-silver);
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+
+    .scroll-arrow {
+      display: block;
+      width: 20px;
+      height: 20px;
+      margin: 0 auto;
+      border-right: 1px solid var(--medieval-gold);
+      border-bottom: 1px solid var(--medieval-gold);
+      transform: rotate(45deg);
+      animation: scrollBounce 2s ease-in-out infinite;
+    }
+
+    @keyframes scrollBounce {
+      0%, 100% { transform: rotate(45deg) translateY(0); opacity: 0.6; }
+      50% { transform: rotate(45deg) translateY(6px); opacity: 1; }
+    }
+
+    /* ========================================
+       ORNAMENTAL DIVIDERS
+       ======================================== */
+    .medieval-divider {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      margin: 2.5rem auto;
+      width: 70%;
+      max-width: 500px;
+      color: var(--medieval-gold);
+      font-size: 1.3rem;
+    }
+
+    .medieval-divider::before,
+    .medieval-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--medieval-gold), transparent);
+    }
+
+    .section-divider {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      margin: 0 auto;
+      padding: 4rem 0;
+      width: 90%;
+      max-width: 900px;
+      color: var(--medieval-gold);
+      font-size: 1rem;
+      opacity: 0.5;
+    }
+
+    .section-divider::before,
+    .section-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--medieval-gold) 20%, var(--medieval-gold) 80%, transparent);
+    }
+
+    .section-divider .ornament {
+      display: flex;
+      gap: 1.5rem;
+      align-items: center;
+      font-size: 0.8rem;
+      letter-spacing: 0.5em;
+    }
+
+    /* ========================================
+       MAIN CONTENT SECTIONS
+       ======================================== */
+    .content-section {
+      position: relative;
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 2rem 2rem 4rem;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .section-label {
+      font-family: 'Cormorant SC', serif;
+      font-size: 0.8rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--medieval-silver);
+      display: block;
+      margin-bottom: 0.75rem;
+    }
+
+    /* ========================================
+       INTRODUCTION SECTION
+       ======================================== */
+    .intro-section {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 2rem 2rem 4rem;
+    }
+
+    .intro-text {
+      text-align: left;
+      font-size: 1.2rem;
+      line-height: 2;
+    }
+
+    .intro-text .dropcap::first-letter {
+      font-family: 'Cinzel Decorative', serif;
+      font-size: 4.5em;
+      float: left;
+      line-height: 0.75;
+      margin-right: 0.1em;
+      margin-top: 0.05em;
+      color: var(--medieval-crimson-bright);
+      text-shadow: 2px 2px 0 var(--medieval-gold);
+      font-weight: 700;
+    }
+
+    .intro-text p {
+      margin-bottom: 1.2rem;
+    }
+
+    .intro-text strong {
+      color: var(--medieval-gold-light);
+      font-weight: 600;
+    }
+
+    .intro-text em {
+      color: var(--medieval-parchment);
+      font-style: italic;
+    }
+
+    /* ========================================
+       ILLUMINATED MANUSCRIPT PANEL
+       ======================================== */
+    .illuminated-panel {
+      border: 2px solid var(--medieval-gold);
+      outline: 1px solid rgba(184, 134, 11, 0.3);
+      outline-offset: 8px;
+      padding: 3rem 2.5rem;
+      position: relative;
+      background: linear-gradient(
+        180deg,
+        rgba(30, 32, 40, 0.8) 0%,
+        rgba(17, 19, 24, 0.95) 100%
+      );
+      margin: 2rem 0;
+    }
+
+    .illuminated-panel::before,
+    .illuminated-panel::after {
+      content: '\2767';
+      position: absolute;
+      font-size: 1.5rem;
+      color: var(--medieval-gold);
+    }
+
+    .illuminated-panel::before {
+      top: -0.8rem;
+      left: 1.5rem;
+    }
+
+    .illuminated-panel::after {
+      bottom: -0.8rem;
+      right: 1.5rem;
+      transform: rotate(180deg);
+    }
+
+    /* ========================================
+       VISUAL CHARACTERISTICS - MOTIFS GRID
+       ======================================== */
+    .motifs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .motif-card {
+      background: linear-gradient(
+        170deg,
+        rgba(42, 45, 54, 0.9) 0%,
+        rgba(30, 32, 40, 0.95) 100%
+      );
+      border: 1px solid rgba(184, 134, 11, 0.25);
+      padding: 1.8rem;
+      position: relative;
+      transition: all 0.4s ease;
+      overflow: hidden;
+    }
+
+    .motif-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--medieval-gold), transparent);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+
+    .motif-card:hover {
+      border-color: rgba(184, 134, 11, 0.5);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4), 0 0 20px rgba(184, 134, 11, 0.05);
+    }
+
+    .motif-card:hover::before {
+      opacity: 1;
+    }
+
+    .motif-icon {
+      font-size: 1.8rem;
+      margin-bottom: 0.8rem;
+      display: block;
+      filter: drop-shadow(0 0 6px rgba(184, 134, 11, 0.2));
+    }
+
+    .motif-card h3 {
+      font-size: 0.95rem;
+      letter-spacing: 0.15em;
+      margin-bottom: 0.6rem;
+    }
+
+    .motif-card p {
+      font-size: 0.95rem;
+      line-height: 1.7;
+      color: var(--medieval-parchment-dark);
+    }
+
+    /* ========================================
+       DESIGN PRINCIPLES
+       ======================================== */
+    .principles-list {
+      list-style: none;
+      max-width: 700px;
+      margin: 2rem auto 0;
+    }
+
+    .principles-list li {
+      padding: 1.4rem 1.5rem 1.4rem 2.5rem;
+      position: relative;
+      border-bottom: 1px solid rgba(184, 134, 11, 0.1);
+      transition: background 0.3s ease;
+    }
+
+    .principles-list li:hover {
+      background: rgba(184, 134, 11, 0.03);
+    }
+
+    .principles-list li::before {
+      content: '\2726';
+      position: absolute;
+      left: 0.5rem;
+      top: 1.5rem;
+      color: var(--medieval-gold);
+      font-size: 0.8rem;
+    }
+
+    .principles-list li strong {
+      font-family: 'Cinzel', serif;
+      font-size: 0.9rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--medieval-gold-light);
+      display: block;
+      margin-bottom: 0.25rem;
+    }
+
+    .principles-list li span {
+      font-size: 1rem;
+      color: var(--medieval-parchment-dark);
+      line-height: 1.6;
+    }
+
+    /* ========================================
+       COLOR PALETTE
+       ======================================== */
+    .palette-container {
+      margin-top: 2.5rem;
+    }
+
+    .palette-group {
+      margin-bottom: 2.5rem;
+    }
+
+    .palette-group-title {
+      font-family: 'Cormorant SC', serif;
+      font-size: 0.85rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--medieval-silver-light);
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+
+    .color-row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
+    }
+
+    .color-swatch {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.6rem;
+      width: 100px;
+      transition: transform 0.3s ease;
+    }
+
+    .color-swatch:hover {
+      transform: scale(1.05);
+    }
+
+    .swatch-circle {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      border: 2px solid rgba(184, 134, 11, 0.3);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4), inset 0 -2px 6px rgba(0, 0, 0, 0.2);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Inner highlight for jewel effect */
+    .swatch-circle::after {
+      content: '';
+      position: absolute;
+      top: 5px;
+      left: 10px;
+      width: 20px;
+      height: 12px;
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 50%;
+      transform: rotate(-30deg);
+    }
+
+    .color-name {
+      font-family: 'Cormorant SC', serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      color: var(--medieval-parchment-dark);
+      text-align: center;
+    }
+
+    .color-hex {
+      font-family: 'EB Garamond', serif;
+      font-size: 0.7rem;
+      color: var(--medieval-silver);
+    }
+
+    /* ========================================
+       STAINED GLASS SECTION
+       ======================================== */
+    .stained-glass-container {
+      margin: 3rem auto;
+      max-width: 800px;
+    }
+
+    .stained-glass {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 4px;
+      background: #0a0a0a;
+      padding: 4px;
+      border: 3px solid var(--medieval-stone-light);
+      position: relative;
+    }
+
+    .stained-glass .pane {
+      padding: 2.5rem 1.5rem;
+      text-align: center;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 200px;
+    }
+
+    .stained-glass .pane::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(
+        ellipse at center,
+        rgba(255, 255, 255, 0.12) 0%,
+        transparent 70%
+      );
+      pointer-events: none;
+    }
+
+    .stained-glass .pane:nth-child(1) { background: var(--medieval-crimson); }
+    .stained-glass .pane:nth-child(2) { background: var(--medieval-royal-blue); }
+    .stained-glass .pane:nth-child(3) { background: var(--medieval-forest); }
+
+    .pane-icon {
+      font-size: 2.5rem;
+      margin-bottom: 0.75rem;
+      position: relative;
+      z-index: 1;
+      filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.4));
+    }
+
+    .pane h3 {
+      font-family: 'Cinzel', serif;
+      font-size: 0.8rem;
+      letter-spacing: 0.2em;
+      color: var(--medieval-parchment);
+      text-transform: uppercase;
+      position: relative;
+      z-index: 1;
+      margin-bottom: 0.5rem;
+    }
+
+    .pane p {
+      font-size: 0.85rem;
+      color: rgba(242, 232, 213, 0.85);
+      position: relative;
+      z-index: 1;
+      line-height: 1.6;
+    }
+
+    /* ========================================
+       TYPOGRAPHY SHOWCASE
+       ======================================== */
+    .typography-showcase {
+      margin: 2rem 0;
+    }
+
+    .font-specimen {
+      padding: 2rem 0;
+      border-bottom: 1px solid rgba(184, 134, 11, 0.1);
+      display: flex;
+      align-items: baseline;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .font-specimen:last-child {
+      border-bottom: none;
+    }
+
+    .font-name {
+      font-family: 'Cormorant SC', serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      color: var(--medieval-silver);
+      min-width: 160px;
+      text-transform: uppercase;
+    }
+
+    .font-sample {
+      flex: 1;
+      min-width: 200px;
+    }
+
+    .font-sample.blackletter {
+      font-family: 'UnifrakturMaguntia', cursive;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      color: var(--medieval-gold);
+      line-height: 1.2;
+      filter: drop-shadow(0 2px 8px rgba(184, 134, 11, 0.15));
+    }
+
+    .font-sample.medieval-sharp {
+      font-family: 'MedievalSharp', cursive;
+      font-size: clamp(1.5rem, 3vw, 2.2rem);
+      color: var(--medieval-gold-light);
+      line-height: 1.3;
+    }
+
+    .font-sample.cinzel {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(1.3rem, 2.5vw, 1.8rem);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--medieval-gold-light);
+    }
+
+    .font-sample.cinzel-deco {
+      font-family: 'Cinzel Decorative', serif;
+      font-size: clamp(1.5rem, 3vw, 2.5rem);
+      color: var(--medieval-crimson-bright);
+      text-shadow: 1px 1px 0 var(--medieval-gold);
+    }
+
+    .font-sample.eb-garamond {
+      font-family: 'EB Garamond', serif;
+      font-size: 1.25rem;
+      line-height: 1.9;
+      color: var(--medieval-parchment);
+    }
+
+    .font-sample.cormorant {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem;
+      font-style: italic;
+      color: var(--medieval-parchment-dark);
+      line-height: 1.6;
+    }
+
+    .font-sample.cormorant-sc {
+      font-family: 'Cormorant SC', serif;
+      font-size: 1rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--medieval-silver-light);
+    }
+
+    .font-sample.almendra {
+      font-family: 'Almendra', serif;
+      font-size: 1.5rem;
+      color: var(--medieval-gold);
+      line-height: 1.4;
+    }
+
+    .font-sample.uncial {
+      font-family: 'Uncial Antiqua', cursive;
+      font-size: 1.3rem;
+      color: var(--medieval-gold-light);
+    }
+
+    .font-usage {
+      font-family: 'EB Garamond', serif;
+      font-style: italic;
+      font-size: 0.85rem;
+      color: var(--medieval-silver);
+      margin-top: 0.3rem;
+    }
+
+    /* ========================================
+       ARCHETYPES SECTION
+       ======================================== */
+    .archetypes-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      margin: 2rem 0;
+      background: rgba(184, 134, 11, 0.15);
+    }
+
+    .archetype-card {
+      padding: 2.5rem 2rem;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.5s ease;
+    }
+
+    .archetype-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+      pointer-events: none;
+    }
+
+    .archetype-card:hover::before {
+      opacity: 1;
+    }
+
+    .archetype-card.warrior {
+      background: linear-gradient(180deg, rgba(42, 45, 54, 0.95) 0%, rgba(30, 32, 40, 0.98) 100%);
+    }
+
+    .archetype-card.warrior::before {
+      background: radial-gradient(ellipse at center, rgba(168, 170, 172, 0.08) 0%, transparent 70%);
+    }
+
+    .archetype-card.princess {
+      background: linear-gradient(180deg, rgba(42, 45, 54, 0.95) 0%, rgba(30, 32, 40, 0.98) 100%);
+    }
+
+    .archetype-card.princess::before {
+      background: radial-gradient(ellipse at center, rgba(139, 0, 0, 0.08) 0%, transparent 70%);
+    }
+
+    .archetype-card.gothic {
+      background: linear-gradient(180deg, rgba(30, 32, 40, 0.98) 0%, rgba(17, 19, 24, 1) 100%);
+    }
+
+    .archetype-card.gothic::before {
+      background: radial-gradient(ellipse at center, rgba(184, 134, 11, 0.06) 0%, transparent 70%);
+    }
+
+    .archetype-icon {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      display: block;
+    }
+
+    .archetype-card h3 {
+      margin-bottom: 0.25rem;
+    }
+
+    .archetype-subtitle {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 1rem;
+      color: var(--medieval-silver-light);
+      margin-bottom: 1.2rem;
+    }
+
+    .archetype-traits {
+      list-style: none;
+      padding: 0;
+    }
+
+    .archetype-traits li {
+      font-size: 0.9rem;
+      line-height: 1.6;
+      color: var(--medieval-parchment-dark);
+      padding: 0.3rem 0;
+      padding-left: 1.2rem;
+      position: relative;
+    }
+
+    .archetype-traits li::before {
+      content: '\2022';
+      position: absolute;
+      left: 0;
+      color: var(--medieval-gold);
+      font-size: 0.6rem;
+      top: 0.5rem;
+    }
+
+    /* ========================================
+       PARCHMENT SCROLL CARD
+       ======================================== */
+    .parchment-card {
+      background: linear-gradient(
+        170deg,
+        #f2e8d5 0%,
+        #e8dcc8 40%,
+        #d4c4a8 100%
+      );
+      color: #2a1f14;
+      padding: 3rem;
+      border: 1px solid #b8a88a;
+      border-radius: 2px;
+      position: relative;
+      box-shadow:
+        0 4px 20px rgba(0, 0, 0, 0.4),
+        inset 0 0 50px rgba(139, 115, 85, 0.1);
+      margin: 2rem auto;
+      max-width: 700px;
+    }
+
+    .parchment-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 2px;
+      box-shadow: inset 0 0 40px rgba(100, 70, 30, 0.15);
+      pointer-events: none;
+    }
+
+    .parchment-card h3 {
+      color: var(--medieval-crimson);
+      margin-bottom: 1rem;
+    }
+
+    .parchment-card p {
+      color: #3a2f20;
+      line-height: 1.9;
+    }
+
+    .parchment-card strong {
+      color: #2a1f14;
+    }
+
+    /* ========================================
+       RELATED AESTHETICS GRID
+       ======================================== */
+    .related-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .related-item {
+      background: rgba(42, 45, 54, 0.5);
+      border: 1px solid rgba(184, 134, 11, 0.12);
+      padding: 1.2rem;
+      text-align: center;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .related-item::before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--medieval-gold), transparent);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .related-item:hover {
+      border-color: rgba(184, 134, 11, 0.3);
+      background: rgba(42, 45, 54, 0.7);
+    }
+
+    .related-item:hover::before {
+      opacity: 1;
+    }
+
+    .related-item h4 {
+      font-size: 0.8rem;
+      letter-spacing: 0.12em;
+      margin-bottom: 0.4rem;
+    }
+
+    .related-item p {
+      font-size: 0.8rem;
+      color: var(--medieval-parchment-dark);
+      line-height: 1.5;
+    }
+
+    /* ========================================
+       MATERIALS TABLE
+       ======================================== */
+    .materials-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 2rem;
+      font-size: 0.95rem;
+    }
+
+    .materials-table thead th {
+      font-family: 'Cinzel', serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--medieval-gold);
+      padding: 1rem;
+      border-bottom: 2px solid var(--medieval-gold);
+      text-align: left;
+    }
+
+    .materials-table tbody td {
+      padding: 0.9rem 1rem;
+      border-bottom: 1px solid rgba(184, 134, 11, 0.1);
+      vertical-align: top;
+    }
+
+    .materials-table tbody tr:hover {
+      background: rgba(184, 134, 11, 0.03);
+    }
+
+    .materials-table .material-physical {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 600;
+      font-size: 1rem;
+      color: var(--medieval-parchment);
+    }
+
+    .materials-table .material-web {
+      color: var(--medieval-parchment-dark);
+      font-size: 0.9rem;
+    }
+
+    /* ========================================
+       CSS TECHNIQUE SHOWCASE
+       ======================================== */
+    .technique-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .technique-demo {
+      border: 1px solid rgba(184, 134, 11, 0.2);
+      overflow: hidden;
+    }
+
+    .technique-preview {
+      height: 140px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .technique-info {
+      padding: 1.2rem;
+      background: rgba(30, 32, 40, 0.95);
+      border-top: 1px solid rgba(184, 134, 11, 0.15);
+    }
+
+    .technique-info h4 {
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+      margin-bottom: 0.3rem;
+    }
+
+    .technique-info p {
+      font-size: 0.8rem;
+      color: var(--medieval-parchment-dark);
+      line-height: 1.5;
+    }
+
+    /* Individual technique previews */
+    .preview-stone {
+      background-color: var(--medieval-charcoal);
+      background-image:
+        repeating-linear-gradient(
+          0deg, transparent, transparent 50px,
+          rgba(255, 255, 255, 0.02) 50px, rgba(255, 255, 255, 0.02) 51px
+        ),
+        repeating-linear-gradient(
+          90deg, transparent, transparent 80px,
+          rgba(255, 255, 255, 0.015) 80px, rgba(255, 255, 255, 0.015) 81px
+        );
+    }
+
+    .preview-stone span {
+      font-family: 'Cinzel', serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      color: var(--medieval-silver);
+      text-transform: uppercase;
+    }
+
+    .preview-chainmail {
+      background-color: var(--medieval-charcoal);
+      position: relative;
+    }
+
+    .preview-chainmail::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        radial-gradient(circle at 10px 10px, rgba(138, 141, 143, 0.12) 3px, transparent 3px),
+        radial-gradient(circle at 20px 20px, rgba(138, 141, 143, 0.12) 3px, transparent 3px);
+      background-size: 20px 20px;
+    }
+
+    .preview-gold-gradient {
+      background: var(--medieval-stone);
+    }
+
+    .preview-gold-gradient span {
+      font-family: 'Cinzel Decorative', serif;
+      font-size: 2rem;
+      background: linear-gradient(135deg, #8c6239, #b8860b, #d4a033, #e8b84b, #d4a033, #b8860b);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .preview-candlelight {
+      background: var(--medieval-midnight);
+      position: relative;
+    }
+
+    .preview-candlelight::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 80%;
+      height: 80%;
+      background: radial-gradient(
+        ellipse at center,
+        rgba(232, 184, 75, 0.2) 0%,
+        rgba(184, 134, 11, 0.08) 40%,
+        transparent 70%
+      );
+      animation: candleFlicker 3s ease-in-out infinite;
+    }
+
+    .preview-candlelight span {
+      position: relative;
+      z-index: 1;
+      font-size: 2rem;
+      filter: drop-shadow(0 0 10px rgba(232, 184, 75, 0.6));
+    }
+
+    .preview-battlement {
+      background: var(--medieval-stone);
+      position: relative;
+    }
+
+    .preview-battlement::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 20px;
+      background: repeating-linear-gradient(
+        90deg,
+        var(--medieval-gold) 0px, var(--medieval-gold) 24px,
+        transparent 24px, transparent 32px
+      );
+      opacity: 0.5;
+    }
+
+    .preview-battlement::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 20px;
+      background: repeating-linear-gradient(
+        90deg,
+        var(--medieval-gold) 0px, var(--medieval-gold) 24px,
+        transparent 24px, transparent 32px
+      );
+      opacity: 0.5;
+      transform: rotate(180deg);
+    }
+
+    .preview-battlement span {
+      font-family: 'Cinzel', serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--medieval-parchment-dark);
+    }
+
+    .preview-parchment {
+      background: linear-gradient(170deg, #f2e8d5 0%, #e8dcc8 40%, #d4c4a8 100%);
+      position: relative;
+    }
+
+    .preview-parchment::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      box-shadow: inset 0 0 40px rgba(100, 70, 30, 0.2);
+      pointer-events: none;
+    }
+
+    .preview-parchment span {
+      font-family: 'EB Garamond', serif;
+      color: #3a2f20;
+      font-style: italic;
+    }
+
+    /* ========================================
+       SHIELD CONTAINER
+       ======================================== */
+    .shield-showcase {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+      margin: 2rem 0;
+    }
+
+    .shield {
+      width: 180px;
+      height: 220px;
+      clip-path: polygon(0% 0%, 100% 0%, 100% 70%, 50% 100%, 0% 70%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 1.5rem 1rem 3rem;
+      position: relative;
+      transition: transform 0.3s ease;
+    }
+
+    .shield:hover {
+      transform: scale(1.05);
+    }
+
+    .shield.crimson { background: linear-gradient(180deg, var(--medieval-crimson-bright), var(--medieval-crimson)); }
+    .shield.blue { background: linear-gradient(180deg, var(--medieval-royal-blue-light), var(--medieval-royal-blue)); }
+    .shield.forest { background: linear-gradient(180deg, var(--medieval-forest-light), var(--medieval-forest)); }
+    .shield.purple { background: linear-gradient(180deg, var(--medieval-purple-light), var(--medieval-purple)); }
+
+    .shield-icon {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+    }
+
+    .shield h4 {
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      color: var(--medieval-parchment);
+    }
+
+    /* ========================================
+       FOOTER
+       ======================================== */
+    .site-footer {
+      text-align: center;
+      padding: 4rem 2rem 3rem;
+      position: relative;
+      margin-top: 2rem;
+    }
+
+    .footer-crest {
+      font-size: 2rem;
+      color: var(--medieval-gold);
+      margin-bottom: 1rem;
+      filter: drop-shadow(0 0 10px rgba(184, 134, 11, 0.2));
+    }
+
+    .footer-text {
+      font-family: 'Cormorant SC', serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--medieval-silver);
+      line-height: 2;
+    }
+
+    .footer-motto {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 1.1rem;
+      color: var(--medieval-gold);
+      margin-top: 1rem;
+      opacity: 0.7;
+    }
+
+    /* Battlement bottom */
+    .site-footer::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 10px;
+      background: repeating-linear-gradient(
+        90deg,
+        var(--medieval-gold) 0px,
+        var(--medieval-gold) 24px,
+        transparent 24px,
+        transparent 32px
+      );
+      opacity: 0.4;
+    }
+
+    /* ========================================
+       RESPONSIVE
+       ======================================== */
+    @media (max-width: 768px) {
+      .hero {
+        padding: 8rem 1.5rem 5rem;
+      }
+
+      .archetypes-grid {
+        grid-template-columns: 1fr;
+        gap: 1px;
+      }
+
+      .stained-glass {
+        grid-template-columns: 1fr;
+      }
+
+      .stained-glass .pane {
+        min-height: 150px;
+      }
+
+      .font-specimen {
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+
+      .font-name {
+        min-width: auto;
+      }
+
+      .shield-showcase {
+        gap: 1rem;
+      }
+
+      .shield {
+        width: 140px;
+        height: 170px;
+      }
+
+      .content-section {
+        padding: 1rem 1.2rem 3rem;
+      }
+
+      .illuminated-panel {
+        padding: 2rem 1.5rem;
+        outline-offset: 4px;
+      }
+
+      .parchment-card {
+        padding: 2rem 1.5rem;
+      }
+
+      .materials-table {
+        font-size: 0.85rem;
+      }
+
+      .materials-table thead th,
+      .materials-table tbody td {
+        padding: 0.6rem 0.5rem;
+      }
+
+      .hero-arch {
+        display: none;
+      }
+
+      .related-grid {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero-title {
+        font-size: clamp(2.5rem, 12vw, 4rem);
+      }
+
+      .color-row {
+        gap: 0.5rem;
+      }
+
+      .color-swatch {
+        width: 70px;
+      }
+
+      .swatch-circle {
+        width: 45px;
+        height: 45px;
+      }
+
+      .motifs-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .technique-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Battlement top border -->
+  <div class="battlement-top" aria-hidden="true"></div>
+
+  <!-- ========================================
+       HERO SECTION
+       ======================================== -->
+  <header class="hero">
+    <div class="hero-arch" aria-hidden="true"></div>
+    <div class="hero-content">
+      <div class="hero-crown" aria-hidden="true">&#x1F451;</div>
+      <h1 class="hero-title">Medievalcore</h1>
+      <p class="hero-subtitle">A Design Aesthetic Reference</p>
+      <div class="medieval-divider" aria-hidden="true">&#x2720;</div>
+      <p class="hero-tagline">"Sartorial armor -- visually empowering, dramatic, and deliberately eclectic."</p>
+    </div>
+    <div class="scroll-hint" aria-hidden="true">
+      <span>Descend</span>
+      <span class="scroll-arrow"></span>
+    </div>
+  </header>
+
+  <!-- ========================================
+       INTRODUCTION
+       ======================================== -->
+  <section class="intro-section content-section animate-on-scroll">
+    <div class="section-header">
+      <span class="section-label">Preamble</span>
+      <h2>What is Medievalcore?</h2>
+      <div class="medieval-divider" aria-hidden="true">&#x269C;</div>
+    </div>
+
+    <div class="intro-text">
+      <p class="dropcap">Medievalcore is a maximalist aesthetic rooted in romanticized medieval imagery. Also known as Castlecore, Weirdieval, Medieval Weirdcore, or Medieval Girl Fall, it draws heavily from Gothic architecture, armor and chainmail, Catholic iconography, tapestry art, and heraldic symbolism.</p>
+      <p>The style embraces <strong>theatrical opulence</strong> as a rejection of minimalism, functioning as <em>"sartorial armor"</em> -- visually empowering, dramatic, and deliberately eclectic. It blends historical references with fantasy and subversive reinterpretation rather than pursuing strict period accuracy.</p>
+    </div>
+  </section>
+
+  <div class="section-divider" aria-hidden="true">
+    <span class="ornament">&#x2726; &bull; &#x2726;</span>
+  </div>
+
+  <!-- ========================================
+       CORE MOTIFS
+       ======================================== -->
+  <section class="content-section animate-on-scroll">
+    <div class="section-header">
+      <span class="section-label">Visual Language</span>
+      <h2>Core Motifs &amp; Patterns</h2>
+      <div class="medieval-divider" aria-hidden="true">&#x271E;</div>
+    </div>
+
+    <div class="motifs-grid">
+      <div class="motif-card">
+        <span class="motif-icon" aria-hidden="true">&#x26EA;</span>
+        <h3>Gothic Tracery</h3>
+        <p>Pointed arches, ribbed vaults, and ornamental stone-carved window patterns -- trefoils, quatrefoils, cinquefoils.</p>
+      </div>
+      <div class="motif-card">
+        <span class="motif-icon" aria-hidden="true">&#x1F6E1;</span>
+        <h3>Heraldic Devices</h3>
+        <p>Shields, crests, lions rampant, fleur-de-lis, eagles, crossed swords -- the language of noble houses.</p>
+      </div>
+      <div class="motif-card">
+        <span class="motif-icon" aria-hidden="true">&#x1F4DC;</span>
+        <h3>Illuminated Manuscripts</h3>
+        <p>Ornate initial capitals, vine-scroll borders, gold leaf details, miniature illustrations in the monastic tradition.</p>
+      </div>
+      <div class="motif-card">
+        <span class="motif-icon" aria-hidden="true">&#x2699;</span>
+        <h3>Chainmail &amp; Metal</h3>
+        <p>Interlocking ring patterns used as textures and backgrounds, evoking the armorer's craft.</p>
+      </div>
+      <div class="motif-card">
+        <span class="motif-icon" aria-hidden="true">&#x271E;</span>
+        <h3>Cross Motifs</h3>
+        <p>Gothic crosses, Celtic crosses, Maltese crosses as decorative punctuation throughout the design.</p>
+      </div>
+      <div class="motif-card">
+        <span class="motif-icon" aria-hidden="true">&#x1F984;</span>
+        <h3>Tapestry Patterns</h3>
+        <p>Millefleur (thousand flowers) backgrounds, hunting scenes, unicorn imagery woven into the visual fabric.</p>
+      </div>
+      <div class="motif-card">
+        <span class="motif-icon" aria-hidden="true">&#x1F451;</span>
+        <h3>Crowns &amp; Coronets</h3>
+        <p>Used as icons, dividers, and decorative elements -- symbols of sovereignty and divine right.</p>
+      </div>
+      <div class="motif-card">
+        <span class="motif-icon" aria-hidden="true">&#x1F3F0;</span>
+        <h3>Castle Architecture</h3>
+        <p>Turrets, crenellations, arrow slits, and portcullis grids -- the fortress as design vocabulary.</p>
+      </div>
+      <div class="motif-card">
+        <span class="motif-icon" aria-hidden="true">&#x1F56F;</span>
+        <h3>Candlelight &amp; Flame</h3>
+        <p>Flickering warmth, ecclesiastical atmosphere -- illumination as emotional design language.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider" aria-hidden="true">
+    <span class="ornament">&#x2720; &bull; &#x2720;</span>
+  </div>
+
+  <!-- ========================================
+       DESIGN PRINCIPLES
+       ======================================== -->
+  <section class="content-section animate-on-scroll">
+    <div class="section-header">
+      <span class="section-label">Foundation</span>
+      <h2>Design Principles</h2>
+      <div class="medieval-divider" aria-hidden="true">&#x2726;</div>
+    </div>
+
+    <div class="illuminated-panel">
+      <ul class="principles-list">
+        <li>
+          <strong>Maximalism</strong>
+          <span>Rich layering of textures, patterns, and ornamental detail. Never minimalist -- embrace the abundance.</span>
+        </li>
+        <li>
+          <strong>Theatrical Drama</strong>
+          <span>Bold scale contrasts, imposing vertical elements, and dark atmospheric depth that commands attention.</span>
+        </li>
+        <li>
+          <strong>Symmetry &amp; Heraldic Composition</strong>
+          <span>Bilateral symmetry in headers, crests, and decorative frames -- the order of the coat of arms.</span>
+        </li>
+        <li>
+          <strong>Textural Richness</strong>
+          <span>Layered materials -- stone, metal, velvet, tapestry -- creating visual depth and material weight.</span>
+        </li>
+        <li>
+          <strong>Dark Atmospheric Grounding</strong>
+          <span>Deep, shadowed backgrounds with warm highlights emerging from darkness, like candlelit chambers.</span>
+        </li>
+        <li>
+          <strong>Eclectic Fusion</strong>
+          <span>Historical references mixed freely with fantasy and contemporary reinterpretation.</span>
+        </li>
+        <li>
+          <strong>Verticality</strong>
+          <span>Tall, narrow proportions echoing Gothic cathedral architecture -- reaching always upward.</span>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <div class="section-divider" aria-hidden="true">
+    <span class="ornament">&#x269C; &bull; &#x269C;</span>
+  </div>
+
+  <!-- ========================================
+       COLOR PALETTE
+       ======================================== -->
+  <section class="content-section animate-on-scroll">
+    <div class="section-header">
+      <span class="section-label">Chromatic Heraldry</span>
+      <h2>Color Palette</h2>
+      <div class="medieval-divider" aria-hidden="true">&#x2726;</div>
+    </div>
+
+    <div class="palette-container">
+      <!-- Base Colors -->
+      <div class="palette-group">
+        <p class="palette-group-title">Base &amp; Background</p>
+        <div class="color-row">
+          <div class="color-swatch">
+            <div class="swatch-circle" style="background: #111318;"></div>
+            <span class="color-name">Midnight</span>
+            <span class="color-hex">#111318</span>
+          </div>
+          <div class="color-swatch">
+            <div class="swatch-circle" style="background: #1e2028;"></div>
+            <span class="color-name">Charcoal</span>
+            <span class="color-hex">#1e2028</span>
+          </div>
+          <div class="color-swatch">
+            <div class="swatch-circle" style="background: #2a2d36;"></div>
+            <span class="color-name">Stone</span>
+            <span class="color-hex">#2a2d36</span>
+          </div>
+          <div class="color-swatch">
+            <div class="swatch-circle" style="background: #5a5a5a;"></div>
+            <span class="color-name">Stone Light</span>
+            <span class="color-hex">#5a5a5a</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Metallics -->
+      <div class="palette-group">
+        <p class="palette-group-title">Metallics</p>
+        <div class="color-row">
+          <div class="color-swatch">
+            <div class="swatch-circle" style="background: linear-gradient(135deg, #8c6239, #b8860b, #d4a033);"></div>
+            <span class="color-name">Aged Gold</span>
+            <span class="color-hex">#B8860B</span>
+          </div>
+          <div class="color-swatch">
+            <div class="swatch-circle" style="background: linear-gradient(135deg, #d4a033, #e8b84b, #d4a033);"></div>
+            <span class="color-name">Candlelight</span>
+            <span class="color-hex">#E8B84B</span>
+          </div>
+          <div class="color-swatch">
+            <div class="swatch-circle" style="background: linear-gradient(135deg, #6e6e6e, #8a8d8f, #a8aaac);"></div>
+            <span class="color-name">Tarnished Silver</span>
+            <span class="color-hex">#8A8D8F</span>
+          </div>
+          <div class="color-swatch">
+            <div class="swatch-circle" style="background: linear-gradient(135deg, #6e4a2a, #8c6239, #a67b4f);"></div>
+            <span class="color-name">Burnished Bronze</span>
+            <span class="color-hex">#8C6239</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Parchment -->
+      <div class="palette-group">
+        <p class="palette-group-title">Parchment</p>
+        <div class="color-row">
+          <div class="color-swatch">
+            <div class="swatch-circle" style="background: #f2e8d5; border-color: rgba(140, 98, 57, 0.4);"></div>
+            <span class="color-name">Parchment</span>
+            <span class="color-hex">#F2E8D5</span>
+          </div>
+          <div class="color-swatch">
+            <div class="swatch-circle" style="background: #e8dcc8; border-color: rgba(140, 98, 57, 0.4);"></div>
+            <span class="color-name">Parchment Aged</span>
+            <span class="color-hex">#E8DCC8</span>
+          </div>
+          <div class="color-swatch">
+            <div class="swatch-circle" style="background: #d4c4a8; border-color: rgba(140, 98, 57, 0.4);"></div>
+            <span class="color-name">Parchment Dark</span>
+            <span class="color-hex">#D4C4A8</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Jewel Tones -->
+      <div class="palette-group">
+        <p class="palette-group-title">Heraldic Jewel Tones</p>
+        <div class="color-row">
+          <div class="color-swatch">
+            <div class="swatch-circle" style="background: linear-gradient(135deg, #8b0000, #a41420);"></div>
+            <span class="color-name">Crimson</span>
+            <span class="color-hex">#8B0000</span>
+          </div>
+          <div class="color-swatch">
+            <div class="swatch-circle" style="background: linear-gradient(135deg, #1a3a6e, #2b4c8c);"></div>
+            <span class="color-name">Royal Blue</span>
+            <span class="color-hex">#1A3A6E</span>
+          </div>
+          <div class="color-swatch">
+            <div class="swatch-circle" style="background: linear-gradient(135deg, #2d5a27, #3b6e34);"></div>
+            <span class="color-name">Forest Green</span>
+            <span class="color-hex">#2D5A27</span>
+          </div>
+          <div class="color-swatch">
+            <div class="swatch-circle" style="background: linear-gradient(135deg, #4a1a6b, #5c2d82);"></div>
+            <span class="color-name">Deep Purple</span>
+            <span class="color-hex">#4A1A6B</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Shield showcase for jewel tones -->
+    <div class="shield-showcase">
+      <div class="shield crimson">
+        <span class="shield-icon" aria-hidden="true">&#x2694;</span>
+        <h4>Crimson</h4>
+      </div>
+      <div class="shield blue">
+        <span class="shield-icon" aria-hidden="true">&#x269C;</span>
+        <h4>Royal Blue</h4>
+      </div>
+      <div class="shield forest">
+        <span class="shield-icon" aria-hidden="true">&#x2618;</span>
+        <h4>Forest</h4>
+      </div>
+      <div class="shield purple">
+        <span class="shield-icon" aria-hidden="true">&#x271E;</span>
+        <h4>Purple</h4>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider" aria-hidden="true">
+    <span class="ornament">&#x271E; &bull; &#x271E;</span>
+  </div>
+
+  <!-- ========================================
+       STAINED GLASS - COLOR APPROACHES
+       ======================================== -->
+  <section class="content-section animate-on-scroll">
+    <div class="section-header">
+      <span class="section-label">Chromatic Approaches</span>
+      <h2>Color in Practice</h2>
+      <div class="medieval-divider" aria-hidden="true">&#x2720;</div>
+    </div>
+
+    <div class="stained-glass-container">
+      <div class="stained-glass">
+        <div class="pane">
+          <span class="pane-icon" aria-hidden="true">&#x1F56F;</span>
+          <h3>Dark Stone &amp; Gold</h3>
+          <p>Deep charcoal backgrounds with aged gold details, evoking candlelit castle interiors.</p>
+        </div>
+        <div class="pane">
+          <span class="pane-icon" aria-hidden="true">&#x1F4DC;</span>
+          <h3>Parchment &amp; Ink</h3>
+          <p>Warm off-whites with deep brown text and red/blue illuminated accents.</p>
+        </div>
+        <div class="pane">
+          <span class="pane-icon" aria-hidden="true">&#x2728;</span>
+          <h3>Jewel-Tone Glass</h3>
+          <p>Crimson, royal blue, forest green as section colors against dark leading borders.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider" aria-hidden="true">
+    <span class="ornament">&#x2726; &bull; &#x2726;</span>
+  </div>
+
+  <!-- ========================================
+       TYPOGRAPHY
+       ======================================== -->
+  <section class="content-section animate-on-scroll">
+    <div class="section-header">
+      <span class="section-label">The Scriptorium</span>
+      <h2>Typography</h2>
+      <div class="medieval-divider" aria-hidden="true">&#x269C;</div>
+    </div>
+
+    <p style="text-align: center; color: var(--medieval-parchment-dark); max-width: 600px; margin: 0 auto 2rem; font-size: 1.05rem;">Medievalcore typography features Blackletter display headings, uncial influences, classical serif body text, decorative drop caps, and vertical emphasis echoing Gothic cathedral architecture.</p>
+
+    <div class="typography-showcase">
+      <div class="font-specimen">
+        <span class="font-name">UnifrakturMaguntia</span>
+        <div>
+          <div class="font-sample blackletter">In Nomine Regis</div>
+          <p class="font-usage">Hero headlines, dramatic display text</p>
+        </div>
+      </div>
+
+      <div class="font-specimen">
+        <span class="font-name">MedievalSharp</span>
+        <div>
+          <div class="font-sample medieval-sharp">The Gates of the Kingdom</div>
+          <p class="font-usage">Section headings, feature titles</p>
+        </div>
+      </div>
+
+      <div class="font-specimen">
+        <span class="font-name">Cinzel</span>
+        <div>
+          <div class="font-sample cinzel">Forged in Stone</div>
+          <p class="font-usage">Primary headings, formal display</p>
+        </div>
+      </div>
+
+      <div class="font-specimen">
+        <span class="font-name">Cinzel Decorative</span>
+        <div>
+          <div class="font-sample cinzel-deco">Illuminated</div>
+          <p class="font-usage">Logo, hero titles, drop caps</p>
+        </div>
+      </div>
+
+      <div class="font-specimen">
+        <span class="font-name">EB Garamond</span>
+        <div>
+          <div class="font-sample eb-garamond">The style embraces theatrical opulence as a rejection of minimalism, functioning as visually empowering, dramatic, and deliberately eclectic design language.</div>
+          <p class="font-usage">Body text, long-form reading</p>
+        </div>
+      </div>
+
+      <div class="font-specimen">
+        <span class="font-name">Cormorant Garamond</span>
+        <div>
+          <div class="font-sample cormorant">"Where shadow meets gilded light, there dwells the medieval spirit."</div>
+          <p class="font-usage">Subheadings, pullquotes</p>
+        </div>
+      </div>
+
+      <div class="font-specimen">
+        <span class="font-name">Cormorant SC</span>
+        <div>
+          <div class="font-sample cormorant-sc">Navigation &middot; Labels &middot; Metadata &middot; Section Markers</div>
+          <p class="font-usage">Labels, navigation, metadata</p>
+        </div>
+      </div>
+
+      <div class="font-specimen">
+        <span class="font-name">Almendra</span>
+        <div>
+          <div class="font-sample almendra">Of Quests and Ancient Lore</div>
+          <p class="font-usage">Accent headings, decorative text</p>
+        </div>
+      </div>
+
+      <div class="font-specimen">
+        <span class="font-name">Uncial Antiqua</span>
+        <div>
+          <div class="font-sample uncial">In the Beginning Was the Word</div>
+          <p class="font-usage">Section dividers, decorative labels</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider" aria-hidden="true">
+    <span class="ornament">&#x2720; &bull; &#x2720;</span>
+  </div>
+
+  <!-- ========================================
+       CSS TECHNIQUES
+       ======================================== -->
+  <section class="content-section animate-on-scroll">
+    <div class="section-header">
+      <span class="section-label">The Craftsman's Tools</span>
+      <h2>CSS &amp; Design Techniques</h2>
+      <div class="medieval-divider" aria-hidden="true">&#x2726;</div>
+    </div>
+
+    <div class="technique-grid">
+      <div class="technique-demo">
+        <div class="technique-preview preview-stone">
+          <span>Stone Texture</span>
+        </div>
+        <div class="technique-info">
+          <h4>Stone Wall Background</h4>
+          <p>Subtle grid lines via repeating-linear-gradient simulate rough-hewn stone blocks.</p>
+        </div>
+      </div>
+
+      <div class="technique-demo">
+        <div class="technique-preview preview-chainmail"></div>
+        <div class="technique-info">
+          <h4>Chainmail Texture</h4>
+          <p>Interlocking radial-gradient dots in silver/gray evoke metallic mesh armor.</p>
+        </div>
+      </div>
+
+      <div class="technique-demo">
+        <div class="technique-preview preview-gold-gradient">
+          <span>Au</span>
+        </div>
+        <div class="technique-info">
+          <h4>Aged Gold Gradient</h4>
+          <p>Multi-stop linear-gradient with background-clip: text for metallic gold lettering.</p>
+        </div>
+      </div>
+
+      <div class="technique-demo">
+        <div class="technique-preview preview-candlelight">
+          <span>&#x1F56F;</span>
+        </div>
+        <div class="technique-info">
+          <h4>Candlelight Glow</h4>
+          <p>Radial-gradient amber glow with flickering opacity animation for warmth.</p>
+        </div>
+      </div>
+
+      <div class="technique-demo">
+        <div class="technique-preview preview-battlement">
+          <span>Crenellation</span>
+        </div>
+        <div class="technique-info">
+          <h4>Battlement Border</h4>
+          <p>Repeating-linear-gradient creates castle battlement patterns along edges.</p>
+        </div>
+      </div>
+
+      <div class="technique-demo">
+        <div class="technique-preview preview-parchment">
+          <span>Ancient Vellum</span>
+        </div>
+        <div class="technique-info">
+          <h4>Parchment Card</h4>
+          <p>Warm off-white gradients with inset box-shadow for aged manuscript feel.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider" aria-hidden="true">
+    <span class="ornament">&#x269C; &bull; &#x269C;</span>
+  </div>
+
+  <!-- ========================================
+       MATERIALS TABLE
+       ======================================== -->
+  <section class="content-section animate-on-scroll">
+    <div class="section-header">
+      <span class="section-label">Materiality</span>
+      <h2>Materials &amp; Textures</h2>
+      <div class="medieval-divider" aria-hidden="true">&#x271E;</div>
+    </div>
+
+    <p style="text-align: center; color: var(--medieval-parchment-dark); max-width: 600px; margin: 0 auto 1.5rem;">Physical medieval materials and their web equivalents -- translating the tangible world into digital craft.</p>
+
+    <div style="overflow-x: auto;">
+      <table class="materials-table">
+        <thead>
+          <tr>
+            <th>Physical Material</th>
+            <th>Web Equivalent</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="material-physical">Rough-hewn Stone</td>
+            <td class="material-web">Dark gray backgrounds with subtle linear-gradient grid lines</td>
+          </tr>
+          <tr>
+            <td class="material-physical">Chainmail / Metal Mesh</td>
+            <td class="material-web">Radial-gradient dot patterns in silver/gray tones</td>
+          </tr>
+          <tr>
+            <td class="material-physical">Aged Parchment / Vellum</td>
+            <td class="material-web">Warm off-white backgrounds with inset box-shadow aging</td>
+          </tr>
+          <tr>
+            <td class="material-physical">Wrought Iron</td>
+            <td class="material-web">Dark metallic borders with linear-gradient sheen effects</td>
+          </tr>
+          <tr>
+            <td class="material-physical">Tapestry / Embroidered Cloth</td>
+            <td class="material-web">Rich, layered background patterns with muted jewel tones</td>
+          </tr>
+          <tr>
+            <td class="material-physical">Stained Glass</td>
+            <td class="material-web">Jewel-tone color blocks separated by dark 3-4px gap "leading"</td>
+          </tr>
+          <tr>
+            <td class="material-physical">Gold Leaf / Gilt</td>
+            <td class="material-web">Gold gradient text and borders (background-clip: text)</td>
+          </tr>
+          <tr>
+            <td class="material-physical">Tarnished Silver</td>
+            <td class="material-web">Cool gray gradients with slight warm undertones</td>
+          </tr>
+          <tr>
+            <td class="material-physical">Candle Wax / Warm Fire</td>
+            <td class="material-web">Radial-gradient glows in amber/gold tones</td>
+          </tr>
+          <tr>
+            <td class="material-physical">Leather / Hide</td>
+            <td class="material-web">Dark warm brown backgrounds with subtle texture patterns</td>
+          </tr>
+          <tr>
+            <td class="material-physical">Carved Wood</td>
+            <td class="material-web">Brown tones with repeating-linear-gradient grain lines</td>
+          </tr>
+          <tr>
+            <td class="material-physical">Velvet</td>
+            <td class="material-web">Deep jewel-tone solid colors with subtle inner glow/highlight</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <div class="section-divider" aria-hidden="true">
+    <span class="ornament">&#x2726; &bull; &#x2726;</span>
+  </div>
+
+  <!-- ========================================
+       THREE ARCHETYPES
+       ======================================== -->
+  <section class="content-section animate-on-scroll">
+    <div class="section-header">
+      <span class="section-label">Three Paths</span>
+      <h2>Design Archetypes</h2>
+      <div class="medieval-divider" aria-hidden="true">&#x2720;</div>
+    </div>
+
+    <div class="archetypes-grid">
+      <div class="archetype-card warrior">
+        <span class="archetype-icon" aria-hidden="true">&#x2694;</span>
+        <h3>The Warrior</h3>
+        <p class="archetype-subtitle">Joan of Arc</p>
+        <ul class="archetype-traits">
+          <li>Dominant metallic palette: silver, steel, burnished iron</li>
+          <li>Chainmail textures and sharp geometric patterns</li>
+          <li>Strong vertical lines, shield-shaped containers</li>
+          <li>Bold, condensed typography</li>
+        </ul>
+      </div>
+
+      <div class="archetype-card princess">
+        <span class="archetype-icon" aria-hidden="true">&#x1F451;</span>
+        <h3>The Princess</h3>
+        <p class="archetype-subtitle">Romantic</p>
+        <ul class="archetype-traits">
+          <li>Softer palette: deep crimson, royal purple, candlelight gold</li>
+          <li>Pointed arch frames, crown motifs, flowing borders</li>
+          <li>Elegant serif typography with generous letterspacing</li>
+          <li>Stained glass panels, velvet-like backgrounds</li>
+        </ul>
+      </div>
+
+      <div class="archetype-card gothic">
+        <span class="archetype-icon" aria-hidden="true">&#x271E;</span>
+        <h3>The Gothic</h3>
+        <p class="archetype-subtitle">Ecclesiastical</p>
+        <ul class="archetype-traits">
+          <li>Deep blacks with crimson and gold accents only</li>
+          <li>Cross motifs, Gothic tracery, heavy stone textures</li>
+          <li>Blackletter display, dramatic scale contrast</li>
+          <li>Maximum darkness, minimal color, atmospheric depth</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider" aria-hidden="true">
+    <span class="ornament">&#x271E; &bull; &#x271E;</span>
+  </div>
+
+  <!-- ========================================
+       PARCHMENT CARD -- LAYOUT PRINCIPLES
+       ======================================== -->
+  <section class="content-section animate-on-scroll">
+    <div class="section-header">
+      <span class="section-label">Architecture</span>
+      <h2>Layout Principles</h2>
+      <div class="medieval-divider" aria-hidden="true">&#x269C;</div>
+    </div>
+
+    <div class="parchment-card">
+      <h3 style="text-align: center;">The Cathedral Blueprint</h3>
+      <div class="medieval-divider" style="width: 50%;" aria-hidden="true">&#x2726;</div>
+      <p style="margin-bottom: 1rem;"><strong>Gothic cathedral proportions</strong> -- tall, narrow content columns with generous vertical spacing, evoking nave-like layouts. Content flows along a <strong>strong central axis</strong> with mirrored decorative elements flanking the main column.</p>
+      <p style="margin-bottom: 1rem;">Section headers framed by <strong>pointed arch containers</strong>. Heavy, stone-like structure with thick borders and substantial padding. Content blocks organized as distinct <strong>tapestry panels</strong> with ornamental borders.</p>
+      <p><strong>Ornamental dividers</strong> between sections -- heraldic symbols, Gothic tracery lines, cross motifs. Generous dark space around ornamental elements. More important content receives richer borders and gilded treatment. Sidebar elements echo illuminated manuscript <strong>marginalia</strong>.</p>
+    </div>
+  </section>
+
+  <div class="section-divider" aria-hidden="true">
+    <span class="ornament">&#x2720; &bull; &#x2720;</span>
+  </div>
+
+  <!-- ========================================
+       RELATED AESTHETICS
+       ======================================== -->
+  <section class="content-section animate-on-scroll">
+    <div class="section-header">
+      <span class="section-label">Allied Houses</span>
+      <h2>Related Aesthetics</h2>
+      <div class="medieval-divider" aria-hidden="true">&#x2726;</div>
+    </div>
+
+    <div class="related-grid">
+      <div class="related-item">
+        <h4>Knightcore</h4>
+        <p>Martial focus: armor, combat, chivalric values</p>
+      </div>
+      <div class="related-item">
+        <h4>Royalcore</h4>
+        <p>Crown and court imagery, more refined</p>
+      </div>
+      <div class="related-item">
+        <h4>Princesscore</h4>
+        <p>Fairytale elements, flowing gowns, hennins</p>
+      </div>
+      <div class="related-item">
+        <h4>Cottagecore</h4>
+        <p>Rural medieval life, handcraft, nature</p>
+      </div>
+      <div class="related-item">
+        <h4>Dark Academia</h4>
+        <p>Old books, Gothic architecture, scholarly darkness</p>
+      </div>
+      <div class="related-item">
+        <h4>Dark Fantasy</h4>
+        <p>Dragons, sorcery, enchanted castles</p>
+      </div>
+      <div class="related-item">
+        <h4>Fairycore</h4>
+        <p>Enchanted forest, mystical, whimsical</p>
+      </div>
+      <div class="related-item">
+        <h4>Goblincore</h4>
+        <p>Earthy, rustic, found objects, forest floor</p>
+      </div>
+      <div class="related-item">
+        <h4>Witchcore</h4>
+        <p>Herbalism, candlelight, ritual mysticism</p>
+      </div>
+      <div class="related-item">
+        <h4>Medieval Fantasy</h4>
+        <p>Romanticized medieval Europe with magic</p>
+      </div>
+      <div class="related-item">
+        <h4>Gothic</h4>
+        <p>Cathedral design, darkness, atmosphere</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================
+       FOOTER
+       ======================================== -->
+  <footer class="site-footer">
+    <div class="footer-crest" aria-hidden="true">&#x269C;</div>
+    <p class="footer-text">Medievalcore Design Reference</p>
+    <p class="footer-text" style="opacity: 0.6;">A Visual Chronicle of the Aesthetic</p>
+    <p class="footer-motto">"In darkness, gold speaks loudest."</p>
+  </footer>
+
+  <!-- ========================================
+       JAVASCRIPT -- Scroll Animations
+       ======================================== -->
+  <script>
+    // Intersection Observer for scroll-triggered animations
+    document.addEventListener('DOMContentLoaded', function() {
+      const observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      }, {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+      });
+
+      document.querySelectorAll('.animate-on-scroll').forEach(function(el) {
+        observer.observe(el);
+      });
+
+      // Stagger motif card animations
+      const motifCards = document.querySelectorAll('.motif-card');
+      const motifObserver = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            const cards = entry.target.querySelectorAll('.motif-card');
+            cards.forEach(function(card, index) {
+              card.style.opacity = '0';
+              card.style.transform = 'translateY(20px)';
+              card.style.transition = 'opacity 0.6s ease ' + (index * 0.1) + 's, transform 0.6s ease ' + (index * 0.1) + 's';
+              requestAnimationFrame(function() {
+                card.style.opacity = '1';
+                card.style.transform = 'translateY(0)';
+              });
+            });
+            motifObserver.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.2 });
+
+      var motifsGrid = document.querySelector('.motifs-grid');
+      if (motifsGrid) {
+        motifObserver.observe(motifsGrid);
+      }
+
+      // Stagger technique demos
+      const techGrid = document.querySelector('.technique-grid');
+      if (techGrid) {
+        const techObserver = new IntersectionObserver(function(entries) {
+          entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+              var demos = entry.target.querySelectorAll('.technique-demo');
+              demos.forEach(function(demo, index) {
+                demo.style.opacity = '0';
+                demo.style.transform = 'translateY(20px)';
+                demo.style.transition = 'opacity 0.6s ease ' + (index * 0.12) + 's, transform 0.6s ease ' + (index * 0.12) + 's';
+                requestAnimationFrame(function() {
+                  demo.style.opacity = '1';
+                  demo.style.transform = 'translateY(0)';
+                });
+              });
+              techObserver.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.15 });
+        techObserver.observe(techGrid);
+      }
+
+      // Stagger archetype cards
+      const archGrid = document.querySelector('.archetypes-grid');
+      if (archGrid) {
+        const archObserver = new IntersectionObserver(function(entries) {
+          entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+              var cards = entry.target.querySelectorAll('.archetype-card');
+              cards.forEach(function(card, index) {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(25px)';
+                card.style.transition = 'opacity 0.7s ease ' + (index * 0.15) + 's, transform 0.7s ease ' + (index * 0.15) + 's';
+                requestAnimationFrame(function() {
+                  card.style.opacity = '1';
+                  card.style.transform = 'translateY(0)';
+                });
+              });
+              archObserver.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.15 });
+        archObserver.observe(archGrid);
+      }
+
+      // Stagger color swatches
+      document.querySelectorAll('.color-row').forEach(function(row) {
+        var swatchObserver = new IntersectionObserver(function(entries) {
+          entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+              var swatches = entry.target.querySelectorAll('.color-swatch');
+              swatches.forEach(function(swatch, index) {
+                swatch.style.opacity = '0';
+                swatch.style.transform = 'scale(0.8)';
+                swatch.style.transition = 'opacity 0.5s ease ' + (index * 0.08) + 's, transform 0.5s ease ' + (index * 0.08) + 's';
+                requestAnimationFrame(function() {
+                  swatch.style.opacity = '1';
+                  swatch.style.transform = 'scale(1)';
+                });
+              });
+              swatchObserver.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.3 });
+        swatchObserver.observe(row);
+      });
+
+      // Stagger related items
+      var relatedGrid = document.querySelector('.related-grid');
+      if (relatedGrid) {
+        var relatedObserver = new IntersectionObserver(function(entries) {
+          entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+              var items = entry.target.querySelectorAll('.related-item');
+              items.forEach(function(item, index) {
+                item.style.opacity = '0';
+                item.style.transform = 'translateY(15px)';
+                item.style.transition = 'opacity 0.5s ease ' + (index * 0.06) + 's, transform 0.5s ease ' + (index * 0.06) + 's';
+                requestAnimationFrame(function() {
+                  item.style.opacity = '1';
+                  item.style.transform = 'translateY(0)';
+                });
+              });
+              relatedObserver.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.1 });
+        relatedObserver.observe(relatedGrid);
+      }
+
+      // Shield entrance animation
+      var shieldShowcase = document.querySelector('.shield-showcase');
+      if (shieldShowcase) {
+        var shieldObserver = new IntersectionObserver(function(entries) {
+          entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+              var shields = entry.target.querySelectorAll('.shield');
+              shields.forEach(function(shield, index) {
+                shield.style.opacity = '0';
+                shield.style.transform = 'translateY(30px) scale(0.9)';
+                shield.style.transition = 'opacity 0.6s ease ' + (index * 0.12) + 's, transform 0.6s ease ' + (index * 0.12) + 's';
+                requestAnimationFrame(function() {
+                  shield.style.opacity = '1';
+                  shield.style.transform = 'translateY(0) scale(1)';
+                });
+              });
+              shieldObserver.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.3 });
+        shieldObserver.observe(shieldShowcase);
+      }
+    });
+  </script>
+</body>
+</html>

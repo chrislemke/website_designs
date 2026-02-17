@@ -1,0 +1,2506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Memphis Design -- Bold, Playful, Electric</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Quicksand:wght@300;400;500;700&family=Poppins:wght@200;400;700;900&family=Archivo+Black&display=swap" rel="stylesheet">
+  <style>
+    /* ============================================================
+       CSS CUSTOM PROPERTIES -- Memphis Design Palette
+       ============================================================ */
+    :root {
+      /* Neon primaries */
+      --memphis-pink: #f725a0;
+      --memphis-yellow: #fad141;
+      --memphis-teal: #0cb2c0;
+      --memphis-purple: #672394;
+      --memphis-red: #cd2d48;
+      --memphis-blue: #4458a0;
+      --memphis-lime: #a8e05f;
+      --memphis-orange: #ff8c42;
+      --memphis-coral: #ff7f50;
+
+      /* Pastels */
+      --memphis-pastel-pink: #fad6da;
+      --memphis-pastel-blue: #a3d9e5;
+      --memphis-pastel-yellow: #fae498;
+      --memphis-pastel-lavender: #c9aecf;
+      --memphis-pastel-mint: #b5ead7;
+
+      /* Backgrounds */
+      --memphis-bg-white: #ffffff;
+      --memphis-bg-cream: #e8e6d9;
+      --memphis-bg-dark: #212436;
+      --memphis-bg-black: #141414;
+
+      /* Strokes and outlines */
+      --memphis-black: #000000;
+      --memphis-stroke-width: 3px;
+
+      /* Text */
+      --memphis-text-dark: #1a1a1a;
+      --memphis-text-light: #ffffff;
+    }
+
+    /* ============================================================
+       RESET & BASE
+       ============================================================ */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--memphis-bg-white);
+      color: var(--memphis-text-dark);
+      font-family: 'Poppins', 'Quicksand', sans-serif;
+      font-weight: 200;
+      font-size: 1rem;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    strong, b {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 900;
+    }
+
+    h1, h2, h3, h4 {
+      font-family: 'Fredoka', 'Quicksand', sans-serif;
+      font-weight: 700;
+      line-height: 1.1;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      max-width: 100%;
+    }
+
+    /* ============================================================
+       ANIMATIONS
+       ============================================================ */
+    @keyframes memphis-float {
+      0%, 100% { transform: translate(0, 0) rotate(var(--rot, 0deg)); }
+      25% { transform: translate(10px, -15px) rotate(calc(var(--rot, 0deg) + 5deg)); }
+      50% { transform: translate(-5px, -25px) rotate(calc(var(--rot, 0deg) - 3deg)); }
+      75% { transform: translate(-15px, -10px) rotate(calc(var(--rot, 0deg) + 4deg)); }
+    }
+
+    @keyframes memphis-spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes memphis-bounce {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-12px) scale(1.05); }
+    }
+
+    @keyframes squiggle-drift {
+      0% { background-position: 0 0; }
+      100% { background-position: 120px 120px; }
+    }
+
+    @keyframes confetti-rain {
+      0% { background-position: 0 0, 60px 80px, 120px 40px, 20px 50px, 100px 120px; }
+      100% { background-position: 30px 30px, 90px 110px, 150px 70px, 50px 80px, 130px 150px; }
+    }
+
+    @keyframes fade-in-up {
+      from {
+        opacity: 0;
+        transform: translateY(40px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fade-in-scale {
+      from {
+        opacity: 0;
+        transform: scale(0.8);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    @keyframes slide-in-left {
+      from {
+        opacity: 0;
+        transform: translateX(-60px) rotate(-3deg);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0) rotate(0deg);
+      }
+    }
+
+    @keyframes slide-in-right {
+      from {
+        opacity: 0;
+        transform: translateX(60px) rotate(3deg);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0) rotate(0deg);
+      }
+    }
+
+    @keyframes wiggle {
+      0%, 100% { transform: rotate(0deg); }
+      25% { transform: rotate(3deg); }
+      75% { transform: rotate(-3deg); }
+    }
+
+    @keyframes color-cycle {
+      0% { color: var(--memphis-pink); }
+      25% { color: var(--memphis-teal); }
+      50% { color: var(--memphis-yellow); }
+      75% { color: var(--memphis-purple); }
+      100% { color: var(--memphis-pink); }
+    }
+
+    .animate-on-scroll {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .animate-on-scroll.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ============================================================
+       NAVIGATION
+       ============================================================ */
+    .memphis-nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 40px;
+      border-bottom: 3px solid var(--memphis-black);
+      background: var(--memphis-bg-white);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .memphis-nav__logo {
+      font-family: 'Fredoka', sans-serif;
+      font-weight: 700;
+      font-size: 1.6rem;
+      color: var(--memphis-text-dark);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .memphis-nav__logo-dot {
+      display: inline-block;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      animation: memphis-bounce 2s ease-in-out infinite;
+    }
+
+    .memphis-nav__logo-dot:nth-child(1) {
+      background: var(--memphis-pink);
+      animation-delay: 0s;
+    }
+
+    .memphis-nav__logo-dot:nth-child(2) {
+      background: var(--memphis-yellow);
+      animation-delay: 0.15s;
+    }
+
+    .memphis-nav__logo-dot:nth-child(3) {
+      background: var(--memphis-teal);
+      animation-delay: 0.3s;
+    }
+
+    .memphis-nav__links {
+      display: flex;
+      gap: 8px;
+      list-style: none;
+    }
+
+    .memphis-nav__links a {
+      font-family: 'Fredoka', sans-serif;
+      font-weight: 500;
+      font-size: 0.95rem;
+      color: var(--memphis-text-dark);
+      text-decoration: none;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      padding: 6px 14px;
+      border: 2px solid transparent;
+      transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+    }
+
+    .memphis-nav__links a:hover {
+      background: var(--memphis-yellow);
+      color: var(--memphis-black);
+      border-color: var(--memphis-black);
+      transform: rotate(-2deg);
+    }
+
+    .mobile-toggle {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 5px;
+      background: none;
+      border: none;
+    }
+
+    .mobile-toggle span {
+      width: 28px;
+      height: 3px;
+      background: var(--memphis-black);
+      border-radius: 2px;
+      transition: transform 0.3s, opacity 0.3s;
+    }
+
+    /* ============================================================
+       HERO SECTION
+       ============================================================ */
+    .memphis-hero {
+      position: relative;
+      min-height: 95vh;
+      display: flex;
+      align-items: center;
+      padding: 80px 60px;
+      overflow: hidden;
+      background: var(--memphis-bg-white);
+    }
+
+    /* Bacterio background pattern on hero */
+    .memphis-hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: transparent;
+      background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M20 20 Q30 5 40 20 T60 20 T80 20' stroke='%23000' stroke-width='2.5' fill='none' stroke-linecap='round'/%3E%3Cpath d='M10 50 Q20 35 30 50 T50 50 T70 50' stroke='%23000' stroke-width='2.5' fill='none' stroke-linecap='round'/%3E%3Cpath d='M30 80 Q40 65 50 80 T70 80 T90 80' stroke='%23000' stroke-width='2.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-size: 120px 120px;
+      opacity: 0.04;
+      pointer-events: none;
+      animation: squiggle-drift 15s linear infinite;
+    }
+
+    .memphis-hero__content {
+      max-width: 680px;
+      position: relative;
+      z-index: 2;
+      animation: fade-in-up 1s ease-out;
+    }
+
+    .memphis-hero__badge {
+      display: inline-block;
+      background: var(--memphis-yellow);
+      color: var(--memphis-black);
+      font-family: 'Fredoka', sans-serif;
+      font-weight: 600;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 6px 18px;
+      border: 3px solid var(--memphis-black);
+      box-shadow: 3px 3px 0 var(--memphis-black);
+      margin-bottom: 2rem;
+      transform: rotate(-2deg);
+      animation: wiggle 3s ease-in-out infinite;
+    }
+
+    .memphis-hero h1 {
+      font-size: clamp(3.5rem, 9vw, 8rem);
+      line-height: 0.95;
+      margin-bottom: 1.5rem;
+      letter-spacing: -0.03em;
+    }
+
+    .memphis-hero h1 .line {
+      display: block;
+    }
+
+    .memphis-hero h1 .line-1 {
+      color: var(--memphis-pink);
+      animation: slide-in-left 0.8s ease-out both;
+    }
+
+    .memphis-hero h1 .line-2 {
+      color: var(--memphis-teal);
+      animation: slide-in-right 0.8s ease-out 0.15s both;
+    }
+
+    .memphis-hero h1 .line-3 {
+      color: var(--memphis-yellow);
+      display: inline-block;
+      transform-origin: left bottom;
+      animation: slide-in-left 0.8s ease-out 0.3s both;
+    }
+
+    .memphis-hero__subtitle {
+      font-size: clamp(1.1rem, 2vw, 1.35rem);
+      margin-bottom: 2.5rem;
+      max-width: 520px;
+      font-weight: 200;
+      animation: fade-in-up 1s ease-out 0.5s both;
+    }
+
+    .memphis-hero__subtitle strong {
+      color: var(--memphis-purple);
+    }
+
+    .memphis-hero__buttons {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      animation: fade-in-up 1s ease-out 0.7s both;
+    }
+
+    /* Decorative shapes container */
+    .memphis-hero__shapes {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .deco-shape {
+      position: absolute;
+      pointer-events: none;
+    }
+
+    /* Hero decorative shapes */
+    .deco-circle-pink {
+      width: 160px;
+      height: 160px;
+      background: var(--memphis-pink);
+      border-radius: 50%;
+      top: 8%;
+      right: 8%;
+      --rot: 0deg;
+      animation: memphis-float 7s ease-in-out infinite, fade-in-scale 1s ease-out 0.3s both;
+    }
+
+    .deco-circle-teal-outline {
+      width: 200px;
+      height: 200px;
+      border: 5px solid var(--memphis-teal);
+      border-radius: 50%;
+      bottom: 12%;
+      right: 4%;
+      --rot: 0deg;
+      animation: memphis-float 9s ease-in-out 1s infinite, fade-in-scale 1s ease-out 0.6s both;
+    }
+
+    .deco-triangle-yellow {
+      width: 0;
+      height: 0;
+      border-left: 60px solid transparent;
+      border-right: 60px solid transparent;
+      border-bottom: 104px solid var(--memphis-yellow);
+      top: 55%;
+      right: 22%;
+      --rot: 15deg;
+      animation: memphis-float 8s ease-in-out 0.5s infinite, fade-in-scale 1s ease-out 0.5s both;
+    }
+
+    .deco-pill-purple {
+      width: 50px;
+      height: 140px;
+      background: var(--memphis-purple);
+      border-radius: 25px;
+      top: 20%;
+      right: 35%;
+      --rot: 30deg;
+      animation: memphis-float 10s ease-in-out 2s infinite, fade-in-scale 1s ease-out 0.7s both;
+    }
+
+    .deco-cross-orange {
+      width: 60px;
+      height: 60px;
+      top: 70%;
+      right: 40%;
+      --rot: 0deg;
+      animation: memphis-float 7s ease-in-out 3s infinite, fade-in-scale 1s ease-out 0.8s both;
+    }
+
+    .deco-cross-orange::before,
+    .deco-cross-orange::after {
+      content: '';
+      position: absolute;
+      background: var(--memphis-orange);
+    }
+
+    .deco-cross-orange::before {
+      width: 100%;
+      height: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    .deco-cross-orange::after {
+      width: 12px;
+      height: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .deco-semicircle-blue {
+      width: 100px;
+      height: 50px;
+      border-radius: 100px 100px 0 0;
+      background: var(--memphis-blue);
+      bottom: 25%;
+      right: 15%;
+      --rot: -10deg;
+      animation: memphis-float 8s ease-in-out 1.5s infinite, fade-in-scale 1s ease-out 0.9s both;
+    }
+
+    .deco-square-lime {
+      width: 55px;
+      height: 55px;
+      background: var(--memphis-lime);
+      border: 3px solid var(--memphis-black);
+      top: 40%;
+      right: 5%;
+      --rot: 45deg;
+      animation: memphis-float 6s ease-in-out 2.5s infinite, fade-in-scale 1s ease-out 1s both;
+    }
+
+    .deco-dots-grid {
+      width: 180px;
+      height: 180px;
+      top: 5%;
+      right: 28%;
+      background-image: radial-gradient(circle 3px, var(--memphis-black) 100%, transparent 100%);
+      background-size: 22px 22px;
+      opacity: 0.12;
+      animation: fade-in-scale 1.2s ease-out 0.4s both;
+    }
+
+    .deco-circle-small-red {
+      width: 30px;
+      height: 30px;
+      background: var(--memphis-red);
+      border-radius: 50%;
+      top: 80%;
+      right: 30%;
+      --rot: 0deg;
+      animation: memphis-float 5s ease-in-out 1s infinite, fade-in-scale 0.8s ease-out 1.1s both;
+    }
+
+    .deco-pill-coral {
+      width: 30px;
+      height: 80px;
+      background: var(--memphis-coral);
+      border-radius: 15px;
+      top: 12%;
+      right: 50%;
+      --rot: -20deg;
+      animation: memphis-float 9s ease-in-out 3s infinite, fade-in-scale 0.8s ease-out 1.2s both;
+    }
+
+    /* ============================================================
+       BUTTONS
+       ============================================================ */
+    .memphis-btn {
+      display: inline-block;
+      background: var(--memphis-yellow);
+      color: var(--memphis-black);
+      border: 3px solid var(--memphis-black);
+      border-radius: 0;
+      padding: 14px 36px;
+      font-family: 'Fredoka', sans-serif;
+      font-weight: 700;
+      font-size: 1.1rem;
+      cursor: pointer;
+      text-decoration: none;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      position: relative;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+      box-shadow: 5px 5px 0 var(--memphis-black);
+    }
+
+    .memphis-btn:hover {
+      transform: translate(-2px, -2px);
+      box-shadow: 7px 7px 0 var(--memphis-black);
+    }
+
+    .memphis-btn:active {
+      transform: translate(2px, 2px);
+      box-shadow: 3px 3px 0 var(--memphis-black);
+    }
+
+    .memphis-btn--pink {
+      background: var(--memphis-pink);
+      color: var(--memphis-text-light);
+    }
+
+    .memphis-btn--teal {
+      background: var(--memphis-teal);
+      color: var(--memphis-text-light);
+    }
+
+    .memphis-btn--purple {
+      background: var(--memphis-purple);
+      color: var(--memphis-text-light);
+    }
+
+    .memphis-btn--outline {
+      background: transparent;
+      color: var(--memphis-black);
+    }
+
+    .memphis-btn--outline:hover {
+      background: var(--memphis-pastel-yellow);
+    }
+
+    /* ============================================================
+       ZIG-ZAG DIVIDER
+       ============================================================ */
+    .zigzag-divider {
+      width: 100%;
+      height: 24px;
+      background: url("data:image/svg+xml,%3Csvg width='40' height='24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpolyline points='0,24 20,0 40,24' stroke='%23000' stroke-width='3' fill='none'/%3E%3C/svg%3E") repeat-x;
+    }
+
+    .zigzag-divider--pink {
+      background: url("data:image/svg+xml,%3Csvg width='40' height='24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpolyline points='0,24 20,0 40,24' stroke='%23f725a0' stroke-width='3' fill='none'/%3E%3C/svg%3E") repeat-x;
+    }
+
+    .zigzag-divider--teal {
+      background: url("data:image/svg+xml,%3Csvg width='40' height='24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpolyline points='0,24 20,0 40,24' stroke='%230cb2c0' stroke-width='3' fill='none'/%3E%3C/svg%3E") repeat-x;
+    }
+
+    /* ============================================================
+       WAVY DIVIDER
+       ============================================================ */
+    .wavy-divider {
+      width: 100%;
+      height: 40px;
+      background: url("data:image/svg+xml,%3Csvg width='120' height='40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 20 Q30 0 60 20 T120 20 L120 40 L0 40 Z' fill='%23f725a0'/%3E%3C/svg%3E") repeat-x;
+      background-size: 120px 40px;
+    }
+
+    .wavy-divider--yellow {
+      background: url("data:image/svg+xml,%3Csvg width='120' height='40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 20 Q30 0 60 20 T120 20 L120 40 L0 40 Z' fill='%23fad141'/%3E%3C/svg%3E") repeat-x;
+      background-size: 120px 40px;
+    }
+
+    .wavy-divider--teal {
+      background: url("data:image/svg+xml,%3Csvg width='120' height='40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 20 Q30 0 60 20 T120 20 L120 40 L0 40 Z' fill='%230cb2c0'/%3E%3C/svg%3E") repeat-x;
+      background-size: 120px 40px;
+    }
+
+    /* ============================================================
+       SECTION: ABOUT / ORIGIN
+       ============================================================ */
+    .section-about {
+      padding: 100px 60px;
+      background: var(--memphis-bg-cream);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Terrazzo background pattern */
+    .section-about::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image:
+        radial-gradient(circle 4px, var(--memphis-pink) 100%, transparent 100%),
+        radial-gradient(circle 3px, var(--memphis-teal) 100%, transparent 100%),
+        radial-gradient(circle 5px, var(--memphis-yellow) 100%, transparent 100%),
+        radial-gradient(circle 3px, var(--memphis-purple) 100%, transparent 100%),
+        radial-gradient(circle 2px, var(--memphis-black) 100%, transparent 100%),
+        radial-gradient(circle 4px, var(--memphis-lime) 100%, transparent 100%);
+      background-size: 200px 200px;
+      background-position:
+        10px 20px,
+        50px 70px,
+        90px 30px,
+        140px 90px,
+        30px 130px,
+        170px 160px;
+      opacity: 0.35;
+      pointer-events: none;
+    }
+
+    .section-about__inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .section-about__header {
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+
+    .section-about__header h2 {
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      color: var(--memphis-purple);
+      margin-bottom: 1rem;
+    }
+
+    .section-about__header h2 .accent {
+      color: var(--memphis-pink);
+      display: inline-block;
+      transform: rotate(-3deg);
+    }
+
+    .section-about__header p {
+      font-size: 1.15rem;
+      max-width: 650px;
+      margin: 0 auto;
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      align-items: start;
+    }
+
+    .about-text-card {
+      background: var(--memphis-bg-white);
+      border: 3px solid var(--memphis-black);
+      padding: 36px;
+      box-shadow: 7px 7px 0 var(--memphis-black);
+      position: relative;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .about-text-card:hover {
+      transform: translate(-3px, -3px);
+      box-shadow: 10px 10px 0 var(--memphis-black);
+    }
+
+    .about-text-card::before {
+      content: '';
+      position: absolute;
+      top: -10px;
+      right: -10px;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      border: 2px solid var(--memphis-black);
+    }
+
+    .about-text-card:nth-child(1)::before { background: var(--memphis-pink); }
+    .about-text-card:nth-child(2)::before { background: var(--memphis-yellow); }
+
+    .about-text-card h3 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      color: var(--memphis-teal);
+    }
+
+    .about-text-card p {
+      font-size: 0.95rem;
+      line-height: 1.7;
+    }
+
+    .about-text-card p + p {
+      margin-top: 1rem;
+    }
+
+    .about-timeline {
+      margin-top: 3rem;
+      background: var(--memphis-bg-white);
+      border: 3px solid var(--memphis-black);
+      padding: 36px;
+      box-shadow: 7px 7px 0 var(--memphis-black);
+      position: relative;
+    }
+
+    .about-timeline::after {
+      content: '';
+      position: absolute;
+      bottom: -12px;
+      left: -12px;
+      width: 0;
+      height: 0;
+      border-left: 20px solid transparent;
+      border-right: 20px solid transparent;
+      border-top: 30px solid var(--memphis-teal);
+      transform: rotate(-10deg);
+    }
+
+    .about-timeline h3 {
+      font-size: 1.5rem;
+      color: var(--memphis-orange);
+      margin-bottom: 1.5rem;
+    }
+
+    .timeline-items {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .timeline-item {
+      flex: 1;
+      min-width: 200px;
+      padding: 16px;
+      border-left: 4px solid var(--memphis-pink);
+      background: var(--memphis-pastel-pink);
+    }
+
+    .timeline-item:nth-child(2) {
+      border-left-color: var(--memphis-teal);
+      background: var(--memphis-pastel-blue);
+    }
+
+    .timeline-item:nth-child(3) {
+      border-left-color: var(--memphis-yellow);
+      background: var(--memphis-pastel-yellow);
+    }
+
+    .timeline-item:nth-child(4) {
+      border-left-color: var(--memphis-purple);
+      background: var(--memphis-pastel-lavender);
+    }
+
+    .timeline-item .year {
+      font-family: 'Archivo Black', sans-serif;
+      font-size: 1.8rem;
+      line-height: 1;
+      margin-bottom: 0.3rem;
+    }
+
+    .timeline-item p {
+      font-size: 0.85rem;
+      line-height: 1.5;
+      font-weight: 400;
+    }
+
+    /* ============================================================
+       SECTION: VISUAL CHARACTERISTICS (Feature Cards)
+       ============================================================ */
+    .section-traits {
+      padding: 100px 60px;
+      background: var(--memphis-bg-white);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .section-traits__inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .section-traits__header {
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+
+    .section-traits__header h2 {
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      margin-bottom: 1rem;
+    }
+
+    .section-traits__header h2 .pink { color: var(--memphis-pink); }
+    .section-traits__header h2 .teal { color: var(--memphis-teal); }
+
+    .section-traits__header p {
+      font-size: 1.1rem;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .traits-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 30px;
+    }
+
+    .trait-card {
+      background: var(--memphis-bg-white);
+      border: 3px solid var(--memphis-black);
+      padding: 30px;
+      box-shadow: 6px 6px 0 var(--memphis-black);
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .trait-card:hover {
+      transform: translate(-3px, -3px);
+      box-shadow: 9px 9px 0 var(--memphis-black);
+    }
+
+    .trait-card::before {
+      content: '';
+      position: absolute;
+      top: -10px;
+      right: -10px;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      border: 2px solid var(--memphis-black);
+    }
+
+    .trait-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 5px;
+    }
+
+    .trait-card:nth-child(1)::before { background: var(--memphis-pink); }
+    .trait-card:nth-child(1)::after { background: var(--memphis-pink); }
+    .trait-card:nth-child(2)::before { background: var(--memphis-yellow); }
+    .trait-card:nth-child(2)::after { background: var(--memphis-yellow); }
+    .trait-card:nth-child(3)::before { background: var(--memphis-teal); }
+    .trait-card:nth-child(3)::after { background: var(--memphis-teal); }
+    .trait-card:nth-child(4)::before { background: var(--memphis-purple); }
+    .trait-card:nth-child(4)::after { background: var(--memphis-purple); }
+    .trait-card:nth-child(5)::before { background: var(--memphis-orange); }
+    .trait-card:nth-child(5)::after { background: var(--memphis-orange); }
+    .trait-card:nth-child(6)::before { background: var(--memphis-lime); }
+    .trait-card:nth-child(6)::after { background: var(--memphis-lime); }
+    .trait-card:nth-child(7)::before { background: var(--memphis-coral); }
+    .trait-card:nth-child(7)::after { background: var(--memphis-coral); }
+    .trait-card:nth-child(8)::before { background: var(--memphis-blue); }
+    .trait-card:nth-child(8)::after { background: var(--memphis-blue); }
+    .trait-card:nth-child(9)::before { background: var(--memphis-red); }
+    .trait-card:nth-child(9)::after { background: var(--memphis-red); }
+
+    .trait-card__icon {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      display: block;
+      line-height: 1;
+    }
+
+    .trait-card h3 {
+      font-size: 1.2rem;
+      margin-bottom: 0.6rem;
+      color: var(--memphis-text-dark);
+    }
+
+    .trait-card p {
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+
+    /* ============================================================
+       SECTION: COLOR PALETTE
+       ============================================================ */
+    .section-palette {
+      padding: 100px 60px;
+      background: var(--memphis-bg-dark);
+      color: var(--memphis-text-light);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .section-palette__inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .section-palette__header {
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+
+    .section-palette__header h2 {
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      color: var(--memphis-yellow);
+      margin-bottom: 1rem;
+    }
+
+    .section-palette__header p {
+      font-size: 1.1rem;
+      max-width: 600px;
+      margin: 0 auto;
+      opacity: 0.85;
+    }
+
+    .palette-group-title {
+      font-family: 'Fredoka', sans-serif;
+      font-weight: 600;
+      font-size: 1.3rem;
+      margin-bottom: 1.5rem;
+      padding-left: 16px;
+      border-left: 5px solid var(--memphis-pink);
+    }
+
+    .palette-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 20px;
+      margin-bottom: 3rem;
+    }
+
+    .palette-swatch {
+      border: 3px solid var(--memphis-black);
+      box-shadow: 4px 4px 0 rgba(255, 255, 255, 0.15);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      overflow: hidden;
+    }
+
+    .palette-swatch:hover {
+      transform: translate(-2px, -2px) rotate(-2deg);
+      box-shadow: 6px 6px 0 rgba(255, 255, 255, 0.25);
+    }
+
+    .palette-swatch__color {
+      height: 90px;
+      position: relative;
+    }
+
+    .palette-swatch__info {
+      background: var(--memphis-bg-dark);
+      border-top: 3px solid var(--memphis-black);
+      padding: 10px 12px;
+    }
+
+    .palette-swatch__name {
+      font-family: 'Fredoka', sans-serif;
+      font-weight: 600;
+      font-size: 0.8rem;
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    .palette-swatch__hex {
+      font-family: 'Poppins', monospace;
+      font-weight: 400;
+      font-size: 0.75rem;
+      opacity: 0.7;
+    }
+
+    /* ============================================================
+       SECTION: DESIGN PRINCIPLES
+       ============================================================ */
+    .section-principles {
+      padding: 100px 60px;
+      background: var(--memphis-pink);
+      color: var(--memphis-text-light);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .section-principles::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image:
+        linear-gradient(var(--memphis-black) 1.5px, transparent 1.5px),
+        linear-gradient(90deg, var(--memphis-black) 1.5px, transparent 1.5px);
+      background-size: 50px 50px;
+      opacity: 0.06;
+      pointer-events: none;
+    }
+
+    .section-principles__inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .section-principles__header {
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+
+    .section-principles__header h2 {
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      margin-bottom: 1rem;
+    }
+
+    .section-principles__header p {
+      font-size: 1.1rem;
+      max-width: 550px;
+      margin: 0 auto;
+      opacity: 0.9;
+    }
+
+    .principles-list {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    .principle-item {
+      background: rgba(0, 0, 0, 0.15);
+      border: 3px solid var(--memphis-black);
+      padding: 28px;
+      position: relative;
+      transition: transform 0.2s ease, background 0.2s ease;
+    }
+
+    .principle-item:hover {
+      transform: translate(-2px, -2px);
+      background: rgba(0, 0, 0, 0.25);
+    }
+
+    .principle-item__number {
+      font-family: 'Archivo Black', sans-serif;
+      font-size: 3rem;
+      line-height: 1;
+      color: var(--memphis-yellow);
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+
+    .principle-item h3 {
+      font-size: 1.15rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .principle-item p {
+      font-size: 0.9rem;
+      line-height: 1.6;
+      opacity: 0.9;
+    }
+
+    /* ============================================================
+       SECTION: TYPOGRAPHY SHOWCASE
+       ============================================================ */
+    .section-typography {
+      padding: 100px 60px;
+      background: var(--memphis-bg-white);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .section-typography::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: transparent;
+      background-image:
+        linear-gradient(135deg, var(--memphis-pastel-pink) 25%, transparent 25%),
+        linear-gradient(225deg, var(--memphis-pastel-yellow) 25%, transparent 25%),
+        linear-gradient(315deg, var(--memphis-pastel-blue) 25%, transparent 25%),
+        radial-gradient(circle 3px, var(--memphis-purple) 100%, transparent 100%),
+        radial-gradient(circle 2px, var(--memphis-orange) 100%, transparent 100%);
+      background-size:
+        30px 30px,
+        40px 40px,
+        25px 25px,
+        180px 180px,
+        150px 150px;
+      background-position:
+        0 0,
+        60px 80px,
+        120px 40px,
+        20px 50px,
+        100px 120px;
+      opacity: 0.12;
+      pointer-events: none;
+      animation: confetti-rain 20s linear infinite;
+    }
+
+    .section-typography__inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .section-typography__header {
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+
+    .section-typography__header h2 {
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      color: var(--memphis-blue);
+      margin-bottom: 1rem;
+    }
+
+    .section-typography__header p {
+      font-size: 1.1rem;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .type-showcase {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 30px;
+    }
+
+    .type-specimen {
+      background: var(--memphis-bg-white);
+      border: 3px solid var(--memphis-black);
+      box-shadow: 5px 5px 0 var(--memphis-black);
+      padding: 36px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+      align-items: center;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .type-specimen:hover {
+      transform: translate(-2px, -2px);
+      box-shadow: 7px 7px 0 var(--memphis-black);
+    }
+
+    .type-specimen__sample {
+      line-height: 1.1;
+    }
+
+    .type-specimen__info h3 {
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .type-specimen__info p {
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+
+    .type-specimen__info .type-tag {
+      display: inline-block;
+      padding: 3px 10px;
+      border: 2px solid var(--memphis-black);
+      font-family: 'Fredoka', sans-serif;
+      font-weight: 600;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      margin-top: 0.75rem;
+    }
+
+    .type-fredoka {
+      font-family: 'Fredoka', sans-serif;
+      font-weight: 700;
+      font-size: clamp(3rem, 5vw, 5rem);
+      color: var(--memphis-pink);
+    }
+
+    .type-archivo {
+      font-family: 'Archivo Black', sans-serif;
+      font-size: clamp(3rem, 5vw, 5rem);
+      color: var(--memphis-teal);
+      text-transform: uppercase;
+    }
+
+    .type-quicksand {
+      font-family: 'Quicksand', sans-serif;
+      font-weight: 700;
+      font-size: clamp(2.5rem, 4vw, 4rem);
+      color: var(--memphis-purple);
+    }
+
+    .type-poppins-light {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 200;
+      font-size: clamp(1.5rem, 3vw, 2.5rem);
+      color: var(--memphis-text-dark);
+      line-height: 1.5;
+    }
+
+    /* ============================================================
+       SECTION: PATTERNS SHOWCASE
+       ============================================================ */
+    .section-patterns {
+      padding: 100px 60px;
+      background: var(--memphis-teal);
+      color: var(--memphis-text-light);
+      position: relative;
+    }
+
+    .section-patterns__inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .section-patterns__header {
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+
+    .section-patterns__header h2 {
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      margin-bottom: 1rem;
+    }
+
+    .section-patterns__header p {
+      font-size: 1.1rem;
+      max-width: 600px;
+      margin: 0 auto;
+      opacity: 0.9;
+    }
+
+    .patterns-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 30px;
+    }
+
+    .pattern-tile {
+      border: 3px solid var(--memphis-black);
+      overflow: hidden;
+      transition: transform 0.25s ease;
+      box-shadow: 5px 5px 0 rgba(0, 0, 0, 0.3);
+    }
+
+    .pattern-tile:hover {
+      transform: scale(1.03) rotate(-1deg);
+    }
+
+    .pattern-tile__preview {
+      height: 180px;
+      position: relative;
+    }
+
+    .pattern-tile__preview--bacterio {
+      background-color: var(--memphis-bg-cream);
+      background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M20 20 Q30 5 40 20 T60 20 T80 20' stroke='%23000' stroke-width='2.5' fill='none' stroke-linecap='round'/%3E%3Cpath d='M10 50 Q20 35 30 50 T50 50 T70 50' stroke='%23000' stroke-width='2.5' fill='none' stroke-linecap='round'/%3E%3Cpath d='M30 80 Q40 65 50 80 T70 80 T90 80' stroke='%23000' stroke-width='2.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-size: 120px 120px;
+      animation: squiggle-drift 12s linear infinite;
+    }
+
+    .pattern-tile__preview--terrazzo {
+      background-color: var(--memphis-bg-cream);
+      background-image:
+        radial-gradient(circle 4px, var(--memphis-pink) 100%, transparent 100%),
+        radial-gradient(circle 3px, var(--memphis-teal) 100%, transparent 100%),
+        radial-gradient(circle 5px, var(--memphis-yellow) 100%, transparent 100%),
+        radial-gradient(circle 3px, var(--memphis-purple) 100%, transparent 100%),
+        radial-gradient(circle 2px, var(--memphis-black) 100%, transparent 100%),
+        radial-gradient(circle 4px, var(--memphis-lime) 100%, transparent 100%);
+      background-size: 200px 200px;
+      background-position:
+        10px 20px,
+        50px 70px,
+        90px 30px,
+        140px 90px,
+        30px 130px,
+        170px 160px;
+    }
+
+    .pattern-tile__preview--confetti {
+      background-color: #ffffff;
+      background-image:
+        linear-gradient(135deg, var(--memphis-pink) 25%, transparent 25%),
+        linear-gradient(225deg, var(--memphis-yellow) 25%, transparent 25%),
+        linear-gradient(315deg, var(--memphis-teal) 25%, transparent 25%),
+        radial-gradient(circle 3px, var(--memphis-purple) 100%, transparent 100%),
+        radial-gradient(circle 2px, var(--memphis-orange) 100%, transparent 100%);
+      background-size:
+        30px 30px,
+        40px 40px,
+        25px 25px,
+        180px 180px,
+        150px 150px;
+      background-position:
+        0 0,
+        60px 80px,
+        120px 40px,
+        20px 50px,
+        100px 120px;
+      animation: confetti-rain 18s linear infinite;
+    }
+
+    .pattern-tile__info {
+      background: var(--memphis-bg-dark);
+      border-top: 3px solid var(--memphis-black);
+      padding: 18px 20px;
+    }
+
+    .pattern-tile__info h3 {
+      font-size: 1.1rem;
+      margin-bottom: 0.3rem;
+    }
+
+    .pattern-tile__info p {
+      font-size: 0.85rem;
+      opacity: 0.8;
+      line-height: 1.5;
+    }
+
+    /* ============================================================
+       SECTION: RELATED AESTHETICS
+       ============================================================ */
+    .section-related {
+      padding: 100px 60px;
+      background: var(--memphis-pastel-yellow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .section-related__inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .section-related__header {
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+
+    .section-related__header h2 {
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      color: var(--memphis-purple);
+      margin-bottom: 1rem;
+    }
+
+    .section-related__header p {
+      font-size: 1.1rem;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .related-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 22px;
+    }
+
+    .related-tag {
+      background: var(--memphis-bg-white);
+      border: 3px solid var(--memphis-black);
+      padding: 22px;
+      box-shadow: 4px 4px 0 var(--memphis-black);
+      transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+      position: relative;
+    }
+
+    .related-tag:hover {
+      transform: translate(-2px, -2px) rotate(-1deg);
+      box-shadow: 6px 6px 0 var(--memphis-black);
+    }
+
+    .related-tag:nth-child(1):hover { background: var(--memphis-pastel-pink); }
+    .related-tag:nth-child(2):hover { background: var(--memphis-pastel-blue); }
+    .related-tag:nth-child(3):hover { background: var(--memphis-pastel-lavender); }
+    .related-tag:nth-child(4):hover { background: var(--memphis-pastel-mint); }
+    .related-tag:nth-child(5):hover { background: var(--memphis-pastel-pink); }
+    .related-tag:nth-child(6):hover { background: var(--memphis-pastel-blue); }
+    .related-tag:nth-child(7):hover { background: var(--memphis-pastel-lavender); }
+    .related-tag:nth-child(8):hover { background: var(--memphis-pastel-mint); }
+
+    .related-tag h3 {
+      font-size: 1.1rem;
+      margin-bottom: 0.4rem;
+      color: var(--memphis-text-dark);
+    }
+
+    .related-tag p {
+      font-size: 0.85rem;
+      line-height: 1.5;
+    }
+
+    /* ============================================================
+       SECTION: INTERACTIVE PLAYGROUND
+       ============================================================ */
+    .section-playground {
+      padding: 100px 60px;
+      background: var(--memphis-bg-white);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .section-playground__inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .section-playground__header {
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+
+    .section-playground__header h2 {
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      color: var(--memphis-red);
+      margin-bottom: 1rem;
+    }
+
+    .section-playground__header p {
+      font-size: 1.1rem;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .playground-canvas {
+      width: 100%;
+      height: 400px;
+      border: 3px solid var(--memphis-black);
+      box-shadow: 8px 8px 0 var(--memphis-black);
+      position: relative;
+      background: var(--memphis-bg-cream);
+      overflow: hidden;
+      cursor: crosshair;
+    }
+
+    .playground-canvas__shape {
+      position: absolute;
+      pointer-events: none;
+      animation: fade-in-scale 0.4s ease-out both;
+    }
+
+    .playground-controls {
+      display: flex;
+      gap: 12px;
+      margin-top: 24px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    /* ============================================================
+       CTA / FOOTER
+       ============================================================ */
+    .section-cta {
+      padding: 100px 60px;
+      background: var(--memphis-yellow);
+      color: var(--memphis-text-dark);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      border-top: 3px solid var(--memphis-black);
+      border-bottom: 3px solid var(--memphis-black);
+    }
+
+    .section-cta::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M20 20 Q30 5 40 20 T60 20 T80 20' stroke='%23000' stroke-width='2.5' fill='none' stroke-linecap='round'/%3E%3Cpath d='M10 50 Q20 35 30 50 T50 50 T70 50' stroke='%23000' stroke-width='2.5' fill='none' stroke-linecap='round'/%3E%3Cpath d='M30 80 Q40 65 50 80 T70 80 T90 80' stroke='%23000' stroke-width='2.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-size: 120px 120px;
+      opacity: 0.06;
+      pointer-events: none;
+    }
+
+    .section-cta__inner {
+      position: relative;
+      z-index: 1;
+    }
+
+    .section-cta h2 {
+      font-size: clamp(2.5rem, 6vw, 5rem);
+      margin-bottom: 1rem;
+      line-height: 1.05;
+    }
+
+    .section-cta h2 .rotating-word {
+      display: inline-block;
+      animation: color-cycle 4s ease-in-out infinite;
+    }
+
+    .section-cta p {
+      font-size: 1.2rem;
+      margin-bottom: 2.5rem;
+      max-width: 550px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .section-cta .memphis-btn {
+      font-size: 1.3rem;
+      padding: 18px 48px;
+    }
+
+    .memphis-footer {
+      background: var(--memphis-bg-black);
+      color: var(--memphis-text-light);
+      padding: 40px 60px;
+      text-align: center;
+      border-top: 3px solid var(--memphis-black);
+    }
+
+    .memphis-footer p {
+      font-size: 0.9rem;
+      opacity: 0.7;
+    }
+
+    .memphis-footer .footer-shapes {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .memphis-footer .footer-shape {
+      width: 16px;
+      height: 16px;
+      display: inline-block;
+    }
+
+    .footer-shape--circle {
+      border-radius: 50%;
+      background: var(--memphis-pink);
+    }
+
+    .footer-shape--square {
+      background: var(--memphis-yellow);
+      transform: rotate(45deg);
+    }
+
+    .footer-shape--triangle {
+      width: 0;
+      height: 0;
+      border-left: 8px solid transparent;
+      border-right: 8px solid transparent;
+      border-bottom: 16px solid var(--memphis-teal);
+    }
+
+    /* ============================================================
+       RESPONSIVE
+       ============================================================ */
+    @media (max-width: 1024px) {
+      .traits-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .patterns-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .memphis-nav {
+        padding: 16px 24px;
+      }
+
+      .memphis-nav__links {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: var(--memphis-bg-white);
+        border-bottom: 3px solid var(--memphis-black);
+        flex-direction: column;
+        padding: 20px;
+        gap: 12px;
+      }
+
+      .memphis-nav__links.open {
+        display: flex;
+      }
+
+      .mobile-toggle {
+        display: flex;
+      }
+
+      .memphis-hero {
+        min-height: auto;
+        padding: 60px 24px;
+      }
+
+      .memphis-hero h1 {
+        font-size: clamp(2.8rem, 10vw, 5rem);
+      }
+
+      .deco-shape {
+        opacity: 0.5;
+        transform: scale(0.6) !important;
+      }
+
+      .section-about,
+      .section-traits,
+      .section-palette,
+      .section-principles,
+      .section-typography,
+      .section-patterns,
+      .section-related,
+      .section-playground,
+      .section-cta {
+        padding: 60px 24px;
+      }
+
+      .about-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .traits-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .principles-list {
+        grid-template-columns: 1fr;
+      }
+
+      .type-specimen {
+        grid-template-columns: 1fr;
+      }
+
+      .patterns-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .timeline-items {
+        flex-direction: column;
+      }
+
+      .playground-canvas {
+        height: 300px;
+      }
+
+      .palette-grid {
+        grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+      }
+    }
+
+    @media (max-width: 480px) {
+      .memphis-hero h1 {
+        font-size: 2.5rem;
+      }
+
+      .memphis-hero__buttons {
+        flex-direction: column;
+      }
+
+      .memphis-btn {
+        text-align: center;
+        width: 100%;
+      }
+
+      .related-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================================
+       NAVIGATION
+       ============================================================ -->
+  <nav class="memphis-nav">
+    <a href="#" class="memphis-nav__logo">
+      <span class="memphis-nav__logo-dot"></span>
+      <span class="memphis-nav__logo-dot"></span>
+      <span class="memphis-nav__logo-dot"></span>
+      MEMPHIS
+    </a>
+    <button class="mobile-toggle" aria-label="Toggle navigation" onclick="document.querySelector('.memphis-nav__links').classList.toggle('open')">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+    <ul class="memphis-nav__links">
+      <li><a href="#about">Origins</a></li>
+      <li><a href="#traits">Traits</a></li>
+      <li><a href="#palette">Palette</a></li>
+      <li><a href="#principles">Principles</a></li>
+      <li><a href="#typography">Type</a></li>
+      <li><a href="#patterns">Patterns</a></li>
+      <li><a href="#playground">Play</a></li>
+    </ul>
+  </nav>
+
+  <!-- ============================================================
+       HERO
+       ============================================================ -->
+  <section class="memphis-hero">
+    <div class="memphis-hero__content">
+      <span class="memphis-hero__badge">Est. Milan, 1981</span>
+      <h1>
+        <span class="line line-1">Memphis</span>
+        <span class="line line-2">Design</span>
+        <span class="line line-3">Movement</span>
+      </h1>
+      <p class="memphis-hero__subtitle">
+        A <strong>bold, postmodern</strong> explosion of vibrant neon colors, geometric shapes, and playful patterns that rejected minimalism and injected <strong>joy and chaos</strong> into everyday objects.
+      </p>
+      <div class="memphis-hero__buttons">
+        <a href="#about" class="memphis-btn">Explore the Movement</a>
+        <a href="#playground" class="memphis-btn memphis-btn--outline">Interactive Playground</a>
+      </div>
+    </div>
+
+    <!-- Scattered decorative shapes -->
+    <div class="memphis-hero__shapes">
+      <div class="deco-shape deco-circle-pink"></div>
+      <div class="deco-shape deco-circle-teal-outline"></div>
+      <div class="deco-shape deco-triangle-yellow"></div>
+      <div class="deco-shape deco-pill-purple"></div>
+      <div class="deco-shape deco-cross-orange"></div>
+      <div class="deco-shape deco-semicircle-blue"></div>
+      <div class="deco-shape deco-square-lime"></div>
+      <div class="deco-shape deco-dots-grid"></div>
+      <div class="deco-shape deco-circle-small-red"></div>
+      <div class="deco-shape deco-pill-coral"></div>
+    </div>
+  </section>
+
+  <div class="zigzag-divider"></div>
+
+  <!-- ============================================================
+       ABOUT / ORIGINS
+       ============================================================ -->
+  <section class="section-about" id="about">
+    <div class="section-about__inner">
+      <div class="section-about__header animate-on-scroll">
+        <h2>The <span class="accent">Origin</span> Story</h2>
+        <p>Founded by <strong>Ettore Sottsass</strong> in Milan, Italy, the Memphis Group shook the foundations of design with deliberate, joyful rebellion.</p>
+      </div>
+
+      <div class="about-grid">
+        <div class="about-text-card animate-on-scroll">
+          <h3>What is Memphis Design?</h3>
+          <p>Memphis Design is a bold, postmodern design movement originating from the <strong>Memphis Group</strong>, founded in Milan, Italy in 1981 by Ettore Sottsass. It is characterized by <strong>vibrant neon and pastel colors, bold geometric shapes, playful patterns including squiggly and zig-zag lines</strong>, and a deliberate rejection of the austere minimalism that dominated 1970s design.</p>
+          <p>The movement sought to inject <strong>emotional and symbolic meaning into everyday objects</strong>, blending elements of pop culture, high art, and ironic classicism.</p>
+        </div>
+        <div class="about-text-card animate-on-scroll">
+          <h3>The Memphis Spirit</h3>
+          <p>Memphis Design prioritizes <strong>visual exuberance, pattern density, kitsch-meets-elegance tension</strong>, and a joyful, almost chaotic compositional energy. Named after the Bob Dylan song "Stuck Inside of Mobile with the Memphis Blues Again," the movement was never meant to be taken too seriously.</p>
+          <p>It was a statement: design could be <strong>fun, irreverent, and emotionally resonant</strong> without sacrificing its power to shape how people interact with the world.</p>
+        </div>
+      </div>
+
+      <div class="about-timeline animate-on-scroll">
+        <h3>Key Moments</h3>
+        <div class="timeline-items">
+          <div class="timeline-item">
+            <span class="year">1978</span>
+            <p>Sottsass designs the <strong>Bacterio print</strong>, the movement's trademark squiggle pattern</p>
+          </div>
+          <div class="timeline-item">
+            <span class="year">1981</span>
+            <p>The <strong>Memphis Group</strong> is officially founded in Milan with their first exhibition</p>
+          </div>
+          <div class="timeline-item">
+            <span class="year">1987</span>
+            <p>The group formally disbands, but Memphis influence <strong>permeates pop culture</strong></p>
+          </div>
+          <div class="timeline-item">
+            <span class="year">2010s</span>
+            <p>Major <strong>Memphis revival</strong> in graphic design, interiors, and digital interfaces</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="zigzag-divider--pink"></div>
+
+  <!-- ============================================================
+       VISUAL CHARACTERISTICS
+       ============================================================ -->
+  <section class="section-traits" id="traits">
+    <div class="section-traits__inner">
+      <div class="section-traits__header animate-on-scroll">
+        <h2><span class="pink">Visual</span> <span class="teal">Characteristics</span></h2>
+        <p>The building blocks of Memphis -- every element is bold, graphic, and designed to provoke a reaction.</p>
+      </div>
+
+      <div class="traits-grid">
+        <div class="trait-card animate-on-scroll">
+          <span class="trait-card__icon">&#9650;</span>
+          <h3>Bold Geometric Shapes</h3>
+          <p>Triangles, circles, squares, and distinctive "pill" shapes are the primary visual building blocks, often oversized and layered.</p>
+        </div>
+        <div class="trait-card animate-on-scroll">
+          <span class="trait-card__icon">&#10069;</span>
+          <h3>Zig-Zag Lines</h3>
+          <p>Usually rendered with black outlines, creating dynamic, angular energy throughout compositions.</p>
+        </div>
+        <div class="trait-card animate-on-scroll">
+          <span class="trait-card__icon">&#8767;</span>
+          <h3>Squiggly Lines</h3>
+          <p>The signature Bacterio print, designed by Sottsass in 1978, features freely drawn squiggles -- the movement's trademark pattern.</p>
+        </div>
+        <div class="trait-card animate-on-scroll">
+          <span class="trait-card__icon">&#127912;</span>
+          <h3>Neon + Pastel Colors</h3>
+          <p>Fully saturated hues paired with unexpected pastel accents, never muted or tonal. The palette feels electric and joyful.</p>
+        </div>
+        <div class="trait-card animate-on-scroll">
+          <span class="trait-card__icon">&#11044;</span>
+          <h3>Terrazzo Patterns</h3>
+          <p>Speckled stone-inspired surfaces used extensively on floors, tabletops, furniture, and decorative surfaces.</p>
+        </div>
+        <div class="trait-card animate-on-scroll">
+          <span class="trait-card__icon">&#10022;</span>
+          <h3>Confetti Scatter</h3>
+          <p>Small geometric shapes -- triangles, dots, squares -- scattered haphazardly across surfaces for playful energy.</p>
+        </div>
+        <div class="trait-card animate-on-scroll">
+          <span class="trait-card__icon">&#9724;</span>
+          <h3>Thick Outlines</h3>
+          <p>Heavy black or colored outlines around shapes and elements, creating graphic punch and a constructed, vectorized feel.</p>
+        </div>
+        <div class="trait-card animate-on-scroll">
+          <span class="trait-card__icon">&#9670;</span>
+          <h3>Clashing Patterns</h3>
+          <p>Multiple conflicting patterns used simultaneously within a single composition -- discord is the point, not a mistake.</p>
+        </div>
+        <div class="trait-card animate-on-scroll">
+          <span class="trait-card__icon">&#9632;</span>
+          <h3>Offset Shadows</h3>
+          <p>Fully saturated solid shadows creating a dimensional pop effect, giving flat graphics a sense of depth and playfulness.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="wavy-divider--teal"></div>
+
+  <!-- ============================================================
+       COLOR PALETTE
+       ============================================================ -->
+  <section class="section-palette" id="palette">
+    <div class="section-palette__inner">
+      <div class="section-palette__header animate-on-scroll">
+        <h2>The Color Palette</h2>
+        <p>Intensely saturated neon hues combined with unexpected pastels. The palette should feel <strong>electric, joyful, and deliberately excessive</strong>.</p>
+      </div>
+
+      <h4 class="palette-group-title">Neon Primaries</h4>
+      <div class="palette-grid">
+        <div class="palette-swatch animate-on-scroll">
+          <div class="palette-swatch__color" style="background: #f725a0;"></div>
+          <div class="palette-swatch__info">
+            <span class="palette-swatch__name">Hot Pink</span>
+            <span class="palette-swatch__hex">#F725A0</span>
+          </div>
+        </div>
+        <div class="palette-swatch animate-on-scroll">
+          <div class="palette-swatch__color" style="background: #fad141;"></div>
+          <div class="palette-swatch__info">
+            <span class="palette-swatch__name">Vibrant Yellow</span>
+            <span class="palette-swatch__hex">#FAD141</span>
+          </div>
+        </div>
+        <div class="palette-swatch animate-on-scroll">
+          <div class="palette-swatch__color" style="background: #0cb2c0;"></div>
+          <div class="palette-swatch__info">
+            <span class="palette-swatch__name">Teal</span>
+            <span class="palette-swatch__hex">#0CB2C0</span>
+          </div>
+        </div>
+        <div class="palette-swatch animate-on-scroll">
+          <div class="palette-swatch__color" style="background: #672394;"></div>
+          <div class="palette-swatch__info">
+            <span class="palette-swatch__name">Deep Purple</span>
+            <span class="palette-swatch__hex">#672394</span>
+          </div>
+        </div>
+        <div class="palette-swatch animate-on-scroll">
+          <div class="palette-swatch__color" style="background: #cd2d48;"></div>
+          <div class="palette-swatch__info">
+            <span class="palette-swatch__name">Coral Red</span>
+            <span class="palette-swatch__hex">#CD2D48</span>
+          </div>
+        </div>
+        <div class="palette-swatch animate-on-scroll">
+          <div class="palette-swatch__color" style="background: #4458a0;"></div>
+          <div class="palette-swatch__info">
+            <span class="palette-swatch__name">Royal Blue</span>
+            <span class="palette-swatch__hex">#4458A0</span>
+          </div>
+        </div>
+        <div class="palette-swatch animate-on-scroll">
+          <div class="palette-swatch__color" style="background: #a8e05f;"></div>
+          <div class="palette-swatch__info">
+            <span class="palette-swatch__name">Lime Green</span>
+            <span class="palette-swatch__hex">#A8E05F</span>
+          </div>
+        </div>
+        <div class="palette-swatch animate-on-scroll">
+          <div class="palette-swatch__color" style="background: #ff8c42;"></div>
+          <div class="palette-swatch__info">
+            <span class="palette-swatch__name">Orange</span>
+            <span class="palette-swatch__hex">#FF8C42</span>
+          </div>
+        </div>
+      </div>
+
+      <h4 class="palette-group-title" style="border-left-color: var(--memphis-pastel-lavender);">Pastels</h4>
+      <div class="palette-grid">
+        <div class="palette-swatch animate-on-scroll">
+          <div class="palette-swatch__color" style="background: #fad6da;"></div>
+          <div class="palette-swatch__info">
+            <span class="palette-swatch__name">Pastel Pink</span>
+            <span class="palette-swatch__hex">#FAD6DA</span>
+          </div>
+        </div>
+        <div class="palette-swatch animate-on-scroll">
+          <div class="palette-swatch__color" style="background: #a3d9e5;"></div>
+          <div class="palette-swatch__info">
+            <span class="palette-swatch__name">Pastel Blue</span>
+            <span class="palette-swatch__hex">#A3D9E5</span>
+          </div>
+        </div>
+        <div class="palette-swatch animate-on-scroll">
+          <div class="palette-swatch__color" style="background: #fae498;"></div>
+          <div class="palette-swatch__info">
+            <span class="palette-swatch__name">Pastel Yellow</span>
+            <span class="palette-swatch__hex">#FAE498</span>
+          </div>
+        </div>
+        <div class="palette-swatch animate-on-scroll">
+          <div class="palette-swatch__color" style="background: #c9aecf;"></div>
+          <div class="palette-swatch__info">
+            <span class="palette-swatch__name">Pastel Lavender</span>
+            <span class="palette-swatch__hex">#C9AECF</span>
+          </div>
+        </div>
+        <div class="palette-swatch animate-on-scroll">
+          <div class="palette-swatch__color" style="background: #b5ead7;"></div>
+          <div class="palette-swatch__info">
+            <span class="palette-swatch__name">Pastel Mint</span>
+            <span class="palette-swatch__hex">#B5EAD7</span>
+          </div>
+        </div>
+      </div>
+
+      <h4 class="palette-group-title" style="border-left-color: var(--memphis-bg-cream);">Backgrounds &amp; Strokes</h4>
+      <div class="palette-grid">
+        <div class="palette-swatch animate-on-scroll">
+          <div class="palette-swatch__color" style="background: #ffffff; border-bottom: 1px solid #ccc;"></div>
+          <div class="palette-swatch__info">
+            <span class="palette-swatch__name">White</span>
+            <span class="palette-swatch__hex">#FFFFFF</span>
+          </div>
+        </div>
+        <div class="palette-swatch animate-on-scroll">
+          <div class="palette-swatch__color" style="background: #e8e6d9;"></div>
+          <div class="palette-swatch__info">
+            <span class="palette-swatch__name">Cream</span>
+            <span class="palette-swatch__hex">#E8E6D9</span>
+          </div>
+        </div>
+        <div class="palette-swatch animate-on-scroll">
+          <div class="palette-swatch__color" style="background: #212436;"></div>
+          <div class="palette-swatch__info">
+            <span class="palette-swatch__name">Dark</span>
+            <span class="palette-swatch__hex">#212436</span>
+          </div>
+        </div>
+        <div class="palette-swatch animate-on-scroll">
+          <div class="palette-swatch__color" style="background: #000000;"></div>
+          <div class="palette-swatch__info">
+            <span class="palette-swatch__name">Black (Stroke)</span>
+            <span class="palette-swatch__hex">#000000</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="zigzag-divider--teal"></div>
+
+  <!-- ============================================================
+       DESIGN PRINCIPLES
+       ============================================================ -->
+  <section class="section-principles" id="principles">
+    <div class="section-principles__inner">
+      <div class="section-principles__header animate-on-scroll">
+        <h2>Design Principles</h2>
+        <p>The philosophy behind the chaos. Every bold choice is intentional.</p>
+      </div>
+
+      <div class="principles-list">
+        <div class="principle-item animate-on-scroll">
+          <span class="principle-item__number">01</span>
+          <h3>Reject Minimalism</h3>
+          <p>Embrace maximalism, clutter, and visual abundance. More is more -- restraint is the enemy of expression.</p>
+        </div>
+        <div class="principle-item animate-on-scroll">
+          <span class="principle-item__number">02</span>
+          <h3>Clash Deliberately</h3>
+          <p>Use clashing colors and patterns on purpose. Discord is the point, not a mistake. Pink next to yellow, teal next to orange.</p>
+        </div>
+        <div class="principle-item animate-on-scroll">
+          <span class="principle-item__number">03</span>
+          <h3>Layer for Depth</h3>
+          <p>Layer geometric shapes for dimensional, collage-like compositions rather than flat layouts. Overlap elements freely.</p>
+        </div>
+        <div class="principle-item animate-on-scroll">
+          <span class="principle-item__number">04</span>
+          <h3>Mix High and Low</h3>
+          <p>Combine high art references with pop culture kitsch freely, without irony about the combination itself.</p>
+        </div>
+        <div class="principle-item animate-on-scroll">
+          <span class="principle-item__number">05</span>
+          <h3>Prioritize Emotion</h3>
+          <p>Joy, surprise, playfulness matter more than functional clarity. Design should make you feel something unexpected.</p>
+        </div>
+        <div class="principle-item animate-on-scroll">
+          <span class="principle-item__number">06</span>
+          <h3>Pattern as Structure</h3>
+          <p>Use pattern and color as structural elements, not just decoration. They carry the composition's weight.</p>
+        </div>
+        <div class="principle-item animate-on-scroll">
+          <span class="principle-item__number">07</span>
+          <h3>Embrace Asymmetry</h3>
+          <p>Haphazard placement over rigid grids. Elements should feel scattered intentionally, never locked to a template.</p>
+        </div>
+        <div class="principle-item animate-on-scroll">
+          <span class="principle-item__number">08</span>
+          <h3>Go Bold or Go Home</h3>
+          <p>Oversized elements dominate the viewport. Nothing should feel timid or restrained. If it can be bigger, make it bigger.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="wavy-divider--yellow"></div>
+
+  <!-- ============================================================
+       TYPOGRAPHY
+       ============================================================ -->
+  <section class="section-typography" id="typography">
+    <div class="section-typography__inner">
+      <div class="section-typography__header animate-on-scroll">
+        <h2>Typography</h2>
+        <p>Bold, blocky sans-serifs with extreme weight contrasts. Type becomes a graphic element, not just text.</p>
+      </div>
+
+      <div class="type-showcase">
+        <div class="type-specimen animate-on-scroll">
+          <div class="type-specimen__sample">
+            <span class="type-fredoka">Fredoka</span>
+          </div>
+          <div class="type-specimen__info">
+            <h3>Fredoka</h3>
+            <p>Rounded, geometric, and playful -- the quintessential Memphis display font. Captures the bubbly, joyful spirit of the movement. Use for hero text and major headings.</p>
+            <span class="type-tag" style="background: var(--memphis-pastel-pink);">Display / Hero</span>
+          </div>
+        </div>
+
+        <div class="type-specimen animate-on-scroll">
+          <div class="type-specimen__sample">
+            <span class="type-archivo">ARCHIVO</span>
+          </div>
+          <div class="type-specimen__info">
+            <h3>Archivo Black</h3>
+            <p>Heavy geometric sans-serif with raw visual weight. Ideal for bold headlines, oversized display text, and all-caps treatments that demand attention.</p>
+            <span class="type-tag" style="background: var(--memphis-pastel-blue);">Headlines / Impact</span>
+          </div>
+        </div>
+
+        <div class="type-specimen animate-on-scroll">
+          <div class="type-specimen__sample">
+            <span class="type-quicksand">Quicksand</span>
+          </div>
+          <div class="type-specimen__info">
+            <h3>Quicksand</h3>
+            <p>Soft geometric curves with friendly character. Perfect for subheadings, UI labels, and mid-weight typographic moments that need warmth without losing geometric precision.</p>
+            <span class="type-tag" style="background: var(--memphis-pastel-lavender);">Subheadings / UI</span>
+          </div>
+        </div>
+
+        <div class="type-specimen animate-on-scroll">
+          <div class="type-specimen__sample">
+            <span class="type-poppins-light">Poppins Light -- extreme weight contrast creates dramatic hierarchy</span>
+          </div>
+          <div class="type-specimen__info">
+            <h3>Poppins</h3>
+            <p>Clean geometric sans for body text. The 200 weight provides extreme contrast against heavy display faces, a hallmark Memphis typographic technique.</p>
+            <span class="type-tag" style="background: var(--memphis-pastel-mint);">Body Text</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="zigzag-divider"></div>
+
+  <!-- ============================================================
+       SIGNATURE PATTERNS
+       ============================================================ -->
+  <section class="section-patterns" id="patterns">
+    <div class="section-patterns__inner">
+      <div class="section-patterns__header animate-on-scroll">
+        <h2>Signature Patterns</h2>
+        <p>The iconic repeating motifs that define Memphis surfaces, from the legendary Bacterio print to terrazzo and confetti scatter.</p>
+      </div>
+
+      <div class="patterns-grid">
+        <div class="pattern-tile animate-on-scroll">
+          <div class="pattern-tile__preview pattern-tile__preview--bacterio"></div>
+          <div class="pattern-tile__info">
+            <h3>Bacterio Print</h3>
+            <p>The most iconic Memphis pattern. Free-form squiggly lines scattered across a surface, designed by Sottsass in 1978. Typically black on a colored background.</p>
+          </div>
+        </div>
+
+        <div class="pattern-tile animate-on-scroll">
+          <div class="pattern-tile__preview pattern-tile__preview--terrazzo"></div>
+          <div class="pattern-tile__info">
+            <h3>Terrazzo</h3>
+            <p>Speckled stone-like surfaces with irregular colored chips on a neutral base. Originally for floors, extended to all decorative surfaces.</p>
+          </div>
+        </div>
+
+        <div class="pattern-tile animate-on-scroll">
+          <div class="pattern-tile__preview pattern-tile__preview--confetti"></div>
+          <div class="pattern-tile__info">
+            <h3>Confetti Scatter</h3>
+            <p>Small triangles, circles, squares, and lines scattered randomly across surfaces for playful, celebratory energy.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="wavy-divider"></div>
+
+  <!-- ============================================================
+       RELATED AESTHETICS
+       ============================================================ -->
+  <section class="section-related" id="related">
+    <div class="section-related__inner">
+      <div class="section-related__header animate-on-scroll">
+        <h2>Related Aesthetics</h2>
+        <p>Memphis Design's influence radiates outward, connecting to a constellation of bold visual movements.</p>
+      </div>
+
+      <div class="related-grid">
+        <div class="related-tag animate-on-scroll">
+          <h3>Memphis Lite</h3>
+          <p>Direct commercial successor; softened Memphis motifs adapted for mass-market consumer products in the late 1980s-early 1990s.</p>
+        </div>
+        <div class="related-tag animate-on-scroll">
+          <h3>Corporate Memphis</h3>
+          <p>Modern namesake descendant; borrows bright colors and geometric shapes but strips away pattern density, irony, and maximalism.</p>
+        </div>
+        <div class="related-tag animate-on-scroll">
+          <h3>Vaporwave</h3>
+          <p>Shares neon palettes and 1980s nostalgia; adds digital glitch, consumerism critique, and Japanese aesthetic elements.</p>
+        </div>
+        <div class="related-tag animate-on-scroll">
+          <h3>Pop Art</h3>
+          <p>Shares the embrace of popular culture, bold colors, and irreverence toward "high art" boundaries.</p>
+        </div>
+        <div class="related-tag animate-on-scroll">
+          <h3>Neubrutalism</h3>
+          <p>Contemporary aesthetic sharing thick outlines, bold colors, and offset shadows; more raw and less playful than Memphis.</p>
+        </div>
+        <div class="related-tag animate-on-scroll">
+          <h3>Bauhaus</h3>
+          <p>Memphis was a deliberate reaction against Bauhaus-influenced minimalism; they share geometric foundations but oppose in philosophy.</p>
+        </div>
+        <div class="related-tag animate-on-scroll">
+          <h3>Kidcore</h3>
+          <p>Shares bright, primary-color palettes and playful, childlike energy with an emphasis on joy.</p>
+        </div>
+        <div class="related-tag animate-on-scroll">
+          <h3>Dopamine Design</h3>
+          <p>Contemporary trend sharing joy-inducing bright colors and maximalist aesthetics as antidote to minimal design fatigue.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="zigzag-divider--pink"></div>
+
+  <!-- ============================================================
+       INTERACTIVE PLAYGROUND
+       ============================================================ -->
+  <section class="section-playground" id="playground">
+    <div class="section-playground__inner">
+      <div class="section-playground__header animate-on-scroll">
+        <h2>Interactive Playground</h2>
+        <p>Click on the canvas below to scatter Memphis shapes. Because design should be fun.</p>
+      </div>
+
+      <div class="playground-canvas" id="playgroundCanvas"></div>
+
+      <div class="playground-controls">
+        <button class="memphis-btn" onclick="clearPlayground()">Clear Canvas</button>
+        <button class="memphis-btn memphis-btn--pink" onclick="burstShapes()">Shape Burst!</button>
+        <button class="memphis-btn memphis-btn--teal" onclick="toggleAutoplay()">Auto-Play</button>
+      </div>
+    </div>
+  </section>
+
+  <div class="zigzag-divider"></div>
+
+  <!-- ============================================================
+       CTA
+       ============================================================ -->
+  <section class="section-cta">
+    <div class="section-cta__inner">
+      <h2>
+        Design Should Be<br>
+        <span class="rotating-word">Unforgettable</span>
+      </h2>
+      <p>Memphis Design proves that more is more. Reject the ordinary. Embrace the chaotic. Make every surface a celebration.</p>
+      <a href="#" class="memphis-btn" onclick="event.preventDefault(); window.scrollTo({top: 0, behavior: 'smooth'});">Back to the Top</a>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       FOOTER
+       ============================================================ -->
+  <footer class="memphis-footer">
+    <div class="footer-shapes">
+      <span class="footer-shape footer-shape--circle"></span>
+      <span class="footer-shape footer-shape--square"></span>
+      <span class="footer-shape footer-shape--triangle"></span>
+      <span class="footer-shape footer-shape--circle" style="background: var(--memphis-yellow);"></span>
+      <span class="footer-shape footer-shape--square" style="background: var(--memphis-teal);"></span>
+      <span class="footer-shape footer-shape--triangle" style="border-bottom-color: var(--memphis-purple);"></span>
+    </div>
+    <p>Memphis Design Showcase -- A celebration of bold, postmodern design since 1981</p>
+  </footer>
+
+  <!-- ============================================================
+       JAVASCRIPT
+       ============================================================ -->
+  <script>
+    // ---- Scroll-triggered animations ----
+    (function() {
+      const observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      }, {
+        threshold: 0.12,
+        rootMargin: '0px 0px -40px 0px'
+      });
+
+      document.querySelectorAll('.animate-on-scroll').forEach(function(el) {
+        observer.observe(el);
+      });
+    })();
+
+    // ---- Interactive Playground ----
+    var autoplayInterval = null;
+    var shapeCount = 0;
+    var maxShapes = 120;
+
+    var shapeColors = [
+      '#f725a0', '#fad141', '#0cb2c0', '#672394',
+      '#cd2d48', '#4458a0', '#a8e05f', '#ff8c42',
+      '#ff7f50', '#fad6da', '#a3d9e5', '#c9aecf'
+    ];
+
+    function randomColor() {
+      return shapeColors[Math.floor(Math.random() * shapeColors.length)];
+    }
+
+    function randomBetween(min, max) {
+      return Math.random() * (max - min) + min;
+    }
+
+    function createShape(x, y, container) {
+      if (shapeCount >= maxShapes) {
+        var oldShapes = container.querySelectorAll('.playground-canvas__shape');
+        if (oldShapes.length > 0) {
+          oldShapes[0].remove();
+          shapeCount--;
+        }
+      }
+
+      var shape = document.createElement('div');
+      shape.className = 'playground-canvas__shape';
+      var color = randomColor();
+      var size = randomBetween(15, 60);
+      var rotation = randomBetween(-45, 45);
+      var type = Math.floor(Math.random() * 6);
+
+      shape.style.left = x + 'px';
+      shape.style.top = y + 'px';
+      shape.style.transform = 'translate(-50%, -50%) rotate(' + rotation + 'deg)';
+
+      switch(type) {
+        case 0: // Circle
+          shape.style.width = size + 'px';
+          shape.style.height = size + 'px';
+          shape.style.borderRadius = '50%';
+          shape.style.background = color;
+          shape.style.border = '2px solid #000';
+          break;
+        case 1: // Square
+          shape.style.width = size + 'px';
+          shape.style.height = size + 'px';
+          shape.style.background = color;
+          shape.style.border = '2px solid #000';
+          break;
+        case 2: // Triangle
+          shape.style.width = '0';
+          shape.style.height = '0';
+          var triSize = size * 0.6;
+          shape.style.borderLeft = triSize + 'px solid transparent';
+          shape.style.borderRight = triSize + 'px solid transparent';
+          shape.style.borderBottom = (triSize * 1.7) + 'px solid ' + color;
+          break;
+        case 3: // Pill
+          shape.style.width = (size * 0.5) + 'px';
+          shape.style.height = size + 'px';
+          shape.style.borderRadius = (size * 0.25) + 'px';
+          shape.style.background = color;
+          shape.style.border = '2px solid #000';
+          break;
+        case 4: // Circle outline
+          shape.style.width = size + 'px';
+          shape.style.height = size + 'px';
+          shape.style.borderRadius = '50%';
+          shape.style.background = 'transparent';
+          shape.style.border = '3px solid ' + color;
+          break;
+        case 5: // Semicircle
+          shape.style.width = size + 'px';
+          shape.style.height = (size * 0.5) + 'px';
+          shape.style.borderRadius = size + 'px ' + size + 'px 0 0';
+          shape.style.background = color;
+          shape.style.border = '2px solid #000';
+          break;
+      }
+
+      container.appendChild(shape);
+      shapeCount++;
+    }
+
+    var canvas = document.getElementById('playgroundCanvas');
+
+    canvas.addEventListener('click', function(e) {
+      var rect = canvas.getBoundingClientRect();
+      var x = e.clientX - rect.left;
+      var y = e.clientY - rect.top;
+      for (var i = 0; i < 3; i++) {
+        var offsetX = x + randomBetween(-30, 30);
+        var offsetY = y + randomBetween(-30, 30);
+        createShape(offsetX, offsetY, canvas);
+      }
+    });
+
+    canvas.addEventListener('mousemove', function(e) {
+      if (e.buttons === 1) {
+        var rect = canvas.getBoundingClientRect();
+        var x = e.clientX - rect.left;
+        var y = e.clientY - rect.top;
+        createShape(x, y, canvas);
+      }
+    });
+
+    // Touch support
+    canvas.addEventListener('touchmove', function(e) {
+      e.preventDefault();
+      var rect = canvas.getBoundingClientRect();
+      var touch = e.touches[0];
+      var x = touch.clientX - rect.left;
+      var y = touch.clientY - rect.top;
+      createShape(x, y, canvas);
+    }, { passive: false });
+
+    function clearPlayground() {
+      canvas.innerHTML = '';
+      shapeCount = 0;
+    }
+
+    function burstShapes() {
+      var rect = canvas.getBoundingClientRect();
+      var centerX = rect.width / 2;
+      var centerY = rect.height / 2;
+
+      for (var i = 0; i < 25; i++) {
+        var angle = (Math.PI * 2 * i) / 25;
+        var radius = randomBetween(30, 180);
+        var x = centerX + Math.cos(angle) * radius;
+        var y = centerY + Math.sin(angle) * radius;
+
+        (function(ix, iy) {
+          setTimeout(function() {
+            createShape(ix, iy, canvas);
+          }, i * 40);
+        })(x, y);
+      }
+    }
+
+    function toggleAutoplay() {
+      if (autoplayInterval) {
+        clearInterval(autoplayInterval);
+        autoplayInterval = null;
+      } else {
+        autoplayInterval = setInterval(function() {
+          var rect = canvas.getBoundingClientRect();
+          var x = randomBetween(20, rect.width - 20);
+          var y = randomBetween(20, rect.height - 20);
+          createShape(x, y, canvas);
+        }, 200);
+      }
+    }
+
+    // ---- Smooth scroll for nav links ----
+    document.querySelectorAll('.memphis-nav__links a').forEach(function(link) {
+      link.addEventListener('click', function(e) {
+        var href = this.getAttribute('href');
+        if (href && href.startsWith('#')) {
+          e.preventDefault();
+          var target = document.querySelector(href);
+          if (target) {
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+          // Close mobile menu
+          document.querySelector('.memphis-nav__links').classList.remove('open');
+        }
+      });
+    });
+
+    // ---- Parallax-like effect on hero shapes ----
+    var heroSection = document.querySelector('.memphis-hero');
+    if (heroSection) {
+      window.addEventListener('scroll', function() {
+        var scrollY = window.scrollY;
+        if (scrollY < window.innerHeight) {
+          var shapes = heroSection.querySelectorAll('.deco-shape');
+          shapes.forEach(function(shape, index) {
+            var speed = 0.02 + (index * 0.01);
+            shape.style.marginTop = (scrollY * speed) + 'px';
+          });
+        }
+      }, { passive: true });
+    }
+  </script>
+</body>
+</html>

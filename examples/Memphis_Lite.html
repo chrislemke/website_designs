@@ -1,0 +1,2583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Memphis Lite -- Design Showcase</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Boogaloo&family=Patrick+Hand&family=Nunito:wght@400;600;700&family=Quicksand:wght@400;500;700&family=Righteous&family=Bangers&family=Comfortaa:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    /* ========================================
+       CSS CUSTOM PROPERTIES
+       ======================================== */
+    :root {
+      /* Backgrounds */
+      --memphis-white: #ffffff;
+      --memphis-warm-white: #f5f0e8;
+      --memphis-light-gray: #e8e4e0;
+
+      /* Core structure */
+      --memphis-black: #1a1a1a;
+      --memphis-cool-gray: #a0a0a8;
+      --memphis-sand: #d8c8b0;
+
+      /* Bold primaries */
+      --memphis-red: #e8333a;
+      --memphis-blue: #2b7fc3;
+      --memphis-yellow: #f5d623;
+
+      /* CMYK accents */
+      --memphis-magenta: #e84690;
+      --memphis-teal: #00b5ad;
+      --memphis-purple: #7b4ea3;
+
+      /* Warm/cool secondaries */
+      --memphis-orange: #f28c28;
+      --memphis-lime: #a4d65e;
+
+      /* Pastels */
+      --memphis-pastel-pink: #f8b4c8;
+      --memphis-pastel-mint: #b8e8d0;
+      --memphis-pastel-lavender: #c8b8e8;
+      --memphis-pastel-peach: #fcdcc8;
+      --memphis-pastel-sky: #b8d8f0;
+
+      /* Functional mappings */
+      --memphis-bg-primary: var(--memphis-white);
+      --memphis-bg-secondary: var(--memphis-warm-white);
+      --memphis-bg-section: var(--memphis-light-gray);
+      --memphis-text-primary: var(--memphis-black);
+      --memphis-text-secondary: #444444;
+      --memphis-text-muted: var(--memphis-cool-gray);
+      --memphis-accent-1: var(--memphis-red);
+      --memphis-accent-2: var(--memphis-teal);
+      --memphis-accent-3: var(--memphis-magenta);
+      --memphis-border: var(--memphis-black);
+      --memphis-shadow: var(--memphis-black);
+    }
+
+    /* ========================================
+       RESET & BASE
+       ======================================== */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--memphis-bg-primary);
+      color: var(--memphis-text-primary);
+      font-family: 'Nunito', 'Quicksand', 'Varela Round', sans-serif;
+      font-weight: 400;
+      font-size: 1rem;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    img { max-width: 100%; display: block; }
+
+    /* ========================================
+       ANIMATIONS
+       ======================================== */
+    @keyframes memphis-float {
+      0%, 100% { transform: translateY(0) rotate(var(--float-rot, 0deg)); }
+      25% { transform: translateY(-10px) rotate(calc(var(--float-rot, 0deg) + 3deg)); }
+      50% { transform: translateY(-5px) rotate(calc(var(--float-rot, 0deg) - 2deg)); }
+      75% { transform: translateY(-12px) rotate(calc(var(--float-rot, 0deg) + 1deg)); }
+    }
+
+    @keyframes memphis-spin-slow {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes memphis-bounce-in {
+      0% { transform: scale(0) rotate(-10deg); opacity: 0; }
+      60% { transform: scale(1.15) rotate(2deg); opacity: 1; }
+      80% { transform: scale(0.95) rotate(-1deg); }
+      100% { transform: scale(1) rotate(0deg); opacity: 1; }
+    }
+
+    @keyframes memphis-slide-up {
+      from { transform: translateY(40px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    @keyframes memphis-slide-right {
+      from { transform: translateX(-40px); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+
+    @keyframes confetti-fall {
+      0% { transform: translateY(-10vh) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+    }
+
+    @keyframes squiggle-draw {
+      from { stroke-dashoffset: 1000; }
+      to { stroke-dashoffset: 0; }
+    }
+
+    @keyframes neon-pulse {
+      0%, 100% { text-shadow: 0 0 10px currentColor, 0 0 20px currentColor, 0 0 40px currentColor; }
+      50% { text-shadow: 0 0 5px currentColor, 0 0 10px currentColor, 0 0 20px currentColor; }
+    }
+
+    @keyframes color-shift {
+      0% { color: var(--memphis-red); }
+      16% { color: var(--memphis-orange); }
+      33% { color: var(--memphis-yellow); }
+      50% { color: var(--memphis-teal); }
+      66% { color: var(--memphis-blue); }
+      83% { color: var(--memphis-magenta); }
+      100% { color: var(--memphis-red); }
+    }
+
+    @keyframes jazz-wave {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .memphis-float {
+      animation: memphis-float 6s ease-in-out infinite;
+    }
+
+    .memphis-spin {
+      animation: memphis-spin-slow 20s linear infinite;
+    }
+
+    /* Staggered entrance animations */
+    .animate-in {
+      opacity: 0;
+      animation: memphis-slide-up 0.6s ease-out forwards;
+    }
+
+    .animate-in:nth-child(1) { animation-delay: 0.1s; }
+    .animate-in:nth-child(2) { animation-delay: 0.2s; }
+    .animate-in:nth-child(3) { animation-delay: 0.3s; }
+    .animate-in:nth-child(4) { animation-delay: 0.4s; }
+    .animate-in:nth-child(5) { animation-delay: 0.5s; }
+    .animate-in:nth-child(6) { animation-delay: 0.6s; }
+
+    /* ========================================
+       TYPOGRAPHY
+       ======================================== */
+    h1 {
+      font-family: 'Fredoka One', cursive;
+      font-size: clamp(2.8rem, 8vw, 6rem);
+      letter-spacing: -0.01em;
+      line-height: 1.05;
+      color: var(--memphis-black);
+      text-shadow: 5px 5px 0 var(--memphis-teal);
+    }
+
+    h2 {
+      font-family: 'Righteous', cursive;
+      font-weight: 400;
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      letter-spacing: 0.02em;
+      color: var(--memphis-black);
+      text-shadow: 3px 3px 0 var(--memphis-magenta);
+    }
+
+    h3 {
+      font-family: 'Boogaloo', cursive;
+      font-weight: 400;
+      font-size: clamp(1.3rem, 3vw, 2rem);
+      color: var(--memphis-purple);
+    }
+
+    h4 {
+      font-family: 'Patrick Hand', cursive;
+      font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+      color: var(--memphis-text-secondary);
+    }
+
+    .memphis-label {
+      font-family: 'Comfortaa', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--memphis-text-muted);
+    }
+
+    .memphis-stat {
+      font-family: 'Bangers', cursive;
+      font-size: clamp(3rem, 10vw, 9rem);
+      color: var(--memphis-red);
+      text-shadow:
+        5px 5px 0 var(--memphis-yellow),
+        10px 10px 0 var(--memphis-blue);
+      line-height: 1;
+    }
+
+    .memphis-highlight {
+      display: inline;
+      background-image: linear-gradient(
+        transparent 60%,
+        var(--memphis-yellow) 60%,
+        var(--memphis-yellow) 90%,
+        transparent 90%
+      );
+      padding: 0 0.15em;
+    }
+
+    /* ========================================
+       COLOR BAR DIVIDER
+       ======================================== */
+    .memphis-divider-bar {
+      height: 8px;
+      background: linear-gradient(
+        90deg,
+        var(--memphis-red) 0%, var(--memphis-red) 20%,
+        var(--memphis-yellow) 20%, var(--memphis-yellow) 40%,
+        var(--memphis-teal) 40%, var(--memphis-teal) 60%,
+        var(--memphis-magenta) 60%, var(--memphis-magenta) 80%,
+        var(--memphis-blue) 80%, var(--memphis-blue) 100%
+      );
+    }
+
+    /* ========================================
+       SQUIGGLE DIVIDER
+       ======================================== */
+    .memphis-squiggle {
+      height: 24px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 20'%3E%3Cpath d='M0 10 Q25 0 50 10 T100 10 T150 10 T200 10' stroke='%23E84690' stroke-width='3' fill='none'/%3E%3C/svg%3E");
+      background-repeat: repeat-x;
+      background-size: 200px 20px;
+    }
+
+    /* ========================================
+       MEMPHIS CARD
+       ======================================== */
+    .memphis-card {
+      background: var(--memphis-white);
+      border: 3px solid var(--memphis-black);
+      padding: 2rem;
+      position: relative;
+      box-shadow: 6px 6px 0 var(--memphis-black);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .memphis-card:hover {
+      transform: translate(-2px, -2px);
+      box-shadow: 8px 8px 0 var(--memphis-black);
+    }
+
+    .memphis-card--magenta {
+      border-color: var(--memphis-magenta);
+      box-shadow: 6px 6px 0 var(--memphis-magenta);
+    }
+    .memphis-card--magenta:hover {
+      box-shadow: 8px 8px 0 var(--memphis-magenta);
+    }
+
+    .memphis-card--teal {
+      border-color: var(--memphis-teal);
+      box-shadow: 6px 6px 0 var(--memphis-teal);
+    }
+    .memphis-card--teal:hover {
+      box-shadow: 8px 8px 0 var(--memphis-teal);
+    }
+
+    .memphis-card--purple {
+      border-color: var(--memphis-purple);
+      box-shadow: 6px 6px 0 var(--memphis-purple);
+    }
+    .memphis-card--purple:hover {
+      box-shadow: 8px 8px 0 var(--memphis-purple);
+    }
+
+    .memphis-card--blue {
+      border-color: var(--memphis-blue);
+      box-shadow: 6px 6px 0 var(--memphis-blue);
+    }
+    .memphis-card--blue:hover {
+      box-shadow: 8px 8px 0 var(--memphis-blue);
+    }
+
+    .memphis-card--red {
+      border-color: var(--memphis-red);
+      box-shadow: 6px 6px 0 var(--memphis-red);
+    }
+    .memphis-card--red:hover {
+      box-shadow: 8px 8px 0 var(--memphis-red);
+    }
+
+    .memphis-card--orange {
+      border-color: var(--memphis-orange);
+      box-shadow: 6px 6px 0 var(--memphis-orange);
+    }
+    .memphis-card--orange:hover {
+      box-shadow: 8px 8px 0 var(--memphis-orange);
+    }
+
+    .memphis-card--stacked {
+      box-shadow:
+        4px 4px 0 var(--memphis-magenta),
+        8px 8px 0 var(--memphis-teal),
+        12px 12px 0 var(--memphis-yellow);
+    }
+    .memphis-card--stacked:hover {
+      box-shadow:
+        6px 6px 0 var(--memphis-magenta),
+        10px 10px 0 var(--memphis-teal),
+        14px 14px 0 var(--memphis-yellow);
+    }
+
+    /* ========================================
+       MEMPHIS BUTTON
+       ======================================== */
+    .memphis-button {
+      display: inline-block;
+      padding: 0.8rem 2.2rem;
+      font-family: 'Fredoka One', cursive;
+      font-size: 1rem;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      color: var(--memphis-white);
+      background: var(--memphis-red);
+      border: 3px solid var(--memphis-black);
+      cursor: pointer;
+      position: relative;
+      box-shadow: 4px 4px 0 var(--memphis-black);
+      transition: all 0.15s ease;
+      text-decoration: none;
+    }
+
+    .memphis-button:hover {
+      transform: translate(-2px, -2px);
+      box-shadow: 6px 6px 0 var(--memphis-black);
+    }
+
+    .memphis-button:active {
+      transform: translate(2px, 2px);
+      box-shadow: 2px 2px 0 var(--memphis-black);
+    }
+
+    .memphis-button--teal { background: var(--memphis-teal); }
+    .memphis-button--magenta { background: var(--memphis-magenta); }
+    .memphis-button--yellow { background: var(--memphis-yellow); color: var(--memphis-black); }
+    .memphis-button--blue { background: var(--memphis-blue); }
+    .memphis-button--purple { background: var(--memphis-purple); }
+
+    /* ========================================
+       MEMPHIS BADGE
+       ======================================== */
+    .memphis-badge {
+      display: inline-block;
+      font-family: 'Comfortaa', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      padding: 0.3em 0.8em;
+      background: var(--memphis-magenta);
+      color: var(--memphis-white);
+      border: 2px solid var(--memphis-black);
+      box-shadow: 3px 3px 0 var(--memphis-black);
+      transform: rotate(-3deg);
+    }
+
+    .memphis-badge--teal { background: var(--memphis-teal); }
+    .memphis-badge--purple { background: var(--memphis-purple); }
+    .memphis-badge--red { background: var(--memphis-red); }
+    .memphis-badge--blue { background: var(--memphis-blue); }
+    .memphis-badge--yellow { background: var(--memphis-yellow); color: var(--memphis-black); }
+    .memphis-badge--orange { background: var(--memphis-orange); }
+
+    /* ========================================
+       CONFETTI CANVAS (BACKGROUND)
+       ======================================== */
+    #confetti-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    /* ========================================
+       HERO SECTION
+       ======================================== */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 3rem 2rem;
+      overflow: hidden;
+      background: var(--memphis-white);
+    }
+
+    /* Terrazzo background pattern */
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        radial-gradient(circle, var(--memphis-pastel-pink) 2px, transparent 2px),
+        radial-gradient(circle, var(--memphis-pastel-mint) 1.5px, transparent 1.5px),
+        radial-gradient(circle, var(--memphis-pastel-lavender) 1px, transparent 1px),
+        radial-gradient(circle, var(--memphis-pastel-peach) 2px, transparent 2px),
+        radial-gradient(circle, var(--memphis-pastel-sky) 1.5px, transparent 1.5px);
+      background-size:
+        97px 89px,
+        73px 67px,
+        53px 47px,
+        83px 79px,
+        61px 59px;
+      background-position:
+        10px 20px,
+        35px 40px,
+        50px 10px,
+        15px 55px,
+        70px 30px;
+      opacity: 0.5;
+      z-index: 0;
+    }
+
+    .hero > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-era {
+      font-family: 'Comfortaa', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.25em;
+      color: var(--memphis-text-muted);
+      margin-bottom: 1.5rem;
+      animation: memphis-slide-up 0.6s ease-out 0.2s both;
+    }
+
+    .hero h1 {
+      font-size: clamp(3rem, 9vw, 7rem);
+      margin-bottom: 0.5rem;
+      text-shadow: 6px 6px 0 var(--memphis-teal);
+      animation: memphis-bounce-in 0.8s ease-out 0.4s both;
+    }
+
+    .hero h1 .word-lite {
+      color: var(--memphis-magenta);
+      text-shadow: 6px 6px 0 var(--memphis-yellow);
+    }
+
+    .hero-subtitle {
+      font-family: 'Patrick Hand', cursive;
+      font-size: clamp(1.2rem, 3vw, 1.8rem);
+      color: var(--memphis-text-secondary);
+      max-width: 700px;
+      margin: 1rem auto 2rem;
+      animation: memphis-slide-up 0.6s ease-out 0.6s both;
+    }
+
+    .hero-tagline {
+      font-family: 'Boogaloo', cursive;
+      font-size: clamp(1rem, 2.5vw, 1.4rem);
+      color: var(--memphis-purple);
+      transform: rotate(-2deg);
+      animation: memphis-slide-up 0.6s ease-out 0.8s both;
+      margin-bottom: 2.5rem;
+    }
+
+    .hero-cta {
+      animation: memphis-slide-up 0.6s ease-out 1s both;
+    }
+
+    /* ========================================
+       FLOATING GEOMETRIC DECORATIONS
+       ======================================== */
+    .deco {
+      position: absolute;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Circles */
+    .deco-circle {
+      border-radius: 50%;
+    }
+
+    .deco-circle--outline {
+      background: transparent;
+      border: 3px solid;
+    }
+
+    .deco-circle--filled {
+      border: none;
+    }
+
+    /* Triangles */
+    .deco-triangle {
+      width: 0;
+      height: 0;
+      border-left: var(--tri-size, 25px) solid transparent;
+      border-right: var(--tri-size, 25px) solid transparent;
+      border-bottom: calc(var(--tri-size, 25px) * 1.73) solid var(--tri-color, var(--memphis-yellow));
+    }
+
+    /* Crosses */
+    .deco-cross {
+      width: var(--cross-size, 30px);
+      height: var(--cross-size, 30px);
+    }
+    .deco-cross::before,
+    .deco-cross::after {
+      content: '';
+      position: absolute;
+      background: var(--cross-color, var(--memphis-blue));
+    }
+    .deco-cross::before {
+      width: 100%;
+      height: calc(var(--cross-size, 30px) * 0.25);
+      top: 50%;
+      transform: translateY(-50%);
+    }
+    .deco-cross::after {
+      width: calc(var(--cross-size, 30px) * 0.25);
+      height: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    /* Zigzag */
+    .deco-zigzag {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 30'%3E%3Cpolyline points='0,15 12,5 24,25 36,5 48,25 60,5 72,25 84,5 100,15' stroke='%23E8333A' stroke-width='3' fill='none'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-size: contain;
+    }
+
+    /* Squiggle line */
+    .deco-squiggle-svg {
+      overflow: visible;
+    }
+
+    .deco-squiggle-svg path {
+      stroke-dasharray: 1000;
+      stroke-dashoffset: 1000;
+      animation: squiggle-draw 2s ease-out forwards;
+    }
+
+    /* Hero decorations */
+    .hero .deco-1 {
+      width: 100px; height: 100px;
+      border-color: var(--memphis-magenta);
+      top: 8%; left: 4%;
+      animation: memphis-float 7s ease-in-out infinite;
+      --float-rot: 0deg;
+    }
+    .hero .deco-2 {
+      width: 50px; height: 50px;
+      background: var(--memphis-yellow);
+      top: 15%; right: 8%;
+      animation: memphis-float 5s ease-in-out 0.5s infinite;
+      --float-rot: 0deg;
+    }
+    .hero .deco-3 {
+      --tri-size: 35px;
+      --tri-color: var(--memphis-teal);
+      top: 65%; left: 6%;
+      transform: rotate(15deg);
+      animation: memphis-float 8s ease-in-out 1s infinite;
+      --float-rot: 15deg;
+    }
+    .hero .deco-4 {
+      --cross-size: 35px;
+      --cross-color: var(--memphis-red);
+      top: 12%; right: 25%;
+      animation: memphis-float 6s ease-in-out 0.3s infinite;
+      --float-rot: 0deg;
+    }
+    .hero .deco-5 {
+      width: 70px; height: 70px;
+      background: var(--memphis-pastel-lavender);
+      bottom: 20%; right: 5%;
+      animation: memphis-float 9s ease-in-out 0.7s infinite;
+      --float-rot: 0deg;
+    }
+    .hero .deco-6 {
+      --tri-size: 20px;
+      --tri-color: var(--memphis-orange);
+      top: 30%; left: 15%;
+      transform: rotate(-20deg);
+      animation: memphis-float 6s ease-in-out 1.2s infinite;
+      --float-rot: -20deg;
+    }
+    .hero .deco-7 {
+      width: 30px; height: 30px;
+      background: var(--memphis-lime);
+      bottom: 30%; left: 12%;
+      animation: memphis-float 7s ease-in-out 0.4s infinite;
+      --float-rot: 45deg;
+      transform: rotate(45deg);
+    }
+    .hero .deco-8 {
+      --cross-size: 24px;
+      --cross-color: var(--memphis-purple);
+      bottom: 15%; right: 20%;
+      animation: memphis-float 8s ease-in-out 0.9s infinite;
+      --float-rot: 0deg;
+    }
+    .hero .deco-9 {
+      width: 120px; height: 30px;
+      top: 75%; right: 10%;
+    }
+    .hero .deco-10 {
+      width: 40px; height: 40px;
+      border-color: var(--memphis-blue);
+      top: 50%; right: 15%;
+      animation: memphis-float 6s ease-in-out 1.5s infinite;
+      --float-rot: 0deg;
+    }
+    .hero .deco-11 {
+      width: 20px; height: 20px;
+      background: var(--memphis-magenta);
+      top: 40%; left: 8%;
+      animation: memphis-float 5s ease-in-out 2s infinite;
+      --float-rot: 0deg;
+    }
+
+    /* ========================================
+       SECTION WRAPPER
+       ======================================== */
+    .section-wrap {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .section-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 5rem 2rem;
+      position: relative;
+    }
+
+    .section-inner--narrow {
+      max-width: 800px;
+    }
+
+    /* ========================================
+       INTRO SECTION
+       ======================================== */
+    .section-intro {
+      background: var(--memphis-warm-white);
+    }
+
+    .intro-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: start;
+      margin-top: 2.5rem;
+    }
+
+    .intro-text {
+      font-size: 1.1rem;
+      line-height: 1.8;
+    }
+
+    .intro-text p + p {
+      margin-top: 1rem;
+    }
+
+    .intro-aside {
+      position: relative;
+    }
+
+    .intro-aside .memphis-card {
+      transform: rotate(1deg);
+    }
+
+    .era-badge-row {
+      display: flex;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+      margin-top: 1.5rem;
+    }
+
+    /* ========================================
+       VISUAL CHARACTERISTICS SECTION
+       ======================================== */
+    .section-visual {
+      background: var(--memphis-white);
+      position: relative;
+    }
+
+    /* Subtle stripe background */
+    .section-visual::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        -45deg,
+        transparent,
+        transparent 8px,
+        rgba(0, 181, 173, 0.04) 8px,
+        rgba(0, 181, 173, 0.04) 16px
+      );
+      z-index: 0;
+    }
+
+    .section-visual .section-inner {
+      z-index: 1;
+      position: relative;
+    }
+
+    .motifs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2.5rem;
+    }
+
+    .motif-card {
+      padding: 1.8rem;
+      position: relative;
+    }
+
+    .motif-card .motif-icon {
+      display: inline-block;
+      width: 48px;
+      height: 48px;
+      margin-bottom: 1rem;
+      position: relative;
+    }
+
+    .motif-card h3 {
+      margin-bottom: 0.5rem;
+      font-size: 1.3rem;
+    }
+
+    .motif-card p {
+      font-size: 0.95rem;
+      line-height: 1.6;
+      color: var(--memphis-text-secondary);
+    }
+
+    /* ========================================
+       COLOR PALETTE SECTION
+       ======================================== */
+    .section-palette {
+      background: var(--memphis-light-gray);
+      position: relative;
+    }
+
+    .palette-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 1.2rem;
+      margin-top: 2.5rem;
+    }
+
+    .color-swatch {
+      border: 3px solid var(--memphis-black);
+      box-shadow: 4px 4px 0 var(--memphis-black);
+      overflow: hidden;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      cursor: default;
+    }
+
+    .color-swatch:hover {
+      transform: translate(-2px, -2px);
+      box-shadow: 6px 6px 0 var(--memphis-black);
+    }
+
+    .color-swatch__preview {
+      height: 80px;
+      border-bottom: 3px solid var(--memphis-black);
+    }
+
+    .color-swatch__info {
+      padding: 0.6rem 0.8rem;
+      background: var(--memphis-white);
+    }
+
+    .color-swatch__name {
+      font-family: 'Comfortaa', sans-serif;
+      font-weight: 700;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--memphis-black);
+    }
+
+    .color-swatch__hex {
+      font-family: 'Quicksand', sans-serif;
+      font-size: 0.75rem;
+      color: var(--memphis-cool-gray);
+      margin-top: 0.15rem;
+    }
+
+    /* Palette variant subsections */
+    .palette-variants {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+
+    .palette-variant-card {
+      padding: 1.5rem;
+    }
+
+    .palette-variant-card h3 {
+      margin-bottom: 0.5rem;
+    }
+
+    .variant-swatches {
+      display: flex;
+      gap: 0.4rem;
+      margin-top: 1rem;
+    }
+
+    .variant-swatch {
+      width: 36px;
+      height: 36px;
+      border: 2px solid var(--memphis-black);
+      border-radius: 0;
+    }
+
+    /* ========================================
+       TYPOGRAPHY SECTION
+       ======================================== */
+    .section-type {
+      background: var(--memphis-white);
+      position: relative;
+    }
+
+    .type-showcase {
+      margin-top: 2.5rem;
+    }
+
+    .type-specimen {
+      margin-bottom: 2.5rem;
+      padding: 2.5rem;
+      position: relative;
+    }
+
+    .type-specimen-label {
+      margin-bottom: 1rem;
+    }
+
+    .type-specimen-demo {
+      margin-bottom: 0.5rem;
+    }
+
+    .type-specimen-meta {
+      font-family: 'Quicksand', sans-serif;
+      font-size: 0.85rem;
+      color: var(--memphis-cool-gray);
+    }
+
+    /* Specific specimen styles */
+    .specimen-fredoka .type-specimen-demo {
+      font-family: 'Fredoka One', cursive;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      color: var(--memphis-black);
+      text-shadow: 4px 4px 0 var(--memphis-teal);
+      line-height: 1.2;
+    }
+
+    .specimen-righteous .type-specimen-demo {
+      font-family: 'Righteous', cursive;
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      color: var(--memphis-black);
+      text-shadow: 3px 3px 0 var(--memphis-magenta);
+      line-height: 1.2;
+    }
+
+    .specimen-boogaloo .type-specimen-demo {
+      font-family: 'Boogaloo', cursive;
+      font-size: clamp(1.5rem, 3.5vw, 2.4rem);
+      color: var(--memphis-purple);
+      transform: rotate(-2deg);
+      line-height: 1.3;
+    }
+
+    .specimen-bangers .type-specimen-demo {
+      font-family: 'Bangers', cursive;
+      font-size: clamp(2.5rem, 8vw, 6rem);
+      color: var(--memphis-red);
+      text-shadow:
+        4px 4px 0 var(--memphis-yellow),
+        8px 8px 0 var(--memphis-blue);
+      line-height: 1;
+    }
+
+    .specimen-nunito .type-specimen-demo {
+      font-family: 'Nunito', sans-serif;
+      font-size: 1.1rem;
+      line-height: 1.7;
+      max-width: 600px;
+      color: var(--memphis-text-primary);
+    }
+
+    .specimen-patrick .type-specimen-demo {
+      font-family: 'Patrick Hand', cursive;
+      font-size: clamp(1.3rem, 3vw, 1.8rem);
+      color: var(--memphis-text-secondary);
+      line-height: 1.5;
+      transform: rotate(-1deg);
+    }
+
+    /* ========================================
+       DESIGN PRINCIPLES SECTION
+       ======================================== */
+    .section-principles {
+      background: var(--memphis-pastel-mint);
+      background-image: radial-gradient(circle, var(--memphis-teal) 1px, transparent 1px);
+      background-size: 10px 10px;
+      position: relative;
+    }
+
+    .section-principles::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(184, 232, 208, 0.8);
+      z-index: 0;
+    }
+
+    .section-principles .section-inner {
+      position: relative;
+      z-index: 1;
+    }
+
+    .principles-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2.5rem;
+    }
+
+    .principle-item {
+      background: var(--memphis-white);
+      padding: 2rem;
+      position: relative;
+    }
+
+    .principle-item h3 {
+      margin-bottom: 0.5rem;
+    }
+
+    .principle-item p {
+      font-size: 0.95rem;
+      color: var(--memphis-text-secondary);
+      line-height: 1.6;
+    }
+
+    .principle-number {
+      font-family: 'Bangers', cursive;
+      font-size: 3rem;
+      color: var(--memphis-pastel-lavender);
+      line-height: 1;
+      margin-bottom: 0.5rem;
+    }
+
+    /* ========================================
+       CULTURAL REFERENCES SECTION
+       ======================================== */
+    .section-culture {
+      background: var(--memphis-warm-white);
+    }
+
+    .culture-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2.5rem;
+    }
+
+    .culture-card {
+      padding: 1.8rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .culture-card h3 {
+      font-size: 1.2rem;
+    }
+
+    .culture-card p {
+      font-size: 0.9rem;
+      color: var(--memphis-text-secondary);
+      line-height: 1.5;
+    }
+
+    .culture-card .culture-year {
+      font-family: 'Comfortaa', sans-serif;
+      font-weight: 700;
+      font-size: 0.7rem;
+      color: var(--memphis-cool-gray);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    /* ========================================
+       CSS TECHNIQUES DEMO SECTION
+       ======================================== */
+    .section-techniques {
+      background: var(--memphis-white);
+      position: relative;
+    }
+
+    .techniques-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+      margin-top: 2.5rem;
+    }
+
+    .technique-demo {
+      padding: 2rem;
+    }
+
+    .technique-demo h3 {
+      margin-bottom: 1rem;
+    }
+
+    .demo-area {
+      min-height: 120px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 1rem;
+      position: relative;
+    }
+
+    /* Individual technique demos */
+    .demo-shadow-box {
+      width: 100px;
+      height: 100px;
+      background: var(--memphis-red);
+      border: 3px solid var(--memphis-black);
+      box-shadow: 8px 8px 0 var(--memphis-black);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .demo-shadow-box:hover {
+      transform: translate(-3px, -3px);
+      box-shadow: 11px 11px 0 var(--memphis-black);
+    }
+
+    .demo-stacked-box {
+      width: 100px;
+      height: 100px;
+      background: var(--memphis-white);
+      border: 3px solid var(--memphis-black);
+      box-shadow:
+        5px 5px 0 var(--memphis-magenta),
+        10px 10px 0 var(--memphis-teal),
+        15px 15px 0 var(--memphis-yellow);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .demo-stacked-box:hover {
+      transform: translate(-3px, -3px);
+      box-shadow:
+        8px 8px 0 var(--memphis-magenta),
+        13px 13px 0 var(--memphis-teal),
+        18px 18px 0 var(--memphis-yellow);
+    }
+
+    .demo-stipple-area {
+      width: 100%;
+      height: 120px;
+      background-color: var(--memphis-pastel-pink);
+      background-image: radial-gradient(circle, var(--memphis-magenta) 1px, transparent 1px);
+      background-size: 8px 8px;
+      border: 3px solid var(--memphis-black);
+    }
+
+    .demo-stripe-area {
+      width: 100%;
+      height: 120px;
+      background: repeating-linear-gradient(
+        -45deg,
+        var(--memphis-yellow),
+        var(--memphis-yellow) 10px,
+        var(--memphis-white) 10px,
+        var(--memphis-white) 20px
+      );
+      border: 3px solid var(--memphis-black);
+    }
+
+    .demo-neon-text {
+      font-family: 'Fredoka One', cursive;
+      font-size: 2rem;
+      color: var(--memphis-magenta);
+      animation: neon-pulse 2s ease-in-out infinite;
+    }
+
+    .demo-confetti-area {
+      width: 100%;
+      height: 120px;
+      background: var(--memphis-warm-white);
+      border: 3px solid var(--memphis-black);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .demo-confetti-area::before {
+      content: '';
+      position: absolute;
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      top: 15%;
+      left: 10%;
+      background: var(--memphis-red);
+      box-shadow:
+        30px 20px 0 4px var(--memphis-blue),
+        80px -10px 0 2px var(--memphis-yellow),
+        140px 30px 0 5px var(--memphis-magenta),
+        200px -5px 0 3px var(--memphis-teal),
+        55px 50px 0 2px var(--memphis-orange),
+        170px 55px 0 3px var(--memphis-purple),
+        110px 15px 0 4px var(--memphis-lime);
+    }
+
+    .demo-confetti-area::after {
+      content: '';
+      position: absolute;
+      width: 8px; height: 8px;
+      top: 60%;
+      left: 15%;
+      background: var(--memphis-teal);
+      transform: rotate(45deg);
+      box-shadow:
+        40px -20px 0 3px var(--memphis-magenta),
+        100px 10px 0 2px var(--memphis-red),
+        160px -15px 0 4px var(--memphis-yellow),
+        60px 25px 0 2px var(--memphis-blue),
+        130px 30px 0 3px var(--memphis-orange);
+    }
+
+    /* ========================================
+       RELATED AESTHETICS SECTION
+       ======================================== */
+    .section-related {
+      background: var(--memphis-pastel-peach);
+      position: relative;
+    }
+
+    .section-related::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        -45deg,
+        transparent,
+        transparent 12px,
+        rgba(232, 70, 144, 0.04) 12px,
+        rgba(232, 70, 144, 0.04) 24px
+      );
+    }
+
+    .section-related .section-inner {
+      position: relative;
+      z-index: 1;
+    }
+
+    .related-scroll {
+      display: flex;
+      gap: 1.2rem;
+      overflow-x: auto;
+      padding: 1rem 0 2rem;
+      margin-top: 2rem;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .related-scroll::-webkit-scrollbar {
+      height: 8px;
+    }
+    .related-scroll::-webkit-scrollbar-track {
+      background: var(--memphis-pastel-peach);
+    }
+    .related-scroll::-webkit-scrollbar-thumb {
+      background: var(--memphis-magenta);
+      border: 2px solid var(--memphis-black);
+    }
+
+    .related-chip {
+      flex: 0 0 auto;
+      scroll-snap-align: start;
+      padding: 1.2rem 1.8rem;
+      background: var(--memphis-white);
+      border: 3px solid var(--memphis-black);
+      box-shadow: 4px 4px 0 var(--memphis-black);
+      transition: transform 0.2s, box-shadow 0.2s;
+      min-width: 240px;
+      max-width: 300px;
+    }
+
+    .related-chip:hover {
+      transform: translate(-2px, -2px);
+      box-shadow: 6px 6px 0 var(--memphis-black);
+    }
+
+    .related-chip h4 {
+      font-family: 'Righteous', cursive;
+      font-size: 1rem;
+      color: var(--memphis-black);
+      margin-bottom: 0.4rem;
+    }
+
+    .related-chip p {
+      font-size: 0.8rem;
+      color: var(--memphis-text-secondary);
+      line-height: 1.4;
+    }
+
+    /* ========================================
+       JAZZ CUP HOMAGE SECTION
+       ======================================== */
+    .section-jazz {
+      background: var(--memphis-white);
+      position: relative;
+      min-height: 400px;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    .jazz-bg {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .jazz-bg svg {
+      position: absolute;
+      bottom: -20%;
+      left: -5%;
+      width: 110%;
+      height: 140%;
+    }
+
+    .section-jazz .section-inner {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+    }
+
+    .jazz-quote {
+      font-family: 'Fredoka One', cursive;
+      font-size: clamp(1.5rem, 4vw, 2.8rem);
+      color: var(--memphis-black);
+      text-shadow: 3px 3px 0 var(--memphis-teal);
+      max-width: 700px;
+      margin: 0 auto 1.5rem;
+      line-height: 1.3;
+    }
+
+    .jazz-attribution {
+      font-family: 'Patrick Hand', cursive;
+      font-size: 1.1rem;
+      color: var(--memphis-text-secondary);
+    }
+
+    /* ========================================
+       MATERIALS SECTION
+       ======================================== */
+    .section-materials {
+      background: var(--memphis-light-gray);
+    }
+
+    .materials-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2.5rem;
+    }
+
+    .material-tile {
+      border: 3px solid var(--memphis-black);
+      box-shadow: 4px 4px 0 var(--memphis-black);
+      overflow: hidden;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .material-tile:hover {
+      transform: translate(-2px, -2px);
+      box-shadow: 6px 6px 0 var(--memphis-black);
+    }
+
+    .material-tile__demo {
+      height: 100px;
+      border-bottom: 3px solid var(--memphis-black);
+    }
+
+    .material-tile__info {
+      background: var(--memphis-white);
+      padding: 0.8rem 1rem;
+    }
+
+    .material-tile__physical {
+      font-family: 'Comfortaa', sans-serif;
+      font-weight: 700;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--memphis-black);
+    }
+
+    .material-tile__web {
+      font-family: 'Quicksand', sans-serif;
+      font-size: 0.75rem;
+      color: var(--memphis-cool-gray);
+      margin-top: 0.1rem;
+    }
+
+    /* Material demos */
+    .mat-laminate { background: var(--memphis-teal); }
+    .mat-chrome { background: linear-gradient(135deg, #e0e0e0, #b0b0b0, #e0e0e0, #a0a0a0, #d0d0d0); }
+    .mat-glass { background: rgba(184, 216, 240, 0.5); backdrop-filter: blur(4px); border-bottom: none !important; position: relative; }
+    .mat-glass::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(45deg, var(--memphis-red) 10px, transparent 10px),
+        linear-gradient(-45deg, var(--memphis-blue) 10px, transparent 10px),
+        linear-gradient(135deg, var(--memphis-yellow) 10px, transparent 10px);
+      opacity: 0.3;
+    }
+    .mat-terrazzo {
+      background-color: var(--memphis-warm-white);
+      background-image:
+        radial-gradient(circle, var(--memphis-red) 2px, transparent 2px),
+        radial-gradient(circle, var(--memphis-teal) 1.5px, transparent 1.5px),
+        radial-gradient(circle, var(--memphis-yellow) 2px, transparent 2px),
+        radial-gradient(circle, var(--memphis-purple) 1px, transparent 1px);
+      background-size: 40px 40px, 30px 30px, 50px 50px, 25px 25px;
+      background-position: 5px 5px, 20px 15px, 35px 30px, 10px 25px;
+    }
+    .mat-neon {
+      background: var(--memphis-black);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .mat-neon span {
+      font-family: 'Boogaloo', cursive;
+      font-size: 1.5rem;
+      color: var(--memphis-magenta);
+      text-shadow: 0 0 8px var(--memphis-magenta), 0 0 20px var(--memphis-magenta), 0 0 40px rgba(232, 70, 144, 0.4);
+    }
+    .mat-fabric {
+      background: var(--memphis-pastel-lavender);
+      background-image:
+        repeating-linear-gradient(0deg, transparent, transparent 4px, rgba(123, 78, 163, 0.15) 4px, rgba(123, 78, 163, 0.15) 5px),
+        repeating-linear-gradient(90deg, transparent, transparent 4px, rgba(123, 78, 163, 0.15) 4px, rgba(123, 78, 163, 0.15) 5px);
+    }
+    .mat-mdf {
+      background: var(--memphis-blue);
+      border-bottom: 3px solid var(--memphis-black) !important;
+    }
+    .mat-tile {
+      background-image:
+        repeating-linear-gradient(0deg, transparent, transparent 24px, var(--memphis-black) 24px, var(--memphis-black) 25px),
+        repeating-linear-gradient(90deg, transparent, transparent 24px, var(--memphis-black) 24px, var(--memphis-black) 25px);
+      background-color: var(--memphis-pastel-sky);
+    }
+
+    /* ========================================
+       FOOTER
+       ======================================== */
+    .footer {
+      background: var(--memphis-black);
+      color: var(--memphis-white);
+      text-align: center;
+      padding: 4rem 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .footer::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 8px;
+      background: linear-gradient(
+        90deg,
+        var(--memphis-red) 0%, var(--memphis-red) 20%,
+        var(--memphis-yellow) 20%, var(--memphis-yellow) 40%,
+        var(--memphis-teal) 40%, var(--memphis-teal) 60%,
+        var(--memphis-magenta) 60%, var(--memphis-magenta) 80%,
+        var(--memphis-blue) 80%, var(--memphis-blue) 100%
+      );
+    }
+
+    .footer h2 {
+      font-family: 'Fredoka One', cursive;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      color: var(--memphis-white);
+      text-shadow: 4px 4px 0 var(--memphis-purple);
+      margin-bottom: 1rem;
+    }
+
+    .footer p {
+      font-family: 'Quicksand', sans-serif;
+      color: var(--memphis-cool-gray);
+      font-size: 1rem;
+      max-width: 500px;
+      margin: 0 auto 2rem;
+    }
+
+    .footer-shapes {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .footer > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .footer-shape {
+      position: absolute;
+      opacity: 0.15;
+    }
+
+    .footer-shape--1 {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background: var(--memphis-teal);
+      top: 10%;
+      left: 5%;
+    }
+
+    .footer-shape--2 {
+      width: 0;
+      height: 0;
+      border-left: 50px solid transparent;
+      border-right: 50px solid transparent;
+      border-bottom: 86px solid var(--memphis-magenta);
+      bottom: 15%;
+      right: 8%;
+      transform: rotate(20deg);
+    }
+
+    .footer-shape--3 {
+      width: 80px;
+      height: 80px;
+      background: var(--memphis-yellow);
+      bottom: 20%;
+      left: 15%;
+      transform: rotate(45deg);
+    }
+
+    .footer-shape--4 {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      border: 4px solid var(--memphis-red);
+      top: 20%;
+      right: 20%;
+    }
+
+    /* ========================================
+       RESPONSIVE
+       ======================================== */
+    @media (max-width: 768px) {
+      .intro-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .motifs-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .palette-grid {
+        grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+      }
+
+      .principles-list {
+        grid-template-columns: 1fr;
+      }
+
+      .culture-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .techniques-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .materials-grid {
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      }
+
+      .hero .deco-1,
+      .hero .deco-9 {
+        display: none;
+      }
+
+      .section-inner {
+        padding: 3.5rem 1.5rem;
+      }
+
+      .palette-variants {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero h1 {
+        font-size: clamp(2.2rem, 12vw, 3.5rem);
+      }
+
+      .palette-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .related-chip {
+        min-width: 200px;
+      }
+    }
+
+    /* ========================================
+       SCROLL-TRIGGERED ANIMATIONS (JS-DRIVEN)
+       ======================================== */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .reveal-left {
+      opacity: 0;
+      transform: translateX(-30px);
+      transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    }
+
+    .reveal-left.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    /* Stagger children */
+    .stagger-children .reveal {
+      transition-delay: calc(var(--i, 0) * 0.08s);
+    }
+
+    /* ========================================
+       CONFETTI TRIGGER BUTTON
+       ======================================== */
+    .confetti-btn-wrap {
+      text-align: center;
+      margin-top: 2rem;
+    }
+
+    /* ========================================
+       NAV DOT INDICATOR
+       ======================================== */
+    .nav-dots {
+      position: fixed;
+      right: 1.5rem;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    .nav-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      border: 2px solid var(--memphis-black);
+      background: var(--memphis-white);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      position: relative;
+    }
+
+    .nav-dot:hover,
+    .nav-dot.active {
+      background: var(--memphis-magenta);
+      transform: scale(1.3);
+    }
+
+    .nav-dot::after {
+      content: attr(data-label);
+      position: absolute;
+      right: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-family: 'Comfortaa', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      white-space: nowrap;
+      color: var(--memphis-black);
+      background: var(--memphis-white);
+      border: 2px solid var(--memphis-black);
+      box-shadow: 2px 2px 0 var(--memphis-black);
+      padding: 0.2em 0.5em;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s;
+    }
+
+    .nav-dot:hover::after {
+      opacity: 1;
+    }
+
+    @media (max-width: 768px) {
+      .nav-dots {
+        display: none;
+      }
+    }
+
+    /* ========================================
+       MISC UTILITIES
+       ======================================== */
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0,0,0,0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    .text-center { text-align: center; }
+    .mb-0 { margin-bottom: 0; }
+    .mb-1 { margin-bottom: 0.5rem; }
+    .mb-2 { margin-bottom: 1rem; }
+    .mb-3 { margin-bottom: 1.5rem; }
+    .mb-4 { margin-bottom: 2rem; }
+    .mt-2 { margin-top: 1rem; }
+    .mt-3 { margin-top: 1.5rem; }
+  </style>
+</head>
+<body>
+
+  <!-- NAV DOTS -->
+  <nav class="nav-dots" aria-label="Section navigation">
+    <a href="#hero" class="nav-dot active" data-label="Top" aria-label="Go to top"></a>
+    <a href="#intro" class="nav-dot" data-label="Intro" aria-label="Go to introduction"></a>
+    <a href="#visual" class="nav-dot" data-label="Motifs" aria-label="Go to visual characteristics"></a>
+    <a href="#palette" class="nav-dot" data-label="Palette" aria-label="Go to color palette"></a>
+    <a href="#typography" class="nav-dot" data-label="Type" aria-label="Go to typography"></a>
+    <a href="#principles" class="nav-dot" data-label="Principles" aria-label="Go to design principles"></a>
+    <a href="#techniques" class="nav-dot" data-label="Techniques" aria-label="Go to CSS techniques"></a>
+    <a href="#culture" class="nav-dot" data-label="Culture" aria-label="Go to cultural references"></a>
+    <a href="#materials" class="nav-dot" data-label="Materials" aria-label="Go to materials"></a>
+    <a href="#related" class="nav-dot" data-label="Related" aria-label="Go to related aesthetics"></a>
+  </nav>
+
+  <!-- CONFETTI CANVAS -->
+  <canvas id="confetti-canvas"></canvas>
+
+  <!-- ================================================
+       HERO SECTION
+       ================================================ -->
+  <section class="hero" id="hero">
+    <!-- Floating decorative shapes -->
+    <div class="deco deco-circle deco-circle--outline deco-1"></div>
+    <div class="deco deco-circle deco-circle--filled deco-2"></div>
+    <div class="deco deco-triangle deco-3"></div>
+    <div class="deco deco-cross deco-4"></div>
+    <div class="deco deco-circle deco-circle--filled deco-5"></div>
+    <div class="deco deco-triangle deco-6"></div>
+    <div class="deco deco-circle deco-circle--filled deco-7" style="border-radius:0;"></div>
+    <div class="deco deco-cross deco-8"></div>
+    <div class="deco deco-zigzag deco-9"></div>
+    <div class="deco deco-circle deco-circle--outline deco-10"></div>
+    <div class="deco deco-circle deco-circle--filled deco-11"></div>
+
+    <span class="hero-era">c. 1986 -- 1997</span>
+    <h1>Memphis <span class="word-lite">Lite</span></h1>
+    <p class="hero-subtitle">The corporatized, consumer-friendly evolution of Memphis Design -- distilled playfulness for the masses.</p>
+    <p class="hero-tagline">Think: Jazz cups, Saved by the Bell, and Taco Bell interiors</p>
+    <div class="hero-cta">
+      <button class="memphis-button memphis-button--teal" onclick="burstConfetti()" aria-label="Trigger confetti celebration">Celebrate!</button>
+    </div>
+
+    <!-- Decorative squiggle SVG -->
+    <svg class="deco deco-squiggle-svg" style="top:85%;left:10%;width:200px;height:30px;" viewBox="0 0 200 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0 15 Q25 0 50 15 T100 15 T150 15 T200 15" stroke="#E84690" stroke-width="3" fill="none"/>
+    </svg>
+  </section>
+
+  <div class="memphis-divider-bar"></div>
+
+  <!-- ================================================
+       INTRO SECTION
+       ================================================ -->
+  <div class="section-wrap section-intro" id="intro">
+    <div class="section-inner">
+      <h2 class="reveal">What is Memphis Lite?</h2>
+      <div class="intro-grid">
+        <div class="intro-text reveal">
+          <p>Memphis Lite is the <span class="memphis-highlight">corporatized, consumer-friendly evolution of Memphis Design</span>. Where the original Memphis Group's furniture and objects were too radical for mainstream interiors, Memphis Lite distilled the movement's playful geometric abstraction, bold color, and irreverent pattern language into a commercially viable visual style.</p>
+          <p>Suited to graphic design, consumer products, fashion, fast-food restaurants, shopping malls, and television, the result is a high-energy blend of <strong>pastel CMYK colors, squiggles and brushstrokes, geometric shapes, and stippled textures</strong> -- exuberant yet approachable, chaotic yet structured.</p>
+          <p>The style peaked between 1988 and 1993, leaving an indelible mark on a generation's visual memory through disposable cups, TV title cards, restaurant interiors, and toy packaging.</p>
+        </div>
+        <div class="intro-aside reveal">
+          <div class="memphis-card memphis-card--stacked">
+            <span class="memphis-badge mb-2">Iconic Artifacts</span>
+            <h3 class="mt-2">You Know This Style</h3>
+            <ul style="list-style:none; margin-top:1rem; display:flex; flex-direction:column; gap:0.6rem;">
+              <li style="display:flex; align-items:center; gap:0.5rem;">
+                <span style="display:inline-block;width:10px;height:10px;background:var(--memphis-teal);border:2px solid var(--memphis-black);"></span>
+                Solo Jazz cup pattern
+              </li>
+              <li style="display:flex; align-items:center; gap:0.5rem;">
+                <span style="display:inline-block;width:10px;height:10px;background:var(--memphis-magenta);border:2px solid var(--memphis-black);border-radius:50%;"></span>
+                Saved by the Bell title cards
+              </li>
+              <li style="display:flex; align-items:center; gap:0.5rem;">
+                <span style="display:inline-block;width:0;height:0;border-left:6px solid transparent;border-right:6px solid transparent;border-bottom:10px solid var(--memphis-yellow);"></span>
+                Taco Bell interiors
+              </li>
+              <li style="display:flex; align-items:center; gap:0.5rem;">
+                <span style="display:inline-block;width:10px;height:10px;background:var(--memphis-purple);border:2px solid var(--memphis-black);transform:rotate(45deg);"></span>
+                Polly Pocket packaging
+              </li>
+              <li style="display:flex; align-items:center; gap:0.5rem;">
+                <span style="display:inline-block;width:10px;height:10px;background:var(--memphis-lime);border:2px solid var(--memphis-black);border-radius:50%;"></span>
+                Shopping mall signage
+              </li>
+            </ul>
+          </div>
+          <div class="era-badge-row">
+            <span class="memphis-badge memphis-badge--teal" style="transform:rotate(-2deg);">Late 80s</span>
+            <span class="memphis-badge memphis-badge--purple" style="transform:rotate(1deg);">Early 90s</span>
+            <span class="memphis-badge memphis-badge--orange" style="transform:rotate(-4deg);">Pop Culture</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="memphis-squiggle"></div>
+
+  <!-- ================================================
+       VISUAL CHARACTERISTICS
+       ================================================ -->
+  <div class="section-wrap section-visual" id="visual">
+    <div class="section-inner">
+      <h2 class="reveal">Core Motifs & Patterns</h2>
+      <p class="reveal" style="max-width:700px; color:var(--memphis-text-secondary);">The building blocks of Memphis Lite's visual language -- each one a miniature design system, from freehand squiggles to carefully offset drop shadows.</p>
+
+      <div class="motifs-grid stagger-children">
+        <!-- Squiggles -->
+        <div class="memphis-card memphis-card--magenta motif-card reveal" style="--i:0;">
+          <div class="motif-icon">
+            <svg width="48" height="48" viewBox="0 0 48 48" fill="none"><path d="M4 24 Q12 8 20 24 T36 24 T48 24" stroke="#E84690" stroke-width="3" fill="none"/><path d="M4 32 Q12 16 20 32 T36 32 T48 32" stroke="#00B5AD" stroke-width="2" fill="none"/></svg>
+          </div>
+          <h3>Squiggles & Brushstrokes</h3>
+          <p>Freehand scribble lines, swooping curves, and painterly brush marks. The "Jazz Cup" motif is the canonical example.</p>
+        </div>
+
+        <!-- Stippled patterns -->
+        <div class="memphis-card memphis-card--teal motif-card reveal" style="--i:1;">
+          <div class="motif-icon" style="background-image:radial-gradient(circle, var(--memphis-teal) 1.5px, transparent 1.5px); background-size:7px 7px;"></div>
+          <h3>Stippled Patterns</h3>
+          <p>Fields of dots, dashes, or tiny triangular shapes filling entire planes, often in contrasting colors. Density gradates to suggest shading.</p>
+        </div>
+
+        <!-- Geometric assemblages -->
+        <div class="memphis-card memphis-card--purple motif-card reveal" style="--i:2;">
+          <div class="motif-icon">
+            <svg width="48" height="48" viewBox="0 0 48 48" fill="none"><rect x="2" y="20" width="20" height="20" fill="#F5D623" stroke="#1A1A1A" stroke-width="2"/><circle cx="30" cy="15" r="12" fill="#2B7FC3" stroke="#1A1A1A" stroke-width="2"/><polygon points="35,48 48,25 22,25" fill="#E8333A" stroke="#1A1A1A" stroke-width="2"/></svg>
+          </div>
+          <h3>Shape Assemblages</h3>
+          <p>Asymmetrical groups of overlapping geometric shapes -- triangles, circles, rectangles -- forming distinct compositional units on flat backgrounds.</p>
+        </div>
+
+        <!-- Drop shadows -->
+        <div class="memphis-card memphis-card--red motif-card reveal" style="--i:3;">
+          <div class="motif-icon">
+            <div style="width:30px;height:30px;background:var(--memphis-red);border:2px solid var(--memphis-black);box-shadow:5px 5px 0 var(--memphis-black);margin-top:4px;"></div>
+          </div>
+          <h3>Solid Drop Shadows</h3>
+          <p>Flat, colored shadows offset from shapes -- not blurred, not transparent. Hard-edged offset fills are the signature technique.</p>
+        </div>
+
+        <!-- Confetti -->
+        <div class="memphis-card memphis-card--orange motif-card reveal" style="--i:4;">
+          <div class="motif-icon">
+            <svg width="48" height="48" viewBox="0 0 48 48" fill="none"><rect x="5" y="5" width="6" height="6" fill="#E8333A" transform="rotate(30 8 8)"/><circle cx="25" cy="12" r="4" fill="#2B7FC3"/><polygon points="40,8 44,16 36,16" fill="#F5D623"/><rect x="10" y="30" width="5" height="5" fill="#7B4EA3" transform="rotate(45 12 32)"/><circle cx="35" cy="35" r="3" fill="#00B5AD"/><polygon points="20,40 24,48 16,48" fill="#E84690"/></svg>
+          </div>
+          <h3>Confetti & Sprinkles</h3>
+          <p>Small geometric shapes -- triangles, squares, circles, zigzags -- scattered randomly across surfaces like colorful confetti.</p>
+        </div>
+
+        <!-- Neon -->
+        <div class="memphis-card memphis-card--blue motif-card reveal" style="--i:5;">
+          <div class="motif-icon" style="display:flex;align-items:center;justify-content:center;">
+            <span style="font-family:'Boogaloo',cursive;font-size:2rem;color:var(--memphis-magenta);text-shadow:0 0 8px var(--memphis-magenta),0 0 16px rgba(232,70,144,0.4);">N</span>
+          </div>
+          <h3>Neon Signage Motifs</h3>
+          <p>Glowing tube-like line art referencing commercial neon signs of the era. Bright color plus radiating glow creates that electric feel.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="memphis-divider-bar"></div>
+
+  <!-- ================================================
+       COLOR PALETTE
+       ================================================ -->
+  <div class="section-wrap section-palette" id="palette">
+    <div class="section-inner">
+      <h2 class="reveal">Color Palette</h2>
+      <p class="reveal" style="max-width:700px; color:var(--memphis-text-secondary);">Memphis Lite relies on strong value contrast: bold shapes on white or pastel grounds, always anchored by black outlines and shadows.</p>
+
+      <div class="palette-grid stagger-children">
+        <div class="color-swatch reveal" style="--i:0;">
+          <div class="color-swatch__preview" style="background:#ffffff; border-bottom-color:var(--memphis-black);"></div>
+          <div class="color-swatch__info"><div class="color-swatch__name">White Ground</div><div class="color-swatch__hex">#FFFFFF</div></div>
+        </div>
+        <div class="color-swatch reveal" style="--i:1;">
+          <div class="color-swatch__preview" style="background:#f5f0e8;"></div>
+          <div class="color-swatch__info"><div class="color-swatch__name">Warm White</div><div class="color-swatch__hex">#F5F0E8</div></div>
+        </div>
+        <div class="color-swatch reveal" style="--i:2;">
+          <div class="color-swatch__preview" style="background:#e8e4e0;"></div>
+          <div class="color-swatch__info"><div class="color-swatch__name">Light Gray</div><div class="color-swatch__hex">#E8E4E0</div></div>
+        </div>
+        <div class="color-swatch reveal" style="--i:3;">
+          <div class="color-swatch__preview" style="background:#1a1a1a;"></div>
+          <div class="color-swatch__info"><div class="color-swatch__name">Memphis Black</div><div class="color-swatch__hex">#1A1A1A</div></div>
+        </div>
+        <div class="color-swatch reveal" style="--i:4;">
+          <div class="color-swatch__preview" style="background:#e8333a;"></div>
+          <div class="color-swatch__info"><div class="color-swatch__name">Memphis Red</div><div class="color-swatch__hex">#E8333A</div></div>
+        </div>
+        <div class="color-swatch reveal" style="--i:5;">
+          <div class="color-swatch__preview" style="background:#2b7fc3;"></div>
+          <div class="color-swatch__info"><div class="color-swatch__name">Memphis Blue</div><div class="color-swatch__hex">#2B7FC3</div></div>
+        </div>
+        <div class="color-swatch reveal" style="--i:6;">
+          <div class="color-swatch__preview" style="background:#f5d623;"></div>
+          <div class="color-swatch__info"><div class="color-swatch__name">Memphis Yellow</div><div class="color-swatch__hex">#F5D623</div></div>
+        </div>
+        <div class="color-swatch reveal" style="--i:7;">
+          <div class="color-swatch__preview" style="background:#e84690;"></div>
+          <div class="color-swatch__info"><div class="color-swatch__name">Hot Magenta</div><div class="color-swatch__hex">#E84690</div></div>
+        </div>
+        <div class="color-swatch reveal" style="--i:8;">
+          <div class="color-swatch__preview" style="background:#00b5ad;"></div>
+          <div class="color-swatch__info"><div class="color-swatch__name">Electric Teal</div><div class="color-swatch__hex">#00B5AD</div></div>
+        </div>
+        <div class="color-swatch reveal" style="--i:9;">
+          <div class="color-swatch__preview" style="background:#7b4ea3;"></div>
+          <div class="color-swatch__info"><div class="color-swatch__name">Bold Purple</div><div class="color-swatch__hex">#7B4EA3</div></div>
+        </div>
+        <div class="color-swatch reveal" style="--i:10;">
+          <div class="color-swatch__preview" style="background:#f28c28;"></div>
+          <div class="color-swatch__info"><div class="color-swatch__name">Bright Orange</div><div class="color-swatch__hex">#F28C28</div></div>
+        </div>
+        <div class="color-swatch reveal" style="--i:11;">
+          <div class="color-swatch__preview" style="background:#a4d65e;"></div>
+          <div class="color-swatch__info"><div class="color-swatch__name">Lime Green</div><div class="color-swatch__hex">#A4D65E</div></div>
+        </div>
+        <div class="color-swatch reveal" style="--i:12;">
+          <div class="color-swatch__preview" style="background:#f8b4c8;"></div>
+          <div class="color-swatch__info"><div class="color-swatch__name">Pastel Pink</div><div class="color-swatch__hex">#F8B4C8</div></div>
+        </div>
+        <div class="color-swatch reveal" style="--i:13;">
+          <div class="color-swatch__preview" style="background:#b8e8d0;"></div>
+          <div class="color-swatch__info"><div class="color-swatch__name">Pastel Mint</div><div class="color-swatch__hex">#B8E8D0</div></div>
+        </div>
+        <div class="color-swatch reveal" style="--i:14;">
+          <div class="color-swatch__preview" style="background:#c8b8e8;"></div>
+          <div class="color-swatch__info"><div class="color-swatch__name">Pastel Lavender</div><div class="color-swatch__hex">#C8B8E8</div></div>
+        </div>
+        <div class="color-swatch reveal" style="--i:15;">
+          <div class="color-swatch__preview" style="background:#fcdcc8;"></div>
+          <div class="color-swatch__info"><div class="color-swatch__name">Pastel Peach</div><div class="color-swatch__hex">#FCDCC8</div></div>
+        </div>
+        <div class="color-swatch reveal" style="--i:16;">
+          <div class="color-swatch__preview" style="background:#b8d8f0;"></div>
+          <div class="color-swatch__info"><div class="color-swatch__name">Pastel Sky</div><div class="color-swatch__hex">#B8D8F0</div></div>
+        </div>
+        <div class="color-swatch reveal" style="--i:17;">
+          <div class="color-swatch__preview" style="background:#d8c8b0;"></div>
+          <div class="color-swatch__info"><div class="color-swatch__name">Sand Neutral</div><div class="color-swatch__hex">#D8C8B0</div></div>
+        </div>
+      </div>
+
+      <!-- Palette Variants -->
+      <div class="palette-variants">
+        <div class="memphis-card memphis-card--red palette-variant-card reveal">
+          <span class="memphis-badge memphis-badge--red" style="transform:rotate(-2deg);">Classic</span>
+          <h3 class="mt-2">Bold Palette</h3>
+          <p style="font-size:0.9rem; color:var(--memphis-text-secondary);">Flat primaries on white with black outlines. The most recognizable Memphis Lite look.</p>
+          <div class="variant-swatches">
+            <div class="variant-swatch" style="background:var(--memphis-red);"></div>
+            <div class="variant-swatch" style="background:var(--memphis-blue);"></div>
+            <div class="variant-swatch" style="background:var(--memphis-yellow);"></div>
+            <div class="variant-swatch" style="background:var(--memphis-white); border:2px solid var(--memphis-black);"></div>
+            <div class="variant-swatch" style="background:var(--memphis-black);"></div>
+          </div>
+        </div>
+
+        <div class="memphis-card memphis-card--magenta palette-variant-card reveal">
+          <span class="memphis-badge" style="transform:rotate(1deg);">Sophisticated</span>
+          <h3 class="mt-2">CMYK Palette</h3>
+          <p style="font-size:0.9rem; color:var(--memphis-text-secondary);">Teal, magenta, and purple dominate. Common in graphic design applications.</p>
+          <div class="variant-swatches">
+            <div class="variant-swatch" style="background:var(--memphis-teal);"></div>
+            <div class="variant-swatch" style="background:var(--memphis-magenta);"></div>
+            <div class="variant-swatch" style="background:var(--memphis-purple);"></div>
+            <div class="variant-swatch" style="background:var(--memphis-white); border:2px solid var(--memphis-black);"></div>
+            <div class="variant-swatch" style="background:var(--memphis-black);"></div>
+          </div>
+        </div>
+
+        <div class="memphis-card memphis-card--purple palette-variant-card reveal">
+          <span class="memphis-badge memphis-badge--purple" style="transform:rotate(-3deg);">Gentle</span>
+          <h3 class="mt-2">Pastel Palette</h3>
+          <p style="font-size:0.9rem; color:var(--memphis-text-secondary);">Soft mints, pinks, lavenders, and peaches with lighter outlines. A gentler interpretation.</p>
+          <div class="variant-swatches">
+            <div class="variant-swatch" style="background:var(--memphis-pastel-pink);"></div>
+            <div class="variant-swatch" style="background:var(--memphis-pastel-mint);"></div>
+            <div class="variant-swatch" style="background:var(--memphis-pastel-lavender);"></div>
+            <div class="variant-swatch" style="background:var(--memphis-pastel-peach);"></div>
+            <div class="variant-swatch" style="background:var(--memphis-pastel-sky);"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="memphis-squiggle"></div>
+
+  <!-- ================================================
+       TYPOGRAPHY SHOWCASE
+       ================================================ -->
+  <div class="section-wrap section-type" id="typography">
+    <div class="section-inner">
+      <h2 class="reveal">Typography</h2>
+      <p class="reveal" style="max-width:700px; color:var(--memphis-text-secondary);">Memphis Lite typography combines playful irreverence with commercial readability -- outlined scripts, blocky sans-serifs, and decorative drop shadows on letterforms.</p>
+
+      <div class="type-showcase">
+        <div class="memphis-card specimen-fredoka type-specimen reveal">
+          <span class="memphis-label type-specimen-label">Display / Hero -- Fredoka One</span>
+          <div class="type-specimen-demo">Exuberant Yet Approachable</div>
+          <div class="type-specimen-meta">Rounded, bubbly display font for hero headlines and section titles. Captures the friendly, rounded Memphis Lite energy.</div>
+        </div>
+
+        <div class="memphis-card memphis-card--magenta specimen-righteous type-specimen reveal">
+          <span class="memphis-label type-specimen-label">Section Headings -- Righteous</span>
+          <div class="type-specimen-demo">Geometric Retro Energy</div>
+          <div class="type-specimen-meta">Geometric retro display for section titles. Evokes 1980s commercial lettering and display type.</div>
+        </div>
+
+        <div class="memphis-card memphis-card--teal specimen-boogaloo type-specimen reveal">
+          <span class="memphis-label type-specimen-label">Accent / Script -- Boogaloo</span>
+          <div class="type-specimen-demo">Loose Brush-Lettering Vibes</div>
+          <div class="type-specimen-meta">Casual brush script for accent text and callouts. The loose, hand-lettered feel that defined the era.</div>
+        </div>
+
+        <div class="memphis-card memphis-card--purple specimen-bangers type-specimen reveal">
+          <span class="memphis-label type-specimen-label">Oversized Display -- Bangers</span>
+          <div class="type-specimen-demo">WOW!</div>
+          <div class="type-specimen-meta">Comic-book display type for stats, emphasis, and attention-grabbing moments. Bold, energetic, unapologetic.</div>
+        </div>
+
+        <div class="memphis-card specimen-patrick type-specimen reveal">
+          <span class="memphis-label type-specimen-label">Handwriting -- Patrick Hand</span>
+          <div class="type-specimen-demo">Secondary headings and annotations carry a natural, informal brushstroke quality</div>
+          <div class="type-specimen-meta">Casual handwriting for secondary headings and annotations. Natural and informal.</div>
+        </div>
+
+        <div class="memphis-card memphis-card--blue specimen-nunito type-specimen reveal">
+          <span class="memphis-label type-specimen-label">Body Text -- Nunito</span>
+          <div class="type-specimen-demo">Memphis Lite body text is clean and readable with soft terminals. The rounded geometric sans-serif family balances the exuberant display faces with comfortable, highly legible paragraphs that keep the reader engaged through longer content passages.</div>
+          <div class="type-specimen-meta">Rounded geometric sans for body text and UI elements. Clean, readable, with Memphis-compatible soft terminals.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="memphis-divider-bar"></div>
+
+  <!-- ================================================
+       DESIGN PRINCIPLES
+       ================================================ -->
+  <div class="section-wrap section-principles" id="principles">
+    <div class="section-inner">
+      <h2 class="reveal" style="text-shadow: 3px 3px 0 var(--memphis-teal);">Design Principles</h2>
+      <p class="reveal" style="max-width:700px; color:var(--memphis-text-secondary);">The structural rules that keep Memphis Lite feeling energetic but never truly chaotic -- a careful balance between playful spontaneity and deliberate composition.</p>
+
+      <div class="principles-list stagger-children">
+        <div class="memphis-card principle-item reveal" style="--i:0;">
+          <div class="principle-number">01</div>
+          <h3>Playful Asymmetry</h3>
+          <p>Compositions are deliberately unbalanced, with shape groups floating independently rather than centering on a grid. Nothing lines up perfectly -- and that is the point.</p>
+        </div>
+        <div class="memphis-card memphis-card--magenta principle-item reveal" style="--i:1;">
+          <div class="principle-number" style="color:var(--memphis-pastel-pink);">02</div>
+          <h3>Flat Color, Dense Pattern</h3>
+          <p>Shapes are filled with solid, flat color, but patterns are busy and visually dense. No gradients on fills -- only stippled dot patterns that simulate depth through density.</p>
+        </div>
+        <div class="memphis-card memphis-card--teal principle-item reveal" style="--i:2;">
+          <div class="principle-number" style="color:var(--memphis-pastel-mint);">03</div>
+          <h3>Grouped Autonomy</h3>
+          <p>Each cluster of shapes operates as a self-contained unit. The page is a collection of independent visual episodes, each complete in itself.</p>
+        </div>
+        <div class="memphis-card memphis-card--purple principle-item reveal" style="--i:3;">
+          <div class="principle-number" style="color:var(--memphis-pastel-lavender);">04</div>
+          <h3>Subdued Background, Active Foreground</h3>
+          <p>Backgrounds tend to be flat white, light gray, or pale pastel. The foreground bursts with colored shapes and patterns against this calm ground.</p>
+        </div>
+        <div class="memphis-card memphis-card--red principle-item reveal" style="--i:4;">
+          <div class="principle-number" style="color:var(--memphis-pastel-peach);">05</div>
+          <h3>Tension Between Chaos & Composition</h3>
+          <p>The overall impression is energetic and almost random, but shape groups are carefully balanced. It looks spontaneous but is anything but.</p>
+        </div>
+        <div class="memphis-card memphis-card--blue principle-item reveal" style="--i:5;">
+          <div class="principle-number" style="color:var(--memphis-pastel-sky);">06</div>
+          <h3>Color as Structure</h3>
+          <p>Color relationships -- complementary, analogous, triadic -- define visual hierarchy more than size or weight. The palette does the heavy organizational lifting.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================================================
+       JAZZ CUP INTERLUDE
+       ================================================ -->
+  <div class="section-wrap section-jazz">
+    <div class="jazz-bg">
+      <svg viewBox="0 0 1200 400" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M-50 350 Q100 200 300 300 T600 250 T900 320 T1250 200" stroke="#00B5AD" stroke-width="8" fill="none" opacity="0.3"/>
+        <path d="M-50 380 Q150 250 350 330 T650 280 T950 350 T1250 230" stroke="#7B4EA3" stroke-width="5" fill="none" opacity="0.2"/>
+        <path d="M-50 320 Q80 180 280 280 T580 230 T880 300 T1250 180" stroke="#E84690" stroke-width="3" fill="none" opacity="0.15"/>
+      </svg>
+    </div>
+    <div class="section-inner text-center">
+      <div class="jazz-quote reveal">"Abstract enough to feel artistic, representational enough to feel accessible and fun."</div>
+      <div class="jazz-attribution reveal">-- The essence of Memphis Lite's consumer-friendly abstraction</div>
+    </div>
+  </div>
+
+  <div class="memphis-squiggle"></div>
+
+  <!-- ================================================
+       CSS TECHNIQUES
+       ================================================ -->
+  <div class="section-wrap section-techniques" id="techniques">
+    <div class="section-inner">
+      <h2 class="reveal">CSS Techniques</h2>
+      <p class="reveal" style="max-width:700px; color:var(--memphis-text-secondary);">The building blocks for recreating Memphis Lite in the browser. Each technique below is rendered live with pure CSS.</p>
+
+      <div class="techniques-grid stagger-children">
+        <div class="memphis-card technique-demo reveal" style="--i:0;">
+          <h3>Solid Drop Shadow</h3>
+          <p style="font-size:0.85rem; color:var(--memphis-text-secondary);">The single most recognizable Memphis Lite CSS technique. Hard-edged, offset, colored.</p>
+          <div class="demo-area">
+            <div class="demo-shadow-box"></div>
+          </div>
+        </div>
+
+        <div class="memphis-card memphis-card--magenta technique-demo reveal" style="--i:1;">
+          <h3>Stacked Shadows</h3>
+          <p style="font-size:0.85rem; color:var(--memphis-text-secondary);">Multiple layered colored shadows for extra depth and playfulness.</p>
+          <div class="demo-area">
+            <div class="demo-stacked-box"></div>
+          </div>
+        </div>
+
+        <div class="memphis-card memphis-card--teal technique-demo reveal" style="--i:2;">
+          <h3>Stippled Pattern</h3>
+          <p style="font-size:0.85rem; color:var(--memphis-text-secondary);">Dense dot fields using radial-gradient. The signature Memphis Lite texture.</p>
+          <div class="demo-area">
+            <div class="demo-stipple-area"></div>
+          </div>
+        </div>
+
+        <div class="memphis-card memphis-card--purple technique-demo reveal" style="--i:3;">
+          <h3>Diagonal Stripes</h3>
+          <p style="font-size:0.85rem; color:var(--memphis-text-secondary);">Bold repeating-linear-gradient stripes as section backgrounds or shape fills.</p>
+          <div class="demo-area">
+            <div class="demo-stripe-area"></div>
+          </div>
+        </div>
+
+        <div class="memphis-card technique-demo reveal" style="--i:4; background:var(--memphis-black);">
+          <h3 style="color:var(--memphis-white);">Neon Glow</h3>
+          <p style="font-size:0.85rem; color:var(--memphis-cool-gray);">Bright color + layered text-shadow replicates neon tube signage.</p>
+          <div class="demo-area">
+            <div class="demo-neon-text">NEON</div>
+          </div>
+        </div>
+
+        <div class="memphis-card memphis-card--orange technique-demo reveal" style="--i:5;">
+          <h3>Confetti Scatter</h3>
+          <p style="font-size:0.85rem; color:var(--memphis-text-secondary);">CSS-only scattered shapes using box-shadow on pseudo-elements.</p>
+          <div class="demo-area">
+            <div class="demo-confetti-area"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="confetti-btn-wrap reveal">
+        <button class="memphis-button memphis-button--magenta" onclick="burstConfetti()">Launch Confetti!</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="memphis-divider-bar"></div>
+
+  <!-- ================================================
+       CULTURAL REFERENCES
+       ================================================ -->
+  <div class="section-wrap section-culture" id="culture">
+    <div class="section-inner">
+      <h2 class="reveal">Cultural Touchstones</h2>
+      <p class="reveal" style="max-width:700px; color:var(--memphis-text-secondary);">Memphis Lite was everywhere in the late 1980s and early 1990s -- from disposable cups to prime-time television. These are its most recognizable manifestations.</p>
+
+      <div class="culture-grid stagger-children">
+        <div class="memphis-card memphis-card--teal culture-card reveal" style="--i:0;">
+          <span class="culture-year">c. 1991</span>
+          <h3>Solo Jazz Cup</h3>
+          <p>The teal-and-purple brushstroke design on disposable cups. The single most iconic Memphis Lite artifact -- found in offices, fast-food restaurants, and convenience stores across America.</p>
+        </div>
+        <div class="memphis-card memphis-card--magenta culture-card reveal" style="--i:1;">
+          <span class="culture-year">1989 -- 1993</span>
+          <h3>Saved by the Bell</h3>
+          <p>Bright geometric shapes, bold primaries, confetti patterns on white backgrounds. The canonical Memphis Lite television show -- its set design and title sequence defined the aesthetic for a generation.</p>
+        </div>
+        <div class="memphis-card memphis-card--purple culture-card reveal" style="--i:2;">
+          <span class="culture-year">1990s Redesign</span>
+          <h3>Taco Bell Interiors</h3>
+          <p>Teal, magenta, and purple geometric shapes on white and light surfaces. The fast-food chain's interior redesign became a landmark example of Memphis Lite in commercial architecture.</p>
+        </div>
+        <div class="memphis-card memphis-card--red culture-card reveal" style="--i:3;">
+          <span class="culture-year">Late 1980s</span>
+          <h3>Shopping Mall Interiors</h3>
+          <p>Food courts, directory kiosks, and signage using Memphis Lite shapes and colors. The aesthetic defined the American shopping mall experience of an entire era.</p>
+        </div>
+        <div class="memphis-card memphis-card--blue culture-card reveal" style="--i:4;">
+          <span class="culture-year">Television</span>
+          <h3>Nickelodeon Shows</h3>
+          <p>Rocko's Modern Life featured Memphis-influenced background design, while Doug employed a simplified Memphis Lite color palette. The aesthetic permeated children's programming.</p>
+        </div>
+        <div class="memphis-card memphis-card--orange culture-card reveal" style="--i:5;">
+          <span class="culture-year">Consumer Products</span>
+          <h3>Polly Pocket Packaging</h3>
+          <p>Pastel Memphis Lite applied to children's products and toy packaging. The gentler, more feminine-coded interpretation brought the style to a younger audience.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="memphis-squiggle"></div>
+
+  <!-- ================================================
+       MATERIALS & TEXTURES
+       ================================================ -->
+  <div class="section-wrap section-materials" id="materials">
+    <div class="section-inner">
+      <h2 class="reveal">Materials & Textures</h2>
+      <p class="reveal" style="max-width:700px; color:var(--memphis-text-secondary);">Physical Memphis Lite materials and their web CSS equivalents. Each tile below demonstrates the digital translation of a real-world surface.</p>
+
+      <div class="materials-grid stagger-children">
+        <div class="material-tile reveal" style="--i:0;">
+          <div class="material-tile__demo mat-laminate"></div>
+          <div class="material-tile__info">
+            <div class="material-tile__physical">Laminate / Formica</div>
+            <div class="material-tile__web">Flat solid background-color</div>
+          </div>
+        </div>
+        <div class="material-tile reveal" style="--i:1;">
+          <div class="material-tile__demo mat-chrome"></div>
+          <div class="material-tile__info">
+            <div class="material-tile__physical">Chrome & Metal</div>
+            <div class="material-tile__web">Linear gradient reflective sheen</div>
+          </div>
+        </div>
+        <div class="material-tile reveal" style="--i:2;">
+          <div class="material-tile__demo mat-glass"></div>
+          <div class="material-tile__info">
+            <div class="material-tile__physical">Glass Panels</div>
+            <div class="material-tile__web">Semi-transparent + backdrop-filter</div>
+          </div>
+        </div>
+        <div class="material-tile reveal" style="--i:3;">
+          <div class="material-tile__demo mat-terrazzo"></div>
+          <div class="material-tile__info">
+            <div class="material-tile__physical">Terrazzo Flooring</div>
+            <div class="material-tile__web">Scattered radial-gradient dots</div>
+          </div>
+        </div>
+        <div class="material-tile reveal" style="--i:4;">
+          <div class="material-tile__demo mat-neon"><span>OPEN</span></div>
+          <div class="material-tile__info">
+            <div class="material-tile__physical">Neon Signage</div>
+            <div class="material-tile__web">text-shadow glow effect</div>
+          </div>
+        </div>
+        <div class="material-tile reveal" style="--i:5;">
+          <div class="material-tile__demo mat-fabric"></div>
+          <div class="material-tile__info">
+            <div class="material-tile__physical">Patterned Fabric</div>
+            <div class="material-tile__web">Repeating CSS grid pattern</div>
+          </div>
+        </div>
+        <div class="material-tile reveal" style="--i:6;">
+          <div class="material-tile__demo mat-mdf"></div>
+          <div class="material-tile__info">
+            <div class="material-tile__physical">Painted MDF</div>
+            <div class="material-tile__web">Bold flat fill + black border</div>
+          </div>
+        </div>
+        <div class="material-tile reveal" style="--i:7;">
+          <div class="material-tile__demo mat-tile"></div>
+          <div class="material-tile__info">
+            <div class="material-tile__physical">Ceramic Tile</div>
+            <div class="material-tile__web">Grid from repeating gradients</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="memphis-divider-bar"></div>
+
+  <!-- ================================================
+       RELATED AESTHETICS
+       ================================================ -->
+  <div class="section-wrap section-related" id="related">
+    <div class="section-inner">
+      <h2 class="reveal" style="text-shadow:3px 3px 0 var(--memphis-orange);">Related Aesthetics</h2>
+      <p class="reveal" style="max-width:700px; color:var(--memphis-text-secondary);">Memphis Lite sits within a rich network of design movements -- parents, siblings, contemporaries, and successors.</p>
+
+      <div class="related-scroll">
+        <div class="related-chip">
+          <span class="memphis-badge memphis-badge--red" style="font-size:0.6rem; transform:rotate(-2deg); margin-bottom:0.5rem;">Parent</span>
+          <h4>Memphis Design</h4>
+          <p>The original Italian movement (1981--1987) that Memphis Lite commercializes and softens for mass consumption.</p>
+        </div>
+        <div class="related-chip">
+          <span class="memphis-badge memphis-badge--teal" style="font-size:0.6rem; transform:rotate(1deg); margin-bottom:0.5rem;">Sibling</span>
+          <h4>Wacky Pomo</h4>
+          <p>Shares postmodern playfulness but pushes further into absurdist, cartoonish territory.</p>
+        </div>
+        <div class="related-chip">
+          <span class="memphis-badge memphis-badge--teal" style="font-size:0.6rem; transform:rotate(-1deg); margin-bottom:0.5rem;">Sibling</span>
+          <h4>Factory Pomo</h4>
+          <p>The mass-manufactured, consumer-product expression of postmodern design, heavily overlapping with Memphis Lite.</p>
+        </div>
+        <div class="related-chip">
+          <span class="memphis-badge memphis-badge--purple" style="font-size:0.6rem; transform:rotate(2deg); margin-bottom:0.5rem;">Cousin</span>
+          <h4>Rad Dog</h4>
+          <p>Bold 1990s energy, neon colors, and extreme sports / youth culture tie-ins.</p>
+        </div>
+        <div class="related-chip">
+          <span class="memphis-badge memphis-badge--blue" style="font-size:0.6rem; transform:rotate(-3deg); margin-bottom:0.5rem;">Overlap</span>
+          <h4>Laser Grid</h4>
+          <p>Shares the neon palette and geometric line work but is more technological and less organic.</p>
+        </div>
+        <div class="related-chip">
+          <span class="memphis-badge memphis-badge--orange" style="font-size:0.6rem; transform:rotate(1deg); margin-bottom:0.5rem;">Retrowave</span>
+          <h4>Synthwave</h4>
+          <p>Modern aesthetic borrowing Memphis Lite's neon colors and geometry but applying them to a darker nighttime palette.</p>
+        </div>
+        <div class="related-chip">
+          <span class="memphis-badge memphis-badge--yellow" style="font-size:0.6rem; transform:rotate(-2deg); margin-bottom:0.5rem;">Nostalgic</span>
+          <h4>Vaporwave</h4>
+          <p>Re-appropriates Memphis Lite elements through a hazy, ironic, slowed-down lens of digital nostalgia.</p>
+        </div>
+        <div class="related-chip">
+          <span class="memphis-badge memphis-badge--purple" style="font-size:0.6rem; transform:rotate(2deg); margin-bottom:0.5rem;">Opposite</span>
+          <h4>Corporate Grunge</h4>
+          <p>The anti-Memphis Lite. Same era but where Memphis Lite is bright and playful, Corporate Grunge is dark and raw.</p>
+        </div>
+        <div class="related-chip">
+          <span class="memphis-badge memphis-badge--orange" style="font-size:0.6rem; transform:rotate(-1deg); margin-bottom:0.5rem;">Successor</span>
+          <h4>Y2K Futurism</h4>
+          <p>Replaced Memphis Lite's flat geometry with glossy, translucent, bubbly 3D forms at the turn of the millennium.</p>
+        </div>
+        <div class="related-chip">
+          <span class="memphis-badge memphis-badge--red" style="font-size:0.6rem; transform:rotate(3deg); margin-bottom:0.5rem;">Ancestor</span>
+          <h4>Art Deco</h4>
+          <p>Grandparent influence. Memphis borrowed Art Deco's rhythmic geometric patterns and bold color contrast.</p>
+        </div>
+        <div class="related-chip">
+          <span class="memphis-badge memphis-badge--red" style="font-size:0.6rem; transform:rotate(-2deg); margin-bottom:0.5rem;">Ancestor</span>
+          <h4>Googie</h4>
+          <p>Memphis Lite inherits Googie's Space-Age curves, misaligned borders, and exuberant geometry.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================================================
+       FOOTER
+       ================================================ -->
+  <footer class="footer">
+    <div class="footer-shapes">
+      <div class="footer-shape footer-shape--1"></div>
+      <div class="footer-shape footer-shape--2"></div>
+      <div class="footer-shape footer-shape--3"></div>
+      <div class="footer-shape footer-shape--4"></div>
+    </div>
+    <h2>Memphis Lite</h2>
+    <p>Exuberant yet approachable. Chaotic yet structured. The design language of a generation, from Jazz cups to title cards.</p>
+    <p style="font-family:'Comfortaa',sans-serif; font-size:0.75rem; color:var(--memphis-cool-gray); letter-spacing:0.1em; text-transform:uppercase;">c. 1986 -- 1997</p>
+    <div style="margin-top:2rem;">
+      <button class="memphis-button memphis-button--yellow" onclick="burstConfetti()">One More Confetti!</button>
+    </div>
+  </footer>
+
+  <!-- ================================================
+       JAVASCRIPT
+       ================================================ -->
+  <script>
+    // ==========================================
+    // SCROLL-TRIGGERED REVEAL ANIMATIONS
+    // ==========================================
+    (function() {
+      var reveals = document.querySelectorAll('.reveal, .reveal-left');
+      if (!reveals.length) return;
+
+      var observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      }, {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+      });
+
+      reveals.forEach(function(el) {
+        observer.observe(el);
+      });
+    })();
+
+    // ==========================================
+    // NAV DOTS ACTIVE STATE
+    // ==========================================
+    (function() {
+      var dots = document.querySelectorAll('.nav-dot');
+      var sections = [];
+
+      dots.forEach(function(dot) {
+        var href = dot.getAttribute('href');
+        if (href) {
+          var target = document.querySelector(href);
+          if (target) sections.push({ el: target, dot: dot });
+        }
+      });
+
+      if (!sections.length) return;
+
+      var observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            dots.forEach(function(d) { d.classList.remove('active'); });
+            sections.forEach(function(s) {
+              if (s.el === entry.target) s.dot.classList.add('active');
+            });
+          }
+        });
+      }, {
+        threshold: 0.3
+      });
+
+      sections.forEach(function(s) {
+        observer.observe(s.el);
+      });
+    })();
+
+    // ==========================================
+    // CONFETTI BURST (Canvas-based)
+    // ==========================================
+    var confettiCanvas = document.getElementById('confetti-canvas');
+    var confettiCtx = confettiCanvas.getContext('2d');
+    var confettiParticles = [];
+    var confettiAnimating = false;
+
+    function resizeConfettiCanvas() {
+      confettiCanvas.width = window.innerWidth;
+      confettiCanvas.height = window.innerHeight;
+    }
+    resizeConfettiCanvas();
+    window.addEventListener('resize', resizeConfettiCanvas);
+
+    var confettiColors = [
+      '#e8333a', '#2b7fc3', '#f5d623', '#e84690',
+      '#00b5ad', '#7b4ea3', '#f28c28', '#a4d65e',
+      '#f8b4c8', '#b8e8d0', '#c8b8e8'
+    ];
+
+    function ConfettiParticle(x, y) {
+      this.x = x;
+      this.y = y;
+      this.vx = (Math.random() - 0.5) * 16;
+      this.vy = Math.random() * -18 - 4;
+      this.gravity = 0.4;
+      this.friction = 0.99;
+      this.size = Math.random() * 8 + 4;
+      this.color = confettiColors[Math.floor(Math.random() * confettiColors.length)];
+      this.rotation = Math.random() * 360;
+      this.rotationSpeed = (Math.random() - 0.5) * 12;
+      this.opacity = 1;
+      this.shape = Math.floor(Math.random() * 3); // 0=rect, 1=circle, 2=triangle
+    }
+
+    ConfettiParticle.prototype.update = function() {
+      this.vy += this.gravity;
+      this.vx *= this.friction;
+      this.x += this.vx;
+      this.y += this.vy;
+      this.rotation += this.rotationSpeed;
+      this.opacity -= 0.005;
+    };
+
+    ConfettiParticle.prototype.draw = function(ctx) {
+      ctx.save();
+      ctx.translate(this.x, this.y);
+      ctx.rotate(this.rotation * Math.PI / 180);
+      ctx.globalAlpha = Math.max(0, this.opacity);
+      ctx.fillStyle = this.color;
+
+      if (this.shape === 0) {
+        ctx.fillRect(-this.size / 2, -this.size / 4, this.size, this.size / 2);
+      } else if (this.shape === 1) {
+        ctx.beginPath();
+        ctx.arc(0, 0, this.size / 2, 0, Math.PI * 2);
+        ctx.fill();
+      } else {
+        ctx.beginPath();
+        ctx.moveTo(0, -this.size / 2);
+        ctx.lineTo(this.size / 2, this.size / 2);
+        ctx.lineTo(-this.size / 2, this.size / 2);
+        ctx.closePath();
+        ctx.fill();
+      }
+
+      // Black outline for that Memphis Lite feel
+      ctx.strokeStyle = '#1a1a1a';
+      ctx.lineWidth = 1;
+      if (this.shape === 0) {
+        ctx.strokeRect(-this.size / 2, -this.size / 4, this.size, this.size / 2);
+      } else if (this.shape === 1) {
+        ctx.beginPath();
+        ctx.arc(0, 0, this.size / 2, 0, Math.PI * 2);
+        ctx.stroke();
+      } else {
+        ctx.beginPath();
+        ctx.moveTo(0, -this.size / 2);
+        ctx.lineTo(this.size / 2, this.size / 2);
+        ctx.lineTo(-this.size / 2, this.size / 2);
+        ctx.closePath();
+        ctx.stroke();
+      }
+
+      ctx.restore();
+    };
+
+    function animateConfetti() {
+      confettiCtx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+
+      confettiParticles = confettiParticles.filter(function(p) {
+        return p.opacity > 0 && p.y < confettiCanvas.height + 50;
+      });
+
+      confettiParticles.forEach(function(p) {
+        p.update();
+        p.draw(confettiCtx);
+      });
+
+      if (confettiParticles.length > 0) {
+        requestAnimationFrame(animateConfetti);
+      } else {
+        confettiAnimating = false;
+        confettiCtx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+      }
+    }
+
+    function burstConfetti() {
+      var cx = window.innerWidth / 2;
+      var cy = window.innerHeight / 2;
+
+      for (var i = 0; i < 120; i++) {
+        confettiParticles.push(new ConfettiParticle(
+          cx + (Math.random() - 0.5) * 200,
+          cy + (Math.random() - 0.5) * 100
+        ));
+      }
+
+      if (!confettiAnimating) {
+        confettiAnimating = true;
+        animateConfetti();
+      }
+    }
+
+    // ==========================================
+    // SMOOTH SCROLL FOR NAV DOTS
+    // ==========================================
+    document.querySelectorAll('.nav-dot').forEach(function(dot) {
+      dot.addEventListener('click', function(e) {
+        e.preventDefault();
+        var target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+
+    // ==========================================
+    // INITIAL CONFETTI ON LOAD (small burst)
+    // ==========================================
+    window.addEventListener('load', function() {
+      setTimeout(function() {
+        var cx = window.innerWidth / 2;
+        for (var i = 0; i < 40; i++) {
+          confettiParticles.push(new ConfettiParticle(
+            cx + (Math.random() - 0.5) * 300,
+            -20
+          ));
+        }
+        if (!confettiAnimating) {
+          confettiAnimating = true;
+          animateConfetti();
+        }
+      }, 1200);
+    });
+  </script>
+</body>
+</html>
