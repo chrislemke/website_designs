@@ -1,0 +1,2451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mid-Century Modern -- A Design Exploration</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Work+Sans:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+  <style>
+    /* ===== CSS CUSTOM PROPERTIES ===== */
+    :root {
+      /* Core palette */
+      --mcm-teal: #009B8D;
+      --mcm-mustard: #E8AB18;
+      --mcm-orange: #DE6F20;
+      --mcm-olive: #7D812C;
+      --mcm-warm-gray: #6A6B65;
+
+      /* Extended palette */
+      --mcm-cream: #FFF8F0;
+      --mcm-charcoal: #2C2C2C;
+      --mcm-coral: #FF6F61;
+      --mcm-sky-blue: #6D9DC5;
+      --mcm-sienna: #A0522D;
+      --mcm-beige: #FFE4B5;
+      --mcm-sage: #A8D8B9;
+      --mcm-soft-gold: #FFB74D;
+      --mcm-moccasin: #FFE4B5;
+
+      /* Bold Geometry */
+      --mcm-vivid-red: #FF3D00;
+      --mcm-amber: #FFAB00;
+      --mcm-bright-yellow: #FFD600;
+      --mcm-teal-accent: #00BFAE;
+      --mcm-bright-blue: #00B0FF;
+
+      /* Typography */
+      --font-display: 'Montserrat', sans-serif;
+      --font-body: 'Work Sans', sans-serif;
+      --font-accent: 'Playfair Display', serif;
+
+      /* Spacing */
+      --space-xs: 0.5rem;
+      --space-sm: 1rem;
+      --space-md: 2rem;
+      --space-lg: 4rem;
+      --space-xl: 6rem;
+    }
+
+    /* ===== RESET & BASE ===== */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: var(--font-body);
+      font-weight: 400;
+      line-height: 1.7;
+      color: var(--mcm-charcoal);
+      background-color: var(--mcm-cream);
+      overflow-x: hidden;
+      /* Retro paper texture */
+      background-image:
+        radial-gradient(ellipse at 20% 50%, rgba(160, 82, 45, 0.04) 0%, transparent 70%),
+        radial-gradient(ellipse at 80% 20%, rgba(0, 155, 141, 0.03) 0%, transparent 60%);
+    }
+
+    /* ===== TYPOGRAPHY ===== */
+    h1, h2, h3, h4 {
+      font-family: var(--font-display);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      line-height: 1.2;
+      color: var(--mcm-charcoal);
+    }
+
+    h1 {
+      font-size: clamp(2.5rem, 5vw, 4.5rem);
+      letter-spacing: 0.12em;
+      font-weight: 800;
+    }
+
+    h2 {
+      font-size: clamp(1.75rem, 3vw, 2.75rem);
+      color: var(--mcm-teal);
+    }
+
+    h3 {
+      font-size: clamp(1.25rem, 2vw, 1.75rem);
+      font-weight: 600;
+      text-transform: none;
+      letter-spacing: 0.03em;
+    }
+
+    p {
+      font-size: 1.05rem;
+      max-width: 65ch;
+    }
+
+    a {
+      color: var(--mcm-teal);
+      text-decoration: none;
+      border-bottom: 2px solid transparent;
+      transition: border-color 0.3s ease;
+    }
+
+    a:hover {
+      border-bottom-color: var(--mcm-teal);
+    }
+
+    .accent-text {
+      font-family: var(--font-accent);
+      font-style: italic;
+      font-weight: 400;
+    }
+
+    /* ===== ANIMATIONS ===== */
+    @keyframes fadeSlideUp {
+      from {
+        opacity: 0;
+        transform: translateY(40px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeSlideLeft {
+      from {
+        opacity: 0;
+        transform: translateX(60px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes fadeSlideRight {
+      from {
+        opacity: 0;
+        transform: translateX(-60px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes scaleIn {
+      from {
+        opacity: 0;
+        transform: scale(0.7);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    @keyframes rotateSlow {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes starburstPulse {
+      0%, 100% { transform: scale(1) rotate(0deg); }
+      50% { transform: scale(1.08) rotate(8deg); }
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-12px); }
+    }
+
+    @keyframes drawLine {
+      from { width: 0; }
+      to { width: 100%; }
+    }
+
+    @keyframes expandBar {
+      from { transform: scaleX(0); }
+      to { transform: scaleX(1); }
+    }
+
+    .animate-on-scroll {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .animate-on-scroll.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ===== HERO SECTION ===== */
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: var(--space-md);
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: var(--space-lg) var(--space-md);
+      position: relative;
+      align-items: center;
+    }
+
+    .hero__content {
+      grid-column: 1 / 8;
+      position: relative;
+      z-index: 2;
+      animation: fadeSlideRight 1s ease 0.2s both;
+    }
+
+    .hero__label {
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.25em;
+      color: var(--mcm-warm-gray);
+      margin-bottom: var(--space-sm);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .hero__label::before {
+      content: '';
+      display: inline-block;
+      width: 40px;
+      height: 2px;
+      background: var(--mcm-mustard);
+      animation: drawLine 0.8s ease 0.6s both;
+    }
+
+    .hero__title {
+      margin-bottom: var(--space-md);
+      position: relative;
+    }
+
+    .hero__title span {
+      display: block;
+    }
+
+    .hero__title .line-1 {
+      color: var(--mcm-charcoal);
+    }
+
+    .hero__title .line-2 {
+      color: var(--mcm-teal);
+    }
+
+    .hero__subtitle {
+      font-family: var(--font-accent);
+      font-style: italic;
+      font-size: clamp(1.1rem, 2vw, 1.4rem);
+      color: var(--mcm-warm-gray);
+      margin-bottom: var(--space-md);
+      max-width: 50ch;
+      line-height: 1.6;
+    }
+
+    .hero__era {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: clamp(1rem, 1.5vw, 1.25rem);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--mcm-orange);
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .hero__era::after {
+      content: '';
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      background: var(--mcm-mustard);
+      transform: rotate(45deg);
+    }
+
+    /* Hero geometric composition */
+    .hero__geometry {
+      grid-column: 7 / 13;
+      grid-row: 1;
+      position: relative;
+      height: 500px;
+      animation: fadeSlideLeft 1s ease 0.5s both;
+    }
+
+    .geo-circle-large {
+      position: absolute;
+      width: 320px;
+      height: 320px;
+      border-radius: 50%;
+      background: var(--mcm-teal);
+      top: 50%;
+      left: 50%;
+      transform: translate(-40%, -50%);
+      opacity: 0.9;
+    }
+
+    .geo-circle-medium {
+      position: absolute;
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      background: var(--mcm-mustard);
+      top: 15%;
+      right: 5%;
+      opacity: 0.85;
+      animation: float 6s ease-in-out infinite;
+    }
+
+    .geo-rect {
+      position: absolute;
+      width: 140px;
+      height: 200px;
+      background: var(--mcm-orange);
+      bottom: 5%;
+      left: 10%;
+      opacity: 0.8;
+      transform: rotate(-6deg);
+    }
+
+    .geo-diamond {
+      position: absolute;
+      width: 70px;
+      height: 70px;
+      background: var(--mcm-olive);
+      transform: rotate(45deg);
+      top: 10%;
+      left: 20%;
+      animation: float 5s ease-in-out 1s infinite;
+    }
+
+    .geo-starburst {
+      position: absolute;
+      width: 100px;
+      height: 100px;
+      background: var(--mcm-coral);
+      clip-path: polygon(
+        50% 0%, 61% 35%, 98% 35%, 68% 57%,
+        79% 91%, 50% 70%, 21% 91%, 32% 57%,
+        2% 35%, 39% 35%
+      );
+      bottom: 25%;
+      right: 10%;
+      animation: starburstPulse 4s ease-in-out infinite;
+    }
+
+    .geo-line-h {
+      position: absolute;
+      width: 200px;
+      height: 3px;
+      background: var(--mcm-charcoal);
+      top: 40%;
+      left: 0;
+      opacity: 0.3;
+    }
+
+    .geo-line-v {
+      position: absolute;
+      width: 3px;
+      height: 150px;
+      background: var(--mcm-charcoal);
+      top: 20%;
+      right: 30%;
+      opacity: 0.2;
+    }
+
+    /* ===== DIVIDER ===== */
+    .mcm-divider {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+      max-width: 1200px;
+      margin: var(--space-lg) auto;
+      padding: 0 var(--space-md);
+    }
+
+    .mcm-divider__line {
+      flex: 1;
+      height: 2px;
+      background: var(--mcm-warm-gray);
+      opacity: 0.3;
+    }
+
+    .mcm-divider__line:first-child {
+      flex: 3;
+    }
+
+    .mcm-divider__diamond {
+      width: 12px;
+      height: 12px;
+      background: var(--mcm-mustard);
+      transform: rotate(45deg);
+      flex-shrink: 0;
+    }
+
+    /* ===== OVERVIEW SECTION ===== */
+    .overview {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: var(--space-xl) var(--space-md);
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: var(--space-md);
+    }
+
+    .overview__heading-area {
+      grid-column: 1 / 5;
+      position: relative;
+    }
+
+    .overview__heading-area h2 {
+      position: sticky;
+      top: var(--space-lg);
+    }
+
+    .overview__content {
+      grid-column: 5 / 12;
+    }
+
+    .overview__content p {
+      font-size: 1.15rem;
+      line-height: 1.8;
+      color: var(--mcm-charcoal);
+      margin-bottom: var(--space-md);
+    }
+
+    .overview__content p:first-child::first-letter {
+      font-family: var(--font-display);
+      font-size: 3.5rem;
+      font-weight: 800;
+      float: left;
+      line-height: 1;
+      margin-right: 0.15em;
+      margin-top: 0.05em;
+      color: var(--mcm-teal);
+    }
+
+    /* ===== VISUAL CHARACTERISTICS ===== */
+    .characteristics {
+      background: var(--mcm-charcoal);
+      color: var(--mcm-cream);
+      clip-path: polygon(0 3%, 100% 0, 100% 97%, 0 100%);
+      margin: var(--space-lg) 0;
+      padding: calc(var(--space-xl) * 1.5) var(--space-md);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .characteristics::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background:
+        repeating-linear-gradient(
+          90deg,
+          transparent,
+          transparent 2px,
+          rgba(160, 82, 45, 0.04) 2px,
+          rgba(160, 82, 45, 0.04) 4px
+        );
+      pointer-events: none;
+    }
+
+    .characteristics__inner {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .characteristics h2 {
+      color: var(--mcm-mustard);
+      margin-bottom: var(--space-lg);
+      text-align: center;
+    }
+
+    .char-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: var(--space-md);
+    }
+
+    .char-item {
+      padding: var(--space-md);
+      position: relative;
+      border-left: 4px solid transparent;
+      transition: border-color 0.4s ease, transform 0.4s ease;
+    }
+
+    .char-item:nth-child(1) { border-left-color: var(--mcm-teal); }
+    .char-item:nth-child(2) { border-left-color: var(--mcm-mustard); }
+    .char-item:nth-child(3) { border-left-color: var(--mcm-orange); }
+    .char-item:nth-child(4) { border-left-color: var(--mcm-olive); }
+    .char-item:nth-child(5) { border-left-color: var(--mcm-coral); }
+    .char-item:nth-child(6) { border-left-color: var(--mcm-sky-blue); }
+    .char-item:nth-child(7) { border-left-color: var(--mcm-teal); }
+    .char-item:nth-child(8) { border-left-color: var(--mcm-mustard); }
+    .char-item:nth-child(9) { border-left-color: var(--mcm-orange); }
+    .char-item:nth-child(10) { border-left-color: var(--mcm-olive); }
+
+    .char-item:hover {
+      transform: translateX(8px);
+    }
+
+    .char-item h3 {
+      color: var(--mcm-cream);
+      margin-bottom: var(--space-xs);
+      font-size: 1.1rem;
+      font-weight: 600;
+    }
+
+    .char-item p {
+      color: rgba(255, 248, 240, 0.75);
+      font-size: 0.95rem;
+      line-height: 1.65;
+    }
+
+    /* ===== COLOR PALETTE SECTION ===== */
+    .palette-section {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: var(--space-xl) var(--space-md);
+    }
+
+    .palette-section h2 {
+      text-align: center;
+      margin-bottom: var(--space-xs);
+    }
+
+    .palette-section > p {
+      text-align: center;
+      color: var(--mcm-warm-gray);
+      margin: 0 auto var(--space-lg);
+      max-width: 60ch;
+    }
+
+    .palette-group {
+      margin-bottom: var(--space-lg);
+    }
+
+    .palette-group h3 {
+      font-family: var(--font-display);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-size: 0.9rem;
+      color: var(--mcm-warm-gray);
+      margin-bottom: var(--space-md);
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .palette-group h3::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--mcm-warm-gray);
+      opacity: 0.3;
+    }
+
+    .palette-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: var(--space-sm);
+    }
+
+    .swatch {
+      position: relative;
+      overflow: hidden;
+      cursor: default;
+      transition: transform 0.3s ease;
+    }
+
+    .swatch:hover {
+      transform: translateY(-4px);
+    }
+
+    .swatch__color {
+      height: 120px;
+      position: relative;
+    }
+
+    .swatch__color::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 30px;
+      height: 30px;
+      background: rgba(255,255,255,0.15);
+      transform: rotate(45deg) translate(50%, 0);
+    }
+
+    .swatch__info {
+      padding: 0.75rem 1rem;
+      background: white;
+    }
+
+    .swatch__name {
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--mcm-charcoal);
+    }
+
+    .swatch__hex {
+      font-family: var(--font-body);
+      font-weight: 300;
+      font-size: 0.8rem;
+      color: var(--mcm-warm-gray);
+      margin-top: 2px;
+    }
+
+    .swatch__desc {
+      font-size: 0.75rem;
+      color: var(--mcm-warm-gray);
+      margin-top: 4px;
+      line-height: 1.4;
+    }
+
+    /* ===== TYPOGRAPHY SECTION ===== */
+    .typography-section {
+      background:
+        repeating-linear-gradient(
+          90deg,
+          transparent,
+          transparent 2px,
+          rgba(160, 82, 45, 0.03) 2px,
+          rgba(160, 82, 45, 0.03) 4px
+        ),
+        linear-gradient(180deg, var(--mcm-beige) 0%, #F5E6D0 100%);
+      padding: var(--space-xl) var(--space-md);
+      position: relative;
+    }
+
+    .typography-section__inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: var(--space-md);
+    }
+
+    .type-header {
+      grid-column: 1 / 13;
+      text-align: center;
+      margin-bottom: var(--space-md);
+    }
+
+    .type-specimen {
+      grid-column: 1 / 8;
+    }
+
+    .type-rules {
+      grid-column: 8 / 13;
+    }
+
+    .specimen-block {
+      margin-bottom: var(--space-md);
+      padding: var(--space-md);
+      background: rgba(255, 255, 255, 0.6);
+      position: relative;
+      transition: transform 0.3s ease;
+    }
+
+    .specimen-block:hover {
+      transform: translateX(6px);
+    }
+
+    .specimen-block::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 4px;
+      height: 100%;
+      background: var(--mcm-teal);
+    }
+
+    .specimen-block:nth-child(2)::before {
+      background: var(--mcm-mustard);
+    }
+
+    .specimen-block:nth-child(3)::before {
+      background: var(--mcm-orange);
+    }
+
+    .specimen-label {
+      font-family: var(--font-display);
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--mcm-warm-gray);
+      margin-bottom: var(--space-xs);
+    }
+
+    .specimen-display {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 2.5rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--mcm-charcoal);
+      line-height: 1.1;
+    }
+
+    .specimen-body {
+      font-family: var(--font-body);
+      font-weight: 400;
+      font-size: 1.1rem;
+      line-height: 1.7;
+      color: var(--mcm-charcoal);
+    }
+
+    .specimen-serif {
+      font-family: var(--font-accent);
+      font-style: italic;
+      font-size: 1.5rem;
+      line-height: 1.5;
+      color: var(--mcm-sienna);
+    }
+
+    .type-rule {
+      margin-bottom: var(--space-sm);
+      padding: var(--space-sm) 0;
+      border-bottom: 1px solid rgba(106, 107, 101, 0.2);
+    }
+
+    .type-rule:last-child {
+      border-bottom: none;
+    }
+
+    .type-rule strong {
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--mcm-charcoal);
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .type-rule p {
+      font-size: 0.9rem;
+      color: var(--mcm-warm-gray);
+      line-height: 1.5;
+    }
+
+    .font-list {
+      grid-column: 1 / 13;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: var(--space-sm);
+      margin-top: var(--space-md);
+    }
+
+    .font-card {
+      background: white;
+      padding: var(--space-sm) var(--space-md);
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.3s ease;
+    }
+
+    .font-card:hover {
+      transform: translateY(-3px);
+    }
+
+    .font-card__name {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: var(--mcm-charcoal);
+      margin-bottom: 4px;
+    }
+
+    .font-card__role {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--mcm-teal);
+      font-family: var(--font-display);
+      font-weight: 600;
+    }
+
+    .font-card__note {
+      font-size: 0.8rem;
+      color: var(--mcm-warm-gray);
+      margin-top: 6px;
+      line-height: 1.4;
+    }
+
+    /* ===== MOTIFS SECTION ===== */
+    .motifs-section {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: var(--space-xl) var(--space-md);
+    }
+
+    .motifs-section h2 {
+      text-align: center;
+      margin-bottom: var(--space-lg);
+    }
+
+    .motifs-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--space-md);
+    }
+
+    .motif-card {
+      text-align: center;
+      padding: var(--space-md);
+      background: white;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.4s ease;
+    }
+
+    .motif-card:hover {
+      transform: translateY(-6px);
+    }
+
+    .motif-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: var(--mcm-teal);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.4s ease;
+    }
+
+    .motif-card:nth-child(2)::after { background: var(--mcm-mustard); }
+    .motif-card:nth-child(3)::after { background: var(--mcm-orange); }
+    .motif-card:nth-child(4)::after { background: var(--mcm-olive); }
+    .motif-card:nth-child(5)::after { background: var(--mcm-coral); }
+    .motif-card:nth-child(6)::after { background: var(--mcm-sky-blue); }
+    .motif-card:nth-child(7)::after { background: var(--mcm-sienna); }
+    .motif-card:nth-child(8)::after { background: var(--mcm-teal); }
+
+    .motif-card:hover::after {
+      transform: scaleX(1);
+    }
+
+    .motif-icon {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto var(--space-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .motif-card h3 {
+      font-family: var(--font-display);
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--mcm-charcoal);
+      margin-bottom: var(--space-xs);
+    }
+
+    .motif-card p {
+      font-size: 0.85rem;
+      color: var(--mcm-warm-gray);
+      line-height: 1.5;
+    }
+
+    /* SVG motif shapes */
+    .motif-starburst {
+      width: 60px;
+      height: 60px;
+      background: var(--mcm-mustard);
+      clip-path: polygon(
+        50% 0%, 61% 35%, 98% 35%, 68% 57%,
+        79% 91%, 50% 70%, 21% 91%, 32% 57%,
+        2% 35%, 39% 35%
+      );
+    }
+
+    .motif-boomerang {
+      width: 70px;
+      height: 40px;
+      background: var(--mcm-teal);
+      border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+      transform: rotate(-15deg);
+    }
+
+    .motif-diamond-grid {
+      width: 60px;
+      height: 60px;
+      position: relative;
+    }
+
+    .motif-diamond-grid span {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: var(--mcm-orange);
+      transform: rotate(45deg);
+    }
+
+    .motif-diamond-grid span:nth-child(1) { top: 0; left: 20px; }
+    .motif-diamond-grid span:nth-child(2) { top: 18px; left: 5px; opacity: 0.7; }
+    .motif-diamond-grid span:nth-child(3) { top: 18px; left: 35px; opacity: 0.7; }
+    .motif-diamond-grid span:nth-child(4) { top: 36px; left: 20px; opacity: 0.5; }
+
+    .motif-tapered {
+      width: 4px;
+      height: 60px;
+      background: var(--mcm-olive);
+      transform: rotate(-12deg);
+      position: relative;
+    }
+
+    .motif-tapered::before {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: -3px;
+      width: 10px;
+      height: 10px;
+      background: var(--mcm-olive);
+      border-radius: 50%;
+    }
+
+    .motif-concentric {
+      width: 60px;
+      height: 60px;
+      border: 4px solid var(--mcm-coral);
+      border-radius: 50%;
+      position: relative;
+    }
+
+    .motif-concentric::before {
+      content: '';
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      right: 8px;
+      bottom: 8px;
+      border: 3px solid var(--mcm-coral);
+      border-radius: 50%;
+      opacity: 0.6;
+    }
+
+    .motif-concentric::after {
+      content: '';
+      position: absolute;
+      top: 18px;
+      left: 18px;
+      right: 18px;
+      bottom: 18px;
+      background: var(--mcm-coral);
+      border-radius: 50%;
+      opacity: 0.4;
+    }
+
+    .motif-botanical {
+      width: 50px;
+      height: 60px;
+      position: relative;
+    }
+
+    .motif-botanical::before {
+      content: '';
+      position: absolute;
+      width: 30px;
+      height: 45px;
+      background: var(--mcm-sage);
+      border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+      transform: rotate(-20deg);
+      left: 5px;
+      top: 0;
+    }
+
+    .motif-botanical::after {
+      content: '';
+      position: absolute;
+      width: 2px;
+      height: 30px;
+      background: var(--mcm-olive);
+      bottom: 0;
+      left: 24px;
+      transform: rotate(-5deg);
+    }
+
+    .motif-sunburst {
+      width: 60px;
+      height: 60px;
+      position: relative;
+    }
+
+    .motif-sunburst span {
+      position: absolute;
+      width: 2px;
+      height: 25px;
+      background: var(--mcm-sienna);
+      top: 5px;
+      left: 29px;
+      transform-origin: bottom center;
+    }
+
+    .motif-sunburst span:nth-child(1) { transform: rotate(0deg); }
+    .motif-sunburst span:nth-child(2) { transform: rotate(30deg); }
+    .motif-sunburst span:nth-child(3) { transform: rotate(60deg); }
+    .motif-sunburst span:nth-child(4) { transform: rotate(90deg); }
+    .motif-sunburst span:nth-child(5) { transform: rotate(120deg); }
+    .motif-sunburst span:nth-child(6) { transform: rotate(150deg); }
+    .motif-sunburst span:nth-child(7) { transform: rotate(180deg); }
+    .motif-sunburst span:nth-child(8) { transform: rotate(210deg); }
+    .motif-sunburst span:nth-child(9) { transform: rotate(240deg); }
+    .motif-sunburst span:nth-child(10) { transform: rotate(270deg); }
+    .motif-sunburst span:nth-child(11) { transform: rotate(300deg); }
+    .motif-sunburst span:nth-child(12) { transform: rotate(330deg); }
+
+    .motif-floating {
+      width: 60px;
+      height: 60px;
+      position: relative;
+    }
+
+    .motif-floating .f-circle {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--mcm-teal);
+      top: 0;
+      left: 0;
+    }
+
+    .motif-floating .f-rect {
+      position: absolute;
+      width: 25px;
+      height: 15px;
+      background: var(--mcm-mustard);
+      top: 25px;
+      left: 20px;
+    }
+
+    .motif-floating .f-tri {
+      position: absolute;
+      width: 0;
+      height: 0;
+      border-left: 12px solid transparent;
+      border-right: 12px solid transparent;
+      border-bottom: 20px solid var(--mcm-orange);
+      bottom: 0;
+      left: 5px;
+    }
+
+    /* ===== LAYOUT PRINCIPLES ===== */
+    .layout-section {
+      background: var(--mcm-teal);
+      color: var(--mcm-cream);
+      clip-path: polygon(0 4%, 100% 0, 100% 96%, 0 100%);
+      margin: var(--space-lg) 0;
+      padding: calc(var(--space-xl) * 1.5) var(--space-md);
+    }
+
+    .layout-section__inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: var(--space-md);
+    }
+
+    .layout-section h2 {
+      grid-column: 1 / 13;
+      color: var(--mcm-cream);
+      text-align: center;
+      margin-bottom: var(--space-md);
+    }
+
+    .layout-principle {
+      grid-column: span 4;
+      padding: var(--space-md);
+      background: rgba(255, 255, 255, 0.08);
+      position: relative;
+      transition: background 0.3s ease, transform 0.3s ease;
+    }
+
+    .layout-principle:hover {
+      background: rgba(255, 255, 255, 0.14);
+      transform: translateY(-4px);
+    }
+
+    .layout-principle__number {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 3rem;
+      color: rgba(255, 255, 255, 0.12);
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      line-height: 1;
+    }
+
+    .layout-principle h3 {
+      color: var(--mcm-mustard);
+      margin-bottom: var(--space-xs);
+      font-size: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .layout-principle p {
+      color: rgba(255, 248, 240, 0.8);
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    /* ===== DOS AND DONTS ===== */
+    .guidelines-section {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: var(--space-xl) var(--space-md);
+    }
+
+    .guidelines-section h2 {
+      text-align: center;
+      margin-bottom: var(--space-lg);
+    }
+
+    .guidelines-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-lg);
+    }
+
+    .guidelines-column h3 {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1.5rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: var(--space-md);
+      padding-bottom: var(--space-sm);
+      border-bottom: 4px solid var(--mcm-teal);
+    }
+
+    .guidelines-column--dont h3 {
+      border-bottom-color: var(--mcm-orange);
+    }
+
+    .guideline-item {
+      display: flex;
+      gap: var(--space-sm);
+      margin-bottom: var(--space-sm);
+      padding: var(--space-sm);
+      background: white;
+      position: relative;
+      transition: transform 0.3s ease;
+    }
+
+    .guideline-item:hover {
+      transform: translateX(6px);
+    }
+
+    .guideline-icon {
+      flex-shrink: 0;
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 2px;
+    }
+
+    .guideline-icon--do {
+      width: 20px;
+      height: 20px;
+      background: var(--mcm-teal);
+      transform: rotate(45deg);
+    }
+
+    .guideline-icon--dont {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      border: 3px solid var(--mcm-orange);
+      position: relative;
+    }
+
+    .guideline-icon--dont::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 70%;
+      height: 3px;
+      background: var(--mcm-orange);
+      transform: translate(-50%, -50%) rotate(-45deg);
+    }
+
+    .guideline-item p {
+      font-size: 0.95rem;
+      line-height: 1.5;
+      color: var(--mcm-charcoal);
+    }
+
+    /* ===== RELATED AESTHETICS ===== */
+    .related-section {
+      background: var(--mcm-charcoal);
+      color: var(--mcm-cream);
+      padding: var(--space-xl) var(--space-md);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .related-section::before {
+      content: '';
+      position: absolute;
+      top: -50px;
+      right: -50px;
+      width: 300px;
+      height: 300px;
+      border-radius: 50%;
+      background: var(--mcm-teal);
+      opacity: 0.06;
+    }
+
+    .related-section::after {
+      content: '';
+      position: absolute;
+      bottom: -80px;
+      left: -30px;
+      width: 200px;
+      height: 200px;
+      background: var(--mcm-mustard);
+      opacity: 0.05;
+      transform: rotate(45deg);
+    }
+
+    .related-section__inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .related-section h2 {
+      color: var(--mcm-mustard);
+      text-align: center;
+      margin-bottom: var(--space-lg);
+    }
+
+    .related-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: var(--space-sm);
+    }
+
+    .related-card {
+      padding: var(--space-sm) var(--space-md);
+      border-left: 3px solid transparent;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-sm);
+    }
+
+    .related-card:hover {
+      border-left-color: var(--mcm-teal);
+      background: rgba(255, 255, 255, 0.04);
+      transform: translateX(6px);
+    }
+
+    .related-card__dot {
+      width: 8px;
+      height: 8px;
+      background: var(--mcm-teal);
+      transform: rotate(45deg);
+      flex-shrink: 0;
+      margin-top: 8px;
+    }
+
+    .related-card:nth-child(2) .related-card__dot { background: var(--mcm-mustard); }
+    .related-card:nth-child(3) .related-card__dot { background: var(--mcm-orange); }
+    .related-card:nth-child(4) .related-card__dot { background: var(--mcm-olive); }
+    .related-card:nth-child(5) .related-card__dot { background: var(--mcm-coral); }
+    .related-card:nth-child(6) .related-card__dot { background: var(--mcm-sky-blue); }
+    .related-card:nth-child(7) .related-card__dot { background: var(--mcm-sage); }
+    .related-card:nth-child(8) .related-card__dot { background: var(--mcm-sienna); }
+    .related-card:nth-child(9) .related-card__dot { background: var(--mcm-teal); }
+    .related-card:nth-child(10) .related-card__dot { background: var(--mcm-mustard); }
+    .related-card:nth-child(11) .related-card__dot { background: var(--mcm-orange); }
+
+    .related-card h3 {
+      color: var(--mcm-cream);
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .related-card p {
+      font-size: 0.85rem;
+      color: rgba(255, 248, 240, 0.6);
+      line-height: 1.5;
+    }
+
+    /* ===== FOOTER ===== */
+    .footer {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: var(--space-lg) var(--space-md);
+      text-align: center;
+      position: relative;
+    }
+
+    .footer__geo {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: var(--space-md);
+      margin-bottom: var(--space-md);
+    }
+
+    .footer__geo-circle {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--mcm-teal);
+      opacity: 0.6;
+    }
+
+    .footer__geo-diamond {
+      width: 20px;
+      height: 20px;
+      background: var(--mcm-mustard);
+      transform: rotate(45deg);
+    }
+
+    .footer__geo-rect {
+      width: 60px;
+      height: 20px;
+      background: var(--mcm-orange);
+      opacity: 0.6;
+    }
+
+    .footer__text {
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--mcm-warm-gray);
+    }
+
+    .footer__era {
+      font-family: var(--font-accent);
+      font-style: italic;
+      font-size: 1.1rem;
+      color: var(--mcm-sienna);
+      margin-top: var(--space-xs);
+    }
+
+    /* ===== FLOATING DECORATIONS ===== */
+    .floating-decor {
+      position: fixed;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.04;
+    }
+
+    .floating-decor--1 {
+      width: 300px;
+      height: 300px;
+      border-radius: 50%;
+      border: 30px solid var(--mcm-teal);
+      top: 20%;
+      right: -100px;
+      animation: rotateSlow 60s linear infinite;
+    }
+
+    .floating-decor--2 {
+      width: 200px;
+      height: 200px;
+      background: var(--mcm-mustard);
+      transform: rotate(45deg);
+      bottom: 30%;
+      left: -80px;
+      animation: rotateSlow 90s linear infinite reverse;
+    }
+
+    /* ===== SCROLL PROGRESS BAR ===== */
+    .scroll-progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--mcm-teal), var(--mcm-mustard), var(--mcm-orange));
+      z-index: 1000;
+      width: 0%;
+      transition: width 0.1s linear;
+    }
+
+    /* ===== NAV BAR ===== */
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 999;
+      background: rgba(255, 248, 240, 0.92);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(106, 107, 101, 0.1);
+      transform: translateY(-100%);
+      transition: transform 0.4s ease;
+    }
+
+    .nav.visible {
+      transform: translateY(0);
+    }
+
+    .nav__inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0.75rem var(--space-md);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav__logo {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--mcm-charcoal);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .nav__logo-diamond {
+      width: 10px;
+      height: 10px;
+      background: var(--mcm-teal);
+      transform: rotate(45deg);
+    }
+
+    .nav__links {
+      display: flex;
+      gap: var(--space-md);
+      list-style: none;
+    }
+
+    .nav__links a {
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--mcm-warm-gray);
+      border-bottom: none;
+      padding: 0.25rem 0;
+      position: relative;
+    }
+
+    .nav__links a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--mcm-teal);
+      transition: width 0.3s ease;
+    }
+
+    .nav__links a:hover {
+      color: var(--mcm-charcoal);
+      border-bottom: none;
+    }
+
+    .nav__links a:hover::after {
+      width: 100%;
+    }
+
+    /* ===== PALETTE USAGE GUIDELINES ===== */
+    .palette-usage {
+      margin-top: var(--space-md);
+      padding: var(--space-md);
+      background: white;
+      position: relative;
+    }
+
+    .palette-usage::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(90deg, var(--mcm-teal), var(--mcm-mustard), var(--mcm-orange), var(--mcm-olive));
+    }
+
+    .palette-usage h3 {
+      font-family: var(--font-display);
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--mcm-charcoal);
+      margin-bottom: var(--space-sm);
+    }
+
+    .palette-usage ul {
+      list-style: none;
+    }
+
+    .palette-usage li {
+      font-size: 0.9rem;
+      color: var(--mcm-warm-gray);
+      padding: 0.5rem 0;
+      border-bottom: 1px solid rgba(106, 107, 101, 0.1);
+      padding-left: 1.5rem;
+      position: relative;
+      line-height: 1.5;
+    }
+
+    .palette-usage li:last-child {
+      border-bottom: none;
+    }
+
+    .palette-usage li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%) rotate(45deg);
+      width: 6px;
+      height: 6px;
+      background: var(--mcm-teal);
+    }
+
+    .palette-usage li:nth-child(2)::before { background: var(--mcm-mustard); }
+    .palette-usage li:nth-child(3)::before { background: var(--mcm-orange); }
+    .palette-usage li:nth-child(4)::before { background: var(--mcm-olive); }
+    .palette-usage li:nth-child(5)::before { background: var(--mcm-coral); }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 1024px) {
+      .motifs-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .layout-principle {
+        grid-column: span 6;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .hero {
+        grid-template-columns: 1fr;
+        padding: var(--space-md) var(--space-sm);
+        min-height: auto;
+        padding-top: var(--space-lg);
+      }
+
+      .hero__content {
+        grid-column: 1 / -1;
+      }
+
+      .hero__geometry {
+        grid-column: 1 / -1;
+        height: 300px;
+      }
+
+      .geo-circle-large {
+        width: 200px;
+        height: 200px;
+      }
+
+      .geo-circle-medium {
+        width: 100px;
+        height: 100px;
+      }
+
+      .geo-rect {
+        width: 80px;
+        height: 120px;
+      }
+
+      .overview {
+        grid-template-columns: 1fr;
+        padding: var(--space-lg) var(--space-sm);
+      }
+
+      .overview__heading-area,
+      .overview__content {
+        grid-column: 1 / -1;
+      }
+
+      .overview__heading-area h2 {
+        position: static;
+      }
+
+      .char-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .typography-section__inner {
+        grid-template-columns: 1fr;
+      }
+
+      .type-specimen,
+      .type-rules,
+      .type-header,
+      .font-list {
+        grid-column: 1 / -1;
+      }
+
+      .motifs-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--space-sm);
+      }
+
+      .layout-section__inner {
+        grid-template-columns: 1fr;
+      }
+
+      .layout-section h2,
+      .layout-principle {
+        grid-column: 1 / -1;
+      }
+
+      .guidelines-grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-md);
+      }
+
+      .related-grid {
+        grid-template-columns: 1fr;
+      }
+
+      h1 {
+        letter-spacing: 0.06em;
+      }
+
+      .nav__links {
+        display: none;
+      }
+
+      .floating-decor {
+        display: none;
+      }
+
+      .specimen-display {
+        font-size: 1.8rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .motifs-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .palette-row {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Scroll Progress -->
+  <div class="scroll-progress" id="scrollProgress"></div>
+
+  <!-- Floating Decorations -->
+  <div class="floating-decor floating-decor--1"></div>
+  <div class="floating-decor floating-decor--2"></div>
+
+  <!-- Navigation -->
+  <nav class="nav" id="mainNav">
+    <div class="nav__inner">
+      <div class="nav__logo">
+        <div class="nav__logo-diamond"></div>
+        MCM
+      </div>
+      <ul class="nav__links">
+        <li><a href="#overview">Overview</a></li>
+        <li><a href="#characteristics">Characteristics</a></li>
+        <li><a href="#palette">Palette</a></li>
+        <li><a href="#typography">Typography</a></li>
+        <li><a href="#motifs">Motifs</a></li>
+        <li><a href="#layout">Layout</a></li>
+        <li><a href="#guidelines">Guidelines</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ===== HERO ===== -->
+  <section class="hero">
+    <div class="hero__content">
+      <div class="hero__label">Design Aesthetic</div>
+      <h1 class="hero__title">
+        <span class="line-1">Mid-Century</span>
+        <span class="line-2">Modern</span>
+      </h1>
+      <p class="hero__subtitle">
+        A synthesis of modernist principles adapted for post-war optimism and consumer culture, championing simplicity, modernity, and a seamless connection to nature.
+      </p>
+      <div class="hero__era">1945 -- 1969</div>
+    </div>
+    <div class="hero__geometry" aria-hidden="true">
+      <div class="geo-circle-large"></div>
+      <div class="geo-circle-medium"></div>
+      <div class="geo-rect"></div>
+      <div class="geo-diamond"></div>
+      <div class="geo-starburst"></div>
+      <div class="geo-line-h"></div>
+      <div class="geo-line-v"></div>
+    </div>
+  </section>
+
+  <!-- Divider -->
+  <div class="mcm-divider">
+    <div class="mcm-divider__line"></div>
+    <div class="mcm-divider__diamond"></div>
+    <div class="mcm-divider__line"></div>
+  </div>
+
+  <!-- ===== OVERVIEW ===== -->
+  <section class="overview animate-on-scroll" id="overview">
+    <div class="overview__heading-area">
+      <h2>Overview</h2>
+    </div>
+    <div class="overview__content">
+      <p>Mid-Century Modern is a design movement originating from the mid-1940s through the late 1960s that emphasizes clean lines, organic and geometric forms, and functionality over ornament. It represents a synthesis of modernist principles adapted for post-war optimism and consumer culture, championing simplicity, modernity, and a seamless connection to nature.</p>
+      <p>In web design, MCM translates into bold yet restrained compositions that balance geometric structure with organic warmth, asymmetric layouts, and a distinctive color palette rooted in earthy tones punctuated by vibrant accents.</p>
+    </div>
+  </section>
+
+  <!-- Divider -->
+  <div class="mcm-divider">
+    <div class="mcm-divider__line"></div>
+    <div class="mcm-divider__diamond"></div>
+    <div class="mcm-divider__line"></div>
+  </div>
+
+  <!-- ===== VISUAL CHARACTERISTICS ===== -->
+  <section class="characteristics" id="characteristics">
+    <div class="characteristics__inner">
+      <h2>Visual Characteristics</h2>
+      <div class="char-grid">
+        <div class="char-item animate-on-scroll">
+          <h3>Clean Lines & Geometric Forms</h3>
+          <p>Combined with gentle, organic curves that soften strict geometry into approachable compositions.</p>
+        </div>
+        <div class="char-item animate-on-scroll">
+          <h3>Functional Minimalism</h3>
+          <p>A distinct lack of ornamentation -- every element serves a functional purpose and earns its place in the design.</p>
+        </div>
+        <div class="char-item animate-on-scroll">
+          <h3>Asymmetrical Composition</h3>
+          <p>Seemingly "scattered" or improvisational placement that still resolves into cohesive, balanced layouts.</p>
+        </div>
+        <div class="char-item animate-on-scroll">
+          <h3>Bold Contrasts</h3>
+          <p>The interplay between warm and cool tones, heavy and light weights, geometric and organic shapes.</p>
+        </div>
+        <div class="char-item animate-on-scroll">
+          <h3>Generous White Space</h3>
+          <p>Negative space used as a deliberate design element, evoking the open-plan architectural spaces of the era.</p>
+        </div>
+        <div class="char-item animate-on-scroll">
+          <h3>Natural Textures</h3>
+          <p>Referencing wood grain, leather, woven textiles, and glass through warm tones and subtle material effects.</p>
+        </div>
+        <div class="char-item animate-on-scroll">
+          <h3>Geometric Shape Overlays</h3>
+          <p>Used as background elements, image containers, and decorative accents that serve structural purposes.</p>
+        </div>
+        <div class="char-item animate-on-scroll">
+          <h3>Flat, Illustrative Style</h3>
+          <p>Simple silhouettes and limited dimensionality -- a precursor to modern flat design approaches.</p>
+        </div>
+        <div class="char-item animate-on-scroll">
+          <h3>Layered Depth</h3>
+          <p>Smooth transitions and subtle depth created through layered geometric planes rather than drop shadows.</p>
+        </div>
+        <div class="char-item animate-on-scroll">
+          <h3>Horizontal Emphasis</h3>
+          <p>Wide, landscape-oriented content blocks referencing the horizontal lines of MCM architecture.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== COLOR PALETTE ===== -->
+  <section class="palette-section animate-on-scroll" id="palette">
+    <h2>Color Palette</h2>
+    <p>Mid-Century Modern palettes anchor on warm, earthy neutrals and introduce bold, saturated accent colors. The interplay between muted bases and vibrant pops is essential.</p>
+
+    <!-- Primary -->
+    <div class="palette-group">
+      <h3>Primary Palette</h3>
+      <div class="palette-row">
+        <div class="swatch">
+          <div class="swatch__color" style="background-color: #009B8D;"></div>
+          <div class="swatch__info">
+            <div class="swatch__name">Deep Teal</div>
+            <div class="swatch__hex">#009B8D</div>
+            <div class="swatch__desc">Signature MCM accent, evokes atomic-age optimism</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch__color" style="background-color: #E8AB18;"></div>
+          <div class="swatch__info">
+            <div class="swatch__name">Golden Yellow</div>
+            <div class="swatch__hex">#E8AB18</div>
+            <div class="swatch__desc">Warm, earthy accent that defines the era</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch__color" style="background-color: #DE6F20;"></div>
+          <div class="swatch__info">
+            <div class="swatch__name">Burnt Orange</div>
+            <div class="swatch__hex">#DE6F20</div>
+            <div class="swatch__desc">Bold warmth, pairs naturally with teal</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch__color" style="background-color: #7D812C;"></div>
+          <div class="swatch__info">
+            <div class="swatch__name">Olive Green</div>
+            <div class="swatch__hex">#7D812C</div>
+            <div class="swatch__desc">Organic earthiness, connects to nature</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch__color" style="background-color: #6A6B65;"></div>
+          <div class="swatch__info">
+            <div class="swatch__name">Warm Gray</div>
+            <div class="swatch__hex">#6A6B65</div>
+            <div class="swatch__desc">Neutral grounding tone</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Extended -->
+    <div class="palette-group">
+      <h3>Extended Palette</h3>
+      <div class="palette-row">
+        <div class="swatch">
+          <div class="swatch__color" style="background-color: #FF6F61;"></div>
+          <div class="swatch__info">
+            <div class="swatch__name">Warm Coral</div>
+            <div class="swatch__hex">#FF6F61</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch__color" style="background-color: #FFB74D;"></div>
+          <div class="swatch__info">
+            <div class="swatch__name">Light Amber</div>
+            <div class="swatch__hex">#FFB74D</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch__color" style="background-color: #6D9DC5;"></div>
+          <div class="swatch__info">
+            <div class="swatch__name">Muted Blue</div>
+            <div class="swatch__hex">#6D9DC5</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch__color" style="background-color: #A8D8B9;"></div>
+          <div class="swatch__info">
+            <div class="swatch__name">Soft Green</div>
+            <div class="swatch__hex">#A8D8B9</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch__color" style="background-color: #FFF8F0;"></div>
+          <div class="swatch__info">
+            <div class="swatch__name">Warm White</div>
+            <div class="swatch__hex">#FFF8F0</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch__color" style="background-color: #2C2C2C;"></div>
+          <div class="swatch__info">
+            <div class="swatch__name">Charcoal</div>
+            <div class="swatch__hex">#2C2C2C</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch__color" style="background-color: #A0522D;"></div>
+          <div class="swatch__info">
+            <div class="swatch__name">Rich Brown</div>
+            <div class="swatch__hex">#A0522D</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch__color" style="background-color: #FFE4B5;"></div>
+          <div class="swatch__info">
+            <div class="swatch__name">Warm Beige</div>
+            <div class="swatch__hex">#FFE4B5</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bold Geometry -->
+    <div class="palette-group">
+      <h3>Bold Geometry Palette</h3>
+      <div class="palette-row">
+        <div class="swatch">
+          <div class="swatch__color" style="background-color: #FF3D00;"></div>
+          <div class="swatch__info">
+            <div class="swatch__name">Vivid Red-Orange</div>
+            <div class="swatch__hex">#FF3D00</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch__color" style="background-color: #FFAB00;"></div>
+          <div class="swatch__info">
+            <div class="swatch__name">Amber</div>
+            <div class="swatch__hex">#FFAB00</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch__color" style="background-color: #FFD600;"></div>
+          <div class="swatch__info">
+            <div class="swatch__name">Bright Yellow</div>
+            <div class="swatch__hex">#FFD600</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch__color" style="background-color: #00BFAE;"></div>
+          <div class="swatch__info">
+            <div class="swatch__name">Teal Accent</div>
+            <div class="swatch__hex">#00BFAE</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch__color" style="background-color: #00B0FF;"></div>
+          <div class="swatch__info">
+            <div class="swatch__name">Bright Blue</div>
+            <div class="swatch__hex">#00B0FF</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Usage Guidelines -->
+    <div class="palette-usage">
+      <h3>Palette Usage Guidelines</h3>
+      <ul>
+        <li>Use warm neutrals (cream, beige, warm gray) for backgrounds and large surfaces</li>
+        <li>Deploy bold accents (teal, mustard, burnt orange) sparingly for impact</li>
+        <li>Pair complementary accents: teal + orange, mustard + charcoal, olive + coral</li>
+        <li>Avoid using more than 2-3 bold accents simultaneously</li>
+        <li>Let white/negative space balance vivid color blocks</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Divider -->
+  <div class="mcm-divider">
+    <div class="mcm-divider__line"></div>
+    <div class="mcm-divider__diamond"></div>
+    <div class="mcm-divider__line"></div>
+  </div>
+
+  <!-- ===== TYPOGRAPHY ===== -->
+  <section class="typography-section" id="typography">
+    <div class="typography-section__inner">
+      <div class="type-header">
+        <h2>Typography</h2>
+        <p style="color: var(--mcm-warm-gray); max-width: 55ch; margin: var(--space-sm) auto 0;">
+          Mid-Century Modern typography favors geometric sans-serifs with clean, confident letterforms. Type is often medium to heavy weight, frequently set in all-caps for headlines.
+        </p>
+      </div>
+
+      <div class="type-specimen">
+        <div class="specimen-block">
+          <div class="specimen-label">Display / Headlines -- Montserrat</div>
+          <div class="specimen-display">Form Follows Function</div>
+        </div>
+        <div class="specimen-block">
+          <div class="specimen-label">Body Text -- Work Sans</div>
+          <div class="specimen-body">Clean lines and organic forms define the Mid-Century Modern aesthetic. Every element serves a purpose, balancing geometric structure with organic warmth. The result is a timeless visual language that feels both modern and deeply rooted in its era.</div>
+        </div>
+        <div class="specimen-block">
+          <div class="specimen-label">Accent -- Playfair Display</div>
+          <div class="specimen-serif">Where simplicity meets sophistication, where function marries beauty -- this is the essence of Mid-Century design.</div>
+        </div>
+      </div>
+
+      <div class="type-rules">
+        <div class="type-rule">
+          <strong>Headlines</strong>
+          <p>Geometric sans-serif, medium to bold weight, often ALL CAPS with generous letter-spacing (0.05-0.15em)</p>
+        </div>
+        <div class="type-rule">
+          <strong>Body Text</strong>
+          <p>Clean sans-serif, regular weight, comfortable line-height (1.6-1.8)</p>
+        </div>
+        <div class="type-rule">
+          <strong>Accent Text</strong>
+          <p>Simple serif for contrast moments, or light-weight geometric sans</p>
+        </div>
+        <div class="type-rule">
+          <strong>Typeface Limit</strong>
+          <p>Maximum 2 typeface families per design for cohesion</p>
+        </div>
+        <div class="type-rule">
+          <strong>Scale Contrast</strong>
+          <p>Large headline sizes against moderate body sizes create the characteristic MCM visual hierarchy</p>
+        </div>
+      </div>
+
+      <div class="font-list">
+        <div class="font-card">
+          <div class="font-card__name">Montserrat</div>
+          <div class="font-card__role">Headlines, Display</div>
+          <div class="font-card__note">Geometric sans-serif inspired by mid-20th century urban signage</div>
+        </div>
+        <div class="font-card">
+          <div class="font-card__name">Raleway</div>
+          <div class="font-card__role">Headlines, Subheads</div>
+          <div class="font-card__note">Sleek geometric sans-serif with clean lines</div>
+        </div>
+        <div class="font-card">
+          <div class="font-card__name">Josefin Sans</div>
+          <div class="font-card__role">Headlines, Display</div>
+          <div class="font-card__note">Geometric with vintage 1920s-1960s character</div>
+        </div>
+        <div class="font-card">
+          <div class="font-card__name">Work Sans</div>
+          <div class="font-card__role">Body, UI</div>
+          <div class="font-card__note">Clean geometric sans with excellent readability</div>
+        </div>
+        <div class="font-card">
+          <div class="font-card__name">Source Sans 3</div>
+          <div class="font-card__role">Body Text</div>
+          <div class="font-card__note">Highly legible, functional sans-serif</div>
+        </div>
+        <div class="font-card">
+          <div class="font-card__name">Playfair Display</div>
+          <div class="font-card__role">Accent, Editorial</div>
+          <div class="font-card__note">Transitional serif for contrast pairing</div>
+        </div>
+        <div class="font-card">
+          <div class="font-card__name">DM Sans</div>
+          <div class="font-card__role">Body, UI</div>
+          <div class="font-card__note">Modern geometric sans with warm feel</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== MOTIFS & PATTERNS ===== -->
+  <section class="motifs-section animate-on-scroll" id="motifs">
+    <h2>Motifs & Patterns</h2>
+    <div class="motifs-grid">
+      <div class="motif-card">
+        <div class="motif-icon">
+          <div class="motif-starburst"></div>
+        </div>
+        <h3>Atomic Starbursts</h3>
+        <p>Spiky radial shapes evoking atomic-age imagery and post-war scientific optimism.</p>
+      </div>
+      <div class="motif-card">
+        <div class="motif-icon">
+          <div class="motif-boomerang"></div>
+        </div>
+        <h3>Boomerang Shapes</h3>
+        <p>Organic asymmetric curves and kidney shapes that soften geometric compositions.</p>
+      </div>
+      <div class="motif-card">
+        <div class="motif-icon">
+          <div class="motif-diamond-grid">
+            <span></span><span></span><span></span><span></span>
+          </div>
+        </div>
+        <h3>Diamond & Triangle Grids</h3>
+        <p>Repeating geometric tessellations creating rhythm and visual texture.</p>
+      </div>
+      <div class="motif-card">
+        <div class="motif-icon">
+          <div class="motif-tapered"></div>
+        </div>
+        <h3>Tapered Lines</h3>
+        <p>Diagonal lines suggesting furniture silhouettes -- the iconic tapered legs of the era.</p>
+      </div>
+      <div class="motif-card">
+        <div class="motif-icon">
+          <div class="motif-concentric"></div>
+        </div>
+        <h3>Concentric Circles</h3>
+        <p>Nested organic forms creating depth and visual rhythm without 3D effects.</p>
+      </div>
+      <div class="motif-card">
+        <div class="motif-icon">
+          <div class="motif-botanical"></div>
+        </div>
+        <h3>Abstract Botanicals</h3>
+        <p>Simplified leaf and branch silhouettes connecting design to the natural world.</p>
+      </div>
+      <div class="motif-card">
+        <div class="motif-icon">
+          <div class="motif-sunburst">
+            <span></span><span></span><span></span><span></span><span></span><span></span>
+            <span></span><span></span><span></span><span></span><span></span><span></span>
+          </div>
+        </div>
+        <h3>Sunburst Patterns</h3>
+        <p>Radiating lines from a central point, evoking optimism and forward-looking energy.</p>
+      </div>
+      <div class="motif-card">
+        <div class="motif-icon">
+          <div class="motif-floating">
+            <div class="f-circle"></div>
+            <div class="f-rect"></div>
+            <div class="f-tri"></div>
+          </div>
+        </div>
+        <h3>Floating Compositions</h3>
+        <p>Circles, rectangles, and triangles arranged in balanced asymmetry.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== LAYOUT PRINCIPLES ===== -->
+  <section class="layout-section" id="layout">
+    <div class="layout-section__inner">
+      <h2>Layout Principles</h2>
+      <div class="layout-principle animate-on-scroll">
+        <div class="layout-principle__number">01</div>
+        <h3>Asymmetric Balance</h3>
+        <p>Elements are not mirrored but achieve visual equilibrium through careful weight distribution across the composition.</p>
+      </div>
+      <div class="layout-principle animate-on-scroll">
+        <div class="layout-principle__number">02</div>
+        <h3>Open-Plan Composition</h3>
+        <p>Generous whitespace between content blocks, avoiding crowded layouts and letting each element breathe.</p>
+      </div>
+      <div class="layout-principle animate-on-scroll">
+        <div class="layout-principle__number">03</div>
+        <h3>Grid With Personality</h3>
+        <p>Underlying grid structure with deliberate rule-breaking for visual energy and dynamic tension.</p>
+      </div>
+      <div class="layout-principle animate-on-scroll">
+        <div class="layout-principle__number">04</div>
+        <h3>Horizontal Emphasis</h3>
+        <p>Wide, landscape-oriented content blocks referencing MCM architecture's iconic horizontal lines.</p>
+      </div>
+      <div class="layout-principle animate-on-scroll">
+        <div class="layout-principle__number">05</div>
+        <h3>Layered Planes</h3>
+        <p>Overlapping geometric sections creating depth without 3D effects or drop shadows.</p>
+      </div>
+      <div class="layout-principle animate-on-scroll">
+        <div class="layout-principle__number">06</div>
+        <h3>Large Visual Anchors</h3>
+        <p>Hero images or bold color blocks dominating the viewport and establishing visual hierarchy.</p>
+      </div>
+      <div class="layout-principle animate-on-scroll">
+        <div class="layout-principle__number">07</div>
+        <h3>Functional Minimalism</h3>
+        <p>Every element earns its place; decorative elements double as navigation or structural components.</p>
+      </div>
+      <div class="layout-principle animate-on-scroll">
+        <div class="layout-principle__number">08</div>
+        <h3>Indoor-Outdoor Flow</h3>
+        <p>Seamless transitions between content sections, with minimal hard boundaries and natural progression.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== DOS AND DON'TS ===== -->
+  <section class="guidelines-section animate-on-scroll" id="guidelines">
+    <h2>Design Guidelines</h2>
+    <div class="guidelines-grid">
+      <div class="guidelines-column guidelines-column--do">
+        <h3>Do</h3>
+        <div class="guideline-item">
+          <div class="guideline-icon"><div class="guideline-icon--do"></div></div>
+          <p>Use bold color sparingly against generous whitespace for maximum impact</p>
+        </div>
+        <div class="guideline-item">
+          <div class="guideline-icon"><div class="guideline-icon--do"></div></div>
+          <p>Let geometric shapes serve double duty as both decoration and layout structure</p>
+        </div>
+        <div class="guideline-item">
+          <div class="guideline-icon"><div class="guideline-icon--do"></div></div>
+          <p>Maintain asymmetric balance -- offset elements while keeping visual weight distributed</p>
+        </div>
+        <div class="guideline-item">
+          <div class="guideline-icon"><div class="guideline-icon--do"></div></div>
+          <p>Reference natural materials through warm color choices and subtle textures</p>
+        </div>
+        <div class="guideline-item">
+          <div class="guideline-icon"><div class="guideline-icon--do"></div></div>
+          <p>Keep typography clean, confident, and functional with geometric sans-serifs</p>
+        </div>
+        <div class="guideline-item">
+          <div class="guideline-icon"><div class="guideline-icon--do"></div></div>
+          <p>Use horizontal, landscape-oriented compositions that reference MCM architecture</p>
+        </div>
+      </div>
+      <div class="guidelines-column guidelines-column--dont">
+        <h3>Don't</h3>
+        <div class="guideline-item">
+          <div class="guideline-icon"><div class="guideline-icon--dont"></div></div>
+          <p>Overwhelm with too many bold accent colors at once -- restraint is key</p>
+        </div>
+        <div class="guideline-item">
+          <div class="guideline-icon"><div class="guideline-icon--dont"></div></div>
+          <p>Add purely decorative ornament with no structural or functional purpose</p>
+        </div>
+        <div class="guideline-item">
+          <div class="guideline-icon"><div class="guideline-icon--dont"></div></div>
+          <p>Use drop shadows, bevels, or skeuomorphic 3D effects</p>
+        </div>
+        <div class="guideline-item">
+          <div class="guideline-icon"><div class="guideline-icon--dont"></div></div>
+          <p>Employ overly complex or script typefaces that undermine clarity</p>
+        </div>
+        <div class="guideline-item">
+          <div class="guideline-icon"><div class="guideline-icon--dont"></div></div>
+          <p>Create symmetrical, rigidly centered layouts -- MCM favors dynamic asymmetry</p>
+        </div>
+        <div class="guideline-item">
+          <div class="guideline-icon"><div class="guideline-icon--dont"></div></div>
+          <p>Neglect whitespace -- crowded layouts contradict the open-plan MCM ethos</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== RELATED AESTHETICS ===== -->
+  <section class="related-section" id="related">
+    <div class="related-section__inner">
+      <h2>Related Aesthetics</h2>
+      <div class="related-grid">
+        <div class="related-card animate-on-scroll">
+          <div class="related-card__dot"></div>
+          <div>
+            <h3>Atomic Age</h3>
+            <p>Contemporary sibling; shares optimistic futurism and starburst motifs</p>
+          </div>
+        </div>
+        <div class="related-card animate-on-scroll">
+          <div class="related-card__dot"></div>
+          <div>
+            <h3>Googie</h3>
+            <p>Exuberant commercial expression of MCM architectural principles</p>
+          </div>
+        </div>
+        <div class="related-card animate-on-scroll">
+          <div class="related-card__dot"></div>
+          <div>
+            <h3>Space Age</h3>
+            <p>Parallel movement with overlapping material innovation and futurist spirit</p>
+          </div>
+        </div>
+        <div class="related-card animate-on-scroll">
+          <div class="related-card__dot"></div>
+          <div>
+            <h3>Streamline Moderne</h3>
+            <p>Direct predecessor; MCM evolved from its aerodynamic curves</p>
+          </div>
+        </div>
+        <div class="related-card animate-on-scroll">
+          <div class="related-card__dot"></div>
+          <div>
+            <h3>Bauhaus</h3>
+            <p>Foundational influence; MCM inherited its form-follows-function philosophy</p>
+          </div>
+        </div>
+        <div class="related-card animate-on-scroll">
+          <div class="related-card__dot"></div>
+          <div>
+            <h3>Raygun Gothic</h3>
+            <p>Retro-futurist cousin sharing atomic-era visual language</p>
+          </div>
+        </div>
+        <div class="related-card animate-on-scroll">
+          <div class="related-card__dot"></div>
+          <div>
+            <h3>Earth Tones</h3>
+            <p>Successor movement carrying forward MCM's natural palette</p>
+          </div>
+        </div>
+        <div class="related-card animate-on-scroll">
+          <div class="related-card__dot"></div>
+          <div>
+            <h3>Flat Design</h3>
+            <p>Modern digital descendant sharing MCM's love of bold shapes, clean lines, and minimal ornament</p>
+          </div>
+        </div>
+        <div class="related-card animate-on-scroll">
+          <div class="related-card__dot"></div>
+          <div>
+            <h3>International Typographic Style</h3>
+            <p>Contemporary movement sharing commitment to grid-based clarity</p>
+          </div>
+        </div>
+        <div class="related-card animate-on-scroll">
+          <div class="related-card__dot"></div>
+          <div>
+            <h3>Memphis Design</h3>
+            <p>Postmodern reaction against MCM restraint, but borrows its geometric vocabulary</p>
+          </div>
+        </div>
+        <div class="related-card animate-on-scroll">
+          <div class="related-card__dot"></div>
+          <div>
+            <h3>Frutiger Aero</h3>
+            <p>Later digital aesthetic that echoes MCM's optimism and clean forms</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="footer__geo">
+      <div class="footer__geo-circle"></div>
+      <div class="footer__geo-diamond"></div>
+      <div class="footer__geo-rect"></div>
+      <div class="footer__geo-diamond"></div>
+      <div class="footer__geo-circle"></div>
+    </div>
+    <div class="footer__text">Mid-Century Modern Design Aesthetic</div>
+    <div class="footer__era">Celebrating the timeless vision of 1945--1969</div>
+  </footer>
+
+  <!-- ===== JAVASCRIPT ===== -->
+  <script>
+    // Scroll progress bar
+    function updateScrollProgress() {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = (scrollTop / docHeight) * 100;
+      document.getElementById('scrollProgress').style.width = progress + '%';
+    }
+
+    // Navigation visibility
+    function updateNav() {
+      const nav = document.getElementById('mainNav');
+      if (window.scrollY > 300) {
+        nav.classList.add('visible');
+      } else {
+        nav.classList.remove('visible');
+      }
+    }
+
+    // Intersection Observer for scroll animations
+    function initScrollAnimations() {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry, index) => {
+            if (entry.isIntersecting) {
+              // Stagger the animation for sibling elements
+              const siblings = entry.target.parentElement.querySelectorAll('.animate-on-scroll');
+              let delay = 0;
+              siblings.forEach((sibling) => {
+                if (sibling === entry.target) {
+                  setTimeout(() => {
+                    entry.target.classList.add('visible');
+                  }, delay);
+                }
+                delay += 80;
+              });
+
+              // Fallback: always make visible
+              setTimeout(() => {
+                entry.target.classList.add('visible');
+              }, 100);
+            }
+          });
+        },
+        {
+          threshold: 0.1,
+          rootMargin: '0px 0px -50px 0px'
+        }
+      );
+
+      document.querySelectorAll('.animate-on-scroll').forEach((el) => {
+        observer.observe(el);
+      });
+    }
+
+    // Smooth scroll for nav links
+    function initSmoothScroll() {
+      document.querySelectorAll('.nav__links a').forEach((link) => {
+        link.addEventListener('click', (e) => {
+          e.preventDefault();
+          const targetId = link.getAttribute('href').substring(1);
+          const target = document.getElementById(targetId);
+          if (target) {
+            const offset = 80;
+            const position = target.getBoundingClientRect().top + window.scrollY - offset;
+            window.scrollTo({ top: position, behavior: 'smooth' });
+          }
+        });
+      });
+    }
+
+    // Event listeners
+    window.addEventListener('scroll', () => {
+      updateScrollProgress();
+      updateNav();
+    }, { passive: true });
+
+    document.addEventListener('DOMContentLoaded', () => {
+      initScrollAnimations();
+      initSmoothScroll();
+    });
+  </script>
+</body>
+</html>

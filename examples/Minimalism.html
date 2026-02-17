@@ -1,0 +1,1403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Minimalism -- Less Is More</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@200;300;400;500&display=swap" rel="stylesheet">
+  <style>
+    /* ===================================================
+       CSS Custom Properties -- Minimalism Palette
+       =================================================== */
+    :root {
+      /* Backgrounds */
+      --min-bg-white: #ffffff;
+      --min-bg-off-white: #fafafa;
+      --min-bg-whisper: #f5f5f5;
+
+      /* Borders */
+      --min-border-light: #e0e0e0;
+      --min-border-hairline: #eeeeee;
+
+      /* Text */
+      --min-text-primary: #1a1a1a;
+      --min-text-secondary: #616161;
+      --min-text-muted: #9e9e9e;
+      --min-text-faint: #bdbdbd;
+
+      /* Accent -- used once per page maximum */
+      --min-accent: #c8102e;
+      --min-accent-hover: #a00d24;
+
+      /* Surfaces */
+      --min-surface: #ffffff;
+      --min-surface-alt: #fafafa;
+    }
+
+    /* ===================================================
+       Reset & Base
+       =================================================== */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+      background: var(--min-bg-white);
+      color: var(--min-text-secondary);
+      font-family: 'Inter', -apple-system, sans-serif;
+      font-weight: 400;
+      font-size: 1rem;
+      line-height: 1.8;
+      overflow-x: hidden;
+    }
+
+    ::selection {
+      background: var(--min-text-primary);
+      color: var(--min-bg-white);
+    }
+
+    /* ===================================================
+       Typography
+       =================================================== */
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-weight: 300;
+      color: var(--min-text-primary);
+      line-height: 1.1;
+      letter-spacing: 0.01em;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    /* ===================================================
+       Utility: Fade-in on scroll
+       =================================================== */
+    .reveal {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.9s cubic-bezier(0.25, 0.1, 0.25, 1),
+                  transform 0.9s cubic-bezier(0.25, 0.1, 0.25, 1);
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Stagger children */
+    .reveal-stagger > .reveal:nth-child(1) { transition-delay: 0s; }
+    .reveal-stagger > .reveal:nth-child(2) { transition-delay: 0.12s; }
+    .reveal-stagger > .reveal:nth-child(3) { transition-delay: 0.24s; }
+    .reveal-stagger > .reveal:nth-child(4) { transition-delay: 0.36s; }
+    .reveal-stagger > .reveal:nth-child(5) { transition-delay: 0.48s; }
+    .reveal-stagger > .reveal:nth-child(6) { transition-delay: 0.6s; }
+    .reveal-stagger > .reveal:nth-child(7) { transition-delay: 0.72s; }
+    .reveal-stagger > .reveal:nth-child(8) { transition-delay: 0.84s; }
+    .reveal-stagger > .reveal:nth-child(9) { transition-delay: 0.96s; }
+    .reveal-stagger > .reveal:nth-child(10) { transition-delay: 1.08s; }
+
+    /* ===================================================
+       Navigation
+       =================================================== */
+    .min-nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 36px 40px;
+      opacity: 0;
+      animation: fadeDown 0.8s 0.2s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+    }
+
+    @keyframes fadeDown {
+      from {
+        opacity: 0;
+        transform: translateY(-12px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .min-nav__logo {
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+      font-size: 0.85rem;
+      color: var(--min-text-primary);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .min-nav__links {
+      display: flex;
+      gap: 40px;
+      list-style: none;
+    }
+
+    .min-nav__links a {
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      font-size: 0.75rem;
+      color: var(--min-text-muted);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: color 0.3s ease;
+      position: relative;
+    }
+
+    .min-nav__links a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 1px;
+      background: var(--min-text-primary);
+      transition: width 0.3s ease;
+    }
+
+    .min-nav__links a:hover {
+      color: var(--min-text-primary);
+    }
+
+    .min-nav__links a:hover::after {
+      width: 100%;
+    }
+
+    /* ===================================================
+       Hero Section
+       =================================================== */
+    .min-hero {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 100px 40px 140px;
+    }
+
+    .min-hero__label {
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      font-size: 0.7rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--min-text-muted);
+      margin-bottom: 2.5rem;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.5s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(16px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .min-hero h1 {
+      font-size: clamp(3.2rem, 8vw, 6.5rem);
+      font-weight: 300;
+      line-height: 1.02;
+      letter-spacing: -0.02em;
+      max-width: 780px;
+      margin-bottom: 2.5rem;
+      opacity: 0;
+      animation: fadeUp 1s 0.7s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+    }
+
+    .min-hero p {
+      font-size: 1.05rem;
+      color: var(--min-text-muted);
+      max-width: 460px;
+      line-height: 1.85;
+      margin-bottom: 3rem;
+      opacity: 0;
+      animation: fadeUp 0.8s 1s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+    }
+
+    .min-hero__cta {
+      opacity: 0;
+      animation: fadeUp 0.8s 1.2s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+    }
+
+    /* ===================================================
+       Button
+       =================================================== */
+    .min-button {
+      display: inline-block;
+      background: transparent;
+      color: var(--min-text-primary);
+      border: 1px solid var(--min-text-primary);
+      border-radius: 0;
+      padding: 13px 36px;
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      font-size: 0.78rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.35s ease, color 0.35s ease;
+    }
+
+    .min-button:hover {
+      background: var(--min-text-primary);
+      color: var(--min-bg-white);
+    }
+
+    /* ===================================================
+       Divider
+       =================================================== */
+    .min-divider {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 0 40px;
+    }
+
+    .min-divider hr {
+      border: none;
+      height: 1px;
+      background: var(--min-border-hairline);
+    }
+
+    /* ===================================================
+       Intro / Definition Section
+       =================================================== */
+    .min-intro {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 120px 40px;
+      display: grid;
+      grid-template-columns: 1fr 1.4fr;
+      gap: 80px;
+      align-items: start;
+    }
+
+    .min-intro__left h2 {
+      font-size: 2.4rem;
+      font-weight: 300;
+      margin-bottom: 1.5rem;
+    }
+
+    .min-intro__left .min-label {
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      font-size: 0.7rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--min-text-muted);
+    }
+
+    .min-intro__right p {
+      font-size: 1rem;
+      color: var(--min-text-secondary);
+      line-height: 1.9;
+      margin-bottom: 1.5rem;
+    }
+
+    .min-intro__right p:last-child {
+      margin-bottom: 0;
+    }
+
+    /* ===================================================
+       Pull Quote
+       =================================================== */
+    .min-pullquote {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 140px 40px;
+      text-align: center;
+    }
+
+    .min-pullquote blockquote {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.6rem, 4vw, 2.6rem);
+      font-weight: 300;
+      font-style: italic;
+      color: var(--min-text-primary);
+      line-height: 1.5;
+    }
+
+    .min-pullquote cite {
+      display: block;
+      margin-top: 2.5rem;
+      font-family: 'Inter', sans-serif;
+      font-style: normal;
+      font-size: 0.7rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--min-text-muted);
+    }
+
+    /* ===================================================
+       Traits Section (Feature Grid)
+       =================================================== */
+    .min-traits {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 120px 40px;
+    }
+
+    .min-traits__header {
+      margin-bottom: 80px;
+    }
+
+    .min-traits__header .min-label {
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      font-size: 0.7rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--min-text-muted);
+      margin-bottom: 1.5rem;
+      display: block;
+    }
+
+    .min-traits__header h2 {
+      font-size: 2.4rem;
+      font-weight: 300;
+    }
+
+    .min-traits__grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 60px 60px;
+    }
+
+    .min-trait {
+      padding: 0;
+    }
+
+    .min-trait__number {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 3.2rem;
+      font-weight: 300;
+      color: var(--min-border-light);
+      line-height: 1;
+      margin-bottom: 1.2rem;
+    }
+
+    .min-trait h3 {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 500;
+      margin-bottom: 0.8rem;
+      color: var(--min-text-primary);
+    }
+
+    .min-trait p {
+      font-size: 0.92rem;
+      color: var(--min-text-muted);
+      line-height: 1.75;
+    }
+
+    /* ===================================================
+       Principles Section
+       =================================================== */
+    .min-principles {
+      background: var(--min-bg-off-white);
+    }
+
+    .min-principles__inner {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 140px 40px;
+    }
+
+    .min-principles__header {
+      margin-bottom: 80px;
+    }
+
+    .min-principles__header .min-label {
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      font-size: 0.7rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--min-text-muted);
+      margin-bottom: 1.5rem;
+      display: block;
+    }
+
+    .min-principles__header h2 {
+      font-size: 2.4rem;
+      font-weight: 300;
+      max-width: 500px;
+    }
+
+    .min-principles__list {
+      list-style: none;
+      max-width: 640px;
+    }
+
+    .min-principles__list li {
+      padding: 24px 0;
+      border-bottom: 1px solid var(--min-border-hairline);
+      font-size: 1rem;
+      color: var(--min-text-secondary);
+      line-height: 1.7;
+      position: relative;
+      padding-left: 0;
+      transition: padding-left 0.3s ease, color 0.3s ease;
+    }
+
+    .min-principles__list li:first-child {
+      border-top: 1px solid var(--min-border-hairline);
+    }
+
+    .min-principles__list li:hover {
+      padding-left: 12px;
+      color: var(--min-text-primary);
+    }
+
+    /* ===================================================
+       Color Palette Section
+       =================================================== */
+    .min-palette {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 140px 40px;
+    }
+
+    .min-palette__header {
+      margin-bottom: 80px;
+    }
+
+    .min-palette__header .min-label {
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      font-size: 0.7rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--min-text-muted);
+      margin-bottom: 1.5rem;
+      display: block;
+    }
+
+    .min-palette__header h2 {
+      font-size: 2.4rem;
+      font-weight: 300;
+    }
+
+    .min-palette__strip {
+      display: flex;
+      gap: 0;
+      margin-bottom: 60px;
+    }
+
+    .min-palette__swatch {
+      flex: 1;
+      aspect-ratio: 1 / 1.3;
+      position: relative;
+      overflow: hidden;
+      transition: flex 0.5s cubic-bezier(0.25, 0.1, 0.25, 1);
+    }
+
+    .min-palette__swatch:hover {
+      flex: 2;
+    }
+
+    .min-palette__swatch-info {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 16px;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity 0.35s ease, transform 0.35s ease;
+    }
+
+    .min-palette__swatch:hover .min-palette__swatch-info {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .min-palette__swatch-name {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 2px;
+    }
+
+    .min-palette__swatch-hex {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 300;
+      letter-spacing: 0.04em;
+      opacity: 0.7;
+    }
+
+    /* Light swatches need dark text */
+    .swatch-light .min-palette__swatch-name,
+    .swatch-light .min-palette__swatch-hex {
+      color: var(--min-text-primary);
+    }
+
+    /* Dark swatches need light text */
+    .swatch-dark .min-palette__swatch-name,
+    .swatch-dark .min-palette__swatch-hex {
+      color: var(--min-bg-white);
+    }
+
+    .min-palette__note {
+      font-size: 0.9rem;
+      color: var(--min-text-muted);
+      max-width: 460px;
+      line-height: 1.8;
+    }
+
+    /* ===================================================
+       Typography Showcase
+       =================================================== */
+    .min-typography {
+      background: var(--min-bg-off-white);
+    }
+
+    .min-typography__inner {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 140px 40px;
+    }
+
+    .min-typography__header {
+      margin-bottom: 80px;
+    }
+
+    .min-typography__header .min-label {
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      font-size: 0.7rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--min-text-muted);
+      margin-bottom: 1.5rem;
+      display: block;
+    }
+
+    .min-typography__header h2 {
+      font-size: 2.4rem;
+      font-weight: 300;
+    }
+
+    .min-type-specimens {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .min-type-specimen {
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      gap: 40px;
+      align-items: baseline;
+      padding: 36px 0;
+      border-bottom: 1px solid var(--min-border-hairline);
+    }
+
+    .min-type-specimen:first-child {
+      border-top: 1px solid var(--min-border-hairline);
+    }
+
+    .min-type-specimen__meta {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 400;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--min-text-muted);
+      line-height: 1.6;
+    }
+
+    .min-type-specimen__meta span {
+      display: block;
+      font-weight: 300;
+      font-size: 0.65rem;
+      color: var(--min-text-faint);
+      margin-top: 2px;
+      text-transform: none;
+      letter-spacing: 0.04em;
+    }
+
+    .min-type-specimen__sample--display {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.5rem, 5vw, 4.5rem);
+      font-weight: 300;
+      color: var(--min-text-primary);
+      line-height: 1.1;
+      letter-spacing: -0.01em;
+    }
+
+    .min-type-specimen__sample--heading {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.5rem, 3vw, 2.2rem);
+      font-weight: 400;
+      color: var(--min-text-primary);
+      line-height: 1.25;
+    }
+
+    .min-type-specimen__sample--body {
+      font-family: 'Inter', sans-serif;
+      font-size: 1rem;
+      font-weight: 400;
+      color: var(--min-text-secondary);
+      line-height: 1.85;
+      max-width: 500px;
+    }
+
+    .min-type-specimen__sample--label {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 400;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--min-text-muted);
+    }
+
+    .min-type-specimen__sample--caption {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 300;
+      color: var(--min-text-muted);
+      line-height: 1.65;
+    }
+
+    /* ===================================================
+       Do's and Don'ts
+       =================================================== */
+    .min-rules {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 140px 40px;
+    }
+
+    .min-rules__header {
+      margin-bottom: 80px;
+    }
+
+    .min-rules__header .min-label {
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      font-size: 0.7rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--min-text-muted);
+      margin-bottom: 1.5rem;
+      display: block;
+    }
+
+    .min-rules__header h2 {
+      font-size: 2.4rem;
+      font-weight: 300;
+    }
+
+    .min-rules__grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+    }
+
+    .min-rules__column h3 {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--min-text-primary);
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--min-border-hairline);
+    }
+
+    .min-rules__column ul {
+      list-style: none;
+    }
+
+    .min-rules__column li {
+      padding: 12px 0;
+      font-size: 0.92rem;
+      color: var(--min-text-secondary);
+      line-height: 1.65;
+      border-bottom: 1px solid transparent;
+      transition: color 0.3s ease;
+    }
+
+    .min-rules__column li:hover {
+      color: var(--min-text-primary);
+    }
+
+    .min-rules__column--do li::before {
+      content: '';
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      background: var(--min-text-primary);
+      border-radius: 0;
+      margin-right: 14px;
+      vertical-align: middle;
+    }
+
+    .min-rules__column--dont li::before {
+      content: '';
+      display: inline-block;
+      width: 6px;
+      height: 1px;
+      background: var(--min-text-muted);
+      margin-right: 14px;
+      vertical-align: middle;
+    }
+
+    /* ===================================================
+       Related Aesthetics
+       =================================================== */
+    .min-related {
+      background: var(--min-bg-off-white);
+    }
+
+    .min-related__inner {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 140px 40px;
+    }
+
+    .min-related__header {
+      margin-bottom: 80px;
+    }
+
+    .min-related__header .min-label {
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      font-size: 0.7rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--min-text-muted);
+      margin-bottom: 1.5rem;
+      display: block;
+    }
+
+    .min-related__header h2 {
+      font-size: 2.4rem;
+      font-weight: 300;
+    }
+
+    .min-related__list {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .min-related__item {
+      display: grid;
+      grid-template-columns: 240px 1fr;
+      gap: 40px;
+      padding: 28px 0;
+      border-bottom: 1px solid var(--min-border-hairline);
+      align-items: baseline;
+      transition: padding-left 0.3s ease;
+    }
+
+    .min-related__item:first-child {
+      border-top: 1px solid var(--min-border-hairline);
+    }
+
+    .min-related__item:hover {
+      padding-left: 8px;
+    }
+
+    .min-related__item-name {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--min-text-primary);
+    }
+
+    .min-related__item-desc {
+      font-size: 0.9rem;
+      color: var(--min-text-muted);
+      line-height: 1.65;
+    }
+
+    /* ===================================================
+       Footer
+       =================================================== */
+    .min-footer {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 80px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .min-footer p {
+      font-size: 0.72rem;
+      color: var(--min-text-faint);
+      letter-spacing: 0.04em;
+    }
+
+    .min-footer__links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+
+    .min-footer__links a {
+      font-size: 0.72rem;
+      color: var(--min-text-faint);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      transition: color 0.3s ease;
+    }
+
+    .min-footer__links a:hover {
+      color: var(--min-text-primary);
+    }
+
+    /* ===================================================
+       The single accent element -- scroll progress line
+       =================================================== */
+    .min-progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 2px;
+      background: var(--min-accent);
+      width: 0%;
+      z-index: 100;
+      transition: width 0.05s linear;
+    }
+
+    /* ===================================================
+       Responsive
+       =================================================== */
+    @media (max-width: 768px) {
+      .min-nav {
+        padding: 24px;
+      }
+
+      .min-nav__links {
+        gap: 24px;
+      }
+
+      .min-hero {
+        padding: 60px 24px 100px;
+      }
+
+      .min-divider {
+        padding: 0 24px;
+      }
+
+      .min-intro {
+        padding: 80px 24px;
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+
+      .min-pullquote {
+        padding: 100px 24px;
+      }
+
+      .min-traits {
+        padding: 80px 24px;
+      }
+
+      .min-traits__grid {
+        grid-template-columns: 1fr;
+        gap: 48px;
+      }
+
+      .min-principles__inner {
+        padding: 100px 24px;
+      }
+
+      .min-palette {
+        padding: 100px 24px;
+      }
+
+      .min-palette__strip {
+        flex-direction: column;
+      }
+
+      .min-palette__swatch {
+        aspect-ratio: auto;
+        height: 60px;
+      }
+
+      .min-palette__swatch:hover {
+        flex: 1;
+        height: 100px;
+      }
+
+      .min-palette__swatch-info {
+        opacity: 1;
+        transform: translateY(0);
+        padding: 12px 16px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        bottom: auto;
+        top: 50%;
+        transform: translateY(-50%);
+      }
+
+      .min-typography__inner {
+        padding: 100px 24px;
+      }
+
+      .min-type-specimen {
+        grid-template-columns: 1fr;
+        gap: 12px;
+        padding: 28px 0;
+      }
+
+      .min-rules {
+        padding: 100px 24px;
+      }
+
+      .min-rules__grid {
+        grid-template-columns: 1fr;
+        gap: 60px;
+      }
+
+      .min-related__inner {
+        padding: 100px 24px;
+      }
+
+      .min-related__item {
+        grid-template-columns: 1fr;
+        gap: 8px;
+      }
+
+      .min-footer {
+        padding: 60px 24px;
+        flex-direction: column;
+        gap: 20px;
+        text-align: center;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .min-nav__links {
+        gap: 16px;
+      }
+
+      .min-nav__links a {
+        font-size: 0.68rem;
+      }
+
+      .min-hero h1 {
+        font-size: clamp(2.4rem, 10vw, 3.5rem);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Scroll progress bar -- the single accent color element -->
+  <div class="min-progress" id="progress"></div>
+
+  <!-- Navigation -->
+  <nav class="min-nav">
+    <a href="#" class="min-nav__logo">Minimalism</a>
+    <ul class="min-nav__links">
+      <li><a href="#traits">Traits</a></li>
+      <li><a href="#principles">Principles</a></li>
+      <li><a href="#palette">Palette</a></li>
+      <li><a href="#typography">Type</a></li>
+    </ul>
+  </nav>
+
+  <!-- Hero -->
+  <section class="min-hero">
+    <div class="min-hero__label">Design Aesthetic</div>
+    <h1>Less is more</h1>
+    <p>Vast whitespace, restrained monochrome palettes, and reductive purity where every element earns its place.</p>
+    <div class="min-hero__cta">
+      <a href="#traits" class="min-button">Explore</a>
+    </div>
+  </section>
+
+  <div class="min-divider"><hr></div>
+
+  <!-- Introduction -->
+  <section class="min-intro">
+    <div class="min-intro__left reveal">
+      <div class="min-label">Origin</div>
+      <h2>The essential, revealed</h2>
+    </div>
+    <div class="min-intro__right reveal">
+      <p>Minimalism is a design philosophy rooted in the belief that stripping away the superfluous reveals the essential. Originating in post-World War II Western art and architecture, it migrated into graphic and digital design as a disciplined approach where negative space is the dominant visual element, color is used sparingly, and every remaining component carries maximum communicative weight.</p>
+    </div>
+  </section>
+
+  <div class="min-divider"><hr></div>
+
+  <!-- Pull Quote -->
+  <section class="min-pullquote reveal">
+    <blockquote>Perfection is achieved, not when there is nothing more to add, but when there is nothing left to take away.</blockquote>
+    <cite>Antoine de Saint-Exup&eacute;ry</cite>
+  </section>
+
+  <div class="min-divider"><hr></div>
+
+  <!-- Core Design Traits -->
+  <section class="min-traits" id="traits">
+    <div class="min-traits__header reveal">
+      <span class="min-label">Visual Characteristics</span>
+      <h2>Core Design Traits</h2>
+    </div>
+    <div class="min-traits__grid reveal-stagger">
+      <div class="min-trait reveal">
+        <div class="min-trait__number">01</div>
+        <h3>Overwhelming Whitespace</h3>
+        <p>Negative space dominates every composition, often occupying 70--90% of the visible area.</p>
+      </div>
+      <div class="min-trait reveal">
+        <div class="min-trait__number">02</div>
+        <h3>Monochrome Palettes</h3>
+        <p>Black, white, and one or two grays form the backbone. A single accent color may appear sparingly.</p>
+      </div>
+      <div class="min-trait reveal">
+        <div class="min-trait__number">03</div>
+        <h3>Ultra-thin Typography</h3>
+        <p>Light and thin font weights emphasize elegance and restraint.</p>
+      </div>
+      <div class="min-trait reveal">
+        <div class="min-trait__number">04</div>
+        <h3>Invisible Grid Systems</h3>
+        <p>Rigid underlying structure that is felt rather than seen. Alignment is pixel-perfect.</p>
+      </div>
+      <div class="min-trait reveal">
+        <div class="min-trait__number">05</div>
+        <h3>Single-element Focus</h3>
+        <p>Each view or section centers on one hero element with nothing competing for attention.</p>
+      </div>
+      <div class="min-trait reveal">
+        <div class="min-trait__number">06</div>
+        <h3>No Ornamentation</h3>
+        <p>Zero decorative elements, no gradients, no textures, no patterns. Only what is necessary.</p>
+      </div>
+      <div class="min-trait reveal">
+        <div class="min-trait__number">07</div>
+        <h3>Generous Spacing</h3>
+        <p>Type breathes as much as the layout does. Line-height and letter-spacing are expansive.</p>
+      </div>
+      <div class="min-trait reveal">
+        <div class="min-trait__number">08</div>
+        <h3>Subtle Micro-interactions</h3>
+        <p>Hover effects and transitions are barely perceptible, using opacity shifts or slight translates.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="min-divider"><hr></div>
+
+  <!-- Design Principles -->
+  <section class="min-principles" id="principles">
+    <div class="min-principles__inner">
+      <div class="min-principles__header reveal">
+        <span class="min-label">Philosophy</span>
+        <h2>Design Principles</h2>
+      </div>
+      <ul class="min-principles__list reveal-stagger">
+        <li class="reveal">Remove every element that does not serve a clear communicative purpose</li>
+        <li class="reveal">Let negative space do the heavy lifting for visual hierarchy and rhythm</li>
+        <li class="reveal">Establish hierarchy through size contrast and spatial positioning, not through color or decoration</li>
+        <li class="reveal">Treat typography as both content and visual element</li>
+        <li class="reveal">Embrace asymmetry grounded in invisible grid alignment</li>
+        <li class="reveal">Use restraint as an active design choice, not laziness</li>
+        <li class="reveal">Every pixel of whitespace is intentional -- it is designed, not leftover</li>
+        <li class="reveal">Content density should feel sparse; if a section feels crowded, remove something</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Color Palette -->
+  <section class="min-palette" id="palette">
+    <div class="min-palette__header reveal">
+      <span class="min-label">Color System</span>
+      <h2>The Palette</h2>
+    </div>
+    <div class="min-palette__strip reveal">
+      <div class="min-palette__swatch swatch-light" style="background: #FFFFFF; border: 1px solid var(--min-border-hairline); border-right: none;">
+        <div class="min-palette__swatch-info">
+          <div class="min-palette__swatch-name">Pure White</div>
+          <div class="min-palette__swatch-hex">#FFFFFF</div>
+        </div>
+      </div>
+      <div class="min-palette__swatch swatch-light" style="background: #FAFAFA;">
+        <div class="min-palette__swatch-info">
+          <div class="min-palette__swatch-name">Off-White</div>
+          <div class="min-palette__swatch-hex">#FAFAFA</div>
+        </div>
+      </div>
+      <div class="min-palette__swatch swatch-light" style="background: #F5F5F5;">
+        <div class="min-palette__swatch-info">
+          <div class="min-palette__swatch-name">Whisper Gray</div>
+          <div class="min-palette__swatch-hex">#F5F5F5</div>
+        </div>
+      </div>
+      <div class="min-palette__swatch swatch-light" style="background: #E0E0E0;">
+        <div class="min-palette__swatch-info">
+          <div class="min-palette__swatch-name">Light Gray</div>
+          <div class="min-palette__swatch-hex">#E0E0E0</div>
+        </div>
+      </div>
+      <div class="min-palette__swatch swatch-light" style="background: #9E9E9E;">
+        <div class="min-palette__swatch-info">
+          <div class="min-palette__swatch-name">Mid Gray</div>
+          <div class="min-palette__swatch-hex">#9E9E9E</div>
+        </div>
+      </div>
+      <div class="min-palette__swatch swatch-dark" style="background: #616161;">
+        <div class="min-palette__swatch-info">
+          <div class="min-palette__swatch-name">Dark Gray</div>
+          <div class="min-palette__swatch-hex">#616161</div>
+        </div>
+      </div>
+      <div class="min-palette__swatch swatch-dark" style="background: #333333;">
+        <div class="min-palette__swatch-info">
+          <div class="min-palette__swatch-name">Charcoal</div>
+          <div class="min-palette__swatch-hex">#333333</div>
+        </div>
+      </div>
+      <div class="min-palette__swatch swatch-dark" style="background: #1A1A1A;">
+        <div class="min-palette__swatch-info">
+          <div class="min-palette__swatch-name">Near Black</div>
+          <div class="min-palette__swatch-hex">#1A1A1A</div>
+        </div>
+      </div>
+      <div class="min-palette__swatch swatch-dark" style="background: #000000;">
+        <div class="min-palette__swatch-info">
+          <div class="min-palette__swatch-name">True Black</div>
+          <div class="min-palette__swatch-hex">#000000</div>
+        </div>
+      </div>
+      <div class="min-palette__swatch swatch-dark" style="background: #C8102E;">
+        <div class="min-palette__swatch-info">
+          <div class="min-palette__swatch-name">Accent</div>
+          <div class="min-palette__swatch-hex">#C8102E</div>
+        </div>
+      </div>
+    </div>
+    <p class="min-palette__note reveal">The primary palette is grayscale. Introduce color only when absolutely necessary. Use one accent color maximum -- and only to draw attention to a single interactive element.</p>
+  </section>
+
+  <div class="min-divider"><hr></div>
+
+  <!-- Typography Showcase -->
+  <section class="min-typography" id="typography">
+    <div class="min-typography__inner">
+      <div class="min-typography__header reveal">
+        <span class="min-label">Typefaces</span>
+        <h2>Typography</h2>
+      </div>
+      <div class="min-type-specimens reveal-stagger">
+        <div class="min-type-specimen reveal">
+          <div class="min-type-specimen__meta">
+            Display
+            <span>Cormorant Garamond 300</span>
+          </div>
+          <div class="min-type-specimen__sample--display">
+            Reductive purity
+          </div>
+        </div>
+        <div class="min-type-specimen reveal">
+          <div class="min-type-specimen__meta">
+            Heading
+            <span>Cormorant Garamond 400</span>
+          </div>
+          <div class="min-type-specimen__sample--heading">
+            Every element earns its place through purpose alone
+          </div>
+        </div>
+        <div class="min-type-specimen reveal">
+          <div class="min-type-specimen__meta">
+            Body
+            <span>Inter 400</span>
+          </div>
+          <div class="min-type-specimen__sample--body">
+            Minimalist typography is thin to regular weight, with generous tracking and leading. Geometric or humanist sans-serifs disappear into the content, letting the words speak.
+          </div>
+        </div>
+        <div class="min-type-specimen reveal">
+          <div class="min-type-specimen__meta">
+            Label
+            <span>Inter 400 Uppercase</span>
+          </div>
+          <div class="min-type-specimen__sample--label">
+            Design Aesthetic &nbsp;&middot;&nbsp; Visual System &nbsp;&middot;&nbsp; Typography
+          </div>
+        </div>
+        <div class="min-type-specimen reveal">
+          <div class="min-type-specimen__meta">
+            Caption
+            <span>Inter 300</span>
+          </div>
+          <div class="min-type-specimen__sample--caption">
+            Large size contrasts create hierarchy through scale alone -- hero text at 5-8rem while body remains at 1rem.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Do's and Don'ts -->
+  <section class="min-rules">
+    <div class="min-rules__header reveal">
+      <span class="min-label">Guidelines</span>
+      <h2>Do's and Don'ts</h2>
+    </div>
+    <div class="min-rules__grid">
+      <div class="min-rules__column min-rules__column--do reveal">
+        <h3>Do</h3>
+        <ul>
+          <li>Let whitespace dominate the composition</li>
+          <li>Limit the color palette to grayscale plus one optional accent</li>
+          <li>Use typography weight and scale as the primary means of hierarchy</li>
+          <li>Maintain obsessive alignment to an invisible grid</li>
+          <li>Curate ruthlessly: if an element can be removed without losing meaning, remove it</li>
+          <li>Use thin font weights for headings to reinforce elegance</li>
+          <li>Keep interactions subtle -- opacity fades, slight translates</li>
+          <li>Test with real content; minimalism exposes bad copy instantly</li>
+        </ul>
+      </div>
+      <div class="min-rules__column min-rules__column--dont reveal">
+        <h3>Don't</h3>
+        <ul>
+          <li>Fill empty space just because it feels "too bare"</li>
+          <li>Use more than one accent color per page</li>
+          <li>Add drop shadows, gradients, or textures</li>
+          <li>Use bold or heavy font weights throughout</li>
+          <li>Include decorative icons without clear purpose</li>
+          <li>Use rounded corners on cards or containers</li>
+          <li>Add hover animations that distract from content</li>
+          <li>Confuse minimalism with laziness; every element must be precisely placed</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <div class="min-divider"><hr></div>
+
+  <!-- Related Aesthetics -->
+  <section class="min-related">
+    <div class="min-related__inner">
+      <div class="min-related__header reveal">
+        <span class="min-label">Connections</span>
+        <h2>Related Aesthetics</h2>
+      </div>
+      <div class="min-related__list reveal-stagger">
+        <div class="min-related__item reveal">
+          <div class="min-related__item-name">Flat Design</div>
+          <div class="min-related__item-desc">Digital UI application of minimalist principles; flat colors, no depth, clean geometry</div>
+        </div>
+        <div class="min-related__item reveal">
+          <div class="min-related__item-name">International Typographic Style</div>
+          <div class="min-related__item-desc">Direct historical precursor; Swiss grid-based, sans-serif, reductive design from the 1950s</div>
+        </div>
+        <div class="min-related__item reveal">
+          <div class="min-related__item-name">Bauhaus</div>
+          <div class="min-related__item-desc">Foundational influence; form-follows-function philosophy stripped to geometric essentials</div>
+        </div>
+        <div class="min-related__item reveal">
+          <div class="min-related__item-name">De Stijl</div>
+          <div class="min-related__item-desc">Parallel reduction philosophy; elimination of everything but primary colors and straight lines</div>
+        </div>
+        <div class="min-related__item reveal">
+          <div class="min-related__item-name">Japandi</div>
+          <div class="min-related__item-desc">East-meets-West minimalism; Japanese wabi-sabi simplicity combined with Scandinavian functional warmth</div>
+        </div>
+        <div class="min-related__item reveal">
+          <div class="min-related__item-name">Scandinavian Design</div>
+          <div class="min-related__item-desc">Sibling aesthetic; shares the pared-back, functional approach but allows more warmth and natural materials</div>
+        </div>
+        <div class="min-related__item reveal">
+          <div class="min-related__item-name">Cyberminimalism</div>
+          <div class="min-related__item-desc">Digital-native minimalism with tech identity focus; dark backgrounds, stark contrast</div>
+        </div>
+        <div class="min-related__item reveal">
+          <div class="min-related__item-name">Wabi-Sabi</div>
+          <div class="min-related__item-desc">Japanese philosophical ancestor; celebrates imperfection and impermanence within simplicity</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Second Pull Quote -->
+  <section class="min-pullquote reveal">
+    <blockquote>The ability to simplify means to eliminate the unnecessary so that the necessary may speak.</blockquote>
+    <cite>Hans Hofmann</cite>
+  </section>
+
+  <div class="min-divider"><hr></div>
+
+  <!-- Footer -->
+  <footer class="min-footer">
+    <p>Built with nothing unnecessary.</p>
+    <ul class="min-footer__links">
+      <li><a href="#traits">Traits</a></li>
+      <li><a href="#principles">Principles</a></li>
+      <li><a href="#palette">Palette</a></li>
+    </ul>
+  </footer>
+
+  <!-- JavaScript: Scroll progress + reveal on scroll -->
+  <script>
+    // Scroll progress bar -- the single accent element
+    (function() {
+      const progress = document.getElementById('progress');
+      function updateProgress() {
+        const scrollTop = window.scrollY;
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const scrollPercent = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+        progress.style.width = scrollPercent + '%';
+      }
+      window.addEventListener('scroll', updateProgress, { passive: true });
+      updateProgress();
+    })();
+
+    // Reveal elements on scroll using IntersectionObserver
+    (function() {
+      const reveals = document.querySelectorAll('.reveal');
+      if ('IntersectionObserver' in window) {
+        const observer = new IntersectionObserver(function(entries) {
+          entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('visible');
+              observer.unobserve(entry.target);
+            }
+          });
+        }, {
+          threshold: 0.12,
+          rootMargin: '0px 0px -40px 0px'
+        });
+        reveals.forEach(function(el) {
+          observer.observe(el);
+        });
+      } else {
+        // Fallback: show all immediately
+        reveals.forEach(function(el) {
+          el.classList.add('visible');
+        });
+      }
+    })();
+  </script>
+</body>
+</html>
