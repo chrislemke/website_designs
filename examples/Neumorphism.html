@@ -1,0 +1,2328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Neumorphism -- Soft UI Design Aesthetic</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700&family=Poppins:wght@300;400;500;600;700&family=Quicksand:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    /* ============================
+       CSS Custom Properties
+       ============================ */
+    :root {
+      --neu-bg: #e0e5ec;
+      --neu-shadow-dark: #a3b1c6;
+      --neu-shadow-light: #ffffff;
+      --neu-shadow-dark-alpha: rgba(163, 177, 198, 0.6);
+      --neu-shadow-light-alpha: rgba(255, 255, 255, 0.7);
+
+      --neu-text-primary: #2d3436;
+      --neu-text-secondary: #636e72;
+      --neu-text-muted: #b2bec3;
+
+      --neu-accent: #4d7cff;
+      --neu-accent-soft: rgba(77, 124, 255, 0.15);
+      --neu-accent-glow: rgba(77, 124, 255, 0.35);
+      --neu-success: #55efc4;
+      --neu-warning: #ffeaa7;
+      --neu-danger: #ff7675;
+      --neu-info: #74b9ff;
+      --neu-toggle-active: #6c5ce7;
+
+      --neu-distance: 8px;
+      --neu-blur: 15px;
+      --neu-distance-sm: 4px;
+      --neu-blur-sm: 8px;
+      --neu-distance-lg: 12px;
+      --neu-blur-lg: 24px;
+
+      --radius-card: 20px;
+      --radius-btn: 12px;
+      --radius-pill: 999px;
+      --radius-sm: 10px;
+
+      --max-width: 1000px;
+    }
+
+    /* ============================
+       Reset & Base
+       ============================ */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Nunito Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-weight: 400;
+      font-size: 1rem;
+      line-height: 1.6;
+      color: var(--neu-text-primary);
+      background: var(--neu-bg);
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'Poppins', 'Nunito Sans', sans-serif;
+      font-weight: 600;
+      color: var(--neu-text-primary);
+      line-height: 1.2;
+      letter-spacing: -0.01em;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    /* ============================
+       Animations
+       ============================ */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes subtlePulse {
+      0%, 100% {
+        box-shadow:
+          var(--neu-distance) var(--neu-distance) var(--neu-blur) var(--neu-shadow-dark-alpha),
+          calc(-1 * var(--neu-distance)) calc(-1 * var(--neu-distance)) var(--neu-blur) var(--neu-shadow-light-alpha);
+      }
+      50% {
+        box-shadow:
+          var(--neu-distance-lg) var(--neu-distance-lg) var(--neu-blur-lg) var(--neu-shadow-dark-alpha),
+          calc(-1 * var(--neu-distance-lg)) calc(-1 * var(--neu-distance-lg)) var(--neu-blur-lg) var(--neu-shadow-light-alpha);
+      }
+    }
+
+    @keyframes progressFill {
+      from { width: 0%; }
+    }
+
+    @keyframes floatShadow {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+
+    @keyframes rotateGlow {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    @keyframes slideInLeft {
+      from {
+        opacity: 0;
+        transform: translateX(-40px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes slideInRight {
+      from {
+        opacity: 0;
+        transform: translateX(40px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    .animate-on-scroll {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .animate-on-scroll.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ============================
+       Layout Container
+       ============================ */
+    .container {
+      width: 100%;
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    section {
+      padding: 4rem 0;
+    }
+
+    /* ============================
+       Navigation
+       ============================ */
+    .nav-wrapper {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      padding: 1.25rem 2rem;
+      background: var(--neu-bg);
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: var(--max-width);
+      margin: 0 auto;
+      background: var(--neu-bg);
+      border-radius: 16px;
+      padding: 14px 28px;
+      box-shadow:
+        6px 6px 12px var(--neu-shadow-dark-alpha),
+        -6px -6px 12px var(--neu-shadow-light-alpha);
+      animation: fadeIn 0.8s ease both;
+    }
+
+    .nav-logo {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 700;
+      font-size: 1.25rem;
+      color: var(--neu-text-primary);
+      letter-spacing: -0.02em;
+    }
+
+    .nav-logo span {
+      color: var(--neu-accent);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 8px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--neu-text-secondary);
+      font-weight: 600;
+      font-size: 0.88rem;
+      padding: 8px 18px;
+      border-radius: var(--radius-sm);
+      transition: box-shadow 0.25s ease, color 0.25s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--neu-text-primary);
+      box-shadow:
+        inset 3px 3px 6px var(--neu-shadow-dark-alpha),
+        inset -3px -3px 6px var(--neu-shadow-light-alpha);
+    }
+
+    .nav-links a.active {
+      color: var(--neu-accent);
+      box-shadow:
+        inset 3px 3px 6px var(--neu-shadow-dark-alpha),
+        inset -3px -3px 6px var(--neu-shadow-light-alpha);
+    }
+
+    .mobile-menu-btn {
+      display: none;
+      background: var(--neu-bg);
+      border: none;
+      border-radius: var(--radius-sm);
+      padding: 8px;
+      cursor: pointer;
+      box-shadow:
+        3px 3px 6px var(--neu-shadow-dark-alpha),
+        -3px -3px 6px var(--neu-shadow-light-alpha);
+    }
+
+    .mobile-menu-btn span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: var(--neu-text-secondary);
+      margin: 5px 0;
+      border-radius: 2px;
+      transition: all 0.3s ease;
+    }
+
+    /* ============================
+       Hero Section
+       ============================ */
+    .hero {
+      text-align: center;
+      padding: 6rem 0 4rem;
+      position: relative;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--neu-bg);
+      border-radius: var(--radius-pill);
+      padding: 8px 22px;
+      font-family: 'Nunito Sans', sans-serif;
+      font-weight: 700;
+      font-size: 0.8rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--neu-text-secondary);
+      box-shadow:
+        inset 3px 3px 6px var(--neu-shadow-dark-alpha),
+        inset -3px -3px 6px var(--neu-shadow-light-alpha);
+      margin-bottom: 2rem;
+      animation: fadeInUp 0.7s ease both;
+    }
+
+    .hero-badge-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--neu-accent);
+      border-radius: 50%;
+      animation: subtlePulse 2s ease-in-out infinite;
+      box-shadow: 0 0 6px var(--neu-accent-glow);
+    }
+
+    .hero h1 {
+      font-size: clamp(2.5rem, 6vw, 4.2rem);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 1.08;
+      margin-bottom: 1.5rem;
+      animation: fadeInUp 0.7s ease 0.15s both;
+    }
+
+    .hero h1 .accent {
+      color: var(--neu-accent);
+    }
+
+    .hero-subtitle {
+      font-size: clamp(1.05rem, 2vw, 1.2rem);
+      color: var(--neu-text-secondary);
+      max-width: 580px;
+      margin: 0 auto 2.5rem;
+      line-height: 1.7;
+      animation: fadeInUp 0.7s ease 0.3s both;
+    }
+
+    .hero-actions {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      animation: fadeInUp 0.7s ease 0.45s both;
+    }
+
+    /* ============================
+       Decorative Hero Shapes
+       ============================ */
+    .hero-shapes {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .hero-shape {
+      position: absolute;
+      background: var(--neu-bg);
+      border-radius: 50%;
+      box-shadow:
+        var(--neu-distance) var(--neu-distance) var(--neu-blur) var(--neu-shadow-dark-alpha),
+        calc(-1 * var(--neu-distance)) calc(-1 * var(--neu-distance)) var(--neu-blur) var(--neu-shadow-light-alpha);
+      animation: floatShadow 6s ease-in-out infinite;
+    }
+
+    .hero-shape-1 {
+      width: 60px;
+      height: 60px;
+      top: 15%;
+      left: 8%;
+      animation-delay: 0s;
+    }
+
+    .hero-shape-2 {
+      width: 35px;
+      height: 35px;
+      top: 28%;
+      right: 10%;
+      animation-delay: 1s;
+    }
+
+    .hero-shape-3 {
+      width: 45px;
+      height: 45px;
+      bottom: 20%;
+      left: 12%;
+      animation-delay: 2s;
+      border-radius: var(--radius-card);
+    }
+
+    .hero-shape-4 {
+      width: 28px;
+      height: 28px;
+      bottom: 30%;
+      right: 7%;
+      animation-delay: 3s;
+      border-radius: var(--radius-card);
+    }
+
+    /* ============================
+       Buttons
+       ============================ */
+    .neu-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--neu-bg);
+      color: var(--neu-text-primary);
+      border: none;
+      border-radius: var(--radius-btn);
+      padding: 14px 34px;
+      font-family: 'Nunito Sans', sans-serif;
+      font-weight: 700;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: box-shadow 0.25s ease, transform 0.15s ease;
+      box-shadow:
+        5px 5px 10px var(--neu-shadow-dark-alpha),
+        -5px -5px 10px var(--neu-shadow-light-alpha);
+    }
+
+    .neu-btn:hover {
+      transform: translateY(-1px);
+      box-shadow:
+        7px 7px 14px var(--neu-shadow-dark-alpha),
+        -7px -7px 14px var(--neu-shadow-light-alpha);
+    }
+
+    .neu-btn:active {
+      transform: translateY(0);
+      box-shadow:
+        inset 3px 3px 6px var(--neu-shadow-dark-alpha),
+        inset -3px -3px 6px var(--neu-shadow-light-alpha);
+    }
+
+    .neu-btn-accent {
+      background: var(--neu-accent);
+      color: #ffffff;
+    }
+
+    .neu-btn-accent:active {
+      box-shadow:
+        inset 3px 3px 6px rgba(50, 80, 180, 0.3),
+        inset -3px -3px 6px rgba(120, 170, 255, 0.4);
+    }
+
+    /* ============================
+       Section Headers
+       ============================ */
+    .section-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .section-label {
+      font-family: 'Nunito Sans', sans-serif;
+      font-weight: 700;
+      font-size: 0.82rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--neu-accent);
+      margin-bottom: 0.75rem;
+      display: block;
+    }
+
+    .section-title {
+      font-size: clamp(1.8rem, 4vw, 2.5rem);
+      letter-spacing: -0.02em;
+      margin-bottom: 1rem;
+    }
+
+    .section-desc {
+      color: var(--neu-text-secondary);
+      max-width: 550px;
+      margin: 0 auto;
+      font-size: 1.05rem;
+    }
+
+    /* ============================
+       Overview Section
+       ============================ */
+    .overview-card {
+      background: var(--neu-bg);
+      border-radius: var(--radius-card);
+      padding: 48px;
+      box-shadow:
+        var(--neu-distance) var(--neu-distance) var(--neu-blur) var(--neu-shadow-dark-alpha),
+        calc(-1 * var(--neu-distance)) calc(-1 * var(--neu-distance)) var(--neu-blur) var(--neu-shadow-light-alpha);
+      max-width: var(--max-width);
+      margin: 0 auto;
+    }
+
+    .overview-card p {
+      color: var(--neu-text-secondary);
+      font-size: 1.08rem;
+      line-height: 1.8;
+    }
+
+    .overview-card p + p {
+      margin-top: 1.2rem;
+    }
+
+    .overview-card strong {
+      color: var(--neu-text-primary);
+      font-weight: 700;
+    }
+
+    /* ============================
+       Visual Characteristics Grid
+       ============================ */
+    .characteristics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 28px;
+      max-width: var(--max-width);
+      margin: 0 auto;
+    }
+
+    .char-card {
+      background: var(--neu-bg);
+      border-radius: var(--radius-card);
+      padding: 36px;
+      box-shadow:
+        var(--neu-distance) var(--neu-distance) var(--neu-blur) var(--neu-shadow-dark-alpha),
+        calc(-1 * var(--neu-distance)) calc(-1 * var(--neu-distance)) var(--neu-blur) var(--neu-shadow-light-alpha);
+      transition: box-shadow 0.35s ease, transform 0.35s ease;
+    }
+
+    .char-card:hover {
+      transform: translateY(-3px);
+      box-shadow:
+        var(--neu-distance-lg) var(--neu-distance-lg) var(--neu-blur-lg) var(--neu-shadow-dark-alpha),
+        calc(-1 * var(--neu-distance-lg)) calc(-1 * var(--neu-distance-lg)) var(--neu-blur-lg) var(--neu-shadow-light-alpha);
+    }
+
+    .char-icon {
+      width: 56px;
+      height: 56px;
+      background: var(--neu-bg);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.25rem;
+      box-shadow:
+        var(--neu-distance-sm) var(--neu-distance-sm) var(--neu-blur-sm) var(--neu-shadow-dark-alpha),
+        calc(-1 * var(--neu-distance-sm)) calc(-1 * var(--neu-distance-sm)) var(--neu-blur-sm) var(--neu-shadow-light-alpha);
+    }
+
+    .char-icon svg {
+      width: 24px;
+      height: 24px;
+    }
+
+    .char-card h3 {
+      font-size: 1.1rem;
+      margin-bottom: 0.6rem;
+    }
+
+    .char-card p {
+      color: var(--neu-text-secondary);
+      font-size: 0.93rem;
+      line-height: 1.65;
+    }
+
+    /* ============================
+       Interactive Showcase
+       ============================ */
+    .showcase-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 32px;
+      max-width: var(--max-width);
+      margin: 0 auto;
+    }
+
+    .showcase-panel {
+      background: var(--neu-bg);
+      border-radius: var(--radius-card);
+      padding: 40px;
+      box-shadow:
+        var(--neu-distance) var(--neu-distance) var(--neu-blur) var(--neu-shadow-dark-alpha),
+        calc(-1 * var(--neu-distance)) calc(-1 * var(--neu-distance)) var(--neu-blur) var(--neu-shadow-light-alpha);
+    }
+
+    .showcase-panel h3 {
+      font-size: 1.05rem;
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+
+    /* Buttons Showcase */
+    .btn-showcase {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      align-items: center;
+    }
+
+    .btn-row {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .neu-btn-sm {
+      padding: 10px 22px;
+      font-size: 0.85rem;
+      border-radius: var(--radius-sm);
+    }
+
+    .neu-btn-pill {
+      border-radius: var(--radius-pill);
+    }
+
+    .neu-btn-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Input Showcase */
+    .input-showcase {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .neu-input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .neu-input-group label {
+      font-family: 'Nunito Sans', sans-serif;
+      font-weight: 700;
+      font-size: 0.82rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--neu-text-secondary);
+      padding-left: 4px;
+    }
+
+    .neu-input {
+      background: var(--neu-bg);
+      border: none;
+      border-radius: var(--radius-sm);
+      padding: 14px 20px;
+      font-family: 'Nunito Sans', sans-serif;
+      font-size: 0.95rem;
+      color: var(--neu-text-primary);
+      outline: none;
+      width: 100%;
+      box-shadow:
+        inset 5px 5px 10px var(--neu-shadow-dark-alpha),
+        inset -5px -5px 12px rgba(255, 255, 255, 0.8);
+      transition: box-shadow 0.25s ease;
+    }
+
+    .neu-input::placeholder {
+      color: var(--neu-text-muted);
+    }
+
+    .neu-input:focus {
+      box-shadow:
+        inset 5px 5px 10px var(--neu-shadow-dark-alpha),
+        inset -5px -5px 12px rgba(255, 255, 255, 0.8),
+        0 0 0 3px var(--neu-accent-soft);
+    }
+
+    .neu-textarea {
+      resize: vertical;
+      min-height: 80px;
+      line-height: 1.5;
+    }
+
+    /* Toggle Showcase */
+    .toggle-showcase {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      align-items: center;
+    }
+
+    .toggle-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      width: 100%;
+    }
+
+    .neu-toggle {
+      width: 56px;
+      height: 30px;
+      background: var(--neu-bg);
+      border-radius: var(--radius-pill);
+      position: relative;
+      cursor: pointer;
+      flex-shrink: 0;
+      box-shadow:
+        inset 4px 4px 8px var(--neu-shadow-dark-alpha),
+        inset -4px -4px 8px rgba(255, 255, 255, 0.7);
+      transition: background 0.3s ease;
+    }
+
+    .neu-toggle::after {
+      content: '';
+      width: 24px;
+      height: 24px;
+      background: var(--neu-bg);
+      border-radius: 50%;
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+      box-shadow:
+        3px 3px 6px var(--neu-shadow-dark-alpha),
+        -3px -3px 6px var(--neu-shadow-light-alpha);
+    }
+
+    .neu-toggle.active {
+      background: var(--neu-accent);
+    }
+
+    .neu-toggle.active::after {
+      transform: translateX(26px);
+      background: #ffffff;
+      box-shadow:
+        2px 2px 4px rgba(50, 80, 180, 0.2),
+        -2px -2px 4px rgba(120, 170, 255, 0.3);
+    }
+
+    .neu-toggle.active-purple {
+      background: var(--neu-toggle-active);
+    }
+
+    .toggle-label {
+      color: var(--neu-text-secondary);
+      font-size: 0.92rem;
+      font-weight: 600;
+    }
+
+    /* ============================
+       Color Palette Section
+       ============================ */
+    .palette-container {
+      max-width: var(--max-width);
+      margin: 0 auto;
+    }
+
+    .palette-group {
+      margin-bottom: 3rem;
+    }
+
+    .palette-group-title {
+      font-size: 1.15rem;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .palette-group-line {
+      flex: 1;
+      height: 2px;
+      background: var(--neu-bg);
+      box-shadow:
+        0px 1px 2px var(--neu-shadow-dark-alpha),
+        0px -1px 1px var(--neu-shadow-light-alpha);
+    }
+
+    .palette-swatches {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 20px;
+    }
+
+    .swatch {
+      background: var(--neu-bg);
+      border-radius: var(--radius-card);
+      padding: 8px;
+      box-shadow:
+        var(--neu-distance) var(--neu-distance) var(--neu-blur) var(--neu-shadow-dark-alpha),
+        calc(-1 * var(--neu-distance)) calc(-1 * var(--neu-distance)) var(--neu-blur) var(--neu-shadow-light-alpha);
+      transition: transform 0.3s ease;
+    }
+
+    .swatch:hover {
+      transform: scale(1.03);
+    }
+
+    .swatch-color {
+      height: 72px;
+      border-radius: 14px 14px 10px 10px;
+      margin-bottom: 12px;
+    }
+
+    .swatch-info {
+      padding: 4px 8px 8px;
+    }
+
+    .swatch-name {
+      font-weight: 700;
+      font-size: 0.82rem;
+      color: var(--neu-text-primary);
+      margin-bottom: 2px;
+    }
+
+    .swatch-hex {
+      font-family: 'Quicksand', monospace;
+      font-weight: 500;
+      font-size: 0.78rem;
+      color: var(--neu-text-muted);
+    }
+
+    /* ============================
+       Typography Showcase
+       ============================ */
+    .type-showcase {
+      max-width: var(--max-width);
+      margin: 0 auto;
+    }
+
+    .type-card {
+      background: var(--neu-bg);
+      border-radius: var(--radius-card);
+      padding: 48px;
+      box-shadow:
+        var(--neu-distance) var(--neu-distance) var(--neu-blur) var(--neu-shadow-dark-alpha),
+        calc(-1 * var(--neu-distance)) calc(-1 * var(--neu-distance)) var(--neu-blur) var(--neu-shadow-light-alpha);
+      margin-bottom: 28px;
+    }
+
+    .type-sample {
+      margin-bottom: 2rem;
+    }
+
+    .type-sample:last-child {
+      margin-bottom: 0;
+    }
+
+    .type-meta {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    .type-tag {
+      display: inline-block;
+      background: var(--neu-bg);
+      border-radius: var(--radius-pill);
+      padding: 4px 14px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--neu-text-muted);
+      box-shadow:
+        inset 2px 2px 4px var(--neu-shadow-dark-alpha),
+        inset -2px -2px 4px var(--neu-shadow-light-alpha);
+    }
+
+    .type-display {
+      font-family: 'Poppins', sans-serif;
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+    }
+
+    .type-heading {
+      font-family: 'Poppins', sans-serif;
+      font-size: clamp(1.3rem, 3vw, 1.8rem);
+      font-weight: 600;
+      letter-spacing: -0.01em;
+    }
+
+    .type-body {
+      font-family: 'Nunito Sans', sans-serif;
+      font-size: 1rem;
+      line-height: 1.7;
+      color: var(--neu-text-secondary);
+    }
+
+    .type-label-sample {
+      font-family: 'Nunito Sans', sans-serif;
+      font-weight: 700;
+      font-size: 0.85rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--neu-text-secondary);
+    }
+
+    /* Font pairing showcase */
+    .font-pairings {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 24px;
+    }
+
+    .pairing-card {
+      background: var(--neu-bg);
+      border-radius: var(--radius-card);
+      padding: 28px;
+      text-align: center;
+      box-shadow:
+        var(--neu-distance-sm) var(--neu-distance-sm) var(--neu-blur-sm) var(--neu-shadow-dark-alpha),
+        calc(-1 * var(--neu-distance-sm)) calc(-1 * var(--neu-distance-sm)) var(--neu-blur-sm) var(--neu-shadow-light-alpha);
+    }
+
+    .pairing-heading {
+      font-size: 1.4rem;
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.01em;
+    }
+
+    .pairing-body {
+      font-size: 0.9rem;
+      color: var(--neu-text-secondary);
+      line-height: 1.6;
+      margin-bottom: 1rem;
+    }
+
+    .pairing-fonts {
+      font-size: 0.72rem;
+      color: var(--neu-text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      font-weight: 700;
+    }
+
+    .pair-poppins h4 { font-family: 'Poppins', sans-serif; font-weight: 600; }
+    .pair-poppins p { font-family: 'Nunito Sans', sans-serif; }
+
+    .pair-quicksand h4 { font-family: 'Quicksand', sans-serif; font-weight: 700; }
+    .pair-quicksand p { font-family: 'Nunito Sans', sans-serif; }
+
+    /* ============================
+       Stats / Metrics Circles
+       ============================ */
+    .stats-row {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      flex-wrap: wrap;
+      max-width: var(--max-width);
+      margin: 0 auto;
+    }
+
+    .stat-circle {
+      width: 140px;
+      height: 140px;
+      background: var(--neu-bg);
+      border-radius: 50%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      box-shadow:
+        var(--neu-distance) var(--neu-distance) var(--neu-blur) var(--neu-shadow-dark-alpha),
+        calc(-1 * var(--neu-distance)) calc(-1 * var(--neu-distance)) var(--neu-blur) var(--neu-shadow-light-alpha);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .stat-circle:hover {
+      transform: scale(1.05);
+      box-shadow:
+        var(--neu-distance-lg) var(--neu-distance-lg) var(--neu-blur-lg) var(--neu-shadow-dark-alpha),
+        calc(-1 * var(--neu-distance-lg)) calc(-1 * var(--neu-distance-lg)) var(--neu-blur-lg) var(--neu-shadow-light-alpha);
+    }
+
+    .stat-number {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 700;
+      font-size: 1.8rem;
+      letter-spacing: -0.02em;
+      color: var(--neu-accent);
+      line-height: 1;
+    }
+
+    .stat-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--neu-text-muted);
+      margin-top: 6px;
+    }
+
+    /* ============================
+       Progress Bars
+       ============================ */
+    .progress-showcase {
+      max-width: var(--max-width);
+      margin: 0 auto;
+    }
+
+    .progress-card {
+      background: var(--neu-bg);
+      border-radius: var(--radius-card);
+      padding: 40px;
+      box-shadow:
+        var(--neu-distance) var(--neu-distance) var(--neu-blur) var(--neu-shadow-dark-alpha),
+        calc(-1 * var(--neu-distance)) calc(-1 * var(--neu-distance)) var(--neu-blur) var(--neu-shadow-light-alpha);
+    }
+
+    .progress-item {
+      margin-bottom: 24px;
+    }
+
+    .progress-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .progress-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .progress-name {
+      font-weight: 700;
+      font-size: 0.88rem;
+      color: var(--neu-text-primary);
+    }
+
+    .progress-value {
+      font-family: 'Quicksand', sans-serif;
+      font-weight: 700;
+      font-size: 0.82rem;
+      color: var(--neu-text-muted);
+    }
+
+    .neu-progress-track {
+      background: var(--neu-bg);
+      border-radius: var(--radius-pill);
+      height: 14px;
+      box-shadow:
+        inset 3px 3px 6px var(--neu-shadow-dark-alpha),
+        inset -3px -3px 6px rgba(255, 255, 255, 0.7);
+      overflow: hidden;
+      padding: 3px;
+    }
+
+    .neu-progress-fill {
+      height: 100%;
+      border-radius: var(--radius-pill);
+      box-shadow:
+        2px 2px 4px rgba(50, 80, 180, 0.2),
+        -2px -2px 4px rgba(120, 170, 255, 0.2);
+      transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .fill-accent { background: var(--neu-accent); }
+    .fill-success { background: var(--neu-success); }
+    .fill-warning { background: var(--neu-warning); }
+    .fill-danger { background: var(--neu-danger); }
+
+    /* ============================
+       Design Principles
+       ============================ */
+    .principles-list {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .principle-item {
+      background: var(--neu-bg);
+      border-radius: var(--radius-card);
+      padding: 28px 36px;
+      display: flex;
+      align-items: flex-start;
+      gap: 20px;
+      box-shadow:
+        var(--neu-distance) var(--neu-distance) var(--neu-blur) var(--neu-shadow-dark-alpha),
+        calc(-1 * var(--neu-distance)) calc(-1 * var(--neu-distance)) var(--neu-blur) var(--neu-shadow-light-alpha);
+      transition: transform 0.3s ease;
+    }
+
+    .principle-item:hover {
+      transform: translateX(4px);
+    }
+
+    .principle-num {
+      width: 44px;
+      height: 44px;
+      min-width: 44px;
+      background: var(--neu-bg);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Poppins', sans-serif;
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: var(--neu-accent);
+      box-shadow:
+        inset 3px 3px 6px var(--neu-shadow-dark-alpha),
+        inset -3px -3px 6px var(--neu-shadow-light-alpha);
+    }
+
+    .principle-content h4 {
+      font-size: 1rem;
+      margin-bottom: 4px;
+    }
+
+    .principle-content p {
+      color: var(--neu-text-secondary);
+      font-size: 0.92rem;
+      line-height: 1.6;
+    }
+
+    /* ============================
+       Shadow Demo
+       ============================ */
+    .shadow-demo {
+      max-width: var(--max-width);
+      margin: 0 auto;
+    }
+
+    .shadow-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
+      margin-bottom: 32px;
+    }
+
+    .shadow-example {
+      text-align: center;
+    }
+
+    .shadow-box {
+      width: 120px;
+      height: 120px;
+      background: var(--neu-bg);
+      border-radius: var(--radius-card);
+      margin: 0 auto 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: box-shadow 0.4s ease;
+    }
+
+    .shadow-raised {
+      box-shadow:
+        var(--neu-distance) var(--neu-distance) var(--neu-blur) var(--neu-shadow-dark-alpha),
+        calc(-1 * var(--neu-distance)) calc(-1 * var(--neu-distance)) var(--neu-blur) var(--neu-shadow-light-alpha);
+    }
+
+    .shadow-pressed {
+      box-shadow:
+        inset 5px 5px 10px var(--neu-shadow-dark-alpha),
+        inset -5px -5px 10px var(--neu-shadow-light-alpha);
+    }
+
+    .shadow-flat {
+      box-shadow: none;
+    }
+
+    .shadow-convex {
+      background: linear-gradient(145deg, #e6ebf2, #ccd1d8);
+      box-shadow:
+        var(--neu-distance) var(--neu-distance) var(--neu-blur) #a3b1c6,
+        calc(-1 * var(--neu-distance)) calc(-1 * var(--neu-distance)) var(--neu-blur) #ffffff;
+    }
+
+    .shadow-label {
+      font-weight: 700;
+      font-size: 0.88rem;
+      color: var(--neu-text-primary);
+      margin-bottom: 4px;
+    }
+
+    .shadow-desc {
+      font-size: 0.78rem;
+      color: var(--neu-text-muted);
+    }
+
+    .shadow-icon {
+      color: var(--neu-text-muted);
+    }
+
+    /* ============================
+       Related Aesthetics
+       ============================ */
+    .related-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+      max-width: var(--max-width);
+      margin: 0 auto;
+    }
+
+    .related-card {
+      background: var(--neu-bg);
+      border-radius: var(--radius-card);
+      padding: 28px;
+      box-shadow:
+        var(--neu-distance-sm) var(--neu-distance-sm) var(--neu-blur-sm) var(--neu-shadow-dark-alpha),
+        calc(-1 * var(--neu-distance-sm)) calc(-1 * var(--neu-distance-sm)) var(--neu-blur-sm) var(--neu-shadow-light-alpha);
+      transition: box-shadow 0.3s ease, transform 0.3s ease;
+    }
+
+    .related-card:hover {
+      transform: translateY(-2px);
+      box-shadow:
+        var(--neu-distance) var(--neu-distance) var(--neu-blur) var(--neu-shadow-dark-alpha),
+        calc(-1 * var(--neu-distance)) calc(-1 * var(--neu-distance)) var(--neu-blur) var(--neu-shadow-light-alpha);
+    }
+
+    .related-name {
+      font-size: 1.05rem;
+      margin-bottom: 0.5rem;
+      color: var(--neu-accent);
+    }
+
+    .related-desc {
+      color: var(--neu-text-secondary);
+      font-size: 0.88rem;
+      line-height: 1.6;
+    }
+
+    /* ============================
+       Implementation Tips
+       ============================ */
+    .tips-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+      max-width: var(--max-width);
+      margin: 0 auto;
+    }
+
+    .tip-card {
+      background: var(--neu-bg);
+      border-radius: var(--radius-card);
+      padding: 32px;
+      box-shadow:
+        var(--neu-distance) var(--neu-distance) var(--neu-blur) var(--neu-shadow-dark-alpha),
+        calc(-1 * var(--neu-distance)) calc(-1 * var(--neu-distance)) var(--neu-blur) var(--neu-shadow-light-alpha);
+    }
+
+    .tip-card .tip-icon {
+      width: 40px;
+      height: 40px;
+      background: var(--neu-bg);
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1rem;
+      box-shadow:
+        inset 3px 3px 6px var(--neu-shadow-dark-alpha),
+        inset -3px -3px 6px var(--neu-shadow-light-alpha);
+      font-size: 1.1rem;
+    }
+
+    .tip-card h4 {
+      font-size: 0.95rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .tip-card p {
+      color: var(--neu-text-secondary);
+      font-size: 0.88rem;
+      line-height: 1.6;
+    }
+
+    /* ============================
+       Neumorphic Divider
+       ============================ */
+    .neu-divider {
+      height: 2px;
+      background: var(--neu-bg);
+      border: none;
+      margin: 0;
+      box-shadow:
+        0px 1px 2px var(--neu-shadow-dark-alpha),
+        0px -1px 1px var(--neu-shadow-light-alpha);
+      max-width: var(--max-width);
+      margin: 0 auto;
+    }
+
+    /* ============================
+       Footer
+       ============================ */
+    footer {
+      text-align: center;
+      padding: 3rem 2rem 2.5rem;
+      max-width: var(--max-width);
+      margin: 0 auto;
+    }
+
+    .footer-logo {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: var(--neu-text-primary);
+      margin-bottom: 0.75rem;
+    }
+
+    .footer-logo span {
+      color: var(--neu-accent);
+    }
+
+    .footer-text {
+      color: var(--neu-text-muted);
+      font-size: 0.85rem;
+      line-height: 1.7;
+      max-width: 480px;
+      margin: 0 auto;
+    }
+
+    .footer-credit {
+      margin-top: 2rem;
+      color: var(--neu-text-muted);
+      font-size: 0.78rem;
+      letter-spacing: 0.03em;
+    }
+
+    /* ============================
+       Responsive
+       ============================ */
+    @media (max-width: 768px) {
+      :root {
+        --neu-distance: 6px;
+        --neu-blur: 12px;
+        --neu-distance-lg: 8px;
+        --neu-blur-lg: 16px;
+        --radius-card: 16px;
+      }
+
+      .nav-wrapper {
+        padding: 1rem;
+      }
+
+      nav {
+        padding: 12px 20px;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .nav-links.open {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 100%;
+        left: 1rem;
+        right: 1rem;
+        background: var(--neu-bg);
+        border-radius: var(--radius-card);
+        padding: 16px;
+        margin-top: 12px;
+        box-shadow:
+          6px 6px 12px var(--neu-shadow-dark-alpha),
+          -6px -6px 12px var(--neu-shadow-light-alpha);
+        z-index: 99;
+      }
+
+      .mobile-menu-btn {
+        display: block;
+      }
+
+      .hero {
+        padding: 3rem 0 2rem;
+      }
+
+      .hero-shapes {
+        display: none;
+      }
+
+      .container {
+        padding: 0 1.25rem;
+      }
+
+      section {
+        padding: 3rem 0;
+      }
+
+      .overview-card {
+        padding: 28px;
+      }
+
+      .showcase-panel {
+        padding: 28px;
+      }
+
+      .shadow-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .stat-circle {
+        width: 110px;
+        height: 110px;
+      }
+
+      .stat-number {
+        font-size: 1.4rem;
+      }
+
+      .stats-row {
+        gap: 24px;
+      }
+
+      .type-card {
+        padding: 28px;
+      }
+
+      .principle-item {
+        padding: 20px 24px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .shadow-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-actions {
+        flex-direction: column;
+      }
+
+      .stats-row {
+        gap: 20px;
+      }
+
+      .stat-circle {
+        width: 100px;
+        height: 100px;
+      }
+
+      .stat-number {
+        font-size: 1.2rem;
+      }
+
+      .stat-label {
+        font-size: 0.65rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============================
+       Navigation
+       ============================ -->
+  <div class="nav-wrapper">
+    <nav>
+      <a href="#" class="nav-logo">Neu<span>morphism</span></a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#overview">Overview</a></li>
+        <li><a href="#characteristics">Traits</a></li>
+        <li><a href="#components">Components</a></li>
+        <li><a href="#palette">Palette</a></li>
+        <li><a href="#typography">Type</a></li>
+      </ul>
+      <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </nav>
+  </div>
+
+  <!-- ============================
+       Hero Section
+       ============================ -->
+  <section class="hero">
+    <div class="hero-shapes">
+      <div class="hero-shape hero-shape-1"></div>
+      <div class="hero-shape hero-shape-2"></div>
+      <div class="hero-shape hero-shape-3"></div>
+      <div class="hero-shape hero-shape-4"></div>
+    </div>
+    <div class="container">
+      <div class="hero-badge">
+        <span class="hero-badge-dot"></span>
+        Soft UI Design Aesthetic
+      </div>
+      <h1>Molded from a<br>Single <span class="accent">Surface</span></h1>
+      <p class="hero-subtitle">
+        Neumorphism creates the illusion of elements extruding from or recessing into the background, as if shaped from a single sheet of soft material. Pure shadow. Zero borders. Tactile depth.
+      </p>
+      <div class="hero-actions">
+        <button class="neu-btn neu-btn-accent">Explore the Aesthetic</button>
+        <button class="neu-btn">View Components</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================
+       Overview
+       ============================ -->
+  <section id="overview">
+    <div class="container">
+      <div class="section-header animate-on-scroll">
+        <span class="section-label">Origins</span>
+        <h2 class="section-title">What is Neumorphism?</h2>
+      </div>
+      <div class="overview-card animate-on-scroll">
+        <p>
+          <strong>Neumorphism</strong> (also called <strong>Soft UI</strong> or <strong>Neo-skeuomorphism</strong>) is a UI design aesthetic that creates the illusion of elements extruding from or recessing into the background surface, as if molded from a single sheet of soft material. The effect is achieved through carefully paired light and dark shadows on elements that share the same color as their parent background, producing a subtle, tactile dimensionality that sits between flat design and full skeuomorphism.
+        </p>
+        <p>
+          Coined by designer Jason Kelley and popularized by Alexander Plyuto's Dribbble explorations in late 2019, the style evokes <strong>extruded plastic, embossed paper, or molded rubber</strong> -- surfaces that feel physically continuous rather than layered.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================
+       Stats
+       ============================ -->
+  <section>
+    <div class="container">
+      <div class="stats-row animate-on-scroll">
+        <div class="stat-circle">
+          <span class="stat-number">2019</span>
+          <span class="stat-label">Emerged</span>
+        </div>
+        <div class="stat-circle">
+          <span class="stat-number">2</span>
+          <span class="stat-label">Shadows</span>
+        </div>
+        <div class="stat-circle">
+          <span class="stat-number">0</span>
+          <span class="stat-label">Borders</span>
+        </div>
+        <div class="stat-circle">
+          <span class="stat-number">1</span>
+          <span class="stat-label">Light Source</span>
+        </div>
+        <div class="stat-circle">
+          <span class="stat-number">3</span>
+          <span class="stat-label">Depth Levels</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================
+       Visual Characteristics
+       ============================ -->
+  <section id="characteristics">
+    <div class="container">
+      <div class="section-header animate-on-scroll">
+        <span class="section-label">Visual Identity</span>
+        <h2 class="section-title">Core Characteristics</h2>
+        <p class="section-desc">The defining visual traits that make neumorphism instantly recognizable.</p>
+      </div>
+      <div class="characteristics-grid">
+        <div class="char-card animate-on-scroll">
+          <div class="char-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#4d7cff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+          </div>
+          <h3>Extruded from Surface</h3>
+          <p>UI elements appear to push outward from the background rather than floating above it. Element and background are visually part of the same continuous material.</p>
+        </div>
+        <div class="char-card animate-on-scroll">
+          <div class="char-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#4d7cff" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          </div>
+          <h3>Dual Directional Shadows</h3>
+          <p>Every raised element uses two box-shadows: a dark shadow on one side and a light shadow on the opposite, simulating a single consistent light source.</p>
+        </div>
+        <div class="char-card animate-on-scroll">
+          <div class="char-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#4d7cff" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="4"/><line x1="3" y1="12" x2="21" y2="12"/></svg>
+          </div>
+          <h3>Monochromatic Palette</h3>
+          <p>Elements share the same background color as their parent container. Color differentiation is minimal; depth is conveyed through shadow alone.</p>
+        </div>
+        <div class="char-card animate-on-scroll">
+          <div class="char-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#4d7cff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
+          </div>
+          <h3>Soft Rounded Corners</h3>
+          <p>Generous border-radius values are essential. Sharp edges are nearly absent, reinforcing the soft, molded material metaphor throughout the interface.</p>
+        </div>
+        <div class="char-card animate-on-scroll">
+          <div class="char-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#4d7cff" stroke-width="2" stroke-linecap="round"><path d="M12 20V10"/><path d="M18 20V4"/><path d="M6 20v-4"/></svg>
+          </div>
+          <h3>Low Contrast Hierarchy</h3>
+          <p>The entire interface operates at deliberately low contrast ratios. Visual hierarchy comes from shadow depth rather than color variation.</p>
+        </div>
+        <div class="char-card animate-on-scroll">
+          <div class="char-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#4d7cff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 012 2v14a2 2 0 01-2 2h-4"/><polyline points="10 17 15 12 10 7"/></svg>
+          </div>
+          <h3>Inset Active States</h3>
+          <p>Interactive elements use inset (concave) shadows to communicate pressed or active states, creating a satisfying dented-into-the-surface effect.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================
+       Shadow States Demo
+       ============================ -->
+  <section id="shadows">
+    <div class="container">
+      <div class="section-header animate-on-scroll">
+        <span class="section-label">Shadow System</span>
+        <h2 class="section-title">Three States of Depth</h2>
+        <p class="section-desc">Shadow is the only tool for creating depth and hierarchy. Click to toggle states.</p>
+      </div>
+      <div class="shadow-demo animate-on-scroll">
+        <div class="shadow-grid">
+          <div class="shadow-example">
+            <div class="shadow-box shadow-raised" data-state="raised">
+              <svg class="shadow-icon" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+            </div>
+            <div class="shadow-label">Raised</div>
+            <div class="shadow-desc">Convex / Outset</div>
+          </div>
+          <div class="shadow-example">
+            <div class="shadow-box shadow-flat" data-state="flat">
+              <svg class="shadow-icon" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            </div>
+            <div class="shadow-label">Flat</div>
+            <div class="shadow-desc">No Shadow</div>
+          </div>
+          <div class="shadow-example">
+            <div class="shadow-box shadow-pressed" data-state="pressed">
+              <svg class="shadow-icon" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+            </div>
+            <div class="shadow-label">Pressed</div>
+            <div class="shadow-desc">Concave / Inset</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================
+       Interactive Components Showcase
+       ============================ -->
+  <section id="components">
+    <div class="container">
+      <div class="section-header animate-on-scroll">
+        <span class="section-label">Interactive Elements</span>
+        <h2 class="section-title">Component Showcase</h2>
+        <p class="section-desc">Functional neumorphic components demonstrating raised, pressed, and active states.</p>
+      </div>
+      <div class="showcase-grid">
+        <!-- Buttons Panel -->
+        <div class="showcase-panel animate-on-scroll">
+          <h3>Buttons</h3>
+          <div class="btn-showcase">
+            <div class="btn-row">
+              <button class="neu-btn neu-btn-accent">Primary</button>
+              <button class="neu-btn">Default</button>
+            </div>
+            <div class="btn-row">
+              <button class="neu-btn neu-btn-sm neu-btn-pill">Pill Shape</button>
+              <button class="neu-btn neu-btn-sm neu-btn-pill neu-btn-accent">Active</button>
+            </div>
+            <div class="btn-row">
+              <button class="neu-btn neu-btn-icon" aria-label="Heart">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+              </button>
+              <button class="neu-btn neu-btn-icon" aria-label="Star">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              </button>
+              <button class="neu-btn neu-btn-icon" aria-label="Settings">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Inputs Panel -->
+        <div class="showcase-panel animate-on-scroll">
+          <h3>Form Inputs</h3>
+          <div class="input-showcase">
+            <div class="neu-input-group">
+              <label for="nameInput">Full Name</label>
+              <input type="text" id="nameInput" class="neu-input" placeholder="Enter your name">
+            </div>
+            <div class="neu-input-group">
+              <label for="emailInput">Email</label>
+              <input type="email" id="emailInput" class="neu-input" placeholder="hello@soft-ui.com">
+            </div>
+            <div class="neu-input-group">
+              <label for="messageInput">Message</label>
+              <textarea id="messageInput" class="neu-input neu-textarea" placeholder="Write something..."></textarea>
+            </div>
+          </div>
+        </div>
+
+        <!-- Toggles Panel -->
+        <div class="showcase-panel animate-on-scroll">
+          <h3>Toggle Switches</h3>
+          <div class="toggle-showcase">
+            <div class="toggle-row">
+              <div class="neu-toggle active" data-toggle></div>
+              <span class="toggle-label">Soft Shadows</span>
+            </div>
+            <div class="toggle-row">
+              <div class="neu-toggle" data-toggle></div>
+              <span class="toggle-label">Dark Mode</span>
+            </div>
+            <div class="toggle-row">
+              <div class="neu-toggle active active-purple" data-toggle></div>
+              <span class="toggle-label">Accent Colors</span>
+            </div>
+            <div class="toggle-row">
+              <div class="neu-toggle" data-toggle></div>
+              <span class="toggle-label">Animations</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Progress Bars Panel -->
+        <div class="showcase-panel animate-on-scroll" style="grid-column: 1 / -1;">
+          <h3>Progress Indicators</h3>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 28px;">
+            <div class="progress-item">
+              <div class="progress-header">
+                <span class="progress-name">Shadow Mastery</span>
+                <span class="progress-value">85%</span>
+              </div>
+              <div class="neu-progress-track">
+                <div class="neu-progress-fill fill-accent" data-width="85"></div>
+              </div>
+            </div>
+            <div class="progress-item">
+              <div class="progress-header">
+                <span class="progress-name">Rounded Corners</span>
+                <span class="progress-value">100%</span>
+              </div>
+              <div class="neu-progress-track">
+                <div class="neu-progress-fill fill-success" data-width="100"></div>
+              </div>
+            </div>
+            <div class="progress-item">
+              <div class="progress-header">
+                <span class="progress-name">Color Usage</span>
+                <span class="progress-value">25%</span>
+              </div>
+              <div class="neu-progress-track">
+                <div class="neu-progress-fill fill-warning" data-width="25"></div>
+              </div>
+            </div>
+            <div class="progress-item">
+              <div class="progress-header">
+                <span class="progress-name">Accessibility</span>
+                <span class="progress-value">60%</span>
+              </div>
+              <div class="neu-progress-track">
+                <div class="neu-progress-fill fill-danger" data-width="60"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================
+       Color Palette
+       ============================ -->
+  <section id="palette">
+    <div class="container">
+      <div class="section-header animate-on-scroll">
+        <span class="section-label">Color System</span>
+        <h2 class="section-title">The Neumorphic Palette</h2>
+        <p class="section-desc">Inherently monochromatic. The entire palette derives from a single background hue with computed shadow variants.</p>
+      </div>
+      <div class="palette-container">
+        <!-- Primary Surface Colors -->
+        <div class="palette-group animate-on-scroll">
+          <div class="palette-group-title">
+            <span>Surface Colors</span>
+            <span class="palette-group-line"></span>
+          </div>
+          <div class="palette-swatches">
+            <div class="swatch">
+              <div class="swatch-color" style="background: #e0e5ec;"></div>
+              <div class="swatch-info">
+                <div class="swatch-name">Background Base</div>
+                <div class="swatch-hex">#e0e5ec</div>
+              </div>
+            </div>
+            <div class="swatch">
+              <div class="swatch-color" style="background: #a3b1c6;"></div>
+              <div class="swatch-info">
+                <div class="swatch-name">Dark Shadow</div>
+                <div class="swatch-hex">#a3b1c6</div>
+              </div>
+            </div>
+            <div class="swatch">
+              <div class="swatch-color" style="background: #ffffff; border: 1px solid #e0e5ec;"></div>
+              <div class="swatch-info">
+                <div class="swatch-name">Light Shadow</div>
+                <div class="swatch-hex">#ffffff</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Text Colors -->
+        <div class="palette-group animate-on-scroll">
+          <div class="palette-group-title">
+            <span>Text Colors</span>
+            <span class="palette-group-line"></span>
+          </div>
+          <div class="palette-swatches">
+            <div class="swatch">
+              <div class="swatch-color" style="background: #2d3436;"></div>
+              <div class="swatch-info">
+                <div class="swatch-name">Primary</div>
+                <div class="swatch-hex">#2d3436</div>
+              </div>
+            </div>
+            <div class="swatch">
+              <div class="swatch-color" style="background: #636e72;"></div>
+              <div class="swatch-info">
+                <div class="swatch-name">Secondary</div>
+                <div class="swatch-hex">#636e72</div>
+              </div>
+            </div>
+            <div class="swatch">
+              <div class="swatch-color" style="background: #b2bec3;"></div>
+              <div class="swatch-info">
+                <div class="swatch-name">Muted</div>
+                <div class="swatch-hex">#b2bec3</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Alternative Bases -->
+        <div class="palette-group animate-on-scroll">
+          <div class="palette-group-title">
+            <span>Alternative Bases</span>
+            <span class="palette-group-line"></span>
+          </div>
+          <div class="palette-swatches">
+            <div class="swatch">
+              <div class="swatch-color" style="background: #e8e0d8;"></div>
+              <div class="swatch-info">
+                <div class="swatch-name">Warm Gray</div>
+                <div class="swatch-hex">#e8e0d8</div>
+              </div>
+            </div>
+            <div class="swatch">
+              <div class="swatch-color" style="background: #e6e7ee;"></div>
+              <div class="swatch-info">
+                <div class="swatch-name">Cool Lavender</div>
+                <div class="swatch-hex">#e6e7ee</div>
+              </div>
+            </div>
+            <div class="swatch">
+              <div class="swatch-color" style="background: #dce8e0;"></div>
+              <div class="swatch-info">
+                <div class="swatch-name">Soft Mint</div>
+                <div class="swatch-hex">#dce8e0</div>
+              </div>
+            </div>
+            <div class="swatch">
+              <div class="swatch-color" style="background: #dde4f0;"></div>
+              <div class="swatch-info">
+                <div class="swatch-name">Pale Blue</div>
+                <div class="swatch-hex">#dde4f0</div>
+              </div>
+            </div>
+            <div class="swatch">
+              <div class="swatch-color" style="background: #e0e0e0;"></div>
+              <div class="swatch-info">
+                <div class="swatch-name">Neutral Gray</div>
+                <div class="swatch-hex">#e0e0e0</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Accent Colors -->
+        <div class="palette-group animate-on-scroll">
+          <div class="palette-group-title">
+            <span>Accent Colors</span>
+            <span class="palette-group-line"></span>
+          </div>
+          <div class="palette-swatches">
+            <div class="swatch">
+              <div class="swatch-color" style="background: #4d7cff;"></div>
+              <div class="swatch-info">
+                <div class="swatch-name">Primary Accent</div>
+                <div class="swatch-hex">#4d7cff</div>
+              </div>
+            </div>
+            <div class="swatch">
+              <div class="swatch-color" style="background: #55efc4;"></div>
+              <div class="swatch-info">
+                <div class="swatch-name">Success</div>
+                <div class="swatch-hex">#55efc4</div>
+              </div>
+            </div>
+            <div class="swatch">
+              <div class="swatch-color" style="background: #ffeaa7;"></div>
+              <div class="swatch-info">
+                <div class="swatch-name">Warning</div>
+                <div class="swatch-hex">#ffeaa7</div>
+              </div>
+            </div>
+            <div class="swatch">
+              <div class="swatch-color" style="background: #ff7675;"></div>
+              <div class="swatch-info">
+                <div class="swatch-name">Danger</div>
+                <div class="swatch-hex">#ff7675</div>
+              </div>
+            </div>
+            <div class="swatch">
+              <div class="swatch-color" style="background: #74b9ff;"></div>
+              <div class="swatch-info">
+                <div class="swatch-name">Info</div>
+                <div class="swatch-hex">#74b9ff</div>
+              </div>
+            </div>
+            <div class="swatch">
+              <div class="swatch-color" style="background: #6c5ce7;"></div>
+              <div class="swatch-info">
+                <div class="swatch-name">Active Toggle</div>
+                <div class="swatch-hex">#6c5ce7</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Dark Theme -->
+        <div class="palette-group animate-on-scroll">
+          <div class="palette-group-title">
+            <span>Dark Theme</span>
+            <span class="palette-group-line"></span>
+          </div>
+          <div class="palette-swatches">
+            <div class="swatch">
+              <div class="swatch-color" style="background: #2d2d2d;"></div>
+              <div class="swatch-info">
+                <div class="swatch-name">Dark Base</div>
+                <div class="swatch-hex">#2d2d2d</div>
+              </div>
+            </div>
+            <div class="swatch">
+              <div class="swatch-color" style="background: #252525;"></div>
+              <div class="swatch-info">
+                <div class="swatch-name">Dark Shadow</div>
+                <div class="swatch-hex">#252525</div>
+              </div>
+            </div>
+            <div class="swatch">
+              <div class="swatch-color" style="background: #353535;"></div>
+              <div class="swatch-info">
+                <div class="swatch-name">Light Shadow</div>
+                <div class="swatch-hex">#353535</div>
+              </div>
+            </div>
+            <div class="swatch">
+              <div class="swatch-color" style="background: #303030;"></div>
+              <div class="swatch-info">
+                <div class="swatch-name">Alt Background</div>
+                <div class="swatch-hex">#303030</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================
+       Typography
+       ============================ -->
+  <section id="typography">
+    <div class="container">
+      <div class="section-header animate-on-scroll">
+        <span class="section-label">Typography</span>
+        <h2 class="section-title">Typeface System</h2>
+        <p class="section-desc">Clean, rounded sans-serifs that match the soft, molded surfaces. Highly legible at medium to semi-bold weights.</p>
+      </div>
+      <div class="type-showcase">
+        <div class="type-card animate-on-scroll">
+          <div class="type-sample">
+            <div class="type-meta">
+              <span class="type-tag">Display</span>
+              <span class="type-tag">Poppins 700</span>
+            </div>
+            <div class="type-display">Surfaces that feel physically continuous</div>
+          </div>
+          <hr class="neu-divider" style="max-width: 100%; margin: 2rem 0;">
+          <div class="type-sample">
+            <div class="type-meta">
+              <span class="type-tag">Heading</span>
+              <span class="type-tag">Poppins 600</span>
+            </div>
+            <div class="type-heading">Shadow is the only tool for creating depth and hierarchy</div>
+          </div>
+          <hr class="neu-divider" style="max-width: 100%; margin: 2rem 0;">
+          <div class="type-sample">
+            <div class="type-meta">
+              <span class="type-tag">Body</span>
+              <span class="type-tag">Nunito Sans 400</span>
+            </div>
+            <div class="type-body">Neumorphism typography should be clean, rounded, and highly legible. This is critical because the low-contrast environment already challenges readability. Medium to semi-bold weights prevent text from disappearing against the soft gray backgrounds. Generous sizing ensures body text remains comfortable at all viewport sizes.</div>
+          </div>
+          <hr class="neu-divider" style="max-width: 100%; margin: 2rem 0;">
+          <div class="type-sample">
+            <div class="type-meta">
+              <span class="type-tag">Label</span>
+              <span class="type-tag">Nunito Sans 700</span>
+            </div>
+            <div class="type-label-sample">Interface Label &middot; Uppercase &middot; Tracked</div>
+          </div>
+        </div>
+
+        <div class="section-header animate-on-scroll" style="margin-top: 3rem;">
+          <h3 class="section-title" style="font-size: 1.4rem;">Recommended Pairings</h3>
+        </div>
+        <div class="font-pairings animate-on-scroll">
+          <div class="pairing-card pair-poppins">
+            <h4 class="pairing-heading">Modern Polish</h4>
+            <p class="pairing-body">Geometric headings with humanist body text create a balanced, approachable interface.</p>
+            <div class="pairing-fonts">Poppins 600 + Nunito Sans 400</div>
+          </div>
+          <div class="pairing-card pair-quicksand">
+            <h4 class="pairing-heading">Soft Cohesion</h4>
+            <p class="pairing-body">Rounded terminals in the heading font reinforce the soft material metaphor throughout.</p>
+            <div class="pairing-fonts">Quicksand 700 + Nunito Sans 400</div>
+          </div>
+          <div class="pairing-card">
+            <h4 class="pairing-heading" style="font-family: 'Nunito Sans', sans-serif; font-weight: 700;">Clean Minimal</h4>
+            <p class="pairing-body" style="font-family: 'Nunito Sans', sans-serif;">A single-family approach that relies on weight contrast for hierarchy. Simple and elegant.</p>
+            <div class="pairing-fonts">Nunito Sans 700 + Nunito Sans 400</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================
+       Design Principles
+       ============================ -->
+  <section id="principles">
+    <div class="container">
+      <div class="section-header animate-on-scroll">
+        <span class="section-label">Guidelines</span>
+        <h2 class="section-title">Design Principles</h2>
+        <p class="section-desc">The foundational rules that preserve the neumorphic illusion across an entire interface.</p>
+      </div>
+      <div class="principles-list">
+        <div class="principle-item animate-on-scroll">
+          <div class="principle-num">1</div>
+          <div class="principle-content">
+            <h4>Background is Foundation</h4>
+            <p>The background color is everything. Every element derives its color from the background. If element and parent differ, the extrusion illusion breaks immediately.</p>
+          </div>
+        </div>
+        <div class="principle-item animate-on-scroll">
+          <div class="principle-num">2</div>
+          <div class="principle-content">
+            <h4>Shadow Creates Hierarchy</h4>
+            <p>Shadow is the only tool for creating depth and hierarchy. Never rely on color contrast alone. Small versus large shadows establish the visual pecking order.</p>
+          </div>
+        </div>
+        <div class="principle-item animate-on-scroll">
+          <div class="principle-num">3</div>
+          <div class="principle-content">
+            <h4>One Light Source</h4>
+            <p>Maintain a single, consistent light source direction across the entire interface. Top-left is most common. Mixed light directions break the physical coherence.</p>
+          </div>
+        </div>
+        <div class="principle-item animate-on-scroll">
+          <div class="principle-num">4</div>
+          <div class="principle-content">
+            <h4>Three Depth Levels</h4>
+            <p>Keep depth levels limited: raised, flat, and recessed. Raised elements use outset shadows; pressed or active elements use inset shadows. More levels create visual confusion.</p>
+          </div>
+        </div>
+        <div class="principle-item animate-on-scroll">
+          <div class="principle-num">5</div>
+          <div class="principle-content">
+            <h4>Accent with Restraint</h4>
+            <p>Use accent colors sparingly and only for interactive highlights. In a monochromatic system, even a small splash of color draws heavy attention.</p>
+          </div>
+        </div>
+        <div class="principle-item animate-on-scroll">
+          <div class="principle-num">6</div>
+          <div class="principle-content">
+            <h4>Breathable Spacing</h4>
+            <p>Generous padding and spacing are critical. Cramped layouts undermine the soft, breathable aesthetic. Elements should never touch or overlap.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================
+       Implementation Tips
+       ============================ -->
+  <section id="tips">
+    <div class="container">
+      <div class="section-header animate-on-scroll">
+        <span class="section-label">Practical Advice</span>
+        <h2 class="section-title">Implementation Tips</h2>
+      </div>
+      <div class="tips-grid">
+        <div class="tip-card animate-on-scroll">
+          <div class="tip-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4d7cff" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+          </div>
+          <h4>Always Pair Shadows</h4>
+          <p>A neumorphic element without both a dark and light shadow looks like a plain drop shadow. Both are mandatory for the extrusion effect.</p>
+        </div>
+        <div class="tip-card animate-on-scroll">
+          <div class="tip-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4d7cff" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          </div>
+          <h4>Avoid Extremes</h4>
+          <p>Avoid pure white or pure black backgrounds. The effect works best on muted, mid-light tones where both shadow directions are clearly visible.</p>
+        </div>
+        <div class="tip-card animate-on-scroll">
+          <div class="tip-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4d7cff" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          </div>
+          <h4>Accessibility First</h4>
+          <p>Low contrast is the biggest limitation. Ensure text meets WCAG AA ratios (4.5:1 for body text). Consider offering a high-contrast mode.</p>
+        </div>
+        <div class="tip-card animate-on-scroll">
+          <div class="tip-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4d7cff" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+          </div>
+          <h4>Performance</h4>
+          <p>Box-shadow with multiple values is well-optimized, but avoid animating blur values directly. Transition box-shadow as a whole property instead.</p>
+        </div>
+        <div class="tip-card animate-on-scroll">
+          <div class="tip-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4d7cff" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+          </div>
+          <h4>Dark Mode</h4>
+          <p>In dark mode, the light shadow becomes a slightly lighter shade (not white), and the dark shadow becomes slightly darker. The contrast range shrinks significantly.</p>
+        </div>
+        <div class="tip-card animate-on-scroll">
+          <div class="tip-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4d7cff" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          </div>
+          <h4>Proportional Shadows</h4>
+          <p>Keep shadow offsets proportional: buttons use 3-6px, cards use 6-10px, panels use 10-15px. Blur should be 1.5-2x the offset distance.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================
+       Related Aesthetics
+       ============================ -->
+  <section id="related">
+    <div class="container">
+      <div class="section-header animate-on-scroll">
+        <span class="section-label">Context</span>
+        <h2 class="section-title">Related Aesthetics</h2>
+        <p class="section-desc">How neumorphism relates to the broader landscape of UI design movements.</p>
+      </div>
+      <div class="related-grid">
+        <div class="related-card animate-on-scroll">
+          <h4 class="related-name">Flat Design</h4>
+          <p class="related-desc">Direct predecessor. Neumorphism reintroduces depth that flat design deliberately eliminated, but retains the minimal, clean sensibility.</p>
+        </div>
+        <div class="related-card animate-on-scroll">
+          <h4 class="related-name">Skeuomorphism</h4>
+          <p class="related-desc">Historical ancestor. Inherits the physical-object metaphor but strips away realistic textures, reflections, and glossy surfaces in favor of pure shadow.</p>
+        </div>
+        <div class="related-card animate-on-scroll">
+          <h4 class="related-name">Claymorphism</h4>
+          <p class="related-desc">Successor. Elements float above the background and use vivid colors instead of monochrome, but share the soft, rounded, tactile quality.</p>
+        </div>
+        <div class="related-card animate-on-scroll">
+          <h4 class="related-name">Glassmorphism</h4>
+          <p class="related-desc">Contemporary sibling. Uses transparency and blur for depth rather than shadow and extrusion. Colorful and layered vs. monochromatic and continuous.</p>
+        </div>
+        <div class="related-card animate-on-scroll">
+          <h4 class="related-name">Material Design</h4>
+          <p class="related-desc">Shares shadow-based depth concepts but uses distinct surface colors and sharper shadow hierarchies. More structured and less organic.</p>
+        </div>
+        <div class="related-card animate-on-scroll">
+          <h4 class="related-name">Minimalism</h4>
+          <p class="related-desc">Parent philosophy. Neumorphism applies minimalist reduction to interface decoration while adding controlled physical depth.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================
+       Footer
+       ============================ -->
+  <hr class="neu-divider">
+  <footer>
+    <div class="footer-logo">Neu<span>morphism</span></div>
+    <p class="footer-text">
+      Molded from a single surface. Soft shadows and subtle depth creating interfaces that feel physically continuous rather than layered.
+    </p>
+    <p class="footer-credit">
+      A design aesthetic showcase. Coined by Jason Kelley, popularized by Alexander Plyuto, 2019.
+    </p>
+  </footer>
+
+  <!-- ============================
+       JavaScript
+       ============================ -->
+  <script>
+    // ---- Scroll-triggered animations ----
+    (function() {
+      const observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      }, {
+        threshold: 0.12,
+        rootMargin: '0px 0px -40px 0px'
+      });
+
+      document.querySelectorAll('.animate-on-scroll').forEach(function(el) {
+        observer.observe(el);
+      });
+    })();
+
+    // ---- Staggered animation delays for grid children ----
+    (function() {
+      const grids = document.querySelectorAll('.characteristics-grid, .tips-grid, .related-grid, .palette-swatches');
+      grids.forEach(function(grid) {
+        const children = grid.querySelectorAll('.animate-on-scroll');
+        children.forEach(function(child, i) {
+          child.style.transitionDelay = (i * 0.08) + 's';
+        });
+      });
+    })();
+
+    // ---- Toggle switches ----
+    document.querySelectorAll('[data-toggle]').forEach(function(toggle) {
+      toggle.addEventListener('click', function() {
+        var wasPurple = this.classList.contains('active-purple');
+        this.classList.toggle('active');
+        if (wasPurple) {
+          this.classList.toggle('active-purple');
+        }
+      });
+    });
+
+    // ---- Shadow boxes: click to cycle states ----
+    document.querySelectorAll('.shadow-box').forEach(function(box) {
+      box.style.cursor = 'pointer';
+      box.addEventListener('click', function() {
+        var state = this.getAttribute('data-state');
+        if (state === 'raised') {
+          this.className = 'shadow-box shadow-pressed';
+          this.setAttribute('data-state', 'pressed');
+        } else if (state === 'pressed') {
+          this.className = 'shadow-box shadow-flat';
+          this.setAttribute('data-state', 'flat');
+        } else {
+          this.className = 'shadow-box shadow-raised';
+          this.setAttribute('data-state', 'raised');
+        }
+      });
+    });
+
+    // ---- Progress bar animation on scroll ----
+    (function() {
+      var progressObserver = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            var fills = entry.target.querySelectorAll('.neu-progress-fill');
+            fills.forEach(function(fill) {
+              var width = fill.getAttribute('data-width');
+              fill.style.width = width + '%';
+            });
+            progressObserver.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.3 });
+
+      document.querySelectorAll('.showcase-panel').forEach(function(panel) {
+        var fills = panel.querySelectorAll('.neu-progress-fill');
+        if (fills.length > 0) {
+          fills.forEach(function(fill) {
+            fill.style.width = '0%';
+          });
+          progressObserver.observe(panel);
+        }
+      });
+    })();
+
+    // ---- Mobile menu toggle ----
+    (function() {
+      var btn = document.getElementById('mobileMenuBtn');
+      var links = document.getElementById('navLinks');
+      if (btn && links) {
+        btn.addEventListener('click', function() {
+          links.classList.toggle('open');
+        });
+      }
+    })();
+
+    // ---- Smooth scroll for nav links ----
+    document.querySelectorAll('.nav-links a[href^="#"]').forEach(function(a) {
+      a.addEventListener('click', function(e) {
+        e.preventDefault();
+        var target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+        // Close mobile menu
+        document.getElementById('navLinks').classList.remove('open');
+      });
+    });
+  </script>
+</body>
+</html>

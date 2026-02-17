@@ -1,0 +1,1989 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ostalgie -- Design Reference</title>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;700&family=Roboto+Condensed:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@400;600&family=Jost:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    /* ========================================
+       CSS CUSTOM PROPERTIES -- OSTALGIE PALETTE
+       ======================================== */
+    :root {
+      /* Warm Browns & Ochres */
+      --ost-ochre:              #B8860B;
+      --ost-sand:               #D2B48C;
+      --ost-tan:                #C4A882;
+      --ost-warm-brown:         #8B6914;
+      --ost-mustard:            #C9A830;
+
+      /* Blues & Teals */
+      --ost-teal:               #5F8A8B;
+      --ost-institutional-blue: #4A6D8C;
+      --ost-slate-blue:         #607B8B;
+      --ost-navy:               #2C3E50;
+      --ost-faded-blue:         #7B9BAA;
+
+      /* State Reds & Golds */
+      --ost-socialist-red:      #B83230;
+      --ost-deep-red:           #8B2323;
+      --ost-hammer-gold:        #D4A017;
+      --ost-banner-red:         #C0392B;
+
+      /* Greens & Olives */
+      --ost-olive:              #6B7B3A;
+      --ost-muted-green:        #7D8B6A;
+      --ost-sage:               #8F9B7A;
+
+      /* Earth & Rust */
+      --ost-rust:               #B7613F;
+      --ost-terracotta:         #C47A5A;
+      --ost-burnt-orange:       #A0522D;
+
+      /* Neutrals */
+      --ost-concrete:           #9B9B8E;
+      --ost-dark-concrete:      #6B6B60;
+      --ost-charcoal:           #3C3C34;
+      --ost-cream:              #F2EADB;
+      --ost-off-white:          #EDE6D6;
+      --ost-warm-white:         #FAF6EE;
+      --ost-paper:              #E8DFD0;
+    }
+
+    /* ========================================
+       RESET & BASE
+       ======================================== */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Source Sans 3', 'Helvetica Neue', sans-serif;
+      background: var(--ost-cream);
+      color: var(--ost-charcoal);
+      line-height: 1.65;
+      overflow-x: hidden;
+    }
+
+    /* ========================================
+       TYPOGRAPHY
+       ======================================== */
+    h1, h2, h3, h4 {
+      font-family: 'Oswald', 'Arial Narrow', sans-serif;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      line-height: 1.15;
+      color: var(--ost-charcoal);
+    }
+
+    h1 {
+      font-size: clamp(2.8rem, 6vw, 5rem);
+      letter-spacing: 0.12em;
+      color: var(--ost-warm-white);
+    }
+
+    h2 {
+      font-family: 'Roboto Condensed', sans-serif;
+      font-size: clamp(1.5rem, 3vw, 2.2rem);
+      color: var(--ost-institutional-blue);
+      margin-bottom: 1rem;
+    }
+
+    h3 {
+      font-size: clamp(1.1rem, 2vw, 1.4rem);
+      color: var(--ost-charcoal);
+      margin-bottom: 0.75rem;
+    }
+
+    p {
+      margin-bottom: 1rem;
+      font-size: 1rem;
+      line-height: 1.7;
+    }
+
+    blockquote {
+      font-family: 'Jost', sans-serif;
+      font-style: italic;
+      font-size: 1.1rem;
+      line-height: 1.75;
+      color: var(--ost-dark-concrete);
+      border-left: 4px solid var(--ost-socialist-red);
+      padding: 1rem 1.5rem;
+      margin: 1.5rem 0;
+      background: rgba(184, 134, 11, 0.04);
+    }
+
+    .label {
+      font-family: 'Roboto Condensed', sans-serif;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-size: 0.8rem;
+      color: var(--ost-dark-concrete);
+    }
+
+    /* ========================================
+       ANIMATIONS
+       ======================================== */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes slideInLeft {
+      from {
+        opacity: 0;
+        transform: translateX(-40px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes starPulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.12); opacity: 0.85; }
+    }
+
+    @keyframes bannerUnfurl {
+      from {
+        transform: scaleX(0);
+        opacity: 0;
+      }
+      to {
+        transform: scaleX(1);
+        opacity: 1;
+      }
+    }
+
+    @keyframes typeReveal {
+      from {
+        clip-path: inset(0 100% 0 0);
+      }
+      to {
+        clip-path: inset(0 0 0 0);
+      }
+    }
+
+    @keyframes gridFadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes stampIn {
+      0% {
+        transform: scale(2.5) rotate(-15deg);
+        opacity: 0;
+      }
+      60% {
+        transform: scale(0.95) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: scale(1) rotate(0deg);
+        opacity: 1;
+      }
+    }
+
+    .animate-on-scroll {
+      opacity: 0;
+      transform: translateY(25px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .animate-on-scroll.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ========================================
+       HERO HEADER
+       ======================================== */
+    .ost-hero {
+      background: var(--ost-charcoal);
+      text-align: center;
+      padding: 6rem 2rem 5rem;
+      position: relative;
+      overflow: hidden;
+      border-bottom: 4px solid var(--ost-socialist-red);
+    }
+
+    /* Plattenbau grid overlay */
+    .ost-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        repeating-linear-gradient(
+          0deg, transparent, transparent 58px,
+          rgba(155,155,142,0.08) 58px, rgba(155,155,142,0.08) 60px
+        ),
+        repeating-linear-gradient(
+          90deg, transparent, transparent 78px,
+          rgba(155,155,142,0.08) 78px, rgba(155,155,142,0.08) 80px
+        );
+      pointer-events: none;
+      animation: gridFadeIn 2s ease forwards;
+    }
+
+    /* Subtle vignette */
+    .ost-hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at center, transparent 40%, rgba(30,30,26,0.5) 100%);
+      pointer-events: none;
+    }
+
+    .hero-star {
+      position: relative;
+      z-index: 2;
+      display: inline-block;
+      width: 36px;
+      height: 36px;
+      background: var(--ost-socialist-red);
+      clip-path: polygon(
+        50% 0%, 61% 35%, 98% 35%, 68% 57%,
+        79% 91%, 50% 70%, 21% 91%, 32% 57%,
+        2% 35%, 39% 35%
+      );
+      margin-bottom: 1.5rem;
+      animation: stampIn 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.3s both,
+                 starPulse 4s ease-in-out 2s infinite;
+    }
+
+    .ost-hero h1 {
+      position: relative;
+      z-index: 2;
+      animation: fadeInUp 0.9s ease 0.5s both;
+    }
+
+    .hero-subtitle {
+      position: relative;
+      z-index: 2;
+      font-family: 'Roboto Condensed', sans-serif;
+      font-weight: 400;
+      font-size: clamp(0.95rem, 2vw, 1.2rem);
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--ost-sand);
+      border-top: 1px solid var(--ost-dark-concrete);
+      border-bottom: 1px solid var(--ost-dark-concrete);
+      display: inline-block;
+      padding: 0.6rem 2.5rem;
+      margin-top: 1.5rem;
+      animation: bannerUnfurl 0.8s ease 1s both;
+      transform-origin: center;
+    }
+
+    .hero-year {
+      position: relative;
+      z-index: 2;
+      display: block;
+      margin-top: 1.2rem;
+      font-family: 'Oswald', sans-serif;
+      font-weight: 500;
+      font-size: 0.9rem;
+      letter-spacing: 0.3em;
+      color: var(--ost-concrete);
+      animation: fadeIn 1s ease 1.5s both;
+    }
+
+    /* ========================================
+       RED-GOLD STRIPE DIVIDER
+       ======================================== */
+    .ost-stripe-divider {
+      height: 6px;
+      background: linear-gradient(
+        to right,
+        var(--ost-socialist-red) 0%,
+        var(--ost-socialist-red) 33%,
+        var(--ost-hammer-gold) 33%,
+        var(--ost-hammer-gold) 67%,
+        var(--ost-socialist-red) 67%,
+        var(--ost-socialist-red) 100%
+      );
+    }
+
+    /* ========================================
+       THIN DIVIDER
+       ======================================== */
+    .ost-divider {
+      height: 4px;
+      background: var(--ost-charcoal);
+      position: relative;
+    }
+
+    .ost-divider::after {
+      content: '';
+      position: absolute;
+      top: 6px;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: var(--ost-concrete);
+    }
+
+    /* ========================================
+       MAIN LAYOUT WRAPPER
+       ======================================== */
+    .ost-layout {
+      max-width: 1200px;
+      margin: 0 auto;
+      background: var(--ost-cream);
+    }
+
+    /* ========================================
+       SECTIONS
+       ======================================== */
+    .ost-section {
+      padding: 4rem 2.5rem;
+      position: relative;
+      border-bottom: 2px solid var(--ost-concrete);
+    }
+
+    .ost-section--paper {
+      background-color: var(--ost-paper);
+      background-image:
+        radial-gradient(
+          ellipse at 30% 20%,
+          rgba(184, 134, 11, 0.06) 0%, transparent 50%
+        ),
+        radial-gradient(
+          ellipse at 70% 80%,
+          rgba(139, 105, 20, 0.04) 0%, transparent 40%
+        ),
+        linear-gradient(
+          to bottom,
+          rgba(60, 60, 52, 0.03) 0%, transparent 15%,
+          transparent 85%, rgba(60, 60, 52, 0.04) 100%
+        );
+    }
+
+    .ost-section--warm {
+      background-color: var(--ost-off-white);
+    }
+
+    .ost-section--concrete {
+      background-color: var(--ost-concrete);
+      background-image:
+        linear-gradient(
+          to bottom,
+          rgba(0, 0, 0, 0.04) 0%,
+          rgba(0, 0, 0, 0.01) 50%,
+          rgba(0, 0, 0, 0.05) 100%
+        );
+      color: var(--ost-warm-white);
+    }
+
+    .ost-section--concrete h2 {
+      color: var(--ost-warm-white);
+    }
+
+    .ost-section--concrete p {
+      color: var(--ost-cream);
+    }
+
+    .ost-section--dark {
+      background: var(--ost-charcoal);
+      color: var(--ost-cream);
+    }
+
+    .ost-section--dark h2 {
+      color: var(--ost-hammer-gold);
+    }
+
+    .ost-section--dark h3 {
+      color: var(--ost-sand);
+    }
+
+    .ost-section--wallpaper {
+      background-color: var(--ost-cream);
+      background-image:
+        radial-gradient(
+          circle at 25% 25%,
+          var(--ost-sand) 2px, transparent 2px
+        ),
+        radial-gradient(
+          circle at 75% 75%,
+          var(--ost-sand) 2px, transparent 2px
+        );
+      background-size: 30px 30px;
+    }
+
+    /* ========================================
+       SECTION LABEL BADGE
+       ======================================== */
+    .ost-section-label {
+      display: inline-block;
+      background: var(--ost-charcoal);
+      color: var(--ost-warm-white);
+      font-family: 'Roboto Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      padding: 0.3rem 1.2rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .ost-section-label--red {
+      background: var(--ost-socialist-red);
+    }
+
+    .ost-section-label--blue {
+      background: var(--ost-institutional-blue);
+    }
+
+    .ost-section-label--gold {
+      background: var(--ost-warm-brown);
+    }
+
+    /* ========================================
+       STATE BANNER RIBBON
+       ======================================== */
+    .ost-banner {
+      background: var(--ost-socialist-red);
+      color: var(--ost-warm-white);
+      font-family: 'Oswald', sans-serif;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 0.6rem 2.5rem;
+      display: inline-block;
+      text-align: center;
+      position: relative;
+      font-size: 1rem;
+    }
+
+    .ost-banner::before,
+    .ost-banner::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      border-style: solid;
+      border-color: var(--ost-socialist-red);
+      height: 100%;
+    }
+
+    .ost-banner::before {
+      left: -1.2rem;
+      border-width: 1.2rem 1.2rem 1.2rem 0;
+      border-left-color: transparent;
+    }
+
+    .ost-banner::after {
+      right: -1.2rem;
+      border-width: 1.2rem 0 1.2rem 1.2rem;
+      border-right-color: transparent;
+    }
+
+    /* ========================================
+       PRODUCT LABEL FRAME
+       ======================================== */
+    .ost-label-frame {
+      border: 2px solid var(--ost-charcoal);
+      outline: 1px solid var(--ost-charcoal);
+      outline-offset: 4px;
+      padding: 2rem 2.5rem;
+      text-align: center;
+      position: relative;
+      background: var(--ost-warm-white);
+    }
+
+    .ost-label-frame::before {
+      content: '';
+      position: absolute;
+      inset: -8px;
+      border: 1px solid var(--ost-concrete);
+    }
+
+    /* ========================================
+       CARDS
+       ======================================== */
+    .ost-card {
+      background: var(--ost-warm-white);
+      border: 2px solid var(--ost-charcoal);
+      padding: 2rem 1.5rem;
+      text-align: center;
+      position: relative;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .ost-card::before {
+      content: '';
+      position: absolute;
+      inset: 4px;
+      border: 1px solid var(--ost-concrete);
+      pointer-events: none;
+    }
+
+    .ost-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(60, 60, 52, 0.15);
+    }
+
+    .ost-card h3 {
+      font-family: 'Roboto Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 1.15rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--ost-institutional-blue);
+      margin-bottom: 0.75rem;
+    }
+
+    .ost-card p {
+      font-size: 0.92rem;
+      line-height: 1.7;
+      color: var(--ost-charcoal);
+    }
+
+    .ost-card .card-icon {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      background: var(--ost-socialist-red);
+      clip-path: polygon(
+        50% 0%, 61% 35%, 98% 35%, 68% 57%,
+        79% 91%, 50% 70%, 21% 91%, 32% 57%,
+        2% 35%, 39% 35%
+      );
+      margin-bottom: 1rem;
+    }
+
+    /* ========================================
+       GRID LAYOUTS
+       ======================================== */
+    .ost-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+    }
+
+    .ost-grid--two {
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    }
+
+    .ost-grid--three {
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    }
+
+    /* ========================================
+       COLOR SWATCHES
+       ======================================== */
+    .color-group {
+      margin-bottom: 2rem;
+    }
+
+    .color-group h3 {
+      font-family: 'Roboto Condensed', sans-serif;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--ost-dark-concrete);
+      margin-bottom: 0.75rem;
+      padding-bottom: 0.4rem;
+      border-bottom: 1px solid var(--ost-concrete);
+    }
+
+    .swatch-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+    }
+
+    .swatch {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .swatch-color {
+      width: 52px;
+      height: 52px;
+      border: 2px solid var(--ost-charcoal);
+      position: relative;
+    }
+
+    .swatch-color::before {
+      content: '';
+      position: absolute;
+      inset: 2px;
+      border: 1px solid rgba(255,255,255,0.3);
+    }
+
+    .swatch-name {
+      font-family: 'Roboto Condensed', sans-serif;
+      font-size: 0.6rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--ost-dark-concrete);
+      text-align: center;
+      max-width: 62px;
+      line-height: 1.2;
+    }
+
+    /* ========================================
+       TYPOGRAPHY SHOWCASE
+       ======================================== */
+    .type-specimen {
+      border: 2px solid var(--ost-charcoal);
+      padding: 2rem;
+      background: var(--ost-warm-white);
+      position: relative;
+    }
+
+    .type-specimen::before {
+      content: '';
+      position: absolute;
+      inset: 4px;
+      border: 1px solid var(--ost-concrete);
+      pointer-events: none;
+    }
+
+    .type-specimen .type-role {
+      font-family: 'Roboto Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--ost-socialist-red);
+      margin-bottom: 0.75rem;
+    }
+
+    .type-display {
+      font-family: 'Oswald', sans-serif;
+      font-weight: 700;
+      font-size: clamp(2rem, 4vw, 3rem);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      line-height: 1.1;
+      color: var(--ost-charcoal);
+    }
+
+    .type-heading {
+      font-family: 'Roboto Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 1.5rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--ost-institutional-blue);
+    }
+
+    .type-body {
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 1rem;
+      line-height: 1.7;
+      color: var(--ost-charcoal);
+    }
+
+    .type-label-example {
+      font-family: 'Roboto Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--ost-dark-concrete);
+    }
+
+    .type-nostalgic {
+      font-family: 'Jost', sans-serif;
+      font-weight: 500;
+      font-size: 1.3rem;
+      color: var(--ost-warm-brown);
+    }
+
+    .type-fonts {
+      font-family: 'Roboto Condensed', sans-serif;
+      font-size: 0.75rem;
+      color: var(--ost-concrete);
+      letter-spacing: 0.05em;
+      margin-top: 0.5rem;
+    }
+
+    /* ========================================
+       MOTIF ICONS (SVG-free, CSS-only)
+       ======================================== */
+    .motif-star {
+      display: inline-block;
+      width: 24px;
+      height: 24px;
+      background: var(--ost-socialist-red);
+      clip-path: polygon(
+        50% 0%, 61% 35%, 98% 35%, 68% 57%,
+        79% 91%, 50% 70%, 21% 91%, 32% 57%,
+        2% 35%, 39% 35%
+      );
+      vertical-align: middle;
+    }
+
+    .motif-star--gold {
+      background: var(--ost-hammer-gold);
+    }
+
+    .motif-star--small {
+      width: 14px;
+      height: 14px;
+    }
+
+    /* ========================================
+       PLATTENBAU GRID SECTION
+       ======================================== */
+    .plattenbau-demo {
+      background-color: var(--ost-concrete);
+      background-image:
+        repeating-linear-gradient(
+          0deg,
+          transparent, transparent 38px,
+          var(--ost-dark-concrete) 38px, var(--ost-dark-concrete) 40px
+        ),
+        repeating-linear-gradient(
+          90deg,
+          transparent, transparent 28px,
+          var(--ost-dark-concrete) 28px, var(--ost-dark-concrete) 30px
+        );
+      padding: 3rem;
+      text-align: center;
+      position: relative;
+    }
+
+    .plattenbau-demo .overlay-text {
+      background: rgba(60, 60, 52, 0.85);
+      display: inline-block;
+      padding: 1.5rem 3rem;
+      border: 2px solid var(--ost-warm-white);
+      outline: 1px solid rgba(255,255,255,0.3);
+      outline-offset: 4px;
+    }
+
+    .plattenbau-demo .overlay-text h3 {
+      font-family: 'Oswald', sans-serif;
+      color: var(--ost-warm-white);
+      font-size: 1.4rem;
+      letter-spacing: 0.15em;
+      margin-bottom: 0.5rem;
+    }
+
+    .plattenbau-demo .overlay-text p {
+      font-family: 'Roboto Condensed', sans-serif;
+      color: var(--ost-sand);
+      font-size: 0.85rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin: 0;
+    }
+
+    /* ========================================
+       HALFTONE OVERLAY EFFECT
+       ======================================== */
+    .ost-halftone {
+      position: relative;
+    }
+
+    .ost-halftone::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(
+        circle, rgba(60, 60, 52, 0.08) 1px, transparent 1px
+      );
+      background-size: 3px 3px;
+      pointer-events: none;
+      mix-blend-mode: multiply;
+    }
+
+    /* ========================================
+       RELATED AESTHETICS TABLE
+       ======================================== */
+    .ost-table-wrap {
+      overflow-x: auto;
+    }
+
+    .ost-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+
+    .ost-table thead {
+      background: var(--ost-charcoal);
+      color: var(--ost-warm-white);
+    }
+
+    .ost-table th {
+      font-family: 'Roboto Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      padding: 0.8rem 1.2rem;
+      text-align: left;
+      border-bottom: 2px solid var(--ost-socialist-red);
+    }
+
+    .ost-table td {
+      padding: 0.75rem 1.2rem;
+      border-bottom: 1px solid var(--ost-concrete);
+      vertical-align: top;
+    }
+
+    .ost-table tr:nth-child(even) td {
+      background: rgba(184, 134, 11, 0.03);
+    }
+
+    .ost-table tr:hover td {
+      background: rgba(74, 109, 140, 0.06);
+    }
+
+    .ost-table .aesthetic-name {
+      font-family: 'Roboto Condensed', sans-serif;
+      font-weight: 700;
+      color: var(--ost-institutional-blue);
+      white-space: nowrap;
+    }
+
+    /* ========================================
+       BUTTONS
+       ======================================== */
+    .ost-button {
+      display: inline-block;
+      font-family: 'Oswald', sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--ost-warm-white);
+      background: var(--ost-socialist-red);
+      border: 2px solid var(--ost-deep-red);
+      padding: 0.8rem 2.5rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-decoration: none;
+    }
+
+    .ost-button:hover {
+      background: var(--ost-deep-red);
+      box-shadow: 0 2px 8px rgba(60, 60, 52, 0.3);
+    }
+
+    .ost-button--secondary {
+      background: var(--ost-charcoal);
+      border-color: var(--ost-dark-concrete);
+      color: var(--ost-cream);
+    }
+
+    .ost-button--secondary:hover {
+      background: var(--ost-dark-concrete);
+    }
+
+    .ost-button--outline {
+      background: transparent;
+      border: 2px solid var(--ost-charcoal);
+      color: var(--ost-charcoal);
+    }
+
+    .ost-button--outline:hover {
+      background: var(--ost-charcoal);
+      color: var(--ost-cream);
+    }
+
+    .button-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: center;
+      margin-top: 1.5rem;
+    }
+
+    /* ========================================
+       TEXTURE DEMOS
+       ======================================== */
+    .texture-demo {
+      height: 120px;
+      border: 2px solid var(--ost-charcoal);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .texture-demo span {
+      font-family: 'Roboto Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      background: rgba(60, 60, 52, 0.8);
+      color: var(--ost-warm-white);
+      padding: 0.3rem 0.8rem;
+      position: relative;
+      z-index: 2;
+    }
+
+    .texture-aged-paper {
+      background-color: var(--ost-paper);
+      background-image:
+        radial-gradient(ellipse at 30% 20%, rgba(184, 134, 11, 0.06) 0%, transparent 50%),
+        radial-gradient(ellipse at 70% 80%, rgba(139, 105, 20, 0.04) 0%, transparent 40%),
+        linear-gradient(to bottom, rgba(60, 60, 52, 0.03) 0%, transparent 15%, transparent 85%, rgba(60, 60, 52, 0.04) 100%);
+    }
+
+    .texture-concrete {
+      background-color: var(--ost-concrete);
+      background-image:
+        linear-gradient(to bottom, rgba(0,0,0,0.04) 0%, rgba(0,0,0,0.01) 50%, rgba(0,0,0,0.05) 100%);
+    }
+
+    .texture-dederon {
+      background: linear-gradient(
+        135deg,
+        var(--ost-faded-blue) 0%,
+        color-mix(in srgb, var(--ost-faded-blue) 85%, white) 40%,
+        var(--ost-faded-blue) 60%,
+        color-mix(in srgb, var(--ost-faded-blue) 90%, white) 100%
+      );
+    }
+
+    .texture-wallpaper {
+      background-color: var(--ost-cream);
+      background-image:
+        repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(184, 134, 11, 0.03) 10px, rgba(184, 134, 11, 0.03) 11px),
+        repeating-linear-gradient(-45deg, transparent, transparent 10px, rgba(107, 123, 58, 0.03) 10px, rgba(107, 123, 58, 0.03) 11px);
+    }
+
+    .texture-halftone {
+      background: var(--ost-off-white);
+    }
+
+    .texture-plattenbau {
+      background-color: var(--ost-concrete);
+      background-image:
+        repeating-linear-gradient(0deg, transparent, transparent 18px, var(--ost-dark-concrete) 18px, var(--ost-dark-concrete) 19px),
+        repeating-linear-gradient(90deg, transparent, transparent 14px, var(--ost-dark-concrete) 14px, var(--ost-dark-concrete) 15px);
+    }
+
+    /* ========================================
+       INTRO CONTENT
+       ======================================== */
+    .intro-content {
+      max-width: 780px;
+      margin: 0 auto;
+    }
+
+    .intro-content p {
+      font-size: 1.05rem;
+    }
+
+    .term-highlight {
+      font-family: 'Oswald', sans-serif;
+      font-weight: 700;
+      color: var(--ost-socialist-red);
+      letter-spacing: 0.02em;
+    }
+
+    .term-alt {
+      font-family: 'Jost', sans-serif;
+      font-weight: 500;
+      color: var(--ost-institutional-blue);
+    }
+
+    /* ========================================
+       DESIGN TECHNIQUES SECTION
+       ======================================== */
+    .technique-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .technique-item .motif-star--small {
+      flex-shrink: 0;
+      margin-top: 3px;
+    }
+
+    .technique-name {
+      font-family: 'Roboto Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 0.9rem;
+      color: var(--ost-charcoal);
+    }
+
+    .technique-desc {
+      font-size: 0.88rem;
+      color: var(--ost-dark-concrete);
+      margin: 0;
+    }
+
+    /* ========================================
+       LIST WITH STAR BULLETS
+       ======================================== */
+    .star-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    .star-list li {
+      padding: 0.4rem 0 0.4rem 2rem;
+      position: relative;
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    .star-list li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0.65rem;
+      width: 12px;
+      height: 12px;
+      background: var(--ost-socialist-red);
+      clip-path: polygon(
+        50% 0%, 61% 35%, 98% 35%, 68% 57%,
+        79% 91%, 50% 70%, 21% 91%, 32% 57%,
+        2% 35%, 39% 35%
+      );
+    }
+
+    /* ========================================
+       COAT OF ARMS CSS ILLUSTRATION
+       ======================================== */
+    .coat-of-arms {
+      width: 100px;
+      height: 100px;
+      margin: 0 auto 1.5rem;
+      position: relative;
+    }
+
+    .coat-of-arms .wheat-circle {
+      width: 100px;
+      height: 100px;
+      border: 3px solid var(--ost-hammer-gold);
+      border-radius: 50%;
+      position: relative;
+    }
+
+    .coat-of-arms .compass {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 40px;
+      height: 40px;
+      border: 2px solid var(--ost-charcoal);
+      border-radius: 50%;
+    }
+
+    .coat-of-arms .compass::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(45deg);
+      width: 2px;
+      height: 30px;
+      background: var(--ost-charcoal);
+    }
+
+    .coat-of-arms .compass::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(-45deg);
+      width: 2px;
+      height: 30px;
+      background: var(--ost-charcoal);
+    }
+
+    .coat-of-arms .hammer {
+      position: absolute;
+      bottom: 22px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 16px;
+      height: 3px;
+      background: var(--ost-charcoal);
+    }
+
+    .coat-of-arms .hammer::before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 2px;
+      height: 14px;
+      background: var(--ost-charcoal);
+    }
+
+    /* ========================================
+       FOOTER
+       ======================================== */
+    .ost-footer {
+      background: var(--ost-charcoal);
+      color: var(--ost-concrete);
+      text-align: center;
+      padding: 2.5rem 2rem;
+      font-family: 'Roboto Condensed', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-size: 0.8rem;
+      border-top: 4px solid var(--ost-socialist-red);
+      position: relative;
+    }
+
+    .ost-footer::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: var(--ost-hammer-gold);
+      margin-top: 4px;
+    }
+
+    .ost-footer .footer-star {
+      display: inline-block;
+      width: 18px;
+      height: 18px;
+      background: var(--ost-socialist-red);
+      clip-path: polygon(
+        50% 0%, 61% 35%, 98% 35%, 68% 57%,
+        79% 91%, 50% 70%, 21% 91%, 32% 57%,
+        2% 35%, 39% 35%
+      );
+      margin: 0 0.5rem;
+      vertical-align: middle;
+    }
+
+    .ost-footer p {
+      margin: 0;
+      font-size: 0.8rem;
+    }
+
+    .footer-line {
+      margin-top: 0.8rem;
+      color: var(--ost-dark-concrete);
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+    }
+
+    /* ========================================
+       INLINE VISUAL MOTIFS
+       ======================================== */
+    .section-header-row {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .section-header-row h2 {
+      margin-bottom: 0;
+    }
+
+    .star-separator {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      margin: 2rem 0;
+    }
+
+    .star-separator .line {
+      flex: 1;
+      max-width: 80px;
+      height: 1px;
+      background: var(--ost-concrete);
+    }
+
+    /* ========================================
+       SCROLL-TRIGGERED STAGGER
+       ======================================== */
+    .stagger-1 { transition-delay: 0.05s; }
+    .stagger-2 { transition-delay: 0.15s; }
+    .stagger-3 { transition-delay: 0.25s; }
+    .stagger-4 { transition-delay: 0.35s; }
+    .stagger-5 { transition-delay: 0.45s; }
+    .stagger-6 { transition-delay: 0.55s; }
+
+    /* ========================================
+       RESPONSIVE
+       ======================================== */
+    @media (max-width: 768px) {
+      .ost-section {
+        padding: 2.5rem 1.5rem;
+      }
+
+      .ost-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+
+      .ost-grid--two {
+        grid-template-columns: 1fr;
+      }
+
+      .ost-hero {
+        padding: 4rem 1.5rem 3rem;
+      }
+
+      .plattenbau-demo {
+        padding: 2rem 1rem;
+      }
+
+      .plattenbau-demo .overlay-text {
+        padding: 1rem 1.5rem;
+      }
+
+      .swatch-row {
+        gap: 0.4rem;
+      }
+
+      .swatch-color {
+        width: 40px;
+        height: 40px;
+      }
+
+      .swatch-name {
+        font-size: 0.5rem;
+      }
+
+      .ost-table {
+        font-size: 0.8rem;
+      }
+
+      .ost-table th,
+      .ost-table td {
+        padding: 0.5rem 0.8rem;
+      }
+
+      .technique-item {
+        flex-direction: column;
+        gap: 0.25rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .ost-hero {
+        padding: 3rem 1rem 2.5rem;
+      }
+
+      .hero-subtitle {
+        font-size: 0.8rem;
+        padding: 0.5rem 1rem;
+        letter-spacing: 0.12em;
+      }
+
+      .ost-section {
+        padding: 2rem 1rem;
+      }
+
+      .ost-banner {
+        font-size: 0.8rem;
+        padding: 0.5rem 1.5rem;
+      }
+
+      .button-group {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============================
+       HERO HEADER
+       ============================ -->
+  <header class="ost-hero">
+    <div class="hero-star"></div>
+    <h1>Ostalgie</h1>
+    <div class="hero-subtitle">GDR Nostalgia &middot; DDR-Nostalgie &middot; Ost-Nostalgie</div>
+    <span class="hero-year">Design Reference &mdash; 1949&ndash;1990</span>
+  </header>
+
+  <div class="ost-stripe-divider"></div>
+
+  <div class="ost-layout">
+
+    <!-- ============================
+         INTRODUCTION
+         ============================ -->
+    <section class="ost-section ost-section--paper">
+      <div class="intro-content">
+        <span class="ost-section-label ost-section-label--red">Ubersicht</span>
+        <blockquote>
+          An aesthetic rooted in nostalgia for East Germany (the GDR, 1949&ndash;1990), expressed through the visual culture of socialist-era consumer goods, state graphic design, prefabricated architecture, and the quiet charm of constrained industrial production.
+        </blockquote>
+        <p>
+          The term <span class="term-highlight">Ostalgie</span> blends <span class="term-alt">"Ost"</span> (east) with <span class="term-alt">"Nostalgie"</span> (nostalgia), coined in 1992 by comedian Uwe Steimle. Also known as <strong>GDR Nostalgia</strong>, <strong>DDR-Nostalgie</strong>, or <strong>Ost-Nostalgie</strong>.
+        </p>
+        <p>
+          This is not ironic kitsch. It is sincere affection for simplicity and familiarity &mdash; a warm, bittersweet, wistfully retro sensibility. The design philosophy is functional, durable, and unpretentious: mass-production aesthetics born from strict state constraints, limited materials, and centralized oversight.
+        </p>
+      </div>
+    </section>
+
+    <div class="ost-divider"></div>
+
+    <!-- ============================
+         VISUAL CHARACTERISTICS
+         ============================ -->
+    <section class="ost-section ost-section--warm">
+      <span class="ost-section-label">Visuelle Merkmale</span>
+      <h2>Visual Characteristics</h2>
+      <div class="ost-grid--three ost-grid" style="margin-top: 2rem;">
+
+        <div class="ost-card animate-on-scroll stagger-1">
+          <div class="card-icon"></div>
+          <h3>Graphic Style</h3>
+          <p>Flat color fields, limited palette (often 2&ndash;4 hues per composition), bold simplified shapes, and functional clarity. Influenced by Bauhaus principles filtered through socialist production constraints.</p>
+        </div>
+
+        <div class="ost-card animate-on-scroll stagger-2">
+          <div class="card-icon"></div>
+          <h3>Packaging Design</h3>
+          <p>Period-specific product labels from the 1950s&ndash;1980s with simple typography, limited color runs, and utilitarian layouts. Club-Cola, Rondo coffee, Juwel cigarettes, and Spreewald pickles define the visual vernacular.</p>
+        </div>
+
+        <div class="ost-card animate-on-scroll stagger-3">
+          <div class="card-icon"></div>
+          <h3>Propaganda Graphics</h3>
+          <p>Political posters, banners, FDJ (Free German Youth) materials, state coat of arms, and organizational insignia used as decorative elements and cultural signifiers.</p>
+        </div>
+
+        <div class="ost-card animate-on-scroll stagger-4">
+          <div class="card-icon"></div>
+          <h3>Material Culture</h3>
+          <p>Trabant automobiles, Ampelmannchen pedestrian signals, Plattenbau concrete apartment blocks, Sandmannchen TV character, and DEFA film materials form the iconic visual vocabulary.</p>
+        </div>
+
+        <div class="ost-card animate-on-scroll stagger-5">
+          <div class="card-icon"></div>
+          <h3>Architecture</h3>
+          <p>Prefabricated housing blocks (Plattenbau), socialist classicism, post-Bauhaus functionalism, monumental civic buildings, and distinctive geometric abstraction of GDR public spaces.</p>
+        </div>
+
+        <div class="ost-card animate-on-scroll stagger-6">
+          <div class="card-icon"></div>
+          <h3>Interior Design</h3>
+          <p>Authentic GDR-era domestic furnishings: simple wooden furniture, synthetic Dederon fabrics, patterned wallpaper in muted prints, and functional household objects with minimal ornamentation.</p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ============================
+         PLATTENBAU GRID DEMO
+         ============================ -->
+    <div class="plattenbau-demo">
+      <div class="overlay-text animate-on-scroll">
+        <h3>Plattenbau</h3>
+        <p>Prefabricated Housing &middot; Modular Repetition</p>
+      </div>
+    </div>
+
+    <div class="ost-stripe-divider"></div>
+
+    <!-- ============================
+         COLOR PALETTE
+         ============================ -->
+    <section class="ost-section ost-section--paper">
+      <span class="ost-section-label ost-section-label--blue">Farbpalette</span>
+      <h2>Color Palette</h2>
+      <p style="max-width:720px;">The Ostalgie palette is defined by desaturated, muted tones reflecting the materials and printing limitations of GDR consumer goods. Warm browns and oranges ground the palette, punctuated by institutional blues and greens. Nothing is vivid &mdash; everything feels slightly faded, as if recalled from memory.</p>
+
+      <div style="margin-top:2rem;">
+
+        <div class="color-group animate-on-scroll">
+          <h3>Warm Browns & Ochres</h3>
+          <div class="swatch-row">
+            <div class="swatch"><div class="swatch-color" style="background:#B8860B;"></div><div class="swatch-name">Ochre</div></div>
+            <div class="swatch"><div class="swatch-color" style="background:#D2B48C;"></div><div class="swatch-name">Sand</div></div>
+            <div class="swatch"><div class="swatch-color" style="background:#C4A882;"></div><div class="swatch-name">Tan</div></div>
+            <div class="swatch"><div class="swatch-color" style="background:#8B6914;"></div><div class="swatch-name">Warm Brown</div></div>
+            <div class="swatch"><div class="swatch-color" style="background:#C9A830;"></div><div class="swatch-name">Mustard</div></div>
+          </div>
+        </div>
+
+        <div class="color-group animate-on-scroll">
+          <h3>Blues & Teals</h3>
+          <div class="swatch-row">
+            <div class="swatch"><div class="swatch-color" style="background:#5F8A8B;"></div><div class="swatch-name">Teal</div></div>
+            <div class="swatch"><div class="swatch-color" style="background:#4A6D8C;"></div><div class="swatch-name">Inst. Blue</div></div>
+            <div class="swatch"><div class="swatch-color" style="background:#607B8B;"></div><div class="swatch-name">Slate Blue</div></div>
+            <div class="swatch"><div class="swatch-color" style="background:#2C3E50;"></div><div class="swatch-name">Navy</div></div>
+            <div class="swatch"><div class="swatch-color" style="background:#7B9BAA;"></div><div class="swatch-name">Faded Blue</div></div>
+          </div>
+        </div>
+
+        <div class="color-group animate-on-scroll">
+          <h3>State Reds & Golds</h3>
+          <div class="swatch-row">
+            <div class="swatch"><div class="swatch-color" style="background:#B83230;"></div><div class="swatch-name">Socialist Red</div></div>
+            <div class="swatch"><div class="swatch-color" style="background:#8B2323;"></div><div class="swatch-name">Deep Red</div></div>
+            <div class="swatch"><div class="swatch-color" style="background:#D4A017;"></div><div class="swatch-name">Hammer Gold</div></div>
+            <div class="swatch"><div class="swatch-color" style="background:#C0392B;"></div><div class="swatch-name">Banner Red</div></div>
+          </div>
+        </div>
+
+        <div class="color-group animate-on-scroll">
+          <h3>Greens & Olives</h3>
+          <div class="swatch-row">
+            <div class="swatch"><div class="swatch-color" style="background:#6B7B3A;"></div><div class="swatch-name">Olive</div></div>
+            <div class="swatch"><div class="swatch-color" style="background:#7D8B6A;"></div><div class="swatch-name">Muted Green</div></div>
+            <div class="swatch"><div class="swatch-color" style="background:#8F9B7A;"></div><div class="swatch-name">Sage</div></div>
+          </div>
+        </div>
+
+        <div class="color-group animate-on-scroll">
+          <h3>Earth & Rust</h3>
+          <div class="swatch-row">
+            <div class="swatch"><div class="swatch-color" style="background:#B7613F;"></div><div class="swatch-name">Rust</div></div>
+            <div class="swatch"><div class="swatch-color" style="background:#C47A5A;"></div><div class="swatch-name">Terracotta</div></div>
+            <div class="swatch"><div class="swatch-color" style="background:#A0522D;"></div><div class="swatch-name">Burnt Orange</div></div>
+          </div>
+        </div>
+
+        <div class="color-group animate-on-scroll">
+          <h3>Neutrals</h3>
+          <div class="swatch-row">
+            <div class="swatch"><div class="swatch-color" style="background:#9B9B8E;"></div><div class="swatch-name">Concrete</div></div>
+            <div class="swatch"><div class="swatch-color" style="background:#6B6B60;"></div><div class="swatch-name">Dark Concrete</div></div>
+            <div class="swatch"><div class="swatch-color" style="background:#3C3C34;"></div><div class="swatch-name">Charcoal</div></div>
+            <div class="swatch"><div class="swatch-color" style="background:#F2EADB;"></div><div class="swatch-name">Cream</div></div>
+            <div class="swatch"><div class="swatch-color" style="background:#EDE6D6;"></div><div class="swatch-name">Off-White</div></div>
+            <div class="swatch"><div class="swatch-color" style="background:#FAF6EE;"></div><div class="swatch-name">Warm White</div></div>
+            <div class="swatch"><div class="swatch-color" style="background:#E8DFD0;"></div><div class="swatch-name">Paper</div></div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="star-separator">
+        <div class="line"></div>
+        <span class="motif-star motif-star--gold motif-star--small"></span>
+        <span class="motif-star motif-star--small"></span>
+        <span class="motif-star motif-star--gold motif-star--small"></span>
+        <div class="line"></div>
+      </div>
+
+      <div style="max-width:720px; margin: 0 auto;">
+        <h3 style="font-family:'Roboto Condensed',sans-serif; color:var(--ost-institutional-blue); margin-bottom:0.75rem;">Color Usage Guidelines</h3>
+        <ul class="star-list">
+          <li><strong>Backgrounds:</strong> Use warm neutrals &mdash; cream, off-white, paper, or sand. For contrast sections use concrete grey or charcoal. The overall feeling should be like aged packaging or printed ephemera from the 1970s.</li>
+          <li><strong>Headlines:</strong> Charcoal or dark concrete on light backgrounds. Socialist red for emphasis. Institutional blue for secondary headings.</li>
+          <li><strong>Accents:</strong> Socialist red and hammer gold for badges, borders, and state-symbol decorations. Use sparingly &mdash; these are punctuation, not wallpaper.</li>
+          <li><strong>Cards and panels:</strong> Sand, tan, or paper tones with subtle borders in concrete grey. Alternating warm and cool neutrals between sections.</li>
+          <li><strong>Overall feeling:</strong> Muted, warm, and slightly faded. Colors feel like they were printed on rough paper with limited ink, then aged for 30 years.</li>
+        </ul>
+      </div>
+    </section>
+
+    <div class="ost-divider"></div>
+
+    <!-- ============================
+         TYPOGRAPHY SECTION
+         ============================ -->
+    <section class="ost-section ost-section--wallpaper">
+      <span class="ost-section-label ost-section-label--gold">Typografie</span>
+      <h2>Typography</h2>
+      <p style="max-width:720px;">GDR typography was produced by VEB Typoart Dresden, the state type foundry. Designers like Herbert Thannhaeuser and Albert Kapr created faces rooted in traditional German book design &mdash; functional, slightly condensed, and grounded in classical European traditions with a distinctly restrained, utilitarian character.</p>
+
+      <div class="ost-grid--two ost-grid" style="margin-top: 2rem;">
+
+        <div class="type-specimen animate-on-scroll stagger-1">
+          <div class="type-role">Display / Headlines</div>
+          <div class="type-display">Volkseigener Betrieb</div>
+          <div class="type-fonts">Oswald Bold &middot; Bebas Neue &middot; Barlow Condensed Bold</div>
+          <p style="margin-top:0.75rem; font-size:0.88rem; color:var(--ost-dark-concrete);">Bold, condensed sans-serifs or geometric grotesks. Uppercase with moderate letter-spacing. Functional and commanding without being flashy.</p>
+        </div>
+
+        <div class="type-specimen animate-on-scroll stagger-2">
+          <div class="type-role">Headings</div>
+          <div class="type-heading">Planwirtschaft und Produktion</div>
+          <div class="type-fonts">Roboto Condensed Bold &middot; DM Sans Bold &middot; Barlow SemiBold</div>
+          <p style="margin-top:0.75rem; font-size:0.88rem; color:var(--ost-dark-concrete);">Clean, structured headings for section titles and sub-sections. Condensed to save space while maintaining authority.</p>
+        </div>
+
+        <div class="type-specimen animate-on-scroll stagger-3">
+          <div class="type-role">Body Text</div>
+          <div class="type-body">Die Erzeugnisse des Kombinats sind fur ihre Langlebigkeit und funktionale Gestaltung bekannt. Jedes Produkt tragt die Handschrift einer Epoche, in der Qualitat aus der Not geboren wurde.</div>
+          <div class="type-fonts">Source Sans 3 &middot; IBM Plex Sans &middot; Work Sans &middot; Inter</div>
+        </div>
+
+        <div class="type-specimen animate-on-scroll stagger-4">
+          <div class="type-role">Labels & Badges</div>
+          <div class="type-label-example">VEB Kombinat &middot; Klasse I Qualitat &middot; Hergestellt in der DDR</div>
+          <div class="type-fonts">Roboto Condensed &middot; Barlow Condensed &middot; Space Grotesk</div>
+          <p style="margin-top:0.75rem; font-size:0.88rem; color:var(--ost-dark-concrete);">Condensed or narrow-width faces for labels, badges, and product-style callouts.</p>
+        </div>
+
+        <div class="type-specimen animate-on-scroll stagger-5" style="grid-column: 1 / -1;">
+          <div class="type-role">Nostalgic / Display</div>
+          <div class="type-nostalgic">Erinnerungen an die guten Dinge des Alltags &mdash; einfach, ehrlich, und vertraut.</div>
+          <div class="type-fonts">Jost &middot; Rubik &middot; Nunito &mdash; for softer, rounded GDR packaging feel</div>
+        </div>
+
+      </div>
+    </section>
+
+    <div class="ost-stripe-divider"></div>
+
+    <!-- ============================
+         TEXTURES AND MATERIALS
+         ============================ -->
+    <section class="ost-section ost-section--warm">
+      <span class="ost-section-label">Materialien</span>
+      <h2>Textures & Materials</h2>
+      <p style="max-width:720px; margin-bottom:2rem;">The tactile quality of Ostalgie is defined by the industrial materials of the GDR: rough concrete, synthetic textiles, bakelite plastics, printed paper with visible halftone grain, weathered signage, and machine-carved lettering on composite materials.</p>
+
+      <div class="ost-grid--three ost-grid">
+
+        <div class="animate-on-scroll stagger-1">
+          <div class="texture-demo texture-aged-paper">
+            <span>Aged Paper</span>
+          </div>
+          <p style="font-size:0.82rem; margin-top:0.5rem; color:var(--ost-dark-concrete); text-align:center;">Slightly yellowed, rough-textured paper with visible fiber.</p>
+        </div>
+
+        <div class="animate-on-scroll stagger-2">
+          <div class="texture-demo texture-concrete">
+            <span>Concrete</span>
+          </div>
+          <p style="font-size:0.82rem; margin-top:0.5rem; color:var(--ost-dark-concrete); text-align:center;">Raw, unfinished concrete with visible panel seams.</p>
+        </div>
+
+        <div class="animate-on-scroll stagger-3">
+          <div class="texture-demo texture-dederon">
+            <span>Dederon Fabric</span>
+          </div>
+          <p style="font-size:0.82rem; margin-top:0.5rem; color:var(--ost-dark-concrete); text-align:center;">Smooth, slightly shiny synthetic textile characteristic of the GDR.</p>
+        </div>
+
+        <div class="animate-on-scroll stagger-4">
+          <div class="texture-demo texture-wallpaper">
+            <span>Wallpaper</span>
+          </div>
+          <p style="font-size:0.82rem; margin-top:0.5rem; color:var(--ost-dark-concrete); text-align:center;">Abstract geometric motifs in ochre, beige, and muted green.</p>
+        </div>
+
+        <div class="animate-on-scroll stagger-5">
+          <div class="texture-demo texture-halftone ost-halftone">
+            <span>Halftone Print</span>
+          </div>
+          <p style="font-size:0.82rem; margin-top:0.5rem; color:var(--ost-dark-concrete); text-align:center;">Coarse printing artifacts visible on mass-produced packaging.</p>
+        </div>
+
+        <div class="animate-on-scroll stagger-6">
+          <div class="texture-demo texture-plattenbau">
+            <span>Plattenbau Grid</span>
+          </div>
+          <p style="font-size:0.82rem; margin-top:0.5rem; color:var(--ost-dark-concrete); text-align:center;">The repetitive window grid of prefabricated apartment blocks.</p>
+        </div>
+
+      </div>
+    </section>
+
+    <div class="ost-divider"></div>
+
+    <!-- ============================
+         MOTIFS AND DESIGN ELEMENTS
+         ============================ -->
+    <section class="ost-section ost-section--paper">
+      <span class="ost-section-label ost-section-label--red">Motive</span>
+      <h2>Key Motifs & Design Elements</h2>
+
+      <div class="ost-grid--two ost-grid" style="margin-top: 2rem;">
+
+        <div class="animate-on-scroll stagger-1">
+          <ul class="star-list">
+            <li><strong>Ampelmannchen</strong> &mdash; the distinctive East German pedestrian signal figure; used as icons, decorative elements, and identity markers</li>
+            <li><strong>Trabant silhouette</strong> &mdash; the iconic boxy car outline; used as decorative illustrations and nostalgic symbols</li>
+            <li><strong>State coat of arms</strong> &mdash; compass, wheat wreath, and hammer motifs adapted as decorative borders and badges</li>
+            <li><strong>Plattenbau grid</strong> &mdash; the repetitive window grid of prefabricated apartment blocks; used as background patterns</li>
+            <li><strong>Product label frames</strong> &mdash; rectangular or oval frames with simple borders mimicking period packaging design</li>
+          </ul>
+        </div>
+
+        <div class="animate-on-scroll stagger-2">
+          <ul class="star-list">
+            <li><strong>Five-pointed stars</strong> &mdash; state symbols used as bullet points, decorative accents, and hierarchical markers</li>
+            <li><strong>Wheat sheaves</strong> &mdash; socialist abundance motifs for borders and badge decorations</li>
+            <li><strong>FDJ sun emblem</strong> &mdash; rising sun with radiating lines, adapted as background decoration</li>
+            <li><strong>Geometric wallpaper</strong> &mdash; repeating abstract or simplified floral motifs in muted tones</li>
+            <li><strong>Banner ribbons</strong> &mdash; simple flat ribbons containing text, mimicking state ceremony banners</li>
+          </ul>
+        </div>
+
+      </div>
+
+      <!-- Banner Demo -->
+      <div style="text-align:center; margin-top:3rem;" class="animate-on-scroll">
+        <div class="ost-banner">Fur Frieden und Sozialismus</div>
+      </div>
+
+      <!-- Label Frame Demo -->
+      <div style="max-width:400px; margin:3rem auto 0;" class="animate-on-scroll">
+        <div class="ost-label-frame">
+          <div class="label" style="color:var(--ost-socialist-red); margin-bottom:0.5rem;">Volkseigener Betrieb</div>
+          <div style="font-family:'Oswald',sans-serif; font-size:1.5rem; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:var(--ost-charcoal); margin-bottom:0.3rem;">Qualitatsprodukt</div>
+          <div class="label">Hergestellt in der DDR</div>
+        </div>
+      </div>
+    </section>
+
+    <div class="ost-stripe-divider"></div>
+
+    <!-- ============================
+         LAYOUT PRINCIPLES
+         ============================ -->
+    <section class="ost-section--dark ost-section">
+      <span class="ost-section-label" style="background:var(--ost-socialist-red);">Gestaltung</span>
+      <h2>Layout Principles</h2>
+
+      <div class="ost-grid--three ost-grid" style="margin-top: 2rem;">
+
+        <div class="animate-on-scroll stagger-1" style="border-left:3px solid var(--ost-hammer-gold); padding-left:1.2rem;">
+          <h3>Functional Grid</h3>
+          <p style="color:var(--ost-sand); font-size:0.92rem;">Compositions follow a clear, utilitarian grid reminiscent of state-published materials. Content organized in orderly blocks with defined boundaries.</p>
+        </div>
+
+        <div class="animate-on-scroll stagger-2" style="border-left:3px solid var(--ost-hammer-gold); padding-left:1.2rem;">
+          <h3>Centered Symmetry</h3>
+          <p style="color:var(--ost-sand); font-size:0.92rem;">A preference for bilateral symmetry reflecting institutional and official design conventions. Center-aligned headings and balanced card layouts.</p>
+        </div>
+
+        <div class="animate-on-scroll stagger-3" style="border-left:3px solid var(--ost-hammer-gold); padding-left:1.2rem;">
+          <h3>Modular Repetition</h3>
+          <p style="color:var(--ost-sand); font-size:0.92rem;">The Plattenbau philosophy: repeating uniform modules arranged in predictable grids. Cards, panels, sections &mdash; all orderly and consistent.</p>
+        </div>
+
+        <div class="animate-on-scroll stagger-4" style="border-left:3px solid var(--ost-hammer-gold); padding-left:1.2rem;">
+          <h3>Clear Hierarchy</h3>
+          <p style="color:var(--ost-sand); font-size:0.92rem;">State-influenced information design with unambiguous heading levels, labeled sections, and structured content flow.</p>
+        </div>
+
+        <div class="animate-on-scroll stagger-5" style="border-left:3px solid var(--ost-hammer-gold); padding-left:1.2rem;">
+          <h3>Generous Frames</h3>
+          <p style="color:var(--ost-sand); font-size:0.92rem;">Content enclosed in visible frames and double-line borders evoking product labels and official documents.</p>
+        </div>
+
+        <div class="animate-on-scroll stagger-6" style="border-left:3px solid var(--ost-hammer-gold); padding-left:1.2rem;">
+          <h3>Horizontal Banding</h3>
+          <p style="color:var(--ost-sand); font-size:0.92rem;">Sections separated by colored stripe dividers or border rules, creating a layered, band-like composition.</p>
+        </div>
+
+      </div>
+    </section>
+
+    <div class="ost-divider"></div>
+
+    <!-- ============================
+         DESIGN TECHNIQUES
+         ============================ -->
+    <section class="ost-section ost-section--warm">
+      <span class="ost-section-label ost-section-label--blue">Techniken</span>
+      <h2>Design Techniques</h2>
+
+      <div style="max-width:780px; margin-top:1.5rem;">
+
+        <div class="technique-item animate-on-scroll stagger-1">
+          <span class="motif-star motif-star--small"></span>
+          <div>
+            <div class="technique-name">Plattenbau Grid</div>
+            <p class="technique-desc">repeating-linear-gradient() in both axes creating window-like pattern</p>
+          </div>
+        </div>
+
+        <div class="technique-item animate-on-scroll stagger-2">
+          <span class="motif-star motif-star--small"></span>
+          <div>
+            <div class="technique-name">Product Label Frames</div>
+            <p class="technique-desc">Double borders using border + outline or nested ::before pseudo-elements</p>
+          </div>
+        </div>
+
+        <div class="technique-item animate-on-scroll stagger-3">
+          <span class="motif-star motif-star--small"></span>
+          <div>
+            <div class="technique-name">Aged Paper Texture</div>
+            <p class="technique-desc">Layered radial-gradient() with warm semi-transparent tints</p>
+          </div>
+        </div>
+
+        <div class="technique-item animate-on-scroll stagger-4">
+          <span class="motif-star motif-star--small"></span>
+          <div>
+            <div class="technique-name">State Banner Ribbon</div>
+            <p class="technique-desc">Pseudo-elements with angled borders forming ribbon tails</p>
+          </div>
+        </div>
+
+        <div class="technique-item animate-on-scroll stagger-5">
+          <span class="motif-star motif-star--small"></span>
+          <div>
+            <div class="technique-name">Five-pointed Star</div>
+            <p class="technique-desc">CSS clip-path: polygon() in socialist red</p>
+          </div>
+        </div>
+
+        <div class="technique-item animate-on-scroll stagger-6">
+          <span class="motif-star motif-star--small"></span>
+          <div>
+            <div class="technique-name">Red-gold Stripe Dividers</div>
+            <p class="technique-desc">linear-gradient() with hard color stops</p>
+          </div>
+        </div>
+
+        <div class="technique-item animate-on-scroll">
+          <span class="motif-star motif-star--small"></span>
+          <div>
+            <div class="technique-name">Halftone Print Grain</div>
+            <p class="technique-desc">Tiny radial-gradient dots with mix-blend-mode: multiply</p>
+          </div>
+        </div>
+
+        <div class="technique-item animate-on-scroll">
+          <span class="motif-star motif-star--small"></span>
+          <div>
+            <div class="technique-name">Section Label Badges</div>
+            <p class="technique-desc">Dark background + white condensed uppercase text, small and rectangular</p>
+          </div>
+        </div>
+
+        <div class="technique-item animate-on-scroll">
+          <span class="motif-star motif-star--small"></span>
+          <div>
+            <div class="technique-name">Double-line Borders</div>
+            <p class="technique-desc">border + ::before inset to create period packaging frame effect</p>
+          </div>
+        </div>
+
+        <div class="technique-item animate-on-scroll">
+          <span class="motif-star motif-star--small"></span>
+          <div>
+            <div class="technique-name">Concrete Texture</div>
+            <p class="technique-desc">Subtle vertical linear-gradient with low-opacity dark tints</p>
+          </div>
+        </div>
+
+        <div class="technique-item animate-on-scroll">
+          <span class="motif-star motif-star--small"></span>
+          <div>
+            <div class="technique-name">Institutional Color Coding</div>
+            <p class="technique-desc">Socialist red for primary emphasis, institutional blue for secondary</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <div class="ost-stripe-divider"></div>
+
+    <!-- ============================
+         UI COMPONENTS SHOWCASE
+         ============================ -->
+    <section class="ost-section ost-section--paper">
+      <span class="ost-section-label ost-section-label--red">Bauelemente</span>
+      <h2>UI Components</h2>
+
+      <!-- Buttons -->
+      <div style="max-width:780px; margin:0 auto;">
+        <h3 style="font-family:'Roboto Condensed',sans-serif; color:var(--ost-institutional-blue); margin-bottom:1rem; margin-top:1.5rem;">Buttons</h3>
+        <div class="button-group" style="justify-content:flex-start;">
+          <button class="ost-button">Primary Action</button>
+          <button class="ost-button ost-button--secondary">Secondary</button>
+          <button class="ost-button ost-button--outline">Outline</button>
+        </div>
+
+        <div class="star-separator">
+          <div class="line"></div>
+          <span class="motif-star motif-star--gold motif-star--small"></span>
+          <div class="line"></div>
+        </div>
+
+        <!-- Section Labels -->
+        <h3 style="font-family:'Roboto Condensed',sans-serif; color:var(--ost-institutional-blue); margin-bottom:1rem;">Section Labels</h3>
+        <div style="display:flex; gap:0.75rem; flex-wrap:wrap; margin-bottom:2rem;">
+          <span class="ost-section-label">Standard</span>
+          <span class="ost-section-label ost-section-label--red">Socialist Red</span>
+          <span class="ost-section-label ost-section-label--blue">Institutional Blue</span>
+          <span class="ost-section-label ost-section-label--gold">Warm Brown</span>
+        </div>
+
+        <!-- Star Accents -->
+        <h3 style="font-family:'Roboto Condensed',sans-serif; color:var(--ost-institutional-blue); margin-bottom:1rem;">Star Accents</h3>
+        <div style="display:flex; gap:1rem; align-items:center; margin-bottom:2rem;">
+          <span class="motif-star" style="width:36px; height:36px;"></span>
+          <span class="motif-star motif-star--gold" style="width:30px; height:30px;"></span>
+          <span class="motif-star" style="width:24px; height:24px;"></span>
+          <span class="motif-star motif-star--gold" style="width:18px; height:18px;"></span>
+          <span class="motif-star" style="width:14px; height:14px;"></span>
+        </div>
+
+        <!-- Banner Ribbons -->
+        <h3 style="font-family:'Roboto Condensed',sans-serif; color:var(--ost-institutional-blue); margin-bottom:1rem;">Banner Ribbons</h3>
+        <div style="text-align:center; margin:2rem 0;">
+          <div class="ost-banner">Proletarier aller Lander, vereinigt euch!</div>
+        </div>
+      </div>
+    </section>
+
+    <div class="ost-divider"></div>
+
+    <!-- ============================
+         RELATED AESTHETICS
+         ============================ -->
+    <section class="ost-section ost-section--concrete">
+      <span class="ost-section-label" style="background:var(--ost-hammer-gold); color:var(--ost-charcoal);">Verwandte Stile</span>
+      <h2 style="color:var(--ost-warm-white);">Related Aesthetics</h2>
+      <p style="color:var(--ost-sand); max-width:720px; margin-bottom:2rem;">These aesthetics share visual DNA with Ostalgie and can be blended or referenced.</p>
+
+      <div class="ost-table-wrap animate-on-scroll">
+        <table class="ost-table">
+          <thead>
+            <tr>
+              <th>Aesthetic</th>
+              <th>Relationship</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="aesthetic-name">Brutalism</td>
+              <td>Shares the raw concrete materiality and monumental civic architecture</td>
+            </tr>
+            <tr>
+              <td class="aesthetic-name">Socialist Realism</td>
+              <td>The propagandistic visual language that Ostalgie recontextualizes</td>
+            </tr>
+            <tr>
+              <td class="aesthetic-name">Heroic Realism</td>
+              <td>Propaganda poster techniques that inform the state-graphic elements</td>
+            </tr>
+            <tr>
+              <td class="aesthetic-name">Sovietwave</td>
+              <td>Digital, vaporwave-inflected nostalgia for Soviet-era aesthetics</td>
+            </tr>
+            <tr>
+              <td class="aesthetic-name">Soviet Nostalgia</td>
+              <td>Broader Eastern Bloc nostalgia movement; Ostalgie is the German variant</td>
+            </tr>
+            <tr>
+              <td class="aesthetic-name">Yugo-Nostalgia</td>
+              <td>Yugoslav parallel &mdash; same mechanism of post-socialist nostalgia</td>
+            </tr>
+            <tr>
+              <td class="aesthetic-name">Mid-Century Modern</td>
+              <td>Shares the 1950s&ndash;1960s functional design origins and Bauhaus lineage</td>
+            </tr>
+            <tr>
+              <td class="aesthetic-name">Retrofuturism</td>
+              <td>GDR's optimistic space-age and industrial imagery shares retrofuturist DNA</td>
+            </tr>
+            <tr>
+              <td class="aesthetic-name">Kitsch</td>
+              <td>The affectionate embrace of mass-produced, low-prestige consumer objects</td>
+            </tr>
+            <tr>
+              <td class="aesthetic-name">Plakatstil</td>
+              <td>German poster tradition &mdash; flat colors, bold type, simplified forms</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <div class="ost-stripe-divider"></div>
+
+    <!-- ============================
+         CLOSING
+         ============================ -->
+    <section class="ost-section ost-section--paper" style="text-align:center;">
+      <div class="coat-of-arms animate-on-scroll">
+        <div class="wheat-circle">
+          <div class="compass">
+            <div class="hammer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="animate-on-scroll">
+        <h2 style="color:var(--ost-charcoal); margin-bottom:0.75rem;">Warmth Through Restraint</h2>
+        <p style="max-width:600px; margin:0 auto 1.5rem; font-family:'Jost',sans-serif; font-size:1.1rem; color:var(--ost-dark-concrete);">
+          Muted, warm, and slightly faded. High saturation is absent. Colors feel like they were printed on rough paper with limited ink, then aged for thirty years. Nostalgic without being grey and depressing &mdash; there is warmth and sincerity in the palette.
+        </p>
+        <div class="button-group">
+          <a href="#" class="ost-button" onclick="event.preventDefault(); window.scrollTo({top:0,behavior:'smooth'});">Zuruck nach oben</a>
+        </div>
+      </div>
+    </section>
+
+  </div><!-- /.ost-layout -->
+
+  <!-- ============================
+       FOOTER
+       ============================ -->
+  <footer class="ost-footer">
+    <p>
+      <span class="footer-star"></span>
+      Ostalgie Design Reference
+      <span class="footer-star"></span>
+    </p>
+    <p class="footer-line">Built with care and a touch of nostalgia &middot; 1949&ndash;1990</p>
+  </footer>
+
+  <!-- ============================
+       SCROLL ANIMATION SCRIPT
+       ============================ -->
+  <script>
+    (function() {
+      'use strict';
+
+      // Intersection Observer for scroll-triggered animations
+      var observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            // Once visible, stop observing
+            observer.unobserve(entry.target);
+          }
+        });
+      }, {
+        threshold: 0.12,
+        rootMargin: '0px 0px -40px 0px'
+      });
+
+      // Observe all elements with animate-on-scroll class
+      document.querySelectorAll('.animate-on-scroll').forEach(function(el) {
+        observer.observe(el);
+      });
+    })();
+  </script>
+
+</body>
+</html>
