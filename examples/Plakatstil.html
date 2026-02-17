@@ -1,0 +1,1734 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Plakatstil -- The Object Poster</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Anton&family=Oswald:wght@400;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    /* ========================================
+       PLAKATSTIL -- CSS CUSTOM PROPERTIES
+       ======================================== */
+    :root {
+      /* Core palette */
+      --plakat-black: #1a1a1a;
+      --plakat-rich-black: #0d0d0d;
+      --plakat-cream: #f5f0e1;
+      --plakat-warm-white: #fffdd0;
+
+      /* Bold accents */
+      --plakat-red: #c8102e;
+      --plakat-red-dark: #8b1a1a;
+      --plakat-blue: #003e7e;
+      --plakat-blue-dark: #1b3a6b;
+      --plakat-olive: #5b6236;
+      --plakat-olive-dark: #3d4125;
+
+      /* Secondary accents */
+      --plakat-ochre: #cc7722;
+      --plakat-goldenrod: #daa520;
+      --plakat-green: #2d5f2d;
+      --plakat-orange: #bf5700;
+
+      /* Functional assignments */
+      --plakat-bg-primary: var(--plakat-cream);
+      --plakat-bg-dark: var(--plakat-rich-black);
+      --plakat-text-primary: var(--plakat-black);
+      --plakat-text-inverse: var(--plakat-cream);
+      --plakat-accent: var(--plakat-red);
+    }
+
+    /* ========================================
+       RESET & BASE
+       ======================================== */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--plakat-rich-black);
+      color: var(--plakat-cream);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 400;
+      font-size: 1rem;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3, h4 {
+      font-family: 'Bebas Neue', 'Anton', 'Oswald', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      line-height: 0.95;
+      font-weight: 400;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    /* ========================================
+       ANIMATIONS
+       ======================================== */
+    @keyframes fadeSlideUp {
+      from {
+        opacity: 0;
+        transform: translateY(40px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes stampIn {
+      0% {
+        opacity: 0;
+        transform: scale(1.8);
+      }
+      60% {
+        opacity: 1;
+        transform: scale(0.95);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    @keyframes slideFromLeft {
+      from {
+        opacity: 0;
+        transform: translateX(-60px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes slideFromRight {
+      from {
+        opacity: 0;
+        transform: translateX(60px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes expandWidth {
+      from { width: 0; }
+      to { width: 100%; }
+    }
+
+    @keyframes revealDown {
+      from {
+        clip-path: inset(0 0 100% 0);
+      }
+      to {
+        clip-path: inset(0 0 0 0);
+      }
+    }
+
+    .animate-on-scroll {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .animate-on-scroll.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .animate-on-scroll.visible.delay-1 { transition-delay: 0.15s; }
+    .animate-on-scroll.visible.delay-2 { transition-delay: 0.3s; }
+    .animate-on-scroll.visible.delay-3 { transition-delay: 0.45s; }
+    .animate-on-scroll.visible.delay-4 { transition-delay: 0.6s; }
+    .animate-on-scroll.visible.delay-5 { transition-delay: 0.75s; }
+
+    /* ========================================
+       NAVIGATION
+       ======================================== */
+    .plakat-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 48px;
+      background: var(--plakat-rich-black);
+      transition: background 0.3s ease;
+    }
+
+    .plakat-nav.scrolled {
+      background: rgba(13, 13, 13, 0.97);
+    }
+
+    .plakat-nav__brand {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.4rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--plakat-red);
+    }
+
+    .plakat-nav__links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+
+    .plakat-nav__links a {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 500;
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--plakat-cream);
+      opacity: 0.6;
+      transition: opacity 0.15s ease, color 0.15s ease;
+    }
+
+    .plakat-nav__links a:hover {
+      opacity: 1;
+      color: var(--plakat-ochre);
+    }
+
+    /* ========================================
+       HERO SECTION
+       ======================================== */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: var(--plakat-rich-black);
+      text-align: center;
+      padding: 6rem 2rem 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero__epoch {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 500;
+      font-size: 0.8rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--plakat-ochre);
+      margin-bottom: 2rem;
+      animation: fadeIn 0.8s ease 0.2s both;
+    }
+
+    .hero__title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(5rem, 15vw, 14rem);
+      color: var(--plakat-cream);
+      letter-spacing: 0.08em;
+      line-height: 0.85;
+      animation: stampIn 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.4s both;
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero__subject {
+      margin: 3rem 0 2rem;
+      position: relative;
+      z-index: 2;
+      animation: fadeSlideUp 0.7s ease 0.9s both;
+    }
+
+    /* Simplified matchstick -- iconic Plakatstil subject */
+    .hero__matchstick {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .hero__matchstick-head {
+      width: clamp(50px, 8vw, 80px);
+      height: clamp(50px, 8vw, 80px);
+      background: var(--plakat-red);
+      clip-path: polygon(50% 0%, 100% 35%, 85% 100%, 15% 100%, 0% 35%);
+    }
+
+    .hero__matchstick-body {
+      width: clamp(14px, 2vw, 20px);
+      height: clamp(140px, 25vw, 280px);
+      background: var(--plakat-ochre);
+    }
+
+    .hero__subtitle {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(1.2rem, 3vw, 2.2rem);
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--plakat-ochre);
+      animation: fadeIn 0.6s ease 1.3s both;
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero__year {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(1rem, 2vw, 1.4rem);
+      letter-spacing: 0.5em;
+      color: var(--plakat-cream);
+      opacity: 0.3;
+      margin-top: 2rem;
+      animation: fadeIn 0.6s ease 1.6s both;
+    }
+
+    /* ========================================
+       STRIPE DIVIDERS
+       ======================================== */
+    .stripe {
+      height: 8px;
+      background: var(--plakat-red);
+      width: 100%;
+    }
+
+    .stripe--ochre { background: var(--plakat-ochre); }
+    .stripe--blue { background: var(--plakat-blue); }
+    .stripe--thin { height: 4px; }
+    .stripe--thick { height: 12px; }
+
+    /* ========================================
+       MANIFESTO / INTRO SECTION
+       ======================================== */
+    .manifesto {
+      background: var(--plakat-cream);
+      color: var(--plakat-black);
+      padding: 8rem 2rem;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2.5rem;
+    }
+
+    .manifesto__heading {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(3rem, 8vw, 7rem);
+      color: var(--plakat-red);
+      letter-spacing: 0.06em;
+      line-height: 0.9;
+    }
+
+    .manifesto__text {
+      font-size: 1.15rem;
+      line-height: 1.8;
+      max-width: 56ch;
+      color: var(--plakat-black);
+    }
+
+    .manifesto__text strong {
+      color: var(--plakat-red);
+      font-weight: 700;
+    }
+
+    .manifesto__rule {
+      width: 80px;
+      height: 6px;
+      background: var(--plakat-red);
+      border: none;
+    }
+
+    /* ========================================
+       ORIGIN SECTION
+       ======================================== */
+    .origin {
+      background: var(--plakat-blue);
+      color: var(--plakat-cream);
+      padding: 8rem 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 3rem;
+      position: relative;
+    }
+
+    .origin__heading {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.5rem, 7vw, 6rem);
+      color: var(--plakat-cream);
+      letter-spacing: 0.08em;
+    }
+
+    .origin__columns {
+      display: flex;
+      gap: 4rem;
+      max-width: 900px;
+      width: 100%;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .origin__column {
+      flex: 1;
+      min-width: 260px;
+      max-width: 400px;
+      text-align: left;
+    }
+
+    .origin__column h3 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.6rem;
+      letter-spacing: 0.12em;
+      color: var(--plakat-ochre);
+      margin-bottom: 1rem;
+    }
+
+    .origin__column p {
+      font-size: 0.95rem;
+      line-height: 1.7;
+      opacity: 0.85;
+    }
+
+    /* ========================================
+       PRINCIPLES SECTION -- POSTER PANELS
+       ======================================== */
+    .principles {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .principle {
+      padding: 6rem 2rem;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2rem;
+      position: relative;
+    }
+
+    .principle__number {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(6rem, 15vw, 12rem);
+      line-height: 0.8;
+      opacity: 0.12;
+      position: absolute;
+      top: 1.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      pointer-events: none;
+    }
+
+    .principle__heading {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2rem, 5vw, 4rem);
+      letter-spacing: 0.1em;
+      position: relative;
+      z-index: 2;
+    }
+
+    .principle__text {
+      font-size: 1.05rem;
+      line-height: 1.7;
+      max-width: 48ch;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* Principle icon containers */
+    .principle__icon {
+      width: 100px;
+      height: 100px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      z-index: 2;
+    }
+
+    .principle__icon svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    /* Principle 1: Dark background */
+    .principle--dark {
+      background: var(--plakat-rich-black);
+      color: var(--plakat-cream);
+    }
+
+    .principle--dark .principle__heading {
+      color: var(--plakat-cream);
+    }
+
+    .principle--dark .principle__number {
+      color: var(--plakat-cream);
+    }
+
+    /* Principle 2: Red background */
+    .principle--red {
+      background: var(--plakat-red);
+      color: var(--plakat-cream);
+    }
+
+    .principle--red .principle__heading {
+      color: var(--plakat-cream);
+    }
+
+    .principle--red .principle__number {
+      color: var(--plakat-cream);
+    }
+
+    /* Principle 3: Cream background */
+    .principle--cream {
+      background: var(--plakat-cream);
+      color: var(--plakat-black);
+    }
+
+    .principle--cream .principle__heading {
+      color: var(--plakat-red);
+    }
+
+    .principle--cream .principle__number {
+      color: var(--plakat-black);
+    }
+
+    /* Principle 4: Blue background */
+    .principle--blue {
+      background: var(--plakat-blue);
+      color: var(--plakat-cream);
+    }
+
+    .principle--blue .principle__heading {
+      color: var(--plakat-ochre);
+    }
+
+    .principle--blue .principle__number {
+      color: var(--plakat-cream);
+    }
+
+    /* Principle 5: Olive background */
+    .principle--olive {
+      background: var(--plakat-olive);
+      color: var(--plakat-cream);
+    }
+
+    .principle--olive .principle__heading {
+      color: var(--plakat-cream);
+    }
+
+    .principle--olive .principle__number {
+      color: var(--plakat-cream);
+    }
+
+    /* ========================================
+       COLOR PALETTE SECTION
+       ======================================== */
+    .palette-section {
+      background: var(--plakat-rich-black);
+      color: var(--plakat-cream);
+      padding: 8rem 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4rem;
+    }
+
+    .palette-section__heading {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.5rem, 7vw, 6rem);
+      letter-spacing: 0.08em;
+      color: var(--plakat-cream);
+      text-align: center;
+    }
+
+    .palette-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0;
+      max-width: 840px;
+      width: 100%;
+    }
+
+    .palette-swatch {
+      width: 120px;
+      height: 120px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+      padding-bottom: 10px;
+      position: relative;
+      transition: transform 0.2s ease;
+    }
+
+    .palette-swatch:hover {
+      transform: scale(1.08);
+      z-index: 2;
+    }
+
+    .palette-swatch__label {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.6rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      font-weight: 700;
+      text-align: center;
+      line-height: 1.3;
+    }
+
+    .palette-swatch__hex {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.55rem;
+      letter-spacing: 0.05em;
+      opacity: 0.7;
+    }
+
+    /* Individual swatch colors and text contrast */
+    .swatch-red { background: var(--plakat-red); color: var(--plakat-cream); }
+    .swatch-red-dark { background: var(--plakat-red-dark); color: var(--plakat-cream); }
+    .swatch-blue { background: var(--plakat-blue); color: var(--plakat-cream); }
+    .swatch-blue-dark { background: var(--plakat-blue-dark); color: var(--plakat-cream); }
+    .swatch-olive { background: var(--plakat-olive); color: var(--plakat-cream); }
+    .swatch-olive-dark { background: var(--plakat-olive-dark); color: var(--plakat-cream); }
+    .swatch-black { background: var(--plakat-black); color: var(--plakat-cream); }
+    .swatch-rich-black { background: var(--plakat-rich-black); color: var(--plakat-cream); border: 1px solid #333; }
+    .swatch-cream { background: var(--plakat-cream); color: var(--plakat-black); }
+    .swatch-warm-white { background: var(--plakat-warm-white); color: var(--plakat-black); }
+    .swatch-ochre { background: var(--plakat-ochre); color: var(--plakat-cream); }
+    .swatch-goldenrod { background: var(--plakat-goldenrod); color: var(--plakat-black); }
+    .swatch-green { background: var(--plakat-green); color: var(--plakat-cream); }
+    .swatch-orange { background: var(--plakat-orange); color: var(--plakat-cream); }
+
+    /* ========================================
+       TYPOGRAPHY SHOWCASE
+       ======================================== */
+    .type-section {
+      background: var(--plakat-cream);
+      color: var(--plakat-black);
+      padding: 8rem 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4rem;
+      text-align: center;
+    }
+
+    .type-section__heading {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.5rem, 7vw, 6rem);
+      letter-spacing: 0.08em;
+      color: var(--plakat-red);
+    }
+
+    .type-specimens {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3.5rem;
+      width: 100%;
+      max-width: 800px;
+    }
+
+    .type-specimen {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .type-specimen__sample {
+      line-height: 1;
+    }
+
+    .type-specimen__sample--bebas {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(3rem, 8vw, 6rem);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--plakat-black);
+    }
+
+    .type-specimen__sample--anton {
+      font-family: 'Anton', sans-serif;
+      font-size: clamp(3rem, 8vw, 6rem);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--plakat-red);
+    }
+
+    .type-specimen__sample--oswald {
+      font-family: 'Oswald', sans-serif;
+      font-weight: 700;
+      font-size: clamp(2.5rem, 7vw, 5rem);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--plakat-blue);
+    }
+
+    .type-specimen__sample--dm {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 400;
+      font-size: clamp(1.2rem, 2.5vw, 1.6rem);
+      color: var(--plakat-black);
+      line-height: 1.6;
+      max-width: 50ch;
+    }
+
+    .type-specimen__label {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 500;
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--plakat-black);
+      opacity: 0.5;
+    }
+
+    /* ========================================
+       VISUAL TRAITS SECTION
+       ======================================== */
+    .traits-section {
+      background: var(--plakat-rich-black);
+      color: var(--plakat-cream);
+      padding: 8rem 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4rem;
+    }
+
+    .traits-section__heading {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.5rem, 7vw, 6rem);
+      letter-spacing: 0.08em;
+      color: var(--plakat-cream);
+      text-align: center;
+    }
+
+    .traits-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      width: 100%;
+      max-width: 700px;
+    }
+
+    .trait-item {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      padding: 1.5rem 0;
+      border-bottom: 2px solid rgba(245, 240, 225, 0.1);
+    }
+
+    .trait-item__marker {
+      flex-shrink: 0;
+      width: 40px;
+      height: 40px;
+      background: var(--plakat-red);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .trait-item__marker svg {
+      width: 20px;
+      height: 20px;
+      fill: var(--plakat-cream);
+    }
+
+    .trait-item__text {
+      font-size: 1rem;
+      line-height: 1.5;
+    }
+
+    .trait-item__text strong {
+      color: var(--plakat-ochre);
+      font-weight: 700;
+    }
+
+    /* ========================================
+       DOS AND DONTS
+       ======================================== */
+    .rules-section {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .rules-panel {
+      padding: 6rem 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3rem;
+      text-align: center;
+    }
+
+    .rules-panel--do {
+      background: var(--plakat-olive);
+      color: var(--plakat-cream);
+    }
+
+    .rules-panel--dont {
+      background: var(--plakat-red-dark);
+      color: var(--plakat-cream);
+    }
+
+    .rules-panel__heading {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(3rem, 8vw, 7rem);
+      letter-spacing: 0.12em;
+    }
+
+    .rules-panel--do .rules-panel__heading {
+      color: var(--plakat-cream);
+    }
+
+    .rules-panel--dont .rules-panel__heading {
+      color: var(--plakat-ochre);
+    }
+
+    .rules-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      max-width: 50ch;
+    }
+
+    .rules-list li {
+      font-size: 1rem;
+      line-height: 1.6;
+      text-align: left;
+      padding-left: 1.8rem;
+      position: relative;
+    }
+
+    .rules-list li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0.5em;
+      width: 10px;
+      height: 10px;
+      background: var(--plakat-cream);
+    }
+
+    .rules-panel--dont .rules-list li::before {
+      background: var(--plakat-ochre);
+      clip-path: polygon(20% 0%, 80% 0%, 100% 20%, 100% 80%, 80% 100%, 20% 100%, 0% 80%, 0% 20%);
+    }
+
+    /* ========================================
+       RELATED AESTHETICS / TIMELINE
+       ======================================== */
+    .related-section {
+      background: var(--plakat-blue-dark);
+      color: var(--plakat-cream);
+      padding: 8rem 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4rem;
+    }
+
+    .related-section__heading {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.5rem, 7vw, 6rem);
+      letter-spacing: 0.08em;
+      color: var(--plakat-ochre);
+      text-align: center;
+    }
+
+    .related-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0;
+      max-width: 900px;
+      width: 100%;
+    }
+
+    .related-card {
+      width: 300px;
+      padding: 2.5rem 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+      transition: background 0.2s ease;
+    }
+
+    .related-card:nth-child(odd) {
+      background: var(--plakat-blue);
+    }
+
+    .related-card:nth-child(even) {
+      background: var(--plakat-blue-dark);
+    }
+
+    .related-card:hover {
+      background: var(--plakat-rich-black);
+    }
+
+    .related-card__name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.5rem;
+      letter-spacing: 0.1em;
+      color: var(--plakat-ochre);
+    }
+
+    .related-card__desc {
+      font-size: 0.85rem;
+      line-height: 1.6;
+      opacity: 0.8;
+    }
+
+    /* ========================================
+       POSTER GALLERY -- DEMO COMPOSITIONS
+       ======================================== */
+    .gallery-section {
+      background: var(--plakat-cream);
+      color: var(--plakat-black);
+      padding: 8rem 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4rem;
+    }
+
+    .gallery-section__heading {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.5rem, 7vw, 6rem);
+      letter-spacing: 0.08em;
+      color: var(--plakat-red);
+      text-align: center;
+    }
+
+    .gallery-row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 2rem;
+      max-width: 1000px;
+      width: 100%;
+    }
+
+    .mini-poster {
+      width: 260px;
+      height: 380px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1.2rem;
+      padding: 2rem;
+      text-align: center;
+      transition: transform 0.2s ease;
+      cursor: default;
+    }
+
+    .mini-poster:hover {
+      transform: scale(1.03);
+    }
+
+    /* Poster 1: Dark with red bottle */
+    .mini-poster--1 {
+      background: var(--plakat-rich-black);
+      color: var(--plakat-cream);
+    }
+
+    .mini-poster--1 .mini-poster__object {
+      width: 60px;
+      height: 140px;
+      background: var(--plakat-red);
+      clip-path: polygon(35% 0%, 65% 0%, 65% 15%, 80% 25%, 80% 100%, 20% 100%, 20% 25%, 35% 15%);
+    }
+
+    .mini-poster--1 .mini-poster__title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.8rem;
+      letter-spacing: 0.2em;
+      color: var(--plakat-ochre);
+    }
+
+    /* Poster 2: Red with cream circle */
+    .mini-poster--2 {
+      background: var(--plakat-red);
+      color: var(--plakat-cream);
+    }
+
+    .mini-poster--2 .mini-poster__object {
+      width: 110px;
+      height: 110px;
+      background: var(--plakat-cream);
+      border-radius: 50%;
+    }
+
+    .mini-poster--2 .mini-poster__title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.8rem;
+      letter-spacing: 0.2em;
+      color: var(--plakat-cream);
+    }
+
+    /* Poster 3: Blue with ochre boot */
+    .mini-poster--3 {
+      background: var(--plakat-blue);
+      color: var(--plakat-cream);
+    }
+
+    .mini-poster--3 .mini-poster__object {
+      width: 90px;
+      height: 120px;
+      background: var(--plakat-ochre);
+      clip-path: polygon(20% 0%, 70% 0%, 70% 65%, 100% 65%, 100% 100%, 0% 100%, 0% 65%, 20% 65%);
+    }
+
+    .mini-poster--3 .mini-poster__title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.8rem;
+      letter-spacing: 0.2em;
+      color: var(--plakat-cream);
+    }
+
+    /* ========================================
+       MATERIALS SECTION
+       ======================================== */
+    .materials-section {
+      background: var(--plakat-olive-dark);
+      color: var(--plakat-cream);
+      padding: 8rem 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4rem;
+    }
+
+    .materials-section__heading {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.5rem, 7vw, 6rem);
+      letter-spacing: 0.08em;
+      color: var(--plakat-cream);
+      text-align: center;
+    }
+
+    .materials-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      max-width: 700px;
+      width: 100%;
+    }
+
+    .material-row {
+      display: flex;
+      align-items: stretch;
+    }
+
+    .material-row__physical {
+      flex: 1;
+      padding: 1.2rem 1.5rem;
+      background: var(--plakat-olive);
+      font-weight: 500;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+    }
+
+    .material-row__web {
+      flex: 1;
+      padding: 1.2rem 1.5rem;
+      background: var(--plakat-olive-dark);
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      opacity: 0.85;
+    }
+
+    .material-row__arrow {
+      width: 40px;
+      background: var(--plakat-ochre);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .material-row__arrow svg {
+      width: 16px;
+      height: 16px;
+      fill: var(--plakat-rich-black);
+    }
+
+    /* ========================================
+       CTA / CLOSING SECTION
+       ======================================== */
+    .closing {
+      background: var(--plakat-cream);
+      color: var(--plakat-black);
+      padding: 10rem 2rem;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2.5rem;
+    }
+
+    .closing__heading {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(3rem, 10vw, 9rem);
+      letter-spacing: 0.06em;
+      line-height: 0.85;
+      color: var(--plakat-red);
+    }
+
+    .closing__text {
+      font-size: 1.1rem;
+      line-height: 1.7;
+      max-width: 48ch;
+      color: var(--plakat-black);
+    }
+
+    .closing__button {
+      display: inline-block;
+      background: var(--plakat-red);
+      color: var(--plakat-cream);
+      border: none;
+      padding: 18px 56px;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.3rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.15s ease;
+    }
+
+    .closing__button:hover {
+      background: var(--plakat-red-dark);
+    }
+
+    /* ========================================
+       FOOTER
+       ======================================== */
+    .plakat-footer {
+      background: var(--plakat-rich-black);
+      color: var(--plakat-cream);
+      text-align: center;
+      padding: 2.5rem 2rem;
+    }
+
+    .plakat-footer__text {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      opacity: 0.4;
+    }
+
+    /* ========================================
+       RESPONSIVE
+       ======================================== */
+    @media (max-width: 768px) {
+      .plakat-nav {
+        padding: 16px 20px;
+      }
+
+      .plakat-nav__links {
+        gap: 18px;
+      }
+
+      .plakat-nav__links a {
+        font-size: 0.7rem;
+      }
+
+      .hero {
+        padding: 5rem 1.5rem 3rem;
+      }
+
+      .manifesto,
+      .origin,
+      .palette-section,
+      .type-section,
+      .traits-section,
+      .gallery-section,
+      .materials-section,
+      .related-section,
+      .closing {
+        padding: 5rem 1.5rem;
+      }
+
+      .principle {
+        padding: 4rem 1.5rem;
+      }
+
+      .rules-panel {
+        padding: 4rem 1.5rem;
+      }
+
+      .origin__columns {
+        flex-direction: column;
+        gap: 2.5rem;
+        align-items: center;
+      }
+
+      .origin__column {
+        text-align: center;
+      }
+
+      .palette-swatch {
+        width: 80px;
+        height: 80px;
+      }
+
+      .palette-swatch__label {
+        font-size: 0.5rem;
+      }
+
+      .palette-swatch__hex {
+        font-size: 0.45rem;
+      }
+
+      .mini-poster {
+        width: 220px;
+        height: 320px;
+      }
+
+      .material-row {
+        flex-direction: column;
+      }
+
+      .material-row__arrow {
+        width: 100%;
+        height: 28px;
+      }
+
+      .material-row__arrow svg {
+        transform: rotate(90deg);
+      }
+
+      .related-card {
+        width: 100%;
+        max-width: 400px;
+      }
+
+      .closing {
+        padding: 6rem 1.5rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .plakat-nav__links {
+        gap: 12px;
+      }
+
+      .palette-swatch {
+        width: 60px;
+        height: 60px;
+      }
+
+      .trait-item {
+        gap: 1rem;
+      }
+
+      .trait-item__marker {
+        width: 32px;
+        height: 32px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============ NAVIGATION ============ -->
+  <nav class="plakat-nav" id="nav">
+    <a href="#" class="plakat-nav__brand">Plakatstil</a>
+    <ul class="plakat-nav__links">
+      <li><a href="#origin">Origin</a></li>
+      <li><a href="#principles">Principles</a></li>
+      <li><a href="#palette">Palette</a></li>
+      <li><a href="#typography">Type</a></li>
+      <li><a href="#gallery">Gallery</a></li>
+    </ul>
+  </nav>
+
+  <!-- ============ HERO ============ -->
+  <section class="hero" id="hero">
+    <div class="hero__epoch">Germany, circa 1906</div>
+    <h1 class="hero__title">Plakatstil</h1>
+    <div class="hero__subject">
+      <div class="hero__matchstick">
+        <div class="hero__matchstick-head"></div>
+        <div class="hero__matchstick-body"></div>
+      </div>
+    </div>
+    <div class="hero__subtitle">The Object Poster</div>
+    <div class="hero__year">1906 -- Present</div>
+  </section>
+
+  <div class="stripe stripe--ochre"></div>
+
+  <!-- ============ MANIFESTO ============ -->
+  <section class="manifesto" id="manifesto">
+    <h2 class="manifesto__heading animate-on-scroll">One Glance.<br>One Message.</h2>
+    <hr class="manifesto__rule animate-on-scroll delay-1">
+    <p class="manifesto__text animate-on-scroll delay-2">
+      Plakatstil -- the Poster Style -- is an early modern graphic design movement that emerged in Germany around 1906. It represents a <strong>radical simplification</strong> of advertising imagery: stripping away all non-essential elements to achieve <strong>immediate, memorable visual impact</strong> through a single isolated subject, flat bold colors, and minimal text.
+    </p>
+    <p class="manifesto__text animate-on-scroll delay-3">
+      The style was a direct rejection of Art Nouveau's ornate complexity, prioritizing <strong>focus, clarity, directness, and readability</strong> above all else. Pioneered by Lucian Bernhard, it became a foundational influence on Bauhaus, the International Typographic Style, and ultimately Flat Design.
+    </p>
+  </section>
+
+  <div class="stripe"></div>
+
+  <!-- ============ ORIGIN ============ -->
+  <section class="origin" id="origin">
+    <h2 class="origin__heading animate-on-scroll">Origins</h2>
+    <div class="origin__columns">
+      <div class="origin__column animate-on-scroll delay-1">
+        <h3>Lucian Bernhard</h3>
+        <p>In 1906, a young Lucian Bernhard entered a poster competition for Priester matches. He stripped his design down to two matches, a flat background, and the brand name. The jury almost rejected it -- until one member recognized its radical power. The winning poster launched an entire movement.</p>
+      </div>
+      <div class="origin__column animate-on-scroll delay-2">
+        <h3>Sachplakat</h3>
+        <p>Also known as "Object Poster," Sachplakat demanded that the product be the hero. No scenery, no narrative, no decoration -- just the object itself, rendered in flat color at bold scale, with the brand name integrated as a graphic element. Communicate in a single glance, or the design has failed.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="stripe stripe--ochre stripe--thick"></div>
+
+  <!-- ============ PRINCIPLES ============ -->
+  <section class="principles" id="principles">
+
+    <div class="principle principle--dark">
+      <div class="principle__number animate-on-scroll">01</div>
+      <div class="principle__icon animate-on-scroll delay-1">
+        <svg viewBox="0 0 100 100">
+          <rect x="25" y="15" width="50" height="70" fill="#c8102e"/>
+        </svg>
+      </div>
+      <h2 class="principle__heading animate-on-scroll delay-2">Single Isolated Subject</h2>
+      <p class="principle__text animate-on-scroll delay-3">One product, object, or figure dominates the entire composition. Nothing competes for attention. The product is the hero -- it should be the first and only thing the viewer sees.</p>
+    </div>
+
+    <div class="principle principle--red">
+      <div class="principle__number animate-on-scroll">02</div>
+      <div class="principle__icon animate-on-scroll delay-1">
+        <svg viewBox="0 0 100 100">
+          <rect x="10" y="10" width="35" height="80" fill="#f5f0e1"/>
+          <rect x="55" y="10" width="35" height="80" fill="#0d0d0d"/>
+        </svg>
+      </div>
+      <h2 class="principle__heading animate-on-scroll delay-2">Flat, Solid Color</h2>
+      <p class="principle__text animate-on-scroll delay-3">All surfaces are rendered in uniform, unmodulated color with no gradients, shading, or tonal variation. Color is structural, not decorative -- each color area defines a shape or form. A maximum of 3-4 colors per composition is the defining constraint.</p>
+    </div>
+
+    <div class="principle principle--cream">
+      <div class="principle__number animate-on-scroll">03</div>
+      <div class="principle__icon animate-on-scroll delay-1">
+        <svg viewBox="0 0 100 100">
+          <polygon points="50,10 90,90 10,90" fill="#c8102e"/>
+        </svg>
+      </div>
+      <h2 class="principle__heading animate-on-scroll delay-2">Extreme Reduction</h2>
+      <p class="principle__text animate-on-scroll delay-3">Objects and figures are simplified to their most essential outlines and geometric forms. All non-essential detail is eliminated. Strip away everything that does not directly serve recognition and impact. Simplicity is not emptiness; every remaining element carries maximum weight.</p>
+    </div>
+
+    <div class="principle principle--blue">
+      <div class="principle__number animate-on-scroll">04</div>
+      <div class="principle__icon animate-on-scroll delay-1">
+        <svg viewBox="0 0 100 100">
+          <rect x="10" y="10" width="80" height="80" fill="none" stroke="#daa520" stroke-width="4"/>
+          <rect x="25" y="25" width="50" height="50" fill="none"/>
+        </svg>
+      </div>
+      <h2 class="principle__heading animate-on-scroll delay-2">Generous Negative Space</h2>
+      <p class="principle__text animate-on-scroll delay-3">Open background area is a deliberate compositional strategy, not wasted space. It isolates and elevates the subject. The emptier the background, the stronger the subject. Plain, uncluttered backgrounds of a single flat color field with no scenery, texture, or decoration.</p>
+    </div>
+
+    <div class="principle principle--olive">
+      <div class="principle__number animate-on-scroll">05</div>
+      <div class="principle__icon animate-on-scroll delay-1">
+        <svg viewBox="0 0 100 100">
+          <text x="12" y="72" font-family="sans-serif" font-size="60" font-weight="900" fill="#f5f0e1">A</text>
+        </svg>
+      </div>
+      <h2 class="principle__heading animate-on-scroll delay-2">Typography as Composition</h2>
+      <p class="principle__text animate-on-scroll delay-3">The brand name is the only text, rendered in bold lettering that is compositionally integrated with the image. Letters are sized, placed, and colored as graphic elements equal in importance to the image. Bold, blocky, uppercase sans-serifs for instant legibility at distance.</p>
+    </div>
+
+  </section>
+
+  <div class="stripe stripe--ochre"></div>
+
+  <!-- ============ COLOR PALETTE ============ -->
+  <section class="palette-section" id="palette">
+    <h2 class="palette-section__heading animate-on-scroll">Color Palette</h2>
+    <div class="palette-grid">
+      <div class="palette-swatch swatch-red animate-on-scroll delay-1">
+        <span class="palette-swatch__label">Poster Red</span>
+        <span class="palette-swatch__hex">#C8102E</span>
+      </div>
+      <div class="palette-swatch swatch-red-dark animate-on-scroll delay-1">
+        <span class="palette-swatch__label">Deep Red</span>
+        <span class="palette-swatch__hex">#8B1A1A</span>
+      </div>
+      <div class="palette-swatch swatch-blue animate-on-scroll delay-1">
+        <span class="palette-swatch__label">Signal Blue</span>
+        <span class="palette-swatch__hex">#003E7E</span>
+      </div>
+      <div class="palette-swatch swatch-blue-dark animate-on-scroll delay-2">
+        <span class="palette-swatch__label">Royal Blue</span>
+        <span class="palette-swatch__hex">#1B3A6B</span>
+      </div>
+      <div class="palette-swatch swatch-olive animate-on-scroll delay-2">
+        <span class="palette-swatch__label">Olive</span>
+        <span class="palette-swatch__hex">#5B6236</span>
+      </div>
+      <div class="palette-swatch swatch-olive-dark animate-on-scroll delay-2">
+        <span class="palette-swatch__label">Dark Olive</span>
+        <span class="palette-swatch__hex">#3D4125</span>
+      </div>
+      <div class="palette-swatch swatch-black animate-on-scroll delay-3">
+        <span class="palette-swatch__label">Lamp Black</span>
+        <span class="palette-swatch__hex">#1A1A1A</span>
+      </div>
+      <div class="palette-swatch swatch-rich-black animate-on-scroll delay-3">
+        <span class="palette-swatch__label">Rich Black</span>
+        <span class="palette-swatch__hex">#0D0D0D</span>
+      </div>
+      <div class="palette-swatch swatch-cream animate-on-scroll delay-3">
+        <span class="palette-swatch__label">Warm White</span>
+        <span class="palette-swatch__hex">#F5F0E1</span>
+      </div>
+      <div class="palette-swatch swatch-warm-white animate-on-scroll delay-4">
+        <span class="palette-swatch__label">Cream</span>
+        <span class="palette-swatch__hex">#FFFDD0</span>
+      </div>
+      <div class="palette-swatch swatch-ochre animate-on-scroll delay-4">
+        <span class="palette-swatch__label">Ochre Yellow</span>
+        <span class="palette-swatch__hex">#CC7722</span>
+      </div>
+      <div class="palette-swatch swatch-goldenrod animate-on-scroll delay-4">
+        <span class="palette-swatch__label">Goldenrod</span>
+        <span class="palette-swatch__hex">#DAA520</span>
+      </div>
+      <div class="palette-swatch swatch-green animate-on-scroll delay-5">
+        <span class="palette-swatch__label">Forest Green</span>
+        <span class="palette-swatch__hex">#2D5F2D</span>
+      </div>
+      <div class="palette-swatch swatch-orange animate-on-scroll delay-5">
+        <span class="palette-swatch__label">Burnt Orange</span>
+        <span class="palette-swatch__hex">#BF5700</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="stripe"></div>
+
+  <!-- ============ TYPOGRAPHY ============ -->
+  <section class="type-section" id="typography">
+    <h2 class="type-section__heading animate-on-scroll">Typography</h2>
+    <div class="type-specimens">
+      <div class="type-specimen animate-on-scroll delay-1">
+        <div class="type-specimen__sample type-specimen__sample--bebas">Bebas Neue</div>
+        <div class="type-specimen__label">Display / Headlines -- Classic Plakatstil lettering</div>
+      </div>
+      <div class="type-specimen animate-on-scroll delay-2">
+        <div class="type-specimen__sample type-specimen__sample--anton">Anton</div>
+        <div class="type-specimen__label">Maximum-impact display text</div>
+      </div>
+      <div class="type-specimen animate-on-scroll delay-3">
+        <div class="type-specimen__sample type-specimen__sample--oswald">Oswald Bold</div>
+        <div class="type-specimen__label">Strong vertical emphasis headlines</div>
+      </div>
+      <div class="type-specimen animate-on-scroll delay-4">
+        <div class="type-specimen__sample type-specimen__sample--dm">DM Sans serves as the body text companion -- clean, geometric, and screen-optimized for the rare moments when longer copy is needed.</div>
+        <div class="type-specimen__label">Body text -- used sparingly</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="stripe stripe--blue"></div>
+
+  <!-- ============ VISUAL TRAITS ============ -->
+  <section class="traits-section" id="traits">
+    <h2 class="traits-section__heading animate-on-scroll">Core Visual Traits</h2>
+    <div class="traits-list">
+      <div class="trait-item animate-on-scroll delay-1">
+        <div class="trait-item__marker">
+          <svg viewBox="0 0 20 20"><rect width="20" height="20" fill="#f5f0e1"/></svg>
+        </div>
+        <div class="trait-item__text"><strong>Single isolated subject</strong> -- one product, object, or figure dominates the entire composition; nothing competes for attention</div>
+      </div>
+      <div class="trait-item animate-on-scroll delay-1">
+        <div class="trait-item__marker">
+          <svg viewBox="0 0 20 20"><rect width="20" height="20" fill="#f5f0e1"/></svg>
+        </div>
+        <div class="trait-item__text"><strong>Flat, solid color fills</strong> -- all surfaces rendered in uniform, unmodulated color with no gradients, shading, or tonal variation</div>
+      </div>
+      <div class="trait-item animate-on-scroll delay-2">
+        <div class="trait-item__marker">
+          <svg viewBox="0 0 20 20"><rect width="20" height="20" fill="#f5f0e1"/></svg>
+        </div>
+        <div class="trait-item__text"><strong>Bold, high-contrast color</strong> -- a limited palette of 2-4 strong hues creates immediate visual punch; colors are saturated and poster-grade</div>
+      </div>
+      <div class="trait-item animate-on-scroll delay-2">
+        <div class="trait-item__marker">
+          <svg viewBox="0 0 20 20"><rect width="20" height="20" fill="#f5f0e1"/></svg>
+        </div>
+        <div class="trait-item__text"><strong>No ornamentation</strong> -- no decorative borders, flourishes, patterns, or embellishments of any kind</div>
+      </div>
+      <div class="trait-item animate-on-scroll delay-3">
+        <div class="trait-item__marker">
+          <svg viewBox="0 0 20 20"><rect width="20" height="20" fill="#f5f0e1"/></svg>
+        </div>
+        <div class="trait-item__text"><strong>Brand name as design element</strong> -- the product or brand name rendered in bold lettering, compositionally integrated with the image</div>
+      </div>
+      <div class="trait-item animate-on-scroll delay-3">
+        <div class="trait-item__marker">
+          <svg viewBox="0 0 20 20"><rect width="20" height="20" fill="#f5f0e1"/></svg>
+        </div>
+        <div class="trait-item__text"><strong>Geometric simplification</strong> -- people, objects, and scenes reduced to basic shapes and clean outlines</div>
+      </div>
+      <div class="trait-item animate-on-scroll delay-4">
+        <div class="trait-item__marker">
+          <svg viewBox="0 0 20 20"><rect width="20" height="20" fill="#f5f0e1"/></svg>
+        </div>
+        <div class="trait-item__text"><strong>Poster-scale legibility</strong> -- every element designed to read instantly at large scale and from a distance</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="stripe stripe--ochre stripe--thick"></div>
+
+  <!-- ============ POSTER GALLERY ============ -->
+  <section class="gallery-section" id="gallery">
+    <h2 class="gallery-section__heading animate-on-scroll">Poster Compositions</h2>
+    <div class="gallery-row">
+      <div class="mini-poster mini-poster--1 animate-on-scroll delay-1">
+        <div class="mini-poster__object"></div>
+        <div class="mini-poster__title">Priester</div>
+      </div>
+      <div class="mini-poster mini-poster--2 animate-on-scroll delay-2">
+        <div class="mini-poster__object"></div>
+        <div class="mini-poster__title">Stiller</div>
+      </div>
+      <div class="mini-poster mini-poster--3 animate-on-scroll delay-3">
+        <div class="mini-poster__object"></div>
+        <div class="mini-poster__title">Manoli</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="stripe"></div>
+
+  <!-- ============ DO'S AND DON'TS ============ -->
+  <section class="rules-section" id="rules">
+    <div class="rules-panel rules-panel--do">
+      <h2 class="rules-panel__heading animate-on-scroll">Do</h2>
+      <ul class="rules-list animate-on-scroll delay-1">
+        <li>Use flat, solid color fills for every surface -- no gradients, no shading, no textures</li>
+        <li>Limit the palette to 2-4 bold, high-contrast colors per page or section</li>
+        <li>Make the primary subject dramatically large and isolated</li>
+        <li>Use condensed, bold, uppercase sans-serif type for all headlines</li>
+        <li>Keep text to an absolute minimum -- ideally just a name or single phrase</li>
+        <li>Use generous negative space to isolate and elevate the subject</li>
+        <li>Create hard, clean transitions between color blocks</li>
+        <li>Design each section as if it were a standalone poster</li>
+        <li>Use sharp corners on all elements -- no border-radius</li>
+        <li>Render icons and illustrations as flat silhouettes in a single color</li>
+      </ul>
+    </div>
+    <div class="rules-panel rules-panel--dont">
+      <h2 class="rules-panel__heading animate-on-scroll">Don't</h2>
+      <ul class="rules-list animate-on-scroll delay-1">
+        <li>Use gradients, shadows, bevels, or any 3D effects</li>
+        <li>Add decorative borders, frames, ornamental lines, or flourishes</li>
+        <li>Include busy backgrounds, patterns, or textures</li>
+        <li>Use serif, script, or decorative typefaces</li>
+        <li>Write long paragraphs of body copy</li>
+        <li>Use more than 4 colors in a single composition</li>
+        <li>Add subtle, muted, or pastel colors -- every color must be poster-bold</li>
+        <li>Use rounded corners or soft shapes on UI elements</li>
+        <li>Layer multiple subjects or competing visual elements in one section</li>
+        <li>Apply opacity or transparency effects between color areas</li>
+      </ul>
+    </div>
+  </section>
+
+  <div class="stripe stripe--ochre"></div>
+
+  <!-- ============ MATERIALS ============ -->
+  <section class="materials-section" id="materials">
+    <h2 class="materials-section__heading animate-on-scroll">Materials Translated</h2>
+    <div class="materials-list">
+      <div class="material-row animate-on-scroll delay-1">
+        <div class="material-row__physical">Lithographic ink on paper</div>
+        <div class="material-row__arrow">
+          <svg viewBox="0 0 16 16"><polygon points="4,2 12,8 4,14"/></svg>
+        </div>
+        <div class="material-row__web">Flat, solid CSS color fills with no texture</div>
+      </div>
+      <div class="material-row animate-on-scroll delay-2">
+        <div class="material-row__physical">Aged poster stock</div>
+        <div class="material-row__arrow">
+          <svg viewBox="0 0 16 16"><polygon points="4,2 12,8 4,14"/></svg>
+        </div>
+        <div class="material-row__web">Warm cream/ivory background tones</div>
+      </div>
+      <div class="material-row animate-on-scroll delay-2">
+        <div class="material-row__physical">Block-printed letterforms</div>
+        <div class="material-row__arrow">
+          <svg viewBox="0 0 16 16"><polygon points="4,2 12,8 4,14"/></svg>
+        </div>
+        <div class="material-row__web">Bold condensed sans-serif web fonts at large scale</div>
+      </div>
+      <div class="material-row animate-on-scroll delay-3">
+        <div class="material-row__physical">Flat gouache paint</div>
+        <div class="material-row__arrow">
+          <svg viewBox="0 0 16 16"><polygon points="4,2 12,8 4,14"/></svg>
+        </div>
+        <div class="material-row__web">Uniform CSS background-color with zero variation</div>
+      </div>
+      <div class="material-row animate-on-scroll delay-3">
+        <div class="material-row__physical">Cut paper collage</div>
+        <div class="material-row__arrow">
+          <svg viewBox="0 0 16 16"><polygon points="4,2 12,8 4,14"/></svg>
+        </div>
+        <div class="material-row__web">Hard-edged clip-path shapes and CSS compositions</div>
+      </div>
+      <div class="material-row animate-on-scroll delay-4">
+        <div class="material-row__physical">Reduction woodcut</div>
+        <div class="material-row__arrow">
+          <svg viewBox="0 0 16 16"><polygon points="4,2 12,8 4,14"/></svg>
+        </div>
+        <div class="material-row__web">SVG silhouettes with single flat fill color</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="stripe stripe--blue stripe--thick"></div>
+
+  <!-- ============ RELATED AESTHETICS ============ -->
+  <section class="related-section" id="related">
+    <h2 class="related-section__heading animate-on-scroll">Related Aesthetics</h2>
+    <div class="related-grid">
+      <div class="related-card animate-on-scroll delay-1">
+        <div class="related-card__name">Art Nouveau</div>
+        <div class="related-card__desc">Direct predecessor that Plakatstil reacted against; stripped away Art Nouveau's organic ornamentation in favor of radical simplicity.</div>
+      </div>
+      <div class="related-card animate-on-scroll delay-1">
+        <div class="related-card__name">Bauhaus</div>
+        <div class="related-card__desc">Direct descendant; inherited the reductive approach to form and function, extending it into architecture and systematic visual language.</div>
+      </div>
+      <div class="related-card animate-on-scroll delay-2">
+        <div class="related-card__name">International Typographic Style</div>
+        <div class="related-card__desc">Evolutionary successor; formalized Plakatstil's flat color and bold sans-serif typography into grid-based, objective communication design.</div>
+      </div>
+      <div class="related-card animate-on-scroll delay-2">
+        <div class="related-card__name">Constructivism</div>
+        <div class="related-card__desc">Contemporary parallel; shared commitment to geometric abstraction and design as a social/commercial communication tool.</div>
+      </div>
+      <div class="related-card animate-on-scroll delay-3">
+        <div class="related-card__name">Flat Design</div>
+        <div class="related-card__desc">Modern digital descendant; the 2010s interface aesthetic directly echoes flat color, bold shapes, and elimination of decorative detail.</div>
+      </div>
+      <div class="related-card animate-on-scroll delay-3">
+        <div class="related-card__name">Minimalism</div>
+        <div class="related-card__desc">Broader parent philosophy; Plakatstil applied minimalist reduction specifically to commercial poster art over a century before digital minimalism.</div>
+      </div>
+      <div class="related-card animate-on-scroll delay-4">
+        <div class="related-card__name">Art Deco</div>
+        <div class="related-card__desc">Shared era and geometric sensibility, but Art Deco embraced ornamentation and luxury that Plakatstil deliberately rejected.</div>
+      </div>
+      <div class="related-card animate-on-scroll delay-4">
+        <div class="related-card__name">Heroic Realism</div>
+        <div class="related-card__desc">Some Plakatstil artists moved toward propaganda poster styles that fed into Heroic Realism's bold, simplified figurative imagery.</div>
+      </div>
+      <div class="related-card animate-on-scroll delay-5">
+        <div class="related-card__name">Corporate Memphis</div>
+        <div class="related-card__desc">Distant descendant; shares flat color fills and geometric figure simplification, though with a playful character foreign to Plakatstil's serious directness.</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="stripe stripe--ochre"></div>
+
+  <!-- ============ CLOSING ============ -->
+  <section class="closing">
+    <h2 class="closing__heading animate-on-scroll">Nothing<br>Wasted</h2>
+    <p class="closing__text animate-on-scroll delay-1">
+      Flat rendering is a deliberate choice, not a limitation -- it creates bold graphic power. If the viewer needs more than one second, the design has failed. Communicate in a single glance.
+    </p>
+    <a href="#hero" class="closing__button animate-on-scroll delay-2">Back to Top</a>
+  </section>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="plakat-footer">
+    <p class="plakat-footer__text">Designed in the Plakatstil tradition. Flat color. Sharp focus. Nothing wasted.</p>
+  </footer>
+
+  <!-- ============ JAVASCRIPT ============ -->
+  <script>
+    // Scroll-triggered animations using IntersectionObserver
+    (function() {
+      var observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      }, {
+        threshold: 0.15,
+        rootMargin: '0px 0px -40px 0px'
+      });
+
+      document.querySelectorAll('.animate-on-scroll').forEach(function(el) {
+        observer.observe(el);
+      });
+    })();
+
+    // Navigation scroll effect
+    (function() {
+      var nav = document.getElementById('nav');
+      var scrolled = false;
+
+      window.addEventListener('scroll', function() {
+        if (window.scrollY > 60 && !scrolled) {
+          nav.classList.add('scrolled');
+          scrolled = true;
+        } else if (window.scrollY <= 60 && scrolled) {
+          nav.classList.remove('scrolled');
+          scrolled = false;
+        }
+      });
+    })();
+  </script>
+
+</body>
+</html>

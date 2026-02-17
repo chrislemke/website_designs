@@ -1,0 +1,2227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PC-98 Aesthetic -- Design Reference</title>
+  <link href="https://fonts.googleapis.com/css2?family=DotGothic16&family=M+PLUS+1+Code:wght@400;700&family=Press+Start+2P&family=VT323&family=Silkscreen:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    /* ============================================
+       CSS CUSTOM PROPERTIES -- PC-98 PALETTE
+       ============================================ */
+    :root {
+      /* Backgrounds */
+      --pc98-bg-dark: #1A1028;
+      --pc98-bg-mid: #2D2240;
+      --pc98-bg-surface: #3A2E4A;
+      --pc98-bg-surface-light: #584870;
+
+      /* Text */
+      --pc98-text-primary: #E8D8C8;
+      --pc98-text-secondary: #C0A8D0;
+      --pc98-text-muted: #887898;
+
+      /* Accents */
+      --pc98-accent-rose: #D87890;
+      --pc98-accent-peach: #E8A888;
+      --pc98-accent-teal: #689098;
+      --pc98-accent-gold: #F0D890;
+      --pc98-accent-lavender: #A080C0;
+
+      /* Borders and ornamental */
+      --pc98-border-bronze: #987858;
+      --pc98-border-rose: #B89088;
+      --pc98-border-dark: #483858;
+
+      /* Shadows */
+      --pc98-shadow: #180820;
+      --pc98-shadow-soft: rgba(24, 8, 32, 0.6);
+
+      /* Atmospheric */
+      --pc98-sky-violet: #6848A0;
+      --pc98-sky-peach: #E8A070;
+      --pc98-foliage: #608050;
+
+      /* Functional mappings */
+      --pc98-bg-primary: var(--pc98-bg-dark);
+      --pc98-bg-secondary: var(--pc98-bg-mid);
+      --pc98-bg-card: var(--pc98-bg-surface);
+      --pc98-text-heading: var(--pc98-accent-gold);
+      --pc98-text-body: var(--pc98-text-primary);
+      --pc98-accent-primary: var(--pc98-accent-rose);
+      --pc98-accent-secondary: var(--pc98-accent-teal);
+      --pc98-border: var(--pc98-border-bronze);
+    }
+
+    /* ============================================
+       RESET & BASE
+       ============================================ */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--pc98-bg-dark);
+      color: var(--pc98-text-primary);
+      font-family: 'M PLUS 1 Code', 'DotGothic16', monospace;
+      font-size: 16px;
+      line-height: 1.8;
+      letter-spacing: 0.02em;
+      min-height: 100vh;
+      overflow-x: hidden;
+      image-rendering: pixelated;
+    }
+
+    /* ============================================
+       SCANLINE OVERLAY -- CRT EFFECT
+       ============================================ */
+    .scanlines {
+      position: fixed;
+      inset: 0;
+      background: repeating-linear-gradient(
+        to bottom,
+        transparent 0px,
+        transparent 2px,
+        rgba(0, 0, 0, 0.06) 2px,
+        rgba(0, 0, 0, 0.06) 4px
+      );
+      pointer-events: none;
+      z-index: 10000;
+    }
+
+    /* CRT flicker */
+    @keyframes crt-flicker {
+      0%, 100% { opacity: 1; }
+      92% { opacity: 1; }
+      93% { opacity: 0.96; }
+      94% { opacity: 1; }
+    }
+
+    .crt-wrap {
+      animation: crt-flicker 8s infinite;
+    }
+
+    /* ============================================
+       PAGE FRAME -- ORNATE BORDER LAYOUT
+       ============================================ */
+    .page-frame {
+      max-width: 1040px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 54px 1fr 54px;
+      grid-template-rows: auto;
+      min-height: 100vh;
+      position: relative;
+    }
+
+    /* Decorative side border columns */
+    .border-col {
+      position: relative;
+      z-index: 2;
+    }
+
+    .border-col-inner {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      background:
+        repeating-linear-gradient(
+          to bottom,
+          var(--pc98-border-bronze) 0px, var(--pc98-border-bronze) 2px,
+          var(--pc98-bg-surface) 2px, var(--pc98-bg-surface) 16px,
+          var(--pc98-border-bronze) 16px, var(--pc98-border-bronze) 18px,
+          var(--pc98-bg-surface-light) 18px, var(--pc98-bg-surface-light) 36px
+        );
+      border-left: 3px solid var(--pc98-border-bronze);
+      border-right: 3px solid var(--pc98-border-bronze);
+      box-shadow:
+        inset 2px 0 0 var(--pc98-border-dark),
+        inset -2px 0 0 var(--pc98-border-dark);
+    }
+
+    /* Rosette pattern overlay on borders */
+    .border-col-inner::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        radial-gradient(circle at 50% 50%,
+          var(--pc98-accent-rose) 1.5px,
+          transparent 1.5px
+        );
+      background-size: 18px 36px;
+      background-position: 0 9px;
+      opacity: 0.35;
+      pointer-events: none;
+    }
+
+    .border-left { grid-column: 1; grid-row: 1 / -1; }
+    .border-right { grid-column: 3; grid-row: 1 / -1; }
+
+    /* ============================================
+       MAIN CONTENT AREA
+       ============================================ */
+    .main-content {
+      grid-column: 2;
+      grid-row: 1;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ============================================
+       HERO / TITLE SECTION
+       ============================================ */
+    .hero {
+      position: relative;
+      padding: 0;
+      overflow: hidden;
+      border-bottom: 3px solid var(--pc98-border-bronze);
+    }
+
+    /* Dithered sunset sky background */
+    .hero-sky {
+      position: relative;
+      min-height: 420px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 3rem 2.5rem 0;
+      background: linear-gradient(
+        to bottom,
+        #28183F 0%,
+        var(--pc98-sky-violet) 18%,
+        #8860B0 34%,
+        #B07898 48%,
+        #D08878 62%,
+        var(--pc98-sky-peach) 76%,
+        #E8C080 90%,
+        var(--pc98-accent-gold) 100%
+      );
+    }
+
+    /* Dither overlay on sky */
+    .hero-sky::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(45deg,
+          rgba(24, 8, 32, 0.12) 25%, transparent 25%,
+          transparent 75%, rgba(24, 8, 32, 0.12) 75%
+        ),
+        linear-gradient(45deg,
+          rgba(24, 8, 32, 0.12) 25%, transparent 25%,
+          transparent 75%, rgba(24, 8, 32, 0.12) 75%
+        );
+      background-size: 4px 4px;
+      background-position: 0 0, 2px 2px;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* Pixel art silhouette cityscape */
+    .hero-cityscape {
+      position: absolute;
+      bottom: 80px;
+      left: 0;
+      right: 0;
+      height: 120px;
+      z-index: 2;
+    }
+
+    .hero-cityscape svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    /* Hero text overlay */
+    .hero-text {
+      position: relative;
+      z-index: 5;
+      padding-bottom: 1rem;
+    }
+
+    .hero-title {
+      font-family: 'Press Start 2P', monospace;
+      font-size: clamp(1.4rem, 4vw, 2.6rem);
+      color: var(--pc98-accent-gold);
+      text-shadow:
+        3px 3px 0px var(--pc98-shadow),
+        -1px -1px 0px rgba(24, 8, 32, 0.5),
+        0 0 20px rgba(240, 216, 144, 0.2);
+      line-height: 1.6;
+      letter-spacing: 0.06em;
+      margin-bottom: 0.6rem;
+    }
+
+    .hero-subtitle {
+      font-family: 'VT323', monospace;
+      font-size: clamp(1rem, 2.5vw, 1.6rem);
+      color: var(--pc98-accent-peach);
+      text-shadow: 2px 2px 0px var(--pc98-shadow);
+      letter-spacing: 0.08em;
+    }
+
+    /* Hero dialog box */
+    .hero-dialog {
+      position: relative;
+      z-index: 5;
+      background: rgba(0, 0, 0, 0.92);
+      border: 2px solid var(--pc98-border-bronze);
+      padding: 1.2rem 1.5rem;
+      margin-top: 0;
+      box-shadow:
+        inset 0 0 0 1px var(--pc98-border-dark),
+        0 -2px 12px var(--pc98-shadow-soft);
+    }
+
+    .hero-dialog .name-plate {
+      position: absolute;
+      top: -13px;
+      left: 16px;
+      background: var(--pc98-bg-dark);
+      border: 1px solid var(--pc98-border-bronze);
+      padding: 2px 14px;
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.55rem;
+      color: var(--pc98-accent-gold);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .hero-dialog p {
+      font-family: 'M PLUS 1 Code', 'DotGothic16', monospace;
+      font-size: 14px;
+      line-height: 2.1;
+      color: var(--pc98-text-primary);
+      text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.5);
+    }
+
+    /* Typewriter animation */
+    .typewriter {
+      overflow: hidden;
+      border-right: 2px solid var(--pc98-accent-gold);
+      white-space: nowrap;
+      animation:
+        typing 3.5s steps(60, end) forwards,
+        blink-caret 0.6s step-end infinite;
+    }
+
+    @keyframes typing {
+      from { max-width: 0; }
+      to { max-width: 100%; }
+    }
+
+    @keyframes blink-caret {
+      from, to { border-color: var(--pc98-accent-gold); }
+      50% { border-color: transparent; }
+    }
+
+    .hero-status {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 0.6rem;
+      padding-top: 0.5rem;
+      border-top: 1px solid var(--pc98-border-dark);
+    }
+
+    .hero-status span {
+      font-family: 'VT323', monospace;
+      font-size: 1rem;
+      color: var(--pc98-accent-teal);
+      letter-spacing: 0.05em;
+    }
+
+    .blink-cursor {
+      display: inline-block;
+      width: 8px;
+      height: 14px;
+      background: var(--pc98-accent-gold);
+      vertical-align: middle;
+      animation: blink-block 0.8s step-end infinite;
+    }
+
+    @keyframes blink-block {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    /* ============================================
+       SECTION STYLING
+       ============================================ */
+    .content-section {
+      padding: 3rem 2.5rem;
+      border-bottom: 2px solid var(--pc98-border-bronze);
+      position: relative;
+    }
+
+    /* Subtle dither texture on content sections */
+    .content-section::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(45deg,
+          var(--pc98-bg-surface) 25%, transparent 25%,
+          transparent 75%, var(--pc98-bg-surface) 75%
+        ),
+        linear-gradient(45deg,
+          var(--pc98-bg-surface) 25%, transparent 25%,
+          transparent 75%, var(--pc98-bg-surface) 75%
+        );
+      background-size: 4px 4px;
+      background-position: 0 0, 2px 2px;
+      background-color: var(--pc98-bg-mid);
+      opacity: 0.08;
+      pointer-events: none;
+    }
+
+    .content-section > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .content-section:nth-child(even) {
+      background: var(--pc98-bg-mid);
+    }
+
+    .content-section:nth-child(odd) {
+      background: var(--pc98-bg-dark);
+    }
+
+    /* Section headings */
+    .section-heading {
+      font-family: 'Press Start 2P', monospace;
+      font-size: clamp(0.85rem, 2vw, 1.2rem);
+      color: var(--pc98-accent-gold);
+      text-shadow: 2px 2px 0px var(--pc98-shadow);
+      margin-bottom: 1.8rem;
+      padding-bottom: 0.8rem;
+      border-bottom: 2px solid var(--pc98-border-bronze);
+      letter-spacing: 0.05em;
+      line-height: 1.8;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
+    .section-heading .heading-icon {
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      background: var(--pc98-accent-rose);
+      border: 1px solid var(--pc98-border-bronze);
+      flex-shrink: 0;
+      box-shadow: 1px 1px 0 var(--pc98-shadow);
+    }
+
+    .sub-heading {
+      font-family: 'Press Start 2P', monospace;
+      font-size: clamp(0.6rem, 1.4vw, 0.8rem);
+      color: var(--pc98-accent-rose);
+      text-shadow: 1px 1px 0px var(--pc98-shadow);
+      margin: 2rem 0 1rem;
+      letter-spacing: 0.04em;
+      line-height: 1.8;
+    }
+
+    /* Body text */
+    .body-text {
+      color: var(--pc98-text-secondary);
+      font-size: 15px;
+      line-height: 2;
+      margin-bottom: 1.2rem;
+    }
+
+    .body-text strong {
+      color: var(--pc98-text-primary);
+      font-weight: 700;
+    }
+
+    /* ============================================
+       PC-98 CARD
+       ============================================ */
+    .card {
+      background: var(--pc98-bg-surface);
+      border: 2px solid var(--pc98-border-bronze);
+      padding: 1.8rem;
+      margin: 1.5rem 0;
+      position: relative;
+      box-shadow:
+        inset 0 0 0 1px var(--pc98-border-dark),
+        inset 0 0 20px rgba(24, 8, 32, 0.3),
+        4px 4px 0px var(--pc98-shadow);
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card:hover {
+      border-color: var(--pc98-accent-rose);
+      box-shadow:
+        inset 0 0 0 1px var(--pc98-border-dark),
+        inset 0 0 20px rgba(24, 8, 32, 0.3),
+        0 0 12px rgba(216, 120, 144, 0.12),
+        4px 4px 0px var(--pc98-shadow);
+    }
+
+    /* Corner accents on cards */
+    .card::before,
+    .card::after {
+      content: '';
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      border-color: var(--pc98-accent-gold);
+      border-style: solid;
+    }
+
+    .card::before {
+      top: 5px;
+      left: 5px;
+      border-width: 2px 0 0 2px;
+    }
+
+    .card::after {
+      bottom: 5px;
+      right: 5px;
+      border-width: 0 2px 2px 0;
+    }
+
+    .card-title {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.65rem;
+      color: var(--pc98-accent-gold);
+      margin-bottom: 1rem;
+      letter-spacing: 0.06em;
+      line-height: 1.6;
+    }
+
+    .card p {
+      color: var(--pc98-text-secondary);
+      font-size: 14px;
+      line-height: 1.9;
+    }
+
+    /* ============================================
+       FEATURE LIST / BULLET STYLING
+       ============================================ */
+    .feature-list {
+      list-style: none;
+      padding: 0;
+      margin: 1rem 0;
+    }
+
+    .feature-list li {
+      position: relative;
+      padding: 0.6rem 0 0.6rem 1.6rem;
+      color: var(--pc98-text-secondary);
+      font-size: 14px;
+      line-height: 1.9;
+      border-bottom: 1px solid rgba(72, 56, 88, 0.4);
+    }
+
+    .feature-list li:last-child {
+      border-bottom: none;
+    }
+
+    .feature-list li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 1em;
+      width: 8px;
+      height: 8px;
+      background: var(--pc98-accent-rose);
+      border: 1px solid var(--pc98-border-bronze);
+      box-shadow: 1px 1px 0 var(--pc98-shadow);
+    }
+
+    .feature-list li strong {
+      color: var(--pc98-text-primary);
+    }
+
+    /* ============================================
+       COLOR PALETTE DISPLAY
+       ============================================ */
+    .palette-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+      gap: 12px;
+      margin: 1.5rem 0;
+    }
+
+    .palette-swatch {
+      border: 2px solid var(--pc98-border-bronze);
+      box-shadow:
+        inset 0 0 0 1px var(--pc98-border-dark),
+        2px 2px 0px var(--pc98-shadow);
+      overflow: hidden;
+      transition: transform 0.2s steps(3);
+    }
+
+    .palette-swatch:hover {
+      transform: translate(-1px, -1px);
+    }
+
+    .swatch-color {
+      height: 48px;
+      position: relative;
+    }
+
+    /* Dither overlay on swatches */
+    .swatch-color::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(45deg,
+          rgba(0,0,0,0.06) 25%, transparent 25%,
+          transparent 75%, rgba(0,0,0,0.06) 75%
+        ),
+        linear-gradient(45deg,
+          rgba(0,0,0,0.06) 25%, transparent 25%,
+          transparent 75%, rgba(0,0,0,0.06) 75%
+        );
+      background-size: 4px 4px;
+      background-position: 0 0, 2px 2px;
+      pointer-events: none;
+    }
+
+    .swatch-info {
+      background: var(--pc98-bg-dark);
+      padding: 6px 10px;
+    }
+
+    .swatch-name {
+      font-family: 'Silkscreen', 'Press Start 2P', monospace;
+      font-size: 0.55rem;
+      color: var(--pc98-text-primary);
+      display: block;
+      margin-bottom: 2px;
+      letter-spacing: 0.03em;
+      line-height: 1.4;
+    }
+
+    .swatch-hex {
+      font-family: 'VT323', monospace;
+      font-size: 0.85rem;
+      color: var(--pc98-accent-teal);
+      letter-spacing: 0.05em;
+    }
+
+    /* ============================================
+       DITHER PATTERN DEMO
+       ============================================ */
+    .dither-demo-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 16px;
+      margin: 1.5rem 0;
+    }
+
+    .dither-demo-item {
+      border: 2px solid var(--pc98-border-bronze);
+      overflow: hidden;
+      box-shadow: 2px 2px 0 var(--pc98-shadow);
+    }
+
+    .dither-preview {
+      height: 64px;
+    }
+
+    /* Checkerboard dither */
+    .dither-checker {
+      background-image:
+        linear-gradient(45deg,
+          var(--pc98-bg-surface) 25%, transparent 25%,
+          transparent 75%, var(--pc98-bg-surface) 75%
+        ),
+        linear-gradient(45deg,
+          var(--pc98-bg-surface) 25%, transparent 25%,
+          transparent 75%, var(--pc98-bg-surface) 75%
+        );
+      background-size: 4px 4px;
+      background-position: 0 0, 2px 2px;
+      background-color: var(--pc98-bg-mid);
+    }
+
+    /* Fine dither */
+    .dither-fine {
+      background-image:
+        linear-gradient(45deg,
+          var(--pc98-accent-rose) 25%, transparent 25%,
+          transparent 75%, var(--pc98-accent-rose) 75%
+        ),
+        linear-gradient(45deg,
+          var(--pc98-accent-rose) 25%, transparent 25%,
+          transparent 75%, var(--pc98-accent-rose) 75%
+        );
+      background-size: 2px 2px;
+      background-position: 0 0, 1px 1px;
+      background-color: var(--pc98-bg-surface);
+    }
+
+    /* Horizontal line dither */
+    .dither-hlines {
+      background-image: repeating-linear-gradient(
+        to bottom,
+        var(--pc98-bg-surface) 0px,
+        var(--pc98-bg-surface) 1px,
+        var(--pc98-sky-violet) 1px,
+        var(--pc98-sky-violet) 2px
+      );
+    }
+
+    /* Gradient dither */
+    .dither-gradient {
+      background:
+        repeating-linear-gradient(
+          to right,
+          var(--pc98-sky-violet) 0px, var(--pc98-sky-violet) 2px,
+          transparent 2px, transparent 4px
+        ),
+        linear-gradient(to right, var(--pc98-sky-peach), var(--pc98-sky-violet));
+    }
+
+    /* Skin tone dither */
+    .dither-skin {
+      background-image:
+        linear-gradient(45deg,
+          #E8B890 25%, transparent 25%,
+          transparent 75%, #E8B890 75%
+        ),
+        linear-gradient(45deg,
+          #E8B890 25%, transparent 25%,
+          transparent 75%, #E8B890 75%
+        );
+      background-size: 4px 4px;
+      background-position: 0 0, 2px 2px;
+      background-color: #D09078;
+    }
+
+    /* Evening sky dither */
+    .dither-evening {
+      background-image:
+        linear-gradient(45deg,
+          #6848A0 25%, transparent 25%,
+          transparent 75%, #6848A0 75%
+        ),
+        linear-gradient(45deg,
+          #6848A0 25%, transparent 25%,
+          transparent 75%, #6848A0 75%
+        );
+      background-size: 4px 4px;
+      background-position: 0 0, 2px 2px;
+      background-color: #D88868;
+    }
+
+    .dither-label {
+      background: var(--pc98-bg-dark);
+      padding: 6px 10px;
+      font-family: 'Silkscreen', monospace;
+      font-size: 0.55rem;
+      color: var(--pc98-accent-peach);
+      letter-spacing: 0.04em;
+      line-height: 1.4;
+    }
+
+    /* ============================================
+       TYPOGRAPHY SHOWCASE
+       ============================================ */
+    .type-specimen {
+      border: 2px solid var(--pc98-border-bronze);
+      padding: 1.5rem;
+      margin: 1rem 0;
+      background: var(--pc98-bg-dark);
+      box-shadow:
+        inset 0 0 0 1px var(--pc98-border-dark),
+        3px 3px 0 var(--pc98-shadow);
+    }
+
+    .type-specimen-label {
+      font-family: 'Silkscreen', monospace;
+      font-size: 0.55rem;
+      color: var(--pc98-accent-teal);
+      letter-spacing: 0.08em;
+      margin-bottom: 0.5rem;
+      text-transform: uppercase;
+    }
+
+    .type-press-start {
+      font-family: 'Press Start 2P', monospace;
+      font-size: clamp(0.7rem, 1.5vw, 1rem);
+      color: var(--pc98-accent-gold);
+      text-shadow: 2px 2px 0 var(--pc98-shadow);
+      line-height: 1.8;
+    }
+
+    .type-mplus {
+      font-family: 'M PLUS 1 Code', monospace;
+      font-size: 1rem;
+      color: var(--pc98-text-primary);
+      line-height: 2;
+    }
+
+    .type-dotgothic {
+      font-family: 'DotGothic16', monospace;
+      font-size: 1.1rem;
+      color: var(--pc98-text-secondary);
+      line-height: 1.9;
+    }
+
+    .type-vt323 {
+      font-family: 'VT323', monospace;
+      font-size: 1.3rem;
+      color: var(--pc98-accent-teal);
+      line-height: 1.7;
+      letter-spacing: 0.05em;
+    }
+
+    .type-silkscreen {
+      font-family: 'Silkscreen', monospace;
+      font-size: 0.75rem;
+      color: var(--pc98-accent-peach);
+      line-height: 1.8;
+      letter-spacing: 0.04em;
+    }
+
+    /* ============================================
+       STATUS PANEL
+       ============================================ */
+    .status-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      margin: 1.5rem 0;
+    }
+
+    .status-panel {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--pc98-bg-dark);
+      border: 1px solid var(--pc98-border-bronze);
+      padding: 5px 12px;
+      font-family: 'VT323', monospace;
+      font-size: 1rem;
+      color: var(--pc98-accent-peach);
+      box-shadow: 1px 1px 0 var(--pc98-shadow);
+    }
+
+    .status-panel .label {
+      color: var(--pc98-text-muted);
+      font-size: 0.9rem;
+    }
+
+    .segment-display {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.65rem;
+      color: var(--pc98-accent-teal);
+      background: #0A0818;
+      border: 1px solid var(--pc98-border-dark);
+      padding: 4px 10px;
+      letter-spacing: 0.15em;
+      text-shadow: 0 0 6px rgba(104, 144, 152, 0.4);
+      display: inline-block;
+    }
+
+    /* ============================================
+       DIALOG BOX COMPONENT
+       ============================================ */
+    .dialog-box {
+      background: rgba(0, 0, 0, 0.92);
+      border: 2px solid var(--pc98-border-bronze);
+      padding: 1.2rem 1.5rem;
+      position: relative;
+      box-shadow:
+        inset 0 0 0 1px var(--pc98-border-dark),
+        0 -2px 8px var(--pc98-shadow-soft);
+      margin: 1.5rem 0;
+    }
+
+    .dialog-box .name-plate {
+      position: absolute;
+      top: -13px;
+      left: 16px;
+      background: var(--pc98-bg-dark);
+      border: 1px solid var(--pc98-border-bronze);
+      padding: 2px 14px;
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.55rem;
+      color: var(--pc98-accent-gold);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .dialog-box .dialog-text {
+      font-family: 'M PLUS 1 Code', 'DotGothic16', monospace;
+      font-size: 14px;
+      line-height: 2.2;
+      color: var(--pc98-text-primary);
+      text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.5);
+    }
+
+    .dialog-box .dialog-status {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 0.6rem;
+      padding-top: 0.4rem;
+      border-top: 1px solid var(--pc98-border-dark);
+    }
+
+    .dialog-box .dialog-status span {
+      font-family: 'VT323', monospace;
+      font-size: 0.95rem;
+      color: var(--pc98-accent-teal);
+    }
+
+    /* ============================================
+       CSS CODE DISPLAY
+       ============================================ */
+    .code-block {
+      background: #0A0818;
+      border: 2px solid var(--pc98-border-dark);
+      padding: 1.2rem 1.5rem;
+      margin: 1rem 0;
+      overflow-x: auto;
+      font-family: 'VT323', monospace;
+      font-size: 1rem;
+      line-height: 1.7;
+      color: var(--pc98-accent-teal);
+      box-shadow:
+        inset 0 0 30px rgba(24, 8, 32, 0.5),
+        2px 2px 0 var(--pc98-shadow);
+    }
+
+    .code-block .code-comment {
+      color: var(--pc98-text-muted);
+    }
+
+    .code-block .code-prop {
+      color: var(--pc98-accent-rose);
+    }
+
+    .code-block .code-val {
+      color: var(--pc98-accent-peach);
+    }
+
+    .code-block .code-sel {
+      color: var(--pc98-accent-gold);
+    }
+
+    /* ============================================
+       TABLE STYLING
+       ============================================ */
+    .pc98-table-wrap {
+      overflow-x: auto;
+      margin: 1.5rem 0;
+    }
+
+    .pc98-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+
+    .pc98-table th {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.5rem;
+      color: var(--pc98-accent-gold);
+      background: var(--pc98-bg-dark);
+      border: 2px solid var(--pc98-border-bronze);
+      padding: 10px 14px;
+      text-align: left;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      line-height: 1.6;
+    }
+
+    .pc98-table td {
+      border: 1px solid var(--pc98-border-dark);
+      padding: 8px 14px;
+      color: var(--pc98-text-secondary);
+      background: var(--pc98-bg-surface);
+      line-height: 1.7;
+      vertical-align: top;
+    }
+
+    .pc98-table tr:hover td {
+      background: var(--pc98-bg-surface-light);
+      color: var(--pc98-text-primary);
+    }
+
+    .pc98-table td code {
+      font-family: 'VT323', monospace;
+      color: var(--pc98-accent-teal);
+      font-size: 1rem;
+    }
+
+    /* ============================================
+       BUTTON COMPONENT
+       ============================================ */
+    .btn {
+      display: inline-block;
+      padding: 0.6rem 2rem;
+      background: var(--pc98-bg-surface);
+      border: 2px solid var(--pc98-border-bronze);
+      color: var(--pc98-accent-gold);
+      font-family: 'Press Start 2P', 'DotGothic16', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.08em;
+      text-decoration: none;
+      cursor: pointer;
+      box-shadow:
+        3px 3px 0px var(--pc98-shadow),
+        inset 0 0 0 1px var(--pc98-border-dark);
+      transition: all 0.15s steps(2);
+      text-transform: uppercase;
+      line-height: 1.6;
+    }
+
+    .btn:hover {
+      background: var(--pc98-bg-surface-light);
+      border-color: var(--pc98-accent-gold);
+      color: var(--pc98-text-primary);
+      box-shadow:
+        1px 1px 0px var(--pc98-shadow),
+        inset 0 0 0 1px var(--pc98-border-dark);
+      transform: translate(2px, 2px);
+    }
+
+    .btn:active {
+      box-shadow:
+        0 0 0 var(--pc98-shadow),
+        inset 0 0 0 1px var(--pc98-border-dark);
+      transform: translate(3px, 3px);
+    }
+
+    .btn-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin: 1.5rem 0;
+    }
+
+    /* ============================================
+       RELATED AESTHETICS TAGS
+       ============================================ */
+    .tag-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 1rem 0;
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 0.3rem 1rem;
+      background: var(--pc98-bg-surface);
+      border: 1px solid var(--pc98-border-bronze);
+      font-family: 'Silkscreen', monospace;
+      font-size: 0.55rem;
+      color: var(--pc98-accent-peach);
+      letter-spacing: 0.04em;
+      box-shadow: 1px 1px 0 var(--pc98-shadow);
+      transition: all 0.2s steps(3);
+    }
+
+    .tag:hover {
+      background: var(--pc98-bg-surface-light);
+      border-color: var(--pc98-accent-rose);
+      color: var(--pc98-text-primary);
+      transform: translate(-1px, -1px);
+      box-shadow: 2px 2px 0 var(--pc98-shadow);
+    }
+
+    /* ============================================
+       DECORATIVE DIVIDER
+       ============================================ */
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 2rem 0;
+    }
+
+    .divider-line {
+      flex: 1;
+      height: 2px;
+      background: repeating-linear-gradient(
+        to right,
+        var(--pc98-border-bronze) 0px,
+        var(--pc98-border-bronze) 6px,
+        transparent 6px,
+        transparent 10px
+      );
+    }
+
+    .divider-diamond {
+      width: 8px;
+      height: 8px;
+      background: var(--pc98-accent-rose);
+      border: 1px solid var(--pc98-border-bronze);
+      transform: rotate(45deg);
+      flex-shrink: 0;
+    }
+
+    /* ============================================
+       STEPPED GRADIENT DEMO
+       ============================================ */
+    .sky-demo {
+      height: 120px;
+      margin: 1rem 0;
+      border: 2px solid var(--pc98-border-bronze);
+      box-shadow: 2px 2px 0 var(--pc98-shadow);
+      position: relative;
+    }
+
+    .sky-demo-smooth {
+      background: linear-gradient(
+        to bottom,
+        var(--pc98-sky-violet) 0%,
+        #8860B0 25%,
+        #B07898 40%,
+        #D08878 55%,
+        var(--pc98-sky-peach) 70%,
+        #E8C080 85%,
+        var(--pc98-accent-gold) 100%
+      );
+    }
+
+    .sky-demo-stepped {
+      background: linear-gradient(
+        to bottom,
+        var(--pc98-sky-violet) 0%, var(--pc98-sky-violet) 14.28%,
+        #8860B0 14.28%, #8860B0 28.56%,
+        #B07898 28.56%, #B07898 42.84%,
+        #D08878 42.84%, #D08878 57.12%,
+        var(--pc98-sky-peach) 57.12%, var(--pc98-sky-peach) 71.4%,
+        #E8C080 71.4%, #E8C080 85.68%,
+        var(--pc98-accent-gold) 85.68%, var(--pc98-accent-gold) 100%
+      );
+    }
+
+    .sky-demo-label {
+      position: absolute;
+      bottom: 6px;
+      right: 10px;
+      font-family: 'Silkscreen', monospace;
+      font-size: 0.55rem;
+      color: var(--pc98-shadow);
+      text-shadow: 0 0 4px rgba(240, 216, 144, 0.3);
+      letter-spacing: 0.04em;
+    }
+
+    /* ============================================
+       FOOTER / BOTTOM FRAME
+       ============================================ */
+    .footer-section {
+      padding: 2rem 2.5rem;
+      background: var(--pc98-bg-dark);
+      border-top: 3px solid var(--pc98-border-bronze);
+      text-align: center;
+    }
+
+    .footer-section p {
+      font-family: 'Silkscreen', monospace;
+      font-size: 0.55rem;
+      color: var(--pc98-text-muted);
+      letter-spacing: 0.05em;
+      line-height: 2;
+    }
+
+    .footer-ornament {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 1rem;
+    }
+
+    .footer-ornament span {
+      display: block;
+      width: 6px;
+      height: 6px;
+      background: var(--pc98-border-bronze);
+      transform: rotate(45deg);
+    }
+
+    .footer-ornament span:nth-child(2) {
+      width: 10px;
+      height: 10px;
+      background: var(--pc98-accent-rose);
+    }
+
+    /* ============================================
+       ANIMATIONS
+       ============================================ */
+    @keyframes fade-in-up {
+      from {
+        opacity: 0;
+        transform: translateY(16px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes pixel-fade {
+      0% { opacity: 0; clip-path: inset(0 100% 0 0); }
+      100% { opacity: 1; clip-path: inset(0 0 0 0); }
+    }
+
+    .animate-in {
+      opacity: 0;
+      animation: fade-in-up 0.6s ease forwards;
+    }
+
+    .delay-1 { animation-delay: 0.1s; }
+    .delay-2 { animation-delay: 0.2s; }
+    .delay-3 { animation-delay: 0.3s; }
+    .delay-4 { animation-delay: 0.4s; }
+    .delay-5 { animation-delay: 0.5s; }
+    .delay-6 { animation-delay: 0.6s; }
+    .delay-7 { animation-delay: 0.7s; }
+
+    /* Glow pulse on heading icons */
+    @keyframes glow-pulse {
+      0%, 100% { box-shadow: 1px 1px 0 var(--pc98-shadow), 0 0 4px rgba(216, 120, 144, 0.3); }
+      50% { box-shadow: 1px 1px 0 var(--pc98-shadow), 0 0 10px rgba(216, 120, 144, 0.6); }
+    }
+
+    .heading-icon {
+      animation: glow-pulse 3s ease-in-out infinite;
+    }
+
+    /* Pixel art character blinking */
+    @keyframes pixel-blink {
+      0%, 96%, 100% { opacity: 1; }
+      97%, 99% { opacity: 0.2; }
+    }
+
+    /* ============================================
+       MONITOR FRAME -- CRT VIGNETTE
+       ============================================ */
+    .crt-vignette {
+      position: fixed;
+      inset: 0;
+      box-shadow:
+        inset 0 0 120px rgba(24, 8, 32, 0.5),
+        inset 0 0 40px rgba(24, 8, 32, 0.3);
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    /* ============================================
+       PIXEL ART DECORATIVE ELEMENTS (CSS only)
+       ============================================ */
+    .pixel-star {
+      display: inline-block;
+      width: 4px;
+      height: 4px;
+      background: var(--pc98-accent-gold);
+      box-shadow:
+        2px 0 0 var(--pc98-accent-gold),
+        -2px 0 0 var(--pc98-accent-gold),
+        0 2px 0 var(--pc98-accent-gold),
+        0 -2px 0 var(--pc98-accent-gold);
+    }
+
+    .pixel-heart {
+      display: inline-block;
+      width: 0;
+      height: 0;
+      position: relative;
+    }
+
+    /* Grid layout helpers */
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin: 1rem 0;
+    }
+
+    /* Inline code */
+    .inline-code {
+      font-family: 'VT323', monospace;
+      font-size: 1.05rem;
+      color: var(--pc98-accent-teal);
+      background: rgba(10, 8, 24, 0.5);
+      padding: 1px 6px;
+      border: 1px solid var(--pc98-border-dark);
+    }
+
+    /* Note / highlight box */
+    .note-box {
+      background: rgba(104, 72, 160, 0.12);
+      border-left: 3px solid var(--pc98-accent-lavender);
+      padding: 1rem 1.2rem;
+      margin: 1rem 0;
+      font-size: 14px;
+      color: var(--pc98-text-secondary);
+      line-height: 1.9;
+    }
+
+    .note-box strong {
+      color: var(--pc98-accent-lavender);
+    }
+
+    /* ============================================
+       RESPONSIVE
+       ============================================ */
+    @media (max-width: 768px) {
+      .page-frame {
+        grid-template-columns: 28px 1fr 28px;
+      }
+
+      .border-col-inner::after {
+        background-size: 14px 28px;
+      }
+
+      .hero-sky {
+        min-height: 320px;
+        padding: 2rem 1.5rem 0;
+      }
+
+      .content-section {
+        padding: 2rem 1.5rem;
+      }
+
+      .two-col {
+        grid-template-columns: 1fr;
+      }
+
+      .palette-grid {
+        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+      }
+
+      .dither-demo-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .hero-dialog p {
+        font-size: 13px;
+      }
+
+      .typewriter {
+        white-space: normal;
+        animation: none;
+        border-right: none;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .page-frame {
+        grid-template-columns: 16px 1fr 16px;
+      }
+
+      .hero-sky {
+        min-height: 260px;
+        padding: 1.5rem 1rem 0;
+      }
+
+      .content-section {
+        padding: 1.5rem 1rem;
+      }
+
+      .palette-grid {
+        grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+      }
+
+      .dither-demo-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .btn {
+        font-size: 0.5rem;
+        padding: 0.5rem 1.2rem;
+      }
+
+      .status-bar {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- CRT Effects -->
+  <div class="scanlines"></div>
+  <div class="crt-vignette"></div>
+
+  <div class="crt-wrap">
+    <div class="page-frame">
+
+      <!-- LEFT ORNATE BORDER -->
+      <div class="border-col border-left">
+        <div class="border-col-inner"></div>
+      </div>
+
+      <!-- MAIN CONTENT -->
+      <div class="main-content">
+
+        <!-- ========== HERO SECTION ========== -->
+        <section class="hero">
+          <div class="hero-sky">
+            <!-- Pixel cityscape silhouette -->
+            <svg class="hero-cityscape" viewBox="0 0 960 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style="position:absolute;bottom:76px;left:0;right:0;height:100px;z-index:2;">
+              <defs>
+                <linearGradient id="buildGrad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#2D2240"/>
+                  <stop offset="100%" stop-color="#1A1028"/>
+                </linearGradient>
+              </defs>
+              <rect fill="url(#buildGrad)" x="40" y="50" width="32" height="70"/>
+              <rect fill="url(#buildGrad)" x="76" y="30" width="24" height="90"/>
+              <rect fill="url(#buildGrad)" x="104" y="60" width="36" height="60"/>
+              <rect fill="url(#buildGrad)" x="144" y="20" width="20" height="100"/>
+              <rect fill="url(#buildGrad)" x="168" y="44" width="40" height="76"/>
+              <rect fill="url(#buildGrad)" x="212" y="56" width="28" height="64"/>
+              <rect fill="url(#buildGrad)" x="244" y="36" width="18" height="84"/>
+              <rect fill="url(#buildGrad)" x="266" y="50" width="48" height="70"/>
+              <rect fill="url(#buildGrad)" x="320" y="16" width="24" height="104"/>
+              <rect fill="url(#buildGrad)" x="348" y="40" width="32" height="80"/>
+              <rect fill="url(#buildGrad)" x="384" y="60" width="44" height="60"/>
+              <rect fill="url(#buildGrad)" x="432" y="28" width="20" height="92"/>
+              <rect fill="url(#buildGrad)" x="456" y="48" width="36" height="72"/>
+              <rect fill="url(#buildGrad)" x="496" y="36" width="28" height="84"/>
+              <rect fill="url(#buildGrad)" x="528" y="54" width="40" height="66"/>
+              <rect fill="url(#buildGrad)" x="572" y="22" width="22" height="98"/>
+              <rect fill="url(#buildGrad)" x="598" y="46" width="48" height="74"/>
+              <rect fill="url(#buildGrad)" x="650" y="58" width="24" height="62"/>
+              <rect fill="url(#buildGrad)" x="678" y="32" width="32" height="88"/>
+              <rect fill="url(#buildGrad)" x="714" y="50" width="20" height="70"/>
+              <rect fill="url(#buildGrad)" x="738" y="40" width="44" height="80"/>
+              <rect fill="url(#buildGrad)" x="786" y="60" width="28" height="60"/>
+              <rect fill="url(#buildGrad)" x="818" y="24" width="18" height="96"/>
+              <rect fill="url(#buildGrad)" x="840" y="44" width="36" height="76"/>
+              <rect fill="url(#buildGrad)" x="880" y="56" width="40" height="64"/>
+              <!-- Small windows (lit) -->
+              <rect fill="#F0D890" opacity="0.6" x="82" y="38" width="4" height="4"/>
+              <rect fill="#F0D890" opacity="0.4" x="82" y="50" width="4" height="4"/>
+              <rect fill="#E8A888" opacity="0.5" x="150" y="30" width="4" height="4"/>
+              <rect fill="#F0D890" opacity="0.7" x="150" y="42" width="4" height="4"/>
+              <rect fill="#D87890" opacity="0.4" x="180" y="54" width="4" height="4"/>
+              <rect fill="#F0D890" opacity="0.5" x="326" y="28" width="4" height="4"/>
+              <rect fill="#E8A888" opacity="0.6" x="326" y="44" width="4" height="4"/>
+              <rect fill="#F0D890" opacity="0.3" x="438" y="38" width="4" height="4"/>
+              <rect fill="#D87890" opacity="0.5" x="508" y="46" width="4" height="4"/>
+              <rect fill="#F0D890" opacity="0.6" x="578" y="32" width="4" height="4"/>
+              <rect fill="#E8A888" opacity="0.4" x="616" y="56" width="4" height="4"/>
+              <rect fill="#F0D890" opacity="0.5" x="690" y="42" width="4" height="4"/>
+              <rect fill="#D87890" opacity="0.3" x="754" y="50" width="4" height="4"/>
+              <rect fill="#F0D890" opacity="0.6" x="824" y="34" width="4" height="4"/>
+              <rect fill="#E8A888" opacity="0.5" x="856" y="54" width="4" height="4"/>
+              <rect fill="#F0D890" opacity="0.4" x="896" y="66" width="4" height="4"/>
+            </svg>
+
+            <div class="hero-text animate-in delay-1">
+              <h1 class="hero-title">PC-98</h1>
+              <p class="hero-subtitle">NEC PC-9800 Series Aesthetic // 1982-1998</p>
+            </div>
+          </div>
+
+          <div class="hero-dialog animate-in delay-3">
+            <span class="name-plate">System</span>
+            <p class="dialog-text typewriter">PC-98 is an aesthetic originating from the NEC PC-9800 series of personal computers, dominant in Japan from the early 1980s to the late 1990s...</p>
+            <div class="hero-status">
+              <span>640x400 // 16 COLORS</span>
+              <span>FM SYNTHESIS <span class="blink-cursor"></span></span>
+            </div>
+          </div>
+        </section>
+
+        <!-- ========== VISUAL CHARACTERISTICS ========== -->
+        <section class="content-section">
+          <h2 class="section-heading animate-in">
+            <span class="heading-icon"></span>
+            Visual Characteristics
+          </h2>
+
+          <p class="body-text animate-in delay-1">The visual style is most closely associated with visual novels and eroge of the era, characterized by <strong>high-resolution pixel art (640x400)</strong>, severely limited color palettes (16-256 colors from a 4096-color bank), and meticulous dithering techniques that create the illusion of depth and gradient with minimal colors.</p>
+
+          <p class="body-text animate-in delay-2">Artists placed pixels individually, exploiting dithering patterns to simulate smooth shading, soft skin tones, and atmospheric lighting within extreme technical constraints. The result is a uniquely <strong>warm, intimate, and melancholic</strong> visual language distinct from both Western pixel art and later anime CG.</p>
+
+          <ul class="feature-list animate-in delay-3">
+            <li><strong>High-resolution pixel art</strong> at 640x400 -- far more detailed than contemporary 8-bit Western systems, allowing fine facial features, fabric folds, and architectural detail</li>
+            <li><strong>Heavy dithering</strong> -- checkerboard, ordered, and custom dither patterns used extensively to simulate gradients, soft shadows, and color transitions</li>
+            <li><strong>Limited color palette</strong> -- typically 16 simultaneous colors on screen, selected from a bank of 4096</li>
+            <li><strong>Anime and manga art style</strong> -- character designs reflecting 1980s-1990s anime conventions: large expressive eyes, detailed hair with highlights</li>
+            <li><strong>Close-up character portraits</strong> -- compositions focus on face and upper-body close-ups, often occupying the right half or center of the screen</li>
+            <li><strong>Thick ornate decorative borders</strong> -- elaborate frames with Art Nouveau-inspired flourishes, columns, floral motifs, or stained-glass patterns</li>
+            <li><strong>Soft, warm color temperature</strong> -- warm pastels, soft pinks, lavenders, and muted earth tones despite limited palettes</li>
+            <li><strong>CRT display softening</strong> -- original CRT monitors blended adjacent pixels slightly, making dithered areas appear as smooth gradients</li>
+            <li><strong>Emotional intimacy</strong> -- compositions emphasize character emotion, eye contact, and personal moments rather than action or spectacle</li>
+          </ul>
+        </section>
+
+        <!-- ========== COLOR PALETTE ========== -->
+        <section class="content-section">
+          <h2 class="section-heading">
+            <span class="heading-icon"></span>
+            Color Palette
+          </h2>
+
+          <p class="body-text">The PC-98 palette is defined by careful selection from a limited bank, with dithering used to extend perceived range. <strong>16 simultaneous colors</strong> typical per scene, chosen from a 4096-color (12-bit RGB) total bank.</p>
+
+          <div class="note-box">
+            <strong>Color restraint is critical</strong> -- resist using more than 12-16 distinct colors in any single view. The beauty of PC-98 art comes from maximizing visual richness within severe limitations.
+          </div>
+
+          <h3 class="sub-heading">Implementation Palette</h3>
+
+          <div class="palette-grid">
+            <div class="palette-swatch">
+              <div class="swatch-color" style="background:#1A1028;"></div>
+              <div class="swatch-info">
+                <span class="swatch-name">Background Dark</span>
+                <span class="swatch-hex">#1A1028</span>
+              </div>
+            </div>
+            <div class="palette-swatch">
+              <div class="swatch-color" style="background:#2D2240;"></div>
+              <div class="swatch-info">
+                <span class="swatch-name">Dusty Indigo</span>
+                <span class="swatch-hex">#2D2240</span>
+              </div>
+            </div>
+            <div class="palette-swatch">
+              <div class="swatch-color" style="background:#3A2E4A;"></div>
+              <div class="swatch-info">
+                <span class="swatch-name">Warm Charcoal</span>
+                <span class="swatch-hex">#3A2E4A</span>
+              </div>
+            </div>
+            <div class="palette-swatch">
+              <div class="swatch-color" style="background:#584870;"></div>
+              <div class="swatch-info">
+                <span class="swatch-name">Muted Mauve</span>
+                <span class="swatch-hex">#584870</span>
+              </div>
+            </div>
+            <div class="palette-swatch">
+              <div class="swatch-color" style="background:#E8D8C8;"></div>
+              <div class="swatch-info">
+                <span class="swatch-name">Cream</span>
+                <span class="swatch-hex">#E8D8C8</span>
+              </div>
+            </div>
+            <div class="palette-swatch">
+              <div class="swatch-color" style="background:#C0A8D0;"></div>
+              <div class="swatch-info">
+                <span class="swatch-name">Soft Lavender</span>
+                <span class="swatch-hex">#C0A8D0</span>
+              </div>
+            </div>
+            <div class="palette-swatch">
+              <div class="swatch-color" style="background:#D87890;"></div>
+              <div class="swatch-info">
+                <span class="swatch-name">Rose Pink</span>
+                <span class="swatch-hex">#D87890</span>
+              </div>
+            </div>
+            <div class="palette-swatch">
+              <div class="swatch-color" style="background:#E8A888;"></div>
+              <div class="swatch-info">
+                <span class="swatch-name">Peach</span>
+                <span class="swatch-hex">#E8A888</span>
+              </div>
+            </div>
+            <div class="palette-swatch">
+              <div class="swatch-color" style="background:#689098;"></div>
+              <div class="swatch-info">
+                <span class="swatch-name">Slate Teal</span>
+                <span class="swatch-hex">#689098</span>
+              </div>
+            </div>
+            <div class="palette-swatch">
+              <div class="swatch-color" style="background:#F0D890;"></div>
+              <div class="swatch-info">
+                <span class="swatch-name">Pale Gold</span>
+                <span class="swatch-hex">#F0D890</span>
+              </div>
+            </div>
+            <div class="palette-swatch">
+              <div class="swatch-color" style="background:#987858;"></div>
+              <div class="swatch-info">
+                <span class="swatch-name">Antique Bronze</span>
+                <span class="swatch-hex">#987858</span>
+              </div>
+            </div>
+            <div class="palette-swatch">
+              <div class="swatch-color" style="background:#B89088;"></div>
+              <div class="swatch-info">
+                <span class="swatch-name">Dusty Rose</span>
+                <span class="swatch-hex">#B89088</span>
+              </div>
+            </div>
+            <div class="palette-swatch">
+              <div class="swatch-color" style="background:#6848A0;"></div>
+              <div class="swatch-info">
+                <span class="swatch-name">Faded Violet</span>
+                <span class="swatch-hex">#6848A0</span>
+              </div>
+            </div>
+            <div class="palette-swatch">
+              <div class="swatch-color" style="background:#E8A070;"></div>
+              <div class="swatch-info">
+                <span class="swatch-name">Sunset Peach</span>
+                <span class="swatch-hex">#E8A070</span>
+              </div>
+            </div>
+            <div class="palette-swatch">
+              <div class="swatch-color" style="background:#608050;"></div>
+              <div class="swatch-info">
+                <span class="swatch-name">Muted Olive</span>
+                <span class="swatch-hex">#608050</span>
+              </div>
+            </div>
+            <div class="palette-swatch">
+              <div class="swatch-color" style="background:#180820;"></div>
+              <div class="swatch-info">
+                <span class="swatch-name">Deep Purple</span>
+                <span class="swatch-hex">#180820</span>
+              </div>
+            </div>
+          </div>
+
+          <h3 class="sub-heading">Dithered Gradient Simulation Pairs</h3>
+
+          <p class="body-text">For simulating the PC-98 dithering effect in CSS, these color pairs work well when alternated in checkerboard patterns:</p>
+
+          <div class="pc98-table-wrap">
+            <table class="pc98-table">
+              <thead>
+                <tr>
+                  <th>Effect</th>
+                  <th>Color A</th>
+                  <th>Color B</th>
+                  <th>Preview</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Skin tone</td>
+                  <td><code>#E8B890</code></td>
+                  <td><code>#D09078</code></td>
+                  <td><div style="width:60px;height:24px;background-image:linear-gradient(45deg,#E8B890 25%,transparent 25%,transparent 75%,#E8B890 75%),linear-gradient(45deg,#E8B890 25%,transparent 25%,transparent 75%,#E8B890 75%);background-size:4px 4px;background-position:0 0,2px 2px;background-color:#D09078;border:1px solid var(--pc98-border-dark);"></div></td>
+                </tr>
+                <tr>
+                  <td>Hair highlight</td>
+                  <td><code>#F0D0E0</code></td>
+                  <td><code>#B07898</code></td>
+                  <td><div style="width:60px;height:24px;background-image:linear-gradient(45deg,#F0D0E0 25%,transparent 25%,transparent 75%,#F0D0E0 75%),linear-gradient(45deg,#F0D0E0 25%,transparent 25%,transparent 75%,#F0D0E0 75%);background-size:4px 4px;background-position:0 0,2px 2px;background-color:#B07898;border:1px solid var(--pc98-border-dark);"></div></td>
+                </tr>
+                <tr>
+                  <td>Evening sky</td>
+                  <td><code>#6848A0</code></td>
+                  <td><code>#D88868</code></td>
+                  <td><div style="width:60px;height:24px;background-image:linear-gradient(45deg,#6848A0 25%,transparent 25%,transparent 75%,#6848A0 75%),linear-gradient(45deg,#6848A0 25%,transparent 25%,transparent 75%,#6848A0 75%);background-size:4px 4px;background-position:0 0,2px 2px;background-color:#D88868;border:1px solid var(--pc98-border-dark);"></div></td>
+                </tr>
+                <tr>
+                  <td>Shadow on fabric</td>
+                  <td><code>#584870</code></td>
+                  <td><code>#3A2E4A</code></td>
+                  <td><div style="width:60px;height:24px;background-image:linear-gradient(45deg,#584870 25%,transparent 25%,transparent 75%,#584870 75%),linear-gradient(45deg,#584870 25%,transparent 25%,transparent 75%,#584870 75%);background-size:4px 4px;background-position:0 0,2px 2px;background-color:#3A2E4A;border:1px solid var(--pc98-border-dark);"></div></td>
+                </tr>
+                <tr>
+                  <td>Water/pool</td>
+                  <td><code>#4878A0</code></td>
+                  <td><code>#68A8B8</code></td>
+                  <td><div style="width:60px;height:24px;background-image:linear-gradient(45deg,#4878A0 25%,transparent 25%,transparent 75%,#4878A0 75%),linear-gradient(45deg,#4878A0 25%,transparent 25%,transparent 75%,#4878A0 75%);background-size:4px 4px;background-position:0 0,2px 2px;background-color:#68A8B8;border:1px solid var(--pc98-border-dark);"></div></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ========== DITHERING PATTERNS ========== -->
+        <section class="content-section">
+          <h2 class="section-heading">
+            <span class="heading-icon"></span>
+            Dithering Patterns
+          </h2>
+
+          <p class="body-text">The visual signature of the PC-98 aesthetic -- used everywhere to simulate gradients. Without visible dithering patterns, the result will look like generic dark-mode anime, not PC-98.</p>
+
+          <div class="dither-demo-grid">
+            <div class="dither-demo-item">
+              <div class="dither-preview dither-checker"></div>
+              <div class="dither-label">Checkerboard Dither</div>
+            </div>
+            <div class="dither-demo-item">
+              <div class="dither-preview dither-fine"></div>
+              <div class="dither-label">Fine Dither (2px)</div>
+            </div>
+            <div class="dither-demo-item">
+              <div class="dither-preview dither-hlines"></div>
+              <div class="dither-label">Horizontal Lines</div>
+            </div>
+            <div class="dither-demo-item">
+              <div class="dither-preview dither-gradient"></div>
+              <div class="dither-label">Gradient Dither</div>
+            </div>
+            <div class="dither-demo-item">
+              <div class="dither-preview dither-skin"></div>
+              <div class="dither-label">Skin Tone Dither</div>
+            </div>
+            <div class="dither-demo-item">
+              <div class="dither-preview dither-evening"></div>
+              <div class="dither-label">Evening Sky Dither</div>
+            </div>
+          </div>
+
+          <h3 class="sub-heading">Atmospheric Sky Gradients</h3>
+
+          <p class="body-text">PC-98 games rendered sunset and twilight skies through extensive dithering. Modern CSS can simulate both smooth and stepped (discrete band) versions:</p>
+
+          <div class="two-col">
+            <div>
+              <div class="sky-demo sky-demo-smooth">
+                <span class="sky-demo-label">Smooth Gradient</span>
+              </div>
+            </div>
+            <div>
+              <div class="sky-demo sky-demo-stepped">
+                <span class="sky-demo-label">Stepped Bands</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ========== TYPOGRAPHY ========== -->
+        <section class="content-section">
+          <h2 class="section-heading">
+            <span class="heading-icon"></span>
+            Typography
+          </h2>
+
+          <p class="body-text">PC-98 typography reflects the constraints of rendering complex Japanese characters on a 640x400 pixel grid. All text was drawn on a fixed grid, typically <strong>16x16 pixel cells</strong> for Japanese characters and <strong>8x16 for Latin characters</strong>. Modern web fonts that evoke this feel:</p>
+
+          <div class="type-specimen">
+            <div class="type-specimen-label">Press Start 2P // Headings & UI</div>
+            <div class="type-press-start">ABCDEFGHIJKLMNOP 0123456789</div>
+          </div>
+
+          <div class="type-specimen">
+            <div class="type-specimen-label">M PLUS 1 Code // Primary Body Text</div>
+            <div class="type-mplus">The screen glows softly in the dim room. Each pixel placed with care, each color chosen from a palette of just sixteen. This is how we told stories in 1992.</div>
+          </div>
+
+          <div class="type-specimen">
+            <div class="type-specimen-label">DotGothic16 // Retro Japanese Feel</div>
+            <div class="type-dotgothic">Warm pastels, dithered textures, ornate borders, and the intimate atmosphere of visual novels from a bygone era.</div>
+          </div>
+
+          <div class="type-specimen">
+            <div class="type-specimen-label">VT323 // Status & Data Displays</div>
+            <div class="type-vt323">SYSTEM: NEC PC-9801 // RAM: 640KB // DISPLAY: 640x400 // COLORS: 16/4096 // SOUND: YM2608</div>
+          </div>
+
+          <div class="type-specimen">
+            <div class="type-specimen-label">Silkscreen // Small UI Labels</div>
+            <div class="type-silkscreen">DATE: AUG.12 (TUE) // TIME: PM 03:15 // LOCATION: SCHOOL ROOFTOP // STATUS: OPERATIONAL</div>
+          </div>
+
+          <div class="note-box">
+            <strong>Dialog-driven interaction</strong> -- the visual novel format means text is the primary interactive element. Design for reading comfort with generous line-height, warm text colors, and dark dialog box backgrounds.
+          </div>
+        </section>
+
+        <!-- ========== KEY DESIGN ELEMENTS ========== -->
+        <section class="content-section">
+          <h2 class="section-heading">
+            <span class="heading-icon"></span>
+            Key Design Elements
+          </h2>
+
+          <h3 class="sub-heading">Ornate Decorative Borders</h3>
+          <p class="body-text">The defining UI element of PC-98 games -- elaborate frames surrounding the main viewport. Art Nouveau-inspired columns, floral motifs, stained-glass effects, and layered border construction with metallic bronze/gold appearance.</p>
+
+          <div class="card">
+            <div class="card-title">Frame Construction</div>
+            <p>Multiple layers -- inner frame, ornamental middle zone, outer frame. Even a simplified version with layered box-shadows and warm bronze borders evokes the aesthetic. The ornate borders are what immediately distinguish PC-98 games from other pixel art styles.</p>
+          </div>
+
+          <h3 class="sub-heading">Dialog Box</h3>
+          <p class="body-text">The core visual novel element: solid dark background with high-contrast text, positioned at the bottom of the screen, spanning most of the width.</p>
+
+          <div class="dialog-box">
+            <span class="name-plate">Narrator</span>
+            <p class="dialog-text">The summer breeze carried the scent of jasmine through the open window. She turned to face me, her eyes catching the amber light of the setting sun. In that moment, the world was reduced to just the two of us and the sound of cicadas in the distance...</p>
+            <div class="dialog-status">
+              <span>AUG.12 (Tue) PM 5:30</span>
+              <span>CHAPTER 03 <span class="blink-cursor"></span></span>
+            </div>
+          </div>
+
+          <h3 class="sub-heading">Status Panels</h3>
+          <p class="body-text">Date/time displays, currency counters, and status indicators in dedicated UI regions using digital/segmented number fonts.</p>
+
+          <div class="status-bar">
+            <div class="status-panel">
+              <span class="label">DATE:</span>
+              <span>1994.08.12</span>
+            </div>
+            <div class="status-panel">
+              <span class="label">DAY:</span>
+              <span>Tuesday</span>
+            </div>
+            <div class="status-panel">
+              <span class="label">TIME:</span>
+              <span>PM 03:15</span>
+            </div>
+            <div class="segment-display">MONEY: 12,500</div>
+            <div class="segment-display">HP: 085/100</div>
+          </div>
+
+          <h3 class="sub-heading">Character Art</h3>
+          <p class="body-text">Large, detailed character portraits are the focal point of most screens. 1980s-1990s anime style with large eyes, detailed hair with multi-color highlights, and skin rendered with warm dithered tones -- peach, pink, and cream blended through dithering.</p>
+
+          <h3 class="sub-heading">Background Environments</h3>
+          <p class="body-text">Detailed architectural scenes -- schools, city streets, residential interiors, parks. Atmospheric sky gradients created through extensive dithering. Careful perspective-correct environments despite pixel limitations. The mood is soft, melancholic: twilight, sunset, quiet moments, rainy windows, school hallways.</p>
+        </section>
+
+        <!-- ========== LAYOUT PRINCIPLES ========== -->
+        <section class="content-section">
+          <h2 class="section-heading">
+            <span class="heading-icon"></span>
+            Layout Principles
+          </h2>
+
+          <p class="body-text">The canonical PC-98 resolution is <strong>640x400</strong> (8:5 aspect ratio). Layouts follow a three-zone vertical structure: ornate border frame (sides), main viewport (center), and dialog/UI strip (bottom).</p>
+
+          <div class="two-col">
+            <div class="card">
+              <div class="card-title">Original Layout</div>
+              <ul class="feature-list">
+                <li><strong>Fixed 640x400 composition</strong> -- the canonical resolution</li>
+                <li><strong>Three-zone vertical layout</strong> -- borders, viewport, dialog</li>
+                <li><strong>Character portrait on one side</strong>, scene on the other</li>
+                <li><strong>Dialog box anchored to bottom</strong> spanning full width</li>
+                <li><strong>Generous border regions</strong> consuming 10-15% of screen width</li>
+                <li><strong>Single-screen compositions</strong> -- no scrolling</li>
+              </ul>
+            </div>
+            <div class="card">
+              <div class="card-title">Modern Web Adaptation</div>
+              <ul class="feature-list">
+                <li><strong>Ornate border as page frame</strong> -- decorative side panels flanking content</li>
+                <li><strong>Dialog box pattern</strong> for content sections -- dark panels with light text</li>
+                <li><strong>Card-based layouts</strong> with thick decorative borders</li>
+                <li><strong>Fixed or max-width containers</strong> referencing the 8:5 ratio</li>
+                <li><strong>Dark mode by default</strong> -- dark backgrounds with warm accent colors</li>
+                <li><strong>Status information in corners</strong> -- date/time, stats, money</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- ========== CSS TECHNIQUES ========== -->
+        <section class="content-section">
+          <h2 class="section-heading">
+            <span class="heading-icon"></span>
+            CSS / Design Techniques
+          </h2>
+
+          <p class="body-text">Key CSS techniques for implementing the PC-98 aesthetic on the modern web:</p>
+
+          <h3 class="sub-heading">Checkerboard Dither Pattern</h3>
+          <div class="code-block">
+            <span class="code-comment">/* The signature PC-98 texture */</span><br>
+            <span class="code-sel">.pc98-dither</span> {<br>
+            &nbsp;&nbsp;<span class="code-prop">background-image</span>:<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;linear-gradient(45deg,<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-val">var(--pc98-bg-surface)</span> 25%, transparent 25%,<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;transparent 75%, <span class="code-val">var(--pc98-bg-surface)</span> 75%),<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;linear-gradient(45deg,<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-val">var(--pc98-bg-surface)</span> 25%, transparent 25%,<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;transparent 75%, <span class="code-val">var(--pc98-bg-surface)</span> 75%);<br>
+            &nbsp;&nbsp;<span class="code-prop">background-size</span>: <span class="code-val">4px 4px</span>;<br>
+            &nbsp;&nbsp;<span class="code-prop">background-position</span>: <span class="code-val">0 0, 2px 2px</span>;<br>
+            &nbsp;&nbsp;<span class="code-prop">background-color</span>: <span class="code-val">var(--pc98-bg-mid)</span>;<br>
+            }
+          </div>
+
+          <h3 class="sub-heading">Ornate Border Frame</h3>
+          <div class="code-block">
+            <span class="code-sel">.pc98-frame</span> {<br>
+            &nbsp;&nbsp;<span class="code-prop">border</span>: <span class="code-val">3px solid var(--pc98-border-bronze)</span>;<br>
+            &nbsp;&nbsp;<span class="code-prop">box-shadow</span>:<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;inset 0 0 0 1px <span class="code-val">var(--pc98-border-dark)</span>,<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;inset 0 0 0 4px <span class="code-val">var(--pc98-bg-surface)</span>,<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;inset 0 0 0 5px <span class="code-val">var(--pc98-border-rose)</span>,<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;0 0 0 1px <span class="code-val">var(--pc98-border-dark)</span>,<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;0 0 0 4px <span class="code-val">var(--pc98-bg-surface-light)</span>,<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;0 0 0 5px <span class="code-val">var(--pc98-border-bronze)</span>;<br>
+            }
+          </div>
+
+          <h3 class="sub-heading">CRT Monitor Effect</h3>
+          <div class="code-block">
+            <span class="code-comment">/* Subtle scanline overlay */</span><br>
+            <span class="code-sel">.pc98-crt::after</span> {<br>
+            &nbsp;&nbsp;<span class="code-prop">content</span>: <span class="code-val">''</span>;<br>
+            &nbsp;&nbsp;<span class="code-prop">position</span>: <span class="code-val">absolute</span>; <span class="code-prop">inset</span>: <span class="code-val">0</span>;<br>
+            &nbsp;&nbsp;<span class="code-prop">background</span>: repeating-linear-gradient(<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;to bottom,<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;transparent 0px, transparent 2px,<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-val">rgba(0,0,0,0.08)</span> 2px, <span class="code-val">rgba(0,0,0,0.08)</span> 4px);<br>
+            &nbsp;&nbsp;<span class="code-prop">pointer-events</span>: <span class="code-val">none</span>;<br>
+            }
+          </div>
+
+          <h3 class="sub-heading">Pixel-Perfect Rendering</h3>
+          <div class="code-block">
+            <span class="code-sel">img, canvas</span> {<br>
+            &nbsp;&nbsp;<span class="code-prop">image-rendering</span>: <span class="code-val">pixelated</span>;<br>
+            &nbsp;&nbsp;<span class="code-prop">image-rendering</span>: <span class="code-val">crisp-edges</span>;<br>
+            }
+          </div>
+        </section>
+
+        <!-- ========== MATERIALS & TEXTURES ========== -->
+        <section class="content-section">
+          <h2 class="section-heading">
+            <span class="heading-icon"></span>
+            Materials & Textures
+          </h2>
+
+          <p class="body-text">Translating physical and game-era visual metaphors to modern web equivalents:</p>
+
+          <div class="pc98-table-wrap">
+            <table class="pc98-table">
+              <thead>
+                <tr>
+                  <th>Physical / Game Reference</th>
+                  <th>Web Equivalent</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Dithered pixel gradients</td>
+                  <td>CSS checkerboard <code>background-image</code> patterns with two alternating colors at 2-4px scale</td>
+                </tr>
+                <tr>
+                  <td>Ornate Art Nouveau border columns</td>
+                  <td>Multi-layered <code>box-shadow</code> frames, repeating <code>background-image</code> patterns</td>
+                </tr>
+                <tr>
+                  <td>CRT monitor softening</td>
+                  <td>Subtle scanline overlay via <code>repeating-linear-gradient</code>, slight <code>filter: blur(0.3px)</code></td>
+                </tr>
+                <tr>
+                  <td>Pixel art character portraits</td>
+                  <td>Scaled images with <code>image-rendering: pixelated</code>, or SVG pixel art</td>
+                </tr>
+                <tr>
+                  <td>Dark dialog box overlay</td>
+                  <td>Semi-transparent black <code>rgba(0,0,0,0.92)</code> panels with thin colored borders</td>
+                </tr>
+                <tr>
+                  <td>Bronze/gold metallic UI trim</td>
+                  <td>Warm brown/gold border colors with subtle <code>box-shadow</code> for depth</td>
+                </tr>
+                <tr>
+                  <td>Atmospheric sunset skies</td>
+                  <td>Multi-stop <code>linear-gradient</code> with stepped (non-smooth) color bands</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ========== COMPONENT SHOWCASE ========== -->
+        <section class="content-section">
+          <h2 class="section-heading">
+            <span class="heading-icon"></span>
+            Component Showcase
+          </h2>
+
+          <h3 class="sub-heading">Buttons</h3>
+          <p class="body-text">PC-98 styled interactive elements with stepped transitions mimicking the discrete feel of pixel-era interfaces:</p>
+
+          <div class="btn-group">
+            <button class="btn">Start Game</button>
+            <button class="btn">Load Save</button>
+            <button class="btn">Options</button>
+            <button class="btn">Gallery</button>
+          </div>
+
+          <h3 class="sub-heading">Content Cards</h3>
+
+          <div class="two-col">
+            <div class="card">
+              <div class="card-title">Visual Novel Format</div>
+              <p>Text is the primary interactive element. Dialog boxes, character name plates, and typewriter text reveals form the core interaction pattern. Generous line-height and warm text colors on dark backgrounds ensure reading comfort during extended play sessions.</p>
+            </div>
+            <div class="card">
+              <div class="card-title">Pixel Art Constraints</div>
+              <p>640x400 resolution with 16 simultaneous colors from a 4096-color bank. Artists exploited dithering patterns -- checkerboard, ordered, and custom arrangements -- to simulate smooth shading, soft skin tones, and atmospheric lighting within these severe technical limits.</p>
+            </div>
+          </div>
+
+          <h3 class="sub-heading">Dialog Variants</h3>
+
+          <div class="dialog-box">
+            <span class="name-plate">Sakura</span>
+            <p class="dialog-text">I wonder if you'll remember this place. The classroom where we first met, the afternoon light painting everything in gold. It was summer, just like now...</p>
+            <div class="dialog-status">
+              <span>JUL.24 (Thu) PM 4:45</span>
+              <span>AFFECTION: <span style="color:var(--pc98-accent-rose);">++</span></span>
+            </div>
+          </div>
+
+          <div class="dialog-box" style="margin-top:2rem;">
+            <span class="name-plate">System</span>
+            <p class="dialog-text" style="color:var(--pc98-accent-teal);">-- SAVE DATA LOADED SUCCESSFULLY --<br>Chapter 03: "The Rooftop" // Progress: 42% // Play Time: 02:34:17</p>
+            <div class="dialog-status">
+              <span>SLOT 03</span>
+              <span>CONTINUE? [Y/N] <span class="blink-cursor"></span></span>
+            </div>
+          </div>
+        </section>
+
+        <!-- ========== RELATED AESTHETICS ========== -->
+        <section class="content-section">
+          <h2 class="section-heading">
+            <span class="heading-icon"></span>
+            Related Aesthetics
+          </h2>
+
+          <p class="body-text">PC-98 exists within a constellation of related visual cultures, from its pixel art roots to the nostalgic movements it inspired:</p>
+
+          <div class="tag-list">
+            <span class="tag">8-Bit</span>
+            <span class="tag">Animecore</span>
+            <span class="tag">Cassette Futurism</span>
+            <span class="tag">Cyberpunk</span>
+            <span class="tag">Future Funk</span>
+            <span class="tag">Heisei Retro</span>
+            <span class="tag">Lo-fi</span>
+            <span class="tag">Pixel UI</span>
+            <span class="tag">Retrofuturism</span>
+            <span class="tag">Vaporwave</span>
+          </div>
+
+          <div class="pc98-table-wrap">
+            <table class="pc98-table">
+              <thead>
+                <tr>
+                  <th>Aesthetic</th>
+                  <th>Relationship</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>8-Bit</strong></td>
+                  <td>Earlier generation; PC-98 is far more detailed with higher resolution and more colors, but shares pixel art foundation</td>
+                </tr>
+                <tr>
+                  <td><strong>Animecore</strong></td>
+                  <td>Overlapping visual language; PC-98 is the pixel-art-era predecessor of digital anime aesthetics</td>
+                </tr>
+                <tr>
+                  <td><strong>Cassette Futurism</strong></td>
+                  <td>Shares retro-tech nostalgia and 1980s-90s Japanese computing culture</td>
+                </tr>
+                <tr>
+                  <td><strong>Cyberpunk</strong></td>
+                  <td>Some PC-98 games (Policenauts, Night Slave) share cyberpunk themes and neon-accented visuals</td>
+                </tr>
+                <tr>
+                  <td><strong>Future Funk</strong></td>
+                  <td>Borrows PC-98 and city pop era imagery for nostalgic Japanese retro-futurism</td>
+                </tr>
+                <tr>
+                  <td><strong>Lo-fi</strong></td>
+                  <td>Shares melancholic, low-fidelity, nostalgic mood; PC-98 screenshots are common lo-fi visual elements</td>
+                </tr>
+                <tr>
+                  <td><strong>Vaporwave</strong></td>
+                  <td>Heavily draws from PC-98 limited palettes and nostalgic Japanese computing imagery</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ========== IMPLEMENTATION NOTES ========== -->
+        <section class="content-section">
+          <h2 class="section-heading">
+            <span class="heading-icon"></span>
+            Implementation Notes
+          </h2>
+
+          <div class="card">
+            <div class="card-title">Essential Guidelines</div>
+            <ul class="feature-list">
+              <li><strong>Warm and intimate, not cold or clinical.</strong> Avoid the temptation to make it look like generic retro-tech. The defining mood is soft melancholy, not hard-edged futurism.</li>
+              <li><strong>Dithering is the visual signature</strong> -- without visible dithering patterns, the result will look like generic dark-mode anime, not PC-98. Use CSS checkerboard patterns, stepped gradients, and pixelated textures.</li>
+              <li><strong>Ornate borders are essential</strong> -- the elaborate decorative UI frames are what immediately distinguish PC-98 games from other pixel art styles.</li>
+              <li><strong>CRT viewing context matters</strong> -- original art was designed for CRT monitors that softened pixels. A subtle scanline overlay can approximate this.</li>
+              <li><strong>Color restraint is critical</strong> -- resist using more than 12-16 distinct colors in any single view.</li>
+              <li><strong>Sound design</strong> complements the aesthetic: FM synthesis music (Yamaha YM2203/YM2608) with bright, clear, bell-like tones.</li>
+              <li><strong>Dialog-driven interaction</strong> -- design for reading comfort with generous line-height, warm text colors, and dark backgrounds.</li>
+            </ul>
+          </div>
+
+          <div class="note-box">
+            <strong>Imagery guidelines:</strong> Favor anime-style illustrations with visible pixel structure. Use limited color palettes (16-32 colors max). Scale pixel art at integer multiples (2x, 3x, 4x) with <span class="inline-code">image-rendering: pixelated</span>. Frame imagery within decorative borders. The mood should be soft, melancholic: twilight, sunset, quiet moments.
+          </div>
+        </section>
+
+        <!-- ========== FOOTER ========== -->
+        <section class="footer-section">
+          <div class="footer-ornament">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+          <p>PC-98 AESTHETIC // DESIGN REFERENCE</p>
+          <p>NEC PC-9800 SERIES // 1982-1998 // 640x400 // 16 COLORS // FM SYNTHESIS</p>
+          <p style="margin-top:0.8rem;color:var(--pc98-accent-teal);">A uniquely warm, intimate, and melancholic visual language</p>
+          <div class="status-bar" style="justify-content:center;margin-top:1.2rem;">
+            <div class="status-panel">
+              <span class="label">SYS:</span>
+              <span>PC-9801</span>
+            </div>
+            <div class="status-panel">
+              <span class="label">RES:</span>
+              <span>640x400</span>
+            </div>
+            <div class="segment-display">END</div>
+          </div>
+        </section>
+
+      </div>
+
+      <!-- RIGHT ORNATE BORDER -->
+      <div class="border-col border-right">
+        <div class="border-col-inner"></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ============================================
+       JAVASCRIPT -- SCROLL ANIMATIONS
+       ============================================ -->
+  <script>
+    // Intersection Observer for scroll-triggered animations
+    document.addEventListener('DOMContentLoaded', function() {
+      const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -40px 0px'
+      };
+
+      const observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            entry.target.style.opacity = '1';
+            entry.target.style.transform = 'translateY(0)';
+            observer.unobserve(entry.target);
+          }
+        });
+      }, observerOptions);
+
+      // Observe all content sections for scroll reveal
+      document.querySelectorAll('.content-section').forEach(function(section) {
+        section.style.opacity = '0';
+        section.style.transform = 'translateY(20px)';
+        section.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+        observer.observe(section);
+      });
+
+      // Typewriter effect for dialog text
+      var typewriterEl = document.querySelector('.typewriter');
+      if (typewriterEl) {
+        var fullText = typewriterEl.textContent;
+        typewriterEl.textContent = '';
+        typewriterEl.style.borderRight = '2px solid var(--pc98-accent-gold)';
+        var charIndex = 0;
+        var typeSpeed = 35;
+
+        function typeChar() {
+          if (charIndex < fullText.length) {
+            typewriterEl.textContent += fullText.charAt(charIndex);
+            charIndex++;
+            setTimeout(typeChar, typeSpeed);
+          } else {
+            // Blinking cursor after typing finishes
+            setInterval(function() {
+              typewriterEl.style.borderRightColor =
+                typewriterEl.style.borderRightColor === 'transparent'
+                  ? 'var(--pc98-accent-gold)'
+                  : 'transparent';
+            }, 500);
+          }
+        }
+
+        // Start typing after a short delay
+        setTimeout(typeChar, 800);
+      }
+
+      // Animate palette swatches with staggered delay
+      document.querySelectorAll('.palette-swatch').forEach(function(swatch, index) {
+        swatch.style.opacity = '0';
+        swatch.style.transform = 'translateY(10px)';
+        swatch.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+        swatch.style.transitionDelay = (index * 0.05) + 's';
+      });
+
+      var paletteObserver = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            entry.target.querySelectorAll('.palette-swatch').forEach(function(swatch) {
+              swatch.style.opacity = '1';
+              swatch.style.transform = 'translateY(0)';
+            });
+            paletteObserver.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.2 });
+
+      var paletteGrid = document.querySelector('.palette-grid');
+      if (paletteGrid) {
+        paletteObserver.observe(paletteGrid);
+      }
+
+      // Animate dither demo items
+      document.querySelectorAll('.dither-demo-item').forEach(function(item, index) {
+        item.style.opacity = '0';
+        item.style.transform = 'scale(0.95)';
+        item.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+        item.style.transitionDelay = (index * 0.08) + 's';
+      });
+
+      var ditherObserver = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            entry.target.querySelectorAll('.dither-demo-item').forEach(function(item) {
+              item.style.opacity = '1';
+              item.style.transform = 'scale(1)';
+            });
+            ditherObserver.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.2 });
+
+      var ditherGrid = document.querySelector('.dither-demo-grid');
+      if (ditherGrid) {
+        ditherObserver.observe(ditherGrid);
+      }
+    });
+  </script>
+
+</body>
+</html>
