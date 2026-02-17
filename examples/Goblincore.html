@@ -1,0 +1,2055 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Goblincore - Design Aesthetic Reference</title>
+  <link href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&family=Caveat:wght@400;500;600;700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Merriweather:wght@300;400;700&family=Patrick+Hand&display=swap" rel="stylesheet">
+  <style>
+    /* ============================================
+       CSS CUSTOM PROPERTIES
+       ============================================ */
+    :root {
+      --goblin-forest-floor: #3B2F2F;
+      --goblin-toadstool: #C4A882;
+      --goblin-moss: #4A6741;
+      --goblin-lichen: #B8A44C;
+      --goblin-mushroom-cap: #8B6F4E;
+      --goblin-damp-earth: #5C4033;
+      --goblin-snail-shell: #D4C5A9;
+      --goblin-toad-belly: #C17817;
+      --goblin-fern: #6B8E5A;
+      --goblin-river-stone: #8E8E8E;
+    }
+
+    /* ============================================
+       RESET & BASE
+       ============================================ */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Libre Baskerville', Georgia, serif;
+      font-size: 1.05rem;
+      line-height: 1.75;
+      color: var(--goblin-forest-floor);
+      background: var(--goblin-snail-shell);
+      min-height: 100vh;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Paper texture overlay on the whole page */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0.03;
+      background-image:
+        url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+    }
+
+    /* ============================================
+       ANIMATIONS
+       ============================================ */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes floatGentle {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    @keyframes sway {
+      0%, 100% { transform: rotate(-2deg); }
+      50% { transform: rotate(2deg); }
+    }
+
+    @keyframes mushroomGrow {
+      from {
+        opacity: 0;
+        transform: scale(0.7) translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
+    }
+
+    @keyframes wiggle {
+      0%, 100% { transform: rotate(-1deg); }
+      25% { transform: rotate(1deg); }
+      50% { transform: rotate(-0.5deg); }
+      75% { transform: rotate(1.5deg); }
+    }
+
+    @keyframes crawl {
+      0% { transform: translateX(-10px); }
+      100% { transform: translateX(10px); }
+    }
+
+    @keyframes dapple {
+      0%, 100% { opacity: 0.08; }
+      50% { opacity: 0.15; }
+    }
+
+    @keyframes sporeFloat {
+      0% {
+        transform: translateY(0) translateX(0) scale(1);
+        opacity: 0;
+      }
+      10% {
+        opacity: 0.6;
+      }
+      90% {
+        opacity: 0.3;
+      }
+      100% {
+        transform: translateY(-120px) translateX(30px) scale(0.3);
+        opacity: 0;
+      }
+    }
+
+    .animate-on-scroll {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .animate-on-scroll.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ============================================
+       NAVIGATION
+       ============================================ */
+    .goblin-nav {
+      background: var(--goblin-damp-earth);
+      border-bottom: 3px solid var(--goblin-mushroom-cap);
+      padding: 16px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      animation: fadeIn 0.8s ease;
+    }
+
+    .goblin-nav::after {
+      content: '';
+      position: absolute;
+      bottom: -6px;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: repeating-linear-gradient(
+        90deg,
+        var(--goblin-mushroom-cap),
+        var(--goblin-mushroom-cap) 8px,
+        transparent 8px,
+        transparent 14px
+      );
+    }
+
+    .nav-logo {
+      font-family: 'Caveat', cursive;
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--goblin-lichen);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .nav-logo .mushroom-icon {
+      font-size: 1.4rem;
+      animation: sway 3s ease-in-out infinite;
+      display: inline-block;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 24px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--goblin-snail-shell);
+      font-family: 'Caveat', cursive;
+      font-size: 1.15rem;
+      font-weight: 500;
+      text-decoration: none;
+      transition: color 0.3s ease;
+      position: relative;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--goblin-lichen);
+      transition: width 0.3s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--goblin-lichen);
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    /* ============================================
+       HERO SECTION
+       ============================================ */
+    .goblin-hero {
+      background: var(--goblin-forest-floor);
+      color: var(--goblin-snail-shell);
+      padding: 100px 40px 120px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Dappled forest light */
+    .goblin-hero::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background:
+        radial-gradient(ellipse at 20% 80%, rgba(74, 103, 65, 0.2) 0%, transparent 50%),
+        radial-gradient(ellipse at 75% 20%, rgba(184, 164, 76, 0.12) 0%, transparent 45%),
+        radial-gradient(ellipse at 50% 50%, rgba(107, 142, 90, 0.08) 0%, transparent 60%),
+        radial-gradient(circle at 80% 70%, rgba(193, 120, 23, 0.06) 0%, transparent 40%);
+      pointer-events: none;
+      animation: dapple 8s ease-in-out infinite;
+    }
+
+    /* Moss ground texture */
+    .goblin-hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 80px;
+      background: linear-gradient(to top, var(--goblin-damp-earth), transparent);
+      pointer-events: none;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-overline {
+      font-family: 'Patrick Hand', cursive;
+      font-size: 1.1rem;
+      color: var(--goblin-fern);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+      animation: fadeInUp 0.8s ease 0.2s both;
+    }
+
+    .goblin-hero h1 {
+      font-family: 'Amatic SC', cursive;
+      font-size: clamp(3rem, 8vw, 6rem);
+      font-weight: 700;
+      color: var(--goblin-lichen);
+      line-height: 1.1;
+      margin-bottom: 16px;
+      animation: fadeInUp 0.8s ease 0.4s both;
+      text-shadow: 2px 3px 6px rgba(0,0,0,0.3);
+    }
+
+    .goblin-hero .subtitle {
+      font-family: 'Libre Baskerville', Georgia, serif;
+      font-style: italic;
+      font-size: 1.15rem;
+      color: rgba(212, 197, 169, 0.75);
+      max-width: 600px;
+      margin: 0 auto 32px;
+      animation: fadeInUp 0.8s ease 0.6s both;
+    }
+
+    /* Spore particles */
+    .spore-container {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .spore {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      background: var(--goblin-lichen);
+      border-radius: 50%;
+      opacity: 0;
+      animation: sporeFloat linear infinite;
+    }
+
+    /* Decorative mushrooms in hero */
+    .hero-mushrooms {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      margin-top: 40px;
+      animation: fadeInUp 0.8s ease 0.8s both;
+    }
+
+    .hero-mushroom {
+      font-size: 2rem;
+      animation: floatGentle 4s ease-in-out infinite;
+      filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
+    }
+
+    .hero-mushroom:nth-child(2) { animation-delay: 0.5s; }
+    .hero-mushroom:nth-child(3) { animation-delay: 1s; }
+    .hero-mushroom:nth-child(4) { animation-delay: 1.5s; }
+    .hero-mushroom:nth-child(5) { animation-delay: 0.3s; }
+
+    /* ============================================
+       SECTION WRAPPER
+       ============================================ */
+    .section {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 60px 32px;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .section-header h2 {
+      font-family: 'Caveat', cursive;
+      font-weight: 700;
+      font-size: clamp(2rem, 4vw, 2.8rem);
+      color: var(--goblin-moss);
+      margin-bottom: 8px;
+    }
+
+    .section-header .section-sub {
+      font-family: 'Patrick Hand', cursive;
+      font-size: 1.1rem;
+      color: var(--goblin-mushroom-cap);
+    }
+
+    /* ============================================
+       TWIG DIVIDER
+       ============================================ */
+    .goblin-divider {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin: 0 auto;
+      padding: 0 20px;
+      max-width: 600px;
+    }
+
+    .goblin-divider::before,
+    .goblin-divider::after {
+      content: '';
+      flex: 1;
+      height: 2px;
+      background: linear-gradient(to right, transparent, var(--goblin-mushroom-cap), transparent);
+    }
+
+    .goblin-divider span {
+      font-family: 'Caveat', cursive;
+      font-size: 1.5rem;
+      color: var(--goblin-moss);
+      white-space: nowrap;
+    }
+
+    /* ============================================
+       OVERVIEW SECTION - Field notebook style
+       ============================================ */
+    .overview-section {
+      background: var(--goblin-forest-floor);
+      position: relative;
+    }
+
+    .overview-section::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+      background: repeating-linear-gradient(
+        90deg,
+        var(--goblin-moss),
+        var(--goblin-moss) 4px,
+        transparent 4px,
+        transparent 10px
+      );
+    }
+
+    .notebook-page {
+      background: var(--goblin-snail-shell);
+      border: 2px solid var(--goblin-mushroom-cap);
+      border-radius: 4px 16px 4px 16px;
+      padding: 48px 48px 48px 72px;
+      max-width: 800px;
+      margin: 0 auto;
+      position: relative;
+      box-shadow:
+        3px 4px 0px var(--goblin-mushroom-cap),
+        6px 8px 20px rgba(59, 47, 47, 0.2);
+    }
+
+    /* Notebook ruled lines */
+    .notebook-page::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 28px,
+        rgba(139, 111, 78, 0.08) 28px,
+        rgba(139, 111, 78, 0.08) 29px
+      );
+      border-radius: inherit;
+      pointer-events: none;
+    }
+
+    /* Red margin line */
+    .notebook-page::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 60px;
+      bottom: 0;
+      width: 2px;
+      background: rgba(180, 80, 80, 0.2);
+      pointer-events: none;
+    }
+
+    .notebook-page h2 {
+      font-family: 'Caveat', cursive;
+      font-weight: 700;
+      font-size: 2.2rem;
+      color: var(--goblin-moss);
+      margin-bottom: 16px;
+      position: relative;
+    }
+
+    .notebook-page p {
+      font-size: 1rem;
+      line-height: 1.85;
+      color: var(--goblin-forest-floor);
+      position: relative;
+    }
+
+    .tape-strip {
+      position: absolute;
+      top: -12px;
+      right: 30px;
+      width: 80px;
+      height: 28px;
+      background: rgba(196, 168, 130, 0.6);
+      border: 1px solid rgba(139, 111, 78, 0.3);
+      transform: rotate(3deg);
+      z-index: 2;
+    }
+
+    .tape-strip-left {
+      position: absolute;
+      top: 20px;
+      left: -10px;
+      width: 70px;
+      height: 24px;
+      background: rgba(196, 168, 130, 0.5);
+      border: 1px solid rgba(139, 111, 78, 0.2);
+      transform: rotate(-5deg);
+      z-index: 2;
+    }
+
+    /* ============================================
+       VISUAL TRAITS - Collection display
+       ============================================ */
+    .traits-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 24px;
+    }
+
+    .trait-card {
+      background: var(--goblin-snail-shell);
+      border: 2px solid var(--goblin-mushroom-cap);
+      border-radius: 8px 12px 8px 14px;
+      padding: 28px 28px 28px 32px;
+      position: relative;
+      box-shadow:
+        2px 3px 0px var(--goblin-mushroom-cap),
+        4px 6px 12px rgba(59, 47, 47, 0.12);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .trait-card:hover {
+      transform: translate(-2px, -3px);
+      box-shadow:
+        4px 6px 0px var(--goblin-mushroom-cap),
+        6px 10px 20px rgba(59, 47, 47, 0.18);
+    }
+
+    /* Paper texture on cards */
+    .trait-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 28px,
+        rgba(139, 111, 78, 0.06) 28px,
+        rgba(139, 111, 78, 0.06) 29px
+      );
+      border-radius: inherit;
+      pointer-events: none;
+    }
+
+    .trait-icon {
+      font-size: 1.8rem;
+      margin-bottom: 12px;
+      display: block;
+      animation: mushroomGrow 0.6s ease both;
+    }
+
+    .trait-card h3 {
+      font-family: 'Caveat', cursive;
+      font-weight: 700;
+      font-size: 1.5rem;
+      color: var(--goblin-moss);
+      margin-bottom: 8px;
+    }
+
+    .trait-card p {
+      font-size: 0.92rem;
+      line-height: 1.7;
+      color: var(--goblin-damp-earth);
+    }
+
+    /* Stagger animation delays */
+    .trait-card:nth-child(1) .trait-icon { animation-delay: 0.1s; }
+    .trait-card:nth-child(2) .trait-icon { animation-delay: 0.2s; }
+    .trait-card:nth-child(3) .trait-icon { animation-delay: 0.3s; }
+    .trait-card:nth-child(4) .trait-icon { animation-delay: 0.4s; }
+    .trait-card:nth-child(5) .trait-icon { animation-delay: 0.5s; }
+    .trait-card:nth-child(6) .trait-icon { animation-delay: 0.6s; }
+    .trait-card:nth-child(7) .trait-icon { animation-delay: 0.7s; }
+
+    /* ============================================
+       COLOR PALETTE SECTION
+       ============================================ */
+    .palette-section {
+      background: var(--goblin-damp-earth);
+      position: relative;
+    }
+
+    .palette-section .section-header h2 {
+      color: var(--goblin-lichen);
+    }
+
+    .palette-section .section-header .section-sub {
+      color: var(--goblin-toadstool);
+    }
+
+    .palette-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 20px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .color-specimen {
+      background: rgba(59, 47, 47, 0.4);
+      border: 2px solid var(--goblin-mushroom-cap);
+      border-radius: 6px 10px 6px 12px;
+      overflow: hidden;
+      transition: transform 0.3s ease;
+      position: relative;
+    }
+
+    .color-specimen:hover {
+      transform: scale(1.03) rotate(-1deg);
+    }
+
+    .color-swatch {
+      height: 100px;
+      position: relative;
+    }
+
+    .color-swatch::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 20px;
+      background: linear-gradient(to top, rgba(0,0,0,0.1), transparent);
+    }
+
+    .color-info {
+      padding: 14px 16px;
+    }
+
+    .color-name {
+      font-family: 'Caveat', cursive;
+      font-weight: 700;
+      font-size: 1.2rem;
+      color: var(--goblin-snail-shell);
+      display: block;
+    }
+
+    .color-hex {
+      font-family: 'Patrick Hand', cursive;
+      font-size: 0.9rem;
+      color: var(--goblin-toadstool);
+      display: block;
+      margin-top: 2px;
+    }
+
+    .color-role {
+      font-size: 0.78rem;
+      color: var(--goblin-river-stone);
+      margin-top: 4px;
+      line-height: 1.5;
+    }
+
+    /* ============================================
+       SPECIMEN TAG
+       ============================================ */
+    .goblin-tag {
+      display: inline-block;
+      background: var(--goblin-toadstool);
+      color: var(--goblin-forest-floor);
+      font-family: 'Patrick Hand', cursive;
+      font-size: 0.85rem;
+      padding: 4px 14px;
+      border: 1px dashed var(--goblin-mushroom-cap);
+      border-radius: 2px;
+      transform: rotate(-2deg);
+      margin-bottom: 10px;
+    }
+
+    /* ============================================
+       TYPOGRAPHY SECTION
+       ============================================ */
+    .type-showcase {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 32px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .type-specimen {
+      background: var(--goblin-snail-shell);
+      border: 2px solid var(--goblin-mushroom-cap);
+      border-radius: 8px 14px 10px 6px;
+      padding: 32px;
+      position: relative;
+      box-shadow: 2px 3px 0px var(--goblin-mushroom-cap);
+    }
+
+    .type-specimen-label {
+      font-family: 'Patrick Hand', cursive;
+      font-size: 0.85rem;
+      color: var(--goblin-river-stone);
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    .type-specimen-name {
+      font-family: 'Caveat', cursive;
+      font-weight: 600;
+      font-size: 1.1rem;
+      color: var(--goblin-moss);
+      margin-bottom: 12px;
+      display: block;
+    }
+
+    .type-sample-caveat {
+      font-family: 'Caveat', cursive;
+      font-size: 2.4rem;
+      font-weight: 700;
+      color: var(--goblin-forest-floor);
+      line-height: 1.3;
+    }
+
+    .type-sample-baskerville {
+      font-family: 'Libre Baskerville', Georgia, serif;
+      font-size: 1.05rem;
+      color: var(--goblin-forest-floor);
+      line-height: 1.75;
+    }
+
+    .type-sample-patrick {
+      font-family: 'Patrick Hand', cursive;
+      font-size: 1.3rem;
+      color: var(--goblin-damp-earth);
+      line-height: 1.6;
+    }
+
+    .type-sample-merriweather {
+      font-family: 'Merriweather', Georgia, serif;
+      font-size: 1rem;
+      color: var(--goblin-forest-floor);
+      line-height: 1.8;
+    }
+
+    .type-sample-amatic {
+      font-family: 'Amatic SC', cursive;
+      font-size: 3rem;
+      font-weight: 700;
+      color: var(--goblin-forest-floor);
+      line-height: 1.2;
+    }
+
+    .type-weights {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+    }
+
+    .type-weight {
+      font-family: 'Patrick Hand', cursive;
+      font-size: 0.8rem;
+      color: var(--goblin-river-stone);
+      background: rgba(139, 111, 78, 0.1);
+      padding: 2px 10px;
+      border-radius: 3px;
+    }
+
+    /* Pairing boxes */
+    .pairings-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 24px;
+      margin-top: 40px;
+    }
+
+    .pairing-card {
+      background: var(--goblin-damp-earth);
+      border: 2px solid var(--goblin-mushroom-cap);
+      border-radius: 10px 6px 12px 8px;
+      padding: 28px;
+      box-shadow: 2px 3px 0px rgba(0,0,0,0.2);
+    }
+
+    .pairing-heading-sample {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--goblin-lichen);
+      margin-bottom: 8px;
+    }
+
+    .pairing-body-sample {
+      font-size: 0.9rem;
+      color: var(--goblin-snail-shell);
+      line-height: 1.7;
+      margin-bottom: 12px;
+    }
+
+    .pairing-mood {
+      font-family: 'Patrick Hand', cursive;
+      font-size: 0.85rem;
+      color: var(--goblin-toad-belly);
+      border-top: 1px dashed var(--goblin-mushroom-cap);
+      padding-top: 10px;
+    }
+
+    /* ============================================
+       DESIGN PRINCIPLES
+       ============================================ */
+    .principles-section {
+      background:
+        linear-gradient(135deg, rgba(74, 103, 65, 0.05) 0%, transparent 50%),
+        var(--goblin-snail-shell);
+    }
+
+    .principles-list {
+      list-style: none;
+      max-width: 750px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .principle-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      background: rgba(255, 255, 255, 0.3);
+      border: 1px solid rgba(139, 111, 78, 0.2);
+      border-radius: 6px 10px 6px 10px;
+      padding: 20px 24px;
+      transition: transform 0.2s ease, background 0.3s ease;
+    }
+
+    .principle-item:hover {
+      background: rgba(255, 255, 255, 0.5);
+      transform: translateX(4px);
+    }
+
+    .principle-marker {
+      font-family: 'Caveat', cursive;
+      font-weight: 700;
+      font-size: 1.3rem;
+      color: var(--goblin-moss);
+      flex-shrink: 0;
+      width: 30px;
+      text-align: center;
+    }
+
+    .principle-text {
+      font-size: 0.95rem;
+      line-height: 1.7;
+      color: var(--goblin-damp-earth);
+    }
+
+    /* ============================================
+       LAYOUT PRINCIPLES
+       ============================================ */
+    .layout-section {
+      background: var(--goblin-forest-floor);
+      position: relative;
+    }
+
+    .layout-section .section-header h2 {
+      color: var(--goblin-lichen);
+    }
+
+    .layout-section .section-header .section-sub {
+      color: var(--goblin-toadstool);
+    }
+
+    .layout-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 24px;
+    }
+
+    .layout-card {
+      background: var(--goblin-damp-earth);
+      border: 2px solid var(--goblin-mushroom-cap);
+      border-radius: 10px 6px 14px 8px;
+      padding: 28px;
+      position: relative;
+      transition: transform 0.3s ease;
+    }
+
+    .layout-card:hover {
+      transform: rotate(-0.5deg) translateY(-3px);
+    }
+
+    .layout-card h3 {
+      font-family: 'Caveat', cursive;
+      font-weight: 700;
+      font-size: 1.4rem;
+      color: var(--goblin-lichen);
+      margin-bottom: 10px;
+    }
+
+    .layout-card p {
+      font-size: 0.9rem;
+      line-height: 1.7;
+      color: var(--goblin-toadstool);
+    }
+
+    /* ============================================
+       CSS TECHNIQUES SECTION
+       ============================================ */
+    .techniques-section {
+      background:
+        linear-gradient(180deg, rgba(92, 64, 51, 0.03) 0%, transparent 50%),
+        var(--goblin-snail-shell);
+    }
+
+    .technique-demos {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .technique-demo {
+      background: rgba(255,255,255,0.25);
+      border: 2px solid var(--goblin-mushroom-cap);
+      border-radius: 8px 14px 8px 12px;
+      overflow: hidden;
+    }
+
+    .technique-demo-header {
+      background: var(--goblin-damp-earth);
+      padding: 14px 20px;
+      border-bottom: 2px solid var(--goblin-mushroom-cap);
+    }
+
+    .technique-demo-header h3 {
+      font-family: 'Caveat', cursive;
+      font-weight: 700;
+      font-size: 1.3rem;
+      color: var(--goblin-lichen);
+    }
+
+    .technique-demo-body {
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 180px;
+    }
+
+    /* Live demo: Foraged Card */
+    .demo-card {
+      background: var(--goblin-snail-shell);
+      border: 2px solid var(--goblin-mushroom-cap);
+      border-radius: 8px 12px 8px 14px;
+      padding: 24px;
+      box-shadow:
+        2px 3px 0px var(--goblin-mushroom-cap),
+        4px 6px 12px rgba(59, 47, 47, 0.15);
+      position: relative;
+      width: 100%;
+      max-width: 280px;
+    }
+
+    .demo-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 28px,
+        rgba(139, 111, 78, 0.06) 28px,
+        rgba(139, 111, 78, 0.06) 29px
+      );
+      border-radius: inherit;
+      pointer-events: none;
+    }
+
+    .demo-card h4 {
+      font-family: 'Caveat', cursive;
+      font-weight: 700;
+      font-size: 1.3rem;
+      color: var(--goblin-moss);
+      position: relative;
+    }
+
+    .demo-card p {
+      font-size: 0.85rem;
+      color: var(--goblin-damp-earth);
+      line-height: 1.6;
+      position: relative;
+    }
+
+    /* Live demo: Mossy Button */
+    .demo-buttons {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .goblin-button {
+      background: var(--goblin-moss);
+      color: var(--goblin-snail-shell);
+      border: 2px solid var(--goblin-damp-earth);
+      border-radius: 6px 10px 6px 8px;
+      padding: 12px 28px;
+      font-family: 'Caveat', cursive;
+      font-weight: 700;
+      font-size: 1.15rem;
+      cursor: pointer;
+      box-shadow: 2px 3px 0px var(--goblin-damp-earth);
+      transition: all 0.2s ease;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .goblin-button:hover {
+      background: var(--goblin-fern);
+      transform: translate(-1px, -1px);
+      box-shadow: 3px 4px 0px var(--goblin-damp-earth);
+    }
+
+    .goblin-button.toad-belly {
+      background: var(--goblin-toad-belly);
+    }
+
+    .goblin-button.toad-belly:hover {
+      background: #d48a2a;
+    }
+
+    /* Live demo: Specimen Tags */
+    .demo-tags {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .demo-tags .goblin-tag {
+      transition: transform 0.2s ease;
+    }
+
+    .demo-tags .goblin-tag:hover {
+      transform: rotate(1deg) scale(1.05);
+    }
+
+    .demo-tags .goblin-tag:nth-child(2) { transform: rotate(1deg); }
+    .demo-tags .goblin-tag:nth-child(3) { transform: rotate(-3deg); }
+    .demo-tags .goblin-tag:nth-child(4) { transform: rotate(2deg); }
+
+    /* Live demo: Twig Divider */
+    .demo-divider-wrap {
+      width: 100%;
+    }
+
+    /* ============================================
+       DO'S AND DON'TS
+       ============================================ */
+    .dos-donts-section {
+      background: var(--goblin-damp-earth);
+    }
+
+    .dos-donts-section .section-header h2 {
+      color: var(--goblin-lichen);
+    }
+
+    .dos-donts-section .section-header .section-sub {
+      color: var(--goblin-toadstool);
+    }
+
+    .dos-donts-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .dos-column, .donts-column {
+      border-radius: 8px 14px 10px 6px;
+      padding: 32px;
+    }
+
+    .dos-column {
+      background: rgba(74, 103, 65, 0.15);
+      border: 2px solid var(--goblin-moss);
+    }
+
+    .donts-column {
+      background: rgba(180, 80, 80, 0.1);
+      border: 2px solid rgba(180, 80, 80, 0.4);
+    }
+
+    .dos-column h3, .donts-column h3 {
+      font-family: 'Caveat', cursive;
+      font-weight: 700;
+      font-size: 1.6rem;
+      margin-bottom: 16px;
+    }
+
+    .dos-column h3 {
+      color: var(--goblin-fern);
+    }
+
+    .donts-column h3 {
+      color: #c47070;
+    }
+
+    .dos-column ul, .donts-column ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .dos-column li, .donts-column li {
+      font-size: 0.9rem;
+      line-height: 1.6;
+      color: var(--goblin-snail-shell);
+      padding-left: 24px;
+      position: relative;
+    }
+
+    .dos-column li::before {
+      content: '\2713';
+      position: absolute;
+      left: 0;
+      color: var(--goblin-fern);
+      font-weight: bold;
+    }
+
+    .donts-column li::before {
+      content: '\2717';
+      position: absolute;
+      left: 0;
+      color: #c47070;
+      font-weight: bold;
+    }
+
+    /* ============================================
+       RELATED AESTHETICS
+       ============================================ */
+    .related-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+    }
+
+    .related-card {
+      background: var(--goblin-snail-shell);
+      border: 2px solid var(--goblin-mushroom-cap);
+      border-radius: 6px 12px 8px 10px;
+      padding: 24px;
+      box-shadow: 2px 3px 0px var(--goblin-mushroom-cap);
+      transition: transform 0.3s ease;
+      position: relative;
+    }
+
+    .related-card:hover {
+      transform: rotate(0.5deg) translateY(-3px);
+    }
+
+    .related-card h3 {
+      font-family: 'Caveat', cursive;
+      font-weight: 700;
+      font-size: 1.35rem;
+      color: var(--goblin-moss);
+      margin-bottom: 8px;
+    }
+
+    .related-card p {
+      font-size: 0.88rem;
+      line-height: 1.65;
+      color: var(--goblin-damp-earth);
+    }
+
+    /* ============================================
+       CSS PROPERTIES REFERENCE
+       ============================================ */
+    .css-props-section {
+      background: var(--goblin-forest-floor);
+    }
+
+    .css-props-section .section-header h2 {
+      color: var(--goblin-lichen);
+    }
+
+    .css-props-section .section-header .section-sub {
+      color: var(--goblin-toadstool);
+    }
+
+    .css-vars-display {
+      background: #2a2020;
+      border: 2px solid var(--goblin-mushroom-cap);
+      border-radius: 8px 12px 8px 14px;
+      padding: 32px;
+      max-width: 700px;
+      margin: 0 auto;
+      font-family: 'Courier New', monospace;
+      font-size: 0.9rem;
+      line-height: 2;
+      color: var(--goblin-snail-shell);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .css-vars-display::before {
+      content: 'CSS';
+      position: absolute;
+      top: 8px;
+      right: 12px;
+      font-family: 'Patrick Hand', cursive;
+      font-size: 0.75rem;
+      color: var(--goblin-mushroom-cap);
+      letter-spacing: 0.1em;
+    }
+
+    .css-prop-line {
+      display: block;
+      padding-left: 24px;
+    }
+
+    .css-prop-name {
+      color: var(--goblin-fern);
+    }
+
+    .css-prop-value {
+      color: var(--goblin-toad-belly);
+    }
+
+    .css-comment {
+      color: var(--goblin-river-stone);
+      font-style: italic;
+    }
+
+    .css-selector {
+      color: var(--goblin-lichen);
+    }
+
+    /* ============================================
+       FOOTER
+       ============================================ */
+    .goblin-footer {
+      background: var(--goblin-forest-floor);
+      border-top: 3px solid var(--goblin-mushroom-cap);
+      padding: 40px 32px;
+      text-align: center;
+      position: relative;
+    }
+
+    .goblin-footer::before {
+      content: '';
+      position: absolute;
+      top: -6px;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: repeating-linear-gradient(
+        90deg,
+        var(--goblin-moss),
+        var(--goblin-moss) 4px,
+        transparent 4px,
+        transparent 10px
+      );
+    }
+
+    .footer-mushrooms {
+      font-size: 1.6rem;
+      margin-bottom: 16px;
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+    }
+
+    .footer-mushrooms span {
+      animation: floatGentle 3s ease-in-out infinite;
+      display: inline-block;
+    }
+
+    .footer-mushrooms span:nth-child(2) { animation-delay: 0.4s; }
+    .footer-mushrooms span:nth-child(3) { animation-delay: 0.8s; }
+    .footer-mushrooms span:nth-child(4) { animation-delay: 1.2s; }
+    .footer-mushrooms span:nth-child(5) { animation-delay: 1.6s; }
+
+    .footer-text {
+      font-family: 'Caveat', cursive;
+      font-size: 1.2rem;
+      color: var(--goblin-toadstool);
+    }
+
+    .footer-sub {
+      font-family: 'Patrick Hand', cursive;
+      font-size: 0.85rem;
+      color: var(--goblin-river-stone);
+      margin-top: 8px;
+    }
+
+    /* ============================================
+       MOBILE NAV TOGGLE
+       ============================================ */
+    .nav-toggle {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+    }
+
+    .nav-toggle span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--goblin-snail-shell);
+      margin: 5px 0;
+      transition: all 0.3s ease;
+      border-radius: 1px;
+    }
+
+    /* ============================================
+       RESPONSIVE
+       ============================================ */
+    @media (max-width: 768px) {
+      .goblin-nav {
+        padding: 14px 20px;
+      }
+
+      .nav-toggle {
+        display: block;
+      }
+
+      .nav-links {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: var(--goblin-damp-earth);
+        flex-direction: column;
+        padding: 16px 20px;
+        gap: 12px;
+        border-bottom: 3px solid var(--goblin-mushroom-cap);
+      }
+
+      .nav-links.open {
+        display: flex;
+      }
+
+      .goblin-hero {
+        padding: 60px 24px 80px;
+      }
+
+      .section {
+        padding: 40px 20px;
+      }
+
+      .notebook-page {
+        padding: 32px 24px 32px 40px;
+      }
+
+      .notebook-page::after {
+        left: 30px;
+      }
+
+      .traits-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .palette-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .technique-demos {
+        grid-template-columns: 1fr;
+      }
+
+      .dos-donts-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .layout-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .related-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .pairings-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .palette-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .goblin-hero h1 {
+        font-size: 2.6rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============ NAVIGATION ============ -->
+  <nav class="goblin-nav" id="nav">
+    <a href="#" class="nav-logo">
+      <span class="mushroom-icon">&#127812;</span>
+      Goblincore
+    </a>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#overview">Field Notes</a></li>
+      <li><a href="#traits">Specimens</a></li>
+      <li><a href="#palette">Palette</a></li>
+      <li><a href="#typography">Typography</a></li>
+      <li><a href="#techniques">Techniques</a></li>
+      <li><a href="#related">Kin</a></li>
+    </ul>
+  </nav>
+
+  <!-- ============ HERO ============ -->
+  <header class="goblin-hero">
+    <div class="spore-container" id="sporeContainer"></div>
+    <div class="hero-content">
+      <div class="hero-overline">~ A Design Aesthetic Reference ~</div>
+      <h1>Goblincore</h1>
+      <p class="subtitle">Celebrating the overlooked treasures of the forest floor: mushrooms, moss, snails, toads, pebbles, acorns, and muddy earth in all its imperfect charm.</p>
+      <div class="hero-mushrooms">
+        <span class="hero-mushroom">&#127812;</span>
+        <span class="hero-mushroom">&#129704;</span>
+        <span class="hero-mushroom">&#127808;</span>
+        <span class="hero-mushroom">&#128012;</span>
+        <span class="hero-mushroom">&#127810;</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- ============ OVERVIEW ============ -->
+  <section class="overview-section" id="overview">
+    <div class="section" style="padding-top: 72px; padding-bottom: 72px;">
+      <div class="notebook-page animate-on-scroll">
+        <div class="tape-strip"></div>
+        <div class="tape-strip-left"></div>
+        <h2>&#128218; Field Notes: Overview</h2>
+        <p>Goblincore is an aesthetic that celebrates the overlooked treasures of the forest floor: mushrooms, moss, snails, toads, pebbles, acorns, and muddy earth in all its imperfect charm. It rejects polished beauty in favor of the organic, the grimy, and the wonderfully irregular.</p>
+        <br>
+        <p>In digital design, Goblincore translates into warm earth-tone palettes, hand-drawn textures, deliberately imperfect layouts, and a celebration of natural curiosities that feel like they were foraged from a damp woodland path and arranged on a rough wooden table.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ VISUAL TRAITS ============ -->
+  <section id="traits">
+    <div class="section">
+      <div class="section-header animate-on-scroll">
+        <h2>&#127812; Visual Characteristics</h2>
+        <p class="section-sub">Core design traits of the Goblincore aesthetic</p>
+      </div>
+      <div class="traits-grid">
+        <div class="trait-card animate-on-scroll">
+          <span class="trait-icon">&#127812;</span>
+          <h3>Mushroom & Moss Motifs</h3>
+          <p>Toadstools, bracket fungi, lichen textures, and dense moss patterns used as decorative and structural elements throughout the design.</p>
+        </div>
+        <div class="trait-card animate-on-scroll">
+          <span class="trait-icon">&#127758;</span>
+          <h3>Earth-Tone Warmth</h3>
+          <p>A palette built from soil browns, forest greens, mushroom tans, and lichen yellows with occasional pops of toad-belly orange.</p>
+        </div>
+        <div class="trait-card animate-on-scroll">
+          <span class="trait-icon">&#9999;&#65039;</span>
+          <h3>Handmade Imperfection</h3>
+          <p>Rough edges, hand-drawn borders, slightly uneven spacing, and textures that feel tactile and organic rather than machine-precise.</p>
+        </div>
+        <div class="trait-card animate-on-scroll">
+          <span class="trait-icon">&#128142;</span>
+          <h3>Found-Object Collections</h3>
+          <p>Visual arrangements that resemble a nature table: pinecones, river stones, feathers, snail shells, and acorns displayed as treasures.</p>
+        </div>
+        <div class="trait-card animate-on-scroll">
+          <span class="trait-icon">&#127794;</span>
+          <h3>Damp Forest Atmosphere</h3>
+          <p>Dark, humid-feeling backgrounds with dappled light filtering through canopy, creating a sense of being close to the ground.</p>
+        </div>
+        <div class="trait-card animate-on-scroll">
+          <span class="trait-icon">&#128220;</span>
+          <h3>Rough Paper & Bark Textures</h3>
+          <p>Backgrounds that mimic torn paper, birch bark, weathered wood, and dried leaves for a tactile, layered feel.</p>
+        </div>
+        <div class="trait-card animate-on-scroll">
+          <span class="trait-icon">&#129514;</span>
+          <h3>Jar & Specimen Aesthetics</h3>
+          <p>Content presented as if collected in glass jars, specimen boxes, or field notebooks. A naturalist's cabinet of curiosities.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ DESIGN PRINCIPLES ============ -->
+  <section class="principles-section" id="principles">
+    <div class="section">
+      <div class="goblin-divider animate-on-scroll"><span>&#127808; design principles &#127808;</span></div>
+      <br><br>
+      <ul class="principles-list">
+        <li class="principle-item animate-on-scroll">
+          <span class="principle-marker">&#10045;</span>
+          <span class="principle-text">Embrace imperfection as a core value: uneven lines, rough textures, and organic asymmetry are features, not bugs.</span>
+        </li>
+        <li class="principle-item animate-on-scroll">
+          <span class="principle-marker">&#10045;</span>
+          <span class="principle-text">Keep the palette grounded in nature: avoid synthetic or neon colors that feel artificial.</span>
+        </li>
+        <li class="principle-item animate-on-scroll">
+          <span class="principle-marker">&#10045;</span>
+          <span class="principle-text">Layer textures generously to create tactile depth -- paper, bark, moss, and wood grain.</span>
+        </li>
+        <li class="principle-item animate-on-scroll">
+          <span class="principle-marker">&#10045;</span>
+          <span class="principle-text">Treat content as curated collections of found objects rather than polished corporate layouts.</span>
+        </li>
+        <li class="principle-item animate-on-scroll">
+          <span class="principle-marker">&#10045;</span>
+          <span class="principle-text">Favor warmth and coziness over sleekness and minimalism.</span>
+        </li>
+        <li class="principle-item animate-on-scroll">
+          <span class="principle-marker">&#10045;</span>
+          <span class="principle-text">Let negative space feel like forest floor rather than clinical white space.</span>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============ COLOR PALETTE ============ -->
+  <section class="palette-section" id="palette">
+    <div class="section">
+      <div class="section-header animate-on-scroll">
+        <h2>&#127752; Color Palette</h2>
+        <p class="section-sub">Foraged from forest floor, lichen, and damp earth</p>
+      </div>
+      <div class="palette-grid">
+        <div class="color-specimen animate-on-scroll">
+          <div class="color-swatch" style="background: #3B2F2F;"></div>
+          <div class="color-info">
+            <span class="color-name">Forest Floor</span>
+            <span class="color-hex">#3B2F2F</span>
+            <p class="color-role">Primary dark background, text</p>
+          </div>
+        </div>
+        <div class="color-specimen animate-on-scroll">
+          <div class="color-swatch" style="background: #C4A882;"></div>
+          <div class="color-info">
+            <span class="color-name">Toadstool Tan</span>
+            <span class="color-hex">#C4A882</span>
+            <p class="color-role">Card backgrounds, warm neutral</p>
+          </div>
+        </div>
+        <div class="color-specimen animate-on-scroll">
+          <div class="color-swatch" style="background: #4A6741;"></div>
+          <div class="color-info">
+            <span class="color-name">Moss Green</span>
+            <span class="color-hex">#4A6741</span>
+            <p class="color-role">Primary accent, headings</p>
+          </div>
+        </div>
+        <div class="color-specimen animate-on-scroll">
+          <div class="color-swatch" style="background: #B8A44C;"></div>
+          <div class="color-info">
+            <span class="color-name">Lichen Yellow</span>
+            <span class="color-hex">#B8A44C</span>
+            <p class="color-role">Secondary accent, highlights</p>
+          </div>
+        </div>
+        <div class="color-specimen animate-on-scroll">
+          <div class="color-swatch" style="background: #8B6F4E;"></div>
+          <div class="color-info">
+            <span class="color-name">Mushroom Cap</span>
+            <span class="color-hex">#8B6F4E</span>
+            <p class="color-role">Borders, secondary surfaces</p>
+          </div>
+        </div>
+        <div class="color-specimen animate-on-scroll">
+          <div class="color-swatch" style="background: #5C4033;"></div>
+          <div class="color-info">
+            <span class="color-name">Damp Earth</span>
+            <span class="color-hex">#5C4033</span>
+            <p class="color-role">Dark panel backgrounds</p>
+          </div>
+        </div>
+        <div class="color-specimen animate-on-scroll">
+          <div class="color-swatch" style="background: #D4C5A9;"></div>
+          <div class="color-info">
+            <span class="color-name">Snail Shell</span>
+            <span class="color-hex">#D4C5A9</span>
+            <p class="color-role">Light surfaces, paper texture</p>
+          </div>
+        </div>
+        <div class="color-specimen animate-on-scroll">
+          <div class="color-swatch" style="background: #C17817;"></div>
+          <div class="color-info">
+            <span class="color-name">Toad Belly</span>
+            <span class="color-hex">#C17817</span>
+            <p class="color-role">Call-to-action, warm pop accent</p>
+          </div>
+        </div>
+        <div class="color-specimen animate-on-scroll">
+          <div class="color-swatch" style="background: #6B8E5A;"></div>
+          <div class="color-info">
+            <span class="color-name">Fern Green</span>
+            <span class="color-hex">#6B8E5A</span>
+            <p class="color-role">Tertiary accent, decorative fills</p>
+          </div>
+        </div>
+        <div class="color-specimen animate-on-scroll">
+          <div class="color-swatch" style="background: #8E8E8E;"></div>
+          <div class="color-info">
+            <span class="color-name">River Stone</span>
+            <span class="color-hex">#8E8E8E</span>
+            <p class="color-role">Muted text, subtle details</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CSS CUSTOM PROPERTIES REFERENCE ============ -->
+  <section class="css-props-section">
+    <div class="section">
+      <div class="section-header animate-on-scroll">
+        <h2>&#128736; CSS Custom Properties</h2>
+        <p class="section-sub">Copy-paste ready variables for your projects</p>
+      </div>
+      <div class="css-vars-display animate-on-scroll">
+        <span class="css-selector">:root</span> {<br>
+        <span class="css-prop-line"><span class="css-prop-name">--goblin-forest-floor</span>: <span class="css-prop-value">#3B2F2F</span>;</span>
+        <span class="css-prop-line"><span class="css-prop-name">--goblin-toadstool</span>: <span class="css-prop-value">#C4A882</span>;</span>
+        <span class="css-prop-line"><span class="css-prop-name">--goblin-moss</span>: <span class="css-prop-value">#4A6741</span>;</span>
+        <span class="css-prop-line"><span class="css-prop-name">--goblin-lichen</span>: <span class="css-prop-value">#B8A44C</span>;</span>
+        <span class="css-prop-line"><span class="css-prop-name">--goblin-mushroom-cap</span>: <span class="css-prop-value">#8B6F4E</span>;</span>
+        <span class="css-prop-line"><span class="css-prop-name">--goblin-damp-earth</span>: <span class="css-prop-value">#5C4033</span>;</span>
+        <span class="css-prop-line"><span class="css-prop-name">--goblin-snail-shell</span>: <span class="css-prop-value">#D4C5A9</span>;</span>
+        <span class="css-prop-line"><span class="css-prop-name">--goblin-toad-belly</span>: <span class="css-prop-value">#C17817</span>;</span>
+        <span class="css-prop-line"><span class="css-prop-name">--goblin-fern</span>: <span class="css-prop-value">#6B8E5A</span>;</span>
+        <span class="css-prop-line"><span class="css-prop-name">--goblin-river-stone</span>: <span class="css-prop-value">#8E8E8E</span>;</span>
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TYPOGRAPHY ============ -->
+  <section id="typography">
+    <div class="section">
+      <div class="section-header animate-on-scroll">
+        <h2>&#128221; Typography</h2>
+        <p class="section-sub">Handwritten warmth meets old-book readability</p>
+      </div>
+
+      <div class="type-showcase">
+        <!-- Caveat -->
+        <div class="type-specimen animate-on-scroll">
+          <span class="goblin-tag">Primary Heading</span>
+          <span class="type-specimen-name">Caveat</span>
+          <div class="type-sample-caveat">The forest floor hides treasures beneath every fallen leaf and mossy stone.</div>
+          <div class="type-weights">
+            <span class="type-weight">400 Regular</span>
+            <span class="type-weight">500 Medium</span>
+            <span class="type-weight">600 SemiBold</span>
+            <span class="type-weight">700 Bold</span>
+          </div>
+          <span class="type-specimen-label">Hand-drawn, journal-like script for headings</span>
+        </div>
+
+        <!-- Amatic SC -->
+        <div class="type-specimen animate-on-scroll">
+          <span class="goblin-tag">Decorative Heading</span>
+          <span class="type-specimen-name">Amatic SC</span>
+          <div class="type-sample-amatic">Collect every pebble, every feather, every curious thing</div>
+          <div class="type-weights">
+            <span class="type-weight">400 Regular</span>
+            <span class="type-weight">700 Bold</span>
+          </div>
+          <span class="type-specimen-label">Tall, narrow, hand-lettered feel for decorative headings</span>
+        </div>
+
+        <!-- Libre Baskerville -->
+        <div class="type-specimen animate-on-scroll">
+          <span class="goblin-tag">Body Text</span>
+          <span class="type-specimen-name">Libre Baskerville</span>
+          <div class="type-sample-baskerville">A warm, readable serif that feels like old book pages. The snail carries its home upon its back, spiraling through the damp underbrush where bracket fungi grow in layered shelves along the fallen oak. Every stone in the creek bed tells a story written in geological time.</div>
+          <div class="type-weights">
+            <span class="type-weight">400 Regular</span>
+            <span class="type-weight">400 Italic</span>
+            <span class="type-weight">700 Bold</span>
+          </div>
+          <span class="type-specimen-label">Warm, readable serif for body text -- feels like old book pages</span>
+        </div>
+
+        <!-- Patrick Hand -->
+        <div class="type-specimen animate-on-scroll">
+          <span class="goblin-tag">Labels & Captions</span>
+          <span class="type-specimen-name">Patrick Hand</span>
+          <div class="type-sample-patrick">Found this specimen under the third oak past the old stone wall. Cap diameter approximately 4cm. Gills are cream-colored with brown spore print.</div>
+          <div class="type-weights">
+            <span class="type-weight">400 Regular</span>
+          </div>
+          <span class="type-specimen-label">Informal labels, captions, and handwritten annotations</span>
+        </div>
+
+        <!-- Merriweather -->
+        <div class="type-specimen animate-on-scroll">
+          <span class="goblin-tag">Alternative Body</span>
+          <span class="type-specimen-name">Merriweather</span>
+          <div class="type-sample-merriweather">An alternative body serif with sturdy readability, perfect for longer passages where the text needs to carry the reader through descriptions of rain-soaked forest paths and the small wonders hiding beneath rotting logs.</div>
+          <div class="type-weights">
+            <span class="type-weight">300 Light</span>
+            <span class="type-weight">400 Regular</span>
+            <span class="type-weight">700 Bold</span>
+          </div>
+          <span class="type-specimen-label">Sturdy readability as an alternative body serif</span>
+        </div>
+      </div>
+
+      <!-- Font Pairings -->
+      <div class="pairings-grid">
+        <div class="pairing-card animate-on-scroll">
+          <div class="pairing-heading-sample" style="font-family: 'Caveat', cursive;">Field Journal Warmth</div>
+          <div class="pairing-body-sample" style="font-family: 'Libre Baskerville', serif;">Caveat 700 paired with Libre Baskerville 400 creates the feeling of warm storytelling in a hand-bound field journal.</div>
+          <div class="pairing-mood">Mood: Field journal, warm storytelling</div>
+        </div>
+        <div class="pairing-card animate-on-scroll">
+          <div class="pairing-heading-sample" style="font-family: 'Amatic SC', cursive;">Whimsical Naturalist</div>
+          <div class="pairing-body-sample" style="font-family: 'Merriweather', serif;">Amatic SC 700 paired with Merriweather 400 evokes a whimsical storybook written by a woodland naturalist.</div>
+          <div class="pairing-mood">Mood: Whimsical naturalist, storybook</div>
+        </div>
+        <div class="pairing-card animate-on-scroll">
+          <div class="pairing-heading-sample" style="font-family: 'Patrick Hand', cursive;">Handwritten Notes</div>
+          <div class="pairing-body-sample" style="font-family: 'Libre Baskerville', serif;">Patrick Hand 400 with Libre Baskerville 400 feels like handwritten annotations scrawled in the margins of old pages.</div>
+          <div class="pairing-mood">Mood: Handwritten notes on old pages</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ LAYOUT PRINCIPLES ============ -->
+  <section class="layout-section" id="layout">
+    <div class="section">
+      <div class="section-header animate-on-scroll">
+        <h2>&#128204; Layout Principles</h2>
+        <p class="section-sub">How to arrange your foraged treasures on the page</p>
+      </div>
+      <div class="layout-grid">
+        <div class="layout-card animate-on-scroll">
+          <h3>Asymmetric Organic Grid</h3>
+          <p>Avoid rigid symmetry. Let content blocks feel like objects scattered on a table, with slightly irregular spacing and varied sizes.</p>
+        </div>
+        <div class="layout-card animate-on-scroll">
+          <h3>Layered Textures</h3>
+          <p>Use paper textures, wood grain, or moss patterns behind content areas to create tactile depth and visual richness.</p>
+        </div>
+        <div class="layout-card animate-on-scroll">
+          <h3>Collection-Style Arrangement</h3>
+          <p>Group related elements as if curating a nature specimen display: small cards clustered with varied heights, overlapping edges optional.</p>
+        </div>
+        <div class="layout-card animate-on-scroll">
+          <h3>Field-Notebook Sections</h3>
+          <p>Style content sections like torn notebook pages with ragged edges, tape-strip decorations, or pencil-line borders.</p>
+        </div>
+        <div class="layout-card animate-on-scroll">
+          <h3>Irregular Shapes</h3>
+          <p>Avoid perfectly geometric containers. Prefer slightly irregular border-radius or wavy SVG clip-paths for organic character.</p>
+        </div>
+        <div class="layout-card animate-on-scroll">
+          <h3>Responsive: Pocket Field Guide</h3>
+          <p>On mobile, stack collection items vertically while preserving rough textures and handmade typography. Let it feel like a pocket field guide.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CSS TECHNIQUES ============ -->
+  <section class="techniques-section" id="techniques">
+    <div class="section">
+      <div class="section-header animate-on-scroll">
+        <h2>&#128295; CSS Techniques</h2>
+        <p class="section-sub">Live demonstrations of Goblincore component patterns</p>
+      </div>
+      <div class="technique-demos">
+        <!-- Foraged Card -->
+        <div class="technique-demo animate-on-scroll">
+          <div class="technique-demo-header">
+            <h3>Foraged Card</h3>
+          </div>
+          <div class="technique-demo-body">
+            <div class="demo-card">
+              <span class="goblin-tag" style="margin-bottom: 12px;">specimen #07</span>
+              <h4>Bracket Fungus</h4>
+              <p>A shelf-like fungus growing on the north side of a birch stump, layers of cream and brown.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mossy Buttons -->
+        <div class="technique-demo animate-on-scroll">
+          <div class="technique-demo-header">
+            <h3>Mossy Buttons</h3>
+          </div>
+          <div class="technique-demo-body">
+            <div class="demo-buttons">
+              <button class="goblin-button">Forage</button>
+              <button class="goblin-button toad-belly">Collect</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Specimen Tags -->
+        <div class="technique-demo animate-on-scroll">
+          <div class="technique-demo-header">
+            <h3>Specimen Tags</h3>
+          </div>
+          <div class="technique-demo-body">
+            <div class="demo-tags">
+              <span class="goblin-tag">mushroom</span>
+              <span class="goblin-tag">river stone</span>
+              <span class="goblin-tag">acorn cap</span>
+              <span class="goblin-tag">snail shell</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Twig Divider -->
+        <div class="technique-demo animate-on-scroll">
+          <div class="technique-demo-header">
+            <h3>Twig Divider</h3>
+          </div>
+          <div class="technique-demo-body">
+            <div class="demo-divider-wrap">
+              <div class="goblin-divider"><span>&#127810; found objects &#127810;</span></div>
+              <br>
+              <div class="goblin-divider"><span>&#128012;</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ DO'S AND DON'TS ============ -->
+  <section class="dos-donts-section" id="dos-donts">
+    <div class="section">
+      <div class="section-header animate-on-scroll">
+        <h2>&#128214; Design Do's and Don'ts</h2>
+        <p class="section-sub">A forager's guide to staying on the woodland path</p>
+      </div>
+      <div class="dos-donts-grid">
+        <div class="dos-column animate-on-scroll">
+          <h3>Do</h3>
+          <ul>
+            <li>Use warm, muddy earth tones and muted forest greens throughout</li>
+            <li>Include hand-drawn or handwritten-style typography for headings and labels</li>
+            <li>Layer rough textures (paper, bark, moss) behind content for tactile depth</li>
+            <li>Embrace irregular shapes, uneven borders, and deliberate imperfection</li>
+            <li>Present content as curated collections of found treasures</li>
+            <li>Add small nature details: mushroom icons, leaf silhouettes, snail doodles</li>
+            <li>Keep the tone cozy, warm, and slightly whimsical</li>
+          </ul>
+        </div>
+        <div class="donts-column animate-on-scroll">
+          <h3>Don't</h3>
+          <ul>
+            <li>Use polished, corporate-looking layouts with perfect geometric grids</li>
+            <li>Apply bright white backgrounds or sterile minimalist spacing</li>
+            <li>Choose clean, geometric sans-serif fonts for headings</li>
+            <li>Use neon or synthetic colors that feel artificial and unnatural</li>
+            <li>Over-refine illustrations -- Goblincore thrives on charming roughness</li>
+            <li>Mix with high-tech, futuristic, or cyberpunk aesthetics</li>
+            <li>Make everything perfectly symmetrical and aligned</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ RELATED AESTHETICS ============ -->
+  <section id="related">
+    <div class="section">
+      <div class="section-header animate-on-scroll">
+        <h2>&#127807; Related Aesthetics</h2>
+        <p class="section-sub">Kindred spirits from neighboring corners of the forest</p>
+      </div>
+      <div class="related-grid">
+        <div class="related-card animate-on-scroll">
+          <span class="goblin-tag">close cousin</span>
+          <h3>Cottagecore</h3>
+          <p>Shares the nature-focus and coziness, but Cottagecore is sunlit and tidy while Goblincore is damp and delightfully messy.</p>
+        </div>
+        <div class="related-card animate-on-scroll">
+          <span class="goblin-tag">scholarly kin</span>
+          <h3>Dark Academia</h3>
+          <p>Both value old-world, collected aesthetics. Dark Academia is scholarly and architectural while Goblincore is feral and forest-dwelling.</p>
+        </div>
+        <div class="related-card animate-on-scroll">
+          <span class="goblin-tag">fellow collector</span>
+          <h3>Cluttercore</h3>
+          <p>Shares the love of abundant collected objects. Cluttercore is broader in scope while Goblincore is specifically nature-focused.</p>
+        </div>
+        <div class="related-card animate-on-scroll">
+          <span class="goblin-tag">handmade spirit</span>
+          <h3>Arts and Crafts</h3>
+          <p>Both celebrate handmade quality and natural materials. Arts and Crafts is refined and structured while Goblincore is wild.</p>
+        </div>
+        <div class="related-card animate-on-scroll">
+          <span class="goblin-tag">woodland rebel</span>
+          <h3>Forestpunk</h3>
+          <p>Overlaps in woodland setting and earthy palette. Forestpunk adds punk-rebel energy and fantasy world-building.</p>
+        </div>
+        <div class="related-card animate-on-scroll">
+          <span class="goblin-tag">layered kin</span>
+          <h3>Maximalism</h3>
+          <p>Goblincore's dense layering of textures and objects shares maximalist instincts but within a narrow natural material register.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="goblin-footer">
+    <div class="footer-mushrooms">
+      <span>&#127812;</span>
+      <span>&#128012;</span>
+      <span>&#129704;</span>
+      <span>&#127808;</span>
+      <span>&#127810;</span>
+    </div>
+    <div class="footer-text">Goblincore Design Aesthetic Reference</div>
+    <div class="footer-sub">Foraged with care from the forest floor</div>
+  </footer>
+
+  <!-- ============ JAVASCRIPT ============ -->
+  <script>
+    // Mobile nav toggle
+    const navToggle = document.getElementById('navToggle');
+    const navLinks = document.getElementById('navLinks');
+
+    navToggle.addEventListener('click', () => {
+      navLinks.classList.toggle('open');
+    });
+
+    // Close nav on link click (mobile)
+    navLinks.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        navLinks.classList.remove('open');
+      });
+    });
+
+    // Scroll-triggered animations
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -40px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry, index) => {
+        if (entry.isIntersecting) {
+          // Stagger the animation based on sibling index
+          const siblings = entry.target.parentElement.querySelectorAll('.animate-on-scroll');
+          let delay = 0;
+          siblings.forEach((sib, i) => {
+            if (sib === entry.target) {
+              delay = i * 80;
+            }
+          });
+          setTimeout(() => {
+            entry.target.classList.add('visible');
+          }, delay);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
+
+    document.querySelectorAll('.animate-on-scroll').forEach(el => {
+      observer.observe(el);
+    });
+
+    // Spore particles in hero
+    function createSpore() {
+      const container = document.getElementById('sporeContainer');
+      if (!container) return;
+
+      const spore = document.createElement('div');
+      spore.classList.add('spore');
+
+      const startX = Math.random() * 100;
+      const startY = 50 + Math.random() * 50;
+      const duration = 4 + Math.random() * 6;
+      const size = 2 + Math.random() * 4;
+      const drift = -40 + Math.random() * 80;
+
+      spore.style.left = startX + '%';
+      spore.style.bottom = startY + '%';
+      spore.style.width = size + 'px';
+      spore.style.height = size + 'px';
+      spore.style.animationDuration = duration + 's';
+      spore.style.setProperty('--drift', drift + 'px');
+      spore.style.opacity = '0';
+
+      // Customize the animation for variety
+      spore.style.animation = `sporeFloat ${duration}s linear`;
+
+      container.appendChild(spore);
+
+      // Remove after animation
+      setTimeout(() => {
+        spore.remove();
+      }, duration * 1000);
+    }
+
+    // Generate spores at intervals
+    setInterval(createSpore, 600);
+
+    // Create initial batch
+    for (let i = 0; i < 8; i++) {
+      setTimeout(createSpore, i * 200);
+    }
+
+    // Smooth scroll for nav links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        const href = this.getAttribute('href');
+        if (href === '#') return;
+        e.preventDefault();
+        const target = document.querySelector(href);
+        if (target) {
+          const navHeight = document.getElementById('nav').offsetHeight;
+          const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - navHeight - 16;
+          window.scrollTo({
+            top: targetPosition,
+            behavior: 'smooth'
+          });
+        }
+      });
+    });
+
+    // Subtle parallax on hero mushrooms
+    window.addEventListener('scroll', () => {
+      const scrolled = window.pageYOffset;
+      const hero = document.querySelector('.goblin-hero');
+      if (!hero) return;
+      const heroHeight = hero.offsetHeight;
+
+      if (scrolled < heroHeight) {
+        const mushrooms = document.querySelector('.hero-mushrooms');
+        if (mushrooms) {
+          mushrooms.style.transform = `translateY(${scrolled * 0.15}px)`;
+        }
+      }
+    });
+  </script>
+</body>
+</html>

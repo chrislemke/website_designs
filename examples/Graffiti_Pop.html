@@ -1,0 +1,2522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Graffiti Pop -- Design Reference</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bungee+Shade&family=Bungee&family=Bungee+Inline&family=Bangers&family=Permanent+Marker&family=Rock+Salt&family=Russo+One&family=Lilita+One&family=Bowlby+One+SC&family=Luckiest+Guy&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <style>
+    /* ============================================================
+       CSS CUSTOM PROPERTIES -- Graffiti Pop Palette
+       ============================================================ */
+    :root {
+      /* Background tones */
+      --gpop-black: #111111;
+      --gpop-concrete: #5a5a5a;
+      --gpop-concrete-warm: #7a7168;
+      --gpop-brick: #8b4513;
+      --gpop-mortar: #a09080;
+
+      /* Neon accents */
+      --gpop-pink: #ff1493;
+      --gpop-neon-green: #39ff14;
+      --gpop-blue: #0080ff;
+      --gpop-purple: #9b30ff;
+      --gpop-yellow: #ffd700;
+      --gpop-red: #ff2400;
+
+      /* Neutral utility */
+      --gpop-white: #ffffff;
+      --gpop-silver: #c0c0c0;
+      --gpop-cream: #f5f0e0;
+
+      /* Warm accents */
+      --gpop-rust: #cc5500;
+      --gpop-teal: #3d8b8b;
+      --gpop-khaki: #bdb76b;
+
+      /* Functional mappings */
+      --gpop-bg-primary: var(--gpop-black);
+      --gpop-bg-surface: var(--gpop-concrete);
+      --gpop-bg-wall: var(--gpop-concrete-warm);
+      --gpop-text-primary: var(--gpop-white);
+      --gpop-text-secondary: var(--gpop-cream);
+      --gpop-text-muted: var(--gpop-silver);
+      --gpop-accent-1: var(--gpop-pink);
+      --gpop-accent-2: var(--gpop-neon-green);
+      --gpop-accent-3: var(--gpop-blue);
+      --gpop-accent-4: var(--gpop-purple);
+      --gpop-border: var(--gpop-black);
+      --gpop-glow: rgba(255, 20, 147, 0.4);
+    }
+
+    /* ============================================================
+       RESET & BASE
+       ============================================================ */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--gpop-bg-primary);
+      color: var(--gpop-text-secondary);
+      font-family: 'Russo One', Tahoma, sans-serif;
+      font-weight: 400;
+      font-size: 1rem;
+      line-height: 1.7;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* ============================================================
+       BRICK WALL TEXTURE -- fixed behind everything
+       ============================================================ */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        repeating-linear-gradient(
+          0deg,
+          transparent, transparent 48px,
+          rgba(160, 144, 128, 0.06) 48px,
+          rgba(160, 144, 128, 0.06) 52px
+        ),
+        repeating-linear-gradient(
+          90deg,
+          transparent, transparent 98px,
+          rgba(160, 144, 128, 0.04) 98px,
+          rgba(160, 144, 128, 0.04) 102px
+        );
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Subtle grime overlay */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(circle at 15% 25%, rgba(0, 0, 0, 0.18) 0%, transparent 40%),
+        radial-gradient(circle at 85% 60%, rgba(0, 0, 0, 0.12) 0%, transparent 35%),
+        radial-gradient(circle at 50% 90%, rgba(0, 0, 0, 0.14) 0%, transparent 45%),
+        radial-gradient(circle at 70% 10%, rgba(139, 69, 19, 0.05) 0%, transparent 30%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ============================================================
+       ANIMATIONS
+       ============================================================ */
+    @keyframes gpop-flicker {
+      0%, 100% { opacity: 1; }
+      4% { opacity: 0.88; }
+      6% { opacity: 1; }
+      42% { opacity: 1; }
+      44% { opacity: 0.82; }
+      46% { opacity: 1; }
+      80% { opacity: 1; }
+      82% { opacity: 0.88; }
+      83% { opacity: 1; }
+    }
+
+    @keyframes gpop-drip {
+      0% { height: 0; opacity: 0; }
+      30% { opacity: 1; }
+      100% { height: var(--drip-h, 25px); opacity: 0.7; }
+    }
+
+    @keyframes gpop-shake {
+      0%, 100% { transform: translate(0, 0) rotate(var(--base-rot, 0deg)); }
+      25% { transform: translate(-1px, 1px) rotate(calc(var(--base-rot, 0deg) - 0.5deg)); }
+      50% { transform: translate(1px, -1px) rotate(calc(var(--base-rot, 0deg) + 0.5deg)); }
+      75% { transform: translate(-1px, 0) rotate(calc(var(--base-rot, 0deg) - 0.3deg)); }
+    }
+
+    @keyframes gpop-slide-up {
+      from { opacity: 0; transform: translateY(40px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes gpop-slide-in-left {
+      from { opacity: 0; transform: translateX(-60px) rotate(-3deg); }
+      to { opacity: 1; transform: translateX(0) rotate(0deg); }
+    }
+
+    @keyframes gpop-spray-in {
+      0% { opacity: 0; transform: scale(0.5); filter: blur(8px); }
+      60% { opacity: 1; transform: scale(1.05); filter: blur(0); }
+      100% { opacity: 1; transform: scale(1); filter: blur(0); }
+    }
+
+    @keyframes gpop-pulse-glow {
+      0%, 100% { text-shadow: 0 0 10px rgba(255, 20, 147, 0.4), 0 0 30px rgba(255, 20, 147, 0.2), 3px 3px 0 var(--gpop-black); }
+      50% { text-shadow: 0 0 20px rgba(255, 20, 147, 0.7), 0 0 50px rgba(255, 20, 147, 0.4), 3px 3px 0 var(--gpop-black); }
+    }
+
+    @keyframes gpop-float {
+      0%, 100% { transform: translateY(0) rotate(var(--float-rot, 2deg)); }
+      50% { transform: translateY(-8px) rotate(calc(var(--float-rot, 2deg) + 1deg)); }
+    }
+
+    @keyframes gpop-color-cycle {
+      0% { color: var(--gpop-pink); }
+      25% { color: var(--gpop-neon-green); }
+      50% { color: var(--gpop-blue); }
+      75% { color: var(--gpop-yellow); }
+      100% { color: var(--gpop-pink); }
+    }
+
+    @keyframes gpop-marquee {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ============================================================
+       SCROLL-TRIGGERED REVEAL
+       ============================================================ */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ============================================================
+       NAVIGATION -- sticky spray-painted nav
+       ============================================================ */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      background: rgba(17, 17, 17, 0.92);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border-bottom: 3px solid var(--gpop-pink);
+      box-shadow: 0 2px 20px rgba(255, 20, 147, 0.15);
+      padding: 0.6rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    nav .logo {
+      font-family: 'Bungee', Impact, sans-serif;
+      font-size: 1.2rem;
+      color: var(--gpop-white);
+      text-shadow: 2px 2px 0 var(--gpop-pink);
+      letter-spacing: 0.04em;
+      text-decoration: none;
+      flex-shrink: 0;
+    }
+
+    nav .nav-links {
+      display: flex;
+      gap: 0.3rem;
+      flex-wrap: wrap;
+      list-style: none;
+    }
+
+    nav .nav-links a {
+      font-family: 'Bangers', cursive;
+      font-size: 0.85rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--gpop-silver);
+      text-decoration: none;
+      padding: 0.3rem 0.7rem;
+      border: 2px solid transparent;
+      transition: all 0.15s ease;
+      display: inline-block;
+    }
+
+    nav .nav-links a:hover {
+      color: var(--gpop-black);
+      background: var(--gpop-neon-green);
+      border-color: var(--gpop-black);
+      transform: rotate(-1deg);
+      box-shadow: 2px 2px 0 var(--gpop-black);
+    }
+
+    /* ============================================================
+       HERO SECTION
+       ============================================================ */
+    .hero {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 8rem 2rem 6rem;
+      overflow: hidden;
+    }
+
+    /* Spray-can radial glow bursts */
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 15% 40%, rgba(255, 20, 147, 0.12) 0%, transparent 50%),
+        radial-gradient(ellipse at 85% 30%, rgba(57, 255, 20, 0.08) 0%, transparent 45%),
+        radial-gradient(ellipse at 50% 80%, rgba(0, 128, 255, 0.06) 0%, transparent 40%),
+        radial-gradient(ellipse at 30% 70%, rgba(155, 48, 255, 0.06) 0%, transparent 35%),
+        radial-gradient(ellipse at 75% 75%, rgba(255, 215, 0, 0.05) 0%, transparent 30%);
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    /* Floating decorative tags */
+    .hero-tag {
+      position: absolute;
+      font-family: 'Rock Salt', cursive;
+      font-size: 0.75rem;
+      color: var(--gpop-pink);
+      opacity: 0.35;
+      pointer-events: none;
+      animation: gpop-float 5s ease-in-out infinite;
+    }
+    .hero-tag:nth-child(1) { top: 15%; left: 5%; --float-rot: -3deg; animation-delay: 0s; }
+    .hero-tag:nth-child(2) { top: 20%; right: 8%; --float-rot: 4deg; animation-delay: 1.2s; color: var(--gpop-neon-green); }
+    .hero-tag:nth-child(3) { bottom: 25%; left: 10%; --float-rot: 2deg; animation-delay: 2.5s; color: var(--gpop-blue); }
+    .hero-tag:nth-child(4) { bottom: 15%; right: 5%; --float-rot: -2deg; animation-delay: 0.7s; color: var(--gpop-yellow); }
+    .hero-tag:nth-child(5) { top: 45%; left: 2%; --float-rot: 3deg; animation-delay: 1.8s; color: var(--gpop-purple); }
+
+    .hero h1 {
+      font-family: 'Bungee Shade', Impact, sans-serif;
+      font-size: clamp(3.5rem, 10vw, 9rem);
+      line-height: 0.95;
+      letter-spacing: 0.04em;
+      color: var(--gpop-white);
+      text-shadow:
+        4px 4px 0 var(--gpop-pink),
+        8px 8px 0 rgba(0, 0, 0, 0.5);
+      -webkit-text-stroke: 1px rgba(0, 0, 0, 0.3);
+      margin-bottom: 1.5rem;
+      animation: gpop-spray-in 1s ease-out;
+    }
+
+    .hero-subtitle {
+      font-family: 'Permanent Marker', cursive;
+      font-size: clamp(1.1rem, 2.5vw, 1.6rem);
+      color: var(--gpop-neon-green);
+      text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.6);
+      transform: rotate(-2deg);
+      margin-bottom: 1rem;
+      animation: gpop-slide-in-left 0.8s ease-out 0.3s both;
+    }
+
+    .hero-meta {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.25em;
+      color: var(--gpop-silver);
+      margin-bottom: 2.5rem;
+      animation: gpop-slide-up 0.6s ease-out 0.6s both;
+    }
+
+    .hero-description {
+      max-width: 750px;
+      font-size: 1.05rem;
+      line-height: 1.8;
+      color: var(--gpop-cream);
+      margin-bottom: 2rem;
+      animation: gpop-slide-up 0.6s ease-out 0.8s both;
+    }
+
+    .hero-scroll-hint {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--gpop-pink);
+      animation: gpop-flicker 3s ease-in-out infinite, gpop-pulse-glow 3s ease-in-out infinite;
+      margin-top: 2rem;
+    }
+
+    /* ============================================================
+       MARQUEE TICKER
+       ============================================================ */
+    .ticker-wrap {
+      position: relative;
+      z-index: 1;
+      overflow: hidden;
+      background: var(--gpop-pink);
+      border-top: 3px solid var(--gpop-black);
+      border-bottom: 3px solid var(--gpop-black);
+      padding: 0.5rem 0;
+      transform: rotate(-1deg);
+      margin: -1rem -1rem 0 -1rem;
+    }
+
+    .ticker {
+      display: flex;
+      white-space: nowrap;
+      animation: gpop-marquee 20s linear infinite;
+    }
+
+    .ticker span {
+      font-family: 'Bangers', cursive;
+      font-size: 1.1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--gpop-black);
+      padding: 0 2rem;
+    }
+
+    .ticker .sep {
+      color: var(--gpop-yellow);
+      padding: 0 0.5rem;
+    }
+
+    /* ============================================================
+       SECTION CONTAINERS
+       ============================================================ */
+    .section-wrap {
+      position: relative;
+      z-index: 1;
+    }
+
+    section {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 5rem 2rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Alternating surface backgrounds */
+    .surface-concrete {
+      background:
+        radial-gradient(circle at 30% 20%, rgba(90, 90, 90, 0.3) 0%, transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(90, 90, 90, 0.2) 0%, transparent 40%);
+    }
+
+    .surface-brick {
+      background-color: rgba(90, 90, 90, 0.15);
+      background-image:
+        repeating-linear-gradient(
+          0deg,
+          transparent, transparent 48px,
+          rgba(160, 144, 128, 0.1) 48px,
+          rgba(160, 144, 128, 0.1) 52px
+        ),
+        repeating-linear-gradient(
+          90deg,
+          transparent, transparent 98px,
+          rgba(160, 144, 128, 0.07) 98px,
+          rgba(160, 144, 128, 0.07) 102px
+        );
+    }
+
+    .surface-dark {
+      background: rgba(0, 0, 0, 0.3);
+    }
+
+    /* ============================================================
+       TYPOGRAPHY STYLES
+       ============================================================ */
+    h2 {
+      font-family: 'Bangers', cursive;
+      font-size: clamp(2.2rem, 5vw, 3.8rem);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--gpop-neon-green);
+      text-shadow:
+        2px 2px 0 var(--gpop-black),
+        -1px -1px 0 var(--gpop-black),
+        1px -1px 0 var(--gpop-black),
+        -1px 1px 0 var(--gpop-black);
+      margin-bottom: 1.5rem;
+      position: relative;
+      display: inline-block;
+    }
+
+    h2 .accent {
+      color: var(--gpop-pink);
+    }
+
+    h3 {
+      font-family: 'Permanent Marker', cursive;
+      font-size: 1.5rem;
+      color: var(--gpop-yellow);
+      text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.6);
+      transform: rotate(-1deg);
+      margin-bottom: 0.8rem;
+      display: inline-block;
+    }
+
+    h4 {
+      font-family: 'Bangers', cursive;
+      font-size: 1.15rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--gpop-blue);
+      text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.5);
+      margin-bottom: 0.5rem;
+    }
+
+    p {
+      margin-bottom: 1rem;
+    }
+
+    .gpop-tag {
+      font-family: 'Rock Salt', cursive;
+      font-size: 0.8rem;
+      color: var(--gpop-pink);
+      transform: rotate(-3deg);
+      display: inline-block;
+    }
+
+    .gpop-label {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--gpop-silver);
+    }
+
+    /* ============================================================
+       SPLATTER DIVIDER
+       ============================================================ */
+    .gpop-divider {
+      border: none;
+      height: 24px;
+      position: relative;
+      margin: 0;
+      overflow: visible;
+    }
+
+    .gpop-divider::before {
+      content: '';
+      position: absolute;
+      top: 8px;
+      left: 5%;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--gpop-pink);
+      box-shadow:
+        30px -3px 0 3px var(--gpop-neon-green),
+        70px 5px 0 1px var(--gpop-blue),
+        110px -2px 0 4px var(--gpop-yellow),
+        160px 3px 0 2px var(--gpop-purple),
+        200px -4px 0 1px var(--gpop-pink),
+        250px 2px 0 3px var(--gpop-red),
+        310px -1px 0 2px var(--gpop-neon-green),
+        360px 4px 0 1px var(--gpop-blue),
+        420px -3px 0 4px var(--gpop-yellow),
+        480px 1px 0 2px var(--gpop-purple),
+        540px -2px 0 3px var(--gpop-pink),
+        610px 3px 0 1px var(--gpop-red),
+        680px -4px 0 2px var(--gpop-neon-green),
+        760px 2px 0 4px var(--gpop-blue);
+    }
+
+    .gpop-divider::after {
+      content: '';
+      position: absolute;
+      top: 10px;
+      left: 8%;
+      right: 8%;
+      height: 3px;
+      background: linear-gradient(
+        90deg,
+        transparent 0%,
+        var(--gpop-pink) 5%,
+        var(--gpop-pink) 12%,
+        transparent 17%,
+        transparent 28%,
+        var(--gpop-neon-green) 33%,
+        var(--gpop-neon-green) 42%,
+        transparent 47%,
+        transparent 55%,
+        var(--gpop-blue) 60%,
+        var(--gpop-blue) 68%,
+        transparent 73%,
+        transparent 82%,
+        var(--gpop-yellow) 87%,
+        var(--gpop-yellow) 95%,
+        transparent 100%
+      );
+      opacity: 0.6;
+    }
+
+    /* ============================================================
+       NEON GLOW LINE
+       ============================================================ */
+    .gpop-neon-line {
+      height: 4px;
+      border: none;
+      margin: 2rem 0;
+      border-radius: 2px;
+    }
+    .gpop-neon-line--pink {
+      background: var(--gpop-pink);
+      box-shadow: 0 0 5px var(--gpop-pink), 0 0 15px rgba(255, 20, 147, 0.5), 0 0 30px rgba(255, 20, 147, 0.2);
+      animation: gpop-flicker 3s ease-in-out infinite;
+    }
+    .gpop-neon-line--green {
+      background: var(--gpop-neon-green);
+      box-shadow: 0 0 5px var(--gpop-neon-green), 0 0 15px rgba(57, 255, 20, 0.5), 0 0 30px rgba(57, 255, 20, 0.2);
+      animation: gpop-flicker 4s ease-in-out infinite;
+    }
+    .gpop-neon-line--blue {
+      background: var(--gpop-blue);
+      box-shadow: 0 0 5px var(--gpop-blue), 0 0 15px rgba(0, 128, 255, 0.5), 0 0 30px rgba(0, 128, 255, 0.2);
+    }
+
+    /* ============================================================
+       POSTER CARD (wheat-pasted)
+       ============================================================ */
+    .gpop-poster-card {
+      background: var(--gpop-cream);
+      color: var(--gpop-black);
+      padding: 2rem 2rem 1.8rem;
+      position: relative;
+      box-shadow:
+        3px 3px 12px rgba(0, 0, 0, 0.5),
+        0 0 0 1px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      margin: 1.5rem 0;
+    }
+
+    .gpop-poster-card--tilt-left { transform: rotate(-1.5deg); }
+    .gpop-poster-card--tilt-right { transform: rotate(1.2deg); }
+    .gpop-poster-card--flat { transform: rotate(0deg); }
+
+    /* Torn corner */
+    .gpop-poster-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 36px;
+      height: 36px;
+      background: linear-gradient(225deg, var(--gpop-concrete) 50%, rgba(245, 240, 224, 0.85) 50%);
+      box-shadow: -2px 2px 3px rgba(0, 0, 0, 0.12);
+      z-index: 2;
+    }
+
+    /* Aged overlay */
+    .gpop-poster-card::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 20% 80%, rgba(139, 69, 19, 0.05) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(139, 69, 19, 0.03) 0%, transparent 40%);
+      pointer-events: none;
+    }
+
+    .gpop-poster-card h3 {
+      color: var(--gpop-black);
+      text-shadow: none;
+    }
+
+    .gpop-poster-card p,
+    .gpop-poster-card li {
+      font-family: 'Russo One', Tahoma, sans-serif;
+      font-size: 0.92rem;
+      line-height: 1.65;
+      color: #222;
+    }
+
+    /* ============================================================
+       STICKER / SLAP TAG
+       ============================================================ */
+    .gpop-sticker {
+      display: inline-block;
+      padding: 0.4rem 1.1rem;
+      font-family: 'Bangers', cursive;
+      font-size: 1rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--gpop-black);
+      background: var(--gpop-yellow);
+      border: 2px solid var(--gpop-black);
+      border-radius: 2px;
+      box-shadow: 2px 2px 0 var(--gpop-black), 3px 3px 6px rgba(0, 0, 0, 0.3);
+      position: relative;
+      transition: transform 0.15s ease;
+    }
+
+    .gpop-sticker:hover {
+      --base-rot: 2deg;
+      animation: gpop-shake 0.3s ease;
+    }
+
+    .gpop-sticker--pink { background: var(--gpop-pink); color: var(--gpop-white); }
+    .gpop-sticker--green { background: var(--gpop-neon-green); }
+    .gpop-sticker--blue { background: var(--gpop-blue); color: var(--gpop-white); }
+    .gpop-sticker--purple { background: var(--gpop-purple); color: var(--gpop-white); }
+    .gpop-sticker--red { background: var(--gpop-red); color: var(--gpop-white); }
+    .gpop-sticker--tilt-left { transform: rotate(-2deg); }
+    .gpop-sticker--tilt-right { transform: rotate(2.5deg); }
+    .gpop-sticker--tilt-big { transform: rotate(4deg); }
+
+    /* ============================================================
+       COLOR PALETTE SWATCHES
+       ============================================================ */
+    .palette-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 1rem;
+      margin: 2rem 0;
+    }
+
+    .swatch {
+      border: 3px solid var(--gpop-black);
+      box-shadow: 3px 3px 0 var(--gpop-black);
+      overflow: hidden;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .swatch:hover {
+      transform: translateY(-4px) rotate(-1deg);
+      box-shadow: 5px 5px 0 var(--gpop-black);
+    }
+
+    .swatch-color {
+      height: 70px;
+      position: relative;
+    }
+
+    .swatch-info {
+      background: var(--gpop-cream);
+      padding: 0.6rem 0.7rem;
+    }
+
+    .swatch-name {
+      font-family: 'Bangers', cursive;
+      font-size: 0.85rem;
+      color: var(--gpop-black);
+      letter-spacing: 0.03em;
+    }
+
+    .swatch-hex {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--gpop-concrete);
+      text-transform: uppercase;
+    }
+
+    /* ============================================================
+       TYPOGRAPHY SHOWCASE
+       ============================================================ */
+    .type-showcase {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      margin: 2rem 0;
+    }
+
+    .type-sample {
+      padding: 1.5rem 2rem;
+      border-left: 4px solid var(--gpop-pink);
+      background: rgba(0, 0, 0, 0.25);
+      position: relative;
+    }
+
+    .type-sample .font-label {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--gpop-pink);
+      margin-bottom: 0.3rem;
+      display: block;
+    }
+
+    .type-bungee-shade {
+      font-family: 'Bungee Shade', Impact, sans-serif;
+      font-size: clamp(2rem, 5vw, 4rem);
+      color: var(--gpop-white);
+      text-shadow: 3px 3px 0 var(--gpop-pink), 6px 6px 0 rgba(0, 0, 0, 0.4);
+      line-height: 1.1;
+    }
+
+    .type-bungee {
+      font-family: 'Bungee', Impact, sans-serif;
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      color: var(--gpop-yellow);
+      -webkit-text-stroke: 2px var(--gpop-black);
+      text-shadow: 4px 4px 0 rgba(0, 0, 0, 0.5);
+      line-height: 1.1;
+    }
+
+    .type-bangers {
+      font-family: 'Bangers', cursive;
+      font-size: clamp(1.5rem, 3.5vw, 2.5rem);
+      color: var(--gpop-neon-green);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      text-shadow: 2px 2px 0 var(--gpop-black);
+    }
+
+    .type-permanent-marker {
+      font-family: 'Permanent Marker', cursive;
+      font-size: clamp(1.3rem, 3vw, 2rem);
+      color: var(--gpop-blue);
+      text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.5);
+      transform: rotate(-1deg);
+      display: inline-block;
+    }
+
+    .type-rock-salt {
+      font-family: 'Rock Salt', cursive;
+      font-size: clamp(0.9rem, 2vw, 1.3rem);
+      color: var(--gpop-purple);
+      transform: rotate(-2deg);
+      display: inline-block;
+    }
+
+    .type-lilita {
+      font-family: 'Lilita One', sans-serif;
+      font-size: clamp(1.5rem, 4vw, 3rem);
+      color: var(--gpop-blue);
+      -webkit-text-stroke: 2px var(--gpop-black);
+      text-shadow: -2px -2px 0 rgba(255, 255, 255, 0.2), 4px 4px 0 var(--gpop-black), 6px 6px 0 rgba(0, 0, 0, 0.3);
+      paint-order: stroke fill;
+    }
+
+    .type-luckiest {
+      font-family: 'Luckiest Guy', cursive;
+      font-size: clamp(1.5rem, 4vw, 3rem);
+      color: var(--gpop-red);
+      -webkit-text-stroke: 2px var(--gpop-black);
+      text-shadow: 3px 3px 0 rgba(0, 0, 0, 0.5);
+    }
+
+    .type-bowlby {
+      font-family: 'Bowlby One SC', sans-serif;
+      font-size: clamp(1.3rem, 3.5vw, 2.5rem);
+      background: linear-gradient(135deg, var(--gpop-pink), var(--gpop-purple), var(--gpop-blue));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(3px 3px 0 rgba(0, 0, 0, 0.5));
+    }
+
+    .type-russo {
+      font-family: 'Russo One', sans-serif;
+      font-size: 1.1rem;
+      color: var(--gpop-cream);
+      line-height: 1.7;
+    }
+
+    .type-mono {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.85rem;
+      color: var(--gpop-silver);
+      letter-spacing: 0.05em;
+    }
+
+    /* ============================================================
+       MOTIF LIST
+       ============================================================ */
+    .motif-list {
+      list-style: none;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1rem;
+      margin: 2rem 0;
+    }
+
+    .motif-list li {
+      padding: 1rem 1.2rem;
+      background: rgba(0, 0, 0, 0.3);
+      border-left: 4px solid var(--gpop-pink);
+      position: relative;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .motif-list li:nth-child(2n) { border-left-color: var(--gpop-neon-green); }
+    .motif-list li:nth-child(3n) { border-left-color: var(--gpop-blue); }
+    .motif-list li:nth-child(4n) { border-left-color: var(--gpop-yellow); }
+    .motif-list li:nth-child(5n) { border-left-color: var(--gpop-purple); }
+
+    .motif-list li:hover {
+      transform: translateX(4px);
+      background: rgba(0, 0, 0, 0.45);
+    }
+
+    .motif-list li strong {
+      font-family: 'Bangers', cursive;
+      font-size: 1rem;
+      letter-spacing: 0.03em;
+      color: var(--gpop-white);
+      display: block;
+      margin-bottom: 0.2rem;
+    }
+
+    .motif-list li span {
+      font-size: 0.88rem;
+      color: var(--gpop-cream);
+      line-height: 1.5;
+    }
+
+    /* ============================================================
+       DESIGN PRINCIPLES GRID
+       ============================================================ */
+    .principles-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1.5rem;
+      margin: 2rem 0;
+    }
+
+    .principle-card {
+      background: rgba(0, 0, 0, 0.35);
+      border: 2px solid rgba(255, 255, 255, 0.08);
+      padding: 1.5rem;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.25s ease, border-color 0.25s ease;
+    }
+
+    .principle-card:hover {
+      transform: rotate(-0.5deg) scale(1.02);
+      border-color: var(--gpop-pink);
+    }
+
+    .principle-card .principle-number {
+      font-family: 'Bungee', Impact, sans-serif;
+      font-size: 3rem;
+      position: absolute;
+      top: -5px;
+      right: 10px;
+      color: rgba(255, 20, 147, 0.1);
+      line-height: 1;
+    }
+
+    .principle-card h4 {
+      margin-bottom: 0.6rem;
+    }
+
+    .principle-card p {
+      font-size: 0.9rem;
+      color: var(--gpop-cream);
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    /* ============================================================
+       TABLE STYLES
+       ============================================================ */
+    .gpop-table-wrap {
+      overflow-x: auto;
+      margin: 1.5rem 0;
+    }
+
+    .gpop-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+
+    .gpop-table thead {
+      background: var(--gpop-pink);
+      color: var(--gpop-black);
+    }
+
+    .gpop-table th {
+      font-family: 'Bangers', cursive;
+      font-size: 1rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 0.8rem 1rem;
+      text-align: left;
+      border: 2px solid var(--gpop-black);
+    }
+
+    .gpop-table td {
+      padding: 0.7rem 1rem;
+      border: 2px solid rgba(255, 255, 255, 0.08);
+      color: var(--gpop-cream);
+      vertical-align: top;
+    }
+
+    .gpop-table tbody tr {
+      background: rgba(0, 0, 0, 0.2);
+      transition: background 0.15s ease;
+    }
+
+    .gpop-table tbody tr:nth-child(even) {
+      background: rgba(0, 0, 0, 0.35);
+    }
+
+    .gpop-table tbody tr:hover {
+      background: rgba(255, 20, 147, 0.08);
+    }
+
+    .gpop-table td strong {
+      color: var(--gpop-white);
+      font-family: 'Bangers', cursive;
+      letter-spacing: 0.03em;
+    }
+
+    /* ============================================================
+       CSS TECHNIQUE SHOWCASE CARDS
+       ============================================================ */
+    .technique-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 2rem;
+      margin: 2rem 0;
+    }
+
+    .technique-card {
+      border: 3px solid var(--gpop-black);
+      box-shadow: 5px 5px 0 var(--gpop-black);
+      overflow: hidden;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .technique-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 7px 7px 0 var(--gpop-black);
+    }
+
+    .technique-card-header {
+      background: var(--gpop-black);
+      padding: 0.7rem 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .technique-card-header h4 {
+      color: var(--gpop-neon-green);
+      margin: 0;
+      text-shadow: none;
+    }
+
+    .technique-card-header .gpop-label {
+      color: var(--gpop-pink);
+    }
+
+    .technique-preview {
+      padding: 2rem;
+      min-height: 140px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .technique-description {
+      padding: 1rem;
+      background: rgba(0, 0, 0, 0.4);
+      font-size: 0.85rem;
+      color: var(--gpop-cream);
+      border-top: 2px solid rgba(255, 255, 255, 0.05);
+    }
+
+    /* ---- Brick wall preview ---- */
+    .preview-brick {
+      background-color: #5a5a5a;
+      background-image:
+        repeating-linear-gradient(
+          0deg,
+          transparent, transparent 24px,
+          #a09080 24px, #a09080 26px
+        ),
+        repeating-linear-gradient(
+          90deg,
+          transparent, transparent 49px,
+          #a09080 49px, #a09080 51px
+        );
+      background-size: 100px 50px;
+    }
+
+    /* ---- Spray text preview ---- */
+    .preview-spray .spray-text {
+      font-family: 'Bangers', cursive;
+      font-size: 2.5rem;
+      text-transform: uppercase;
+      color: var(--gpop-pink);
+      text-shadow:
+        0 0 10px rgba(255, 20, 147, 0.6),
+        0 0 30px rgba(255, 20, 147, 0.3),
+        0 0 60px rgba(255, 20, 147, 0.15),
+        3px 3px 0 var(--gpop-black);
+      position: relative;
+    }
+
+    .preview-spray .spray-text::after {
+      content: '';
+      position: absolute;
+      bottom: -14px;
+      left: 12%;
+      width: 3px;
+      height: 18px;
+      background: linear-gradient(to bottom, var(--gpop-pink), transparent);
+      border-radius: 0 0 2px 2px;
+      box-shadow:
+        28px 4px 0 0 var(--gpop-pink),
+        68px -2px 0 0 var(--gpop-pink),
+        108px 6px 0 0 var(--gpop-pink);
+    }
+
+    .preview-spray {
+      background: var(--gpop-black);
+    }
+
+    /* ---- Bubble letter preview ---- */
+    .preview-bubble {
+      background: var(--gpop-concrete);
+    }
+
+    .preview-bubble .bubble-text {
+      font-family: 'Lilita One', sans-serif;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      color: var(--gpop-blue);
+      -webkit-text-stroke: 2px var(--gpop-black);
+      text-shadow:
+        -2px -2px 0 rgba(255, 255, 255, 0.25),
+        3px 3px 0 var(--gpop-black),
+        4px 4px 0 var(--gpop-black),
+        6px 6px 0 rgba(0, 0, 0, 0.35);
+      paint-order: stroke fill;
+    }
+
+    /* ---- Sticker preview ---- */
+    .preview-sticker {
+      background-color: var(--gpop-concrete-warm);
+      background-image:
+        repeating-linear-gradient(
+          0deg,
+          transparent, transparent 24px,
+          rgba(160, 144, 128, 0.15) 24px, rgba(160, 144, 128, 0.15) 26px
+        );
+    }
+
+    /* ---- Poster preview ---- */
+    .preview-poster {
+      background: var(--gpop-concrete);
+    }
+
+    .preview-poster .mini-poster {
+      background: var(--gpop-cream);
+      color: var(--gpop-black);
+      padding: 1rem 1.3rem;
+      transform: rotate(-2deg);
+      box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.4);
+      position: relative;
+      max-width: 200px;
+    }
+
+    .preview-poster .mini-poster::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 22px;
+      height: 22px;
+      background: linear-gradient(225deg, var(--gpop-concrete) 50%, rgba(245, 240, 224, 0.85) 50%);
+    }
+
+    .preview-poster .mini-poster h4 {
+      font-family: 'Permanent Marker', cursive;
+      color: var(--gpop-black);
+      text-shadow: none;
+      font-size: 1rem;
+      margin-bottom: 0.3rem;
+    }
+
+    .preview-poster .mini-poster p {
+      font-size: 0.75rem;
+      color: #444;
+      margin: 0;
+      font-family: 'Russo One', sans-serif;
+    }
+
+    /* ---- Button preview ---- */
+    .preview-buttons {
+      background: var(--gpop-black);
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .gpop-button {
+      display: inline-block;
+      padding: 0.7rem 2rem;
+      font-family: 'Bangers', cursive;
+      font-size: 1.1rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--gpop-black);
+      background: var(--gpop-neon-green);
+      border: 3px solid var(--gpop-black);
+      cursor: pointer;
+      position: relative;
+      transform: rotate(-1deg);
+      box-shadow: 4px 4px 0 var(--gpop-black);
+      transition: all 0.12s ease;
+      text-decoration: none;
+    }
+
+    .gpop-button:hover {
+      background: var(--gpop-pink);
+      color: var(--gpop-white);
+      transform: rotate(0deg) translate(-2px, -2px);
+      box-shadow: 6px 6px 0 var(--gpop-black);
+    }
+
+    .gpop-button:active {
+      transform: rotate(0deg) translate(2px, 2px);
+      box-shadow: 2px 2px 0 var(--gpop-black);
+    }
+
+    .gpop-button--alt {
+      background: var(--gpop-purple);
+      color: var(--gpop-white);
+      transform: rotate(1deg);
+    }
+
+    .gpop-button--alt:hover {
+      background: var(--gpop-yellow);
+      color: var(--gpop-black);
+    }
+
+    /* ============================================================
+       CULTURAL REFERENCES
+       ============================================================ */
+    .culture-list {
+      list-style: none;
+      margin: 2rem 0;
+    }
+
+    .culture-list li {
+      padding: 1rem 1.2rem 1rem 1.5rem;
+      margin-bottom: 0.5rem;
+      border-left: 4px solid var(--gpop-purple);
+      background: rgba(0, 0, 0, 0.2);
+      position: relative;
+      transition: transform 0.15s ease;
+    }
+
+    .culture-list li:nth-child(odd) { border-left-color: var(--gpop-pink); }
+    .culture-list li:nth-child(3n) { border-left-color: var(--gpop-neon-green); }
+
+    .culture-list li:hover {
+      transform: translateX(6px);
+    }
+
+    .culture-list li strong {
+      font-family: 'Bangers', cursive;
+      font-size: 1.05rem;
+      color: var(--gpop-white);
+      letter-spacing: 0.03em;
+    }
+
+    .culture-list li .culture-year {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--gpop-pink);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .culture-list li p {
+      font-size: 0.88rem;
+      color: var(--gpop-cream);
+      margin: 0.3rem 0 0;
+      line-height: 1.55;
+    }
+
+    /* ============================================================
+       RELATED AESTHETICS
+       ============================================================ */
+    .related-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1rem;
+      margin: 2rem 0;
+    }
+
+    .related-card {
+      background: rgba(0, 0, 0, 0.3);
+      border: 2px solid rgba(255, 255, 255, 0.06);
+      padding: 1.2rem 1.4rem;
+      transition: border-color 0.2s ease, transform 0.2s ease;
+    }
+
+    .related-card:hover {
+      border-color: var(--gpop-neon-green);
+      transform: rotate(-0.5deg);
+    }
+
+    .related-card h4 {
+      font-family: 'Permanent Marker', cursive;
+      font-size: 1.15rem;
+      color: var(--gpop-neon-green);
+      text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.4);
+      margin-bottom: 0.5rem;
+      transform: none;
+    }
+
+    .related-card p {
+      font-size: 0.85rem;
+      color: var(--gpop-cream);
+      line-height: 1.55;
+      margin: 0;
+    }
+
+    /* ============================================================
+       MATERIALS TABLE
+       ============================================================ */
+    .materials-table td:first-child {
+      font-family: 'Permanent Marker', cursive;
+      color: var(--gpop-yellow);
+      white-space: nowrap;
+      font-size: 0.95rem;
+    }
+
+    .materials-table td:last-child {
+      font-size: 0.85rem;
+      font-family: 'Share Tech Mono', monospace;
+      color: var(--gpop-silver);
+    }
+
+    /* ============================================================
+       LAYOUT PRINCIPLES BANNER
+       ============================================================ */
+    .layout-banner {
+      background: var(--gpop-pink);
+      color: var(--gpop-black);
+      padding: 1.2rem 2rem;
+      transform: rotate(-1deg);
+      margin: 2rem -1rem;
+      box-shadow: 4px 4px 0 var(--gpop-black);
+      border: 3px solid var(--gpop-black);
+    }
+
+    .layout-banner p {
+      font-family: 'Bangers', cursive;
+      font-size: 1.2rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      text-align: center;
+      margin: 0;
+    }
+
+    /* ============================================================
+       FONT TABLE
+       ============================================================ */
+    .font-table .font-preview {
+      min-width: 120px;
+    }
+
+    /* ============================================================
+       FOOTER
+       ============================================================ */
+    footer {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 4rem 2rem 3rem;
+      border-top: 3px solid var(--gpop-black);
+      background: rgba(0, 0, 0, 0.4);
+    }
+
+    footer .footer-title {
+      font-family: 'Bungee', Impact, sans-serif;
+      font-size: clamp(1.5rem, 4vw, 3rem);
+      color: var(--gpop-white);
+      text-shadow: 3px 3px 0 var(--gpop-pink);
+      margin-bottom: 1rem;
+    }
+
+    footer .footer-tag {
+      font-family: 'Rock Salt', cursive;
+      font-size: 0.85rem;
+      color: var(--gpop-neon-green);
+      transform: rotate(-2deg);
+      display: inline-block;
+    }
+
+    footer .footer-meta {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--gpop-silver);
+      margin-top: 1.5rem;
+    }
+
+    /* ============================================================
+       RESPONSIVE
+       ============================================================ */
+    @media (max-width: 768px) {
+      nav {
+        padding: 0.5rem 1rem;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      nav .nav-links {
+        gap: 0.2rem;
+      }
+
+      nav .nav-links a {
+        font-size: 0.75rem;
+        padding: 0.25rem 0.5rem;
+      }
+
+      section {
+        padding: 3rem 1.2rem;
+      }
+
+      .hero {
+        padding: 7rem 1.2rem 4rem;
+      }
+
+      .motif-list,
+      .principles-grid,
+      .technique-grid,
+      .related-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .palette-grid {
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+      }
+
+      .ticker span {
+        font-size: 0.9rem;
+        padding: 0 1rem;
+      }
+
+      .layout-banner {
+        margin: 2rem 0;
+        transform: rotate(0deg);
+      }
+
+      .gpop-poster-card {
+        transform: rotate(0deg) !important;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero h1 {
+        font-size: clamp(2.5rem, 12vw, 5rem);
+      }
+
+      .palette-grid {
+        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+      }
+
+      .swatch-color {
+        height: 50px;
+      }
+    }
+
+    /* ============================================================
+       DRIP DECORATION ON SECTIONS
+       ============================================================ */
+    .has-drips {
+      position: relative;
+    }
+
+    .has-drips::after {
+      content: '';
+      position: absolute;
+      bottom: -30px;
+      left: 0;
+      right: 0;
+      height: 30px;
+      background:
+        linear-gradient(to bottom, var(--gpop-pink) 0%, transparent 100%) 8% 0 / 3px 28px no-repeat,
+        linear-gradient(to bottom, var(--gpop-pink) 0%, transparent 100%) 18% 0 / 4px 18px no-repeat,
+        linear-gradient(to bottom, var(--gpop-neon-green) 0%, transparent 100%) 32% 0 / 3px 26px no-repeat,
+        linear-gradient(to bottom, var(--gpop-blue) 0%, transparent 100%) 47% 0 / 5px 14px no-repeat,
+        linear-gradient(to bottom, var(--gpop-yellow) 0%, transparent 100%) 61% 0 / 3px 22px no-repeat,
+        linear-gradient(to bottom, var(--gpop-purple) 0%, transparent 100%) 75% 0 / 4px 20px no-repeat,
+        linear-gradient(to bottom, var(--gpop-red) 0%, transparent 100%) 88% 0 / 3px 28px no-repeat;
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    /* ============================================================
+       INLINE CODE
+       ============================================================ */
+    code {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.82rem;
+      background: rgba(0, 0, 0, 0.4);
+      color: var(--gpop-neon-green);
+      padding: 0.15rem 0.4rem;
+      border: 1px solid rgba(57, 255, 20, 0.2);
+      border-radius: 2px;
+    }
+
+    /* ============================================================
+       SPRAY CAN CURSOR TRAIL (decorative)
+       ============================================================ */
+    .spray-dot {
+      position: fixed;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================================
+       NAVIGATION
+       ============================================================ -->
+  <nav>
+    <a href="#top" class="logo">GRAFFITI POP</a>
+    <ul class="nav-links">
+      <li><a href="#visual">Visuals</a></li>
+      <li><a href="#palette">Palette</a></li>
+      <li><a href="#typography">Type</a></li>
+      <li><a href="#layout">Layout</a></li>
+      <li><a href="#techniques">Techniques</a></li>
+      <li><a href="#materials">Materials</a></li>
+      <li><a href="#culture">Culture</a></li>
+      <li><a href="#related">Related</a></li>
+    </ul>
+  </nav>
+
+  <!-- ============================================================
+       HERO
+       ============================================================ -->
+  <header class="hero" id="top">
+    <span class="hero-tag">fresh!</span>
+    <span class="hero-tag">wild style</span>
+    <span class="hero-tag">bombs away</span>
+    <span class="hero-tag">all city</span>
+    <span class="hero-tag">getting up</span>
+
+    <h1>Graffiti<br>Pop</h1>
+    <p class="hero-subtitle">Street Art Meets Bold Pop Sensibility</p>
+    <p class="hero-meta">c. 1970s -- present // design reference guide</p>
+    <p class="hero-description">
+      A street-art-rooted aesthetic that fuses the raw, rebellious energy of graffiti and hip-hop culture
+      with bold, accessible pop sensibilities. It takes the visual language of urban walls -- spray paint,
+      tags, bubble letters, drip effects, and stencils -- and repackages it into high-contrast, vibrant
+      compositions suitable for galleries, brands, and screens.
+    </p>
+    <p class="hero-description" style="max-width:680px; font-size:0.95rem; color: var(--gpop-silver);">
+      The style channels the downtown metropolitan energy of 1970s-80s New York, merging punk collage
+      rawness with technical graffiti skill. Think MTV bumpers, Fresh Prince opening credits, and
+      Supreme lookbooks: aggressive neon color on concrete gray, cartoonish characters in baggy clothes
+      and big trainers, typography that looks sprayed onto brick walls. The result is maximalist, kinetic,
+      unapologetically loud, and dripping with street credibility.
+    </p>
+    <p class="hero-scroll-hint">// scroll to explore //</p>
+  </header>
+
+  <!-- ============================================================
+       MARQUEE TICKER
+       ============================================================ -->
+  <div class="ticker-wrap" aria-hidden="true">
+    <div class="ticker">
+      <span>Spray Paint</span><span class="sep">/</span>
+      <span>Bubble Letters</span><span class="sep">/</span>
+      <span>Wildstyle</span><span class="sep">/</span>
+      <span>Neon on Concrete</span><span class="sep">/</span>
+      <span>Tags & Throw-ups</span><span class="sep">/</span>
+      <span>Stencil Art</span><span class="sep">/</span>
+      <span>Drips & Splatters</span><span class="sep">/</span>
+      <span>Street Cred</span><span class="sep">/</span>
+      <span>Hip-Hop Culture</span><span class="sep">/</span>
+      <span>Maximum Energy</span><span class="sep">/</span>
+      <!-- Duplicate for seamless loop -->
+      <span>Spray Paint</span><span class="sep">/</span>
+      <span>Bubble Letters</span><span class="sep">/</span>
+      <span>Wildstyle</span><span class="sep">/</span>
+      <span>Neon on Concrete</span><span class="sep">/</span>
+      <span>Tags & Throw-ups</span><span class="sep">/</span>
+      <span>Stencil Art</span><span class="sep">/</span>
+      <span>Drips & Splatters</span><span class="sep">/</span>
+      <span>Street Cred</span><span class="sep">/</span>
+      <span>Hip-Hop Culture</span><span class="sep">/</span>
+      <span>Maximum Energy</span><span class="sep">/</span>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       VISUAL CHARACTERISTICS
+       ============================================================ -->
+  <div class="section-wrap surface-brick has-drips" id="visual">
+    <section>
+      <div class="reveal">
+        <h2>Visual <span class="accent">Characteristics</span></h2>
+        <hr class="gpop-neon-line gpop-neon-line--pink">
+      </div>
+
+      <div class="reveal">
+        <h3>Core Motifs & Patterns</h3>
+        <ul class="motif-list">
+          <li>
+            <strong>Graffiti Tags & Throw-ups</strong>
+            <span>Stylized signatures, quick spray-painted names, and elaborate wildstyle lettering covering surfaces</span>
+          </li>
+          <li>
+            <strong>Bubble Letters</strong>
+            <span>Rounded, inflated, dimensional letterforms with outlines, highlights, and drop shadows</span>
+          </li>
+          <li>
+            <strong>Drip & Splatter Effects</strong>
+            <span>Paint drips running down from text and shapes, spray-can overspray dots, ink splatters</span>
+          </li>
+          <li>
+            <strong>Brick Wall & Concrete Textures</strong>
+            <span>Urban surfaces as the natural canvas; visible mortar lines, cracks, and weathering</span>
+          </li>
+          <li>
+            <strong>Cartoonish Characters</strong>
+            <span>Exaggerated figures with big trainers, baggy clothes, boomboxes, and expressive poses</span>
+          </li>
+          <li>
+            <strong>Stencil Art</strong>
+            <span>Sharp-edged spray-paint imagery using cut-out templates, often political or iconic</span>
+          </li>
+          <li>
+            <strong>Chain-Link Fences & Street Furniture</strong>
+            <span>Urban environmental elements: street lamps, fire hydrants, manhole covers, trash cans</span>
+          </li>
+          <li>
+            <strong>Xerox & Photocopy Aesthetics</strong>
+            <span>High-contrast, grainy reproductions suggesting zine culture and underground flyers</span>
+          </li>
+          <li>
+            <strong>Collaged Layering</strong>
+            <span>Overlapping elements stacked like wheat-pasted posters on a wall; torn edges, partial obscuring</span>
+          </li>
+          <li>
+            <strong>Spray-Can Texture & Gradients</strong>
+            <span>Soft-edge fades, cap-width line variations, and valve-splatter patterns unique to aerosol art</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="reveal">
+        <h3>Design Principles</h3>
+        <div class="principles-grid">
+          <div class="principle-card">
+            <span class="principle-number">01</span>
+            <h4>Maximum Energy, Maximum Contrast</h4>
+            <p>Pair the brightest neons against the darkest urban surfaces for visual impact.</p>
+          </div>
+          <div class="principle-card">
+            <span class="principle-number">02</span>
+            <h4>Layered Chaos, Compositional Intent</h4>
+            <p>Elements should appear spontaneously placed but follow an underlying visual hierarchy.</p>
+          </div>
+          <div class="principle-card">
+            <span class="principle-number">03</span>
+            <h4>Street-Level Authenticity</h4>
+            <p>Every element should feel like it could exist on an actual city wall or in a subway car.</p>
+          </div>
+          <div class="principle-card">
+            <span class="principle-number">04</span>
+            <h4>Motion & Kinetic Energy</h4>
+            <p>Compositions should feel dynamic, as if captured mid-action; tilted angles, speed lines, overlapping forms.</p>
+          </div>
+          <div class="principle-card">
+            <span class="principle-number">05</span>
+            <h4>Bold Over Subtle</h4>
+            <p>Nothing is quiet; type is oversized, colors are saturated, characters are exaggerated.</p>
+          </div>
+          <div class="principle-card">
+            <span class="principle-number">06</span>
+            <h4>Raw Over Polished</h4>
+            <p>Embrace imperfection, overspray, drips, and rough edges rather than clean vector precision.</p>
+          </div>
+          <div class="principle-card">
+            <span class="principle-number">07</span>
+            <h4>Cultural Specificity</h4>
+            <p>Root the design in hip-hop, skateboarding, punk, and street culture visual vocabulary.</p>
+          </div>
+          <div class="principle-card">
+            <span class="principle-number">08</span>
+            <h4>Dimensional Letterforms</h4>
+            <p>Text should have weight, shadow, and volume; flat type feels out of place.</p>
+          </div>
+          <div class="principle-card">
+            <span class="principle-number">09</span>
+            <h4>Foreground Dominance</h4>
+            <p>The graffiti/art elements take visual priority over any background or structural grid.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <hr class="gpop-divider">
+
+  <!-- ============================================================
+       COLOR PALETTE
+       ============================================================ -->
+  <div class="section-wrap surface-dark" id="palette">
+    <section>
+      <div class="reveal">
+        <h2>Color <span class="accent">Palette</span></h2>
+        <hr class="gpop-neon-line gpop-neon-line--green">
+      </div>
+
+      <div class="reveal">
+        <h3>The Full Spectrum</h3>
+        <div class="palette-grid">
+          <div class="swatch">
+            <div class="swatch-color" style="background:#111111;"></div>
+            <div class="swatch-info">
+              <div class="swatch-name">Asphalt Black</div>
+              <div class="swatch-hex">#111111</div>
+            </div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background:#5a5a5a;"></div>
+            <div class="swatch-info">
+              <div class="swatch-name">Concrete Gray</div>
+              <div class="swatch-hex">#5a5a5a</div>
+            </div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background:#7a7168;"></div>
+            <div class="swatch-info">
+              <div class="swatch-name">Warm Concrete</div>
+              <div class="swatch-hex">#7a7168</div>
+            </div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background:#8b4513;"></div>
+            <div class="swatch-info">
+              <div class="swatch-name">Brick Red</div>
+              <div class="swatch-hex">#8b4513</div>
+            </div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background:#a09080;"></div>
+            <div class="swatch-info">
+              <div class="swatch-name">Brick Mortar</div>
+              <div class="swatch-hex">#a09080</div>
+            </div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background:#ff1493;"></div>
+            <div class="swatch-info">
+              <div class="swatch-name">Hot Pink</div>
+              <div class="swatch-hex">#ff1493</div>
+            </div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background:#39ff14;"></div>
+            <div class="swatch-info">
+              <div class="swatch-name">Neon Green</div>
+              <div class="swatch-hex">#39ff14</div>
+            </div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background:#0080ff;"></div>
+            <div class="swatch-info">
+              <div class="swatch-name">Electric Blue</div>
+              <div class="swatch-hex">#0080ff</div>
+            </div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background:#9b30ff;"></div>
+            <div class="swatch-info">
+              <div class="swatch-name">Vivid Purple</div>
+              <div class="swatch-hex">#9b30ff</div>
+            </div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background:#ffd700;"></div>
+            <div class="swatch-info">
+              <div class="swatch-name">Safety Yellow</div>
+              <div class="swatch-hex">#ffd700</div>
+            </div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background:#ff2400;"></div>
+            <div class="swatch-info">
+              <div class="swatch-name">Fire Red</div>
+              <div class="swatch-hex">#ff2400</div>
+            </div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background:#ffffff; border-bottom: 1px solid #ccc;"></div>
+            <div class="swatch-info">
+              <div class="swatch-name">Pure White</div>
+              <div class="swatch-hex">#ffffff</div>
+            </div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background:#c0c0c0;"></div>
+            <div class="swatch-info">
+              <div class="swatch-name">Spray Can Silver</div>
+              <div class="swatch-hex">#c0c0c0</div>
+            </div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background:#cc5500;"></div>
+            <div class="swatch-info">
+              <div class="swatch-name">Rust Orange</div>
+              <div class="swatch-hex">#cc5500</div>
+            </div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background:#3d8b8b;"></div>
+            <div class="swatch-info">
+              <div class="swatch-name">Faded Teal</div>
+              <div class="swatch-hex">#3d8b8b</div>
+            </div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background:#bdb76b;"></div>
+            <div class="swatch-info">
+              <div class="swatch-name">Dusty Khaki</div>
+              <div class="swatch-hex">#bdb76b</div>
+            </div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background:#f5f0e0;"></div>
+            <div class="swatch-info">
+              <div class="swatch-name">Subway Cream</div>
+              <div class="swatch-hex">#f5f0e0</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="reveal">
+        <h3>Palette Approaches</h3>
+        <div class="gpop-poster-card gpop-poster-card--tilt-left">
+          <h3 style="color:var(--gpop-black); text-shadow:none;">How to Use the Palette</h3>
+          <ul style="list-style:none; padding:0;">
+            <li style="margin-bottom:0.6rem; padding-left:1.2rem; position:relative;">
+              <span style="position:absolute;left:0;color:var(--gpop-pink);font-family:'Bangers',cursive;">></span>
+              <strong>Neon-on-dark dominance</strong> -- saturated, electric colors on dark urban surfaces create the signature Graffiti Pop contrast
+            </li>
+            <li style="margin-bottom:0.6rem; padding-left:1.2rem; position:relative;">
+              <span style="position:absolute;left:0;color:var(--gpop-neon-green);font-family:'Bangers',cursive;">></span>
+              <strong>Multi-accent freedom</strong> -- unlike muted aesthetics, Graffiti Pop encourages using 3-5 vivid accent colors simultaneously
+            </li>
+            <li style="margin-bottom:0.6rem; padding-left:1.2rem; position:relative;">
+              <span style="position:absolute;left:0;color:var(--gpop-blue);font-family:'Bangers',cursive;">></span>
+              <strong>Black outlines unify</strong> -- thick black outlines and shadows hold the chaotic palette together, mimicking graffiti technique
+            </li>
+            <li style="margin-bottom:0.6rem; padding-left:1.2rem; position:relative;">
+              <span style="position:absolute;left:0;color:var(--gpop-yellow);font-family:'Bangers',cursive;">></span>
+              <strong>Warm and cool neon balance</strong> -- mix warm neons (pink, yellow, red) with cool neons (green, blue, purple) for full-spectrum energy
+            </li>
+            <li style="margin-bottom:0.6rem; padding-left:1.2rem; position:relative;">
+              <span style="position:absolute;left:0;color:var(--gpop-purple);font-family:'Bangers',cursive;">></span>
+              <strong>Concrete as canvas</strong> -- the neutral gray/brown background tones are as important as the accents; they ground the neon chaos
+            </li>
+            <li style="padding-left:1.2rem; position:relative;">
+              <span style="position:absolute;left:0;color:var(--gpop-red);font-family:'Bangers',cursive;">></span>
+              <strong>No pastels, no muting</strong> -- colors should be at or near full saturation; faded tones appear only on background surfaces representing age
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="reveal" style="margin-top:2rem;">
+        <div style="display:flex; gap:0.8rem; flex-wrap:wrap;">
+          <span class="gpop-sticker gpop-sticker--tilt-left">Neon-on-Dark</span>
+          <span class="gpop-sticker gpop-sticker--pink gpop-sticker--tilt-right">Full Saturation</span>
+          <span class="gpop-sticker gpop-sticker--green gpop-sticker--tilt-big">Multi-Accent</span>
+          <span class="gpop-sticker gpop-sticker--blue gpop-sticker--tilt-left">Black Outlines</span>
+          <span class="gpop-sticker gpop-sticker--purple gpop-sticker--tilt-right">Concrete Canvas</span>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <hr class="gpop-divider">
+
+  <!-- ============================================================
+       TYPOGRAPHY
+       ============================================================ -->
+  <div class="section-wrap surface-concrete" id="typography">
+    <section>
+      <div class="reveal">
+        <h2>Typo<span class="accent">graphy</span></h2>
+        <hr class="gpop-neon-line gpop-neon-line--blue">
+      </div>
+
+      <div class="reveal">
+        <h3>Typeface Characteristics</h3>
+        <div class="gpop-poster-card gpop-poster-card--tilt-right">
+          <p style="font-size:0.92rem; color:#222;">
+            Graffiti Pop typography is <strong>loud, dimensional, and hand-made</strong>.
+            Bubble letters, wildstyle graffiti, tag-style script, stencil capitals, block letters,
+            dripping text, mixed case and scale, thick outlines -- every letterform demands
+            attention, weight, and volume. Flat type feels out of place.
+          </p>
+        </div>
+      </div>
+
+      <div class="reveal">
+        <h3>Font Showcase</h3>
+        <div class="type-showcase">
+          <div class="type-sample">
+            <span class="font-label">Bungee Shade // Hero Display</span>
+            <div class="type-bungee-shade">GRAFFITI POP</div>
+          </div>
+          <div class="type-sample">
+            <span class="font-label">Bungee // Bold Block Display</span>
+            <div class="type-bungee">BLOCK LETTERS</div>
+          </div>
+          <div class="type-sample">
+            <span class="font-label">Bangers // Comic Pop Bold</span>
+            <div class="type-bangers">Action text and exclamations!</div>
+          </div>
+          <div class="type-sample">
+            <span class="font-label">Permanent Marker // Hand-Tag Style</span>
+            <div class="type-permanent-marker">Subheadings and callouts</div>
+          </div>
+          <div class="type-sample">
+            <span class="font-label">Rock Salt // Rough Handwritten</span>
+            <div class="type-rock-salt">Annotations and informal labels</div>
+          </div>
+          <div class="type-sample">
+            <span class="font-label">Lilita One // Bubble Letter Approximation</span>
+            <div class="type-lilita">BUBBLE STYLE</div>
+          </div>
+          <div class="type-sample">
+            <span class="font-label">Luckiest Guy // Cartoon Block Letters</span>
+            <div class="type-luckiest">FUN DISPLAY!</div>
+          </div>
+          <div class="type-sample">
+            <span class="font-label">Bowlby One SC // Gradient Bubble</span>
+            <div class="type-bowlby">MULTICOLOR POP</div>
+          </div>
+          <div class="type-sample">
+            <span class="font-label">Russo One // Body Text</span>
+            <div class="type-russo">Clean urban display with geometric bold sans-serif character. Readable but with personality for body copy and interface text.</div>
+          </div>
+          <div class="type-sample">
+            <span class="font-label">Share Tech Mono // Labels & Metadata</span>
+            <div class="type-mono">TECHNICAL DETAILS // MONOSPACE LABELS // 0123456789</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="reveal">
+        <h3>Recommended Web Fonts</h3>
+        <div class="gpop-table-wrap">
+          <table class="gpop-table font-table">
+            <thead>
+              <tr>
+                <th>Font</th>
+                <th>Style</th>
+                <th>Usage</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Bungee Shade</strong></td>
+                <td>Layered dimensional display</td>
+                <td>Oversized display type, posters, hero text</td>
+              </tr>
+              <tr>
+                <td><strong>Bungee</strong></td>
+                <td>Bold block display</td>
+                <td>Headlines, section titles</td>
+              </tr>
+              <tr>
+                <td><strong>Bungee Inline</strong></td>
+                <td>Inline-stroked display</td>
+                <td>Alternate headlines, decorative emphasis</td>
+              </tr>
+              <tr>
+                <td><strong>Permanent Marker</strong></td>
+                <td>Bold hand-written marker</td>
+                <td>Subheadings, callouts, tag-style text</td>
+              </tr>
+              <tr>
+                <td><strong>Rock Salt</strong></td>
+                <td>Rough handwritten</td>
+                <td>Accent text, annotations, informal labels</td>
+              </tr>
+              <tr>
+                <td><strong>Bangers</strong></td>
+                <td>Comic/pop bold</td>
+                <td>Action text, exclamations, button labels</td>
+              </tr>
+              <tr>
+                <td><strong>Bowlby One SC</strong></td>
+                <td>Rounded bold display</td>
+                <td>Bubble-letter approximation, titles</td>
+              </tr>
+              <tr>
+                <td><strong>Russo One</strong></td>
+                <td>Geometric bold sans</td>
+                <td>Clean urban display, modern graffiti headers</td>
+              </tr>
+              <tr>
+                <td><strong>Lilita One</strong></td>
+                <td>Heavy rounded display</td>
+                <td>Friendly bold headlines, cartoonish headers</td>
+              </tr>
+              <tr>
+                <td><strong>Luckiest Guy</strong></td>
+                <td>Cartoon block letters</td>
+                <td>Fun display, comic-influenced headings</td>
+              </tr>
+              <tr>
+                <td><strong>Press Start 2P</strong></td>
+                <td>Pixel/retro display</td>
+                <td>Retro gaming accent (for 80s crossover)</td>
+              </tr>
+              <tr>
+                <td><strong>Share Tech Mono</strong></td>
+                <td>Technical monospace</td>
+                <td>Small labels, metadata, technical details</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <hr class="gpop-divider">
+
+  <!-- ============================================================
+       LAYOUT PRINCIPLES
+       ============================================================ -->
+  <div class="section-wrap surface-brick" id="layout">
+    <section>
+      <div class="reveal">
+        <h2>Layout <span class="accent">Principles</span></h2>
+        <hr class="gpop-neon-line gpop-neon-line--pink">
+      </div>
+
+      <div class="reveal">
+        <div class="layout-banner">
+          <p>The entire viewport is a wall to be painted on</p>
+        </div>
+      </div>
+
+      <div class="reveal">
+        <h3>Grid & Structure</h3>
+        <ul class="motif-list">
+          <li>
+            <strong>Edge-to-Edge Canvas</strong>
+            <span>Backgrounds extend full-bleed; the entire viewport is a wall to be painted on</span>
+          </li>
+          <li>
+            <strong>Overlapping, Collaged Composition</strong>
+            <span>Elements stack on top of each other like layers of wheat-pasted posters and spray paint</span>
+          </li>
+          <li>
+            <strong>Asymmetric, Organic Placement</strong>
+            <span>Resist rigid grid alignment; elements should feel placed by hand rather than snapped to columns</span>
+          </li>
+          <li>
+            <strong>Generous Scale Contrast</strong>
+            <span>Oversized headlines next to small labels; huge characters next to tight body text</span>
+          </li>
+          <li>
+            <strong>Angled & Rotated Elements</strong>
+            <span>Slight tilts (2-5deg) on cards, text blocks, and images suggest street-level spontaneity</span>
+          </li>
+          <li>
+            <strong>Foreground-Background Depth</strong>
+            <span>Use z-index layering, shadows, and scale to create a sense of physical depth (paint on wall on building)</span>
+          </li>
+          <li>
+            <strong>Generous Negative Space as "Wall"</strong>
+            <span>Leave areas of bare background visible, like unpainted sections of a wall between pieces</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="reveal">
+        <h3>Section Organization</h3>
+        <div class="principles-grid">
+          <div class="principle-card">
+            <h4>Spray-Paint Splatter Dividers</h4>
+            <p>Colorful dots, drips, and line streaks rather than clean horizontal rules between sections.</p>
+          </div>
+          <div class="principle-card">
+            <h4>Alternating Surface Textures</h4>
+            <p>Brick wall, concrete, metal shutter, subway tile -- vary the "canvas" per section.</p>
+          </div>
+          <div class="principle-card">
+            <h4>Hierarchy Through Intensity</h4>
+            <p>The most important content gets the biggest, brightest, most dimensional treatment.</p>
+          </div>
+          <div class="principle-card">
+            <h4>Sticker & Wheat-Paste Elements</h4>
+            <p>Cards and panels that look pasted onto the wall with visible edges and slight peeling.</p>
+          </div>
+          <div class="principle-card">
+            <h4>Arrow & Pointer Elements</h4>
+            <p>Hand-drawn arrows, spray-painted directional marks guiding the eye through the composition.</p>
+          </div>
+          <div class="principle-card">
+            <h4>Frame-Breaking Overflow</h4>
+            <p>Let elements (characters, drips, tags) extend beyond their containers and into adjacent sections.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <hr class="gpop-divider">
+
+  <!-- ============================================================
+       CSS / DESIGN TECHNIQUES
+       ============================================================ -->
+  <div class="section-wrap surface-dark" id="techniques">
+    <section>
+      <div class="reveal">
+        <h2>CSS <span class="accent">Techniques</span></h2>
+        <hr class="gpop-neon-line gpop-neon-line--green">
+      </div>
+
+      <div class="reveal">
+        <p style="margin-bottom:2rem;">
+          Live demonstrations of the core CSS techniques that bring the Graffiti Pop aesthetic to the screen.
+          Each card shows the technique in action with a description of how it is built.
+        </p>
+      </div>
+
+      <div class="technique-grid">
+        <!-- Brick Wall -->
+        <div class="technique-card reveal">
+          <div class="technique-card-header">
+            <h4>Brick Wall Texture</h4>
+            <span class="gpop-label">CSS Gradient</span>
+          </div>
+          <div class="technique-preview preview-brick">
+            <span style="font-family:'Bangers',cursive; font-size:2rem; color:var(--gpop-pink); text-shadow:2px 2px 0 #000; text-transform:uppercase;">The Wall</span>
+          </div>
+          <div class="technique-description">
+            Built with <code>repeating-linear-gradient</code> for mortar lines on a gray base.
+            A pseudo-element adds grime with <code>radial-gradient</code> blotches.
+          </div>
+        </div>
+
+        <!-- Spray Paint Text -->
+        <div class="technique-card reveal">
+          <div class="technique-card-header">
+            <h4>Spray Paint Text</h4>
+            <span class="gpop-label">Text Shadow</span>
+          </div>
+          <div class="technique-preview preview-spray">
+            <span class="spray-text">SPRAY</span>
+          </div>
+          <div class="technique-description">
+            Layered <code>text-shadow</code> creates overspray glow. A pseudo-element
+            with <code>box-shadow</code> paints drips beneath the text.
+          </div>
+        </div>
+
+        <!-- Bubble Letters -->
+        <div class="technique-card reveal">
+          <div class="technique-card-header">
+            <h4>Bubble Letters</h4>
+            <span class="gpop-label">Stroke + Shadow</span>
+          </div>
+          <div class="technique-preview preview-bubble">
+            <span class="bubble-text">BOMB</span>
+          </div>
+          <div class="technique-description">
+            <code>-webkit-text-stroke</code> for outlines, stacked <code>text-shadow</code>
+            for depth, and <code>paint-order: stroke fill</code> for correct layering.
+          </div>
+        </div>
+
+        <!-- Sticker -->
+        <div class="technique-card reveal">
+          <div class="technique-card-header">
+            <h4>Sticker / Slap Tag</h4>
+            <span class="gpop-label">Transform</span>
+          </div>
+          <div class="technique-preview preview-sticker">
+            <span class="gpop-sticker gpop-sticker--tilt-right">FRESH!</span>
+            <span class="gpop-sticker gpop-sticker--pink gpop-sticker--tilt-left" style="margin-left:0.5rem;">DOPE</span>
+          </div>
+          <div class="technique-description">
+            Bright background with thick black <code>border</code>, <code>transform: rotate()</code>
+            for slight tilt, and <code>box-shadow</code> for dimensional lift.
+          </div>
+        </div>
+
+        <!-- Wheat-Paste Poster -->
+        <div class="technique-card reveal">
+          <div class="technique-card-header">
+            <h4>Wheat-Paste Poster</h4>
+            <span class="gpop-label">Pseudo Elements</span>
+          </div>
+          <div class="technique-preview preview-poster">
+            <div class="mini-poster">
+              <h4>SHOW TONIGHT</h4>
+              <p>Downtown. Doors at 9. Bring your crew.</p>
+            </div>
+          </div>
+          <div class="technique-description">
+            Cream background with <code>rotate()</code>. A <code>::before</code> triangle
+            creates the torn corner. <code>::after</code> adds aged paper staining.
+          </div>
+        </div>
+
+        <!-- Buttons -->
+        <div class="technique-card reveal">
+          <div class="technique-card-header">
+            <h4>Graffiti Pop Buttons</h4>
+            <span class="gpop-label">Interaction</span>
+          </div>
+          <div class="technique-preview preview-buttons">
+            <button class="gpop-button">Click Me</button>
+            <button class="gpop-button gpop-button--alt">Alt Style</button>
+          </div>
+          <div class="technique-description">
+            Thick border with <code>box-shadow</code> offset. On hover: color swap,
+            rotation reset, and shadow expansion. On active: pressed-in shadow reduction.
+          </div>
+        </div>
+      </div>
+
+      <div class="reveal" style="margin-top:2rem;">
+        <h3>Neon Glow Lines</h3>
+        <p style="margin-bottom:1rem;">Animated neon emphasis lines with flicker effect using <code>box-shadow</code> glow and CSS <code>@keyframes</code>.</p>
+        <hr class="gpop-neon-line gpop-neon-line--pink">
+        <hr class="gpop-neon-line gpop-neon-line--green">
+        <hr class="gpop-neon-line gpop-neon-line--blue">
+      </div>
+
+      <div class="reveal" style="margin-top:2rem;">
+        <h3>Splatter Dividers</h3>
+        <p style="margin-bottom:1rem;">Spray-paint dots positioned with <code>box-shadow</code> and color streaks with segmented <code>linear-gradient</code>.</p>
+        <hr class="gpop-divider" style="margin:2rem 0;">
+      </div>
+    </section>
+  </div>
+
+  <hr class="gpop-divider">
+
+  <!-- ============================================================
+       MATERIALS & TEXTURES
+       ============================================================ -->
+  <div class="section-wrap surface-brick" id="materials">
+    <section>
+      <div class="reveal">
+        <h2>Materials & <span class="accent">Textures</span></h2>
+        <hr class="gpop-neon-line gpop-neon-line--pink">
+        <p style="margin-bottom:1.5rem;">Physical Graffiti Pop materials and their web equivalents -- translating street culture to screen.</p>
+      </div>
+
+      <div class="reveal">
+        <div class="gpop-table-wrap">
+          <table class="gpop-table materials-table">
+            <thead>
+              <tr>
+                <th>Physical Material</th>
+                <th>Web Equivalent</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Brick wall</strong></td>
+                <td>CSS repeating-linear-gradient grid pattern in warm gray/brown with mortar lines</td>
+              </tr>
+              <tr>
+                <td><strong>Concrete surface</strong></td>
+                <td>Neutral gray background with subtle radial-gradient blotches and SVG noise overlay</td>
+              </tr>
+              <tr>
+                <td><strong>Spray paint on wall</strong></td>
+                <td>Saturated text with text-shadow glow and filter: blur() overspray halo</td>
+              </tr>
+              <tr>
+                <td><strong>Paint drips</strong></td>
+                <td>linear-gradient strips from accent color to transparent, positioned below elements</td>
+              </tr>
+              <tr>
+                <td><strong>Wheat-pasted poster</strong></td>
+                <td>Light cream cards with transform: rotate(), torn corner pseudo-elements, and aged overlay</td>
+              </tr>
+              <tr>
+                <td><strong>Sticker / slap-tag</strong></td>
+                <td>Bright-background inline-block with thick black border, slight rotation, and peeling corner</td>
+              </tr>
+              <tr>
+                <td><strong>Chain-link fence</strong></td>
+                <td>SVG or CSS diamond grid overlay pattern at low opacity</td>
+              </tr>
+              <tr>
+                <td><strong>Xerox / photocopy</strong></td>
+                <td>filter: contrast(1.8) grayscale(1) on images with halftone dot overlay</td>
+              </tr>
+              <tr>
+                <td><strong>Chrome / metallic paint</strong></td>
+                <td>linear-gradient with multiple silver/white stops creating reflection bands</td>
+              </tr>
+              <tr>
+                <td><strong>Marker on paper</strong></td>
+                <td>Rock Salt or Permanent Marker font with slight text-shadow bleed</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <hr class="gpop-divider">
+
+  <!-- ============================================================
+       CULTURAL REFERENCES
+       ============================================================ -->
+  <div class="section-wrap surface-dark has-drips" id="culture">
+    <section>
+      <div class="reveal">
+        <h2>Cultural <span class="accent">References</span></h2>
+        <hr class="gpop-neon-line gpop-neon-line--green">
+        <p style="margin-bottom:1.5rem;">The following define the Graffiti Pop visual language and serve as design references.</p>
+      </div>
+
+      <div class="reveal">
+        <ul class="culture-list">
+          <li>
+            <strong>Yo! MTV Raps</strong>
+            <span class="culture-year">1988-1995</span>
+            <p>The show's logo, set design, and bumper graphics are quintessential Graffiti Pop; spray-painted lettering, bright colors, urban backdrops.</p>
+          </li>
+          <li>
+            <strong>Fresh Prince of Bel-Air Opening Sequence</strong>
+            <span class="culture-year">1990-1996</span>
+            <p>The neon-colored graffiti title cards over Philadelphia street scenes define the aesthetic's television presence.</p>
+          </li>
+          <li>
+            <strong>MTV Graffiti-Heavy Sets</strong>
+            <span class="culture-year">1980s-90s</span>
+            <p>The original MTV studios used graffiti artists for on-set murals; the visual DNA of the channel was Graffiti Pop.</p>
+          </li>
+          <li>
+            <strong>Supreme Brand Identity</strong>
+            <span class="culture-year">1994-present</span>
+            <p>The gallery-meets-streetwear boutique aesthetic, red-on-white Futura Bold logo functioning like a tag.</p>
+          </li>
+          <li>
+            <strong>Stussy Logo and Brand Graphics</strong>
+            <span class="culture-year">1980-present</span>
+            <p>The hand-drawn tag-style signature logo; one of the first brands to bridge street graffiti and commercial fashion.</p>
+          </li>
+          <li>
+            <strong>Keith Haring</strong>
+            <span class="culture-year">1958-1990</span>
+            <p>Bold outlines, cartoonish figures, kinetic energy, pop colors on urban surfaces.</p>
+          </li>
+          <li>
+            <strong>Jean-Michel Basquiat</strong>
+            <span class="culture-year">1960-1988</span>
+            <p>Raw, tag-influenced text and imagery elevated to gallery context; the original graffiti-to-fine-art crossover.</p>
+          </li>
+          <li>
+            <strong>Subway Art and Wildstyle</strong>
+            <span class="culture-year">1970s-80s</span>
+            <p>NYC subway car pieces from the 1970s-80s; the foundational visual source for the entire aesthetic.</p>
+          </li>
+          <li>
+            <strong>Skateboard Deck Graphics</strong>
+            <span class="culture-year">1970s-present</span>
+            <p>Bold character art, irreverent humor, and high-contrast color combinations.</p>
+          </li>
+          <li>
+            <strong>JNCO Jeans Artwork</strong>
+            <span class="culture-year">1985-2000s</span>
+            <p>Embroidered spray-paint characters, oversized proportions, cartoon graffiti figures on denim.</p>
+          </li>
+        </ul>
+      </div>
+    </section>
+  </div>
+
+  <hr class="gpop-divider">
+
+  <!-- ============================================================
+       RELATED AESTHETICS
+       ============================================================ -->
+  <div class="section-wrap surface-concrete" id="related">
+    <section>
+      <div class="reveal">
+        <h2>Related <span class="accent">Aesthetics</span></h2>
+        <hr class="gpop-neon-line gpop-neon-line--blue">
+      </div>
+
+      <div class="related-grid">
+        <div class="related-card reveal">
+          <h4>Hip-Hop / B-Boy</h4>
+          <p>Parent culture; Graffiti Pop is the visual arm of hip-hop alongside breakdancing, DJing, and MCing.</p>
+        </div>
+        <div class="related-card reveal">
+          <h4>Gangsta Rap</h4>
+          <p>Shares street-culture roots; darker, more aggressive variant with focus on West Coast/South imagery.</p>
+        </div>
+        <div class="related-card reveal">
+          <h4>Skater / Skate Punk</h4>
+          <p>Parallel subculture; shares DIY graphics, bold type, irreverent attitude; overlaps heavily in brand aesthetics.</p>
+        </div>
+        <div class="related-card reveal">
+          <h4>Punk / DIY Punk</h4>
+          <p>Foundational influence; collage, xerox, anti-establishment energy; Graffiti Pop is punk's visual cousin on the street.</p>
+        </div>
+        <div class="related-card reveal">
+          <h4>Grunge</h4>
+          <p>Shares raw, anti-polish attitude; Grunge is more muted and introspective, Graffiti Pop is bright and extroverted.</p>
+        </div>
+        <div class="related-card reveal">
+          <h4>UrBling</h4>
+          <p>Hip-hop's luxury evolution; where Graffiti Pop is street-level, UrBling adds gold, diamonds, and aspirational wealth.</p>
+        </div>
+        <div class="related-card reveal">
+          <h4>Vectordelia</h4>
+          <p>Digital evolution; takes the flowing lines and bright colors into clean vector illustration.</p>
+        </div>
+        <div class="related-card reveal">
+          <h4>Memphis Design</h4>
+          <p>Shared maximalism and bold color; Memphis brings geometric patterns and pastel variants to similar energy.</p>
+        </div>
+        <div class="related-card reveal">
+          <h4>Rave</h4>
+          <p>Parallel 90s subculture; shares neon palette and kinetic energy; Rave is more electronic/psychedelic.</p>
+        </div>
+        <div class="related-card reveal">
+          <h4>Alternative</h4>
+          <p>Broad overlap in 90s counterculture; Alternative tends toward introspection where Graffiti Pop is extroverted.</p>
+        </div>
+        <div class="related-card reveal">
+          <h4>Shibuya Punk</h4>
+          <p>Japanese interpretation of street culture; blends Graffiti Pop with Harajuku fashion and anime influence.</p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ============================================================
+       FOOTER
+       ============================================================ -->
+  <footer>
+    <div class="footer-title">GRAFFITI POP</div>
+    <div class="footer-tag">stay fresh, stay bold</div>
+    <div class="footer-meta">Design Reference Guide // c. 1970s -- Present</div>
+    <div style="margin-top:2rem; display:flex; gap:0.6rem; flex-wrap:wrap; justify-content:center;">
+      <span class="gpop-sticker gpop-sticker--pink gpop-sticker--tilt-left" style="font-size:0.8rem;">Neon</span>
+      <span class="gpop-sticker gpop-sticker--green gpop-sticker--tilt-right" style="font-size:0.8rem;">Street</span>
+      <span class="gpop-sticker gpop-sticker--blue gpop-sticker--tilt-big" style="font-size:0.8rem;">Culture</span>
+      <span class="gpop-sticker gpop-sticker--purple gpop-sticker--tilt-left" style="font-size:0.8rem;">Spray</span>
+      <span class="gpop-sticker gpop-sticker--red gpop-sticker--tilt-right" style="font-size:0.8rem;">Tags</span>
+      <span class="gpop-sticker gpop-sticker--tilt-big" style="font-size:0.8rem;">Pop!</span>
+    </div>
+  </footer>
+
+  <!-- ============================================================
+       JAVASCRIPT -- scroll reveal + spray cursor trail
+       ============================================================ -->
+  <script>
+    // Scroll-triggered reveal
+    (function() {
+      const reveals = document.querySelectorAll('.reveal');
+      const observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            entry.target.style.transitionDelay = (Math.random() * 0.15).toFixed(2) + 's';
+          }
+        });
+      }, {
+        threshold: 0.1,
+        rootMargin: '0px 0px -40px 0px'
+      });
+
+      reveals.forEach(function(el) {
+        observer.observe(el);
+      });
+    })();
+
+    // Spray-can cursor trail (desktop only, subtle)
+    (function() {
+      if (window.matchMedia('(pointer: fine)').matches === false) return;
+
+      const colors = ['#ff1493', '#39ff14', '#0080ff', '#9b30ff', '#ffd700', '#ff2400'];
+      let lastTime = 0;
+      let dotCount = 0;
+      const MAX_DOTS = 30;
+
+      document.addEventListener('mousemove', function(e) {
+        const now = Date.now();
+        if (now - lastTime < 60) return;
+        lastTime = now;
+
+        if (dotCount >= MAX_DOTS) return;
+
+        // Only create dots randomly (30% chance)
+        if (Math.random() > 0.3) return;
+
+        dotCount++;
+        const dot = document.createElement('div');
+        dot.className = 'spray-dot';
+        const size = 3 + Math.random() * 5;
+        const color = colors[Math.floor(Math.random() * colors.length)];
+        const offsetX = (Math.random() - 0.5) * 20;
+        const offsetY = (Math.random() - 0.5) * 20;
+
+        dot.style.cssText =
+          'left:' + (e.clientX + offsetX) + 'px;' +
+          'top:' + (e.clientY + offsetY) + 'px;' +
+          'width:' + size + 'px;' +
+          'height:' + size + 'px;' +
+          'background:' + color + ';' +
+          'opacity:0.5;' +
+          'box-shadow:0 0 ' + (size * 2) + 'px ' + color + ';';
+
+        document.body.appendChild(dot);
+
+        setTimeout(function() {
+          dot.style.opacity = '0';
+          setTimeout(function() {
+            dot.remove();
+            dotCount--;
+          }, 300);
+        }, 800 + Math.random() * 600);
+      });
+    })();
+
+    // Smooth scroll for navigation
+    document.querySelectorAll('nav a[href^="#"]').forEach(function(link) {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        var target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+  </script>
+</body>
+</html>
