@@ -1,0 +1,2201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Colorful Pop -- Design Aesthetic Showcase</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Bebas+Neue&family=Bungee&family=Outfit:wght@400;700;800;900&family=M+PLUS+Rounded+1c:wght@700;900&family=Passion+One:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   RESET & BASE
+   ============================================================ */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  /* Core neon accents */
+  --hot-magenta: #FF00FF;
+  --neon-pink: #FF2D95;
+  --electric-cyan: #00FFFF;
+  --cyan-alt: #00E5FF;
+  --vivid-yellow: #FFFF00;
+  --yellow-alt: #FFE500;
+  --lime-green: #39FF14;
+  --lime-alt: #76FF03;
+
+  /* Secondary accents */
+  --neon-orange: #FF6D00;
+  --electric-violet: #AA00FF;
+  --coral-pink: #FF4081;
+  --bright-sky: #40C4FF;
+
+  /* Backgrounds */
+  --bg-black: #0D0D0D;
+  --bg-pure-black: #000000;
+  --bg-white: #FFFFFF;
+  --bg-off-white: #F5F5F5;
+
+  /* Fonts */
+  --font-display: 'Dela Gothic One', sans-serif;
+  --font-heading: 'Bungee', sans-serif;
+  --font-impact: 'Bebas Neue', sans-serif;
+  --font-body: 'Outfit', sans-serif;
+  --font-accent: 'Passion One', sans-serif;
+  --font-rounded: 'M PLUS Rounded 1c', sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
+body {
+  background: var(--bg-black);
+  color: var(--bg-white);
+  font-family: var(--font-body);
+  font-weight: 700;
+  overflow-x: hidden;
+  line-height: 1.5;
+}
+
+/* ============================================================
+   UTILITY ANIMATIONS
+   ============================================================ */
+@keyframes hue-cycle {
+  0% { filter: hue-rotate(0deg); }
+  100% { filter: hue-rotate(360deg); }
+}
+
+@keyframes pop-in {
+  0% { transform: scale(0) rotate(-12deg); opacity: 0; }
+  70% { transform: scale(1.15) rotate(2deg); opacity: 1; }
+  100% { transform: scale(1) rotate(0deg); opacity: 1; }
+}
+
+@keyframes float-drift {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  25% { transform: translateY(-18px) rotate(5deg); }
+  50% { transform: translateY(-8px) rotate(-3deg); }
+  75% { transform: translateY(-22px) rotate(4deg); }
+}
+
+@keyframes spin-slow {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes spin-reverse {
+  0% { transform: rotate(360deg); }
+  100% { transform: rotate(0deg); }
+}
+
+@keyframes glitch-flicker {
+  0%, 93%, 100% { opacity: 1; transform: translate(0); }
+  94% { opacity: 0.8; transform: translate(-3px, 1px); }
+  95% { opacity: 1; transform: translate(2px, -1px); }
+  96% { opacity: 0.9; transform: translate(-1px, 2px); }
+  97% { opacity: 1; transform: translate(1px, -1px); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+@keyframes slide-up {
+  from { transform: translateY(60px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes scale-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.08); }
+}
+
+@keyframes equalizer {
+  0%, 100% { height: 20%; }
+  25% { height: 80%; }
+  50% { height: 45%; }
+  75% { height: 95%; }
+}
+
+@keyframes particle-explode {
+  0% { transform: translate(0, 0) scale(1); opacity: 1; }
+  100% { transform: translate(var(--tx), var(--ty)) scale(0); opacity: 0; }
+}
+
+@keyframes chromatic-shift {
+  0%, 100% { transform: translate(0, 0); }
+  25% { transform: translate(-2px, 1px); }
+  50% { transform: translate(2px, -1px); }
+  75% { transform: translate(-1px, -2px); }
+}
+
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes dash-offset {
+  to { stroke-dashoffset: 0; }
+}
+
+/* ============================================================
+   HALFTONE OVERLAY (global, used on several sections)
+   ============================================================ */
+.halftone::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle, var(--hot-magenta) 1px, transparent 1px);
+  background-size: 8px 8px;
+  mix-blend-mode: multiply;
+  opacity: 0.15;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* ============================================================
+   SPEED LINES BACKGROUND LAYER
+   ============================================================ */
+.speed-lines {
+  position: absolute;
+  inset: 0;
+  background: conic-gradient(
+    from 0deg at 50% 50%,
+    transparent 0deg,
+    rgba(255, 0, 255, 0.06) 2deg,
+    transparent 4deg,
+    transparent 10deg,
+    rgba(0, 255, 255, 0.05) 12deg,
+    transparent 14deg,
+    transparent 20deg,
+    rgba(255, 255, 0, 0.04) 22deg,
+    transparent 24deg
+  );
+  animation: spin-slow 30s linear infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ============================================================
+   HERO SECTION
+   ============================================================ */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: var(--bg-pure-black);
+  padding: 2rem;
+}
+
+.hero .speed-lines {
+  opacity: 0.8;
+}
+
+/* Rotating geometric backdrop */
+.hero-geo {
+  position: absolute;
+  border: 3px solid;
+  opacity: 0.25;
+  pointer-events: none;
+  z-index: 1;
+}
+.hero-geo--1 {
+  width: 500px; height: 500px;
+  border-color: var(--hot-magenta);
+  border-radius: 50%;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  animation: spin-slow 20s linear infinite;
+}
+.hero-geo--2 {
+  width: 620px; height: 620px;
+  border-color: var(--electric-cyan);
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%) rotate(45deg);
+  animation: spin-reverse 25s linear infinite;
+}
+.hero-geo--3 {
+  width: 380px; height: 380px;
+  border-color: var(--vivid-yellow);
+  border-radius: 50%;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  animation: spin-slow 15s linear infinite;
+  border-style: dashed;
+}
+
+/* Title */
+.hero-title {
+  font-family: var(--font-display);
+  font-size: clamp(3.5rem, 10vw, 9rem);
+  color: var(--bg-white);
+  -webkit-text-stroke: 3px var(--hot-magenta);
+  text-shadow:
+    0 0 10px var(--hot-magenta),
+    0 0 30px var(--hot-magenta),
+    0 0 60px var(--electric-cyan),
+    5px 5px 0px var(--yellow-alt);
+  transform: rotate(-3deg);
+  letter-spacing: -0.02em;
+  text-align: center;
+  position: relative;
+  z-index: 5;
+  animation: pop-in 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+  line-height: 1.05;
+}
+
+.hero-title span {
+  display: inline-block;
+}
+.hero-title .word-pop {
+  color: var(--vivid-yellow);
+  -webkit-text-stroke: 3px var(--neon-orange);
+  text-shadow:
+    0 0 10px var(--neon-orange),
+    0 0 30px var(--neon-orange),
+    0 0 60px var(--hot-magenta),
+    -4px 4px 0px var(--electric-cyan);
+  transform: rotate(2deg) scale(1.05);
+  display: inline-block;
+}
+
+.hero-subtitle {
+  font-family: var(--font-impact);
+  font-size: clamp(1.2rem, 3vw, 2.2rem);
+  color: var(--electric-cyan);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-top: 1.2rem;
+  position: relative;
+  z-index: 5;
+  animation: slide-up 0.8s 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
+  text-shadow: 0 0 20px rgba(0, 255, 255, 0.6);
+}
+
+.hero-tagline {
+  font-family: var(--font-body);
+  font-weight: 800;
+  font-size: clamp(0.95rem, 2vw, 1.3rem);
+  color: var(--bg-white);
+  max-width: 700px;
+  text-align: center;
+  margin-top: 1.5rem;
+  position: relative;
+  z-index: 5;
+  animation: slide-up 0.8s 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+  opacity: 0.9;
+  line-height: 1.6;
+}
+
+/* Floating particles on hero */
+.particle {
+  position: absolute;
+  pointer-events: none;
+  z-index: 3;
+  animation: float-drift var(--dur) ease-in-out infinite;
+  animation-delay: var(--delay);
+}
+.particle--circle {
+  border-radius: 50%;
+}
+.particle--triangle {
+  width: 0; height: 0;
+  background: none !important;
+  border-left: var(--size) solid transparent;
+  border-right: var(--size) solid transparent;
+  border-bottom: calc(var(--size) * 1.7) solid var(--clr);
+}
+.particle--star {
+  clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+}
+
+/* Scroll indicator */
+.scroll-indicator {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+.scroll-indicator span {
+  font-family: var(--font-impact);
+  font-size: 0.9rem;
+  letter-spacing: 0.2em;
+  color: var(--hot-magenta);
+}
+.scroll-indicator .arrow {
+  width: 24px;
+  height: 24px;
+  border-right: 3px solid var(--hot-magenta);
+  border-bottom: 3px solid var(--hot-magenta);
+  transform: rotate(45deg);
+  animation: pulse-glow 1.5s ease-in-out infinite;
+}
+
+/* ============================================================
+   MARQUEE TICKER
+   ============================================================ */
+.marquee-strip {
+  background: var(--hot-magenta);
+  overflow: hidden;
+  padding: 0.6rem 0;
+  position: relative;
+  z-index: 10;
+}
+.marquee-strip--alt {
+  background: var(--electric-cyan);
+}
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 20s linear infinite;
+}
+.marquee-strip--alt .marquee-track {
+  animation-direction: reverse;
+  animation-duration: 25s;
+}
+.marquee-item {
+  font-family: var(--font-heading);
+  font-size: 1.1rem;
+  color: var(--bg-pure-black);
+  white-space: nowrap;
+  padding: 0 2rem;
+  letter-spacing: 0.05em;
+}
+.marquee-item .sep {
+  display: inline-block;
+  margin: 0 1.5rem;
+  color: var(--vivid-yellow);
+}
+
+/* ============================================================
+   SECTION STYLING
+   ============================================================ */
+section {
+  position: relative;
+  overflow: hidden;
+}
+
+.section-dark {
+  background: var(--bg-black);
+}
+.section-light {
+  background: var(--bg-white);
+  color: var(--bg-black);
+}
+
+.section-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 5rem 2rem;
+  position: relative;
+  z-index: 5;
+}
+
+/* Diagonal clip dividers */
+.clip-top {
+  clip-path: polygon(0 5%, 100% 0, 100% 100%, 0 100%);
+  margin-top: -3rem;
+  padding-top: 7rem;
+}
+.clip-bottom {
+  clip-path: polygon(0 0, 100% 0, 100% 95%, 0 100%);
+  padding-bottom: 7rem;
+}
+
+/* Section headings */
+.section-heading {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5vw, 4rem);
+  line-height: 1.1;
+  margin-bottom: 2.5rem;
+  position: relative;
+  display: inline-block;
+}
+.section-heading--neon {
+  color: var(--bg-white);
+  -webkit-text-stroke: 2px var(--electric-cyan);
+  text-shadow:
+    0 0 8px var(--electric-cyan),
+    0 0 20px var(--electric-cyan),
+    3px 3px 0 var(--hot-magenta);
+}
+.section-heading--dark {
+  color: var(--bg-pure-black);
+  -webkit-text-stroke: 2px var(--hot-magenta);
+  text-shadow:
+    3px 3px 0 var(--vivid-yellow),
+    0 0 15px rgba(255, 0, 255, 0.3);
+}
+
+/* ============================================================
+   ABOUT / OVERVIEW SECTION
+   ============================================================ */
+.overview-section {
+  background: linear-gradient(160deg, var(--bg-pure-black) 0%, #0a001a 50%, #000a1a 100%);
+}
+
+.overview-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  align-items: start;
+}
+
+.overview-text {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.overview-text strong {
+  color: var(--vivid-yellow);
+}
+
+.overview-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.badge {
+  font-family: var(--font-impact);
+  font-size: 0.95rem;
+  letter-spacing: 0.1em;
+  padding: 0.5rem 1.2rem;
+  border: 2px solid;
+  clip-path: polygon(8% 0, 100% 0, 92% 100%, 0 100%);
+  text-transform: uppercase;
+}
+.badge--magenta { border-color: var(--hot-magenta); color: var(--hot-magenta); background: rgba(255, 0, 255, 0.1); }
+.badge--cyan { border-color: var(--electric-cyan); color: var(--electric-cyan); background: rgba(0, 255, 255, 0.1); }
+.badge--yellow { border-color: var(--vivid-yellow); color: var(--vivid-yellow); background: rgba(255, 255, 0, 0.1); }
+.badge--lime { border-color: var(--lime-green); color: var(--lime-green); background: rgba(57, 255, 20, 0.1); }
+.badge--orange { border-color: var(--neon-orange); color: var(--neon-orange); background: rgba(255, 109, 0, 0.1); }
+.badge--violet { border-color: var(--electric-violet); color: var(--electric-violet); background: rgba(170, 0, 255, 0.1); }
+
+/* Info card on right of overview */
+.info-panel {
+  background: rgba(255, 255, 255, 0.03);
+  border: 2px solid var(--hot-magenta);
+  position: relative;
+  padding: 2rem;
+}
+.info-panel::before {
+  content: '';
+  position: absolute;
+  top: -2px; right: -2px; bottom: -2px; left: -2px;
+  background: linear-gradient(135deg, var(--hot-magenta), var(--electric-cyan), var(--vivid-yellow));
+  z-index: -1;
+  opacity: 0.5;
+  filter: blur(15px);
+}
+.info-panel h3 {
+  font-family: var(--font-heading);
+  font-size: 1.4rem;
+  color: var(--vivid-yellow);
+  margin-bottom: 1rem;
+}
+.info-list {
+  list-style: none;
+}
+.info-list li {
+  padding: 0.6rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  font-size: 0.95rem;
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+}
+.info-list li::before {
+  content: '';
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  background: var(--hot-magenta);
+  clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
+  flex-shrink: 0;
+}
+.info-list li:nth-child(2n)::before {
+  background: var(--electric-cyan);
+  clip-path: circle(50%);
+}
+.info-list li:nth-child(3n)::before {
+  background: var(--vivid-yellow);
+  clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+}
+
+/* ============================================================
+   COLOR PALETTE SECTION
+   ============================================================ */
+.palette-section {
+  background: var(--bg-white);
+}
+
+.palette-principle {
+  font-family: var(--font-body);
+  font-weight: 800;
+  font-size: 1.2rem;
+  color: var(--bg-black);
+  max-width: 750px;
+  margin-bottom: 3rem;
+  line-height: 1.7;
+}
+.palette-principle em {
+  color: var(--hot-magenta);
+  font-style: normal;
+  font-weight: 900;
+}
+
+.palette-group {
+  margin-bottom: 3rem;
+}
+.palette-group-title {
+  font-family: var(--font-accent);
+  font-size: 1.8rem;
+  color: var(--bg-pure-black);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 1.2rem;
+  -webkit-text-stroke: 1px var(--bg-pure-black);
+}
+
+.swatch-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.swatch {
+  width: 140px;
+  border: 3px solid var(--bg-pure-black);
+  position: relative;
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease;
+  cursor: default;
+}
+.swatch:hover {
+  transform: scale(1.08) rotate(-2deg);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+  z-index: 10;
+}
+.swatch-color {
+  height: 100px;
+  position: relative;
+}
+.swatch-color::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle, rgba(0,0,0,0.15) 1px, transparent 1px);
+  background-size: 6px 6px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.swatch:hover .swatch-color::after {
+  opacity: 1;
+}
+.swatch-label {
+  background: var(--bg-pure-black);
+  color: var(--bg-white);
+  padding: 0.5rem 0.6rem;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 0.75rem;
+}
+.swatch-label .hex {
+  display: block;
+  font-family: 'Courier New', monospace;
+  font-size: 0.8rem;
+  color: var(--electric-cyan);
+  margin-top: 0.15rem;
+}
+
+/* Avoid note */
+.palette-avoid {
+  margin-top: 2rem;
+  padding: 1.5rem 2rem;
+  background: var(--bg-pure-black);
+  border-left: 5px solid var(--coral-pink);
+  color: var(--bg-white);
+  font-size: 0.95rem;
+}
+.palette-avoid strong {
+  color: var(--coral-pink);
+  font-family: var(--font-heading);
+  font-size: 1.1rem;
+  letter-spacing: 0.05em;
+}
+
+/* ============================================================
+   TYPOGRAPHY SECTION
+   ============================================================ */
+.typo-section {
+  background: linear-gradient(170deg, #0a000f 0%, var(--bg-pure-black) 40%, #00040f 100%);
+  position: relative;
+}
+
+.typo-showcase {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+.typo-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 2px solid rgba(255, 255, 255, 0.08);
+  padding: 2rem 1.5rem;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.3s, transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.typo-card:hover {
+  border-color: var(--hot-magenta);
+  transform: translateY(-4px) rotate(-0.5deg);
+}
+.typo-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, var(--hot-magenta), var(--electric-cyan), var(--vivid-yellow));
+}
+
+.typo-card-label {
+  font-family: var(--font-impact);
+  font-size: 0.85rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--electric-cyan);
+  margin-bottom: 0.8rem;
+}
+
+.typo-card-sample {
+  font-size: clamp(1.5rem, 3vw, 2.2rem);
+  line-height: 1.2;
+  margin-bottom: 0.8rem;
+  word-break: break-word;
+}
+
+.typo-card-meta {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* Individual font styles */
+.font-dela { font-family: 'Dela Gothic One', sans-serif; }
+.font-bungee { font-family: 'Bungee', sans-serif; }
+.font-bebas { font-family: 'Bebas Neue', sans-serif; letter-spacing: 0.05em; }
+.font-passion { font-family: 'Passion One', sans-serif; }
+.font-outfit { font-family: 'Outfit', sans-serif; font-weight: 900; }
+.font-rounded { font-family: 'M PLUS Rounded 1c', sans-serif; font-weight: 900; }
+
+/* Neon text demo */
+.typo-neon-demo {
+  text-align: center;
+  padding: 3rem 0;
+}
+.typo-neon-demo h3 {
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 7vw, 5rem);
+  color: var(--bg-white);
+  -webkit-text-stroke: 3px var(--hot-magenta);
+  text-shadow:
+    0 0 10px var(--hot-magenta),
+    0 0 20px var(--hot-magenta),
+    0 0 40px var(--electric-cyan),
+    4px 4px 0px var(--yellow-alt);
+  transform: rotate(-3deg);
+  letter-spacing: -0.02em;
+  animation: glitch-flicker 4s ease-in-out infinite;
+}
+
+/* Techniques list */
+.technique-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  margin-top: 2rem;
+}
+.technique-tag {
+  font-family: 'Courier New', monospace;
+  font-size: 0.8rem;
+  padding: 0.4rem 1rem;
+  border: 1px solid var(--hot-magenta);
+  color: var(--hot-magenta);
+  background: rgba(255, 0, 255, 0.08);
+}
+.technique-tag:nth-child(2n) {
+  border-color: var(--electric-cyan);
+  color: var(--electric-cyan);
+  background: rgba(0, 255, 255, 0.08);
+}
+.technique-tag:nth-child(3n) {
+  border-color: var(--vivid-yellow);
+  color: var(--vivid-yellow);
+  background: rgba(255, 255, 0, 0.08);
+}
+
+/* ============================================================
+   DESIGN ELEMENTS / MOTIFS SECTION
+   ============================================================ */
+.motifs-section {
+  background: var(--bg-white);
+  position: relative;
+}
+
+.motifs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1.5rem;
+}
+
+.motif-card {
+  background: var(--bg-pure-black);
+  border: 3px solid var(--bg-pure-black);
+  position: relative;
+  overflow: hidden;
+  padding: 1.8rem 1.5rem;
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), border-color 0.3s;
+  cursor: default;
+}
+.motif-card:hover {
+  transform: scale(1.03) rotate(-1deg);
+  border-color: var(--hot-magenta);
+}
+
+.motif-icon {
+  width: 60px;
+  height: 60px;
+  margin-bottom: 1rem;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Custom CSS motif icons */
+.icon-halftone {
+  background-image: radial-gradient(circle, var(--hot-magenta) 3px, transparent 3px);
+  background-size: 10px 10px;
+  border-radius: 8px;
+}
+.icon-splatter {
+  background: var(--lime-green);
+  border-radius: 40% 60% 55% 45% / 50% 40% 60% 50%;
+  box-shadow: 12px -8px 0 -2px var(--neon-orange), -8px 10px 0 -4px var(--electric-cyan);
+}
+.icon-shard {
+  background: linear-gradient(135deg, var(--hot-magenta), var(--electric-cyan));
+  clip-path: polygon(20% 0%, 80% 10%, 100% 50%, 85% 100%, 10% 90%, 0% 40%);
+}
+.icon-glitch {
+  background: var(--electric-cyan);
+  position: relative;
+}
+.icon-glitch::before, .icon-glitch::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+}
+.icon-glitch::before {
+  background: var(--hot-magenta);
+  transform: translate(-4px, 2px);
+  mix-blend-mode: screen;
+}
+.icon-glitch::after {
+  background: var(--vivid-yellow);
+  transform: translate(3px, -2px);
+  mix-blend-mode: screen;
+}
+.icon-wave {
+  border-bottom: 4px solid var(--electric-cyan);
+  border-top: 4px solid var(--hot-magenta);
+  background: repeating-linear-gradient(
+    90deg,
+    var(--lime-green) 0px,
+    var(--lime-green) 3px,
+    transparent 3px,
+    transparent 7px
+  );
+  opacity: 0.9;
+}
+.icon-star {
+  background: var(--vivid-yellow);
+  clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+}
+.icon-circle {
+  border-radius: 50%;
+  border: 4px solid var(--neon-orange);
+  background: transparent;
+  position: relative;
+}
+.icon-circle::after {
+  content: '';
+  position: absolute;
+  width: 20px; height: 20px;
+  background: var(--neon-orange);
+  border-radius: 50%;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+}
+.icon-onomatopoeia {
+  font-family: var(--font-heading);
+  font-size: 1.6rem;
+  color: var(--vivid-yellow);
+  -webkit-text-stroke: 2px var(--bg-pure-black);
+  background: none !important;
+  transform: rotate(-8deg);
+}
+.icon-pixel {
+  background:
+    linear-gradient(90deg, var(--hot-magenta) 25%, transparent 25%, transparent 50%, var(--electric-cyan) 50%, var(--electric-cyan) 75%, transparent 75%),
+    linear-gradient(90deg, var(--vivid-yellow) 25%, transparent 25%, transparent 50%, var(--lime-green) 50%, var(--lime-green) 75%, transparent 75%);
+  background-size: 20px 30px, 20px 30px;
+  background-position: 0 0, 5px 30px;
+  image-rendering: pixelated;
+}
+.icon-speed {
+  background: conic-gradient(
+    from 0deg,
+    var(--hot-magenta) 0deg,
+    transparent 8deg,
+    transparent 30deg,
+    var(--electric-cyan) 30deg,
+    transparent 38deg,
+    transparent 60deg,
+    var(--vivid-yellow) 60deg,
+    transparent 68deg,
+    transparent 90deg,
+    var(--lime-green) 90deg,
+    transparent 98deg
+  );
+  border-radius: 50%;
+}
+
+.motif-title {
+  font-family: var(--font-accent);
+  font-size: 1.3rem;
+  text-transform: uppercase;
+  color: var(--vivid-yellow);
+  margin-bottom: 0.5rem;
+}
+.motif-desc {
+  font-size: 0.88rem;
+  color: rgba(255, 255, 255, 0.75);
+  line-height: 1.6;
+}
+
+/* ============================================================
+   LAYOUT PRINCIPLES SECTION
+   ============================================================ */
+.layout-section {
+  background: linear-gradient(145deg, #0f000a 0%, var(--bg-pure-black) 50%, #00050f 100%);
+}
+
+.principles-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.principle-item {
+  padding: 2rem;
+  border-left: 4px solid var(--hot-magenta);
+  background: rgba(255, 0, 255, 0.03);
+  position: relative;
+  transition: background 0.3s, transform 0.3s;
+}
+.principle-item:hover {
+  background: rgba(255, 0, 255, 0.08);
+  transform: translateX(6px);
+}
+.principle-item:nth-child(2) { border-left-color: var(--electric-cyan); background: rgba(0, 255, 255, 0.03); }
+.principle-item:nth-child(2):hover { background: rgba(0, 255, 255, 0.08); }
+.principle-item:nth-child(3) { border-left-color: var(--vivid-yellow); background: rgba(255, 255, 0, 0.03); }
+.principle-item:nth-child(3):hover { background: rgba(255, 255, 0, 0.08); }
+.principle-item:nth-child(4) { border-left-color: var(--lime-green); background: rgba(57, 255, 20, 0.03); }
+.principle-item:nth-child(4):hover { background: rgba(57, 255, 20, 0.08); }
+.principle-item:nth-child(5) { border-left-color: var(--neon-orange); background: rgba(255, 109, 0, 0.03); }
+.principle-item:nth-child(5):hover { background: rgba(255, 109, 0, 0.08); }
+.principle-item:nth-child(6) { border-left-color: var(--electric-violet); background: rgba(170, 0, 255, 0.03); }
+.principle-item:nth-child(6):hover { background: rgba(170, 0, 255, 0.08); }
+
+.principle-name {
+  font-family: var(--font-heading);
+  font-size: 1.3rem;
+  color: var(--bg-white);
+  margin-bottom: 0.6rem;
+}
+.principle-desc {
+  font-size: 0.92rem;
+  color: rgba(255, 255, 255, 0.75);
+  line-height: 1.7;
+}
+
+/* ============================================================
+   CSS TECHNIQUES TABLE SECTION
+   ============================================================ */
+.techniques-section {
+  background: var(--bg-white);
+  color: var(--bg-black);
+}
+
+.tech-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.92rem;
+  margin-top: 1rem;
+}
+.tech-table thead {
+  background: var(--bg-pure-black);
+  color: var(--bg-white);
+}
+.tech-table th {
+  font-family: var(--font-heading);
+  font-size: 1.05rem;
+  letter-spacing: 0.05em;
+  padding: 1rem 1.2rem;
+  text-align: left;
+}
+.tech-table th:first-child { color: var(--hot-magenta); }
+.tech-table th:last-child { color: var(--electric-cyan); }
+
+.tech-table td {
+  padding: 0.9rem 1.2rem;
+  border-bottom: 2px solid #eee;
+  vertical-align: top;
+}
+.tech-table tr:hover td {
+  background: rgba(255, 0, 255, 0.04);
+}
+.tech-table td:first-child {
+  font-family: var(--font-accent);
+  font-size: 1rem;
+  color: var(--hot-magenta);
+  font-weight: 700;
+  white-space: nowrap;
+}
+.tech-table td:last-child {
+  font-family: 'Courier New', monospace;
+  font-size: 0.85rem;
+  color: #333;
+}
+
+/* ============================================================
+   TEXTURES & EFFECTS DEMO SECTION
+   ============================================================ */
+.effects-section {
+  background: var(--bg-pure-black);
+  padding: 5rem 0;
+}
+
+.effects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.effect-demo {
+  height: 220px;
+  position: relative;
+  overflow: hidden;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.3s, transform 0.3s;
+}
+.effect-demo:hover {
+  border-color: var(--hot-magenta);
+  transform: scale(1.02);
+}
+
+.effect-label {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.85);
+  padding: 0.6rem 1rem;
+  font-family: var(--font-impact);
+  font-size: 0.9rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--electric-cyan);
+  z-index: 10;
+}
+
+/* Halftone demo */
+.demo-halftone {
+  background: var(--hot-magenta);
+}
+.demo-halftone::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle, var(--bg-pure-black) 2px, transparent 2px);
+  background-size: 10px 10px;
+  mix-blend-mode: multiply;
+  opacity: 0.5;
+}
+
+/* Chromatic aberration demo */
+.demo-chromatic {
+  background: var(--bg-pure-black);
+}
+.demo-chromatic-text {
+  font-family: var(--font-display);
+  font-size: 3rem;
+  color: var(--bg-white);
+  position: relative;
+  z-index: 5;
+}
+.demo-chromatic-text::before,
+.demo-chromatic-text::after {
+  content: 'GLITCH';
+  position: absolute;
+  top: 0;
+  left: 0;
+  mix-blend-mode: screen;
+}
+.demo-chromatic-text::before {
+  color: #FF0000;
+  animation: chromatic-shift 3s ease-in-out infinite;
+}
+.demo-chromatic-text::after {
+  color: #00FFFF;
+  animation: chromatic-shift 3s ease-in-out infinite reverse;
+}
+
+/* Crystal shard demo */
+.demo-crystal {
+  background: #111;
+}
+.crystal-piece {
+  position: absolute;
+  background: linear-gradient(135deg, var(--hot-magenta), var(--electric-cyan), var(--vivid-yellow));
+  opacity: 0.8;
+}
+.crystal-piece:nth-child(1) {
+  width: 120px; height: 120px;
+  clip-path: polygon(20% 0%, 80% 10%, 100% 50%, 85% 100%, 10% 90%, 0% 40%);
+  top: 20%; left: 15%;
+  animation: spin-slow 12s linear infinite;
+}
+.crystal-piece:nth-child(2) {
+  width: 80px; height: 80px;
+  clip-path: polygon(50% 0%, 100% 40%, 80% 100%, 20% 100%, 0% 40%);
+  top: 30%; right: 20%;
+  background: linear-gradient(135deg, var(--vivid-yellow), var(--lime-green), var(--electric-cyan));
+  animation: spin-reverse 15s linear infinite;
+}
+.crystal-piece:nth-child(3) {
+  width: 60px; height: 60px;
+  clip-path: polygon(30% 0%, 100% 20%, 70% 100%, 0% 80%);
+  bottom: 25%; left: 40%;
+  background: linear-gradient(135deg, var(--neon-orange), var(--hot-magenta), var(--electric-violet));
+  animation: spin-slow 10s linear infinite;
+}
+
+/* Speed lines demo */
+.demo-speed {
+  background: #0a0a0a;
+}
+.demo-speed::before {
+  content: '';
+  position: absolute;
+  inset: -50%;
+  background: conic-gradient(
+    from 0deg at 50% 50%,
+    transparent 0deg,
+    rgba(255, 0, 255, 0.3) 1deg,
+    transparent 3deg,
+    transparent 8deg,
+    rgba(0, 255, 255, 0.2) 9deg,
+    transparent 11deg,
+    transparent 16deg,
+    rgba(255, 255, 0, 0.2) 17deg,
+    transparent 19deg,
+    transparent 24deg,
+    rgba(57, 255, 20, 0.15) 25deg,
+    transparent 27deg
+  );
+  animation: spin-slow 8s linear infinite;
+}
+
+/* Equalizer demo */
+.demo-equalizer {
+  background: var(--bg-pure-black);
+  align-items: flex-end;
+  padding-bottom: 2.5rem;
+  gap: 3px;
+}
+.eq-bar {
+  width: 8px;
+  background: linear-gradient(to top, var(--hot-magenta), var(--electric-cyan), var(--vivid-yellow));
+  animation: equalizer 0.8s ease-in-out infinite;
+  border-radius: 2px 2px 0 0;
+}
+
+/* Color cycle demo */
+.demo-colorcycle {
+  background: linear-gradient(135deg, var(--hot-magenta), var(--electric-cyan), var(--vivid-yellow), var(--lime-green));
+  background-size: 300% 300%;
+  animation: hue-cycle 3s linear infinite;
+}
+.demo-colorcycle-inner {
+  font-family: var(--font-display);
+  font-size: 2.5rem;
+  color: var(--bg-white);
+  text-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+  z-index: 2;
+  position: relative;
+}
+
+/* ============================================================
+   ANIMATION SECTION
+   ============================================================ */
+.animation-section {
+  background: linear-gradient(160deg, #0a000f, var(--bg-pure-black), #00040a);
+}
+
+.anim-demos {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.anim-box {
+  height: 160px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.02);
+  position: relative;
+  overflow: hidden;
+}
+
+.anim-label {
+  position: absolute;
+  top: 0.6rem;
+  left: 0.8rem;
+  font-family: var(--font-impact);
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.anim-pop-target {
+  width: 50px;
+  height: 50px;
+  background: var(--hot-magenta);
+  border-radius: 50%;
+  animation: pop-in 1.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) infinite;
+}
+
+.anim-hue-target {
+  width: 70px;
+  height: 70px;
+  background: linear-gradient(135deg, var(--hot-magenta), var(--electric-cyan));
+  clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+  animation: hue-cycle 2s linear infinite;
+}
+
+.anim-spin-target {
+  width: 60px;
+  height: 60px;
+  border: 4px solid var(--vivid-yellow);
+  animation: spin-slow 3s linear infinite;
+}
+
+.anim-glitch-target {
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
+  color: var(--electric-cyan);
+  animation: glitch-flicker 2s ease-in-out infinite;
+}
+
+.anim-float-target {
+  width: 40px;
+  height: 40px;
+  background: var(--lime-green);
+  border-radius: 50%;
+  animation: float-drift 4s ease-in-out infinite;
+}
+
+.anim-pulse-target {
+  width: 60px;
+  height: 60px;
+  background: var(--neon-orange);
+  border-radius: 12px;
+  animation: scale-pulse 1.2s ease-in-out infinite;
+}
+
+/* ============================================================
+   EXECUTION MODES SECTION
+   ============================================================ */
+.modes-section {
+  background: var(--bg-white);
+  color: var(--bg-black);
+}
+
+.modes-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.mode-card {
+  padding: 2.5rem 2rem;
+  position: relative;
+  overflow: hidden;
+  border: 3px solid var(--bg-pure-black);
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.mode-card:hover {
+  transform: translateY(-4px) rotate(-0.5deg);
+}
+
+.mode-card--clean {
+  background: var(--bg-pure-black);
+  color: var(--bg-white);
+}
+.mode-card--expressive {
+  background: linear-gradient(135deg, var(--hot-magenta), var(--electric-violet), var(--electric-cyan));
+  color: var(--bg-white);
+}
+
+.mode-number {
+  font-family: var(--font-display);
+  font-size: 5rem;
+  line-height: 1;
+  opacity: 0.15;
+  position: absolute;
+  top: -0.5rem;
+  right: 1rem;
+}
+.mode-card--clean .mode-number { color: var(--hot-magenta); opacity: 0.3; }
+.mode-card--expressive .mode-number { color: var(--bg-white); }
+
+.mode-title {
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  position: relative;
+}
+.mode-card--clean .mode-title { color: var(--vivid-yellow); }
+
+.mode-desc {
+  font-size: 0.95rem;
+  line-height: 1.7;
+  position: relative;
+  opacity: 0.9;
+}
+
+/* ============================================================
+   ARTISTS & INFLUENCES SECTION
+   ============================================================ */
+.artists-section {
+  background: var(--bg-pure-black);
+}
+
+.artists-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.artist-card {
+  padding: 1.5rem;
+  border: 2px solid rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.02);
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.3s, transform 0.3s;
+}
+.artist-card:hover {
+  border-color: var(--hot-magenta);
+  transform: translateY(-3px);
+}
+.artist-card::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--hot-magenta), var(--electric-cyan));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s ease;
+}
+.artist-card:hover::after {
+  transform: scaleX(1);
+}
+
+.artist-name {
+  font-family: var(--font-accent);
+  font-size: 1.4rem;
+  color: var(--vivid-yellow);
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+.artist-desc {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.65);
+  line-height: 1.6;
+}
+
+/* ============================================================
+   MEDIA REFERENCES SECTION
+   ============================================================ */
+.media-section {
+  background: linear-gradient(170deg, #0f000a, var(--bg-pure-black));
+}
+
+.media-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.media-item {
+  padding: 1.8rem;
+  background: rgba(255, 255, 255, 0.02);
+  border: 2px solid rgba(255, 255, 255, 0.06);
+  position: relative;
+  transition: border-color 0.3s, transform 0.3s;
+}
+.media-item:hover {
+  border-color: var(--electric-cyan);
+  transform: translateX(4px);
+}
+.media-item-title {
+  font-family: var(--font-heading);
+  font-size: 1.2rem;
+  color: var(--electric-cyan);
+  margin-bottom: 0.3rem;
+}
+.media-item-year {
+  font-family: var(--font-impact);
+  font-size: 0.85rem;
+  color: var(--hot-magenta);
+  letter-spacing: 0.1em;
+  margin-bottom: 0.6rem;
+}
+.media-item-desc {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.65);
+  line-height: 1.6;
+}
+
+/* ============================================================
+   RELATED AESTHETICS SECTION
+   ============================================================ */
+.related-section {
+  background: var(--bg-white);
+  color: var(--bg-black);
+}
+
+.related-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.related-tag {
+  font-family: var(--font-accent);
+  font-size: 1.3rem;
+  text-transform: uppercase;
+  padding: 0.8rem 1.8rem;
+  border: 3px solid var(--bg-pure-black);
+  background: var(--bg-white);
+  color: var(--bg-pure-black);
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  cursor: default;
+  position: relative;
+}
+.related-tag:hover {
+  background: var(--bg-pure-black);
+  color: var(--hot-magenta);
+  transform: rotate(-2deg) scale(1.05);
+  box-shadow: 4px 4px 0 var(--vivid-yellow);
+}
+.related-tag:nth-child(2):hover { color: var(--electric-cyan); box-shadow: 4px 4px 0 var(--hot-magenta); }
+.related-tag:nth-child(3):hover { color: var(--vivid-yellow); box-shadow: 4px 4px 0 var(--lime-green); }
+.related-tag:nth-child(4):hover { color: var(--lime-green); box-shadow: 4px 4px 0 var(--electric-cyan); }
+.related-tag:nth-child(5):hover { color: var(--neon-orange); box-shadow: 4px 4px 0 var(--electric-violet); }
+.related-tag:nth-child(6):hover { color: var(--electric-violet); box-shadow: 4px 4px 0 var(--neon-orange); }
+.related-tag:nth-child(7):hover { color: var(--coral-pink); box-shadow: 4px 4px 0 var(--bright-sky); }
+.related-tag:nth-child(8):hover { color: var(--bright-sky); box-shadow: 4px 4px 0 var(--coral-pink); }
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.footer {
+  background: var(--bg-pure-black);
+  padding: 3rem 2rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.footer::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 4px;
+  background: linear-gradient(90deg,
+    var(--hot-magenta),
+    var(--electric-cyan),
+    var(--vivid-yellow),
+    var(--lime-green),
+    var(--neon-orange),
+    var(--electric-violet),
+    var(--hot-magenta)
+  );
+  background-size: 200% 100%;
+  animation: hue-cycle 4s linear infinite;
+}
+.footer-text {
+  font-family: var(--font-display);
+  font-size: clamp(1.2rem, 3vw, 2rem);
+  color: var(--bg-white);
+  -webkit-text-stroke: 1px var(--hot-magenta);
+  text-shadow: 0 0 15px rgba(255, 0, 255, 0.4);
+}
+.footer-sub {
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.4);
+  margin-top: 1rem;
+}
+
+/* ============================================================
+   SCROLL ANIMATIONS (Intersection Observer)
+   ============================================================ */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+.reveal-delay-4 { transition-delay: 0.4s; }
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 900px) {
+  .overview-grid { grid-template-columns: 1fr; }
+  .modes-grid { grid-template-columns: 1fr; }
+  .principles-list { grid-template-columns: 1fr; }
+  .hero-geo--1 { width: 300px; height: 300px; }
+  .hero-geo--2 { width: 380px; height: 380px; }
+  .hero-geo--3 { width: 220px; height: 220px; }
+}
+
+@media (max-width: 600px) {
+  .section-inner { padding: 3.5rem 1.2rem; }
+  .swatch { width: 110px; }
+  .swatch-color { height: 75px; }
+  .hero-geo--2 { display: none; }
+  .tech-table { font-size: 0.8rem; }
+  .tech-table th, .tech-table td { padding: 0.6rem 0.8rem; }
+  .motifs-grid { grid-template-columns: 1fr; }
+  .effects-grid { grid-template-columns: 1fr; }
+}
+
+/* ============================================================
+   CUSTOM SCROLLBAR
+   ============================================================ */
+::-webkit-scrollbar { width: 10px; }
+::-webkit-scrollbar-track { background: var(--bg-pure-black); }
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(var(--hot-magenta), var(--electric-cyan));
+  border-radius: 5px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(var(--electric-cyan), var(--vivid-yellow));
+}
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     HERO SECTION
+     ============================================================ -->
+<section class="hero halftone">
+  <div class="speed-lines"></div>
+  <div class="hero-geo hero-geo--1"></div>
+  <div class="hero-geo hero-geo--2"></div>
+  <div class="hero-geo hero-geo--3"></div>
+
+  <!-- Floating particles -->
+  <div class="particle particle--circle" style="width:14px;height:14px;background:var(--hot-magenta);top:15%;left:10%;--dur:5s;--delay:0s;"></div>
+  <div class="particle particle--star" style="width:20px;height:20px;background:var(--vivid-yellow);top:20%;right:15%;--dur:6s;--delay:0.5s;"></div>
+  <div class="particle particle--circle" style="width:10px;height:10px;background:var(--electric-cyan);top:70%;left:20%;--dur:4.5s;--delay:1s;"></div>
+  <div class="particle particle--triangle" style="--size:8px;--clr:var(--lime-green);top:60%;right:10%;--dur:5.5s;--delay:0.3s;"></div>
+  <div class="particle particle--circle" style="width:18px;height:18px;background:var(--neon-orange);top:80%;left:70%;--dur:7s;--delay:0.8s;opacity:0.7;"></div>
+  <div class="particle particle--star" style="width:12px;height:12px;background:var(--coral-pink);top:30%;left:75%;--dur:4s;--delay:1.2s;"></div>
+  <div class="particle particle--circle" style="width:8px;height:8px;background:var(--electric-violet);top:50%;left:50%;--dur:6.5s;--delay:0.6s;"></div>
+  <div class="particle particle--triangle" style="--size:6px;--clr:var(--vivid-yellow);top:85%;right:30%;--dur:5s;--delay:1.5s;"></div>
+  <div class="particle particle--star" style="width:16px;height:16px;background:var(--hot-magenta);top:10%;left:55%;--dur:8s;--delay:0.2s;opacity:0.5;"></div>
+  <div class="particle particle--circle" style="width:6px;height:6px;background:var(--lime-green);top:45%;right:25%;--dur:3.5s;--delay:0.9s;"></div>
+
+  <h1 class="hero-title">
+    COLORFUL<br><span class="word-pop">POP</span>
+  </h1>
+  <p class="hero-subtitle">An Intensely Vibrant Design Aesthetic</p>
+  <p class="hero-tagline">
+    Fusing anime-style illustration with abstract graphic elements in maximalist compositions designed for <strong style="color:var(--vivid-yellow);">sensory overload</strong>. Every surface saturated, every composition dense, every element competing for attention.
+  </p>
+
+  <div class="scroll-indicator">
+    <span>EXPLORE</span>
+    <div class="arrow"></div>
+  </div>
+</section>
+
+<!-- MARQUEE STRIP -->
+<div class="marquee-strip">
+  <div class="marquee-track">
+    <span class="marquee-item">SUPERFLAT <span class="sep">//</span> J-CORE <span class="sep">//</span> RHYTHM GAME <span class="sep">//</span> MAXIMALIST <span class="sep">//</span> NEON <span class="sep">//</span> SENSORY OVERLOAD <span class="sep">//</span> EXPLOSIVE <span class="sep">//</span> POP ART <span class="sep">//</span> MANGA</span>
+    <span class="marquee-item">SUPERFLAT <span class="sep">//</span> J-CORE <span class="sep">//</span> RHYTHM GAME <span class="sep">//</span> MAXIMALIST <span class="sep">//</span> NEON <span class="sep">//</span> SENSORY OVERLOAD <span class="sep">//</span> EXPLOSIVE <span class="sep">//</span> POP ART <span class="sep">//</span> MANGA</span>
+  </div>
+</div>
+
+<!-- ============================================================
+     OVERVIEW / ABOUT SECTION
+     ============================================================ -->
+<section class="overview-section section-dark">
+  <div class="section-inner">
+    <h2 class="section-heading section-heading--neon reveal">WHAT IS<br>COLORFUL POP?</h2>
+    <div class="overview-grid">
+      <div class="reveal reveal-delay-1">
+        <p class="overview-text">
+          An intensely vibrant and energetic visual aesthetic that emerged in the <strong>2010s</strong> within Japanese online artist circles. Colorful Pop fuses anime-style character illustration with abstract graphic elements in <strong>maximalist compositions</strong> designed for sensory overload.
+        </p>
+        <p class="overview-text" style="margin-top:1rem;">
+          It draws from the <strong>Superflat movement</strong>, rhythm game interfaces, and <strong>J-core (Japanese Hardcore)</strong> electronic music culture. The mood is playful, explosive, and unapologetically loud -- every surface saturated, every composition dense, every element competing for attention.
+        </p>
+        <div class="overview-badges" style="margin-top:1.5rem;">
+          <span class="badge badge--magenta">Maximalist</span>
+          <span class="badge badge--cyan">Neon-Saturated</span>
+          <span class="badge badge--yellow">Explosive</span>
+          <span class="badge badge--lime">Playful</span>
+          <span class="badge badge--orange">J-Core</span>
+          <span class="badge badge--violet">Superflat</span>
+        </div>
+      </div>
+      <div class="info-panel reveal reveal-delay-2">
+        <h3>CORE DNA</h3>
+        <ul class="info-list">
+          <li>Extremely saturated, fluorescent colors at maximum chroma</li>
+          <li>Bold, dynamic, high-impact display typography</li>
+          <li>Halftone dots, paint splatters, crystalline shards</li>
+          <li>Explosive radial compositions from a focal point</li>
+          <li>Dense layering with aggressive z-index stacking</li>
+          <li>Color cycling, scale pops, glitch flicker animations</li>
+          <li>Pixelation, chromatic aberration, data corruption motifs</li>
+          <li>Comic-style onomatopoeia as graphic elements</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     COLOR PALETTE SECTION
+     ============================================================ -->
+<section class="palette-section section-light clip-top">
+  <div class="section-inner">
+    <h2 class="section-heading section-heading--dark reveal">COLOR PALETTE</h2>
+    <p class="palette-principle reveal reveal-delay-1">
+      <em>Core principle:</em> Extremely saturated, often fluorescent colors at maximum chroma -- nothing muted, nothing subtle. Layer multiple saturated hues at once; the palette should feel like an explosion of color.
+    </p>
+
+    <div class="palette-group reveal reveal-delay-2">
+      <h3 class="palette-group-title">Primary Neon Accents</h3>
+      <div class="swatch-row">
+        <div class="swatch">
+          <div class="swatch-color" style="background:#FF00FF;"></div>
+          <div class="swatch-label">Hot Magenta<span class="hex">#FF00FF</span></div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background:#FF2D95;"></div>
+          <div class="swatch-label">Neon Pink<span class="hex">#FF2D95</span></div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background:#00FFFF;"></div>
+          <div class="swatch-label">Electric Cyan<span class="hex">#00FFFF</span></div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background:#00E5FF;"></div>
+          <div class="swatch-label">Cyan Alt<span class="hex">#00E5FF</span></div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background:#FFFF00;"></div>
+          <div class="swatch-label">Vivid Yellow<span class="hex">#FFFF00</span></div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background:#FFE500;"></div>
+          <div class="swatch-label">Yellow Alt<span class="hex">#FFE500</span></div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background:#39FF14;"></div>
+          <div class="swatch-label">Lime Green<span class="hex">#39FF14</span></div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background:#76FF03;"></div>
+          <div class="swatch-label">Lime Alt<span class="hex">#76FF03</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="palette-group reveal reveal-delay-3">
+      <h3 class="palette-group-title">Secondary Accents</h3>
+      <div class="swatch-row">
+        <div class="swatch">
+          <div class="swatch-color" style="background:#FF6D00;"></div>
+          <div class="swatch-label">Neon Orange<span class="hex">#FF6D00</span></div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background:#AA00FF;"></div>
+          <div class="swatch-label">Electric Violet<span class="hex">#AA00FF</span></div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background:#FF4081;"></div>
+          <div class="swatch-label">Coral Pink<span class="hex">#FF4081</span></div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background:#40C4FF;"></div>
+          <div class="swatch-label">Bright Sky Blue<span class="hex">#40C4FF</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="palette-group reveal reveal-delay-3">
+      <h3 class="palette-group-title">Backgrounds</h3>
+      <div class="swatch-row">
+        <div class="swatch">
+          <div class="swatch-color" style="background:#000000;"></div>
+          <div class="swatch-label">Pure Black<span class="hex">#000000</span></div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background:#0D0D0D;"></div>
+          <div class="swatch-label">Near Black<span class="hex">#0D0D0D</span></div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background:#FFFFFF; border: 1px solid #ccc;"></div>
+          <div class="swatch-label">Pure White<span class="hex">#FFFFFF</span></div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background:#F5F5F5; border: 1px solid #ccc;"></div>
+          <div class="swatch-label">Off White<span class="hex">#F5F5F5</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="palette-avoid reveal reveal-delay-4">
+      <strong>AVOID:</strong> Earth tones, pastels, desaturated or muted palettes, monochromatic schemes. The palette should never feel restrained or limited to 2-3 colors.
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE STRIP ALT -->
+<div class="marquee-strip marquee-strip--alt">
+  <div class="marquee-track">
+    <span class="marquee-item">BOLD TYPE <span class="sep">//</span> NEON GLOW <span class="sep">//</span> HALFTONE DOTS <span class="sep">//</span> CHROMATIC ABERRATION <span class="sep">//</span> CRYSTAL SHARDS <span class="sep">//</span> SPEED LINES <span class="sep">//</span> GLITCH FX</span>
+    <span class="marquee-item">BOLD TYPE <span class="sep">//</span> NEON GLOW <span class="sep">//</span> HALFTONE DOTS <span class="sep">//</span> CHROMATIC ABERRATION <span class="sep">//</span> CRYSTAL SHARDS <span class="sep">//</span> SPEED LINES <span class="sep">//</span> GLITCH FX</span>
+  </div>
+</div>
+
+<!-- ============================================================
+     TYPOGRAPHY SECTION
+     ============================================================ -->
+<section class="typo-section section-dark">
+  <div class="section-inner">
+    <h2 class="section-heading section-heading--neon reveal">TYPOGRAPHY</h2>
+    <p class="overview-text reveal reveal-delay-1" style="margin-bottom:1.5rem;max-width:700px;">
+      Bold, dynamic, high-impact display type integrated directly into the artwork as a graphic element, not just readable text. <strong style="color:var(--vivid-yellow);">Ultra-bold, black, or extra-bold weights</strong> -- thin or light weights are out of place. Text should feel like part of the illustration.
+    </p>
+
+    <div class="typo-showcase reveal reveal-delay-2">
+      <div class="typo-card">
+        <div class="typo-card-label">Display / Heading</div>
+        <div class="typo-card-sample font-dela" style="color:var(--hot-magenta);">Dela Gothic One</div>
+        <div class="typo-card-meta">Primary display font -- maximum impact</div>
+      </div>
+      <div class="typo-card">
+        <div class="typo-card-label">Display / Heading</div>
+        <div class="typo-card-sample font-bungee" style="color:var(--electric-cyan);">Bungee</div>
+        <div class="typo-card-meta">Layered display font with built-in energy</div>
+      </div>
+      <div class="typo-card">
+        <div class="typo-card-label">Impact / Condensed</div>
+        <div class="typo-card-sample font-bebas" style="color:var(--vivid-yellow);font-size:clamp(2rem,4vw,3rem);">BEBAS NEUE</div>
+        <div class="typo-card-meta">Tall, condensed impact type</div>
+      </div>
+      <div class="typo-card">
+        <div class="typo-card-label">Energetic</div>
+        <div class="typo-card-sample font-passion" style="color:var(--lime-green);">Passion One</div>
+        <div class="typo-card-meta">Warm, bold accent font</div>
+      </div>
+      <div class="typo-card">
+        <div class="typo-card-label">Sans-Serif / Body</div>
+        <div class="typo-card-sample font-outfit" style="color:var(--neon-orange);">Outfit 900</div>
+        <div class="typo-card-meta">Versatile sans-serif at max weight</div>
+      </div>
+      <div class="typo-card">
+        <div class="typo-card-label">Japanese-Influenced</div>
+        <div class="typo-card-sample font-rounded" style="color:var(--coral-pink);">M PLUS Rounded</div>
+        <div class="typo-card-meta">Rounded Japanese-influenced letterforms</div>
+      </div>
+    </div>
+
+    <!-- Live neon demo -->
+    <div class="typo-neon-demo reveal reveal-delay-3">
+      <h3>NEON POP TEXT</h3>
+    </div>
+
+    <h3 class="reveal" style="font-family:var(--font-heading);color:var(--vivid-yellow);margin-top:2rem;font-size:1.2rem;">IMPLEMENTATION TECHNIQUES</h3>
+    <div class="technique-tags reveal reveal-delay-1">
+      <span class="technique-tag">transform: rotate() / skew()</span>
+      <span class="technique-tag">multi-color text-shadow</span>
+      <span class="technique-tag">-webkit-text-stroke</span>
+      <span class="technique-tag">mix-blend-mode</span>
+      <span class="technique-tag">overlapping characters</span>
+      <span class="technique-tag">angled baselines</span>
+      <span class="technique-tag">mixed sizes per word</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     DESIGN ELEMENTS / MOTIFS SECTION
+     ============================================================ -->
+<section class="motifs-section section-light clip-top">
+  <div class="section-inner">
+    <h2 class="section-heading section-heading--dark reveal">KEY DESIGN<br>ELEMENTS &amp; MOTIFS</h2>
+    <div class="motifs-grid">
+      <div class="motif-card reveal reveal-delay-1">
+        <div class="motif-icon icon-halftone"></div>
+        <div class="motif-title">Halftone Dot Patterns</div>
+        <div class="motif-desc">Ben-Day dots from Pop Art, used as overlays or fills in varying sizes and colors.</div>
+      </div>
+      <div class="motif-card reveal reveal-delay-2">
+        <div class="motif-icon icon-onomatopoeia">POW!</div>
+        <div class="motif-title">Onomatopoeia</div>
+        <div class="motif-desc">Comic-style sound effect words (POW, BANG, BOOM) rendered as graphic elements -- a direct nod to manga and Pop Art.</div>
+      </div>
+      <div class="motif-card reveal reveal-delay-1">
+        <div class="motif-icon icon-splatter"></div>
+        <div class="motif-title">Paint Splatters</div>
+        <div class="motif-desc">Explosive, irregular splashes of color suggesting creative energy and spontaneity.</div>
+      </div>
+      <div class="motif-card reveal reveal-delay-2">
+        <div class="motif-icon icon-shard"></div>
+        <div class="motif-title">Geometric Shards</div>
+        <div class="motif-desc">Angular, crystalline fragments radiating outward as if something has shattered.</div>
+      </div>
+      <div class="motif-card reveal reveal-delay-1">
+        <div class="motif-icon icon-glitch"></div>
+        <div class="motif-title">Pixelation / Glitch</div>
+        <div class="motif-desc">Deliberate digital artifacts -- pixel scatter, chromatic aberration, data corruption motifs.</div>
+      </div>
+      <div class="motif-card reveal reveal-delay-2">
+        <div class="motif-icon icon-wave"></div>
+        <div class="motif-title">Soundwave Visualizations</div>
+        <div class="motif-desc">Audio waveforms and equalizer bars referencing the J-core music connection.</div>
+      </div>
+      <div class="motif-card reveal reveal-delay-1">
+        <div class="motif-icon icon-circle"></div>
+        <div class="motif-title">Gaming Iconography</div>
+        <div class="motif-desc">Controllers, headsets, HUD elements, health bars, combo counters from rhythm games.</div>
+      </div>
+      <div class="motif-card reveal reveal-delay-2">
+        <div class="motif-icon icon-star"></div>
+        <div class="motif-title">Stars, Sparks &amp; Speed Lines</div>
+        <div class="motif-desc">Manga-derived motion indicators and emphasis marks conveying dynamic energy.</div>
+      </div>
+      <div class="motif-card reveal reveal-delay-1">
+        <div class="motif-icon icon-pixel"></div>
+        <div class="motif-title">Crystalline Textures</div>
+        <div class="motif-desc">Faceted, gem-like surface treatments conveying intensity and light refraction.</div>
+      </div>
+      <div class="motif-card reveal reveal-delay-2">
+        <div class="motif-icon icon-speed"></div>
+        <div class="motif-title">Abstract Geometrics</div>
+        <div class="motif-desc">Circles, triangles, and polygons scattered throughout compositions as energy particles.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     TEXTURES & EFFECTS DEMO SECTION
+     ============================================================ -->
+<section class="effects-section">
+  <div style="max-width:1200px;margin:0 auto;padding:0 2rem 3rem;">
+    <h2 class="section-heading section-heading--neon reveal" style="margin-bottom:2rem;">TEXTURES &amp;<br>SURFACE EFFECTS</h2>
+  </div>
+  <div class="effects-grid">
+    <div class="effect-demo demo-halftone reveal">
+      <div class="effect-label">Halftone Overlay</div>
+    </div>
+    <div class="effect-demo demo-chromatic reveal reveal-delay-1">
+      <div class="demo-chromatic-text">GLITCH</div>
+      <div class="effect-label">Chromatic Aberration</div>
+    </div>
+    <div class="effect-demo demo-crystal reveal reveal-delay-2">
+      <div class="crystal-piece"></div>
+      <div class="crystal-piece"></div>
+      <div class="crystal-piece"></div>
+      <div class="effect-label">Crystalline Shatter</div>
+    </div>
+    <div class="effect-demo demo-speed reveal reveal-delay-1">
+      <div class="effect-label">Speed Lines</div>
+    </div>
+    <div class="effect-demo demo-equalizer reveal reveal-delay-2" id="eqDemo">
+      <div class="effect-label">Soundwave / EQ</div>
+    </div>
+    <div class="effect-demo demo-colorcycle reveal reveal-delay-3">
+      <div class="demo-colorcycle-inner">HUE</div>
+      <div class="effect-label">Color Cycling</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     LAYOUT PRINCIPLES SECTION
+     ============================================================ -->
+<section class="layout-section section-dark">
+  <div class="section-inner">
+    <h2 class="section-heading section-heading--neon reveal">COMPOSITION &amp;<br>LAYOUT PRINCIPLES</h2>
+    <div class="principles-list">
+      <div class="principle-item reveal">
+        <div class="principle-name">Maximalist Density</div>
+        <div class="principle-desc">Fill every area of the canvas; negative space is the enemy. Every region should carry visual weight and color.</div>
+      </div>
+      <div class="principle-item reveal reveal-delay-1">
+        <div class="principle-name">Explosive Radial Composition</div>
+        <div class="principle-desc">Elements should appear to burst outward from a focal point -- often a character or central graphic element.</div>
+      </div>
+      <div class="principle-item reveal reveal-delay-2">
+        <div class="principle-name">Dense Layering</div>
+        <div class="principle-desc">Stack elements in depth -- foreground, midground, background all packed with content. Use aggressive z-index stacking.</div>
+      </div>
+      <div class="principle-item reveal reveal-delay-3">
+        <div class="principle-name">Controlled Chaos</div>
+        <div class="principle-desc">Arrangements should feel spontaneous and energetic but maintain a clear focal hierarchy through scale and contrast.</div>
+      </div>
+      <div class="principle-item reveal reveal-delay-1">
+        <div class="principle-name">Dynamic Angles</div>
+        <div class="principle-desc">Tilt elements, break the grid, use diagonal lines to create movement and energy. Apply CSS transform: rotate() and translate() liberally.</div>
+      </div>
+      <div class="principle-item reveal reveal-delay-2">
+        <div class="principle-name">Character Integration</div>
+        <div class="principle-desc">When figures are present, they should be "engulfed in an explosion of graphic elements" -- not isolated but embedded within the chaos.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     CSS TECHNIQUES TABLE SECTION
+     ============================================================ -->
+<section class="techniques-section section-light clip-top">
+  <div class="section-inner">
+    <h2 class="section-heading section-heading--dark reveal">CSS TECHNIQUES<br>SUMMARY</h2>
+    <div style="overflow-x:auto;" class="reveal reveal-delay-1">
+      <table class="tech-table">
+        <thead>
+          <tr>
+            <th>Technique</th>
+            <th>CSS Property / Approach</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Neon Glow</td>
+            <td>Multiple text-shadow or box-shadow with saturated colors at increasing blur</td>
+          </tr>
+          <tr>
+            <td>Bold Outline Text</td>
+            <td>-webkit-text-stroke with contrasting neon color</td>
+          </tr>
+          <tr>
+            <td>Halftone Dots</td>
+            <td>radial-gradient repeated at small background-size</td>
+          </tr>
+          <tr>
+            <td>Chromatic Aberration</td>
+            <td>Duplicated pseudo-elements with offset transform and mix-blend-mode: screen</td>
+          </tr>
+          <tr>
+            <td>Shattered Sections</td>
+            <td>clip-path: polygon(...) with angular coordinates</td>
+          </tr>
+          <tr>
+            <td>Color Blending</td>
+            <td>mix-blend-mode: screen, multiply, overlay on layered elements</td>
+          </tr>
+          <tr>
+            <td>Explosive Layout</td>
+            <td>Absolute positioning + rotation + scale transforms breaking the grid</td>
+          </tr>
+          <tr>
+            <td>Color Cycling</td>
+            <td>animation with filter: hue-rotate()</td>
+          </tr>
+          <tr>
+            <td>Pop / Bounce</td>
+            <td>cubic-bezier easing with overshoot for energetic entrance</td>
+          </tr>
+          <tr>
+            <td>Speed Lines</td>
+            <td>conic-gradient or repeating-linear-gradient with rotation</td>
+          </tr>
+          <tr>
+            <td>Dense Layering</td>
+            <td>Aggressive z-index stacking with overlapping grid areas</td>
+          </tr>
+          <tr>
+            <td>Gradient Fills</td>
+            <td>Multi-stop linear-gradient with 3+ saturated colors</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     ANIMATION DEMOS SECTION
+     ============================================================ -->
+<section class="animation-section section-dark">
+  <div class="section-inner">
+    <h2 class="section-heading section-heading--neon reveal">ANIMATION &amp;<br>MOTION</h2>
+    <p class="overview-text reveal reveal-delay-1" style="margin-bottom:1rem;max-width:600px;">
+      Animations in Colorful Pop draw from <strong style="color:var(--vivid-yellow);">rhythm game interfaces</strong> -- pulsing, popping, glitching, and cycling to simulate relentless energy.
+    </p>
+    <div class="anim-demos reveal reveal-delay-2">
+      <div class="anim-box">
+        <span class="anim-label">Scale Pop</span>
+        <div class="anim-pop-target"></div>
+      </div>
+      <div class="anim-box">
+        <span class="anim-label">Hue Cycle</span>
+        <div class="anim-hue-target"></div>
+      </div>
+      <div class="anim-box">
+        <span class="anim-label">Spin</span>
+        <div class="anim-spin-target"></div>
+      </div>
+      <div class="anim-box">
+        <span class="anim-label">Glitch</span>
+        <div class="anim-glitch-target">FLICKER</div>
+      </div>
+      <div class="anim-box">
+        <span class="anim-label">Float</span>
+        <div class="anim-float-target"></div>
+      </div>
+      <div class="anim-box">
+        <span class="anim-label">Pulse</span>
+        <div class="anim-pulse-target"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     EXECUTION MODES SECTION
+     ============================================================ -->
+<section class="modes-section section-light clip-top">
+  <div class="section-inner">
+    <h2 class="section-heading section-heading--dark reveal">TWO EXECUTION<br>MODES</h2>
+    <div class="modes-grid reveal reveal-delay-1">
+      <div class="mode-card mode-card--clean">
+        <div class="mode-number">01</div>
+        <div class="mode-title">Clean Graphic Design Mode</div>
+        <div class="mode-desc">
+          Sharp digital linework, bold flat color fills, precise geometric elements. Closer to Pop Art and vector illustration. Best for web UI, posters, and brand design. This mode translates most directly to CSS and HTML implementation.
+        </div>
+      </div>
+      <div class="mode-card mode-card--expressive">
+        <div class="mode-number">02</div>
+        <div class="mode-title">Expressive Illustration Mode</div>
+        <div class="mode-desc">
+          Painterly quality with looser lines, fragmented crystalline textures, anime-style characters fused with abstract elements. Closer to concept art and editorial illustration.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     ARTISTS & INFLUENCES SECTION
+     ============================================================ -->
+<section class="artists-section section-dark">
+  <div class="section-inner">
+    <h2 class="section-heading section-heading--neon reveal">NOTABLE ARTISTS<br>&amp; INFLUENCES</h2>
+    <div class="artists-grid">
+      <div class="artist-card reveal">
+        <div class="artist-name">Kurumitsu</div>
+        <div class="artist-desc">Codified Colorful Pop techniques; produced instructional workbooks on character design in this style.</div>
+      </div>
+      <div class="artist-card reveal reveal-delay-1">
+        <div class="artist-name">Mika Pikazo</div>
+        <div class="artist-desc">Prominent Japanese illustrator known for vibrant, high-energy character art.</div>
+      </div>
+      <div class="artist-card reveal reveal-delay-2">
+        <div class="artist-name">berryverrine</div>
+        <div class="artist-desc">Digital artist working in the maximalist Colorful Pop mode.</div>
+      </div>
+      <div class="artist-card reveal reveal-delay-3">
+        <div class="artist-name">Terada Tera</div>
+        <div class="artist-desc">Illustrator blending anime character art with abstract graphic elements.</div>
+      </div>
+      <div class="artist-card reveal reveal-delay-4">
+        <div class="artist-name">DJ Laugh / Kobaryo</div>
+        <div class="artist-desc">J-core musicians whose album art and visual identity exemplify the aesthetic.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     MEDIA REFERENCES SECTION
+     ============================================================ -->
+<section class="media-section section-dark">
+  <div class="section-inner">
+    <h2 class="section-heading section-heading--neon reveal">MEDIA<br>REFERENCES</h2>
+    <div class="media-list">
+      <div class="media-item reveal">
+        <div class="media-item-title">Spider-Man: Into the Spider-Verse / Across the Spider-Verse</div>
+        <div class="media-item-year">2018 / 2023</div>
+        <div class="media-item-desc">Halftone dots, chromatic aberration, explosive color, comic-derived graphic elements.</div>
+      </div>
+      <div class="media-item reveal reveal-delay-1">
+        <div class="media-item-title">Promare</div>
+        <div class="media-item-year">2019 -- STUDIO TRIGGER</div>
+        <div class="media-item-desc">Extreme color saturation, geometric fire effects, maximalist action.</div>
+      </div>
+      <div class="media-item reveal reveal-delay-2">
+        <div class="media-item-title">Muse Dash</div>
+        <div class="media-item-year">2018</div>
+        <div class="media-item-desc">Rhythm game with quintessential Colorful Pop UI and character design.</div>
+      </div>
+      <div class="media-item reveal reveal-delay-3">
+        <div class="media-item-title">WACCA</div>
+        <div class="media-item-year">2019</div>
+        <div class="media-item-desc">Arcade rhythm game featuring dense, radiant visual design.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     RELATED AESTHETICS SECTION
+     ============================================================ -->
+<section class="related-section section-light clip-top clip-bottom">
+  <div class="section-inner">
+    <h2 class="section-heading section-heading--dark reveal">RELATED<br>AESTHETICS</h2>
+    <div class="related-tags reveal reveal-delay-1">
+      <span class="related-tag">Artcore</span>
+      <span class="related-tag">Cyberpop</span>
+      <span class="related-tag">Dokukawaii</span>
+      <span class="related-tag">Fitness Splatter</span>
+      <span class="related-tag">Memphis Design</span>
+      <span class="related-tag">Pop Art</span>
+      <span class="related-tag">Superflat Pop</span>
+      <span class="related-tag">Vectordelia</span>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE STRIP BOTTOM -->
+<div class="marquee-strip">
+  <div class="marquee-track">
+    <span class="marquee-item">COLORFUL POP <span class="sep">//</span> EVERY SURFACE SATURATED <span class="sep">//</span> EVERY COMPOSITION DENSE <span class="sep">//</span> EVERY ELEMENT COMPETING <span class="sep">//</span> UNAPOLOGETICALLY LOUD</span>
+    <span class="marquee-item">COLORFUL POP <span class="sep">//</span> EVERY SURFACE SATURATED <span class="sep">//</span> EVERY COMPOSITION DENSE <span class="sep">//</span> EVERY ELEMENT COMPETING <span class="sep">//</span> UNAPOLOGETICALLY LOUD</span>
+  </div>
+</div>
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<footer class="footer">
+  <div class="footer-text">COLORFUL POP</div>
+  <p class="footer-sub">An intensely vibrant and energetic visual aesthetic -- playful, explosive, and unapologetically loud.</p>
+</footer>
+
+<!-- ============================================================
+     JAVASCRIPT
+     ============================================================ -->
+<script>
+// Intersection Observer for scroll-triggered reveals
+document.addEventListener('DOMContentLoaded', () => {
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, {
+    threshold: 0.12,
+    rootMargin: '0px 0px -40px 0px'
+  });
+  reveals.forEach(el => observer.observe(el));
+
+  // Generate equalizer bars
+  const eqDemo = document.getElementById('eqDemo');
+  if (eqDemo) {
+    for (let i = 0; i < 30; i++) {
+      const bar = document.createElement('div');
+      bar.className = 'eq-bar';
+      bar.style.animationDelay = (Math.random() * 0.8).toFixed(2) + 's';
+      bar.style.animationDuration = (0.4 + Math.random() * 0.6).toFixed(2) + 's';
+      bar.style.height = Math.floor(20 + Math.random() * 60) + '%';
+      eqDemo.insertBefore(bar, eqDemo.querySelector('.effect-label'));
+    }
+  }
+});
+</script>
+</body>
+</html>
