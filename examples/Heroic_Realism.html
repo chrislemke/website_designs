@@ -1,0 +1,2121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Heroic Realism -- A Design Manifesto</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@400;500;700&family=Roboto+Condensed:ital,wght@0,400;0,700;1,400&family=Roboto:wght@300;400;700&family=Staatliches&display=swap" rel="stylesheet">
+  <style>
+    /* ========================================
+       CSS CUSTOM PROPERTIES
+       ======================================== */
+    :root {
+      /* Power Reds */
+      --heroic-crimson:       #B22234;
+      --heroic-soviet-red:    #CC0000;
+      --heroic-deep-red:      #8B0000;
+      --heroic-blood-red:     #6B0F1A;
+
+      /* Golds & Yellows */
+      --heroic-gold:          #D4A017;
+      --heroic-bright-gold:   #FFD700;
+      --heroic-hammer-yellow: #F0C420;
+      --heroic-bronze:        #CD7F32;
+
+      /* Blues */
+      --heroic-navy:          #002147;
+      --heroic-steel-blue:    #3B5998;
+      --heroic-sky:           #5B8DB8;
+      --heroic-midnight:      #191970;
+
+      /* Neutrals */
+      --heroic-black:         #1A1A1A;
+      --heroic-charcoal:      #2C2C2C;
+      --heroic-slate:         #3D3D3D;
+      --heroic-steel-grey:    #71797E;
+      --heroic-parchment:     #F5F0E1;
+      --heroic-white:         #FAFAFA;
+
+      /* Military & Earth */
+      --heroic-olive:         #556B2F;
+      --heroic-khaki:         #8B7D3C;
+      --heroic-concrete:      #95A5A6;
+    }
+
+    /* ========================================
+       RESET & BASE
+       ======================================== */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      overflow-x: hidden;
+    }
+
+    body {
+      font-family: 'Roboto', 'Helvetica Neue', sans-serif;
+      font-weight: 400;
+      line-height: 1.6;
+      color: var(--heroic-parchment);
+      background: var(--heroic-black);
+      overflow-x: hidden;
+    }
+
+    /* ========================================
+       TYPOGRAPHY
+       ======================================== */
+    h1, h2, h3, h4 {
+      font-family: 'Oswald', 'Impact', sans-serif;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      line-height: 1.1;
+      color: var(--heroic-bright-gold);
+    }
+
+    h1 {
+      font-family: 'Bebas Neue', 'Oswald', sans-serif;
+      font-size: clamp(3rem, 8vw, 6.5rem);
+      letter-spacing: 0.15em;
+      text-shadow:
+        4px 4px 0 var(--heroic-black),
+        0 0 40px rgba(212, 160, 23, 0.25);
+    }
+
+    h2 {
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      letter-spacing: 0.1em;
+      margin-bottom: 1.5rem;
+    }
+
+    h3 {
+      font-size: clamp(1.2rem, 2.5vw, 1.6rem);
+      letter-spacing: 0.08em;
+      margin-bottom: 1rem;
+    }
+
+    p {
+      font-size: 1rem;
+      line-height: 1.75;
+      color: var(--heroic-parchment);
+    }
+
+    .slogan {
+      font-family: 'Roboto Condensed', sans-serif;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--heroic-soviet-red);
+    }
+
+    .accent-text {
+      font-family: 'Staatliches', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+
+    /* ========================================
+       LAYOUT WRAPPER
+       ======================================== */
+    .heroic-layout {
+      max-width: 1400px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    /* ========================================
+       HERO SECTION -- THE MONUMENTAL HEADER
+       ======================================== */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 4rem 2rem;
+      background: var(--heroic-navy);
+      overflow: hidden;
+    }
+
+    /* Sunburst radiating lines */
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 200vmax;
+      height: 200vmax;
+      transform: translate(-50%, -50%);
+      background: repeating-conic-gradient(
+        var(--heroic-midnight) 0deg 4deg,
+        transparent 4deg 8deg
+      );
+      opacity: 0.2;
+      animation: heroic-rotate 180s linear infinite;
+    }
+
+    @keyframes heroic-rotate {
+      to { transform: translate(-50%, -50%) rotate(360deg); }
+    }
+
+    /* Radial vignette */
+    .hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(
+        ellipse at center,
+        transparent 20%,
+        rgba(0, 33, 71, 0.6) 55%,
+        var(--heroic-navy) 80%
+      );
+      pointer-events: none;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 900px;
+    }
+
+    /* Star cluster above title */
+    .hero-stars {
+      display: flex;
+      justify-content: center;
+      gap: 1.2rem;
+      margin-bottom: 2rem;
+      animation: fadeSlideDown 1s ease-out 0.2s both;
+    }
+
+    .star {
+      display: inline-block;
+      width: 36px;
+      height: 36px;
+      background: var(--heroic-bright-gold);
+      clip-path: polygon(
+        50% 0%, 61% 35%, 98% 35%, 68% 57%,
+        79% 91%, 50% 70%, 21% 91%, 32% 57%,
+        2% 35%, 39% 35%
+      );
+      filter: drop-shadow(0 0 6px rgba(255, 215, 0, 0.4));
+    }
+
+    .star--large {
+      width: 52px;
+      height: 52px;
+    }
+
+    .hero-title {
+      animation: fadeSlideUp 1s ease-out 0.4s both;
+    }
+
+    .hero-subtitle {
+      font-family: 'Roboto Condensed', sans-serif;
+      font-weight: 700;
+      font-size: clamp(1rem, 2.5vw, 1.5rem);
+      text-transform: uppercase;
+      letter-spacing: 0.25em;
+      color: var(--heroic-parchment);
+      margin-top: 1rem;
+      opacity: 0.9;
+      animation: fadeSlideUp 1s ease-out 0.6s both;
+    }
+
+    .hero-tagline {
+      display: inline-block;
+      font-family: 'Roboto Condensed', sans-serif;
+      font-weight: 700;
+      font-size: clamp(0.9rem, 2vw, 1.3rem);
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--heroic-soviet-red);
+      border-top: 2px solid var(--heroic-bright-gold);
+      border-bottom: 2px solid var(--heroic-bright-gold);
+      padding: 0.6rem 2.5rem;
+      margin-top: 2.5rem;
+      animation: fadeSlideUp 1s ease-out 0.8s both;
+    }
+
+    /* Scroll indicator */
+    .scroll-indicator {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      animation: fadeSlideUp 1s ease-out 1.2s both;
+    }
+
+    .scroll-indicator span {
+      font-family: 'Roboto Condensed', sans-serif;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.3em;
+      color: var(--heroic-steel-grey);
+    }
+
+    .scroll-arrow {
+      width: 20px;
+      height: 20px;
+      border-right: 2px solid var(--heroic-bright-gold);
+      border-bottom: 2px solid var(--heroic-bright-gold);
+      transform: rotate(45deg);
+      animation: bounceDown 2s ease-in-out infinite;
+    }
+
+    @keyframes bounceDown {
+      0%, 100% { transform: rotate(45deg) translateY(0); opacity: 0.6; }
+      50% { transform: rotate(45deg) translateY(8px); opacity: 1; }
+    }
+
+    /* ========================================
+       DIVIDERS
+       ======================================== */
+    .divider {
+      height: 8px;
+      background: linear-gradient(
+        to right,
+        var(--heroic-soviet-red) 0%,
+        var(--heroic-bright-gold) 50%,
+        var(--heroic-soviet-red) 100%
+      );
+      position: relative;
+    }
+
+    .divider-stripe {
+      height: 6px;
+      background: repeating-linear-gradient(
+        -45deg,
+        var(--heroic-soviet-red) 0px,
+        var(--heroic-soviet-red) 8px,
+        var(--heroic-deep-red) 8px,
+        var(--heroic-deep-red) 16px
+      );
+    }
+
+    .divider-thin {
+      height: 3px;
+      background: var(--heroic-bright-gold);
+      opacity: 0.4;
+      margin: 2rem 0;
+    }
+
+    /* ========================================
+       SECTION: OVERVIEW / DESCRIPTION
+       ======================================== */
+    .section {
+      padding: clamp(3rem, 6vw, 6rem) clamp(1.5rem, 4vw, 4rem);
+      position: relative;
+    }
+
+    .section-dark {
+      background: var(--heroic-charcoal);
+    }
+
+    .section-navy {
+      background: var(--heroic-navy);
+    }
+
+    .section-slate {
+      background: var(--heroic-slate);
+    }
+
+    .section-parchment {
+      background-color: var(--heroic-parchment);
+      background-image:
+        radial-gradient(ellipse at 20% 50%, rgba(139, 119, 42, 0.06) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 20%, rgba(139, 119, 42, 0.04) 0%, transparent 40%),
+        linear-gradient(to bottom, rgba(107, 15, 26, 0.03) 0%, transparent 20%, transparent 80%, rgba(107, 15, 26, 0.04) 100%);
+    }
+
+    .section-parchment h2,
+    .section-parchment h3 {
+      color: var(--heroic-blood-red);
+    }
+
+    .section-parchment p,
+    .section-parchment li {
+      color: var(--heroic-charcoal);
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .section-header h2 {
+      display: inline-block;
+      position: relative;
+      padding-bottom: 0.8rem;
+    }
+
+    .section-header h2::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 4px;
+      background: var(--heroic-soviet-red);
+    }
+
+    .section-parchment .section-header h2::after {
+      background: var(--heroic-blood-red);
+    }
+
+    /* ========================================
+       OVERVIEW INTRO
+       ======================================== */
+    .overview-block {
+      max-width: 900px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .overview-block p {
+      font-size: clamp(1rem, 1.5vw, 1.15rem);
+      line-height: 1.85;
+      margin-bottom: 1.5rem;
+    }
+
+    .overview-block .lead {
+      font-size: clamp(1.1rem, 2vw, 1.35rem);
+      font-weight: 300;
+      color: var(--heroic-parchment);
+      border-left: 4px solid var(--heroic-bright-gold);
+      padding-left: 1.5rem;
+      text-align: left;
+      font-style: italic;
+    }
+
+    /* Also-known-as badges */
+    .aka-badges {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.8rem;
+      margin-top: 2rem;
+    }
+
+    .aka-badge {
+      font-family: 'Roboto Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--heroic-bright-gold);
+      background: var(--heroic-blood-red);
+      padding: 0.4rem 1.2rem;
+      border: 1px solid var(--heroic-bright-gold);
+    }
+
+    /* ========================================
+       VISUAL CHARACTERISTICS CARDS
+       ======================================== */
+    .char-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .char-card {
+      background: var(--heroic-slate);
+      border: 2px solid var(--heroic-bright-gold);
+      padding: 2.5rem 2rem 2rem;
+      text-align: center;
+      position: relative;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .char-card:hover {
+      transform: translateY(-4px);
+      box-shadow:
+        0 8px 30px rgba(0, 0, 0, 0.4),
+        0 0 0 1px var(--heroic-bright-gold);
+    }
+
+    .char-card::before {
+      content: '';
+      position: absolute;
+      top: -2px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 4px;
+      background: var(--heroic-soviet-red);
+    }
+
+    .char-card-icon {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      display: block;
+      filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.3));
+    }
+
+    .char-card h3 {
+      color: var(--heroic-bright-gold);
+      margin-bottom: 0.8rem;
+    }
+
+    .char-card p {
+      font-size: 0.95rem;
+      color: var(--heroic-parchment);
+      opacity: 0.9;
+    }
+
+    /* ========================================
+       COLOR PALETTE DISPLAY
+       ======================================== */
+    .palette-section {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .palette-group {
+      margin-bottom: 3rem;
+    }
+
+    .palette-group-title {
+      font-family: 'Roboto Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--heroic-blood-red);
+      margin-bottom: 1.2rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid rgba(107, 15, 26, 0.3);
+    }
+
+    .palette-swatches {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 1rem;
+    }
+
+    .swatch {
+      aspect-ratio: 1.4;
+      border: 2px solid rgba(0, 0, 0, 0.2);
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.2s ease;
+    }
+
+    .swatch:hover {
+      transform: scale(1.05);
+    }
+
+    .swatch-info {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(26, 26, 26, 0.9);
+      padding: 0.5rem 0.6rem;
+    }
+
+    .swatch-name {
+      font-family: 'Roboto Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--heroic-parchment);
+      display: block;
+    }
+
+    .swatch-hex {
+      font-family: 'Roboto', monospace;
+      font-size: 0.65rem;
+      color: var(--heroic-steel-grey);
+      display: block;
+      margin-top: 0.1rem;
+    }
+
+    /* ========================================
+       TYPOGRAPHY SHOWCASE
+       ======================================== */
+    .type-showcase {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .type-specimen {
+      margin-bottom: 3rem;
+      padding: 2.5rem;
+      border: 2px solid var(--heroic-bright-gold);
+      background: var(--heroic-charcoal);
+      position: relative;
+    }
+
+    .type-specimen::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(to right, var(--heroic-soviet-red), var(--heroic-bright-gold));
+    }
+
+    .type-label {
+      font-family: 'Roboto Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--heroic-soviet-red);
+      margin-bottom: 1rem;
+      display: block;
+    }
+
+    .type-example-display {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      color: var(--heroic-bright-gold);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      line-height: 1.05;
+      text-shadow: 3px 3px 0 var(--heroic-black);
+    }
+
+    .type-example-heading {
+      font-family: 'Oswald', sans-serif;
+      font-weight: 700;
+      font-size: clamp(1.5rem, 3vw, 2.2rem);
+      color: var(--heroic-bright-gold);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      line-height: 1.15;
+    }
+
+    .type-example-body {
+      font-family: 'Roboto', sans-serif;
+      font-size: 1.05rem;
+      line-height: 1.8;
+      color: var(--heroic-parchment);
+      max-width: 600px;
+    }
+
+    .type-example-slogan {
+      font-family: 'Staatliches', sans-serif;
+      font-size: clamp(1.2rem, 3vw, 2rem);
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--heroic-soviet-red);
+    }
+
+    .type-font-name {
+      font-family: 'Roboto', sans-serif;
+      font-size: 0.8rem;
+      color: var(--heroic-steel-grey);
+      margin-top: 0.8rem;
+      display: block;
+    }
+
+    /* ========================================
+       MOTIFS SECTION
+       ======================================== */
+    .motifs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 1.5rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .motif-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      padding: 1.2rem;
+      background: rgba(255, 215, 0, 0.04);
+      border-left: 3px solid var(--heroic-bright-gold);
+      transition: background 0.2s ease;
+    }
+
+    .motif-item:hover {
+      background: rgba(255, 215, 0, 0.08);
+    }
+
+    .motif-icon {
+      font-size: 1.6rem;
+      flex-shrink: 0;
+      line-height: 1;
+    }
+
+    .motif-text {
+      font-family: 'Roboto Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--heroic-bright-gold);
+    }
+
+    .motif-desc {
+      font-family: 'Roboto', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 400;
+      text-transform: none;
+      letter-spacing: normal;
+      color: var(--heroic-parchment);
+      opacity: 0.8;
+      margin-top: 0.3rem;
+      display: block;
+    }
+
+    /* ========================================
+       BANNER RIBBON
+       ======================================== */
+    .banner-ribbon {
+      background: var(--heroic-soviet-red);
+      color: var(--heroic-bright-gold);
+      font-family: 'Oswald', sans-serif;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      padding: 0.8rem 3rem;
+      position: relative;
+      display: inline-block;
+      text-align: center;
+      font-size: clamp(0.9rem, 2vw, 1.2rem);
+    }
+
+    .banner-ribbon::before,
+    .banner-ribbon::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      border-style: solid;
+      border-color: var(--heroic-soviet-red);
+      height: 100%;
+    }
+
+    .banner-ribbon::before {
+      left: -1.5rem;
+      border-width: 1.4rem 1.5rem 1.4rem 0;
+      border-left-color: transparent;
+    }
+
+    .banner-ribbon::after {
+      right: -1.5rem;
+      border-width: 1.4rem 0 1.4rem 1.5rem;
+      border-right-color: transparent;
+    }
+
+    .banner-wrapper {
+      text-align: center;
+      padding: 0.5rem 2rem;
+    }
+
+    /* ========================================
+       TECHNIQUES TABLE
+       ======================================== */
+    .techniques-table {
+      max-width: 1000px;
+      margin: 0 auto;
+      overflow-x: auto;
+    }
+
+    .techniques-table table {
+      width: 100%;
+      border-collapse: collapse;
+      border: 2px solid var(--heroic-bright-gold);
+    }
+
+    .techniques-table th {
+      font-family: 'Oswald', sans-serif;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-size: 0.9rem;
+      background: var(--heroic-blood-red);
+      color: var(--heroic-bright-gold);
+      padding: 1rem 1.5rem;
+      text-align: left;
+      border-bottom: 3px solid var(--heroic-bright-gold);
+    }
+
+    .techniques-table td {
+      padding: 0.9rem 1.5rem;
+      border-bottom: 1px solid rgba(255, 215, 0, 0.15);
+      font-size: 0.9rem;
+      vertical-align: top;
+    }
+
+    .techniques-table tr:nth-child(even) {
+      background: rgba(255, 215, 0, 0.03);
+    }
+
+    .techniques-table tr:hover {
+      background: rgba(255, 215, 0, 0.07);
+    }
+
+    .techniques-table td:first-child {
+      font-family: 'Roboto Condensed', sans-serif;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--heroic-bright-gold);
+      white-space: nowrap;
+    }
+
+    .techniques-table code {
+      font-size: 0.82rem;
+      background: rgba(0, 0, 0, 0.3);
+      padding: 0.15rem 0.4rem;
+      border-radius: 2px;
+      color: var(--heroic-hammer-yellow);
+    }
+
+    /* ========================================
+       RELATED AESTHETICS
+       ======================================== */
+    .related-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.5rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .related-card {
+      padding: 1.5rem;
+      border: 1px solid rgba(255, 215, 0, 0.2);
+      background: rgba(0, 33, 71, 0.3);
+      position: relative;
+      transition: border-color 0.3s ease, background 0.3s ease;
+    }
+
+    .related-card:hover {
+      border-color: var(--heroic-bright-gold);
+      background: rgba(0, 33, 71, 0.5);
+    }
+
+    .related-card h4 {
+      font-family: 'Oswald', sans-serif;
+      font-size: 1.1rem;
+      color: var(--heroic-bright-gold);
+      margin-bottom: 0.5rem;
+    }
+
+    .related-card p {
+      font-size: 0.88rem;
+      color: var(--heroic-parchment);
+      opacity: 0.85;
+      line-height: 1.6;
+    }
+
+    /* ========================================
+       LAYOUT PRINCIPLES
+       ======================================== */
+    .principles-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .principle-item {
+      padding: 2rem;
+      background: var(--heroic-charcoal);
+      border: 2px solid var(--heroic-bright-gold);
+      position: relative;
+    }
+
+    .principle-item::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      right: -5px;
+      width: 100%;
+      height: 100%;
+      border: 2px solid var(--heroic-bright-gold);
+      z-index: -1;
+      opacity: 0.25;
+    }
+
+    .principle-number {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 3rem;
+      color: var(--heroic-soviet-red);
+      line-height: 1;
+      margin-bottom: 0.5rem;
+      opacity: 0.6;
+    }
+
+    .principle-item h3 {
+      color: var(--heroic-bright-gold);
+      font-size: 1.15rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .principle-item p {
+      font-size: 0.92rem;
+      opacity: 0.9;
+    }
+
+    /* ========================================
+       TEXTURES SECTION
+       ======================================== */
+    .textures-showcase {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .texture-card {
+      aspect-ratio: 1.3;
+      position: relative;
+      overflow: hidden;
+      border: 2px solid var(--heroic-bright-gold);
+    }
+
+    .texture-card-label {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(26, 26, 26, 0.92);
+      padding: 0.8rem 1rem;
+      z-index: 2;
+    }
+
+    .texture-card-label h4 {
+      font-family: 'Oswald', sans-serif;
+      font-size: 0.9rem;
+      color: var(--heroic-bright-gold);
+      margin-bottom: 0.2rem;
+    }
+
+    .texture-card-label span {
+      font-size: 0.75rem;
+      color: var(--heroic-steel-grey);
+    }
+
+    /* Concrete texture */
+    .texture-concrete {
+      background-color: var(--heroic-slate);
+      background-image:
+        linear-gradient(to bottom, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.02) 50%, rgba(0,0,0,0.06) 100%);
+    }
+
+    .texture-concrete::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(circle, rgba(0,0,0,0.12) 1px, transparent 1px);
+      background-size: 3px 3px;
+      mix-blend-mode: multiply;
+    }
+
+    /* Aged paper */
+    .texture-paper {
+      background-color: var(--heroic-parchment);
+      background-image:
+        radial-gradient(ellipse at 20% 50%, rgba(139, 119, 42, 0.08) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 20%, rgba(139, 119, 42, 0.06) 0%, transparent 40%),
+        linear-gradient(to bottom, rgba(107, 15, 26, 0.04) 0%, transparent 20%, transparent 80%, rgba(107, 15, 26, 0.05) 100%);
+    }
+
+    /* Brushed steel */
+    .texture-steel {
+      background:
+        linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.08) 25%, rgba(255,255,255,0) 50%, rgba(255,255,255,0.05) 75%, rgba(255,255,255,0) 100%),
+        linear-gradient(to bottom, var(--heroic-steel-grey), var(--heroic-slate));
+    }
+
+    /* Halftone */
+    .texture-halftone {
+      background: var(--heroic-navy);
+    }
+
+    .texture-halftone::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(circle, rgba(255, 215, 0, 0.2) 1px, transparent 1px);
+      background-size: 5px 5px;
+    }
+
+    /* Canvas weave */
+    .texture-canvas {
+      background-color: var(--heroic-khaki);
+      background-image:
+        linear-gradient(90deg, rgba(0,0,0,0.04) 1px, transparent 1px),
+        linear-gradient(0deg, rgba(0,0,0,0.04) 1px, transparent 1px);
+      background-size: 3px 3px;
+    }
+
+    /* ========================================
+       LAUREL BADGE -- DECORATIVE ELEMENT
+       ======================================== */
+    .laurel-badge {
+      border: 4px solid var(--heroic-bright-gold);
+      border-radius: 50%;
+      width: 120px;
+      height: 120px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow:
+        0 0 0 2px var(--heroic-charcoal),
+        0 0 0 6px var(--heroic-bright-gold),
+        0 0 30px rgba(255, 215, 0, 0.15);
+      margin: 2rem auto;
+    }
+
+    .laurel-badge .star {
+      width: 48px;
+      height: 48px;
+    }
+
+    /* ========================================
+       CTA BUTTON
+       ======================================== */
+    .heroic-cta {
+      display: inline-block;
+      font-family: 'Oswald', sans-serif;
+      font-weight: 700;
+      font-size: 1.2rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--heroic-bright-gold);
+      background: var(--heroic-soviet-red);
+      border: 3px solid var(--heroic-bright-gold);
+      padding: 1rem 3rem;
+      cursor: pointer;
+      position: relative;
+      transition: all 0.2s ease;
+      text-decoration: none;
+    }
+
+    .heroic-cta:hover {
+      background: var(--heroic-deep-red);
+      box-shadow:
+        0 0 20px rgba(204, 0, 0, 0.5),
+        inset 0 0 20px rgba(255, 215, 0, 0.1);
+      transform: scale(1.03);
+    }
+
+    .heroic-cta::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      right: -5px;
+      width: 100%;
+      height: 100%;
+      border: 2px solid var(--heroic-bright-gold);
+      z-index: -1;
+      opacity: 0.4;
+    }
+
+    /* ========================================
+       COLOR GUIDELINES
+       ======================================== */
+    .guidelines-list {
+      max-width: 900px;
+      margin: 0 auto;
+      list-style: none;
+    }
+
+    .guidelines-list li {
+      padding: 1.2rem 1.5rem 1.2rem 2.5rem;
+      margin-bottom: 0.8rem;
+      position: relative;
+      border-left: 3px solid var(--heroic-bright-gold);
+      background: rgba(255, 215, 0, 0.03);
+      font-size: 0.95rem;
+    }
+
+    .guidelines-list li strong {
+      color: var(--heroic-bright-gold);
+      font-family: 'Roboto Condensed', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    /* ========================================
+       FOOTER
+       ======================================== */
+    .footer {
+      background: var(--heroic-black);
+      text-align: center;
+      padding: 3rem 2rem;
+      border-top: 4px solid var(--heroic-bright-gold);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .footer::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 6px;
+      background: repeating-linear-gradient(
+        -45deg,
+        var(--heroic-soviet-red) 0px,
+        var(--heroic-soviet-red) 8px,
+        var(--heroic-deep-red) 8px,
+        var(--heroic-deep-red) 16px
+      );
+    }
+
+    .footer-stars {
+      display: flex;
+      justify-content: center;
+      gap: 0.8rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .footer-stars .star {
+      width: 20px;
+      height: 20px;
+      opacity: 0.6;
+    }
+
+    .footer-text {
+      font-family: 'Roboto Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--heroic-steel-grey);
+    }
+
+    .footer-slogan {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.8rem;
+      color: var(--heroic-bright-gold);
+      letter-spacing: 0.15em;
+      margin-bottom: 0.5rem;
+      text-shadow: 2px 2px 0 var(--heroic-black);
+    }
+
+    /* ========================================
+       ANIMATIONS
+       ======================================== */
+    @keyframes fadeSlideUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeSlideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    /* Scroll-triggered fade in */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+    .reveal-delay-5 { transition-delay: 0.5s; }
+
+    /* ========================================
+       INFLUENCES SECTION
+       ======================================== */
+    .influences-list {
+      max-width: 900px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.6rem;
+    }
+
+    .influence-tag {
+      font-family: 'Roboto Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--heroic-parchment);
+      background: var(--heroic-navy);
+      padding: 0.5rem 1rem;
+      border: 1px solid var(--heroic-steel-blue);
+      transition: all 0.2s ease;
+    }
+
+    .influence-tag:hover {
+      background: var(--heroic-steel-blue);
+      border-color: var(--heroic-bright-gold);
+      color: var(--heroic-bright-gold);
+    }
+
+    /* ========================================
+       NAVIGATION (STICKY TOP BAR)
+       ======================================== */
+    .top-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      background: rgba(26, 26, 26, 0.95);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border-bottom: 3px solid var(--heroic-bright-gold);
+      padding: 0.6rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transform: translateY(-100%);
+      transition: transform 0.3s ease;
+    }
+
+    .top-bar.visible {
+      transform: translateY(0);
+    }
+
+    .top-bar-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.3rem;
+      color: var(--heroic-bright-gold);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .top-bar-nav {
+      display: flex;
+      gap: 1.5rem;
+      list-style: none;
+    }
+
+    .top-bar-nav a {
+      font-family: 'Roboto Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--heroic-parchment);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .top-bar-nav a:hover {
+      color: var(--heroic-bright-gold);
+    }
+
+    /* ========================================
+       RESPONSIVE DESIGN
+       ======================================== */
+    @media (max-width: 768px) {
+      .hero {
+        min-height: 85vh;
+        padding: 3rem 1.5rem;
+      }
+
+      .section {
+        padding: 2.5rem 1.2rem;
+      }
+
+      .char-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .palette-swatches {
+        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+      }
+
+      .motifs-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .principles-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .related-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .textures-showcase {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .top-bar-nav {
+        display: none;
+      }
+
+      .banner-ribbon {
+        font-size: 0.8rem;
+        padding: 0.6rem 2rem;
+      }
+
+      .banner-ribbon::before {
+        left: -1rem;
+        border-width: 1.1rem 1rem 1.1rem 0;
+      }
+
+      .banner-ribbon::after {
+        right: -1rem;
+        border-width: 1.1rem 0 1.1rem 1rem;
+      }
+
+      .techniques-table {
+        font-size: 0.85rem;
+      }
+
+      .techniques-table th,
+      .techniques-table td {
+        padding: 0.7rem 0.8rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .motifs-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .textures-showcase {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-stars .star {
+        width: 24px;
+        height: 24px;
+      }
+
+      .hero-stars .star--large {
+        width: 36px;
+        height: 36px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================
+       STICKY TOP BAR (appears on scroll)
+       ============================================ -->
+  <nav class="top-bar" id="topBar">
+    <div class="top-bar-title">Heroic Realism</div>
+    <ul class="top-bar-nav">
+      <li><a href="#overview">Overview</a></li>
+      <li><a href="#visual">Visual</a></li>
+      <li><a href="#palette">Palette</a></li>
+      <li><a href="#typography">Typography</a></li>
+      <li><a href="#motifs">Motifs</a></li>
+      <li><a href="#layout">Layout</a></li>
+      <li><a href="#textures">Textures</a></li>
+      <li><a href="#techniques">Techniques</a></li>
+      <li><a href="#related">Related</a></li>
+    </ul>
+  </nav>
+
+  <!-- ============================================
+       HERO SECTION
+       ============================================ -->
+  <section class="hero">
+    <div class="hero-content">
+      <div class="hero-stars">
+        <span class="star"></span>
+        <span class="star"></span>
+        <span class="star star--large"></span>
+        <span class="star"></span>
+        <span class="star"></span>
+      </div>
+      <h1 class="hero-title">Heroic Realism</h1>
+      <p class="hero-subtitle">A Design Reference &amp; Aesthetic Manifesto</p>
+      <div class="hero-tagline">Strength Through Vision &mdash; Power Through Design</div>
+    </div>
+    <div class="scroll-indicator">
+      <span>Explore</span>
+      <div class="scroll-arrow"></div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ============================================
+       OVERVIEW SECTION
+       ============================================ -->
+  <section class="section section-dark" id="overview">
+    <div class="heroic-layout">
+      <div class="section-header reveal">
+        <h2>The Aesthetic</h2>
+      </div>
+      <div class="overview-block reveal reveal-delay-1">
+        <p class="lead">
+          An art and design style using realistic techniques to create idealized, larger-than-life
+          depictions of human figures -- originally developed for propaganda posters, murals, and
+          monumental sculpture.
+        </p>
+      </div>
+      <div class="aka-badges reveal reveal-delay-2" style="margin-top: 2rem; margin-bottom: 3rem;">
+        <span class="aka-badge">Socialist Realism</span>
+        <span class="aka-badge">Propaganda Art</span>
+        <span class="aka-badge">Monumental Realism</span>
+      </div>
+      <div class="overview-block reveal reveal-delay-3">
+        <p>
+          Heroic Realism commands attention through monumental scale, unflinching directness,
+          and an unwavering commitment to idealized strength. Every element -- from the towering
+          figures to the bold typography -- is engineered to inspire awe, duty, and collective purpose.
+          This is not design that asks permission. It declares.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider-stripe"></div>
+
+  <!-- ============================================
+       VISUAL CHARACTERISTICS
+       ============================================ -->
+  <section class="section section-navy" id="visual">
+    <div class="heroic-layout">
+      <div class="section-header reveal">
+        <h2>Visual Characteristics</h2>
+      </div>
+      <div class="char-grid">
+        <div class="char-card reveal reveal-delay-1">
+          <span class="char-card-icon" aria-hidden="true">&#9878;</span>
+          <h3>Illustration Style</h3>
+          <p>Realistic depictions of figures, often exaggerated for a "larger-than-life" effect. Physically perfect individuals rendered with anatomical precision but idealized proportions.</p>
+        </div>
+        <div class="char-card reveal reveal-delay-2">
+          <span class="char-card-icon" aria-hidden="true">&#9733;</span>
+          <h3>Tone</h3>
+          <p>Inspirational, commanding, awe-inducing. Designed to evoke duty, strength, sacrifice, and collective purpose.</p>
+        </div>
+        <div class="char-card reveal reveal-delay-3">
+          <span class="char-card-icon" aria-hidden="true">&#9876;</span>
+          <h3>Subject Matter</h3>
+          <p>Idealized workers, soldiers, athletes, national personifications, warriors, and stylized animals. Figures embody strength, virtue, and determination.</p>
+        </div>
+        <div class="char-card reveal reveal-delay-1">
+          <span class="char-card-icon" aria-hidden="true">&#9670;</span>
+          <h3>Composition</h3>
+          <p>Dynamic arrangements that create a sense of movement and energy. Figures at monumental scale with strong diagonals and upward-thrusting poses.</p>
+        </div>
+        <div class="char-card reveal reveal-delay-2">
+          <span class="char-card-icon" aria-hidden="true">&#9757;</span>
+          <h3>Key Gestures</h3>
+          <p>Raised fists and pointing index fingers to convey power, direction, and call to action.</p>
+        </div>
+        <div class="char-card reveal reveal-delay-3">
+          <span class="char-card-icon" aria-hidden="true">&#9881;</span>
+          <h3>Modern Applications</h3>
+          <p>Video games (Command &amp; Conquer, Bioshock Infinite), political campaign art, brand identity with heroic messaging.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ============================================
+       KEY INFLUENCES
+       ============================================ -->
+  <section class="section section-dark">
+    <div class="heroic-layout">
+      <div class="section-header reveal">
+        <h2>Key Influences</h2>
+      </div>
+      <div class="influences-list reveal reveal-delay-1">
+        <span class="influence-tag">Soviet Propaganda Posters</span>
+        <span class="influence-tag">WPA Murals</span>
+        <span class="influence-tag">Shepard Fairey's "Hope" Poster</span>
+        <span class="influence-tag">Diego Rivera's Mexican Murals</span>
+        <span class="influence-tag">Vera Mukhina's Sculpture</span>
+        <span class="influence-tag">Arno Breker's Monumental Figures</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider-stripe"></div>
+
+  <!-- ============================================
+       COLOR PALETTE
+       ============================================ -->
+  <section class="section section-parchment" id="palette">
+    <div class="heroic-layout">
+      <div class="section-header reveal">
+        <h2>Color Palette</h2>
+      </div>
+
+      <div class="palette-section">
+        <!-- Power Reds -->
+        <div class="palette-group reveal reveal-delay-1">
+          <h3 class="palette-group-title">Power Reds</h3>
+          <div class="palette-swatches">
+            <div class="swatch" style="background: #B22234;">
+              <div class="swatch-info">
+                <span class="swatch-name">Crimson</span>
+                <span class="swatch-hex">#B22234</span>
+              </div>
+            </div>
+            <div class="swatch" style="background: #CC0000;">
+              <div class="swatch-info">
+                <span class="swatch-name">Soviet Red</span>
+                <span class="swatch-hex">#CC0000</span>
+              </div>
+            </div>
+            <div class="swatch" style="background: #8B0000;">
+              <div class="swatch-info">
+                <span class="swatch-name">Deep Red</span>
+                <span class="swatch-hex">#8B0000</span>
+              </div>
+            </div>
+            <div class="swatch" style="background: #6B0F1A;">
+              <div class="swatch-info">
+                <span class="swatch-name">Blood Red</span>
+                <span class="swatch-hex">#6B0F1A</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Golds & Yellows -->
+        <div class="palette-group reveal reveal-delay-2">
+          <h3 class="palette-group-title">Golds &amp; Yellows</h3>
+          <div class="palette-swatches">
+            <div class="swatch" style="background: #D4A017;">
+              <div class="swatch-info">
+                <span class="swatch-name">Gold</span>
+                <span class="swatch-hex">#D4A017</span>
+              </div>
+            </div>
+            <div class="swatch" style="background: #FFD700;">
+              <div class="swatch-info">
+                <span class="swatch-name">Bright Gold</span>
+                <span class="swatch-hex">#FFD700</span>
+              </div>
+            </div>
+            <div class="swatch" style="background: #F0C420;">
+              <div class="swatch-info">
+                <span class="swatch-name">Hammer Yellow</span>
+                <span class="swatch-hex">#F0C420</span>
+              </div>
+            </div>
+            <div class="swatch" style="background: #CD7F32;">
+              <div class="swatch-info">
+                <span class="swatch-name">Bronze</span>
+                <span class="swatch-hex">#CD7F32</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Blues -->
+        <div class="palette-group reveal reveal-delay-3">
+          <h3 class="palette-group-title">Blues</h3>
+          <div class="palette-swatches">
+            <div class="swatch" style="background: #002147;">
+              <div class="swatch-info">
+                <span class="swatch-name">Navy</span>
+                <span class="swatch-hex">#002147</span>
+              </div>
+            </div>
+            <div class="swatch" style="background: #3B5998;">
+              <div class="swatch-info">
+                <span class="swatch-name">Steel Blue</span>
+                <span class="swatch-hex">#3B5998</span>
+              </div>
+            </div>
+            <div class="swatch" style="background: #5B8DB8;">
+              <div class="swatch-info">
+                <span class="swatch-name">Sky</span>
+                <span class="swatch-hex">#5B8DB8</span>
+              </div>
+            </div>
+            <div class="swatch" style="background: #191970;">
+              <div class="swatch-info">
+                <span class="swatch-name">Midnight</span>
+                <span class="swatch-hex">#191970</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Neutrals -->
+        <div class="palette-group reveal reveal-delay-4">
+          <h3 class="palette-group-title">Neutrals</h3>
+          <div class="palette-swatches">
+            <div class="swatch" style="background: #1A1A1A;">
+              <div class="swatch-info">
+                <span class="swatch-name">Black</span>
+                <span class="swatch-hex">#1A1A1A</span>
+              </div>
+            </div>
+            <div class="swatch" style="background: #2C2C2C;">
+              <div class="swatch-info">
+                <span class="swatch-name">Charcoal</span>
+                <span class="swatch-hex">#2C2C2C</span>
+              </div>
+            </div>
+            <div class="swatch" style="background: #3D3D3D;">
+              <div class="swatch-info">
+                <span class="swatch-name">Slate</span>
+                <span class="swatch-hex">#3D3D3D</span>
+              </div>
+            </div>
+            <div class="swatch" style="background: #71797E;">
+              <div class="swatch-info">
+                <span class="swatch-name">Steel Grey</span>
+                <span class="swatch-hex">#71797E</span>
+              </div>
+            </div>
+            <div class="swatch" style="background: #F5F0E1;">
+              <div class="swatch-info">
+                <span class="swatch-name">Parchment</span>
+                <span class="swatch-hex">#F5F0E1</span>
+              </div>
+            </div>
+            <div class="swatch" style="background: #FAFAFA;">
+              <div class="swatch-info">
+                <span class="swatch-name">White</span>
+                <span class="swatch-hex">#FAFAFA</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Military & Earth -->
+        <div class="palette-group reveal reveal-delay-5">
+          <h3 class="palette-group-title">Military &amp; Earth</h3>
+          <div class="palette-swatches">
+            <div class="swatch" style="background: #556B2F;">
+              <div class="swatch-info">
+                <span class="swatch-name">Olive</span>
+                <span class="swatch-hex">#556B2F</span>
+              </div>
+            </div>
+            <div class="swatch" style="background: #8B7D3C;">
+              <div class="swatch-info">
+                <span class="swatch-name">Khaki</span>
+                <span class="swatch-hex">#8B7D3C</span>
+              </div>
+            </div>
+            <div class="swatch" style="background: #95A5A6;">
+              <div class="swatch-info">
+                <span class="swatch-name">Concrete</span>
+                <span class="swatch-hex">#95A5A6</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Color Usage Guidelines -->
+      <div style="margin-top: 3rem;">
+        <div class="banner-wrapper reveal">
+          <div class="banner-ribbon">Color Usage Guidelines</div>
+        </div>
+        <ul class="guidelines-list" style="margin-top: 2rem;">
+          <li class="reveal reveal-delay-1"><strong>Backgrounds:</strong> Use deep, authoritative tones -- navy, charcoal, slate, or midnight blue. For contrast sections use parchment cream or steel grey. Avoid pastel or playful tones.</li>
+          <li class="reveal reveal-delay-2"><strong>Headlines &amp; Bold Text:</strong> Bright gold or white on dark backgrounds for maximum impact. Soviet red on light backgrounds.</li>
+          <li class="reveal reveal-delay-3"><strong>Accent Elements:</strong> Gold and crimson for badges, banners, stars, and borders. Use sparingly for high-contrast focal points.</li>
+          <li class="reveal reveal-delay-4"><strong>Figures &amp; Illustrations:</strong> Rich, saturated tones with dramatic chiaroscuro lighting -- deep shadows against warm highlights.</li>
+          <li class="reveal reveal-delay-5"><strong>Overall Feeling:</strong> Bold, saturated, and authoritative. High contrast between darks and brights. The palette commands attention and conveys power, not comfort.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ============================================
+       TYPOGRAPHY
+       ============================================ -->
+  <section class="section section-dark" id="typography">
+    <div class="heroic-layout">
+      <div class="section-header reveal">
+        <h2>Typography</h2>
+      </div>
+
+      <div class="type-showcase">
+        <!-- Display -->
+        <div class="type-specimen reveal reveal-delay-1">
+          <span class="type-label">Display -- Bebas Neue, Oswald, Anton</span>
+          <div class="type-example-display">
+            Forward Into<br>The New Dawn
+          </div>
+          <span class="type-font-name">Bold, condensed, uppercase display typefaces with strong vertical stress. Industrial and commanding -- reminiscent of propaganda poster lettering. Tall, narrow letterforms convey upward thrust and strength.</span>
+        </div>
+
+        <!-- Headings -->
+        <div class="type-specimen reveal reveal-delay-2">
+          <span class="type-label">Headings -- Oswald Bold, Roboto Condensed Bold</span>
+          <div class="type-example-heading">
+            Every Element Serves the Mission.<br>
+            Clarity Is Strength. Precision Is Power.
+          </div>
+          <span class="type-font-name">Roboto Condensed (Bold), Barlow Condensed (Bold), and Teko provide strong mid-hierarchy presence for section titles and card headings.</span>
+        </div>
+
+        <!-- Body -->
+        <div class="type-specimen reveal reveal-delay-3">
+          <span class="type-label">Body -- Roboto, Source Sans Pro, IBM Plex Sans</span>
+          <div class="type-example-body">
+            Clean, highly legible sans-serifs with geometric or humanist structure. Clarity and readability support the messaging-first philosophy. The body text exists to inform and persuade -- never to decorate. Every word carries weight, every sentence advances the cause.
+          </div>
+          <span class="type-font-name">Roboto at 400/700 weight with 1.6-1.8 line-height provides optimal readability against dark backgrounds.</span>
+        </div>
+
+        <!-- Slogans -->
+        <div class="type-specimen reveal reveal-delay-4">
+          <span class="type-label">Slogans -- Staatliches, Black Ops One</span>
+          <div class="type-example-slogan">
+            Text Is a Weapon &mdash; Every Word Must Be Deliberate
+          </div>
+          <span class="type-font-name">Stencil, slab-serif, or extra-bold condensed styles for slogans, callouts, and banner text. Accent typography demands attention and punctuates the visual hierarchy.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider-stripe"></div>
+
+  <!-- ============================================
+       MOTIFS SECTION
+       ============================================ -->
+  <section class="section section-navy" id="motifs">
+    <div class="heroic-layout">
+      <div class="section-header reveal">
+        <h2>Design Motifs</h2>
+      </div>
+
+      <div class="motifs-grid">
+        <div class="motif-item reveal">
+          <span class="motif-icon" aria-hidden="true">&#9994;</span>
+          <div>
+            <span class="motif-text">Raised Fists<span class="motif-desc">Power, solidarity, revolution. Used as icons, dividers, and focal points.</span></span>
+          </div>
+        </div>
+        <div class="motif-item reveal reveal-delay-1">
+          <span class="motif-icon" aria-hidden="true">&#9757;</span>
+          <div>
+            <span class="motif-text">Pointing Fingers<span class="motif-desc">Call to action, directional emphasis, recruitment imagery.</span></span>
+          </div>
+        </div>
+        <div class="motif-item reveal reveal-delay-2">
+          <span class="motif-icon" aria-hidden="true">&#9733;</span>
+          <div>
+            <span class="motif-text">Five-Pointed Stars<span class="motif-desc">Badges, decorative elements, and hierarchical markers.</span></span>
+          </div>
+        </div>
+        <div class="motif-item reveal reveal-delay-3">
+          <span class="motif-icon" aria-hidden="true">&#127809;</span>
+          <div>
+            <span class="motif-text">Laurel Wreaths<span class="motif-desc">Achievement, honor, framing device for logos and headings.</span></span>
+          </div>
+        </div>
+        <div class="motif-item reveal">
+          <span class="motif-icon" aria-hidden="true">&#9881;</span>
+          <div>
+            <span class="motif-text">Gear / Cog Wheels<span class="motif-desc">Industry, labor, mechanical progress.</span></span>
+          </div>
+        </div>
+        <div class="motif-item reveal reveal-delay-1">
+          <span class="motif-icon" aria-hidden="true">&#127806;</span>
+          <div>
+            <span class="motif-text">Wheat Sheaves<span class="motif-desc">Abundance, agricultural strength, prosperity.</span></span>
+          </div>
+        </div>
+        <div class="motif-item reveal reveal-delay-2">
+          <span class="motif-icon" aria-hidden="true">&#127988;</span>
+          <div>
+            <span class="motif-text">Banners &amp; Ribbons<span class="motif-desc">Text containers for slogans and titles.</span></span>
+          </div>
+        </div>
+        <div class="motif-item reveal reveal-delay-3">
+          <span class="motif-icon" aria-hidden="true">&#9728;</span>
+          <div>
+            <span class="motif-text">Sunbursts<span class="motif-desc">Dawn of a new era, progress, hope, divine light behind figures.</span></span>
+          </div>
+        </div>
+        <div class="motif-item reveal">
+          <span class="motif-icon" aria-hidden="true">&#9872;</span>
+          <div>
+            <span class="motif-text">Flags &amp; Symbols<span class="motif-desc">Patriotic reinforcement, identity anchoring.</span></span>
+          </div>
+        </div>
+        <div class="motif-item reveal reveal-delay-1">
+          <span class="motif-icon" aria-hidden="true">&#9899;</span>
+          <div>
+            <span class="motif-text">Monumental Figures<span class="motif-desc">Oversized human forms dominating the composition.</span></span>
+          </div>
+        </div>
+        <div class="motif-item reveal reveal-delay-2">
+          <span class="motif-icon" aria-hidden="true">&#8599;</span>
+          <div>
+            <span class="motif-text">Upward Diagonals<span class="motif-desc">Dynamic lines suggesting progress, ascent, and forward motion.</span></span>
+          </div>
+        </div>
+        <div class="motif-item reveal reveal-delay-3">
+          <span class="motif-icon" aria-hidden="true">&#9874;</span>
+          <div>
+            <span class="motif-text">Hammers &amp; Tools<span class="motif-desc">Labor symbols adapted to context-appropriate modern equivalents.</span></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ============================================
+       LAYOUT PRINCIPLES
+       ============================================ -->
+  <section class="section section-dark" id="layout">
+    <div class="heroic-layout">
+      <div class="section-header reveal">
+        <h2>Layout Principles</h2>
+      </div>
+
+      <div class="principles-grid">
+        <div class="principle-item reveal">
+          <div class="principle-number">01</div>
+          <h3>Monumental &amp; Vertical</h3>
+          <p>Compositions emphasize height and upward movement. Tall hero sections, vertical stacking, and strong central axes create a sense of commanding presence.</p>
+        </div>
+        <div class="principle-item reveal reveal-delay-1">
+          <div class="principle-number">02</div>
+          <h3>Hierarchical Focal Points</h3>
+          <p>One dominant element -- the hero figure or headline -- commands attention. Supporting elements are clearly subordinate, creating unambiguous visual priority.</p>
+        </div>
+        <div class="principle-item reveal reveal-delay-2">
+          <div class="principle-number">03</div>
+          <h3>Symmetrical &amp; Centered</h3>
+          <p>Bilateral symmetry conveys authority, stability, and institutional power. Center-aligned headers are standard. The composition radiates outward from a strong axis.</p>
+        </div>
+        <div class="principle-item reveal reveal-delay-3">
+          <div class="principle-number">04</div>
+          <h3>Strong Grid With Clear Boundaries</h3>
+          <p>Content is contained in clearly defined blocks with bold borders. No ambiguity in spatial relationships. Every section is a distinct, purposeful unit.</p>
+        </div>
+        <div class="principle-item reveal reveal-delay-4">
+          <div class="principle-number">05</div>
+          <h3>Text as Design Element</h3>
+          <p>Bold typography is integrated directly into the visual composition, not treated as an afterthought. Slogans and headings are compositional anchors.</p>
+        </div>
+        <div class="principle-item reveal reveal-delay-5">
+          <div class="principle-number">06</div>
+          <h3>Dramatic Scale Contrast</h3>
+          <p>Large headlines and figures juxtaposed with smaller supporting text creates visual drama and reinforces the hierarchy of information.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider-stripe"></div>
+
+  <!-- ============================================
+       TEXTURES & MATERIALS
+       ============================================ -->
+  <section class="section section-navy" id="textures">
+    <div class="heroic-layout">
+      <div class="section-header reveal">
+        <h2>Textures &amp; Materials</h2>
+      </div>
+
+      <div class="textures-showcase">
+        <div class="texture-card texture-concrete reveal">
+          <div class="texture-card-label">
+            <h4>Concrete &amp; Stone</h4>
+            <span>Monumental, solid surfaces evoking public buildings and monuments.</span>
+          </div>
+        </div>
+        <div class="texture-card texture-paper reveal reveal-delay-1">
+          <div class="texture-card-label">
+            <h4>Aged Paper &amp; Canvas</h4>
+            <span>Slightly distressed textures for poster authenticity without excessive grunge.</span>
+          </div>
+        </div>
+        <div class="texture-card texture-steel reveal reveal-delay-2">
+          <div class="texture-card-label">
+            <h4>Metal &amp; Steel</h4>
+            <span>Industrial finishes, brushed metal effects for headers and borders.</span>
+          </div>
+        </div>
+        <div class="texture-card texture-halftone reveal reveal-delay-3">
+          <div class="texture-card-label">
+            <h4>Halftone Print Grain</h4>
+            <span>Halftone-like patterns and printing artifacts for authenticity.</span>
+          </div>
+        </div>
+        <div class="texture-card texture-canvas reveal reveal-delay-4">
+          <div class="texture-card-label">
+            <h4>Linen &amp; Canvas Weave</h4>
+            <span>Subtle background textures referencing original poster printing methods.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ============================================
+       TECHNIQUES TABLE
+       ============================================ -->
+  <section class="section section-dark" id="techniques">
+    <div class="heroic-layout">
+      <div class="section-header reveal">
+        <h2>Design Techniques</h2>
+      </div>
+
+      <div class="techniques-table reveal reveal-delay-1">
+        <table>
+          <thead>
+            <tr>
+              <th>Technique</th>
+              <th>Implementation</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Radiating Sunburst</td>
+              <td><code>repeating-conic-gradient()</code> behind hero content</td>
+            </tr>
+            <tr>
+              <td>Monumental Scale</td>
+              <td>Hero headings at 4-5rem with heavy letter-spacing</td>
+            </tr>
+            <tr>
+              <td>Gold on Dark</td>
+              <td><code>color: #FFD700</code> on <code>background: #002147</code> for maximum authority</td>
+            </tr>
+            <tr>
+              <td>Five-Pointed Stars</td>
+              <td>CSS <code>clip-path: polygon()</code> in gold or red</td>
+            </tr>
+            <tr>
+              <td>Banner Ribbons</td>
+              <td>Pseudo-elements with angled borders forming ribbon tails</td>
+            </tr>
+            <tr>
+              <td>Propaganda Borders</td>
+              <td>Thick (3-4px) gold or red borders on cards and sections</td>
+            </tr>
+            <tr>
+              <td>Hard Shadow Depth</td>
+              <td><code>box-shadow: 4px 4px 0 #1A1A1A</code> for poster-print offset effect</td>
+            </tr>
+            <tr>
+              <td>Diagonal Stripes</td>
+              <td><code>repeating-linear-gradient(-45deg, ...)</code> in red tones</td>
+            </tr>
+            <tr>
+              <td>Dramatic Text Shadows</td>
+              <td>Multi-layer <code>text-shadow</code> for embossed, glowing headline effect</td>
+            </tr>
+            <tr>
+              <td>Halftone Print Grain</td>
+              <td>Tiny <code>radial-gradient</code> dots with <code>mix-blend-mode: multiply</code></td>
+            </tr>
+            <tr>
+              <td>Upward Diagonals</td>
+              <td>Rotated or skewed section dividers to suggest upward motion</td>
+            </tr>
+            <tr>
+              <td>Strong Center Axis</td>
+              <td><code>text-align: center</code> with bilateral symmetry throughout</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider-stripe"></div>
+
+  <!-- ============================================
+       RELATED AESTHETICS
+       ============================================ -->
+  <section class="section section-navy" id="related">
+    <div class="heroic-layout">
+      <div class="section-header reveal">
+        <h2>Related Aesthetics</h2>
+      </div>
+
+      <div class="related-grid">
+        <div class="related-card reveal">
+          <h4>Socialist Realism</h4>
+          <p>Soviet-specific variant; shares all core visual principles and motifs.</p>
+        </div>
+        <div class="related-card reveal reveal-delay-1">
+          <h4>American Kitsch</h4>
+          <p>Uses similar poster techniques but for commercial and domestic subjects.</p>
+        </div>
+        <div class="related-card reveal reveal-delay-2">
+          <h4>Mexican Muralism</h4>
+          <p>Monumental public art with social messaging; Diego Rivera, Orozco.</p>
+        </div>
+        <div class="related-card reveal reveal-delay-3">
+          <h4>Plakatstil</h4>
+          <p>German poster style; bold flat color, minimal detail, powerful simplicity.</p>
+        </div>
+        <div class="related-card reveal">
+          <h4>Realism</h4>
+          <p>Parent movement; Heroic Realism adds idealization and propaganda intent.</p>
+        </div>
+        <div class="related-card reveal reveal-delay-1">
+          <h4>Romanticism</h4>
+          <p>Shares dramatic emotion and heroic subjects, but with more painterly feel.</p>
+        </div>
+        <div class="related-card reveal reveal-delay-2">
+          <h4>Sots Art</h4>
+          <p>Ironic, postmodern deconstruction of Socialist Realist imagery.</p>
+        </div>
+        <div class="related-card reveal reveal-delay-3">
+          <h4>Sovietwave</h4>
+          <p>Nostalgic, vaporwave-influenced remix of Soviet visual culture.</p>
+        </div>
+        <div class="related-card reveal reveal-delay-2">
+          <h4>Politicalwave</h4>
+          <p>Contemporary aesthetic blending political imagery with internet culture.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ============================================
+       INTERACTIVE DEMO: CTA BUTTON
+       ============================================ -->
+  <section class="section section-dark" style="text-align: center;">
+    <div class="heroic-layout">
+      <div class="section-header reveal">
+        <h2>Call to Action</h2>
+      </div>
+      <p class="reveal reveal-delay-1" style="max-width: 600px; margin: 0 auto 2.5rem; text-align: center; font-size: 1.05rem;">
+        The propaganda-style button commands immediate action. Bold borders, soviet red background, and gold lettering leave no room for hesitation.
+      </p>
+      <div class="reveal reveal-delay-2">
+        <a href="#" class="heroic-cta" onclick="return false;">Join the Movement</a>
+      </div>
+      <div style="margin-top: 4rem;" class="reveal reveal-delay-3">
+        <div class="laurel-badge">
+          <span class="star"></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       FOOTER
+       ============================================ -->
+  <footer class="footer">
+    <div class="footer-stars">
+      <span class="star"></span>
+      <span class="star"></span>
+      <span class="star"></span>
+      <span class="star"></span>
+      <span class="star"></span>
+    </div>
+    <div class="footer-slogan">Strength Through Vision</div>
+    <p class="footer-text">Heroic Realism -- A Design Reference</p>
+  </footer>
+
+  <!-- ============================================
+       JAVASCRIPT: Scroll Reveals + Sticky Nav
+       ============================================ -->
+  <script>
+    (function() {
+      // Intersection Observer for scroll-triggered reveals
+      var revealElements = document.querySelectorAll('.reveal');
+      var observerOptions = {
+        root: null,
+        rootMargin: '0px 0px -60px 0px',
+        threshold: 0.1
+      };
+
+      var observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, observerOptions);
+
+      revealElements.forEach(function(el) {
+        observer.observe(el);
+      });
+
+      // Sticky top bar visibility
+      var topBar = document.getElementById('topBar');
+      var hero = document.querySelector('.hero');
+
+      var navObserver = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (!entry.isIntersecting) {
+            topBar.classList.add('visible');
+          } else {
+            topBar.classList.remove('visible');
+          }
+        });
+      }, { threshold: 0.05 });
+
+      navObserver.observe(hero);
+
+      // Smooth scroll for nav links
+      var navLinks = document.querySelectorAll('.top-bar-nav a');
+      navLinks.forEach(function(link) {
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+          var targetId = this.getAttribute('href').substring(1);
+          var target = document.getElementById(targetId);
+          if (target) {
+            var offset = 60;
+            var targetPosition = target.getBoundingClientRect().top + window.pageYOffset - offset;
+            window.scrollTo({ top: targetPosition, behavior: 'smooth' });
+          }
+        });
+      });
+    })();
+  </script>
+</body>
+</html>

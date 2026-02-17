@@ -1,0 +1,2324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HANDS UP -- Design Aesthetic Showcase</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Audiowide&family=Black+Ops+One&family=Bungee&family=Chakra+Petch:wght@400;600;700&family=Exo+2:wght@300;400;600;700&family=Rajdhani:wght@400;500;600&family=Play:wght@400;700&family=Electrolize&family=Share+Tech&display=swap" rel="stylesheet">
+  <style>
+    /* ============================================================
+       CSS CUSTOM PROPERTIES -- THE HANDS UP PALETTE
+       ============================================================ */
+    :root {
+      /* Dark base tones */
+      --hands-up-void: #050508;
+      --hands-up-black: #0a0a10;
+      --hands-up-club-dark: #0d0d14;
+      --hands-up-charcoal: #1a1a1f;
+      --hands-up-dark-gray: #222228;
+
+      /* Neon accent -- blue */
+      --hands-up-blue: #00aaff;
+      --hands-up-blue-bright: #00ccff;
+      --hands-up-blue-deep: #0066ff;
+
+      /* Neon accent -- pink */
+      --hands-up-pink: #ff0080;
+      --hands-up-pink-hot: #ff1493;
+      --hands-up-magenta: #ff00ff;
+
+      /* Neon accent -- green */
+      --hands-up-green: #00ff66;
+      --hands-up-lime: #88ff00;
+
+      /* Neon accent -- orange/amber */
+      --hands-up-orange: #ff6600;
+      --hands-up-amber: #ffaa00;
+
+      /* Metallic / chrome */
+      --hands-up-chrome: #c0c0c8;
+      --hands-up-chrome-light: #d8d8e0;
+      --hands-up-white: #f0f0ff;
+
+      /* Glow / transparency */
+      --hands-up-glow-blue: rgba(0, 170, 255, 0.3);
+      --hands-up-glow-pink: rgba(255, 0, 128, 0.3);
+      --hands-up-glow-green: rgba(0, 255, 102, 0.25);
+      --hands-up-glow-orange: rgba(255, 102, 0, 0.25);
+      --hands-up-glow-magenta: rgba(255, 0, 255, 0.2);
+
+      /* Functional mappings */
+      --hands-up-bg-primary: var(--hands-up-void);
+      --hands-up-bg-secondary: var(--hands-up-black);
+      --hands-up-bg-surface: var(--hands-up-charcoal);
+      --hands-up-text-primary: var(--hands-up-white);
+      --hands-up-text-secondary: var(--hands-up-chrome);
+      --hands-up-accent: var(--hands-up-blue);
+      --hands-up-accent-alt: var(--hands-up-pink);
+    }
+
+    /* ============================================================
+       RESET & BASE
+       ============================================================ */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--hands-up-void);
+      color: var(--hands-up-chrome);
+      font-family: 'Exo 2', 'Rajdhani', sans-serif;
+      font-weight: 300;
+      letter-spacing: 0.02em;
+      line-height: 1.7;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ============================================================
+       CANVAS -- ANIMATED PARTICLE BACKGROUND
+       ============================================================ */
+    #particle-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* ============================================================
+       TYPOGRAPHY FUNDAMENTALS
+       ============================================================ */
+    h1, h2, h3, h4 {
+      font-family: 'Chakra Petch', 'Exo 2', sans-serif;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--hands-up-white);
+      text-shadow: 0 0 12px var(--hands-up-glow-blue);
+    }
+
+    h2 {
+      font-size: clamp(1.6rem, 4vw, 2.4rem);
+      margin-bottom: 1.5rem;
+    }
+
+    h3 {
+      font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+      margin-bottom: 1rem;
+    }
+
+    p {
+      margin-bottom: 1rem;
+    }
+
+    a {
+      color: var(--hands-up-blue-bright);
+      text-decoration: none;
+      transition: color 0.3s, text-shadow 0.3s;
+    }
+
+    a:hover {
+      color: var(--hands-up-white);
+      text-shadow: 0 0 10px var(--hands-up-glow-blue);
+    }
+
+    /* ============================================================
+       LAYOUT CONTAINERS
+       ============================================================ */
+    .content-wrap {
+      position: relative;
+      z-index: 1;
+    }
+
+    .section-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 5rem 2rem;
+    }
+
+    /* ============================================================
+       NEON DIVIDER
+       ============================================================ */
+    .neon-divider {
+      border: none;
+      height: 2px;
+      background: linear-gradient(
+        90deg,
+        transparent 0%,
+        var(--hands-up-blue) 15%,
+        var(--hands-up-pink) 50%,
+        var(--hands-up-blue) 85%,
+        transparent 100%
+      );
+      box-shadow:
+        0 0 8px var(--hands-up-glow-blue),
+        0 0 20px var(--hands-up-glow-pink);
+      margin: 0;
+    }
+
+    .neon-divider--blue {
+      background: linear-gradient(
+        90deg,
+        transparent,
+        var(--hands-up-blue) 20%,
+        var(--hands-up-blue) 80%,
+        transparent
+      );
+      box-shadow: 0 0 12px var(--hands-up-glow-blue);
+    }
+
+    /* ============================================================
+       HERO SECTION
+       ============================================================ */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2rem;
+      overflow: hidden;
+    }
+
+    /* Multi-color radial glow backdrop */
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 45% 55% at 25% 45%, rgba(0, 170, 255, 0.18) 0%, transparent 60%),
+        radial-gradient(ellipse 40% 50% at 75% 40%, rgba(255, 0, 128, 0.14) 0%, transparent 55%),
+        radial-gradient(ellipse 35% 45% at 50% 75%, rgba(0, 255, 102, 0.08) 0%, transparent 50%),
+        radial-gradient(ellipse 50% 30% at 50% 20%, rgba(255, 0, 255, 0.06) 0%, transparent 50%);
+      pointer-events: none;
+      animation: hero-glow-shift 8s ease-in-out infinite;
+    }
+
+    @keyframes hero-glow-shift {
+      0%, 100% { opacity: 0.6; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.08); }
+    }
+
+    /* Animated neon light trail SVGs in hero */
+    .hero-trails {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .hero-trails svg {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+    }
+
+    .hero-trail-path {
+      fill: none;
+      stroke-width: 2.5;
+      stroke-linecap: round;
+      stroke-dasharray: 800;
+      stroke-dashoffset: 800;
+    }
+
+    .hero-trail-path--blue {
+      stroke: var(--hands-up-blue);
+      filter: drop-shadow(0 0 6px var(--hands-up-blue)) drop-shadow(0 0 18px var(--hands-up-glow-blue));
+      animation: trail-draw 3s ease-out 0.5s forwards;
+    }
+
+    .hero-trail-path--pink {
+      stroke: var(--hands-up-pink);
+      filter: drop-shadow(0 0 6px var(--hands-up-pink)) drop-shadow(0 0 18px var(--hands-up-glow-pink));
+      animation: trail-draw 3s ease-out 1s forwards;
+    }
+
+    .hero-trail-path--green {
+      stroke: var(--hands-up-green);
+      filter: drop-shadow(0 0 6px var(--hands-up-green)) drop-shadow(0 0 18px var(--hands-up-glow-green));
+      animation: trail-draw 3.5s ease-out 1.5s forwards;
+    }
+
+    @keyframes trail-draw {
+      to { stroke-dashoffset: 0; }
+    }
+
+    /* Chrome hero title */
+    .hero-title {
+      font-family: 'Orbitron', 'Audiowide', sans-serif;
+      font-size: clamp(3.5rem, 10vw, 8rem);
+      font-weight: 900;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      line-height: 1.0;
+      background: linear-gradient(
+        180deg,
+        #ffffff 0%,
+        #f0f0f4 15%,
+        #808090 35%,
+        #b0b0c0 50%,
+        #606070 65%,
+        #a0a0b0 80%,
+        #ffffff 100%
+      );
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      filter: drop-shadow(0 0 25px var(--hands-up-glow-blue))
+              drop-shadow(0 4px 10px rgba(0, 0, 0, 0.9));
+      position: relative;
+      z-index: 2;
+      animation: hero-title-arrive 1.2s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+
+    @keyframes hero-title-arrive {
+      from {
+        opacity: 0;
+        transform: scale(0.85) translateY(30px);
+        filter: drop-shadow(0 0 0 transparent) drop-shadow(0 0 0 transparent);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+        filter: drop-shadow(0 0 25px var(--hands-up-glow-blue))
+                drop-shadow(0 4px 10px rgba(0, 0, 0, 0.9));
+      }
+    }
+
+    /* Neon subtitle */
+    .hero-subtitle {
+      font-family: 'Chakra Petch', sans-serif;
+      font-size: clamp(1rem, 2.5vw, 1.5rem);
+      font-weight: 600;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--hands-up-blue-bright);
+      text-shadow:
+        0 0 6px var(--hands-up-blue-bright),
+        0 0 15px var(--hands-up-blue),
+        0 0 30px var(--hands-up-glow-blue);
+      margin-top: 1.5rem;
+      position: relative;
+      z-index: 2;
+      animation: hero-subtitle-arrive 1s ease-out 0.6s both;
+    }
+
+    @keyframes hero-subtitle-arrive {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Hero tagline */
+    .hero-tagline {
+      font-family: 'Exo 2', sans-serif;
+      font-weight: 300;
+      font-size: clamp(0.95rem, 1.8vw, 1.2rem);
+      color: var(--hands-up-chrome);
+      text-shadow: 0 0 8px rgba(0, 170, 255, 0.15);
+      margin-top: 1.2rem;
+      max-width: 650px;
+      position: relative;
+      z-index: 2;
+      animation: hero-subtitle-arrive 1s ease-out 0.9s both;
+    }
+
+    /* Equalizer in hero */
+    .hero-equalizer {
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      gap: 5px;
+      height: 60px;
+      margin-top: 2.5rem;
+      position: relative;
+      z-index: 2;
+      animation: hero-subtitle-arrive 0.8s ease-out 1.2s both;
+    }
+
+    .eq-bar {
+      width: 6px;
+      border-radius: 3px 3px 0 0;
+      animation: eq-bounce 0.6s ease-in-out infinite alternate;
+    }
+
+    .eq-bar--blue {
+      background: linear-gradient(0deg, var(--hands-up-blue-deep), var(--hands-up-blue-bright));
+      box-shadow: 0 0 8px var(--hands-up-glow-blue);
+    }
+    .eq-bar--pink {
+      background: linear-gradient(0deg, #cc0066, var(--hands-up-pink));
+      box-shadow: 0 0 8px var(--hands-up-glow-pink);
+    }
+    .eq-bar--green {
+      background: linear-gradient(0deg, #009944, var(--hands-up-green));
+      box-shadow: 0 0 8px var(--hands-up-glow-green);
+    }
+    .eq-bar--orange {
+      background: linear-gradient(0deg, #cc4400, var(--hands-up-orange));
+      box-shadow: 0 0 8px var(--hands-up-glow-orange);
+    }
+
+    @keyframes eq-bounce {
+      0% { height: 12%; }
+      100% { height: 100%; }
+    }
+
+    .eq-bar:nth-child(1)  { animation-delay: 0s; animation-duration: 0.50s; }
+    .eq-bar:nth-child(2)  { animation-delay: 0.08s; animation-duration: 0.65s; }
+    .eq-bar:nth-child(3)  { animation-delay: 0.03s; animation-duration: 0.55s; }
+    .eq-bar:nth-child(4)  { animation-delay: 0.12s; animation-duration: 0.70s; }
+    .eq-bar:nth-child(5)  { animation-delay: 0.05s; animation-duration: 0.45s; }
+    .eq-bar:nth-child(6)  { animation-delay: 0.15s; animation-duration: 0.60s; }
+    .eq-bar:nth-child(7)  { animation-delay: 0.02s; animation-duration: 0.75s; }
+    .eq-bar:nth-child(8)  { animation-delay: 0.10s; animation-duration: 0.50s; }
+    .eq-bar:nth-child(9)  { animation-delay: 0.07s; animation-duration: 0.55s; }
+    .eq-bar:nth-child(10) { animation-delay: 0.13s; animation-duration: 0.65s; }
+    .eq-bar:nth-child(11) { animation-delay: 0.01s; animation-duration: 0.48s; }
+    .eq-bar:nth-child(12) { animation-delay: 0.11s; animation-duration: 0.58s; }
+    .eq-bar:nth-child(13) { animation-delay: 0.04s; animation-duration: 0.72s; }
+    .eq-bar:nth-child(14) { animation-delay: 0.09s; animation-duration: 0.52s; }
+    .eq-bar:nth-child(15) { animation-delay: 0.14s; animation-duration: 0.62s; }
+    .eq-bar:nth-child(16) { animation-delay: 0.06s; animation-duration: 0.53s; }
+
+    /* Scroll indicator */
+    .scroll-indicator {
+      position: absolute;
+      bottom: 2.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+      animation: scroll-bounce 2s ease-in-out infinite, hero-subtitle-arrive 1s ease-out 1.5s both;
+    }
+
+    .scroll-indicator span {
+      display: block;
+      width: 2px;
+      height: 30px;
+      background: linear-gradient(to bottom, var(--hands-up-blue), transparent);
+      margin: 0 auto;
+      box-shadow: 0 0 6px var(--hands-up-glow-blue);
+    }
+
+    .scroll-indicator::after {
+      content: '';
+      display: block;
+      width: 12px;
+      height: 12px;
+      border-right: 2px solid var(--hands-up-blue);
+      border-bottom: 2px solid var(--hands-up-blue);
+      transform: rotate(45deg);
+      margin: -2px auto 0;
+      filter: drop-shadow(0 0 4px var(--hands-up-blue));
+    }
+
+    @keyframes scroll-bounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(10px); }
+    }
+
+    /* ============================================================
+       DANCER SILHOUETTES (CSS-only SVG-like figures)
+       ============================================================ */
+    .hero-dancers {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 45%;
+      pointer-events: none;
+      z-index: 1;
+      overflow: hidden;
+    }
+
+    .dancer-figure {
+      position: absolute;
+      bottom: 0;
+      opacity: 0.15;
+    }
+
+    .dancer-figure svg {
+      fill: var(--hands-up-void);
+      filter: drop-shadow(0 0 30px var(--hands-up-glow-blue));
+    }
+
+    /* ============================================================
+       SECTION: OVERVIEW / INTRO
+       ============================================================ */
+    .section-overview {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .section-overview .section-inner {
+      text-align: center;
+    }
+
+    .overview-lead {
+      font-family: 'Exo 2', sans-serif;
+      font-size: clamp(1.05rem, 2vw, 1.3rem);
+      font-weight: 400;
+      line-height: 1.8;
+      color: var(--hands-up-chrome-light);
+      max-width: 800px;
+      margin: 0 auto 2rem;
+    }
+
+    .neon-text-blue {
+      color: var(--hands-up-blue-bright);
+      text-shadow: 0 0 8px var(--hands-up-glow-blue);
+    }
+
+    .neon-text-pink {
+      color: var(--hands-up-pink);
+      text-shadow: 0 0 8px var(--hands-up-glow-pink);
+    }
+
+    .neon-text-green {
+      color: var(--hands-up-green);
+      text-shadow: 0 0 8px var(--hands-up-glow-green);
+    }
+
+    .neon-text-orange {
+      color: var(--hands-up-orange);
+      text-shadow: 0 0 8px var(--hands-up-glow-orange);
+    }
+
+    /* ============================================================
+       NEON CARDS
+       ============================================================ */
+    .neon-card {
+      background: rgba(10, 10, 16, 0.92);
+      border: 1px solid rgba(0, 170, 255, 0.15);
+      border-radius: 8px;
+      padding: 2.5rem;
+      position: relative;
+      overflow: hidden;
+      box-shadow:
+        0 0 15px rgba(0, 170, 255, 0.06),
+        0 8px 32px rgba(0, 0, 0, 0.7);
+      transition: border-color 0.4s ease, box-shadow 0.4s ease, transform 0.4s ease;
+    }
+
+    .neon-card:hover {
+      border-color: rgba(0, 170, 255, 0.45);
+      box-shadow:
+        0 0 25px rgba(0, 170, 255, 0.12),
+        0 0 50px rgba(0, 170, 255, 0.05),
+        0 8px 32px rgba(0, 0, 0, 0.7);
+      transform: translateY(-3px);
+    }
+
+    /* Top neon accent line */
+    .neon-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(
+        90deg,
+        var(--hands-up-blue),
+        var(--hands-up-pink),
+        var(--hands-up-blue)
+      );
+      box-shadow: 0 0 10px var(--hands-up-glow-blue);
+    }
+
+    /* Card variants */
+    .neon-card--pink::before {
+      background: linear-gradient(90deg, var(--hands-up-pink), var(--hands-up-magenta), var(--hands-up-pink));
+      box-shadow: 0 0 10px var(--hands-up-glow-pink);
+    }
+    .neon-card--pink {
+      border-color: rgba(255, 0, 128, 0.15);
+    }
+    .neon-card--pink:hover {
+      border-color: rgba(255, 0, 128, 0.45);
+      box-shadow:
+        0 0 25px rgba(255, 0, 128, 0.12),
+        0 0 50px rgba(255, 0, 128, 0.05),
+        0 8px 32px rgba(0, 0, 0, 0.7);
+      transform: translateY(-3px);
+    }
+
+    .neon-card--green::before {
+      background: linear-gradient(90deg, var(--hands-up-green), var(--hands-up-lime), var(--hands-up-green));
+      box-shadow: 0 0 10px var(--hands-up-glow-green);
+    }
+    .neon-card--green {
+      border-color: rgba(0, 255, 102, 0.12);
+    }
+    .neon-card--green:hover {
+      border-color: rgba(0, 255, 102, 0.4);
+      box-shadow:
+        0 0 25px rgba(0, 255, 102, 0.12),
+        0 0 50px rgba(0, 255, 102, 0.05),
+        0 8px 32px rgba(0, 0, 0, 0.7);
+      transform: translateY(-3px);
+    }
+
+    .neon-card--orange::before {
+      background: linear-gradient(90deg, var(--hands-up-orange), var(--hands-up-amber), var(--hands-up-orange));
+      box-shadow: 0 0 10px var(--hands-up-glow-orange);
+    }
+    .neon-card--orange {
+      border-color: rgba(255, 102, 0, 0.12);
+    }
+    .neon-card--orange:hover {
+      border-color: rgba(255, 102, 0, 0.4);
+      box-shadow:
+        0 0 25px rgba(255, 102, 0, 0.12),
+        0 0 50px rgba(255, 102, 0, 0.05),
+        0 8px 32px rgba(0, 0, 0, 0.7);
+      transform: translateY(-3px);
+    }
+
+    .neon-card h3 {
+      text-shadow: 0 0 12px var(--hands-up-glow-blue);
+    }
+    .neon-card--pink h3 { text-shadow: 0 0 12px var(--hands-up-glow-pink); }
+    .neon-card--green h3 { text-shadow: 0 0 12px var(--hands-up-glow-green); }
+    .neon-card--orange h3 { text-shadow: 0 0 12px var(--hands-up-glow-orange); }
+
+    /* ============================================================
+       SECTION: VISUAL CHARACTERISTICS
+       ============================================================ */
+    .section-visuals .section-inner {
+      text-align: center;
+    }
+
+    .motif-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+
+    .motif-item {
+      text-align: left;
+      padding-left: 1.2rem;
+      border-left: 2px solid var(--hands-up-blue);
+      box-shadow: -4px 0 12px -4px var(--hands-up-glow-blue);
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+
+    .motif-item:nth-child(even) {
+      border-left-color: var(--hands-up-pink);
+      box-shadow: -4px 0 12px -4px var(--hands-up-glow-pink);
+    }
+
+    .motif-item h4 {
+      font-family: 'Electrolize', 'Rajdhani', monospace;
+      font-size: 0.8rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+
+    .motif-item:nth-child(odd) h4 {
+      color: var(--hands-up-blue-bright);
+      text-shadow: 0 0 6px var(--hands-up-glow-blue);
+    }
+
+    .motif-item:nth-child(even) h4 {
+      color: var(--hands-up-pink);
+      text-shadow: 0 0 6px var(--hands-up-glow-pink);
+    }
+
+    .motif-item p {
+      font-size: 0.95rem;
+      color: var(--hands-up-chrome);
+      margin-bottom: 0;
+    }
+
+    /* ============================================================
+       SECTION: COLOR PALETTE
+       ============================================================ */
+    .section-palette .section-inner {
+      text-align: center;
+    }
+
+    .palette-groups {
+      display: flex;
+      flex-direction: column;
+      gap: 3rem;
+      margin-top: 3rem;
+    }
+
+    .palette-group-label {
+      font-family: 'Electrolize', monospace;
+      font-size: 0.75rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--hands-up-chrome);
+      text-shadow: 0 0 4px rgba(192, 192, 200, 0.2);
+      margin-bottom: 1rem;
+    }
+
+    .palette-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: center;
+    }
+
+    .swatch {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.6rem;
+      transition: transform 0.3s ease;
+    }
+
+    .swatch:hover {
+      transform: scale(1.1);
+    }
+
+    .swatch-color {
+      width: 64px;
+      height: 64px;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      position: relative;
+    }
+
+    .swatch-color--glow {
+      box-shadow: 0 0 20px var(--swatch-glow, rgba(0,170,255,0.3));
+    }
+
+    .swatch-name {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--hands-up-chrome);
+    }
+
+    .swatch-hex {
+      font-family: 'Electrolize', monospace;
+      font-size: 0.65rem;
+      color: rgba(192, 192, 200, 0.6);
+    }
+
+    /* ============================================================
+       SECTION: TYPOGRAPHY SHOWCASE
+       ============================================================ */
+    .section-typography .section-inner {
+      text-align: center;
+    }
+
+    .type-showcase {
+      display: flex;
+      flex-direction: column;
+      gap: 3.5rem;
+      margin-top: 3rem;
+    }
+
+    .type-specimen {
+      text-align: center;
+      position: relative;
+    }
+
+    .type-specimen-label {
+      font-family: 'Electrolize', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--hands-up-blue);
+      text-shadow: 0 0 6px var(--hands-up-glow-blue);
+      margin-bottom: 1rem;
+      display: block;
+    }
+
+    .type-specimen-sample--hero {
+      font-family: 'Orbitron', sans-serif;
+      font-size: clamp(2.5rem, 7vw, 5rem);
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      line-height: 1.0;
+      background: linear-gradient(
+        180deg,
+        #ffffff 0%,
+        #f0f0f4 15%,
+        #808090 35%,
+        #b0b0c0 50%,
+        #606070 65%,
+        #a0a0b0 80%,
+        #ffffff 100%
+      );
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      filter: drop-shadow(0 0 20px var(--hands-up-glow-blue))
+              drop-shadow(0 4px 8px rgba(0, 0, 0, 0.8));
+    }
+
+    .type-specimen-sample--neon-outline {
+      font-family: 'Orbitron', 'Audiowide', sans-serif;
+      font-size: clamp(2rem, 5vw, 4rem);
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: transparent;
+      -webkit-text-stroke: 2px var(--hands-up-pink);
+      text-shadow:
+        0 0 10px var(--hands-up-glow-pink),
+        0 0 30px var(--hands-up-glow-pink),
+        0 0 60px rgba(255, 0, 128, 0.15);
+      animation: neon-pulse-pink 2.5s ease-in-out infinite;
+    }
+
+    @keyframes neon-pulse-pink {
+      0%, 100% {
+        text-shadow:
+          0 0 10px var(--hands-up-glow-pink),
+          0 0 30px var(--hands-up-glow-pink),
+          0 0 60px rgba(255, 0, 128, 0.15);
+      }
+      50% {
+        text-shadow:
+          0 0 15px var(--hands-up-pink),
+          0 0 40px var(--hands-up-glow-pink),
+          0 0 80px rgba(255, 0, 128, 0.25),
+          0 0 120px rgba(255, 0, 128, 0.08);
+      }
+    }
+
+    .type-specimen-sample--audiowide {
+      font-family: 'Audiowide', sans-serif;
+      font-size: clamp(1.8rem, 4.5vw, 3.5rem);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--hands-up-green);
+      text-shadow:
+        0 0 6px var(--hands-up-green),
+        0 0 15px var(--hands-up-glow-green),
+        0 0 40px rgba(0, 255, 102, 0.12);
+    }
+
+    .type-specimen-sample--blackops {
+      font-family: 'Black Ops One', sans-serif;
+      font-size: clamp(1.8rem, 4.5vw, 3.5rem);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--hands-up-orange);
+      text-shadow:
+        0 0 6px var(--hands-up-orange),
+        0 0 15px var(--hands-up-glow-orange),
+        0 0 40px rgba(255, 102, 0, 0.12);
+    }
+
+    .type-specimen-sample--bungee {
+      font-family: 'Bungee', sans-serif;
+      font-size: clamp(1.5rem, 4vw, 3rem);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--hands-up-amber);
+      text-shadow:
+        0 0 6px var(--hands-up-amber),
+        0 0 15px var(--hands-up-glow-orange),
+        0 0 40px rgba(255, 170, 0, 0.12);
+    }
+
+    .type-specimen-sample--body {
+      font-family: 'Exo 2', sans-serif;
+      font-weight: 300;
+      font-size: 1.1rem;
+      line-height: 1.8;
+      color: var(--hands-up-chrome-light);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .type-specimen-sample--label {
+      font-family: 'Electrolize', 'Rajdhani', monospace;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--hands-up-blue);
+      text-shadow: 0 0 6px var(--hands-up-glow-blue);
+    }
+
+    /* Font showcase table */
+    .font-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 2rem;
+    }
+
+    .font-table th,
+    .font-table td {
+      padding: 0.8rem 1rem;
+      text-align: left;
+      border-bottom: 1px solid rgba(0, 170, 255, 0.08);
+    }
+
+    .font-table th {
+      font-family: 'Electrolize', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--hands-up-blue);
+      text-shadow: 0 0 4px var(--hands-up-glow-blue);
+    }
+
+    .font-table td {
+      font-size: 0.9rem;
+    }
+
+    .font-table td:first-child {
+      font-weight: 600;
+      color: var(--hands-up-white);
+    }
+
+    .font-table tr:hover td {
+      background: rgba(0, 170, 255, 0.03);
+    }
+
+    /* ============================================================
+       SECTION: DESIGN PRINCIPLES
+       ============================================================ */
+    .principles-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+
+    .principle-card {
+      text-align: left;
+    }
+
+    .principle-card .principle-number {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 2.5rem;
+      font-weight: 900;
+      line-height: 1;
+      margin-bottom: 0.8rem;
+    }
+
+    .principle-card:nth-child(1) .principle-number {
+      color: var(--hands-up-blue);
+      text-shadow: 0 0 15px var(--hands-up-glow-blue);
+    }
+    .principle-card:nth-child(2) .principle-number {
+      color: var(--hands-up-pink);
+      text-shadow: 0 0 15px var(--hands-up-glow-pink);
+    }
+    .principle-card:nth-child(3) .principle-number {
+      color: var(--hands-up-green);
+      text-shadow: 0 0 15px var(--hands-up-glow-green);
+    }
+    .principle-card:nth-child(4) .principle-number {
+      color: var(--hands-up-orange);
+      text-shadow: 0 0 15px var(--hands-up-glow-orange);
+    }
+    .principle-card:nth-child(5) .principle-number {
+      color: var(--hands-up-magenta);
+      text-shadow: 0 0 15px var(--hands-up-glow-magenta);
+    }
+    .principle-card:nth-child(6) .principle-number {
+      color: var(--hands-up-amber);
+      text-shadow: 0 0 15px var(--hands-up-glow-orange);
+    }
+    .principle-card:nth-child(7) .principle-number {
+      color: var(--hands-up-lime);
+      text-shadow: 0 0 15px var(--hands-up-glow-green);
+    }
+
+    /* ============================================================
+       SECTION: CSS TECHNIQUES DEMOS
+       ============================================================ */
+    .section-techniques .section-inner {
+      text-align: center;
+    }
+
+    .demo-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2.5rem;
+      margin-top: 3rem;
+    }
+
+    .demo-box {
+      background: rgba(10, 10, 16, 0.85);
+      border: 1px solid rgba(0, 170, 255, 0.1);
+      border-radius: 8px;
+      padding: 2rem;
+      min-height: 220px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .demo-box-label {
+      font-family: 'Electrolize', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--hands-up-blue);
+      text-shadow: 0 0 4px var(--hands-up-glow-blue);
+      position: absolute;
+      top: 1rem;
+      left: 1rem;
+    }
+
+    /* Demo: Neon glow box */
+    .demo-neon-box {
+      width: 100px;
+      height: 100px;
+      border: 2px solid var(--hands-up-blue);
+      border-radius: 6px;
+      box-shadow:
+        0 0 6px var(--hands-up-blue),
+        0 0 15px var(--hands-up-glow-blue),
+        0 0 30px rgba(0, 170, 255, 0.12),
+        inset 0 0 10px rgba(0, 170, 255, 0.08);
+      animation: neon-box-pulse 3s ease-in-out infinite;
+    }
+
+    @keyframes neon-box-pulse {
+      0%, 100% {
+        box-shadow:
+          0 0 6px var(--hands-up-blue),
+          0 0 15px var(--hands-up-glow-blue),
+          0 0 30px rgba(0, 170, 255, 0.12),
+          inset 0 0 10px rgba(0, 170, 255, 0.08);
+      }
+      50% {
+        box-shadow:
+          0 0 10px var(--hands-up-blue),
+          0 0 25px var(--hands-up-glow-blue),
+          0 0 50px rgba(0, 170, 255, 0.2),
+          inset 0 0 20px rgba(0, 170, 255, 0.12);
+      }
+    }
+
+    /* Demo: Underglow */
+    .demo-underglow-block {
+      width: 160px;
+      height: 60px;
+      background: var(--hands-up-charcoal);
+      border-radius: 4px;
+      position: relative;
+    }
+
+    .demo-underglow-block::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 10%;
+      right: 10%;
+      height: 20px;
+      border-radius: 50%;
+      animation: underglow-cycle 4s ease-in-out infinite;
+      filter: blur(12px);
+      opacity: 0.7;
+    }
+
+    @keyframes underglow-cycle {
+      0%, 100% { background: var(--hands-up-blue); }
+      33% { background: var(--hands-up-pink); }
+      66% { background: var(--hands-up-green); }
+    }
+
+    /* Demo: Shatter/glass shards */
+    .demo-shatter-container {
+      position: relative;
+      width: 120px;
+      height: 120px;
+    }
+
+    .shard {
+      position: absolute;
+      width: 20px;
+      height: 28px;
+      background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.25) 0%,
+        rgba(255, 255, 255, 0.04) 50%,
+        rgba(0, 170, 255, 0.15) 100%
+      );
+      clip-path: polygon(10% 0%, 100% 20%, 80% 100%, 0% 70%);
+      animation: shard-float 3s ease-in-out infinite alternate;
+    }
+
+    .shard:nth-child(1) { top: 10%; left: 20%; animation-delay: 0s; --float-x: 8px; --float-y: -12px; }
+    .shard:nth-child(2) { top: 5%; left: 60%; animation-delay: 0.3s; --float-x: -6px; --float-y: -8px; }
+    .shard:nth-child(3) { top: 40%; left: 10%; animation-delay: 0.6s; --float-x: 10px; --float-y: 6px; }
+    .shard:nth-child(4) { top: 50%; left: 55%; animation-delay: 0.2s; --float-x: -12px; --float-y: -5px; }
+    .shard:nth-child(5) { top: 70%; left: 35%; animation-delay: 0.5s; --float-x: 5px; --float-y: 10px; }
+
+    @keyframes shard-float {
+      0% { transform: translate(0, 0) rotate(0deg); opacity: 0.6; }
+      100% { transform: translate(var(--float-x, 10px), var(--float-y, -10px)) rotate(15deg); opacity: 0.9; }
+    }
+
+    /* Demo: Particle cloud */
+    .demo-particles-container {
+      position: relative;
+      width: 160px;
+      height: 120px;
+    }
+
+    .particle {
+      position: absolute;
+      border-radius: 50%;
+      animation: particle-drift-demo 2.5s ease-in-out infinite;
+    }
+
+    @keyframes particle-drift-demo {
+      0% { transform: translateY(0) scale(1); opacity: 0.7; }
+      50% { transform: translateY(-18px) scale(1.3); opacity: 1; }
+      100% { transform: translateY(-35px) scale(0.6); opacity: 0; }
+    }
+
+    .particle:nth-child(1) { width: 4px; height: 4px; left: 20%; bottom: 20%; background: var(--hands-up-blue-bright); box-shadow: 0 0 8px var(--hands-up-blue); animation-delay: 0s; }
+    .particle:nth-child(2) { width: 3px; height: 3px; left: 40%; bottom: 10%; background: var(--hands-up-pink); box-shadow: 0 0 8px var(--hands-up-pink); animation-delay: 0.4s; }
+    .particle:nth-child(3) { width: 5px; height: 5px; left: 60%; bottom: 25%; background: var(--hands-up-green); box-shadow: 0 0 8px var(--hands-up-green); animation-delay: 0.8s; }
+    .particle:nth-child(4) { width: 3px; height: 3px; left: 75%; bottom: 15%; background: var(--hands-up-amber); box-shadow: 0 0 8px var(--hands-up-amber); animation-delay: 1.2s; }
+    .particle:nth-child(5) { width: 4px; height: 4px; left: 35%; bottom: 30%; background: var(--hands-up-magenta); box-shadow: 0 0 8px var(--hands-up-magenta); animation-delay: 0.6s; }
+    .particle:nth-child(6) { width: 2px; height: 2px; left: 50%; bottom: 5%; background: var(--hands-up-blue-bright); box-shadow: 0 0 6px var(--hands-up-blue); animation-delay: 1.5s; }
+    .particle:nth-child(7) { width: 3px; height: 3px; left: 85%; bottom: 20%; background: var(--hands-up-pink); box-shadow: 0 0 8px var(--hands-up-pink); animation-delay: 0.2s; }
+    .particle:nth-child(8) { width: 4px; height: 4px; left: 10%; bottom: 35%; background: var(--hands-up-green); box-shadow: 0 0 8px var(--hands-up-green); animation-delay: 1.0s; }
+
+    /* Demo: Light flare */
+    .demo-flare {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background:
+        radial-gradient(circle, rgba(255,255,255,0.9) 0%, rgba(0,170,255,0.6) 15%, rgba(0,170,255,0.15) 40%, transparent 70%);
+      animation: flare-pulse 3s ease-in-out infinite;
+      position: relative;
+    }
+
+    .demo-flare::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: -30%;
+      right: -30%;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--hands-up-blue-bright), transparent);
+      filter: blur(1px);
+      box-shadow: 0 0 10px var(--hands-up-glow-blue);
+    }
+
+    .demo-flare::after {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: -30%;
+      bottom: -30%;
+      width: 2px;
+      background: linear-gradient(180deg, transparent, var(--hands-up-blue-bright), transparent);
+      filter: blur(1px);
+      box-shadow: 0 0 10px var(--hands-up-glow-blue);
+    }
+
+    @keyframes flare-pulse {
+      0%, 100% { transform: scale(0.9); opacity: 0.7; }
+      50% { transform: scale(1.1); opacity: 1; }
+    }
+
+    /* Demo: Glowing rings */
+    .demo-rings-container {
+      position: relative;
+      width: 140px;
+      height: 140px;
+    }
+
+    .glow-ring {
+      position: absolute;
+      border-radius: 50%;
+      border: 2px solid;
+      animation: ring-spin 6s linear infinite;
+    }
+
+    .glow-ring:nth-child(1) {
+      inset: 0;
+      border-color: rgba(0, 170, 255, 0.4);
+      box-shadow: 0 0 10px var(--hands-up-glow-blue), inset 0 0 10px var(--hands-up-glow-blue);
+      animation-duration: 8s;
+    }
+
+    .glow-ring:nth-child(2) {
+      inset: 15%;
+      border-color: rgba(255, 0, 128, 0.35);
+      box-shadow: 0 0 10px var(--hands-up-glow-pink), inset 0 0 10px var(--hands-up-glow-pink);
+      animation-duration: 6s;
+      animation-direction: reverse;
+    }
+
+    .glow-ring:nth-child(3) {
+      inset: 30%;
+      border-color: rgba(0, 255, 102, 0.3);
+      box-shadow: 0 0 10px var(--hands-up-glow-green), inset 0 0 10px var(--hands-up-glow-green);
+      animation-duration: 5s;
+    }
+
+    @keyframes ring-spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    /* ============================================================
+       SECTION: CULTURAL CONTEXT
+       ============================================================ */
+    .section-culture .section-inner {
+      text-align: center;
+    }
+
+    .culture-list {
+      list-style: none;
+      max-width: 700px;
+      margin: 2rem auto 0;
+      text-align: left;
+    }
+
+    .culture-list li {
+      padding: 1rem 0 1rem 2rem;
+      border-bottom: 1px solid rgba(0, 170, 255, 0.06);
+      position: relative;
+      transition: background 0.3s;
+    }
+
+    .culture-list li:hover {
+      background: rgba(0, 170, 255, 0.03);
+    }
+
+    .culture-list li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--hands-up-blue);
+      box-shadow: 0 0 8px var(--hands-up-glow-blue);
+    }
+
+    .culture-list li:nth-child(even)::before {
+      background: var(--hands-up-pink);
+      box-shadow: 0 0 8px var(--hands-up-glow-pink);
+    }
+
+    .culture-list li strong {
+      color: var(--hands-up-white);
+    }
+
+    /* ============================================================
+       SECTION: RELATED AESTHETICS
+       ============================================================ */
+    .related-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+
+    .related-tag {
+      background: rgba(10, 10, 16, 0.8);
+      border: 1px solid rgba(0, 170, 255, 0.1);
+      border-radius: 6px;
+      padding: 1.2rem 1.5rem;
+      text-align: left;
+      transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s;
+    }
+
+    .related-tag:hover {
+      border-color: rgba(0, 170, 255, 0.35);
+      box-shadow: 0 0 15px rgba(0, 170, 255, 0.08);
+      transform: translateY(-2px);
+    }
+
+    .related-tag h4 {
+      font-family: 'Chakra Petch', sans-serif;
+      font-size: 0.95rem;
+      letter-spacing: 0.08em;
+      color: var(--hands-up-blue-bright);
+      text-shadow: 0 0 6px var(--hands-up-glow-blue);
+      margin-bottom: 0.4rem;
+    }
+
+    .related-tag p {
+      font-size: 0.85rem;
+      color: rgba(192, 192, 200, 0.7);
+      margin-bottom: 0;
+      line-height: 1.5;
+    }
+
+    /* ============================================================
+       SECTION: NEON BUTTON SHOWCASE
+       ============================================================ */
+    .button-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      justify-content: center;
+      margin-top: 2rem;
+    }
+
+    .neon-button {
+      display: inline-block;
+      padding: 0.85rem 2.5rem;
+      border-radius: 6px;
+      border: 2px solid var(--hands-up-blue);
+      background: transparent;
+      color: var(--hands-up-blue-bright);
+      font-family: 'Orbitron', 'Chakra Petch', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      text-decoration: none;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 0 10px var(--hands-up-glow-blue), inset 0 0 10px rgba(0, 170, 255, 0.04);
+      transition: all 0.35s ease;
+    }
+
+    .neon-button:hover {
+      background: rgba(0, 170, 255, 0.15);
+      border-color: var(--hands-up-blue-bright);
+      color: var(--hands-up-white);
+      box-shadow:
+        0 0 20px var(--hands-up-glow-blue),
+        0 0 40px rgba(0, 170, 255, 0.15),
+        inset 0 0 20px rgba(0, 170, 255, 0.08);
+      text-shadow: 0 0 8px var(--hands-up-glow-blue);
+    }
+
+    .neon-button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(0, 170, 255, 0.2), transparent);
+      transition: left 0.5s ease;
+    }
+
+    .neon-button:hover::before {
+      left: 100%;
+    }
+
+    .neon-button--pink {
+      border-color: var(--hands-up-pink);
+      color: var(--hands-up-pink);
+      box-shadow: 0 0 10px var(--hands-up-glow-pink), inset 0 0 10px rgba(255, 0, 128, 0.04);
+    }
+
+    .neon-button--pink:hover {
+      background: rgba(255, 0, 128, 0.15);
+      border-color: var(--hands-up-pink-hot);
+      color: var(--hands-up-white);
+      box-shadow:
+        0 0 20px var(--hands-up-glow-pink),
+        0 0 40px rgba(255, 0, 128, 0.15),
+        inset 0 0 20px rgba(255, 0, 128, 0.08);
+      text-shadow: 0 0 8px var(--hands-up-glow-pink);
+    }
+
+    .neon-button--pink::before {
+      background: linear-gradient(90deg, transparent, rgba(255, 0, 128, 0.2), transparent);
+    }
+
+    .neon-button--green {
+      border-color: var(--hands-up-green);
+      color: var(--hands-up-green);
+      box-shadow: 0 0 10px var(--hands-up-glow-green), inset 0 0 10px rgba(0, 255, 102, 0.04);
+    }
+
+    .neon-button--green:hover {
+      background: rgba(0, 255, 102, 0.12);
+      border-color: var(--hands-up-green);
+      color: var(--hands-up-white);
+      box-shadow:
+        0 0 20px var(--hands-up-glow-green),
+        0 0 40px rgba(0, 255, 102, 0.15),
+        inset 0 0 20px rgba(0, 255, 102, 0.08);
+      text-shadow: 0 0 8px var(--hands-up-glow-green);
+    }
+
+    .neon-button--green::before {
+      background: linear-gradient(90deg, transparent, rgba(0, 255, 102, 0.2), transparent);
+    }
+
+    /* ============================================================
+       FOOTER
+       ============================================================ */
+    .footer {
+      text-align: center;
+      padding: 4rem 2rem 3rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .footer-logo {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: transparent;
+      -webkit-text-stroke: 1px var(--hands-up-blue);
+      text-shadow: 0 0 10px var(--hands-up-glow-blue);
+      margin-bottom: 1rem;
+    }
+
+    .footer p {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      color: rgba(192, 192, 200, 0.4);
+    }
+
+    /* ============================================================
+       SCROLL REVEAL ANIMATIONS
+       ============================================================ */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+                  transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+
+    /* ============================================================
+       RESPONSIVE
+       ============================================================ */
+    @media (max-width: 768px) {
+      .section-inner {
+        padding: 3.5rem 1.5rem;
+      }
+
+      .motif-grid,
+      .principles-grid,
+      .demo-grid,
+      .related-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .palette-row {
+        gap: 0.6rem;
+      }
+
+      .swatch-color {
+        width: 48px;
+        height: 48px;
+      }
+
+      .hero-equalizer {
+        gap: 3px;
+      }
+
+      .eq-bar {
+        width: 4px;
+      }
+
+      .button-row {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .font-table {
+        font-size: 0.8rem;
+      }
+
+      .font-table th,
+      .font-table td {
+        padding: 0.6rem 0.5rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero-title {
+        font-size: clamp(2.5rem, 14vw, 4rem);
+      }
+
+      .swatch-color {
+        width: 40px;
+        height: 40px;
+      }
+
+      .swatch-name {
+        font-size: 0.6rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Particle canvas background -->
+  <canvas id="particle-canvas"></canvas>
+
+  <div class="content-wrap">
+
+    <!-- ============================
+         HERO SECTION
+         ============================ -->
+    <section class="hero">
+      <!-- Animated neon light trails -->
+      <div class="hero-trails">
+        <svg viewBox="0 0 1200 800" preserveAspectRatio="none">
+          <path class="hero-trail-path hero-trail-path--blue"
+                d="M-50,600 C100,550 200,300 350,350 S550,150 700,250 S900,400 1050,200 S1250,100 1300,150" />
+          <path class="hero-trail-path hero-trail-path--pink"
+                d="M-50,400 C50,350 180,500 320,420 S500,250 650,350 S850,500 1000,350 S1200,250 1300,300" />
+          <path class="hero-trail-path hero-trail-path--green"
+                d="M-50,700 C150,650 250,450 400,550 S600,350 750,450 S950,600 1100,400 S1250,350 1300,450" />
+        </svg>
+      </div>
+
+      <h1 class="hero-title">Hands Up</h1>
+      <div class="hero-subtitle">Neon / Chrome / Kinetic / Maximal</div>
+      <p class="hero-tagline">
+        The visual language of late-2000s Eurodance culture. Neon light trails on void-black canvases,
+        silhouetted dancers frozen mid-explosion, chrome typography catching every photon.
+      </p>
+
+      <!-- Equalizer decoration -->
+      <div class="hero-equalizer">
+        <div class="eq-bar eq-bar--blue"></div>
+        <div class="eq-bar eq-bar--pink"></div>
+        <div class="eq-bar eq-bar--green"></div>
+        <div class="eq-bar eq-bar--blue"></div>
+        <div class="eq-bar eq-bar--orange"></div>
+        <div class="eq-bar eq-bar--pink"></div>
+        <div class="eq-bar eq-bar--blue"></div>
+        <div class="eq-bar eq-bar--green"></div>
+        <div class="eq-bar eq-bar--pink"></div>
+        <div class="eq-bar eq-bar--blue"></div>
+        <div class="eq-bar eq-bar--orange"></div>
+        <div class="eq-bar eq-bar--green"></div>
+        <div class="eq-bar eq-bar--pink"></div>
+        <div class="eq-bar eq-bar--blue"></div>
+        <div class="eq-bar eq-bar--green"></div>
+        <div class="eq-bar eq-bar--blue"></div>
+      </div>
+
+      <div class="scroll-indicator">
+        <span></span>
+      </div>
+    </section>
+
+    <hr class="neon-divider">
+
+    <!-- ============================
+         OVERVIEW
+         ============================ -->
+    <section class="section-overview">
+      <div class="section-inner">
+        <h2 class="reveal">Design Aesthetic Overview</h2>
+        <p class="overview-lead reveal reveal-delay-1">
+          Hands Up is a visual aesthetic rooted in the <span class="neon-text-blue">late-2000s Eurodance and Hands Up music scenes</span>,
+          serving as the high-energy, non-anime counterpart to TechnoNeko2000 for the same musical era. It is defined by
+          <span class="neon-text-pink">neon light trails on dark backgrounds</span>,
+          <span class="neon-text-green">silhouetted dancers in dynamic poses</span>,
+          <span class="neon-text-orange">import tuner car culture</span>, and
+          <span class="neon-text-blue">blocky chrome typography</span>.
+        </p>
+        <p class="overview-lead reveal reveal-delay-2">
+          The aesthetic represents the "club side" of the Eurodance visual language -- loud, kinetic, and maximally saturated.
+          It was the unofficial visual style for Eurodance, Hands Up, and early Nightcore YouTube upload thumbnails from roughly 2005 to 2013.
+        </p>
+        <p class="overview-lead reveal reveal-delay-3">
+          The design philosophy is one of <strong style="color:var(--hands-up-white)">maximum visual impact through high contrast</strong>:
+          vivid neon accents against deep black voids, with every element either glowing, reflecting, or in motion.
+        </p>
+      </div>
+    </section>
+
+    <hr class="neon-divider neon-divider--blue">
+
+    <!-- ============================
+         VISUAL CHARACTERISTICS
+         ============================ -->
+    <section class="section-visuals">
+      <div class="section-inner">
+        <h2 class="reveal">Core Motifs & Patterns</h2>
+        <div class="motif-grid">
+          <div class="motif-item reveal">
+            <h4>Neon Light Trails</h4>
+            <p>Curved, glowing streaks of color tracing movement paths through dark space -- the single most defining visual element of the aesthetic.</p>
+          </div>
+          <div class="motif-item reveal reveal-delay-1">
+            <h4>Silhouetted Dancers</h4>
+            <p>Human forms rendered as solid black or deeply desaturated shapes, posed in dynamic mid-action stances with arms raised, jumping, and breaking.</p>
+          </div>
+          <div class="motif-item reveal reveal-delay-2">
+            <h4>Import Tuner Cars</h4>
+            <p>Heavily customized Japanese sports cars with exaggerated body kits, large spoilers, chrome rims, high-gloss paint, and neon underglow lighting.</p>
+          </div>
+          <div class="motif-item reveal reveal-delay-3">
+            <h4>Glowing Particle Clouds</h4>
+            <p>Bursts of luminous particles emanating from figures or focal points, suggesting explosive energy radiating outward.</p>
+          </div>
+          <div class="motif-item reveal">
+            <h4>Shattering Glass</h4>
+            <p>Abstract broken fragments radiating outward from central subjects, conveying impact and intensity through crystalline destruction.</p>
+          </div>
+          <div class="motif-item reveal reveal-delay-1">
+            <h4>Music Iconography</h4>
+            <p>Glowing speakers, turntables, colorful equalizer bars, mixing desks, and audio production elements rendered in vivid neon.</p>
+          </div>
+          <div class="motif-item reveal reveal-delay-2">
+            <h4>Energy Bursts & Flares</h4>
+            <p>Lens flares, radial light explosions, and concentrated glow effects placed at action points for maximum intensity.</p>
+          </div>
+          <div class="motif-item reveal reveal-delay-3">
+            <h4>Glowing Rings & Wisps</h4>
+            <p>Circular neon halos and thin luminous wisps floating in the composition, creating an atmosphere of ambient energy.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <hr class="neon-divider">
+
+    <!-- ============================
+         DESIGN PRINCIPLES
+         ============================ -->
+    <section class="section-principles">
+      <div class="section-inner">
+        <h2 class="reveal" style="text-align:center;">Design Principles</h2>
+        <div class="principles-grid">
+          <div class="neon-card principle-card reveal">
+            <div class="principle-number">01</div>
+            <h3>Dark-Dominant Saturation</h3>
+            <p>Near-black backgrounds exist solely to amplify the intensity of neon-colored light elements. No mid-tones; everything is either deep shadow or vivid luminance.</p>
+          </div>
+          <div class="neon-card neon-card--pink principle-card reveal reveal-delay-1">
+            <div class="principle-number">02</div>
+            <h3>Dynamic Asymmetry</h3>
+            <p>Compositions center on figures but surround them with asymmetrical energy distributions -- light trails, particles -- to create a sensation of explosive motion.</p>
+          </div>
+          <div class="neon-card neon-card--green principle-card reveal reveal-delay-2">
+            <div class="principle-number">03</div>
+            <h3>Dark Negative Space</h3>
+            <p>Large areas of black are not empty; they represent the darkness of a club environment and give glow effects room to breathe and radiate.</p>
+          </div>
+          <div class="neon-card neon-card--orange principle-card reveal">
+            <div class="principle-number">04</div>
+            <h3>Maximalist Energy</h3>
+            <p>Every surface that can glow, does glow. Every figure is in motion. Every composition feels like a freeze-frame of an explosion.</p>
+          </div>
+          <div class="neon-card principle-card reveal reveal-delay-1">
+            <div class="principle-number">05</div>
+            <h3>Templated Reproducibility</h3>
+            <p>The style uses clean, abstract digital forms that can be rapidly applied across album covers, YouTube thumbnails, and event flyers.</p>
+          </div>
+          <div class="neon-card neon-card--pink principle-card reveal reveal-delay-2">
+            <div class="principle-number">06</div>
+            <h3>Layered Depth Through Light</h3>
+            <p>Foreground neon elements, mid-ground figures, and background glow create Z-axis depth without traditional perspective.</p>
+          </div>
+          <div class="neon-card neon-card--green principle-card reveal">
+            <div class="principle-number">07</div>
+            <h3>High-Contrast Compositions</h3>
+            <p>No mid-tones allowed. The contrast model is binary: deep void darkness or vivid, saturated neon luminance. Nothing in between.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <hr class="neon-divider neon-divider--blue">
+
+    <!-- ============================
+         COLOR PALETTE
+         ============================ -->
+    <section class="section-palette">
+      <div class="section-inner">
+        <h2 class="reveal">Color Palette</h2>
+        <p class="reveal reveal-delay-1" style="max-width:600px;margin:0 auto 1rem;">Pure black backgrounds -- not dark gray, not charcoal -- to maximize neon contrast. Multi-color neon on black with 3-4 vivid neon colors simultaneously.</p>
+
+        <div class="palette-groups">
+          <!-- Dark Bases -->
+          <div class="reveal">
+            <div class="palette-group-label">Dark Base Tones</div>
+            <div class="palette-row">
+              <div class="swatch">
+                <div class="swatch-color" style="background:#050508;border-color:rgba(255,255,255,0.1);"></div>
+                <span class="swatch-name">Void Black</span>
+                <span class="swatch-hex">#050508</span>
+              </div>
+              <div class="swatch">
+                <div class="swatch-color" style="background:#0a0a10;border-color:rgba(255,255,255,0.08);"></div>
+                <span class="swatch-name">Club Dark</span>
+                <span class="swatch-hex">#0A0A10</span>
+              </div>
+              <div class="swatch">
+                <div class="swatch-color" style="background:#0d0d14;border-color:rgba(255,255,255,0.08);"></div>
+                <span class="swatch-name">Club Dark Alt</span>
+                <span class="swatch-hex">#0D0D14</span>
+              </div>
+              <div class="swatch">
+                <div class="swatch-color" style="background:#1a1a1f;border-color:rgba(255,255,255,0.06);"></div>
+                <span class="swatch-name">Charcoal</span>
+                <span class="swatch-hex">#1A1A1F</span>
+              </div>
+              <div class="swatch">
+                <div class="swatch-color" style="background:#222228;border-color:rgba(255,255,255,0.06);"></div>
+                <span class="swatch-name">Dark Gray</span>
+                <span class="swatch-hex">#222228</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Neon Blues -->
+          <div class="reveal reveal-delay-1">
+            <div class="palette-group-label">Neon Blue Spectrum</div>
+            <div class="palette-row">
+              <div class="swatch">
+                <div class="swatch-color swatch-color--glow" style="background:#00aaff;--swatch-glow:rgba(0,170,255,0.5);"></div>
+                <span class="swatch-name">Electric Blue</span>
+                <span class="swatch-hex">#00AAFF</span>
+              </div>
+              <div class="swatch">
+                <div class="swatch-color swatch-color--glow" style="background:#00ccff;--swatch-glow:rgba(0,204,255,0.5);"></div>
+                <span class="swatch-name">Blue Bright</span>
+                <span class="swatch-hex">#00CCFF</span>
+              </div>
+              <div class="swatch">
+                <div class="swatch-color swatch-color--glow" style="background:#0066ff;--swatch-glow:rgba(0,102,255,0.5);"></div>
+                <span class="swatch-name">Deep Blue</span>
+                <span class="swatch-hex">#0066FF</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Neon Pinks -->
+          <div class="reveal reveal-delay-2">
+            <div class="palette-group-label">Neon Pink / Magenta</div>
+            <div class="palette-row">
+              <div class="swatch">
+                <div class="swatch-color swatch-color--glow" style="background:#ff0080;--swatch-glow:rgba(255,0,128,0.5);"></div>
+                <span class="swatch-name">Hot Pink</span>
+                <span class="swatch-hex">#FF0080</span>
+              </div>
+              <div class="swatch">
+                <div class="swatch-color swatch-color--glow" style="background:#ff1493;--swatch-glow:rgba(255,20,147,0.5);"></div>
+                <span class="swatch-name">Pink Hot</span>
+                <span class="swatch-hex">#FF1493</span>
+              </div>
+              <div class="swatch">
+                <div class="swatch-color swatch-color--glow" style="background:#ff00ff;--swatch-glow:rgba(255,0,255,0.45);"></div>
+                <span class="swatch-name">Neon Magenta</span>
+                <span class="swatch-hex">#FF00FF</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Neon Greens -->
+          <div class="reveal reveal-delay-3">
+            <div class="palette-group-label">Neon Green / Lime</div>
+            <div class="palette-row">
+              <div class="swatch">
+                <div class="swatch-color swatch-color--glow" style="background:#00ff66;--swatch-glow:rgba(0,255,102,0.45);"></div>
+                <span class="swatch-name">Vibrant Green</span>
+                <span class="swatch-hex">#00FF66</span>
+              </div>
+              <div class="swatch">
+                <div class="swatch-color swatch-color--glow" style="background:#88ff00;--swatch-glow:rgba(136,255,0,0.4);"></div>
+                <span class="swatch-name">Electric Lime</span>
+                <span class="swatch-hex">#88FF00</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Orange / Amber -->
+          <div class="reveal">
+            <div class="palette-group-label">Neon Orange / Amber</div>
+            <div class="palette-row">
+              <div class="swatch">
+                <div class="swatch-color swatch-color--glow" style="background:#ff6600;--swatch-glow:rgba(255,102,0,0.45);"></div>
+                <span class="swatch-name">Electric Orange</span>
+                <span class="swatch-hex">#FF6600</span>
+              </div>
+              <div class="swatch">
+                <div class="swatch-color swatch-color--glow" style="background:#ffaa00;--swatch-glow:rgba(255,170,0,0.4);"></div>
+                <span class="swatch-name">Neon Amber</span>
+                <span class="swatch-hex">#FFAA00</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Metallics -->
+          <div class="reveal reveal-delay-1">
+            <div class="palette-group-label">Metallic / Chrome</div>
+            <div class="palette-row">
+              <div class="swatch">
+                <div class="swatch-color" style="background:linear-gradient(180deg,#fff 0%,#c0c0c8 40%,#808090 60%,#d8d8e0 100%);border-color:rgba(255,255,255,0.1);"></div>
+                <span class="swatch-name">Chrome Silver</span>
+                <span class="swatch-hex">#C0C0C8</span>
+              </div>
+              <div class="swatch">
+                <div class="swatch-color" style="background:linear-gradient(180deg,#fff 0%,#d8d8e0 50%,#b0b0b8 100%);border-color:rgba(255,255,255,0.1);"></div>
+                <span class="swatch-name">Chrome Light</span>
+                <span class="swatch-hex">#D8D8E0</span>
+              </div>
+              <div class="swatch">
+                <div class="swatch-color" style="background:#f0f0ff;border-color:rgba(255,255,255,0.15);"></div>
+                <span class="swatch-name">Gloss White</span>
+                <span class="swatch-hex">#F0F0FF</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <hr class="neon-divider">
+
+    <!-- ============================
+         TYPOGRAPHY SHOWCASE
+         ============================ -->
+    <section class="section-typography">
+      <div class="section-inner">
+        <h2 class="reveal">Typography</h2>
+        <p class="reveal reveal-delay-1" style="max-width:650px;margin:0 auto 1.5rem;">
+          Aggressive, futuristic, and treated as a visual effect rather than pure text.
+          Blocky geometric forms, glossy chrome finishes, neon outline treatments, and uppercase dominance.
+        </p>
+
+        <div class="type-showcase">
+          <!-- Orbitron Chrome -->
+          <div class="type-specimen reveal">
+            <span class="type-specimen-label">Orbitron 900 -- Chrome Effect</span>
+            <div class="type-specimen-sample--hero">CHROME TYPE</div>
+          </div>
+
+          <!-- Neon Outline -->
+          <div class="type-specimen reveal reveal-delay-1">
+            <span class="type-specimen-label">Orbitron 700 -- Neon Outline</span>
+            <div class="type-specimen-sample--neon-outline">NEON GLOW</div>
+          </div>
+
+          <!-- Audiowide -->
+          <div class="type-specimen reveal reveal-delay-2">
+            <span class="type-specimen-label">Audiowide -- Event Headlines</span>
+            <div class="type-specimen-sample--audiowide">MAXIMUM ENERGY</div>
+          </div>
+
+          <!-- Black Ops One -->
+          <div class="type-specimen reveal">
+            <span class="type-specimen-label">Black Ops One -- Impact Headings</span>
+            <div class="type-specimen-sample--blackops">HEAVY IMPACT</div>
+          </div>
+
+          <!-- Bungee -->
+          <div class="type-specimen reveal reveal-delay-1">
+            <span class="type-specimen-label">Bungee -- Poster-Style Type</span>
+            <div class="type-specimen-sample--bungee">CLUB NIGHTS</div>
+          </div>
+
+          <!-- Body text -->
+          <div class="type-specimen reveal reveal-delay-2">
+            <span class="type-specimen-label">Exo 2 Light 300 -- Body Text</span>
+            <div class="type-specimen-sample--body">
+              The darkness of a club environment gives glow effects room to breathe. Every element either glows, reflects, or is in motion. Text at this level prioritizes readability with a technical, futuristic feel.
+            </div>
+          </div>
+
+          <!-- Label text -->
+          <div class="type-specimen reveal">
+            <span class="type-specimen-label">Electrolize -- Technical Labels</span>
+            <div class="type-specimen-sample--label">BPM: 150 // KEY: Am // ENERGY: MAX // STATUS: LIVE</div>
+          </div>
+        </div>
+
+        <!-- Font reference table -->
+        <div class="neon-card reveal" style="margin-top:3rem;text-align:left;">
+          <h3>Recommended Web Fonts</h3>
+          <table class="font-table">
+            <thead>
+              <tr>
+                <th>Font</th>
+                <th>Style</th>
+                <th>Usage</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="font-family:'Orbitron',sans-serif;">Orbitron</td>
+                <td>Geometric, squared, futuristic display</td>
+                <td>Hero titles, primary headings</td>
+              </tr>
+              <tr>
+                <td style="font-family:'Audiowide',sans-serif;">Audiowide</td>
+                <td>Wide, techy, single-weight display</td>
+                <td>Hero titles, event-style headlines</td>
+              </tr>
+              <tr>
+                <td style="font-family:'Black Ops One',sans-serif;">Black Ops One</td>
+                <td>Heavy, military-futuristic display</td>
+                <td>Impact headings, high-energy callouts</td>
+              </tr>
+              <tr>
+                <td style="font-family:'Bungee',sans-serif;">Bungee</td>
+                <td>Chunky, blocky, display</td>
+                <td>Bold section titles, poster-style type</td>
+              </tr>
+              <tr>
+                <td style="font-family:'Chakra Petch',sans-serif;">Chakra Petch</td>
+                <td>Angular, tech-forward, multiple weights</td>
+                <td>Subheadings, UI elements</td>
+              </tr>
+              <tr>
+                <td style="font-family:'Exo 2',sans-serif;">Exo 2</td>
+                <td>Geometric futuristic, versatile</td>
+                <td>Headings and body at various weights</td>
+              </tr>
+              <tr>
+                <td style="font-family:'Rajdhani',sans-serif;">Rajdhani</td>
+                <td>Technical, semi-condensed</td>
+                <td>Labels, secondary text, data readouts</td>
+              </tr>
+              <tr>
+                <td style="font-family:'Play',sans-serif;">Play</td>
+                <td>Clean, wide, geometric</td>
+                <td>Body text at larger sizes</td>
+              </tr>
+              <tr>
+                <td style="font-family:'Electrolize',sans-serif;">Electrolize</td>
+                <td>Monoline, digital readout style</td>
+                <td>Stats, counters, technical labels</td>
+              </tr>
+              <tr>
+                <td style="font-family:'Share Tech',sans-serif;">Share Tech</td>
+                <td>Technical, monospaced feel</td>
+                <td>Labels, metadata, small text</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <hr class="neon-divider neon-divider--blue">
+
+    <!-- ============================
+         CSS TECHNIQUE DEMOS
+         ============================ -->
+    <section class="section-techniques">
+      <div class="section-inner">
+        <h2 class="reveal">Live CSS Techniques</h2>
+        <p class="reveal reveal-delay-1" style="max-width:600px;margin:0 auto 1rem;">
+          Signature visual effects achieved purely with CSS -- neon glows, particle clouds, shattering glass, underglow, light flares, and glowing rings.
+        </p>
+
+        <div class="demo-grid">
+          <!-- Neon Glow Box -->
+          <div class="demo-box reveal">
+            <span class="demo-box-label">Neon Glow Box</span>
+            <div class="demo-neon-box"></div>
+          </div>
+
+          <!-- Underglow -->
+          <div class="demo-box reveal reveal-delay-1">
+            <span class="demo-box-label">Underglow Effect</span>
+            <div class="demo-underglow-block"></div>
+          </div>
+
+          <!-- Shatter -->
+          <div class="demo-box reveal reveal-delay-2">
+            <span class="demo-box-label">Glass Shards</span>
+            <div class="demo-shatter-container">
+              <div class="shard"></div>
+              <div class="shard"></div>
+              <div class="shard"></div>
+              <div class="shard"></div>
+              <div class="shard"></div>
+            </div>
+          </div>
+
+          <!-- Particles -->
+          <div class="demo-box reveal">
+            <span class="demo-box-label">Particle Cloud</span>
+            <div class="demo-particles-container">
+              <div class="particle"></div>
+              <div class="particle"></div>
+              <div class="particle"></div>
+              <div class="particle"></div>
+              <div class="particle"></div>
+              <div class="particle"></div>
+              <div class="particle"></div>
+              <div class="particle"></div>
+            </div>
+          </div>
+
+          <!-- Light Flare -->
+          <div class="demo-box reveal reveal-delay-1">
+            <span class="demo-box-label">Light Flare</span>
+            <div class="demo-flare"></div>
+          </div>
+
+          <!-- Glowing Rings -->
+          <div class="demo-box reveal reveal-delay-2">
+            <span class="demo-box-label">Glowing Rings</span>
+            <div class="demo-rings-container">
+              <div class="glow-ring"></div>
+              <div class="glow-ring"></div>
+              <div class="glow-ring"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Button showcase -->
+        <div class="reveal" style="margin-top:4rem;">
+          <h3 style="text-align:center;margin-bottom:0.5rem;">Neon Buttons</h3>
+          <p style="text-align:center;margin-bottom:1.5rem;font-size:0.9rem;">High-energy controls with sweep animation on hover.</p>
+          <div class="button-row">
+            <button class="neon-button">Electric Blue</button>
+            <button class="neon-button neon-button--pink">Hot Pink</button>
+            <button class="neon-button neon-button--green">Vibrant Green</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <hr class="neon-divider">
+
+    <!-- ============================
+         LAYOUT PRINCIPLES
+         ============================ -->
+    <section class="section-layout">
+      <div class="section-inner">
+        <h2 class="reveal" style="text-align:center;">Layout Principles</h2>
+        <div class="motif-grid" style="margin-top:2.5rem;">
+          <div class="motif-item reveal">
+            <h4>Full-Bleed Dark</h4>
+            <p>The entire viewport is near-black. There are no light sections. The darkness is the stage for the neon performance.</p>
+          </div>
+          <div class="motif-item reveal reveal-delay-1">
+            <h4>Centered Focal Compositions</h4>
+            <p>Primary content occupies the center with neon effects radiating outward in all directions.</p>
+          </div>
+          <div class="motif-item reveal reveal-delay-2">
+            <h4>Asymmetric Energy</h4>
+            <p>Light trails and particles are never symmetrical -- they create directional motion, usually upward and outward.</p>
+          </div>
+          <div class="motif-item reveal reveal-delay-3">
+            <h4>Generous Negative Space</h4>
+            <p>Large expanses of black between elements. The darkness gives glow effects room to breathe.</p>
+          </div>
+          <div class="motif-item reveal">
+            <h4>Cinematic Proportions</h4>
+            <p>Sections feel like individual posters or album covers stacked vertically. Every section is a composition.</p>
+          </div>
+          <div class="motif-item reveal reveal-delay-1">
+            <h4>No Grid Rigidity</h4>
+            <p>Elements float, overlap, and bleed. The layout follows energy flow rather than columns.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <hr class="neon-divider neon-divider--blue">
+
+    <!-- ============================
+         CULTURAL CONTEXT
+         ============================ -->
+    <section class="section-culture">
+      <div class="section-inner">
+        <h2 class="reveal">Cultural Context & References</h2>
+        <ul class="culture-list">
+          <li class="reveal"><strong>Clubland compilation album covers</strong> -- the canonical visual format featuring silhouetted dancers, neon trails, chrome text on black</li>
+          <li class="reveal reveal-delay-1"><strong>Ekwador nightclub branding</strong> -- the Polish club whose visual identity became synonymous with the Hands Up style</li>
+          <li class="reveal reveal-delay-2"><strong>YouTube unofficial music visualizers (2005-2013)</strong> -- fan-made thumbnails and video backgrounds for Eurodance/Hands Up uploads</li>
+          <li class="reveal"><strong>Import tuner car culture</strong> -- Need for Speed Underground, The Fast and the Furious (2001), midnight car meets with underglow</li>
+          <li class="reveal reveal-delay-1"><strong>Early-2000s club flyer design</strong> -- event promotion posters with photoshopped neon effects on dark backgrounds</li>
+          <li class="reveal reveal-delay-2"><strong>DJ Manga / Cascada / Basshunter era</strong> -- album art and single covers from peak Hands Up artists</li>
+          <li class="reveal"><strong>Breaking / B-boy culture</strong> -- dancer silhouette poses drawn from hip-hop dance freezes and power moves</li>
+        </ul>
+      </div>
+    </section>
+
+    <hr class="neon-divider">
+
+    <!-- ============================
+         RELATED AESTHETICS
+         ============================ -->
+    <section class="section-related">
+      <div class="section-inner">
+        <h2 class="reveal" style="text-align:center;">Related Aesthetics</h2>
+        <div class="related-grid">
+          <div class="related-tag reveal">
+            <h4>TechnoNeko2000</h4>
+            <p>Sibling aesthetic; the anime-side counterpart to Hands Up for the same Eurodance musical era.</p>
+          </div>
+          <div class="related-tag reveal reveal-delay-1">
+            <h4>Y2K Futurism</h4>
+            <p>Broader umbrella; Hands Up is a late expression of Y2K tech-optimist visual culture.</p>
+          </div>
+          <div class="related-tag reveal reveal-delay-2">
+            <h4>Frutiger Aero</h4>
+            <p>Contemporary parallel; shares glossy, digitally-rendered qualities but diverges in color and subject.</p>
+          </div>
+          <div class="related-tag reveal reveal-delay-3">
+            <h4>Dark Aero</h4>
+            <p>Shares dark-background-with-neon-accents, but Dark Aero is more restrained and UI-focused.</p>
+          </div>
+          <div class="related-tag reveal">
+            <h4>Rave</h4>
+            <p>Parent culture; Hands Up inherits rave's neon-on-black visual language and club environment.</p>
+          </div>
+          <div class="related-tag reveal reveal-delay-1">
+            <h4>Brostep</h4>
+            <p>Contemporary; shares aggressive neon-on-dark energy and maximalist approach, with heavier tone.</p>
+          </div>
+          <div class="related-tag reveal reveal-delay-2">
+            <h4>Tecktonik</h4>
+            <p>Closely related; the French electro-dance scene with nearly identical neon-silhouette visual language.</p>
+          </div>
+          <div class="related-tag reveal reveal-delay-3">
+            <h4>Nightcore</h4>
+            <p>Overlapping; early Nightcore YouTube uploads frequently used Hands Up visual templates.</p>
+          </div>
+          <div class="related-tag reveal">
+            <h4>Vectordelia</h4>
+            <p>Shares flowing curves and abstract digital forms; Vectordelia is more organic, Hands Up more kinetic.</p>
+          </div>
+          <div class="related-tag reveal reveal-delay-1">
+            <h4>Vectorheart</h4>
+            <p>Related; shares the glossy digital aesthetic with a more romantic/emotive direction.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <hr class="neon-divider neon-divider--blue">
+
+    <!-- ============================
+         MATERIALS TABLE
+         ============================ -->
+    <section class="section-materials">
+      <div class="section-inner">
+        <h2 class="reveal" style="text-align:center;">Materials & Textures</h2>
+        <p class="reveal reveal-delay-1" style="text-align:center;max-width:600px;margin:0 auto 2rem;">
+          Physical/visual Hands Up materials and their CSS/web equivalents.
+        </p>
+        <div class="neon-card reveal reveal-delay-2" style="text-align:left;">
+          <table class="font-table">
+            <thead>
+              <tr>
+                <th>Visual Element</th>
+                <th>Web Equivalent</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Neon light tubes/trails</td>
+                <td>SVG paths with bright stroke + multi-layer drop-shadow glow; animated with stroke-dashoffset</td>
+              </tr>
+              <tr>
+                <td>Chrome/metallic text</td>
+                <td>linear-gradient on text with background-clip: text + light/dark bands simulating reflection</td>
+              </tr>
+              <tr>
+                <td>Silhouetted dancer</td>
+                <td>Image with filter: brightness(0) + positioned radial-gradient glow behind</td>
+              </tr>
+              <tr>
+                <td>Particle cloud</td>
+                <td>Scattered small radial-gradient dots or animated border-radius: 50% elements with glow</td>
+              </tr>
+              <tr>
+                <td>Shattering glass</td>
+                <td>clip-path: polygon() fragments animated outward with transform</td>
+              </tr>
+              <tr>
+                <td>Equalizer bars</td>
+                <td>Flex-row of narrow divs with gradient fills, staggered bounce animation</td>
+              </tr>
+              <tr>
+                <td>Neon underglow</td>
+                <td>::after pseudo-element with bright color, heavy filter: blur(), positioned below</td>
+              </tr>
+              <tr>
+                <td>Club darkness</td>
+                <td>background: #050508 -- pure, deep, flat black with no texture</td>
+              </tr>
+              <tr>
+                <td>Light flare/burst</td>
+                <td>radial-gradient with white-to-neon-to-transparent, placed at focal points</td>
+              </tr>
+              <tr>
+                <td>Tuner car paint</td>
+                <td>High-gloss solid color with linear-gradient highlight band suggesting reflection</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================
+         FOOTER
+         ============================ -->
+    <hr class="neon-divider">
+    <footer class="footer">
+      <div class="footer-logo">Hands Up</div>
+      <p>Design Aesthetic Reference & Showcase</p>
+      <div style="margin-top:1.5rem;">
+        <div class="hero-equalizer" style="height:35px;gap:3px;animation:none;opacity:1;">
+          <div class="eq-bar eq-bar--blue" style="width:4px;"></div>
+          <div class="eq-bar eq-bar--pink" style="width:4px;"></div>
+          <div class="eq-bar eq-bar--green" style="width:4px;"></div>
+          <div class="eq-bar eq-bar--blue" style="width:4px;"></div>
+          <div class="eq-bar eq-bar--orange" style="width:4px;"></div>
+          <div class="eq-bar eq-bar--pink" style="width:4px;"></div>
+          <div class="eq-bar eq-bar--blue" style="width:4px;"></div>
+          <div class="eq-bar eq-bar--green" style="width:4px;"></div>
+        </div>
+      </div>
+    </footer>
+
+  </div><!-- /content-wrap -->
+
+  <!-- ============================================================
+       JAVASCRIPT -- Particle canvas + scroll reveal
+       ============================================================ -->
+  <script>
+    // ---- Particle Background ----
+    (function() {
+      const canvas = document.getElementById('particle-canvas');
+      const ctx = canvas.getContext('2d');
+      let w, h;
+      let particles = [];
+      const PARTICLE_COUNT = 80;
+
+      const neonColors = [
+        { r: 0, g: 170, b: 255 },   // blue
+        { r: 255, g: 0, b: 128 },   // pink
+        { r: 0, g: 255, b: 102 },   // green
+        { r: 255, g: 0, b: 255 },   // magenta
+        { r: 255, g: 170, b: 0 },   // amber
+      ];
+
+      function resize() {
+        w = canvas.width = window.innerWidth;
+        h = canvas.height = window.innerHeight;
+      }
+
+      function createParticle() {
+        const color = neonColors[Math.floor(Math.random() * neonColors.length)];
+        return {
+          x: Math.random() * w,
+          y: Math.random() * h,
+          vx: (Math.random() - 0.5) * 0.3,
+          vy: (Math.random() - 0.5) * 0.3 - 0.15,
+          size: Math.random() * 2.5 + 0.5,
+          alpha: Math.random() * 0.5 + 0.1,
+          alphaDir: (Math.random() - 0.5) * 0.008,
+          color: color,
+        };
+      }
+
+      function init() {
+        resize();
+        particles = [];
+        for (let i = 0; i < PARTICLE_COUNT; i++) {
+          particles.push(createParticle());
+        }
+      }
+
+      function draw() {
+        ctx.clearRect(0, 0, w, h);
+
+        for (let i = 0; i < particles.length; i++) {
+          const p = particles[i];
+
+          // Update
+          p.x += p.vx;
+          p.y += p.vy;
+          p.alpha += p.alphaDir;
+
+          if (p.alpha <= 0.05 || p.alpha >= 0.6) p.alphaDir *= -1;
+          if (p.x < -10 || p.x > w + 10 || p.y < -10 || p.y > h + 10) {
+            particles[i] = createParticle();
+            particles[i].y = h + 5;
+            continue;
+          }
+
+          // Draw glow
+          const gradient = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.size * 6);
+          gradient.addColorStop(0, 'rgba(' + p.color.r + ',' + p.color.g + ',' + p.color.b + ',' + (p.alpha * 0.6) + ')');
+          gradient.addColorStop(0.4, 'rgba(' + p.color.r + ',' + p.color.g + ',' + p.color.b + ',' + (p.alpha * 0.15) + ')');
+          gradient.addColorStop(1, 'rgba(' + p.color.r + ',' + p.color.g + ',' + p.color.b + ',0)');
+          ctx.fillStyle = gradient;
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.size * 6, 0, Math.PI * 2);
+          ctx.fill();
+
+          // Draw core
+          ctx.fillStyle = 'rgba(' + p.color.r + ',' + p.color.g + ',' + p.color.b + ',' + p.alpha + ')';
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+          ctx.fill();
+        }
+
+        requestAnimationFrame(draw);
+      }
+
+      window.addEventListener('resize', resize);
+      init();
+      draw();
+    })();
+
+    // ---- Scroll Reveal ----
+    (function() {
+      const reveals = document.querySelectorAll('.reveal');
+
+      function checkReveal() {
+        const windowHeight = window.innerHeight;
+        const triggerPoint = windowHeight * 0.88;
+
+        reveals.forEach(function(el) {
+          const top = el.getBoundingClientRect().top;
+          if (top < triggerPoint) {
+            el.classList.add('visible');
+          }
+        });
+      }
+
+      window.addEventListener('scroll', checkReveal, { passive: true });
+      window.addEventListener('load', checkReveal);
+      // Initial check
+      checkReveal();
+    })();
+  </script>
+</body>
+</html>
