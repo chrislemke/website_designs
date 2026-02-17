@@ -1,0 +1,2039 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aurora Gradient -- Design Aesthetic Showcase</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* =============================================
+       CSS CUSTOM PROPERTIES
+       ============================================= */
+    :root {
+      /* Dark bases */
+      --aurora-midnight: #0b0d1a;
+      --aurora-deep-space: #111827;
+      --aurora-cosmic: #1e1b4b;
+
+      /* Aurora spectrum */
+      --aurora-purple: #7c3aed;
+      --aurora-violet: #a855f7;
+      --aurora-pink: #ec4899;
+      --aurora-rose: #f472b6;
+      --aurora-blue: #3b82f6;
+      --aurora-cyan: #06b6d4;
+      --aurora-green: #10b981;
+      --aurora-mint: #34d399;
+
+      /* Text */
+      --aurora-text-primary: #e0e7ff;
+      --aurora-text-secondary: #a5b4fc;
+      --aurora-text-muted: #6366f1;
+      --aurora-text-bright: #f8fafc;
+
+      /* Signature gradients */
+      --aurora-gradient-full: linear-gradient(135deg, #7c3aed, #ec4899, #3b82f6, #06b6d4, #10b981);
+      --aurora-gradient-warm: linear-gradient(135deg, #7c3aed, #a855f7, #ec4899, #f472b6);
+      --aurora-gradient-cool: linear-gradient(135deg, #3b82f6, #06b6d4, #10b981, #34d399);
+      --aurora-gradient-subtle: linear-gradient(135deg, rgba(124,58,237,0.15), rgba(236,72,153,0.1), rgba(6,182,212,0.15));
+
+      /* Glass */
+      --aurora-glass-bg: rgba(255, 255, 255, 0.05);
+      --aurora-glass-border: rgba(255, 255, 255, 0.1);
+      --aurora-glass-blur: 16px;
+    }
+
+    /* =============================================
+       RESET & BASE
+       ============================================= */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+      background: var(--aurora-midnight);
+      color: var(--aurora-text-secondary);
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      font-size: 1rem;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      color: var(--aurora-text-primary);
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img { max-width: 100%; display: block; }
+
+    /* =============================================
+       AURORA ANIMATED BACKGROUND
+       ============================================= */
+    .aurora-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .aurora-bg::before {
+      content: '';
+      position: absolute;
+      width: 200%;
+      height: 200%;
+      top: -50%;
+      left: -50%;
+      background:
+        radial-gradient(ellipse at 20% 50%, rgba(124, 58, 237, 0.3) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 20%, rgba(236, 72, 153, 0.2) 0%, transparent 50%),
+        radial-gradient(ellipse at 60% 80%, rgba(6, 182, 212, 0.25) 0%, transparent 50%),
+        radial-gradient(ellipse at 30% 20%, rgba(16, 185, 129, 0.15) 0%, transparent 50%);
+      animation: auroraShift 20s ease-in-out infinite alternate;
+    }
+
+    .aurora-bg::after {
+      content: '';
+      position: absolute;
+      width: 200%;
+      height: 200%;
+      top: -50%;
+      left: -50%;
+      background:
+        radial-gradient(ellipse at 70% 60%, rgba(59, 130, 246, 0.15) 0%, transparent 45%),
+        radial-gradient(ellipse at 40% 80%, rgba(168, 85, 247, 0.12) 0%, transparent 45%),
+        radial-gradient(ellipse at 85% 40%, rgba(52, 211, 153, 0.1) 0%, transparent 40%);
+      animation: auroraShift2 25s ease-in-out infinite alternate;
+    }
+
+    @keyframes auroraShift {
+      0%   { transform: translate(0, 0) rotate(0deg) scale(1); }
+      25%  { transform: translate(-3%, 2%) rotate(0.5deg) scale(1.02); }
+      50%  { transform: translate(-5%, 3%) rotate(1deg) scale(1.01); }
+      75%  { transform: translate(1%, -1%) rotate(0.3deg) scale(1.03); }
+      100% { transform: translate(3%, -2%) rotate(-1deg) scale(1); }
+    }
+
+    @keyframes auroraShift2 {
+      0%   { transform: translate(0, 0) rotate(0deg); }
+      33%  { transform: translate(4%, -2%) rotate(-0.5deg); }
+      66%  { transform: translate(-2%, 4%) rotate(0.8deg); }
+      100% { transform: translate(-3%, 1%) rotate(-0.3deg); }
+    }
+
+    /* =============================================
+       FLOATING ORB DECORATIONS
+       ============================================= */
+    .orb {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(80px);
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.4;
+    }
+
+    .orb--1 {
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(124, 58, 237, 0.4), transparent 70%);
+      top: 10%;
+      left: -5%;
+      animation: orbFloat1 30s ease-in-out infinite alternate;
+    }
+
+    .orb--2 {
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(6, 182, 212, 0.3), transparent 70%);
+      top: 40%;
+      right: -10%;
+      animation: orbFloat2 35s ease-in-out infinite alternate;
+    }
+
+    .orb--3 {
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(236, 72, 153, 0.25), transparent 70%);
+      bottom: 10%;
+      left: 20%;
+      animation: orbFloat3 28s ease-in-out infinite alternate;
+    }
+
+    @keyframes orbFloat1 {
+      0%   { transform: translate(0, 0); }
+      100% { transform: translate(60px, 40px); }
+    }
+
+    @keyframes orbFloat2 {
+      0%   { transform: translate(0, 0); }
+      100% { transform: translate(-50px, -60px); }
+    }
+
+    @keyframes orbFloat3 {
+      0%   { transform: translate(0, 0); }
+      100% { transform: translate(40px, -50px); }
+    }
+
+    /* =============================================
+       CONTENT WRAPPER
+       ============================================= */
+    .content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding-left: 40px;
+      padding-right: 40px;
+    }
+
+    /* =============================================
+       NAVIGATION
+       ============================================= */
+    .aurora-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      transition: background 0.4s ease, backdrop-filter 0.4s ease;
+    }
+
+    .aurora-nav.scrolled {
+      background: rgba(11, 13, 26, 0.7);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .aurora-nav__inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px 40px;
+    }
+
+    .aurora-nav__logo {
+      font-family: 'Sora', sans-serif;
+      font-weight: 700;
+      font-size: 1.3rem;
+      background: var(--aurora-gradient-warm);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-decoration: none;
+      letter-spacing: -0.02em;
+    }
+
+    .aurora-nav__links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+
+    .aurora-nav__links a {
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+      font-size: 0.9rem;
+      color: var(--aurora-text-secondary);
+      text-decoration: none;
+      transition: color 0.2s ease;
+      position: relative;
+    }
+
+    .aurora-nav__links a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--aurora-gradient-warm);
+      transition: width 0.3s ease;
+      border-radius: 1px;
+    }
+
+    .aurora-nav__links a:hover {
+      color: var(--aurora-text-bright);
+    }
+
+    .aurora-nav__links a:hover::after {
+      width: 100%;
+    }
+
+    /* =============================================
+       HERO SECTION
+       ============================================= */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 120px 40px 80px;
+      position: relative;
+    }
+
+    .hero__content {
+      max-width: 800px;
+    }
+
+    .hero__label {
+      font-family: 'Sora', sans-serif;
+      font-weight: 500;
+      font-size: 0.8rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--aurora-text-muted);
+      margin-bottom: 28px;
+      display: inline-block;
+      padding: 6px 18px;
+      border: 1px solid rgba(99, 102, 241, 0.3);
+      border-radius: 100px;
+      opacity: 0;
+      animation: fadeInUp 0.8s 0.2s ease forwards;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.8rem, 7vw, 5.5rem);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 1.05;
+      margin-bottom: 1.5rem;
+      background: linear-gradient(135deg, #7c3aed, #ec4899, #3b82f6, #06b6d4, #10b981);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      background-size: 200% auto;
+      animation: fadeInUp 0.8s 0.4s ease forwards, textShimmer 8s 1.2s ease-in-out infinite alternate;
+      opacity: 0;
+    }
+
+    .hero__subtitle {
+      font-size: 1.25rem;
+      color: var(--aurora-text-secondary);
+      margin-bottom: 2.5rem;
+      max-width: 620px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.8;
+      opacity: 0;
+      animation: fadeInUp 0.8s 0.6s ease forwards;
+    }
+
+    .hero__actions {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+      opacity: 0;
+      animation: fadeInUp 0.8s 0.8s ease forwards;
+    }
+
+    .hero__scroll-hint {
+      position: absolute;
+      bottom: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      color: var(--aurora-text-muted);
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      font-family: 'Sora', sans-serif;
+      opacity: 0;
+      animation: fadeInUp 0.8s 1.2s ease forwards;
+    }
+
+    .hero__scroll-hint .scroll-line {
+      width: 1px;
+      height: 40px;
+      background: linear-gradient(to bottom, var(--aurora-text-muted), transparent);
+      animation: scrollPulse 2s ease-in-out infinite;
+    }
+
+    @keyframes scrollPulse {
+      0%, 100% { opacity: 0.3; transform: scaleY(0.6); }
+      50%      { opacity: 1; transform: scaleY(1); }
+    }
+
+    @keyframes textShimmer {
+      0%   { background-position: 0% center; }
+      100% { background-position: 200% center; }
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* =============================================
+       BUTTONS
+       ============================================= */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: var(--aurora-gradient-warm);
+      color: #ffffff;
+      border: none;
+      border-radius: 12px;
+      padding: 14px 36px;
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      text-decoration: none;
+      background-size: 200% 200%;
+      animation: gradientShift 4s ease infinite;
+    }
+
+    @keyframes gradientShift {
+      0%   { background-position: 0% 50%; }
+      50%  { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 40px rgba(124, 58, 237, 0.35), 0 2px 12px rgba(236, 72, 153, 0.2);
+    }
+
+    .btn--glass {
+      background: var(--aurora-glass-bg);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--aurora-glass-border);
+      color: var(--aurora-text-primary);
+      animation: none;
+    }
+
+    .btn--glass:hover {
+      background: rgba(255, 255, 255, 0.1);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+      border-color: rgba(255, 255, 255, 0.18);
+    }
+
+    /* =============================================
+       SECTION SHARED STYLES
+       ============================================= */
+    .section {
+      padding: 120px 40px;
+      position: relative;
+    }
+
+    .section__label {
+      font-family: 'Sora', sans-serif;
+      font-weight: 500;
+      font-size: 0.8rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--aurora-text-muted);
+      margin-bottom: 16px;
+      display: block;
+    }
+
+    .section__heading {
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 700;
+      letter-spacing: -0.025em;
+      margin-bottom: 20px;
+    }
+
+    .section__desc {
+      font-size: 1.1rem;
+      color: var(--aurora-text-secondary);
+      max-width: 600px;
+      line-height: 1.8;
+      margin-bottom: 56px;
+    }
+
+    .section--center {
+      text-align: center;
+    }
+
+    .section--center .section__desc {
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* =============================================
+       GLASS CARD
+       ============================================= */
+    .glass-card {
+      background: var(--aurora-glass-bg);
+      backdrop-filter: blur(var(--aurora-glass-blur));
+      -webkit-backdrop-filter: blur(var(--aurora-glass-blur));
+      border: 1px solid var(--aurora-glass-border);
+      border-radius: 16px;
+      padding: 32px;
+      transition: background 0.3s ease, border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .glass-card:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.15);
+      transform: translateY(-4px);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+    }
+
+    /* =============================================
+       VISUAL CHARACTERISTICS SECTION
+       ============================================= */
+    .traits-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+    }
+
+    .trait-card {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .trait-card__icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+      font-size: 1.4rem;
+    }
+
+    .trait-card h3 {
+      font-size: 1.1rem;
+      margin-bottom: 10px;
+      color: var(--aurora-text-primary);
+    }
+
+    .trait-card p {
+      font-size: 0.92rem;
+      line-height: 1.65;
+      color: var(--aurora-text-secondary);
+    }
+
+    .trait-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      border-radius: 16px 16px 0 0;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .trait-card:nth-child(1)::before { background: var(--aurora-gradient-warm); }
+    .trait-card:nth-child(2)::before { background: var(--aurora-gradient-cool); }
+    .trait-card:nth-child(3)::before { background: linear-gradient(90deg, var(--aurora-pink), var(--aurora-cyan)); }
+    .trait-card:nth-child(4)::before { background: linear-gradient(90deg, var(--aurora-green), var(--aurora-blue)); }
+    .trait-card:nth-child(5)::before { background: linear-gradient(90deg, var(--aurora-violet), var(--aurora-rose)); }
+    .trait-card:nth-child(6)::before { background: var(--aurora-gradient-full); }
+
+    .trait-card:hover::before {
+      opacity: 1;
+    }
+
+    /* =============================================
+       COLOR PALETTE SECTION
+       ============================================= */
+    .palette-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 16px;
+      margin-bottom: 48px;
+    }
+
+    .color-swatch {
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid var(--aurora-glass-border);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .color-swatch:hover {
+      transform: translateY(-4px) scale(1.02);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    .color-swatch__preview {
+      height: 80px;
+      position: relative;
+    }
+
+    .color-swatch__info {
+      padding: 14px 16px;
+    }
+
+    .color-swatch__name {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 0.82rem;
+      color: var(--aurora-text-primary);
+      margin-bottom: 4px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .color-swatch__hex {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.75rem;
+      color: var(--aurora-text-muted);
+      font-weight: 500;
+      letter-spacing: 0.02em;
+    }
+
+    /* Gradient showcase strips */
+    .gradient-showcase {
+      display: grid;
+      gap: 20px;
+      margin-top: 48px;
+    }
+
+    .gradient-strip {
+      border-radius: 16px;
+      padding: 28px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      transition: transform 0.3s ease;
+    }
+
+    .gradient-strip:hover {
+      transform: scale(1.01);
+    }
+
+    .gradient-strip__label {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 1rem;
+      color: #fff;
+      text-shadow: 0 1px 8px rgba(0,0,0,0.3);
+    }
+
+    .gradient-strip__code {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.7);
+      background: rgba(0,0,0,0.25);
+      padding: 6px 14px;
+      border-radius: 8px;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+
+    /* =============================================
+       TYPOGRAPHY SECTION
+       ============================================= */
+    .type-showcase {
+      display: grid;
+      gap: 32px;
+      margin-bottom: 56px;
+    }
+
+    .type-demo {
+      padding: 40px;
+    }
+
+    .type-demo__sample {
+      font-size: clamp(2rem, 4vw, 3.5rem);
+      font-weight: 700;
+      color: var(--aurora-text-primary);
+      line-height: 1.15;
+      margin-bottom: 16px;
+      letter-spacing: -0.03em;
+    }
+
+    .type-demo__sample--gradient {
+      background: var(--aurora-gradient-full);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      background-size: 200% auto;
+      animation: textShimmer 6s ease-in-out infinite alternate;
+    }
+
+    .type-demo__meta {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .type-tag {
+      font-family: 'Sora', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      padding: 5px 14px;
+      border-radius: 100px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--aurora-text-secondary);
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .font-pairings {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+    }
+
+    .pairing-card {
+      padding: 36px;
+    }
+
+    .pairing-card__heading {
+      font-size: 1.6rem;
+      margin-bottom: 12px;
+      letter-spacing: -0.02em;
+    }
+
+    .pairing-card__body {
+      font-size: 0.95rem;
+      line-height: 1.7;
+      color: var(--aurora-text-secondary);
+      margin-bottom: 20px;
+    }
+
+    .pairing-card__label {
+      font-size: 0.72rem;
+      font-family: 'Sora', sans-serif;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--aurora-text-muted);
+    }
+
+    /* =============================================
+       LAYOUT PRINCIPLES SECTION
+       ============================================= */
+    .principles-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+      margin-bottom: 64px;
+    }
+
+    .principle-card {
+      padding: 36px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .principle-card__number {
+      font-family: 'Sora', sans-serif;
+      font-weight: 700;
+      font-size: 3rem;
+      background: var(--aurora-gradient-full);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      opacity: 0.2;
+      position: absolute;
+      top: 20px;
+      right: 24px;
+      line-height: 1;
+    }
+
+    .principle-card h3 {
+      font-size: 1.05rem;
+      margin-bottom: 10px;
+    }
+
+    .principle-card p {
+      font-size: 0.9rem;
+      line-height: 1.65;
+    }
+
+    /* Section structure visualization */
+    .section-structure {
+      display: grid;
+      gap: 8px;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .structure-bar {
+      border-radius: 10px;
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-family: 'Sora', sans-serif;
+      font-weight: 500;
+      font-size: 0.85rem;
+      color: rgba(255, 255, 255, 0.9);
+      transition: transform 0.2s ease;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .structure-bar:hover {
+      transform: scaleX(1.02);
+    }
+
+    .structure-bar__label {
+      font-size: 0.72rem;
+      color: rgba(255, 255, 255, 0.5);
+      font-weight: 400;
+      font-family: 'Inter', sans-serif;
+    }
+
+    /* =============================================
+       CSS TECHNIQUES SECTION
+       ============================================= */
+    .techniques-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 28px;
+    }
+
+    .technique-card {
+      padding: 0;
+      overflow: hidden;
+    }
+
+    .technique-card__preview {
+      height: 180px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .technique-card__body {
+      padding: 28px 32px;
+    }
+
+    .technique-card h3 {
+      font-size: 1.1rem;
+      margin-bottom: 10px;
+    }
+
+    .technique-card p {
+      font-size: 0.88rem;
+      line-height: 1.6;
+    }
+
+    .technique-card__tag {
+      display: inline-block;
+      margin-top: 14px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 500;
+      padding: 4px 12px;
+      border-radius: 6px;
+      background: rgba(99, 102, 241, 0.15);
+      color: var(--aurora-text-muted);
+    }
+
+    /* Technique previews */
+    .preview-aurora-bg {
+      width: 100%;
+      height: 100%;
+      background:
+        radial-gradient(ellipse at 30% 50%, rgba(124, 58, 237, 0.4) 0%, transparent 60%),
+        radial-gradient(ellipse at 70% 30%, rgba(236, 72, 153, 0.3) 0%, transparent 60%),
+        radial-gradient(ellipse at 50% 80%, rgba(6, 182, 212, 0.35) 0%, transparent 60%);
+      background-color: var(--aurora-cosmic);
+      animation: auroraShift 12s ease-in-out infinite alternate;
+    }
+
+    .preview-glass {
+      width: 100%;
+      height: 100%;
+      background:
+        radial-gradient(ellipse at 40% 50%, rgba(168, 85, 247, 0.3) 0%, transparent 70%),
+        radial-gradient(ellipse at 70% 50%, rgba(6, 182, 212, 0.2) 0%, transparent 70%);
+      background-color: var(--aurora-cosmic);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .preview-glass__card {
+      width: 70%;
+      height: 60%;
+      background: rgba(255, 255, 255, 0.07);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .preview-glass__inner {
+      width: 50%;
+      height: 30%;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 6px;
+    }
+
+    .preview-gradient-text {
+      width: 100%;
+      height: 100%;
+      background-color: var(--aurora-midnight);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .preview-gradient-text span {
+      font-family: 'Sora', sans-serif;
+      font-weight: 700;
+      font-size: 2.2rem;
+      background: linear-gradient(135deg, #7c3aed, #ec4899, #3b82f6, #06b6d4, #10b981);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      background-size: 200% auto;
+      animation: textShimmer 4s ease-in-out infinite alternate;
+      letter-spacing: -0.03em;
+    }
+
+    .preview-button-demo {
+      width: 100%;
+      height: 100%;
+      background-color: var(--aurora-deep-space);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+    }
+
+    .preview-btn-sample {
+      padding: 10px 24px;
+      border-radius: 10px;
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 0.8rem;
+      border: none;
+      cursor: default;
+    }
+
+    .preview-btn-sample--solid {
+      background: linear-gradient(135deg, var(--aurora-purple), var(--aurora-pink));
+      color: #fff;
+      background-size: 200% 200%;
+      animation: gradientShift 4s ease infinite;
+    }
+
+    .preview-btn-sample--glass {
+      background: rgba(255, 255, 255, 0.06);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--aurora-text-primary);
+    }
+
+    /* =============================================
+       DO'S AND DON'TS SECTION
+       ============================================= */
+    .dos-donts {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+    }
+
+    .dos-donts__column h3 {
+      font-size: 1.2rem;
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .dos-donts__column--do h3 {
+      color: var(--aurora-green);
+    }
+
+    .dos-donts__column--dont h3 {
+      color: var(--aurora-pink);
+    }
+
+    .dos-donts__list {
+      list-style: none;
+      display: grid;
+      gap: 12px;
+    }
+
+    .dos-donts__list li {
+      padding: 16px 20px;
+      border-radius: 12px;
+      font-size: 0.9rem;
+      line-height: 1.6;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .dos-donts__column--do .dos-donts__list li {
+      background: rgba(16, 185, 129, 0.06);
+      border: 1px solid rgba(16, 185, 129, 0.12);
+    }
+
+    .dos-donts__column--dont .dos-donts__list li {
+      background: rgba(236, 72, 153, 0.06);
+      border: 1px solid rgba(236, 72, 153, 0.12);
+    }
+
+    .dos-donts__icon {
+      flex-shrink: 0;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+      font-weight: 700;
+      margin-top: 2px;
+    }
+
+    .dos-donts__column--do .dos-donts__icon {
+      background: rgba(16, 185, 129, 0.2);
+      color: var(--aurora-mint);
+    }
+
+    .dos-donts__column--dont .dos-donts__icon {
+      background: rgba(236, 72, 153, 0.2);
+      color: var(--aurora-rose);
+    }
+
+    /* =============================================
+       RELATED AESTHETICS SECTION
+       ============================================= */
+    .related-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+    }
+
+    .related-card {
+      padding: 28px;
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+    }
+
+    .related-card__dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      margin-top: 6px;
+    }
+
+    .related-card h4 {
+      font-size: 0.95rem;
+      margin-bottom: 6px;
+      color: var(--aurora-text-primary);
+    }
+
+    .related-card p {
+      font-size: 0.85rem;
+      line-height: 1.6;
+      color: var(--aurora-text-secondary);
+    }
+
+    /* =============================================
+       CTA SECTION
+       ============================================= */
+    .cta {
+      text-align: center;
+      padding: 140px 40px;
+    }
+
+    .cta-inner {
+      background: rgba(255, 255, 255, 0.04);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 28px;
+      padding: 80px 48px;
+      max-width: 800px;
+      margin: 0 auto;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-inner::before {
+      content: '';
+      position: absolute;
+      width: 300%;
+      height: 300%;
+      top: -100%;
+      left: -100%;
+      background:
+        radial-gradient(ellipse at 30% 50%, rgba(124, 58, 237, 0.12) 0%, transparent 50%),
+        radial-gradient(ellipse at 70% 50%, rgba(6, 182, 212, 0.1) 0%, transparent 50%);
+      animation: auroraShift 15s ease-in-out infinite alternate;
+      pointer-events: none;
+    }
+
+    .cta h2 {
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 700;
+      margin-bottom: 16px;
+      position: relative;
+      background: var(--aurora-gradient-full);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .cta p {
+      font-size: 1.1rem;
+      margin-bottom: 32px;
+      position: relative;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .cta .btn {
+      position: relative;
+    }
+
+    /* =============================================
+       FOOTER
+       ============================================= */
+    .footer {
+      text-align: center;
+      padding: 60px 40px 40px;
+      border-top: 1px solid rgba(255, 255, 255, 0.04);
+    }
+
+    .footer__brand {
+      font-family: 'Sora', sans-serif;
+      font-weight: 700;
+      font-size: 1.1rem;
+      background: var(--aurora-gradient-warm);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 16px;
+      display: block;
+    }
+
+    .footer p {
+      font-size: 0.85rem;
+      color: var(--aurora-text-muted);
+      margin-bottom: 6px;
+    }
+
+    /* =============================================
+       WAVY SECTION DIVIDER
+       ============================================= */
+    .wave-divider {
+      width: 100%;
+      height: 80px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .wave-divider svg {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      height: 80px;
+    }
+
+    /* =============================================
+       SCROLL REVEAL
+       ============================================= */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* =============================================
+       RESPONSIVE
+       ============================================= */
+    @media (max-width: 768px) {
+      .section {
+        padding: 80px 20px;
+      }
+
+      .container {
+        padding-left: 20px;
+        padding-right: 20px;
+      }
+
+      .hero {
+        min-height: 85vh;
+        padding: 100px 20px 80px;
+      }
+
+      .aurora-nav__inner {
+        padding: 16px 20px;
+      }
+
+      .aurora-nav__links {
+        gap: 18px;
+      }
+
+      .aurora-nav__links a {
+        font-size: 0.82rem;
+      }
+
+      .dos-donts {
+        grid-template-columns: 1fr;
+      }
+
+      .cta {
+        padding: 80px 20px;
+      }
+
+      .cta-inner {
+        padding: 48px 24px;
+      }
+
+      .palette-grid {
+        grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+      }
+
+      .gradient-strip {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+      }
+
+      .orb { opacity: 0.25; }
+    }
+
+    @media (max-width: 480px) {
+      .aurora-nav__links {
+        gap: 12px;
+      }
+
+      .hero__actions {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .traits-grid,
+      .techniques-grid,
+      .principles-grid,
+      .font-pairings {
+        grid-template-columns: 1fr;
+      }
+
+      .related-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .palette-grid {
+        grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+      }
+
+      .structure-bar {
+        flex-direction: column;
+        gap: 4px;
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Aurora Animated Background -->
+  <div class="aurora-bg"></div>
+
+  <!-- Floating Orbs -->
+  <div class="orb orb--1"></div>
+  <div class="orb orb--2"></div>
+  <div class="orb orb--3"></div>
+
+  <!-- Content -->
+  <div class="content">
+
+    <!-- Navigation -->
+    <nav class="aurora-nav" id="nav">
+      <div class="aurora-nav__inner">
+        <a href="#" class="aurora-nav__logo">Aurora Gradient</a>
+        <ul class="aurora-nav__links">
+          <li><a href="#visual">Visuals</a></li>
+          <li><a href="#palette">Palette</a></li>
+          <li><a href="#typography">Type</a></li>
+          <li><a href="#layout">Layout</a></li>
+          <li><a href="#techniques">CSS</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="hero__content">
+        <span class="hero__label">Design Aesthetic Reference</span>
+        <h1>Aurora Gradient</h1>
+        <p class="hero__subtitle">A dreamy, ethereal design aesthetic inspired by the Northern Lights. Smooth, flowing color transitions through purple, pink, blue, green, and teal -- mimicking the undulating luminescence of polar skies.</p>
+        <div class="hero__actions">
+          <a href="#visual" class="btn">Explore the Aesthetic</a>
+          <a href="#palette" class="btn btn--glass">View Palette</a>
+        </div>
+      </div>
+      <div class="hero__scroll-hint">
+        <span>Scroll</span>
+        <div class="scroll-line"></div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         VISUAL CHARACTERISTICS
+         ========================================== -->
+    <section class="section" id="visual">
+      <div class="container">
+        <div class="reveal">
+          <span class="section__label">Visual Characteristics</span>
+          <h2 class="section__heading">Core Design Traits</h2>
+          <p class="section__desc">Every surface seems to glow from within, as if illuminated by distant celestial light. These are the defining visual characteristics of the Aurora Gradient aesthetic.</p>
+        </div>
+
+        <div class="traits-grid">
+          <div class="glass-card trait-card reveal">
+            <div class="trait-card__icon" style="background: rgba(124, 58, 237, 0.15);">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="#a855f7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <h3>Multi-stop Flowing Gradients</h3>
+            <p>Smooth transitions through 3-5 colors (purple, pink, blue, green, teal) that mimic aurora curtains dancing across the night sky.</p>
+          </div>
+
+          <div class="glass-card trait-card reveal">
+            <div class="trait-card__icon" style="background: rgba(6, 182, 212, 0.15);">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#06b6d4" stroke-width="2"/><path d="M12 6v6l4 2" stroke="#06b6d4" stroke-width="2" stroke-linecap="round"/></svg>
+            </div>
+            <h3>Translucent Glass Layers</h3>
+            <p>Frosted-glass cards and surfaces that reveal gradient backgrounds beneath, creating natural depth and hierarchy through transparency.</p>
+          </div>
+
+          <div class="glass-card trait-card reveal">
+            <div class="trait-card__icon" style="background: rgba(236, 72, 153, 0.15);">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="5" stroke="#ec4899" stroke-width="2"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" stroke="#ec4899" stroke-width="2" stroke-linecap="round"/></svg>
+            </div>
+            <h3>Ethereal Glow Effects</h3>
+            <p>Soft radial glows and gradient overlays that simulate luminescence. Backgrounds feel painted with light rather than filled with flat color.</p>
+          </div>
+
+          <div class="glass-card trait-card reveal">
+            <div class="trait-card__icon" style="background: rgba(16, 185, 129, 0.15);">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z" stroke="#10b981" stroke-width="2"/><path d="M2 12h20" stroke="#10b981" stroke-width="2"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" stroke="#10b981" stroke-width="2"/></svg>
+            </div>
+            <h3>Generous Blur & Feathering</h3>
+            <p>Backdrop-filter blur and soft-edged shapes create atmospheric depth, wrapping every element in a warm, luminous haze.</p>
+          </div>
+
+          <div class="glass-card trait-card reveal">
+            <div class="trait-card__icon" style="background: rgba(168, 85, 247, 0.15);">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" stroke="#a855f7" stroke-width="2"/></svg>
+            </div>
+            <h3>Smooth, Organic Shapes</h3>
+            <p>Blob-like forms and rounded containers complement the flowing color transitions. No sharp edges -- everything curves and flows naturally.</p>
+          </div>
+
+          <div class="glass-card trait-card reveal">
+            <div class="trait-card__icon" style="background: rgba(59, 130, 246, 0.15);">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M5 3l14 9-14 9V3z" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <h3>Subtle, Meditative Animation</h3>
+            <p>Slow, gentle color shifts and gradient movement that mimic the aurora's natural dance. Think time-lapse, not strobe -- serene and calming.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         COLOR PALETTE
+         ========================================== -->
+    <section class="section section--center" id="palette">
+      <div class="container">
+        <div class="reveal">
+          <span class="section__label">Color Palette</span>
+          <h2 class="section__heading">Aurora Gradient Core Palette</h2>
+          <p class="section__desc">Colors drawn from the actual Aurora Borealis: ionized oxygen (green, red), ionized nitrogen (blue, purple), with artistic additions of pink and teal for digital expression.</p>
+        </div>
+
+        <!-- Dark Bases -->
+        <div class="reveal">
+          <p style="font-family: 'Sora', sans-serif; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--aurora-text-muted); margin-bottom: 16px; text-align: left;">Dark Bases</p>
+          <div class="palette-grid" style="margin-bottom: 32px;">
+            <div class="color-swatch">
+              <div class="color-swatch__preview" style="background: #0B0D1A;"></div>
+              <div class="color-swatch__info">
+                <div class="color-swatch__name">Midnight Sky</div>
+                <div class="color-swatch__hex">#0B0D1A</div>
+              </div>
+            </div>
+            <div class="color-swatch">
+              <div class="color-swatch__preview" style="background: #111827;"></div>
+              <div class="color-swatch__info">
+                <div class="color-swatch__name">Deep Space</div>
+                <div class="color-swatch__hex">#111827</div>
+              </div>
+            </div>
+            <div class="color-swatch">
+              <div class="color-swatch__preview" style="background: #1E1B4B;"></div>
+              <div class="color-swatch__info">
+                <div class="color-swatch__name">Cosmic Blue</div>
+                <div class="color-swatch__hex">#1E1B4B</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Aurora Spectrum -->
+        <div class="reveal">
+          <p style="font-family: 'Sora', sans-serif; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--aurora-text-muted); margin-bottom: 16px; text-align: left;">Aurora Spectrum</p>
+          <div class="palette-grid" style="margin-bottom: 32px;">
+            <div class="color-swatch">
+              <div class="color-swatch__preview" style="background: #7C3AED;"></div>
+              <div class="color-swatch__info">
+                <div class="color-swatch__name">Aurora Purple</div>
+                <div class="color-swatch__hex">#7C3AED</div>
+              </div>
+            </div>
+            <div class="color-swatch">
+              <div class="color-swatch__preview" style="background: #A855F7;"></div>
+              <div class="color-swatch__info">
+                <div class="color-swatch__name">Aurora Violet</div>
+                <div class="color-swatch__hex">#A855F7</div>
+              </div>
+            </div>
+            <div class="color-swatch">
+              <div class="color-swatch__preview" style="background: #EC4899;"></div>
+              <div class="color-swatch__info">
+                <div class="color-swatch__name">Aurora Pink</div>
+                <div class="color-swatch__hex">#EC4899</div>
+              </div>
+            </div>
+            <div class="color-swatch">
+              <div class="color-swatch__preview" style="background: #F472B6;"></div>
+              <div class="color-swatch__info">
+                <div class="color-swatch__name">Aurora Rose</div>
+                <div class="color-swatch__hex">#F472B6</div>
+              </div>
+            </div>
+            <div class="color-swatch">
+              <div class="color-swatch__preview" style="background: #3B82F6;"></div>
+              <div class="color-swatch__info">
+                <div class="color-swatch__name">Aurora Blue</div>
+                <div class="color-swatch__hex">#3B82F6</div>
+              </div>
+            </div>
+            <div class="color-swatch">
+              <div class="color-swatch__preview" style="background: #06B6D4;"></div>
+              <div class="color-swatch__info">
+                <div class="color-swatch__name">Aurora Cyan</div>
+                <div class="color-swatch__hex">#06B6D4</div>
+              </div>
+            </div>
+            <div class="color-swatch">
+              <div class="color-swatch__preview" style="background: #10B981;"></div>
+              <div class="color-swatch__info">
+                <div class="color-swatch__name">Aurora Green</div>
+                <div class="color-swatch__hex">#10B981</div>
+              </div>
+            </div>
+            <div class="color-swatch">
+              <div class="color-swatch__preview" style="background: #34D399;"></div>
+              <div class="color-swatch__info">
+                <div class="color-swatch__name">Aurora Mint</div>
+                <div class="color-swatch__hex">#34D399</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Text Colors -->
+        <div class="reveal">
+          <p style="font-family: 'Sora', sans-serif; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--aurora-text-muted); margin-bottom: 16px; text-align: left;">Text Colors</p>
+          <div class="palette-grid" style="margin-bottom: 32px;">
+            <div class="color-swatch">
+              <div class="color-swatch__preview" style="background: #E0E7FF;"></div>
+              <div class="color-swatch__info">
+                <div class="color-swatch__name">Stardust</div>
+                <div class="color-swatch__hex">#E0E7FF</div>
+              </div>
+            </div>
+            <div class="color-swatch">
+              <div class="color-swatch__preview" style="background: #A5B4FC;"></div>
+              <div class="color-swatch__info">
+                <div class="color-swatch__name">Nebula</div>
+                <div class="color-swatch__hex">#A5B4FC</div>
+              </div>
+            </div>
+            <div class="color-swatch">
+              <div class="color-swatch__preview" style="background: #6366F1;"></div>
+              <div class="color-swatch__info">
+                <div class="color-swatch__name">Cosmic Dust</div>
+                <div class="color-swatch__hex">#6366F1</div>
+              </div>
+            </div>
+            <div class="color-swatch">
+              <div class="color-swatch__preview" style="background: #F8FAFC;"></div>
+              <div class="color-swatch__info">
+                <div class="color-swatch__name">Starlight</div>
+                <div class="color-swatch__hex">#F8FAFC</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Gradient Strips -->
+        <div class="reveal">
+          <p style="font-family: 'Sora', sans-serif; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--aurora-text-muted); margin-bottom: 16px; text-align: left;">Signature Gradients</p>
+          <div class="gradient-showcase">
+            <div class="gradient-strip" style="background: linear-gradient(135deg, #7c3aed, #ec4899, #3b82f6, #06b6d4, #10b981);">
+              <span class="gradient-strip__label">Full Aurora</span>
+              <span class="gradient-strip__code">--aurora-gradient-full</span>
+            </div>
+            <div class="gradient-strip" style="background: linear-gradient(135deg, #7c3aed, #a855f7, #ec4899, #f472b6);">
+              <span class="gradient-strip__label">Warm Aurora</span>
+              <span class="gradient-strip__code">--aurora-gradient-warm</span>
+            </div>
+            <div class="gradient-strip" style="background: linear-gradient(135deg, #3b82f6, #06b6d4, #10b981, #34d399);">
+              <span class="gradient-strip__label">Cool Aurora</span>
+              <span class="gradient-strip__code">--aurora-gradient-cool</span>
+            </div>
+            <div class="gradient-strip" style="background: linear-gradient(135deg, rgba(124,58,237,0.3), rgba(236,72,153,0.2), rgba(6,182,212,0.3)); border: 1px solid rgba(255,255,255,0.08);">
+              <span class="gradient-strip__label" style="color: var(--aurora-text-primary);">Subtle Aurora</span>
+              <span class="gradient-strip__code" style="background: rgba(255,255,255,0.06);">--aurora-gradient-subtle</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         TYPOGRAPHY
+         ========================================== -->
+    <section class="section" id="typography">
+      <div class="container">
+        <div class="reveal">
+          <span class="section__label">Typography</span>
+          <h2 class="section__heading">Light, Airy, Luminous</h2>
+          <p class="section__desc">Thin-to-medium weight fonts that don't compete with the gradient spectacle. Modern, geometric letterforms with generous spacing to match the ethereal mood.</p>
+        </div>
+
+        <div class="type-showcase">
+          <div class="glass-card type-demo reveal">
+            <div class="type-demo__sample type-demo__sample--gradient">
+              Design that glows<br>from within
+            </div>
+            <div class="type-demo__meta">
+              <span class="type-tag">Sora 700</span>
+              <span class="type-tag">Gradient Clipped</span>
+              <span class="type-tag">Display / Hero</span>
+            </div>
+          </div>
+
+          <div class="glass-card type-demo reveal">
+            <div class="type-demo__sample" style="font-size: clamp(1.4rem, 3vw, 2.2rem); font-weight: 600; margin-bottom: 12px;">
+              Celestial interfaces with cosmic serenity
+            </div>
+            <p style="font-size: 1.05rem; color: var(--aurora-text-secondary); line-height: 1.8; margin-bottom: 20px; font-family: 'Inter', sans-serif;">
+              The aurora aesthetic combines flowing gradients with translucent glass surfaces, creating depth and atmosphere. Every element is designed to feel lightweight, luminous, and peaceful -- as if illuminated by distant celestial light.
+            </p>
+            <div class="type-demo__meta">
+              <span class="type-tag">Sora 600 / Inter 400</span>
+              <span class="type-tag">Heading + Body Pair</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="reveal">
+          <p style="font-family: 'Sora', sans-serif; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--aurora-text-muted); margin-bottom: 20px;">Recommended Pairings</p>
+        </div>
+
+        <div class="font-pairings">
+          <div class="glass-card pairing-card reveal">
+            <h4 class="pairing-card__heading" style="font-family: 'Sora', sans-serif; font-weight: 600;">Sora + Inter</h4>
+            <p class="pairing-card__body" style="font-family: 'Inter', sans-serif;">Clean, modern, cosmic elegance. The geometric precision of Sora pairs naturally with Inter's screen-optimized readability.</p>
+            <span class="pairing-card__label">Primary Recommendation</span>
+          </div>
+
+          <div class="glass-card pairing-card reveal">
+            <h4 class="pairing-card__heading" style="font-family: 'Sora', sans-serif; font-weight: 700;">Bold Display + Accessible Body</h4>
+            <p class="pairing-card__body" style="font-family: 'Inter', sans-serif;">Sora at weight 700 for bold headlines paired with Lexend at 400 for accessible, easy reading. Perfect for content-heavy aurora pages.</p>
+            <span class="pairing-card__label">Accessibility-Focused</span>
+          </div>
+
+          <div class="glass-card pairing-card reveal">
+            <h4 class="pairing-card__heading" style="font-family: 'Sora', sans-serif; font-weight: 600;">Tall & Elegant</h4>
+            <p class="pairing-card__body" style="font-family: 'Inter', sans-serif;">Urbanist at weight 600 creates tall, elegant headers. Pair with Figtree at 400 for a friendly, approachable body that balances the formality.</p>
+            <span class="pairing-card__label">Editorial Character</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         LAYOUT PRINCIPLES
+         ========================================== -->
+    <section class="section section--center" id="layout">
+      <div class="container">
+        <div class="reveal">
+          <span class="section__label">Layout Principles</span>
+          <h2 class="section__heading">Structure & Depth</h2>
+          <p class="section__desc">Full-viewport gradients, glassmorphic card layers, and generous vertical spacing. Centered, constrained content keeps everything readable against flowing backgrounds.</p>
+        </div>
+
+        <div class="principles-grid" style="text-align: left;">
+          <div class="glass-card principle-card reveal">
+            <span class="principle-card__number">01</span>
+            <h3>Full-Viewport Gradient Backgrounds</h3>
+            <p>The aurora gradient spans entire pages or large sections, creating an immersive canvas of flowing color that grounds the entire interface.</p>
+          </div>
+          <div class="glass-card principle-card reveal">
+            <span class="principle-card__number">02</span>
+            <h3>Glassmorphic Card Layers</h3>
+            <p>Translucent cards float above the gradient, creating natural depth. Content exists on a separate plane from the cosmic backdrop beneath.</p>
+          </div>
+          <div class="glass-card principle-card reveal">
+            <span class="principle-card__number">03</span>
+            <h3>Centered, Constrained Content</h3>
+            <p>Max-width 1100px keeps content readable. The gradient breathes in the margins while text stays comfortable and scannable.</p>
+          </div>
+          <div class="glass-card principle-card reveal">
+            <span class="principle-card__number">04</span>
+            <h3>Vertical Rhythm Through Gradient Shifts</h3>
+            <p>Sections transition through different gradient phases. Each scroll position reveals new aurora colors, creating a sense of journey.</p>
+          </div>
+          <div class="glass-card principle-card reveal">
+            <span class="principle-card__number">05</span>
+            <h3>Organic, Flowing Section Breaks</h3>
+            <p>Wavy SVG dividers or gradient fades replace hard lines between sections. Everything flows and curves, echoing the aurora itself.</p>
+          </div>
+          <div class="glass-card principle-card reveal">
+            <span class="principle-card__number">06</span>
+            <h3>Generous Vertical Spacing</h3>
+            <p>100-140px between sections to let the gradient breathe. White space is sacred -- it keeps the cosmic atmosphere from feeling cluttered.</p>
+          </div>
+        </div>
+
+        <!-- Section Structure Visualization -->
+        <div class="reveal">
+          <p style="font-family: 'Sora', sans-serif; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--aurora-text-muted); margin-bottom: 20px;">Recommended Section Organization</p>
+          <div class="section-structure">
+            <div class="structure-bar" style="background: linear-gradient(90deg, rgba(124,58,237,0.2), rgba(168,85,247,0.15));">
+              Navigation
+              <span class="structure-bar__label">Transparent glass bar</span>
+            </div>
+            <div class="structure-bar" style="background: linear-gradient(90deg, rgba(124,58,237,0.25), rgba(236,72,153,0.2), rgba(59,130,246,0.15));">
+              Hero
+              <span class="structure-bar__label">Full-height gradient + display text</span>
+            </div>
+            <div class="structure-bar" style="background: linear-gradient(90deg, rgba(236,72,153,0.15), rgba(6,182,212,0.15));">
+              Features
+              <span class="structure-bar__label">Glass cards on gradient</span>
+            </div>
+            <div class="structure-bar" style="background: linear-gradient(90deg, rgba(6,182,212,0.2), rgba(16,185,129,0.15));">
+              Showcase
+              <span class="structure-bar__label">Gradient as visual feature</span>
+            </div>
+            <div class="structure-bar" style="background: linear-gradient(90deg, rgba(16,185,129,0.15), rgba(59,130,246,0.2));">
+              Metrics
+              <span class="structure-bar__label">Gradient-text on dark glass</span>
+            </div>
+            <div class="structure-bar" style="background: linear-gradient(90deg, rgba(124,58,237,0.2), rgba(236,72,153,0.2));">
+              Call to Action
+              <span class="structure-bar__label">Concentrated gradient area</span>
+            </div>
+            <div class="structure-bar" style="background: linear-gradient(90deg, rgba(17,24,39,0.6), rgba(11,13,26,0.8));">
+              Footer
+              <span class="structure-bar__label">Fade to deepest dark</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         CSS / DESIGN TECHNIQUES
+         ========================================== -->
+    <section class="section" id="techniques">
+      <div class="container">
+        <div class="reveal">
+          <span class="section__label">CSS / Design Techniques</span>
+          <h2 class="section__heading">Building the Aurora</h2>
+          <p class="section__desc">The core CSS techniques that bring the Aurora Gradient aesthetic to life. Layered radial gradients, glass effects, animated backgrounds, and gradient-clipped typography.</p>
+        </div>
+
+        <div class="techniques-grid">
+          <div class="glass-card technique-card reveal">
+            <div class="technique-card__preview">
+              <div class="preview-aurora-bg"></div>
+            </div>
+            <div class="technique-card__body">
+              <h3>Aurora Background</h3>
+              <p>Multiple radial-gradient layers with offset positions create the flowing aurora effect. Animated with slow transforms to mimic natural movement.</p>
+              <span class="technique-card__tag">radial-gradient + @keyframes</span>
+            </div>
+          </div>
+
+          <div class="glass-card technique-card reveal">
+            <div class="technique-card__preview">
+              <div class="preview-glass">
+                <div class="preview-glass__card">
+                  <div class="preview-glass__inner"></div>
+                </div>
+              </div>
+            </div>
+            <div class="technique-card__body">
+              <h3>Glass Card</h3>
+              <p>Semi-transparent backgrounds with backdrop-filter blur create frosted glass surfaces. Border and background opacity increase on hover for interactivity.</p>
+              <span class="technique-card__tag">backdrop-filter: blur()</span>
+            </div>
+          </div>
+
+          <div class="glass-card technique-card reveal">
+            <div class="technique-card__preview">
+              <div class="preview-gradient-text">
+                <span>Celestial</span>
+              </div>
+            </div>
+            <div class="technique-card__body">
+              <h3>Gradient Text</h3>
+              <p>The full aurora gradient applied to text using background-clip. Animated background-position creates a shimmering, alive quality in display headings.</p>
+              <span class="technique-card__tag">background-clip: text</span>
+            </div>
+          </div>
+
+          <div class="glass-card technique-card reveal">
+            <div class="technique-card__preview">
+              <div class="preview-button-demo">
+                <div class="preview-btn-sample preview-btn-sample--solid">Gradient</div>
+                <div class="preview-btn-sample preview-btn-sample--glass">Glass</div>
+              </div>
+            </div>
+            <div class="technique-card__body">
+              <h3>Aurora Buttons</h3>
+              <p>Two variants: warm gradient buttons for primary actions with animated background-position, and glass buttons with translucent backdrop blur for secondary actions.</p>
+              <span class="technique-card__tag">background-size: 200%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         DESIGN PRINCIPLES
+         ========================================== -->
+    <section class="section" id="principles">
+      <div class="container">
+        <div class="reveal">
+          <span class="section__label">Design Principles</span>
+          <h2 class="section__heading">Guiding Philosophy</h2>
+          <p class="section__desc">The core beliefs and rules that shape every decision in the Aurora Gradient aesthetic. Follow these to maintain the celestial, serene character.</p>
+        </div>
+
+        <div class="glass-card reveal" style="padding: 48px; margin-bottom: 48px;">
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 32px;">
+            <div>
+              <h4 style="font-size: 0.95rem; margin-bottom: 10px; color: var(--aurora-violet);">Let the gradient be the hero</h4>
+              <p style="font-size: 0.88rem; line-height: 1.6;">Design everything else to support and not compete with the flowing aurora gradient. It is the centerpiece of every composition.</p>
+            </div>
+            <div>
+              <h4 style="font-size: 0.95rem; margin-bottom: 10px; color: var(--aurora-pink);">Translucency creates depth</h4>
+              <p style="font-size: 0.88rem; line-height: 1.6;">Use glass layers to build hierarchy while keeping the aurora visible through surfaces. Depth comes from see-through layering.</p>
+            </div>
+            <div>
+              <h4 style="font-size: 0.95rem; margin-bottom: 10px; color: var(--aurora-cyan);">Dark backgrounds make gradients glow</h4>
+              <p style="font-size: 0.88rem; line-height: 1.6;">Avoid pure white bases that flatten the effect. Midnight-blue or deep purple backgrounds let the aurora luminescence shine.</p>
+            </div>
+            <div>
+              <h4 style="font-size: 0.95rem; margin-bottom: 10px; color: var(--aurora-green);">Smooth, natural color transitions</h4>
+              <p style="font-size: 0.88rem; line-height: 1.6;">Color shifts should feel organic and diffused -- never harsh or banded. Multiple gradient stops with generous spread ensure smoothness.</p>
+            </div>
+            <div>
+              <h4 style="font-size: 0.95rem; margin-bottom: 10px; color: var(--aurora-blue);">Slow, meditative animation</h4>
+              <p style="font-size: 0.88rem; line-height: 1.6;">Animation should never be jarring. Think time-lapse, not strobe. 15-30 second animation cycles feel the most natural and calming.</p>
+            </div>
+            <div>
+              <h4 style="font-size: 0.95rem; margin-bottom: 10px; color: var(--aurora-rose);">Careful contrast management</h4>
+              <p style="font-size: 0.88rem; line-height: 1.6;">Text on gradients needs solid-background chips or text shadows. Gradient backgrounds make contrast unpredictable -- always test readability.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         DO'S AND DON'TS
+         ========================================== -->
+    <section class="section" id="dos-donts">
+      <div class="container">
+        <div class="reveal">
+          <span class="section__label">Guidelines</span>
+          <h2 class="section__heading">Do's and Don'ts</h2>
+          <p class="section__desc">Follow these guidelines to maintain the integrity and beauty of the Aurora Gradient aesthetic in every interface you create.</p>
+        </div>
+
+        <div class="dos-donts reveal">
+          <div class="dos-donts__column dos-donts__column--do">
+            <h3>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" stroke="#10b981" stroke-width="2" stroke-linecap="round"/><path d="M22 4L12 14.01l-3-3" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Do
+            </h3>
+            <ul class="dos-donts__list">
+              <li>
+                <span class="dos-donts__icon">+</span>
+                <span>Use multi-stop gradients with smooth transitions through the full aurora spectrum</span>
+              </li>
+              <li>
+                <span class="dos-donts__icon">+</span>
+                <span>Pair gradients with dark backgrounds for maximum luminous impact</span>
+              </li>
+              <li>
+                <span class="dos-donts__icon">+</span>
+                <span>Layer translucent glass elements to create depth and atmosphere</span>
+              </li>
+              <li>
+                <span class="dos-donts__icon">+</span>
+                <span>Animate gradients slowly and subtly to mimic the aurora's natural movement</span>
+              </li>
+              <li>
+                <span class="dos-donts__icon">+</span>
+                <span>Use gradient-clipped text for display headings as a focal point</span>
+              </li>
+              <li>
+                <span class="dos-donts__icon">+</span>
+                <span>Let the gradient be the star; keep UI elements simple and understated</span>
+              </li>
+            </ul>
+          </div>
+
+          <div class="dos-donts__column dos-donts__column--dont">
+            <h3>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#ec4899" stroke-width="2"/><path d="M15 9l-6 6M9 9l6 6" stroke="#ec4899" stroke-width="2" stroke-linecap="round"/></svg>
+              Don't
+            </h3>
+            <ul class="dos-donts__list">
+              <li>
+                <span class="dos-donts__icon">&times;</span>
+                <span>Use gradients on light or white backgrounds -- they lose their luminous quality</span>
+              </li>
+              <li>
+                <span class="dos-donts__icon">&times;</span>
+                <span>Create harsh, banded color transitions -- all shifts should be smooth and diffused</span>
+              </li>
+              <li>
+                <span class="dos-donts__icon">&times;</span>
+                <span>Animate gradients quickly or erratically -- the aurora requires slow, meditative motion</span>
+              </li>
+              <li>
+                <span class="dos-donts__icon">&times;</span>
+                <span>Layer too many glass elements -- performance suffers and the effect becomes muddy</span>
+              </li>
+              <li>
+                <span class="dos-donts__icon">&times;</span>
+                <span>Pair with sharp, angular, geometric patterns -- organic, flowing shapes work better</span>
+              </li>
+              <li>
+                <span class="dos-donts__icon">&times;</span>
+                <span>Ignore text readability -- gradient backgrounds make contrast unpredictable</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         RELATED AESTHETICS
+         ========================================== -->
+    <section class="section section--center" id="related">
+      <div class="container">
+        <div class="reveal">
+          <span class="section__label">Related Aesthetics</span>
+          <h2 class="section__heading">Aesthetic Neighbors</h2>
+          <p class="section__desc">Aurora Gradient exists within a constellation of related design movements. Understanding these relationships helps position and differentiate the aesthetic.</p>
+        </div>
+
+        <div class="related-grid">
+          <div class="glass-card related-card reveal">
+            <div class="related-card__dot" style="background: var(--aurora-violet);"></div>
+            <div>
+              <h4>Glassmorphism</h4>
+              <p>Core technique. Frosted glass cards layered on aurora gradients create the signature effect of the entire aesthetic.</p>
+            </div>
+          </div>
+          <div class="glass-card related-card reveal">
+            <div class="related-card__dot" style="background: var(--aurora-blue);"></div>
+            <div>
+              <h4>Dark Aero</h4>
+              <p>Shares dark-base translucency. Aurora adds flowing color where Dark Aero stays monochrome and restrained.</p>
+            </div>
+          </div>
+          <div class="glass-card related-card reveal">
+            <div class="related-card__dot" style="background: var(--aurora-cyan);"></div>
+            <div>
+              <h4>Frutiger Aero</h4>
+              <p>Predecessor. Glossy, nature-inspired UI that aurora aesthetics update with cosmic gradients and modern translucency.</p>
+            </div>
+          </div>
+          <div class="glass-card related-card reveal">
+            <div class="related-card__dot" style="background: var(--aurora-green);"></div>
+            <div>
+              <h4>Laser Grid</h4>
+              <p>Shares vivid neon-on-dark approach but with rigid geometric grids instead of aurora's organic, flowing forms.</p>
+            </div>
+          </div>
+          <div class="glass-card related-card reveal">
+            <div class="related-card__dot" style="background: var(--aurora-pink);"></div>
+            <div>
+              <h4>Acid Design</h4>
+              <p>Both use vivid gradients, but Acid pushes toward chaos and maximalism while Aurora maintains serenity and calm.</p>
+            </div>
+          </div>
+          <div class="glass-card related-card reveal">
+            <div class="related-card__dot" style="background: var(--aurora-rose);"></div>
+            <div>
+              <h4>Cosmic</h4>
+              <p>Shares celestial inspiration. Aurora focuses on light phenomena while Cosmic encompasses stars, planets, and space.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         CTA SECTION
+         ========================================== -->
+    <section class="cta">
+      <div class="cta-inner reveal">
+        <h2>The sky is alive with color</h2>
+        <p>Aurora Gradient transforms interfaces into celestial experiences. Dreamy, luminous, and endlessly serene.</p>
+        <a href="#" class="btn" onclick="event.preventDefault(); window.scrollTo({top: 0, behavior: 'smooth'});">Back to the Top</a>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <span class="footer__brand">Aurora Gradient</span>
+      <p>A dreamy, ethereal design aesthetic inspired by the Northern Lights.</p>
+      <p style="margin-top: 12px; font-size: 0.78rem; opacity: 0.6;">Flowing gradients. Translucent layers. Cosmic serenity.</p>
+    </footer>
+
+  </div>
+
+  <!-- ==========================================
+       JAVASCRIPT
+       ========================================== -->
+  <script>
+    // Scroll-triggered navigation background
+    const nav = document.getElementById('nav');
+    let lastScroll = 0;
+
+    function handleNavScroll() {
+      const scrollY = window.scrollY;
+      if (scrollY > 50) {
+        nav.classList.add('scrolled');
+      } else {
+        nav.classList.remove('scrolled');
+      }
+      lastScroll = scrollY;
+    }
+
+    window.addEventListener('scroll', handleNavScroll, { passive: true });
+
+    // Intersection Observer for scroll reveal
+    const revealElements = document.querySelectorAll('.reveal');
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry, index) => {
+        if (entry.isIntersecting) {
+          // Stagger reveals within the same observation batch
+          const delay = Array.from(revealElements).indexOf(entry.target) % 6 * 80;
+          setTimeout(() => {
+            entry.target.classList.add('visible');
+          }, delay);
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, {
+      threshold: 0.1,
+      rootMargin: '0px 0px -40px 0px'
+    });
+
+    revealElements.forEach(el => revealObserver.observe(el));
+
+    // Smooth scroll for nav links
+    document.querySelectorAll('.aurora-nav__links a').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const targetId = link.getAttribute('href').substring(1);
+        const targetEl = document.getElementById(targetId);
+        if (targetEl) {
+          targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+
+    // Parallax effect on orbs based on scroll position
+    let ticking = false;
+    function updateOrbs() {
+      const scrollY = window.scrollY;
+      const orbs = document.querySelectorAll('.orb');
+      orbs.forEach((orb, i) => {
+        const speed = 0.02 + (i * 0.01);
+        orb.style.transform = `translateY(${scrollY * speed}px)`;
+      });
+      ticking = false;
+    }
+
+    window.addEventListener('scroll', () => {
+      if (!ticking) {
+        requestAnimationFrame(updateOrbs);
+        ticking = true;
+      }
+    }, { passive: true });
+  </script>
+</body>
+</html>

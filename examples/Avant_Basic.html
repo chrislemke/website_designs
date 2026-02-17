@@ -1,0 +1,2244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Avant Basic -- Extravagance in the Age of Mechanical Reproduction</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;600;700&family=Fredoka:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ==============================
+   CSS CUSTOM PROPERTIES
+   ============================== */
+:root {
+  --bg: #F8F5F0;
+  --bg-white: #FFFFFF;
+  --primary: #F4A7BB;
+  --primary-deep: #e8899f;
+  --secondary: #A8D8EA;
+  --secondary-deep: #89CFF0;
+  --accent-green: #B5EAD7;
+  --accent-green-deep: #98D8AA;
+  --accent-orange: #FFCBA4;
+  --accent-orange-deep: #FFD3A3;
+  --accent-lavender: #C3B1E1;
+  --accent-lavender-deep: #D4BBFF;
+  --text: #2D2D2D;
+  --text-soft: #3A3A3A;
+  --text-muted: #6B6B6B;
+
+  --radius-sm: 12px;
+  --radius-md: 20px;
+  --radius-lg: 28px;
+  --radius-xl: 40px;
+  --radius-pill: 999px;
+
+  --shadow-soft: 0 8px 32px rgba(244, 167, 187, 0.15);
+  --shadow-blue: 0 8px 32px rgba(168, 216, 234, 0.25);
+  --shadow-green: 0 8px 32px rgba(181, 234, 215, 0.25);
+  --shadow-lavender: 0 8px 32px rgba(195, 177, 225, 0.25);
+  --shadow-float: 0 16px 48px rgba(0,0,0,0.08);
+
+  --font-display: 'Fredoka', 'Comfortaa', sans-serif;
+  --font-heading: 'Comfortaa', 'Quicksand', sans-serif;
+  --font-body: 'Poppins', sans-serif;
+  --font-accent: 'Quicksand', sans-serif;
+}
+
+/* ==============================
+   RESET & BASE
+   ============================== */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-body);
+  color: var(--text);
+  background: var(--bg);
+  overflow-x: hidden;
+  line-height: 1.7;
+  font-weight: 400;
+}
+
+::selection {
+  background: var(--primary);
+  color: var(--bg-white);
+}
+
+/* ==============================
+   ANIMATIONS
+   ============================== */
+@keyframes float {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  33% { transform: translateY(-12px) rotate(1deg); }
+  66% { transform: translateY(-6px) rotate(-1deg); }
+}
+
+@keyframes floatSlow {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-20px) rotate(2deg); }
+}
+
+@keyframes morphBlob {
+  0%, 100% { border-radius: 60% 40% 50% 70% / 50% 60% 40% 60%; }
+  25% { border-radius: 40% 60% 70% 30% / 60% 40% 50% 50%; }
+  50% { border-radius: 50% 50% 40% 60% / 40% 70% 60% 30%; }
+  75% { border-radius: 70% 30% 60% 40% / 50% 50% 70% 40%; }
+}
+
+@keyframes wiggle {
+  0%, 100% { transform: rotate(-2deg); }
+  50% { transform: rotate(2deg); }
+}
+
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeSlideIn {
+  from { opacity: 0; transform: translateX(-30px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.85); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes checkerScroll {
+  0% { background-position: 0 0, 0 20px, 20px -20px, -20px 0; }
+  100% { background-position: 40px 40px, 40px 60px, 60px 20px, 20px 40px; }
+}
+
+@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); opacity: 0.7; }
+  50% { transform: scale(1.05); opacity: 1; }
+}
+
+@keyframes waveMove {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-200px); }
+}
+
+.animate-on-scroll {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.animate-on-scroll.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ==============================
+   HERO SECTION
+   ============================== */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 24px;
+  overflow: hidden;
+  background: var(--bg-white);
+}
+
+.hero-bg-blobs {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.hero-blob {
+  position: absolute;
+  animation: morphBlob 8s ease-in-out infinite, floatSlow 6s ease-in-out infinite;
+  opacity: 0.4;
+  filter: blur(60px);
+}
+
+.hero-blob--1 {
+  width: 500px; height: 500px;
+  background: var(--primary);
+  top: -100px; left: -100px;
+  animation-delay: 0s;
+}
+
+.hero-blob--2 {
+  width: 400px; height: 400px;
+  background: var(--secondary);
+  top: 20%; right: -80px;
+  animation-delay: -2s;
+}
+
+.hero-blob--3 {
+  width: 350px; height: 350px;
+  background: var(--accent-green);
+  bottom: -50px; left: 30%;
+  animation-delay: -4s;
+}
+
+.hero-blob--4 {
+  width: 300px; height: 300px;
+  background: var(--accent-lavender);
+  bottom: 10%; right: 15%;
+  animation-delay: -6s;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  max-width: 900px;
+}
+
+.hero-badge {
+  display: inline-block;
+  background: var(--primary);
+  color: var(--bg-white);
+  font-family: var(--font-accent);
+  font-weight: 700;
+  font-size: 0.8rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  padding: 10px 28px;
+  border-radius: var(--radius-pill);
+  margin-bottom: 32px;
+  animation: fadeSlideUp 0.8s ease both;
+  animation-delay: 0.2s;
+}
+
+.hero-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(3.5rem, 10vw, 8rem);
+  line-height: 1.05;
+  color: var(--text);
+  margin-bottom: 24px;
+  animation: fadeSlideUp 0.8s ease both;
+  animation-delay: 0.4s;
+}
+
+.hero-title span {
+  display: inline-block;
+}
+
+.hero-title .word-avant {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--accent-lavender) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-title .word-basic {
+  background: linear-gradient(135deg, var(--secondary) 0%, var(--accent-green) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-subtitle {
+  font-family: var(--font-body);
+  font-size: clamp(1rem, 2.2vw, 1.35rem);
+  font-weight: 300;
+  color: var(--text-soft);
+  max-width: 640px;
+  margin: 0 auto 40px;
+  line-height: 1.8;
+  animation: fadeSlideUp 0.8s ease both;
+  animation-delay: 0.6s;
+}
+
+.hero-subtitle em {
+  font-style: italic;
+  color: var(--primary-deep);
+  font-weight: 500;
+}
+
+.hero-scroll-indicator {
+  animation: fadeSlideUp 0.8s ease both, float 3s ease-in-out infinite;
+  animation-delay: 1s, 1.8s;
+  margin-top: 20px;
+}
+
+.hero-scroll-indicator svg {
+  width: 32px;
+  height: 32px;
+  stroke: var(--primary);
+  stroke-width: 2;
+  fill: none;
+}
+
+/* Decorative floating shapes */
+.hero-deco {
+  position: absolute;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.hero-deco--checker {
+  width: 120px; height: 120px;
+  top: 15%; left: 8%;
+  border-radius: var(--radius-lg);
+  background-image:
+    linear-gradient(45deg, var(--accent-orange) 25%, transparent 25%),
+    linear-gradient(-45deg, var(--accent-orange) 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, var(--accent-orange) 75%),
+    linear-gradient(-45deg, transparent 75%, var(--accent-orange) 75%);
+  background-size: 20px 20px;
+  background-position: 0 0, 0 10px, 10px -10px, -10px 0;
+  opacity: 0.35;
+  animation: float 7s ease-in-out infinite, wiggle 5s ease-in-out infinite;
+  animation-delay: -1s;
+}
+
+.hero-deco--circle {
+  width: 80px; height: 80px;
+  bottom: 20%; left: 12%;
+  border-radius: 50%;
+  background: var(--accent-green);
+  opacity: 0.3;
+  animation: floatSlow 8s ease-in-out infinite;
+  animation-delay: -3s;
+}
+
+.hero-deco--pill {
+  width: 160px; height: 50px;
+  top: 25%; right: 10%;
+  border-radius: var(--radius-pill);
+  background: linear-gradient(90deg, var(--accent-lavender), var(--primary));
+  opacity: 0.25;
+  animation: float 9s ease-in-out infinite;
+  animation-delay: -2s;
+  transform: rotate(-15deg);
+}
+
+.hero-deco--ring {
+  width: 100px; height: 100px;
+  bottom: 25%; right: 8%;
+  border-radius: 50%;
+  border: 8px solid var(--secondary);
+  opacity: 0.3;
+  animation: floatSlow 7s ease-in-out infinite, rotate 20s linear infinite;
+  animation-delay: -4s;
+}
+
+/* ==============================
+   WAVY DIVIDER
+   ============================== */
+.wavy-divider {
+  width: 100%;
+  height: 80px;
+  overflow: hidden;
+  position: relative;
+}
+
+.wavy-divider svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.wavy-divider--flip {
+  transform: scaleY(-1);
+}
+
+/* ==============================
+   SECTION STYLING
+   ============================== */
+.section {
+  padding: 80px 24px;
+  position: relative;
+}
+
+.section--pink { background: var(--primary); }
+.section--blue { background: var(--secondary); }
+.section--green { background: var(--accent-green); }
+.section--orange { background: var(--accent-orange); }
+.section--lavender { background: var(--accent-lavender); }
+.section--white { background: var(--bg-white); }
+.section--cream { background: var(--bg); }
+
+.section-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.section-label {
+  font-family: var(--font-accent);
+  font-weight: 700;
+  font-size: 0.75rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  display: inline-block;
+  padding: 8px 20px;
+  border-radius: var(--radius-pill);
+  margin-bottom: 20px;
+}
+
+.section-label--pink { background: var(--primary); color: var(--bg-white); }
+.section-label--blue { background: var(--secondary); color: var(--text); }
+.section-label--green { background: var(--accent-green); color: var(--text); }
+.section-label--orange { background: var(--accent-orange); color: var(--text); }
+.section-label--lavender { background: var(--accent-lavender); color: var(--bg-white); }
+
+.section-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  line-height: 1.15;
+  margin-bottom: 20px;
+  color: var(--text);
+}
+
+.section-description {
+  font-family: var(--font-body);
+  font-size: 1.1rem;
+  font-weight: 300;
+  color: var(--text-soft);
+  max-width: 700px;
+  line-height: 1.8;
+  margin-bottom: 48px;
+}
+
+/* ==============================
+   COLOR PALETTE GRID
+   ============================== */
+.palette-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  margin-top: 32px;
+}
+
+.palette-card {
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: var(--bg-white);
+  box-shadow: var(--shadow-soft);
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.4s ease;
+  cursor: default;
+}
+
+.palette-card:hover {
+  transform: translateY(-8px) rotate(-1deg);
+  box-shadow: var(--shadow-float);
+}
+
+.palette-swatch {
+  height: 140px;
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  padding: 16px;
+}
+
+.palette-swatch--primary { background: var(--primary); }
+.palette-swatch--secondary { background: var(--secondary); }
+.palette-swatch--green { background: var(--accent-green); }
+.palette-swatch--orange { background: var(--accent-orange); }
+.palette-swatch--lavender { background: var(--accent-lavender); }
+.palette-swatch--bg { background: var(--bg); border: 2px dashed #ddd; }
+.palette-swatch--text { background: var(--text); }
+
+.palette-hex {
+  font-family: var(--font-accent);
+  font-size: 0.8rem;
+  font-weight: 600;
+  background: rgba(255,255,255,0.85);
+  padding: 4px 12px;
+  border-radius: var(--radius-pill);
+  color: var(--text);
+  backdrop-filter: blur(4px);
+}
+
+.palette-info {
+  padding: 16px 20px;
+}
+
+.palette-name {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 1rem;
+  margin-bottom: 4px;
+}
+
+.palette-role {
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  font-weight: 400;
+}
+
+/* ==============================
+   TYPOGRAPHY SHOWCASE
+   ============================== */
+.type-showcase {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 32px;
+  margin-top: 32px;
+}
+
+.type-card {
+  background: var(--bg-white);
+  border-radius: var(--radius-lg);
+  padding: 40px;
+  box-shadow: var(--shadow-soft);
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.type-card:hover {
+  transform: scale(1.01);
+}
+
+.type-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 6px;
+  height: 100%;
+}
+
+.type-card--display::before { background: var(--primary); }
+.type-card--heading::before { background: var(--secondary); }
+.type-card--body::before { background: var(--accent-green); }
+.type-card--accent::before { background: var(--accent-lavender); }
+
+.type-label {
+  font-family: var(--font-accent);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 12px;
+}
+
+.type-sample--display {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  line-height: 1.1;
+  color: var(--text);
+}
+
+.type-sample--heading {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: clamp(1.5rem, 3.5vw, 2.2rem);
+  line-height: 1.2;
+  color: var(--text);
+}
+
+.type-sample--body {
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: 1.05rem;
+  line-height: 1.8;
+  color: var(--text-soft);
+}
+
+.type-sample--accent {
+  font-family: var(--font-accent);
+  font-weight: 600;
+  font-size: 1.3rem;
+  line-height: 1.5;
+  color: var(--text);
+}
+
+.type-meta {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(0,0,0,0.06);
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.type-meta span {
+  background: var(--bg);
+  padding: 4px 12px;
+  border-radius: var(--radius-pill);
+}
+
+/* ==============================
+   VISUAL CHARACTERISTICS
+   ============================== */
+.visuals-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+  margin-top: 32px;
+}
+
+.visual-demo {
+  background: var(--bg-white);
+  border-radius: var(--radius-lg);
+  padding: 32px;
+  box-shadow: var(--shadow-soft);
+  text-align: center;
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.4s ease;
+  overflow: hidden;
+}
+
+.visual-demo:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-float);
+}
+
+.visual-demo__preview {
+  height: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.visual-demo__title {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 1.1rem;
+  margin-bottom: 8px;
+}
+
+.visual-demo__desc {
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+/* Blob demo */
+.demo-blob {
+  width: 130px; height: 130px;
+  background: linear-gradient(135deg, var(--primary), var(--accent-lavender));
+  animation: morphBlob 6s ease-in-out infinite;
+}
+
+/* Checkerboard demo */
+.demo-checker {
+  width: 160px; height: 160px;
+  border-radius: var(--radius-md);
+  background-image:
+    linear-gradient(45deg, var(--primary) 25%, transparent 25%),
+    linear-gradient(-45deg, var(--primary) 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, var(--primary) 75%),
+    linear-gradient(-45deg, transparent 75%, var(--primary) 75%);
+  background-size: 40px 40px;
+  background-position: 0 0, 0 20px, 20px -20px, -20px 0;
+  background-color: var(--bg);
+}
+
+/* Pill shapes demo */
+.demo-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+}
+
+.demo-pill {
+  border-radius: var(--radius-pill);
+  padding: 10px 24px;
+  font-family: var(--font-accent);
+  font-weight: 600;
+  font-size: 0.82rem;
+  color: var(--text);
+  transition: transform 0.3s ease;
+}
+
+.demo-pill:hover { transform: scale(1.08); }
+.demo-pill--1 { background: var(--primary); }
+.demo-pill--2 { background: var(--secondary); }
+.demo-pill--3 { background: var(--accent-green); }
+.demo-pill--4 { background: var(--accent-orange); }
+.demo-pill--5 { background: var(--accent-lavender); }
+
+/* Gradient demo */
+.demo-gradient {
+  width: 160px; height: 160px;
+  border-radius: var(--radius-lg);
+  background: linear-gradient(135deg, var(--secondary) 0%, var(--primary) 50%, var(--accent-orange) 100%);
+  animation: floatSlow 5s ease-in-out infinite;
+}
+
+/* Wavy lines demo */
+.demo-wavy {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 18px;
+}
+
+.demo-wavy-line {
+  height: 6px;
+  border-radius: var(--radius-pill);
+  position: relative;
+  overflow: hidden;
+}
+
+.demo-wavy-line svg {
+  position: absolute;
+  top: -10px;
+  width: 200%;
+  animation: waveMove 4s linear infinite;
+}
+
+/* Soft shadow demo */
+.demo-shadows {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  align-items: center;
+}
+
+.demo-shadow-box {
+  width: 80px; height: 80px;
+  border-radius: var(--radius-md);
+  background: var(--bg-white);
+  transition: transform 0.3s ease;
+}
+
+.demo-shadow-box:hover { transform: scale(1.1); }
+.demo-shadow-box--1 { box-shadow: 0 8px 32px rgba(244, 167, 187, 0.35); }
+.demo-shadow-box--2 { box-shadow: 0 8px 32px rgba(168, 216, 234, 0.4); }
+.demo-shadow-box--3 { box-shadow: 0 8px 32px rgba(195, 177, 225, 0.4); }
+
+/* ==============================
+   PATTERNS SHOWCASE
+   ============================== */
+.patterns-gallery {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 16px;
+  margin-top: 32px;
+}
+
+.pattern-tile {
+  aspect-ratio: 1;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  position: relative;
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  cursor: default;
+}
+
+.pattern-tile:hover {
+  transform: scale(1.06) rotate(-2deg);
+  z-index: 2;
+}
+
+.pattern-tile--large {
+  grid-column: span 2;
+  grid-row: span 2;
+}
+
+.pattern-tile__label {
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  font-family: var(--font-accent);
+  font-weight: 700;
+  font-size: 0.7rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  background: rgba(255,255,255,0.9);
+  padding: 6px 14px;
+  border-radius: var(--radius-pill);
+  color: var(--text);
+  backdrop-filter: blur(4px);
+}
+
+/* Checkerboard pattern */
+.pattern--checker {
+  background-image:
+    linear-gradient(45deg, var(--secondary) 25%, transparent 25%),
+    linear-gradient(-45deg, var(--secondary) 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, var(--secondary) 75%),
+    linear-gradient(-45deg, transparent 75%, var(--secondary) 75%);
+  background-size: 30px 30px;
+  background-position: 0 0, 0 15px, 15px -15px, -15px 0;
+  background-color: var(--bg-white);
+}
+
+/* Memphis dots */
+.pattern--memphis {
+  background-color: var(--accent-orange);
+  background-image:
+    radial-gradient(circle, var(--primary) 8px, transparent 8px),
+    radial-gradient(circle, var(--secondary) 5px, transparent 5px);
+  background-size: 50px 50px, 30px 30px;
+  background-position: 0 0, 25px 25px;
+}
+
+/* Gradient mesh */
+.pattern--gradient {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--accent-lavender) 35%, var(--secondary) 65%, var(--accent-green) 100%);
+}
+
+/* Stripes */
+.pattern--stripes {
+  background: repeating-linear-gradient(
+    -45deg,
+    var(--accent-green),
+    var(--accent-green) 10px,
+    var(--bg-white) 10px,
+    var(--bg-white) 20px
+  );
+}
+
+/* Swirl (concentric circles) */
+.pattern--swirl {
+  background:
+    radial-gradient(circle at 30% 30%, var(--primary) 0%, transparent 50%),
+    radial-gradient(circle at 70% 70%, var(--secondary) 0%, transparent 50%),
+    radial-gradient(circle at 50% 50%, var(--accent-lavender) 0%, transparent 70%);
+  background-color: var(--bg);
+}
+
+/* Waves */
+.pattern--waves {
+  background-color: var(--accent-lavender);
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='40' viewBox='0 0 200 40'%3E%3Cpath d='M0 20 Q25 0 50 20 Q75 40 100 20 Q125 0 150 20 Q175 40 200 20' fill='none' stroke='rgba(255,255,255,0.4)' stroke-width='3'/%3E%3C/svg%3E");
+  background-size: 200px 40px;
+}
+
+/* ==============================
+   LAYOUT PRINCIPLES
+   ============================== */
+.layout-showcase {
+  margin-top: 40px;
+}
+
+.layout-gallery {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  grid-template-rows: auto auto;
+  gap: 20px;
+  margin-bottom: 48px;
+}
+
+.layout-item {
+  border-radius: var(--radius-lg);
+  padding: 32px;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.layout-item:hover {
+  transform: scale(1.02);
+}
+
+.layout-item--1 {
+  grid-row: span 2;
+  background: var(--primary);
+  min-height: 320px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.layout-item--2 {
+  background: var(--secondary);
+}
+
+.layout-item--3 {
+  background: var(--accent-green);
+}
+
+.layout-item--4 {
+  background: var(--accent-orange);
+  grid-column: span 2;
+}
+
+.layout-item__title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.6rem;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+
+.layout-item__text {
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  color: var(--text-soft);
+  line-height: 1.6;
+}
+
+/* Floating accent shapes inside layout items */
+.layout-item__deco {
+  position: absolute;
+  opacity: 0.2;
+  pointer-events: none;
+}
+
+.layout-item--1 .layout-item__deco {
+  width: 200px; height: 200px;
+  top: -40px; right: -40px;
+  border-radius: 50%;
+  background: var(--bg-white);
+}
+
+.layout-item--4 .layout-item__deco {
+  width: 120px; height: 120px;
+  bottom: -20px; right: 30px;
+  border-radius: 60% 40% 50% 70% / 50% 60% 40% 60%;
+  background: var(--primary);
+  animation: morphBlob 8s ease-in-out infinite;
+}
+
+/* Principles list */
+.principles-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  margin-top: 32px;
+}
+
+.principle-item {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  background: var(--bg-white);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  box-shadow: var(--shadow-soft);
+  transition: transform 0.3s ease;
+}
+
+.principle-item:hover {
+  transform: translateX(6px);
+}
+
+.principle-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+}
+
+.principle-icon--1 { background: var(--primary); }
+.principle-icon--2 { background: var(--secondary); }
+.principle-icon--3 { background: var(--accent-green); }
+.principle-icon--4 { background: var(--accent-orange); }
+.principle-icon--5 { background: var(--accent-lavender); }
+.principle-icon--6 { background: var(--primary); }
+.principle-icon--7 { background: var(--secondary); }
+
+.principle-content h4 {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 1rem;
+  margin-bottom: 4px;
+}
+
+.principle-content p {
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+/* ==============================
+   CSS TECHNIQUES (CODE BLOCKS)
+   ============================== */
+.techniques-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 24px;
+  margin-top: 32px;
+}
+
+.technique-card {
+  background: var(--bg-white);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-soft);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.technique-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-float);
+}
+
+.technique-header {
+  padding: 24px 28px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.technique-dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.technique-dot--pink { background: var(--primary); }
+.technique-dot--blue { background: var(--secondary); }
+.technique-dot--green { background: var(--accent-green); }
+.technique-dot--orange { background: var(--accent-orange); }
+.technique-dot--lavender { background: var(--accent-lavender); }
+
+.technique-name {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 1.05rem;
+}
+
+.technique-code {
+  background: #1e1e2e;
+  padding: 20px 28px;
+  overflow-x: auto;
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+}
+
+.technique-code pre {
+  margin: 0;
+  font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+  font-size: 0.82rem;
+  line-height: 1.7;
+  color: #cdd6f4;
+  white-space: pre;
+  tab-size: 2;
+}
+
+.technique-code .css-selector { color: #89b4fa; }
+.technique-code .css-property { color: #f5c2e7; }
+.technique-code .css-value { color: #a6e3a1; }
+.technique-code .css-comment { color: #6c7086; font-style: italic; }
+.technique-code .css-punctuation { color: #bac2de; }
+
+/* ==============================
+   INFLUENCES SECTION
+   ============================== */
+.influences-flow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 32px;
+  justify-content: center;
+}
+
+.influence-tag {
+  background: var(--bg-white);
+  border-radius: var(--radius-pill);
+  padding: 16px 32px;
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--text);
+  box-shadow: var(--shadow-soft);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+  cursor: default;
+  position: relative;
+  overflow: hidden;
+}
+
+.influence-tag::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  border-radius: var(--radius-pill);
+}
+
+.influence-tag:nth-child(1)::before { background: var(--primary); }
+.influence-tag:nth-child(2)::before { background: var(--accent-orange); }
+.influence-tag:nth-child(3)::before { background: var(--accent-lavender); }
+.influence-tag:nth-child(4)::before { background: var(--secondary); }
+
+.influence-tag:hover::before { opacity: 0.2; }
+
+.influence-tag:hover {
+  transform: translateY(-4px) rotate(-1deg);
+  box-shadow: var(--shadow-float);
+}
+
+.influence-desc {
+  font-family: var(--font-body);
+  font-size: 0.92rem;
+  color: var(--text-muted);
+  max-width: 700px;
+  margin: 32px auto 0;
+  text-align: center;
+  line-height: 1.8;
+}
+
+/* ==============================
+   RELATED AESTHETICS
+   ============================== */
+.related-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 32px;
+  justify-content: center;
+}
+
+.related-chip {
+  display: inline-block;
+  padding: 10px 22px;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-accent);
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: var(--text);
+  border: 2px solid transparent;
+  transition: all 0.3s ease;
+  cursor: default;
+}
+
+.related-chip:nth-child(odd) { background: var(--bg-white); border-color: var(--primary); }
+.related-chip:nth-child(even) { background: var(--bg-white); border-color: var(--secondary); }
+.related-chip:nth-child(3n) { border-color: var(--accent-green); }
+.related-chip:nth-child(4n) { border-color: var(--accent-lavender); }
+.related-chip:nth-child(5n) { border-color: var(--accent-orange); }
+
+.related-chip:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: var(--shadow-soft);
+}
+
+/* ==============================
+   BRANDS SECTION
+   ============================== */
+.brands-marquee-wrapper {
+  overflow: hidden;
+  margin-top: 32px;
+  padding: 20px 0;
+  position: relative;
+}
+
+.brands-marquee-wrapper::before,
+.brands-marquee-wrapper::after {
+  content: '';
+  position: absolute;
+  top: 0; bottom: 0;
+  width: 80px;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.brands-marquee-wrapper::before {
+  left: 0;
+  background: linear-gradient(90deg, var(--bg), transparent);
+}
+
+.brands-marquee-wrapper::after {
+  right: 0;
+  background: linear-gradient(-90deg, var(--bg), transparent);
+}
+
+.brands-marquee {
+  display: flex;
+  gap: 24px;
+  animation: marquee 25s linear infinite;
+  width: max-content;
+}
+
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.brand-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--bg-white);
+  border-radius: var(--radius-pill);
+  padding: 14px 28px;
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 0.92rem;
+  color: var(--text);
+  box-shadow: var(--shadow-soft);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.brand-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* ==============================
+   VALUES SECTION
+   ============================== */
+.values-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+  margin-top: 32px;
+}
+
+.value-card {
+  border-radius: var(--radius-lg);
+  padding: 32px 28px;
+  text-align: center;
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.value-card::after {
+  content: '';
+  position: absolute;
+  top: -30px; right: -30px;
+  width: 100px; height: 100px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.2);
+  pointer-events: none;
+}
+
+.value-card:hover {
+  transform: translateY(-6px) rotate(-1deg);
+}
+
+.value-card--1 { background: var(--primary); }
+.value-card--2 { background: var(--secondary); }
+.value-card--3 { background: var(--accent-orange); }
+.value-card--4 { background: var(--accent-green); }
+.value-card--5 { background: var(--accent-lavender); }
+
+.value-icon {
+  font-size: 2.2rem;
+  margin-bottom: 16px;
+  display: block;
+}
+
+.value-name {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.3rem;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+
+.value-desc {
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  color: var(--text-soft);
+  line-height: 1.6;
+}
+
+/* ==============================
+   FOOTER
+   ============================== */
+.footer {
+  background: var(--text);
+  color: var(--bg);
+  padding: 60px 24px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.footer-blob {
+  position: absolute;
+  opacity: 0.08;
+  animation: morphBlob 10s ease-in-out infinite;
+}
+
+.footer-blob--1 {
+  width: 300px; height: 300px;
+  background: var(--primary);
+  top: -100px; left: -50px;
+}
+
+.footer-blob--2 {
+  width: 250px; height: 250px;
+  background: var(--secondary);
+  bottom: -80px; right: -30px;
+}
+
+.footer-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(1.8rem, 4vw, 3rem);
+  margin-bottom: 16px;
+  position: relative;
+  z-index: 1;
+}
+
+.footer-subtitle {
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: 1rem;
+  color: rgba(248, 245, 240, 0.6);
+  max-width: 500px;
+  margin: 0 auto;
+  line-height: 1.7;
+  position: relative;
+  z-index: 1;
+}
+
+.footer-credit {
+  margin-top: 40px;
+  font-family: var(--font-accent);
+  font-size: 0.75rem;
+  color: rgba(248, 245, 240, 0.35);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  position: relative;
+  z-index: 1;
+}
+
+/* ==============================
+   RESPONSIVE
+   ============================== */
+@media (max-width: 900px) {
+  .layout-gallery {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .layout-item--1 {
+    grid-row: span 1;
+    min-height: 200px;
+  }
+
+  .layout-item--4 {
+    grid-column: span 2;
+  }
+
+  .patterns-gallery {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .pattern-tile--large {
+    grid-column: span 2;
+    grid-row: span 1;
+  }
+
+  .techniques-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .section {
+    padding: 60px 16px;
+  }
+
+  .hero {
+    padding: 60px 16px;
+  }
+
+  .layout-gallery {
+    grid-template-columns: 1fr;
+  }
+
+  .layout-item--4 {
+    grid-column: span 1;
+  }
+
+  .patterns-gallery {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .pattern-tile--large {
+    grid-column: span 2;
+  }
+
+  .palette-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .principles-list {
+    grid-template-columns: 1fr;
+  }
+
+  .values-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .hero-deco { display: none; }
+
+  .hero-blob--1 { width: 300px; height: 300px; }
+  .hero-blob--2 { width: 250px; height: 250px; }
+  .hero-blob--3 { width: 200px; height: 200px; }
+  .hero-blob--4 { width: 180px; height: 180px; }
+}
+
+@media (max-width: 420px) {
+  .values-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .palette-grid {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- ============================
+     HERO
+     ============================ -->
+<section class="hero">
+  <div class="hero-bg-blobs">
+    <div class="hero-blob hero-blob--1"></div>
+    <div class="hero-blob hero-blob--2"></div>
+    <div class="hero-blob hero-blob--3"></div>
+    <div class="hero-blob hero-blob--4"></div>
+  </div>
+
+  <div class="hero-deco hero-deco--checker"></div>
+  <div class="hero-deco hero-deco--circle"></div>
+  <div class="hero-deco hero-deco--pill"></div>
+  <div class="hero-deco hero-deco--ring"></div>
+
+  <div class="hero-content">
+    <div class="hero-badge">Design Aesthetic</div>
+    <h1 class="hero-title">
+      <span class="word-avant">Avant</span> <span class="word-basic">Basic</span>
+    </h1>
+    <p class="hero-subtitle">
+      <em>"Extravagance in the age of mechanical reproduction."</em><br>
+      Pastel colors, retro-psychedelic patterns, and the deliberate embrace of maximalism -- where more is more and every detail sparks joy.
+    </p>
+    <div class="hero-scroll-indicator">
+      <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================
+     WAVY DIVIDER
+     ============================ -->
+<div class="wavy-divider">
+  <svg viewBox="0 0 1440 80" preserveAspectRatio="none">
+    <path d="M0,40 C120,80 240,0 360,40 C480,80 600,0 720,40 C840,80 960,0 1080,40 C1200,80 1320,0 1440,40 L1440,80 L0,80 Z" fill="#F8F5F0"/>
+  </svg>
+</div>
+
+
+<!-- ============================
+     COLOR PALETTE
+     ============================ -->
+<section class="section section--cream">
+  <div class="section-inner">
+    <div class="animate-on-scroll">
+      <span class="section-label section-label--pink">Color Palette</span>
+      <h2 class="section-title">Soft, Saturated, Playful</h2>
+      <p class="section-description">
+        Light hues dominate the palette. Colors are soft but saturated enough to feel playful -- vibrant pastels placed against clean white or neutral backdrops to let the color pop without becoming overwhelming.
+      </p>
+    </div>
+
+    <div class="palette-grid animate-on-scroll">
+      <div class="palette-card" style="animation-delay: 0.05s">
+        <div class="palette-swatch palette-swatch--primary">
+          <span class="palette-hex">#F4A7BB</span>
+        </div>
+        <div class="palette-info">
+          <div class="palette-name">Pastel Pink</div>
+          <div class="palette-role">Primary</div>
+        </div>
+      </div>
+
+      <div class="palette-card" style="animation-delay: 0.1s">
+        <div class="palette-swatch palette-swatch--secondary">
+          <span class="palette-hex">#A8D8EA</span>
+        </div>
+        <div class="palette-info">
+          <div class="palette-name">Pastel Blue</div>
+          <div class="palette-role">Secondary</div>
+        </div>
+      </div>
+
+      <div class="palette-card" style="animation-delay: 0.15s">
+        <div class="palette-swatch palette-swatch--green">
+          <span class="palette-hex">#B5EAD7</span>
+        </div>
+        <div class="palette-info">
+          <div class="palette-name">Pastel Green</div>
+          <div class="palette-role">Accent 1</div>
+        </div>
+      </div>
+
+      <div class="palette-card" style="animation-delay: 0.2s">
+        <div class="palette-swatch palette-swatch--orange">
+          <span class="palette-hex">#FFCBA4</span>
+        </div>
+        <div class="palette-info">
+          <div class="palette-name">Pastel Orange</div>
+          <div class="palette-role">Accent 2</div>
+        </div>
+      </div>
+
+      <div class="palette-card" style="animation-delay: 0.25s">
+        <div class="palette-swatch palette-swatch--lavender">
+          <span class="palette-hex">#C3B1E1</span>
+        </div>
+        <div class="palette-info">
+          <div class="palette-name">Pastel Lavender</div>
+          <div class="palette-role">Accent 3</div>
+        </div>
+      </div>
+
+      <div class="palette-card" style="animation-delay: 0.3s">
+        <div class="palette-swatch palette-swatch--bg">
+          <span class="palette-hex">#F8F5F0</span>
+        </div>
+        <div class="palette-info">
+          <div class="palette-name">Warm Cream</div>
+          <div class="palette-role">Background</div>
+        </div>
+      </div>
+
+      <div class="palette-card" style="animation-delay: 0.35s">
+        <div class="palette-swatch palette-swatch--text">
+          <span class="palette-hex" style="color: #fff; background: rgba(0,0,0,0.3);">#2D2D2D</span>
+        </div>
+        <div class="palette-info">
+          <div class="palette-name">Soft Dark</div>
+          <div class="palette-role">Text</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================
+     WAVY DIVIDER
+     ============================ -->
+<div class="wavy-divider wavy-divider--flip" style="margin-top: -1px;">
+  <svg viewBox="0 0 1440 80" preserveAspectRatio="none">
+    <path d="M0,40 C180,0 360,80 540,40 C720,0 900,80 1080,40 C1260,0 1440,80 1440,40 L1440,80 L0,80 Z" fill="#FFFFFF"/>
+  </svg>
+</div>
+
+
+<!-- ============================
+     TYPOGRAPHY
+     ============================ -->
+<section class="section section--white">
+  <div class="section-inner">
+    <div class="animate-on-scroll">
+      <span class="section-label section-label--blue">Typography</span>
+      <h2 class="section-title">Rounded, Organic, Joyful</h2>
+      <p class="section-description">
+        Playful, rounded, and organic lettering that avoids rigid or corporate typefaces. Bold and extra-bold for headings, regular or medium for body text. Generous sizing with confident, large headings and comfortable line spacing.
+      </p>
+    </div>
+
+    <div class="type-showcase">
+      <div class="type-card type-card--display animate-on-scroll">
+        <div class="type-label">Display / Hero -- Fredoka</div>
+        <div class="type-sample type-sample--display">The playful spirit of maximalism, rendered in pastel.</div>
+        <div class="type-meta">
+          <span>Fredoka</span>
+          <span>700 Bold</span>
+          <span>Rounded sans-serif</span>
+        </div>
+      </div>
+
+      <div class="type-card type-card--heading animate-on-scroll">
+        <div class="type-label">Headings -- Comfortaa</div>
+        <div class="type-sample type-sample--heading">Curved geometry meets confident scale. Every heading should feel like an invitation to explore something delightful.</div>
+        <div class="type-meta">
+          <span>Comfortaa</span>
+          <span>700 Bold</span>
+          <span>Geometric rounded</span>
+        </div>
+      </div>
+
+      <div class="type-card type-card--body animate-on-scroll">
+        <div class="type-label">Body Text -- Poppins</div>
+        <div class="type-sample type-sample--body">Avant Basic embraces maximalism as a deliberate contrast to minimalism. The term was coined in December 2020 by Emma Hope Allwood, describing it as "extravagance in the age of mechanical reproduction." Its visual language draws on pastel colors, retro-psychedelic patterns, and a combination of clean and curved lines -- popularized through Instagram and TikTok as an aesthetic that values playfulness, kitsch, and creativity over corporate restraint.</div>
+        <div class="type-meta">
+          <span>Poppins</span>
+          <span>400 Regular</span>
+          <span>Clean sans-serif with soft geometry</span>
+        </div>
+      </div>
+
+      <div class="type-card type-card--accent animate-on-scroll">
+        <div class="type-label">Accent / Labels -- Quicksand</div>
+        <div class="type-sample type-sample--accent">PERFECT FOR LABELS, BADGES, AND NAVIGATIONAL ELEMENTS THAT NEED A TOUCH OF PERSONALITY WITHOUT SHOUTING.</div>
+        <div class="type-meta">
+          <span>Quicksand</span>
+          <span>600 Semi-Bold</span>
+          <span>Rounded geometric</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================
+     WAVY DIVIDER
+     ============================ -->
+<div class="wavy-divider" style="margin-top: -1px;">
+  <svg viewBox="0 0 1440 80" preserveAspectRatio="none">
+    <path d="M0,20 C160,70 320,0 480,40 C640,80 800,10 960,40 C1120,70 1280,0 1440,30 L1440,80 L0,80 Z" fill="#F8F5F0"/>
+  </svg>
+</div>
+
+
+<!-- ============================
+     VISUAL CHARACTERISTICS
+     ============================ -->
+<section class="section section--cream">
+  <div class="section-inner">
+    <div class="animate-on-scroll">
+      <span class="section-label section-label--green">Visual Characteristics</span>
+      <h2 class="section-title">Shapes, Forms & Effects</h2>
+      <p class="section-description">
+        Curved and rounded elements are central. Everything is softened -- generous border-radius values, pill shapes, blob forms, wavy dividers, and organic geometry that feels hand-drawn but structured.
+      </p>
+    </div>
+
+    <div class="visuals-grid">
+      <div class="visual-demo animate-on-scroll">
+        <div class="visual-demo__preview">
+          <div class="demo-blob"></div>
+        </div>
+        <div class="visual-demo__title">Organic Blob Shapes</div>
+        <div class="visual-demo__desc">Irregular border-radius creates living, breathing organic forms. No sharp edges allowed.</div>
+      </div>
+
+      <div class="visual-demo animate-on-scroll">
+        <div class="visual-demo__preview">
+          <div class="demo-checker"></div>
+        </div>
+        <div class="visual-demo__title">Checkerboard Pattern</div>
+        <div class="visual-demo__desc">A signature Avant Basic motif, used at various scales as backgrounds, accents, and decorative elements.</div>
+      </div>
+
+      <div class="visual-demo animate-on-scroll">
+        <div class="visual-demo__preview">
+          <div class="demo-pills">
+            <span class="demo-pill demo-pill--1">Playful</span>
+            <span class="demo-pill demo-pill--2">Rounded</span>
+            <span class="demo-pill demo-pill--3">Soft</span>
+            <span class="demo-pill demo-pill--4">Bubbly</span>
+            <span class="demo-pill demo-pill--5">Organic</span>
+          </div>
+        </div>
+        <div class="visual-demo__title">Pill & Rounded Shapes</div>
+        <div class="visual-demo__desc">border-radius: 999px creates signature pill shapes for buttons, tags, and interactive elements.</div>
+      </div>
+
+      <div class="visual-demo animate-on-scroll">
+        <div class="visual-demo__preview">
+          <div class="demo-gradient"></div>
+        </div>
+        <div class="visual-demo__title">Pastel Gradients</div>
+        <div class="visual-demo__desc">Subtle pastel-to-pastel gradient washes create dreamy, flowing color transitions.</div>
+      </div>
+
+      <div class="visual-demo animate-on-scroll">
+        <div class="visual-demo__preview">
+          <div class="demo-shadows">
+            <div class="demo-shadow-box demo-shadow-box--1"></div>
+            <div class="demo-shadow-box demo-shadow-box--2"></div>
+            <div class="demo-shadow-box demo-shadow-box--3"></div>
+          </div>
+        </div>
+        <div class="visual-demo__title">Soft Colored Shadows</div>
+        <div class="visual-demo__desc">Tinted box-shadows in pastel hues create a warm glow effect instead of harsh grey shadows.</div>
+      </div>
+
+      <div class="visual-demo animate-on-scroll">
+        <div class="visual-demo__preview">
+          <svg width="100%" height="100%" viewBox="0 0 280 160" fill="none">
+            <path d="M0,80 Q35,30 70,80 Q105,130 140,80 Q175,30 210,80 Q245,130 280,80" stroke="#F4A7BB" stroke-width="5" fill="none" stroke-linecap="round"/>
+            <path d="M0,100 Q35,50 70,100 Q105,150 140,100 Q175,50 210,100 Q245,150 280,100" stroke="#A8D8EA" stroke-width="4" fill="none" stroke-linecap="round"/>
+            <path d="M0,60 Q35,10 70,60 Q105,110 140,60 Q175,10 210,60 Q245,110 280,60" stroke="#B5EAD7" stroke-width="3" fill="none" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="visual-demo__title">Wavy & Squiggly Lines</div>
+        <div class="visual-demo__desc">Used as dividers, borders, and decorative accents -- bringing movement and playfulness to layouts.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================
+     PATTERNS & TEXTURES
+     ============================ -->
+<section class="section section--white">
+  <div class="section-inner">
+    <div class="animate-on-scroll">
+      <span class="section-label section-label--lavender">Patterns & Textures</span>
+      <h2 class="section-title">Signature Motifs</h2>
+      <p class="section-description">
+        Checkerboard patterns, abstract florals, organic swirls, Memphis-influenced geometric shapes, and dreamy gradient washes -- the visual building blocks of Avant Basic.
+      </p>
+    </div>
+
+    <div class="patterns-gallery animate-on-scroll">
+      <div class="pattern-tile pattern-tile--large pattern--checker">
+        <span class="pattern-tile__label">Checkerboard</span>
+      </div>
+      <div class="pattern-tile pattern--memphis">
+        <span class="pattern-tile__label">Memphis</span>
+      </div>
+      <div class="pattern-tile pattern--stripes">
+        <span class="pattern-tile__label">Stripes</span>
+      </div>
+      <div class="pattern-tile pattern--gradient">
+        <span class="pattern-tile__label">Gradient</span>
+      </div>
+      <div class="pattern-tile pattern--swirl">
+        <span class="pattern-tile__label">Swirl</span>
+      </div>
+      <div class="pattern-tile pattern--waves">
+        <span class="pattern-tile__label">Waves</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================
+     LAYOUT PRINCIPLES
+     ============================ -->
+<div class="wavy-divider" style="margin-top: -1px;">
+  <svg viewBox="0 0 1440 80" preserveAspectRatio="none">
+    <path d="M0,50 C200,0 400,80 600,30 C800,-10 1000,70 1200,30 C1400,-10 1440,50 1440,50 L1440,80 L0,80 Z" fill="#F8F5F0"/>
+  </svg>
+</div>
+
+<section class="section section--cream">
+  <div class="section-inner">
+    <div class="animate-on-scroll">
+      <span class="section-label section-label--orange">Layout</span>
+      <h2 class="section-title">Maximalist but Organized</h2>
+      <p class="section-description">
+        Lots of visual elements arranged with intentional rhythm. Neutral backgrounds as canvas, mixed scales, asymmetric balance, gallery-wall compositions, and layered depth.
+      </p>
+    </div>
+
+    <div class="layout-gallery animate-on-scroll">
+      <div class="layout-item layout-item--1">
+        <div class="layout-item__deco"></div>
+        <div class="layout-item__title">Gallery-Wall Composition</div>
+        <div class="layout-item__text">Grid-breaking layouts where items are arranged in organic, curated clusters -- not rigidly symmetrical.</div>
+      </div>
+      <div class="layout-item layout-item--2">
+        <div class="layout-item__title">Mixed Scales</div>
+        <div class="layout-item__text">Colors and patterns repeated at different sizes.</div>
+      </div>
+      <div class="layout-item layout-item--3">
+        <div class="layout-item__title">Layering</div>
+        <div class="layout-item__text">Elements overlap and stack for visual depth.</div>
+      </div>
+      <div class="layout-item layout-item--4">
+        <div class="layout-item__deco"></div>
+        <div class="layout-item__title">Asymmetric Balance</div>
+        <div class="layout-item__text">Balance achieved through color weight and visual density rather than strict alignment. White space acts as a canvas for colorful, patterned elements.</div>
+      </div>
+    </div>
+
+    <h3 style="font-family: var(--font-heading); font-weight: 700; font-size: 1.4rem; margin-bottom: 8px;" class="animate-on-scroll">Layout Principles</h3>
+
+    <div class="principles-list">
+      <div class="principle-item animate-on-scroll">
+        <div class="principle-icon principle-icon--1">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2D2D2D" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/></svg>
+        </div>
+        <div class="principle-content">
+          <h4>Maximalist but Organized</h4>
+          <p>Lots of visual elements arranged with intentional rhythm and purpose.</p>
+        </div>
+      </div>
+
+      <div class="principle-item animate-on-scroll">
+        <div class="principle-icon principle-icon--2">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2D2D2D" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="4"/></svg>
+        </div>
+        <div class="principle-content">
+          <h4>White Space as Backdrop</h4>
+          <p>Neutral backgrounds act as a canvas for colorful, patterned elements.</p>
+        </div>
+      </div>
+
+      <div class="principle-item animate-on-scroll">
+        <div class="principle-icon principle-icon--3">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2D2D2D" stroke-width="2" stroke-linecap="round"><circle cx="8" cy="8" r="5"/><circle cx="16" cy="16" r="3"/></svg>
+        </div>
+        <div class="principle-content">
+          <h4>Mixed Scales</h4>
+          <p>Repeat colors and patterns at different sizes to create visual cohesion.</p>
+        </div>
+      </div>
+
+      <div class="principle-item animate-on-scroll">
+        <div class="principle-icon principle-icon--4">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2D2D2D" stroke-width="2" stroke-linecap="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="15" y2="6"/><line x1="9" y1="18" x2="21" y2="18"/></svg>
+        </div>
+        <div class="principle-content">
+          <h4>Asymmetric Balance</h4>
+          <p>Balance through color weight and visual density, not strict alignment.</p>
+        </div>
+      </div>
+
+      <div class="principle-item animate-on-scroll">
+        <div class="principle-icon principle-icon--5">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2D2D2D" stroke-width="2" stroke-linecap="round"><rect x="2" y="7" width="20" height="14" rx="3"/><rect x="5" y="3" width="14" height="14" rx="3"/></svg>
+        </div>
+        <div class="principle-content">
+          <h4>Layering</h4>
+          <p>Elements overlap and stack to create depth and visual richness.</p>
+        </div>
+      </div>
+
+      <div class="principle-item animate-on-scroll">
+        <div class="principle-icon principle-icon--6">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2D2D2D" stroke-width="2" stroke-linecap="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+        </div>
+        <div class="principle-content">
+          <h4>Playful Hierarchy</h4>
+          <p>Emphasis through color, scale, and shape -- not typographic hierarchy alone.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================
+     CSS TECHNIQUES
+     ============================ -->
+<div class="wavy-divider wavy-divider--flip" style="margin-top: -1px;">
+  <svg viewBox="0 0 1440 80" preserveAspectRatio="none">
+    <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#FFFFFF"/>
+  </svg>
+</div>
+
+<section class="section section--white">
+  <div class="section-inner">
+    <div class="animate-on-scroll">
+      <span class="section-label section-label--pink">CSS Techniques</span>
+      <h2 class="section-title">Building the Aesthetic in Code</h2>
+      <p class="section-description">
+        From generous border-radius values to organic blob shapes, checkerboard patterns to pastel-tinted shadows -- here are the key CSS techniques that bring Avant Basic to life on the web.
+      </p>
+    </div>
+
+    <div class="techniques-grid">
+      <div class="technique-card animate-on-scroll">
+        <div class="technique-header">
+          <div class="technique-dot technique-dot--pink"></div>
+          <div class="technique-name">Border Radius & Soft Shapes</div>
+        </div>
+        <div class="technique-code">
+<pre><span class="css-comment">/* Generous rounding on all elements */</span>
+<span class="css-selector">.card</span> <span class="css-punctuation">{</span>
+  <span class="css-property">border-radius</span><span class="css-punctuation">:</span> <span class="css-value">24px</span><span class="css-punctuation">;</span>
+<span class="css-punctuation">}</span>
+<span class="css-selector">.button</span> <span class="css-punctuation">{</span>
+  <span class="css-property">border-radius</span><span class="css-punctuation">:</span> <span class="css-value">999px</span><span class="css-punctuation">;</span> <span class="css-comment">/* pill */</span>
+<span class="css-punctuation">}</span>
+<span class="css-selector">.container</span> <span class="css-punctuation">{</span>
+  <span class="css-property">border-radius</span><span class="css-punctuation">:</span> <span class="css-value">16px</span><span class="css-punctuation">;</span>
+<span class="css-punctuation">}</span></pre>
+        </div>
+      </div>
+
+      <div class="technique-card animate-on-scroll">
+        <div class="technique-header">
+          <div class="technique-dot technique-dot--blue"></div>
+          <div class="technique-name">Checkerboard Pattern</div>
+        </div>
+        <div class="technique-code">
+<pre><span class="css-selector">.checkerboard</span> <span class="css-punctuation">{</span>
+  <span class="css-property">background-image</span><span class="css-punctuation">:</span>
+    <span class="css-value">linear-gradient(45deg,
+      #F4A7BB 25%, transparent 25%)</span><span class="css-punctuation">,</span>
+    <span class="css-value">linear-gradient(-45deg,
+      #F4A7BB 25%, transparent 25%)</span><span class="css-punctuation">,</span>
+    <span class="css-value">linear-gradient(45deg,
+      transparent 75%, #F4A7BB 75%)</span><span class="css-punctuation">,</span>
+    <span class="css-value">linear-gradient(-45deg,
+      transparent 75%, #F4A7BB 75%)</span><span class="css-punctuation">;</span>
+  <span class="css-property">background-size</span><span class="css-punctuation">:</span> <span class="css-value">40px 40px</span><span class="css-punctuation">;</span>
+<span class="css-punctuation">}</span></pre>
+        </div>
+      </div>
+
+      <div class="technique-card animate-on-scroll">
+        <div class="technique-header">
+          <div class="technique-dot technique-dot--green"></div>
+          <div class="technique-name">Blob / Organic Shapes</div>
+        </div>
+        <div class="technique-code">
+<pre><span class="css-selector">.blob</span> <span class="css-punctuation">{</span>
+  <span class="css-property">border-radius</span><span class="css-punctuation">:</span>
+    <span class="css-value">60% 40% 50% 70% /
+    50% 60% 40% 60%</span><span class="css-punctuation">;</span>
+  <span class="css-comment">/* Irregular border-radius creates
+     organic blob forms */</span>
+<span class="css-punctuation">}</span></pre>
+        </div>
+      </div>
+
+      <div class="technique-card animate-on-scroll">
+        <div class="technique-header">
+          <div class="technique-dot technique-dot--orange"></div>
+          <div class="technique-name">Soft Shadows & Glows</div>
+        </div>
+        <div class="technique-code">
+<pre><span class="css-selector">.card</span> <span class="css-punctuation">{</span>
+  <span class="css-property">box-shadow</span><span class="css-punctuation">:</span>
+    <span class="css-value">0 8px 32px
+    rgba(244, 167, 187, 0.2)</span><span class="css-punctuation">;</span>
+<span class="css-punctuation">}</span>
+<span class="css-selector">.highlight</span> <span class="css-punctuation">{</span>
+  <span class="css-property">box-shadow</span><span class="css-punctuation">:</span>
+    <span class="css-value">0 0 20px
+    rgba(168, 216, 234, 0.4)</span><span class="css-punctuation">;</span>
+<span class="css-punctuation">}</span></pre>
+        </div>
+      </div>
+
+      <div class="technique-card animate-on-scroll">
+        <div class="technique-header">
+          <div class="technique-dot technique-dot--lavender"></div>
+          <div class="technique-name">Pastel Gradients</div>
+        </div>
+        <div class="technique-code">
+<pre><span class="css-selector">.gradient-bg</span> <span class="css-punctuation">{</span>
+  <span class="css-property">background</span><span class="css-punctuation">:</span>
+    <span class="css-value">linear-gradient(135deg,
+      #A8D8EA 0%,
+      #F4A7BB 50%,
+      #FFCBA4 100%)</span><span class="css-punctuation">;</span>
+<span class="css-punctuation">}</span></pre>
+        </div>
+      </div>
+
+      <div class="technique-card animate-on-scroll">
+        <div class="technique-header">
+          <div class="technique-dot technique-dot--pink"></div>
+          <div class="technique-name">Wavy Section Edges</div>
+        </div>
+        <div class="technique-code">
+<pre><span class="css-selector">.wavy-divider</span> <span class="css-punctuation">{</span>
+  <span class="css-property">clip-path</span><span class="css-punctuation">:</span> <span class="css-value">polygon(
+    0% 0%, 100% 0%, 100% 85%,
+    75% 100%, 50% 85%,
+    25% 100%, 0% 85%
+  )</span><span class="css-punctuation">;</span>
+<span class="css-punctuation">}</span></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================
+     DESIGN INFLUENCES
+     ============================ -->
+<div class="wavy-divider" style="margin-top: -1px;">
+  <svg viewBox="0 0 1440 80" preserveAspectRatio="none">
+    <path d="M0,30 C160,80 320,0 480,50 C640,90 800,10 960,50 C1120,80 1280,10 1440,40 L1440,80 L0,80 Z" fill="#F8F5F0"/>
+  </svg>
+</div>
+
+<section class="section section--cream">
+  <div class="section-inner" style="text-align: center;">
+    <div class="animate-on-scroll">
+      <span class="section-label section-label--lavender">Influences</span>
+      <h2 class="section-title" style="max-width: 700px; margin-left: auto; margin-right: auto;">Standing on the Shoulders of Bold Design</h2>
+    </div>
+
+    <div class="influences-flow animate-on-scroll">
+      <div class="influence-tag">Memphis Design</div>
+      <div class="influence-tag">1960s & 70s Retro</div>
+      <div class="influence-tag">Psychedelia</div>
+      <div class="influence-tag">Mid-Century Modern</div>
+    </div>
+
+    <p class="influence-desc animate-on-scroll">
+      Memphis Design provides the primary visual ancestry -- bold geometry, clashing patterns, and bright pastels.
+      The 1960s and 70s contribute retro color palettes, psychedelic swirls, and organic forms. Psychedelia brings flowing,
+      melting shapes with saturated but dreamy color relationships. Mid-Century Modern supplies the clean structure
+      underlying the maximalist surface layer.
+    </p>
+  </div>
+</section>
+
+
+<!-- ============================
+     RELATED AESTHETICS
+     ============================ -->
+<section class="section section--white">
+  <div class="section-inner" style="text-align: center;">
+    <div class="animate-on-scroll">
+      <span class="section-label section-label--green">Related Aesthetics</span>
+      <h2 class="section-title">Part of a Bigger Movement</h2>
+    </div>
+
+    <div class="related-grid animate-on-scroll">
+      <span class="related-chip">Danish Pastel</span>
+      <span class="related-chip">Dopamine Dressing</span>
+      <span class="related-chip">Gen Z Maximalism</span>
+      <span class="related-chip">Indie Kid</span>
+      <span class="related-chip">Kidcore</span>
+      <span class="related-chip">Maximalism</span>
+      <span class="related-chip">Memphis Design</span>
+      <span class="related-chip">Mid-Century Modern</span>
+      <span class="related-chip">Neubrutalism</span>
+      <span class="related-chip">Psychedelia</span>
+      <span class="related-chip">Vaporwave</span>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================
+     ASSOCIATED BRANDS
+     ============================ -->
+<div class="wavy-divider" style="margin-top: -1px;">
+  <svg viewBox="0 0 1440 80" preserveAspectRatio="none">
+    <path d="M0,40 C120,80 240,0 360,40 C480,80 600,0 720,40 C840,80 960,0 1080,40 C1200,80 1320,0 1440,40 L1440,80 L0,80 Z" fill="#F8F5F0"/>
+  </svg>
+</div>
+
+<section class="section section--cream">
+  <div class="section-inner" style="text-align: center;">
+    <div class="animate-on-scroll">
+      <span class="section-label section-label--orange">Visual References</span>
+      <h2 class="section-title">Associated Brands</h2>
+      <p class="section-description" style="margin-left: auto; margin-right: auto;">
+        These brands embody the Avant Basic sensibility -- playful, colorful, maximalist, and unapologetically joyful.
+      </p>
+    </div>
+
+    <div class="brands-marquee-wrapper animate-on-scroll">
+      <div class="brands-marquee">
+        <span class="brand-pill"><span class="brand-dot" style="background: var(--primary)"></span>Lisa Says Gah!</span>
+        <span class="brand-pill"><span class="brand-dot" style="background: var(--secondary)"></span>House of Sunny</span>
+        <span class="brand-pill"><span class="brand-dot" style="background: var(--accent-green)"></span>Paloma Wool</span>
+        <span class="brand-pill"><span class="brand-dot" style="background: var(--accent-orange)"></span>Gimaguas</span>
+        <span class="brand-pill"><span class="brand-dot" style="background: var(--accent-lavender)"></span>Ganni</span>
+        <span class="brand-pill"><span class="brand-dot" style="background: var(--primary)"></span>Stine Goya</span>
+        <span class="brand-pill"><span class="brand-dot" style="background: var(--secondary)"></span>Baum und Pferdgarten</span>
+        <span class="brand-pill"><span class="brand-dot" style="background: var(--accent-green)"></span>Coming Soon NYC</span>
+        <span class="brand-pill"><span class="brand-dot" style="background: var(--accent-orange)"></span>Holiday the Label</span>
+        <!-- Duplicated for seamless loop -->
+        <span class="brand-pill"><span class="brand-dot" style="background: var(--primary)"></span>Lisa Says Gah!</span>
+        <span class="brand-pill"><span class="brand-dot" style="background: var(--secondary)"></span>House of Sunny</span>
+        <span class="brand-pill"><span class="brand-dot" style="background: var(--accent-green)"></span>Paloma Wool</span>
+        <span class="brand-pill"><span class="brand-dot" style="background: var(--accent-orange)"></span>Gimaguas</span>
+        <span class="brand-pill"><span class="brand-dot" style="background: var(--accent-lavender)"></span>Ganni</span>
+        <span class="brand-pill"><span class="brand-dot" style="background: var(--primary)"></span>Stine Goya</span>
+        <span class="brand-pill"><span class="brand-dot" style="background: var(--secondary)"></span>Baum und Pferdgarten</span>
+        <span class="brand-pill"><span class="brand-dot" style="background: var(--accent-green)"></span>Coming Soon NYC</span>
+        <span class="brand-pill"><span class="brand-dot" style="background: var(--accent-orange)"></span>Holiday the Label</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================
+     KEY DESIGN VALUES
+     ============================ -->
+<div class="wavy-divider wavy-divider--flip" style="margin-top: -1px;">
+  <svg viewBox="0 0 1440 80" preserveAspectRatio="none">
+    <path d="M0,40 C180,0 360,80 540,40 C720,0 900,80 1080,40 C1260,0 1440,60 1440,40 L1440,80 L0,80 Z" fill="#FFFFFF"/>
+  </svg>
+</div>
+
+<section class="section section--white">
+  <div class="section-inner" style="text-align: center;">
+    <div class="animate-on-scroll">
+      <span class="section-label section-label--pink">Core Values</span>
+      <h2 class="section-title">What Avant Basic Stands For</h2>
+      <p class="section-description" style="margin-left: auto; margin-right: auto;">
+        More than an aesthetic -- it is a set of values that celebrate joy, excess, and creative independence.
+      </p>
+    </div>
+
+    <div class="values-grid animate-on-scroll">
+      <div class="value-card value-card--1">
+        <span class="value-icon">
+          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#2D2D2D" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
+        </span>
+        <div class="value-name">Playfulness</div>
+        <div class="value-desc">Every element should feel joyful and approachable.</div>
+      </div>
+
+      <div class="value-card value-card--2">
+        <span class="value-icon">
+          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#2D2D2D" stroke-width="2" stroke-linecap="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+        </span>
+        <div class="value-name">Maximalism</div>
+        <div class="value-desc">More is more. Embrace visual density with intention.</div>
+      </div>
+
+      <div class="value-card value-card--3">
+        <span class="value-icon">
+          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#2D2D2D" stroke-width="2" stroke-linecap="round"><path d="M9.59 4.59A2 2 0 1 1 11 8H2m10.59 11.41A2 2 0 1 0 14 16H2m15.73-8.27A2.5 2.5 0 1 1 19.5 12H2"/></svg>
+        </span>
+        <div class="value-name">Kitsch</div>
+        <div class="value-desc">Deliberately fun, unserious, and colorful.</div>
+      </div>
+
+      <div class="value-card value-card--4">
+        <span class="value-icon">
+          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#2D2D2D" stroke-width="2" stroke-linecap="round"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="M2 2l7.586 7.586"/><circle cx="11" cy="11" r="2"/></svg>
+        </span>
+        <div class="value-name">Creativity</div>
+        <div class="value-desc">Handmade feel, organic irregularity, anti-corporate.</div>
+      </div>
+
+      <div class="value-card value-card--5">
+        <span class="value-icon">
+          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#2D2D2D" stroke-width="2" stroke-linecap="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </span>
+        <div class="value-name">Inclusivity</div>
+        <div class="value-desc">Celebrating female, queer, non-binary, and minority-owned businesses.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================
+     FOOTER
+     ============================ -->
+<div class="wavy-divider" style="margin-top: -1px;">
+  <svg viewBox="0 0 1440 80" preserveAspectRatio="none">
+    <path d="M0,30 C200,80 400,0 600,50 C800,80 1000,10 1200,40 C1400,70 1440,30 1440,30 L1440,80 L0,80 Z" fill="#2D2D2D"/>
+  </svg>
+</div>
+
+<footer class="footer">
+  <div class="footer-blob footer-blob--1"></div>
+  <div class="footer-blob footer-blob--2"></div>
+  <div class="footer-title">More is More</div>
+  <p class="footer-subtitle">
+    Avant Basic -- where maximalism meets pastel dreams, and every design choice is a celebration of creative joy.
+  </p>
+  <p class="footer-credit">Avant Basic Design Showcase</p>
+</footer>
+
+
+<!-- ============================
+     JAVASCRIPT -- Scroll Animations
+     ============================ -->
+<script>
+(function() {
+  // Intersection Observer for scroll-triggered animations
+  const observerOptions = {
+    root: null,
+    rootMargin: '0px 0px -60px 0px',
+    threshold: 0.1
+  };
+
+  const observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        // Add staggered delays to child cards
+        const children = entry.target.querySelectorAll(
+          '.palette-card, .visual-demo, .technique-card, .principle-item, .value-card, .pattern-tile, .layout-item'
+        );
+        children.forEach(function(child, i) {
+          child.style.transitionDelay = (i * 0.08) + 's';
+          child.style.opacity = '0';
+          child.style.transform = 'translateY(30px)';
+          requestAnimationFrame(function() {
+            requestAnimationFrame(function() {
+              child.style.transition = 'opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1), transform 0.6s cubic-bezier(0.22, 1, 0.36, 1)';
+              child.style.opacity = '1';
+              child.style.transform = 'translateY(0)';
+            });
+          });
+        });
+      }
+    });
+  }, observerOptions);
+
+  document.querySelectorAll('.animate-on-scroll').forEach(function(el) {
+    observer.observe(el);
+  });
+
+  // Parallax effect on hero blobs
+  var heroBlobs = document.querySelectorAll('.hero-blob');
+  var ticking = false;
+
+  window.addEventListener('scroll', function() {
+    if (!ticking) {
+      requestAnimationFrame(function() {
+        var scrollY = window.scrollY;
+        heroBlobs.forEach(function(blob, i) {
+          var speed = 0.15 + (i * 0.05);
+          blob.style.transform = 'translateY(' + (scrollY * speed) + 'px)';
+        });
+        ticking = false;
+      });
+      ticking = true;
+    }
+  });
+
+  // Pause brands marquee on hover
+  var marqueeWrapper = document.querySelector('.brands-marquee-wrapper');
+  var marquee = document.querySelector('.brands-marquee');
+  if (marqueeWrapper && marquee) {
+    marqueeWrapper.addEventListener('mouseenter', function() {
+      marquee.style.animationPlayState = 'paused';
+    });
+    marqueeWrapper.addEventListener('mouseleave', function() {
+      marquee.style.animationPlayState = 'running';
+    });
+  }
+})();
+</script>
+
+</body>
+</html>
