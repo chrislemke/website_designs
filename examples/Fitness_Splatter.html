@@ -1,0 +1,1763 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fitness Splatter -- Design Reference</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@400;500;600;700&family=Anton&family=Black+Ops+One&family=Teko:wght@400;500;600;700&family=Rajdhani:wght@400;500;600;700&family=Orbitron:wght@400;500;700&family=Saira+Extra+Condensed:wght@400;500;600;700;800&family=Russo+One&family=Share+Tech&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --splatter-black: #000000;
+      --splatter-carbon: #0a0a0a;
+      --splatter-dark: #111111;
+      --splatter-charcoal: #2a2a2a;
+      --splatter-gray: #666666;
+      --splatter-light-gray: #cccccc;
+      --splatter-white: #ffffff;
+      --splatter-off-white: #f5f5f5;
+      --splatter-cyan: #00e5ff;
+      --splatter-blue: #2979ff;
+      --splatter-magenta: #ff00ff;
+      --splatter-pink: #ff1493;
+      --splatter-hot-pink: #ff0066;
+      --splatter-lime: #76ff03;
+      --splatter-yellow: #ffea00;
+      --splatter-orange: #ff6d00;
+      --splatter-red: #ff1744;
+      --splatter-purple: #aa00ff;
+      --splatter-glow-cyan: rgba(0, 229, 255, 0.6);
+      --splatter-glow-magenta: rgba(255, 0, 255, 0.6);
+      --splatter-glow-lime: rgba(118, 255, 3, 0.6);
+      --splatter-glow-pink: rgba(255, 0, 102, 0.6);
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--splatter-black);
+      color: var(--splatter-light-gray);
+      font-family: 'Rajdhani', 'Share Tech', Arial, sans-serif;
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* Fixed tech-line background */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        repeating-linear-gradient(-30deg, transparent, transparent 60px, rgba(0,229,255,0.025) 60px, rgba(0,229,255,0.025) 61px),
+        repeating-linear-gradient(30deg, transparent, transparent 80px, rgba(255,0,255,0.018) 80px, rgba(255,0,255,0.018) 81px);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ===== HERO ===== */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2rem;
+      position: relative;
+      overflow: hidden;
+      background:
+        radial-gradient(ellipse at 25% 45%, rgba(0,229,255,0.1) 0%, transparent 55%),
+        radial-gradient(ellipse at 75% 55%, rgba(255,0,255,0.1) 0%, transparent 55%),
+        radial-gradient(ellipse at 50% 80%, rgba(118,255,3,0.04) 0%, transparent 40%),
+        var(--splatter-black);
+    }
+
+    .hero-title {
+      font-family: 'Bebas Neue', 'Anton', sans-serif;
+      font-size: clamp(4rem, 14vw, 12rem);
+      letter-spacing: 0.02em;
+      line-height: 0.85;
+      text-transform: uppercase;
+      color: var(--splatter-white);
+      position: relative;
+      z-index: 3;
+      animation: heroIn 0.8s cubic-bezier(0.16,1,0.3,1) both;
+    }
+
+    .hero-title .word-fitness {
+      display: block;
+      text-shadow:
+        0 0 10px var(--splatter-glow-cyan),
+        0 0 40px var(--splatter-glow-cyan),
+        0 0 80px rgba(0,229,255,0.2);
+    }
+
+    .hero-title .word-splatter {
+      display: block;
+      color: var(--splatter-magenta);
+      text-shadow:
+        0 0 10px var(--splatter-glow-magenta),
+        0 0 40px var(--splatter-glow-magenta),
+        0 0 80px rgba(255,0,255,0.2);
+      margin-top: -0.08em;
+    }
+
+    .hero-sub {
+      font-family: 'Share Tech', monospace;
+      font-size: clamp(0.7rem, 1.5vw, 0.9rem);
+      text-transform: uppercase;
+      letter-spacing: 0.5em;
+      color: var(--splatter-gray);
+      margin-top: 1.5rem;
+      z-index: 3;
+      position: relative;
+      animation: heroIn 0.8s 0.15s cubic-bezier(0.16,1,0.3,1) both;
+    }
+
+    .hero-tagline {
+      font-family: 'Oswald', sans-serif;
+      font-weight: 600;
+      font-size: clamp(1rem, 2.2vw, 1.5rem);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--splatter-light-gray);
+      margin-top: 2rem;
+      max-width: 700px;
+      z-index: 3;
+      position: relative;
+      animation: heroIn 0.8s 0.3s cubic-bezier(0.16,1,0.3,1) both;
+    }
+
+    .hero-tagline em {
+      font-style: normal;
+      color: var(--splatter-cyan);
+    }
+
+    @keyframes heroIn {
+      from { opacity: 0; transform: translateY(40px) scale(0.96); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    /* Hero floating fragments */
+    .frag {
+      position: absolute;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .frag--tri {
+      clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+    }
+    .frag--diamond {
+      clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+    }
+    .frag--penta {
+      clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%);
+    }
+    .frag--shard {
+      clip-path: polygon(20% 0%, 100% 10%, 80% 100%, 0% 85%);
+    }
+
+    .frag-1 { top: 8%; left: 5%; width: 70px; height: 70px; background: var(--splatter-cyan); opacity: 0.35; transform: rotate(25deg); animation: drift 8s ease-in-out infinite alternate; }
+    .frag-2 { top: 18%; right: 8%; width: 45px; height: 45px; background: var(--splatter-magenta); opacity: 0.4; transform: rotate(-20deg); animation: drift 6s 1s ease-in-out infinite alternate-reverse; }
+    .frag-3 { bottom: 22%; left: 12%; width: 55px; height: 55px; background: var(--splatter-lime); opacity: 0.25; transform: rotate(40deg); animation: drift 7s 0.5s ease-in-out infinite alternate; }
+    .frag-4 { bottom: 15%; right: 15%; width: 50px; height: 50px; background: var(--splatter-yellow); opacity: 0.2; transform: rotate(-35deg); animation: drift 9s 2s ease-in-out infinite alternate-reverse; }
+    .frag-5 { top: 40%; left: 3%; width: 35px; height: 35px; background: var(--splatter-orange); opacity: 0.3; transform: rotate(60deg); animation: drift 7s 1.5s ease-in-out infinite alternate; }
+    .frag-6 { top: 35%; right: 4%; width: 60px; height: 60px; background: var(--splatter-hot-pink); opacity: 0.2; transform: rotate(-50deg); animation: drift 10s ease-in-out infinite alternate-reverse; }
+    .frag-7 { top: 60%; left: 8%; width: 30px; height: 30px; background: var(--splatter-purple); opacity: 0.35; transform: rotate(15deg); animation: drift 6s 0.8s ease-in-out infinite alternate; }
+    .frag-8 { top: 12%; left: 45%; width: 25px; height: 25px; background: var(--splatter-red); opacity: 0.25; transform: rotate(-28deg); animation: drift 8s 1.2s ease-in-out infinite alternate-reverse; }
+    .frag-9 { bottom: 35%; right: 25%; width: 40px; height: 40px; background: var(--splatter-blue); opacity: 0.2; transform: rotate(45deg); animation: drift 7s 0.3s ease-in-out infinite alternate; }
+    .frag-10 { bottom: 8%; left: 35%; width: 28px; height: 28px; background: var(--splatter-cyan); opacity: 0.3; transform: rotate(-55deg); animation: drift 9s 1.8s ease-in-out infinite alternate-reverse; }
+
+    @keyframes drift {
+      0% { transform: translate(0, 0) rotate(var(--r, 20deg)); }
+      100% { transform: translate(var(--dx, 15px), var(--dy, -20px)) rotate(calc(var(--r, 20deg) + 25deg)); }
+    }
+
+    .frag-1 { --r: 25deg; --dx: 12px; --dy: -18px; }
+    .frag-2 { --r: -20deg; --dx: -10px; --dy: 14px; }
+    .frag-3 { --r: 40deg; --dx: 18px; --dy: 10px; }
+    .frag-4 { --r: -35deg; --dx: -15px; --dy: -12px; }
+    .frag-5 { --r: 60deg; --dx: 8px; --dy: -22px; }
+    .frag-6 { --r: -50deg; --dx: -20px; --dy: 8px; }
+    .frag-7 { --r: 15deg; --dx: 14px; --dy: 16px; }
+    .frag-8 { --r: -28deg; --dx: -8px; --dy: -10px; }
+    .frag-9 { --r: 45deg; --dx: 12px; --dy: -14px; }
+    .frag-10 { --r: -55deg; --dx: -16px; --dy: 12px; }
+
+    /* Ink splatters in hero */
+    .ink {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      z-index: 1;
+      pointer-events: none;
+      filter: blur(0.5px);
+    }
+
+    .ink--cyan {
+      background: var(--splatter-cyan);
+      top: 30%; left: 18%;
+      box-shadow:
+        15px -8px 0 12px var(--splatter-cyan),
+        -10px 15px 0 8px var(--splatter-cyan),
+        25px 20px 0 5px var(--splatter-cyan),
+        -20px -5px 0 10px var(--splatter-cyan),
+        40px 10px 0 3px var(--splatter-cyan),
+        -35px 25px 0 4px var(--splatter-cyan),
+        10px 40px 0 2px var(--splatter-cyan),
+        -15px -30px 0 6px var(--splatter-cyan),
+        50px -15px 0 1px var(--splatter-cyan);
+      opacity: 0.15;
+    }
+
+    .ink--magenta {
+      background: var(--splatter-magenta);
+      bottom: 25%; right: 20%;
+      box-shadow:
+        12px -15px 0 8px var(--splatter-magenta),
+        -18px 10px 0 12px var(--splatter-magenta),
+        30px 5px 0 6px var(--splatter-magenta),
+        -8px 25px 0 4px var(--splatter-magenta),
+        22px -22px 0 3px var(--splatter-magenta),
+        -30px -10px 0 7px var(--splatter-magenta),
+        5px 35px 0 2px var(--splatter-magenta);
+      opacity: 0.12;
+    }
+
+    /* Particle burst in hero center */
+    .particles {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .particle {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+      animation: particleExplode 3s ease-out infinite;
+    }
+
+    .particle:nth-child(1) { --tx: 180px; --ty: -130px; background: var(--splatter-cyan); animation-delay: 0s; }
+    .particle:nth-child(2) { --tx: -140px; --ty: -160px; background: var(--splatter-magenta); animation-delay: 0.3s; }
+    .particle:nth-child(3) { --tx: 200px; --ty: 60px; background: var(--splatter-lime); animation-delay: 0.6s; }
+    .particle:nth-child(4) { --tx: -180px; --ty: 90px; background: var(--splatter-yellow); animation-delay: 0.15s; }
+    .particle:nth-child(5) { --tx: 90px; --ty: -200px; background: var(--splatter-orange); animation-delay: 0.45s; }
+    .particle:nth-child(6) { --tx: -120px; --ty: -80px; background: var(--splatter-hot-pink); animation-delay: 0.75s; }
+    .particle:nth-child(7) { --tx: 160px; --ty: 140px; background: var(--splatter-purple); animation-delay: 0.2s; }
+    .particle:nth-child(8) { --tx: -60px; --ty: 170px; background: var(--splatter-red); animation-delay: 0.5s; }
+
+    @keyframes particleExplode {
+      0% { transform: translate(0,0) scale(1) rotate(0deg); opacity: 0.8; }
+      70% { opacity: 0.3; }
+      100% { transform: translate(var(--tx), var(--ty)) scale(0.2) rotate(180deg); opacity: 0; }
+    }
+
+    /* Scroll chevron */
+    .scroll-hint {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 4;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      animation: scrollPulse 2s ease-in-out infinite;
+    }
+
+    .scroll-hint span {
+      display: block;
+      width: 18px;
+      height: 18px;
+      border-right: 2px solid var(--splatter-cyan);
+      border-bottom: 2px solid var(--splatter-cyan);
+      transform: rotate(45deg);
+      opacity: 0.4;
+    }
+
+    .scroll-hint span:nth-child(2) { opacity: 0.6; }
+    .scroll-hint span:nth-child(3) { opacity: 0.8; }
+
+    @keyframes scrollPulse {
+      0%, 100% { opacity: 0.5; transform: translateX(-50%) translateY(0); }
+      50% { opacity: 1; transform: translateX(-50%) translateY(8px); }
+    }
+
+    /* ===== DIAGONAL DIVIDER ===== */
+    .divider-angle {
+      height: 6vw;
+      min-height: 40px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .divider-angle--cyan {
+      background: var(--splatter-dark);
+      clip-path: polygon(0 0, 100% 100%, 0 100%);
+    }
+
+    .divider-angle--magenta {
+      background: var(--splatter-dark);
+      clip-path: polygon(100% 0, 100% 100%, 0 100%);
+    }
+
+    .divider-angle--up-cyan {
+      background: var(--splatter-black);
+      clip-path: polygon(0 0, 100% 0, 0 100%);
+    }
+
+    .divider-angle--up-magenta {
+      background: var(--splatter-black);
+      clip-path: polygon(0 0, 100% 0, 100% 100%);
+    }
+
+    /* ===== SECTIONS ===== */
+    .section {
+      position: relative;
+      z-index: 2;
+      padding: 5rem 2rem;
+    }
+
+    .section--dark { background: var(--splatter-dark); }
+    .section--black { background: var(--splatter-black); }
+    .section--charcoal { background: var(--splatter-charcoal); }
+
+    /* Halftone overlay */
+    .section--halftone { position: relative; }
+    .section--halftone::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(circle, var(--splatter-white) 1px, transparent 1px);
+      background-size: 6px 6px;
+      opacity: 0.03;
+      mix-blend-mode: overlay;
+      pointer-events: none;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* Section headers */
+    .section-header {
+      margin-bottom: 3rem;
+    }
+
+    .section-label {
+      font-family: 'Share Tech', monospace;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.3em;
+      color: var(--splatter-gray);
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+
+    .section-title {
+      font-family: 'Oswald', 'Teko', sans-serif;
+      font-weight: 700;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--splatter-white);
+      line-height: 1;
+      padding-left: 1.2rem;
+      border-left: 4px solid var(--splatter-cyan);
+    }
+
+    .section-title--magenta {
+      border-left-color: var(--splatter-magenta);
+    }
+
+    .section-title--lime {
+      border-left-color: var(--splatter-lime);
+    }
+
+    .section-title--orange {
+      border-left-color: var(--splatter-orange);
+    }
+
+    .section-title--pink {
+      border-left-color: var(--splatter-hot-pink);
+    }
+
+    .section-title--purple {
+      border-left-color: var(--splatter-purple);
+    }
+
+    .section-title--yellow {
+      border-left-color: var(--splatter-yellow);
+    }
+
+    .section-title span {
+      color: var(--splatter-cyan);
+    }
+
+    .section-title--magenta span { color: var(--splatter-magenta); }
+    .section-title--lime span { color: var(--splatter-lime); }
+    .section-title--orange span { color: var(--splatter-orange); }
+    .section-title--pink span { color: var(--splatter-hot-pink); }
+    .section-title--purple span { color: var(--splatter-purple); }
+    .section-title--yellow span { color: var(--splatter-yellow); }
+
+    /* ===== CARDS ===== */
+    .card {
+      background: var(--splatter-dark);
+      border: 1px solid rgba(0,229,255,0.15);
+      padding: 2rem;
+      position: relative;
+      overflow: hidden;
+      clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% 100%, 18px 100%, 0 calc(100% - 18px));
+      box-shadow: 0 0 15px rgba(0,229,255,0.05), inset 0 0 30px rgba(0,0,0,0.4);
+      transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 18px;
+      height: 18px;
+      background: var(--splatter-cyan);
+      clip-path: polygon(100% 0, 0 0, 100% 100%);
+      opacity: 0.35;
+      transition: opacity 0.3s;
+    }
+
+    .card:hover {
+      border-color: rgba(0,229,255,0.4);
+      box-shadow: 0 0 30px rgba(0,229,255,0.12), inset 0 0 30px rgba(0,0,0,0.4);
+      transform: translateY(-2px);
+    }
+
+    .card:hover::before { opacity: 0.7; }
+
+    .card--magenta {
+      border-color: rgba(255,0,255,0.15);
+      box-shadow: 0 0 15px rgba(255,0,255,0.05), inset 0 0 30px rgba(0,0,0,0.4);
+    }
+    .card--magenta::before { background: var(--splatter-magenta); }
+    .card--magenta:hover {
+      border-color: rgba(255,0,255,0.4);
+      box-shadow: 0 0 30px rgba(255,0,255,0.12), inset 0 0 30px rgba(0,0,0,0.4);
+    }
+
+    .card--lime {
+      border-color: rgba(118,255,3,0.15);
+      box-shadow: 0 0 15px rgba(118,255,3,0.05), inset 0 0 30px rgba(0,0,0,0.4);
+    }
+    .card--lime::before { background: var(--splatter-lime); }
+    .card--lime:hover {
+      border-color: rgba(118,255,3,0.4);
+      box-shadow: 0 0 30px rgba(118,255,3,0.12), inset 0 0 30px rgba(0,0,0,0.4);
+    }
+
+    .card--on-dark {
+      background: var(--splatter-carbon);
+    }
+
+    .card-label {
+      font-family: 'Share Tech', monospace;
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.25em;
+      color: var(--splatter-gray);
+      margin-bottom: 0.4rem;
+    }
+
+    .card h3 {
+      font-family: 'Teko', 'Oswald', sans-serif;
+      font-weight: 600;
+      font-size: 1.5rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--splatter-cyan);
+      margin-bottom: 0.6rem;
+      line-height: 1.1;
+    }
+
+    .card--magenta h3 { color: var(--splatter-magenta); }
+    .card--lime h3 { color: var(--splatter-lime); }
+
+    .card p {
+      font-size: 0.95rem;
+      color: var(--splatter-light-gray);
+      line-height: 1.65;
+    }
+
+    .card p strong {
+      color: var(--splatter-white);
+      font-weight: 600;
+    }
+
+    /* ===== GRID LAYOUTS ===== */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+
+    .grid-auto {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+
+    /* ===== MOTIF LIST ===== */
+    .motif-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .motif-list li {
+      padding: 1rem 1.2rem;
+      background: var(--splatter-carbon);
+      border-left: 3px solid var(--splatter-cyan);
+      font-size: 0.95rem;
+      line-height: 1.5;
+      position: relative;
+      transition: border-color 0.3s, background 0.3s;
+    }
+
+    .motif-list li:nth-child(even) { border-left-color: var(--splatter-magenta); }
+    .motif-list li:nth-child(3n) { border-left-color: var(--splatter-lime); }
+
+    .motif-list li:hover {
+      background: var(--splatter-dark);
+    }
+
+    .motif-list li strong {
+      color: var(--splatter-white);
+      font-weight: 600;
+      font-family: 'Teko', sans-serif;
+      font-size: 1.1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    /* ===== COLOR PALETTE ===== */
+    .palette-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 1rem;
+    }
+
+    .swatch {
+      position: relative;
+      border-radius: 0;
+      overflow: hidden;
+      clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .swatch:hover {
+      transform: scale(1.05);
+    }
+
+    .swatch-color {
+      height: 70px;
+      width: 100%;
+    }
+
+    .swatch-info {
+      background: var(--splatter-carbon);
+      padding: 0.6rem 0.8rem;
+    }
+
+    .swatch-name {
+      font-family: 'Teko', sans-serif;
+      font-weight: 500;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--splatter-white);
+      line-height: 1.2;
+    }
+
+    .swatch-hex {
+      font-family: 'Share Tech', monospace;
+      font-size: 0.7rem;
+      color: var(--splatter-gray);
+      letter-spacing: 0.06em;
+    }
+
+    /* ===== TYPOGRAPHY SHOWCASE ===== */
+    .type-demo {
+      padding: 2rem;
+      background: var(--splatter-carbon);
+      border: 1px solid var(--splatter-charcoal);
+      margin-bottom: 1rem;
+    }
+
+    .type-demo-label {
+      font-family: 'Share Tech', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--splatter-gray);
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+
+    .type-bebas {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.5rem, 7vw, 5rem);
+      line-height: 0.9;
+      text-transform: uppercase;
+      color: var(--splatter-white);
+      text-shadow: 0 0 10px var(--splatter-glow-cyan), 0 0 40px var(--splatter-glow-cyan);
+    }
+
+    .type-anton {
+      font-family: 'Anton', sans-serif;
+      font-size: clamp(2rem, 5vw, 4rem);
+      text-transform: uppercase;
+      color: var(--splatter-magenta);
+      text-shadow: 0 0 15px var(--splatter-glow-magenta);
+      line-height: 1;
+    }
+
+    .type-oswald {
+      font-family: 'Oswald', sans-serif;
+      font-weight: 700;
+      font-size: clamp(1.5rem, 3vw, 2.5rem);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--splatter-white);
+    }
+
+    .type-blackops {
+      font-family: 'Black Ops One', cursive;
+      font-size: clamp(1.5rem, 3vw, 2.2rem);
+      text-transform: uppercase;
+      color: var(--splatter-lime);
+      text-shadow: 0 0 12px var(--splatter-glow-lime);
+    }
+
+    .type-teko {
+      font-family: 'Teko', sans-serif;
+      font-weight: 600;
+      font-size: clamp(1.5rem, 3vw, 2.2rem);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--splatter-cyan);
+    }
+
+    .type-orbitron {
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 500;
+      font-size: clamp(1rem, 2vw, 1.5rem);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--splatter-yellow);
+    }
+
+    .type-saira {
+      font-family: 'Saira Extra Condensed', sans-serif;
+      font-weight: 700;
+      font-size: clamp(2rem, 5vw, 4rem);
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+      color: var(--splatter-orange);
+      line-height: 0.95;
+    }
+
+    .type-russo {
+      font-family: 'Russo One', sans-serif;
+      font-size: clamp(1.3rem, 2.5vw, 2rem);
+      text-transform: uppercase;
+      color: var(--splatter-hot-pink);
+    }
+
+    .type-rajdhani {
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 500;
+      font-size: 1.1rem;
+      color: var(--splatter-light-gray);
+      line-height: 1.6;
+    }
+
+    .type-sharetech {
+      font-family: 'Share Tech', monospace;
+      font-size: 0.85rem;
+      color: var(--splatter-gray);
+      letter-spacing: 0.04em;
+    }
+
+    /* ===== STAT CALLOUT ===== */
+    .stat-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      justify-content: center;
+      margin: 3rem 0;
+    }
+
+    .stat-item {
+      text-align: center;
+    }
+
+    .stat-number {
+      font-family: 'Anton', 'Bebas Neue', sans-serif;
+      font-size: clamp(3.5rem, 10vw, 7rem);
+      text-transform: uppercase;
+      line-height: 0.85;
+      color: var(--splatter-magenta);
+      text-shadow: 0 0 20px var(--splatter-glow-magenta), 0 0 60px rgba(255,0,255,0.25);
+    }
+
+    .stat-number--cyan {
+      color: var(--splatter-cyan);
+      text-shadow: 0 0 20px var(--splatter-glow-cyan), 0 0 60px rgba(0,229,255,0.25);
+    }
+
+    .stat-number--lime {
+      color: var(--splatter-lime);
+      text-shadow: 0 0 20px var(--splatter-glow-lime), 0 0 60px rgba(118,255,3,0.25);
+    }
+
+    .stat-label {
+      font-family: 'Share Tech', monospace;
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.3em;
+      color: var(--splatter-gray);
+      margin-top: 0.3rem;
+    }
+
+    /* ===== TECHNIQUE DEMO BOXES ===== */
+    .demo-box {
+      position: relative;
+      min-height: 160px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      background: var(--splatter-carbon);
+      border: 1px solid var(--splatter-charcoal);
+    }
+
+    .demo-box-label {
+      position: absolute;
+      top: 0.5rem;
+      left: 0.8rem;
+      font-family: 'Share Tech', monospace;
+      font-size: 0.55rem;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--splatter-gray);
+      z-index: 5;
+    }
+
+    /* Neon glow demo */
+    .demo-neon-text {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      text-transform: uppercase;
+      color: var(--splatter-white);
+      text-shadow:
+        0 0 7px var(--splatter-cyan),
+        0 0 10px var(--splatter-cyan),
+        0 0 21px var(--splatter-cyan),
+        0 0 42px var(--splatter-cyan),
+        0 0 82px rgba(0,229,255,0.4),
+        0 0 92px rgba(0,229,255,0.2);
+      animation: neonFlicker 4s ease-in-out infinite;
+    }
+
+    @keyframes neonFlicker {
+      0%, 100% { opacity: 1; }
+      92% { opacity: 1; }
+      93% { opacity: 0.7; }
+      94% { opacity: 1; }
+      96% { opacity: 0.85; }
+      97% { opacity: 1; }
+    }
+
+    /* Fragment scatter demo */
+    .demo-scatter {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      min-height: 160px;
+    }
+
+    .demo-frag {
+      position: absolute;
+      opacity: 0.6;
+      transition: transform 0.4s, opacity 0.4s;
+    }
+
+    .demo-box:hover .demo-frag {
+      opacity: 0.9;
+    }
+
+    /* Speed lines demo */
+    .demo-speed::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        repeating-linear-gradient(0deg, transparent, transparent 8px, rgba(0,229,255,0.06) 8px, rgba(0,229,255,0.06) 9px),
+        repeating-linear-gradient(0deg, transparent, transparent 22px, rgba(255,0,255,0.04) 22px, rgba(255,0,255,0.04) 23px);
+      pointer-events: none;
+    }
+
+    /* Halftone demo */
+    .demo-halftone::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(circle, var(--splatter-white) 1px, transparent 1px);
+      background-size: 6px 6px;
+      opacity: 0.06;
+      pointer-events: none;
+    }
+
+    /* ===== BUTTONS ===== */
+    .btn {
+      display: inline-block;
+      padding: 0.8rem 2.5rem;
+      font-family: 'Bebas Neue', 'Oswald', sans-serif;
+      font-size: 1.1rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--splatter-white);
+      background: transparent;
+      border: 2px solid var(--splatter-cyan);
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.2s ease;
+      clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+    }
+
+    .btn:hover {
+      background: var(--splatter-cyan);
+      color: var(--splatter-black);
+      box-shadow: 0 0 20px var(--splatter-glow-cyan), 0 0 40px rgba(0,229,255,0.2);
+    }
+
+    .btn:active { transform: scale(0.97); }
+
+    .btn--magenta { border-color: var(--splatter-magenta); }
+    .btn--magenta:hover {
+      background: var(--splatter-magenta);
+      box-shadow: 0 0 20px var(--splatter-glow-magenta), 0 0 40px rgba(255,0,255,0.2);
+    }
+
+    .btn--lime { border-color: var(--splatter-lime); }
+    .btn--lime:hover {
+      background: var(--splatter-lime);
+      color: var(--splatter-black);
+      box-shadow: 0 0 20px var(--splatter-glow-lime), 0 0 40px rgba(118,255,3,0.2);
+    }
+
+    .btn-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+
+    /* ===== TABLE ===== */
+    .splatter-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+
+    .splatter-table th {
+      font-family: 'Teko', sans-serif;
+      font-weight: 600;
+      font-size: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--splatter-cyan);
+      text-align: left;
+      padding: 0.8rem 1rem;
+      border-bottom: 2px solid var(--splatter-cyan);
+      background: var(--splatter-carbon);
+    }
+
+    .splatter-table td {
+      padding: 0.7rem 1rem;
+      border-bottom: 1px solid var(--splatter-charcoal);
+      color: var(--splatter-light-gray);
+      vertical-align: top;
+    }
+
+    .splatter-table tr:hover td {
+      background: rgba(0,229,255,0.03);
+    }
+
+    .splatter-table td strong {
+      color: var(--splatter-white);
+      font-weight: 600;
+    }
+
+    .splatter-table td code {
+      font-family: 'Share Tech', monospace;
+      font-size: 0.8rem;
+      color: var(--splatter-cyan);
+      background: rgba(0,229,255,0.08);
+      padding: 0.15em 0.4em;
+    }
+
+    /* ===== RELATED AESTHETICS TAGS ===== */
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      margin-top: 1rem;
+    }
+
+    .tag {
+      font-family: 'Teko', sans-serif;
+      font-weight: 500;
+      font-size: 0.95rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: 0.4rem 1rem;
+      background: var(--splatter-carbon);
+      border: 1px solid var(--splatter-charcoal);
+      color: var(--splatter-light-gray);
+      transition: all 0.2s;
+      cursor: default;
+    }
+
+    .tag:nth-child(1) { border-color: rgba(0,229,255,0.3); color: var(--splatter-cyan); }
+    .tag:nth-child(2) { border-color: rgba(255,0,255,0.3); color: var(--splatter-magenta); }
+    .tag:nth-child(3) { border-color: rgba(118,255,3,0.3); color: var(--splatter-lime); }
+    .tag:nth-child(4) { border-color: rgba(255,234,0,0.3); color: var(--splatter-yellow); }
+    .tag:nth-child(5) { border-color: rgba(255,109,0,0.3); color: var(--splatter-orange); }
+    .tag:nth-child(6) { border-color: rgba(170,0,255,0.3); color: var(--splatter-purple); }
+    .tag:nth-child(7) { border-color: rgba(255,0,102,0.3); color: var(--splatter-hot-pink); }
+
+    .tag:hover { background: var(--splatter-charcoal); }
+
+    /* ===== CHEVRON ACCENTS ===== */
+    .chevrons {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+      margin: 1.5rem 0;
+    }
+
+    .chevrons span {
+      display: block;
+      width: 16px;
+      height: 16px;
+      border-right: 2px solid var(--splatter-cyan);
+      border-bottom: 2px solid var(--splatter-cyan);
+      transform: rotate(-45deg);
+    }
+
+    .chevrons span:nth-child(1) { opacity: 0.3; }
+    .chevrons span:nth-child(2) { opacity: 0.5; }
+    .chevrons span:nth-child(3) { opacity: 0.7; }
+    .chevrons span:nth-child(4) { opacity: 0.9; }
+
+    .chevrons--magenta span { border-color: var(--splatter-magenta); }
+    .chevrons--lime span { border-color: var(--splatter-lime); }
+
+    /* ===== FOOTER ===== */
+    .footer {
+      position: relative;
+      z-index: 2;
+      padding: 3rem 2rem;
+      background: var(--splatter-carbon);
+      text-align: center;
+      border-top: 1px solid var(--splatter-charcoal);
+    }
+
+    .footer-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(1.5rem, 4vw, 2.5rem);
+      text-transform: uppercase;
+      color: var(--splatter-white);
+      letter-spacing: 0.05em;
+    }
+
+    .footer-title span { color: var(--splatter-magenta); }
+
+    .footer p {
+      font-family: 'Share Tech', monospace;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.25em;
+      color: var(--splatter-gray);
+      margin-top: 0.8rem;
+    }
+
+    /* ===== INLINE ACCENT ===== */
+    .accent-cyan { color: var(--splatter-cyan); }
+    .accent-magenta { color: var(--splatter-magenta); }
+    .accent-lime { color: var(--splatter-lime); }
+    .accent-yellow { color: var(--splatter-yellow); }
+    .accent-orange { color: var(--splatter-orange); }
+    .accent-pink { color: var(--splatter-hot-pink); }
+    .accent-purple { color: var(--splatter-purple); }
+
+    /* ===== SCROLL ANIMATIONS ===== */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.6s cubic-bezier(0.16,1,0.3,1), transform 0.6s cubic-bezier(0.16,1,0.3,1);
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Stagger children */
+    .stagger > .reveal:nth-child(1) { transition-delay: 0s; }
+    .stagger > .reveal:nth-child(2) { transition-delay: 0.08s; }
+    .stagger > .reveal:nth-child(3) { transition-delay: 0.16s; }
+    .stagger > .reveal:nth-child(4) { transition-delay: 0.24s; }
+    .stagger > .reveal:nth-child(5) { transition-delay: 0.32s; }
+    .stagger > .reveal:nth-child(6) { transition-delay: 0.4s; }
+    .stagger > .reveal:nth-child(7) { transition-delay: 0.48s; }
+    .stagger > .reveal:nth-child(8) { transition-delay: 0.56s; }
+    .stagger > .reveal:nth-child(9) { transition-delay: 0.64s; }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 768px) {
+      .grid-2 { grid-template-columns: 1fr; }
+      .grid-3 { grid-template-columns: 1fr; }
+      .section { padding: 3rem 1.2rem; }
+      .stat-row { gap: 1.5rem; }
+      .palette-grid { grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); }
+      .splatter-table { font-size: 0.8rem; }
+      .splatter-table th, .splatter-table td { padding: 0.5rem 0.6rem; }
+    }
+
+    @media (max-width: 480px) {
+      .hero { padding: 2rem 1rem; }
+      .palette-grid { grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)); gap: 0.6rem; }
+      .swatch-color { height: 50px; }
+      .swatch-info { padding: 0.4rem 0.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ==================== HERO ==================== -->
+  <section class="hero">
+    <!-- Floating fragments -->
+    <div class="frag frag--tri frag-1"></div>
+    <div class="frag frag--diamond frag-2"></div>
+    <div class="frag frag--shard frag-3"></div>
+    <div class="frag frag--tri frag-4"></div>
+    <div class="frag frag--penta frag-5"></div>
+    <div class="frag frag--diamond frag-6"></div>
+    <div class="frag frag--tri frag-7"></div>
+    <div class="frag frag--shard frag-8"></div>
+    <div class="frag frag--penta frag-9"></div>
+    <div class="frag frag--diamond frag-10"></div>
+
+    <!-- Ink splatters -->
+    <div class="ink ink--cyan"></div>
+    <div class="ink ink--magenta"></div>
+
+    <!-- Particles -->
+    <div class="particles">
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+    </div>
+
+    <h1 class="hero-title">
+      <span class="word-fitness">Fitness</span>
+      <span class="word-splatter">Splatter</span>
+    </h1>
+    <p class="hero-sub">Design Aesthetic Reference // c. 2012&ndash;2017</p>
+    <p class="hero-tagline">The visual deconstruction of human subjects into <em>geometric shards</em>, low-poly triangles, and <em>liquid ink splatters</em> &mdash; movement so rapid that subjects appear to be shedding their physical form.</p>
+
+    <div class="scroll-hint">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </section>
+
+  <div class="divider-angle divider-angle--cyan"></div>
+
+  <!-- ==================== VISUAL CHARACTERISTICS ==================== -->
+  <section class="section section--dark section--halftone">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-label">01 // Visual Identity</span>
+        <h2 class="section-title">Visual <span>Characteristics</span></h2>
+      </div>
+
+      <div class="grid-2 stagger">
+        <div class="reveal">
+          <div class="card">
+            <div class="card-label">Core Motifs</div>
+            <h3>Shattered Forms</h3>
+            <p><strong>Low-poly shattering effect</strong> &mdash; human figures rendered as hundreds of geometric triangles across skin and clothing, creating a crystalline fragmentation. <strong>Liquid ink splatters</strong> transform motion trails into drips, spray paint burns, and ink blots suggesting extreme velocity.</p>
+          </div>
+        </div>
+        <div class="reveal">
+          <div class="card card--magenta">
+            <div class="card-label">Directional Energy</div>
+            <h3>Chevrons &amp; Speed Lines</h3>
+            <p><strong>Chevrons and directional arrows</strong> convey forward motion. <strong>Speed lines and motion trails</strong> streak across compositions. <strong>Tech lines and circuit traces</strong> add a digital, futuristic edge behind subjects.</p>
+          </div>
+        </div>
+        <div class="reveal">
+          <div class="card card--lime">
+            <div class="card-label">Texture</div>
+            <h3>Grunge &amp; Halftone</h3>
+            <p><strong>Halftone dot patterns</strong> add print-production texture. <strong>Grunge brushes and spray paint drips</strong> are applied with vector precision rather than true analog chaos. <strong>Sharp angular vector shapes</strong> radiate outward aggressively.</p>
+          </div>
+        </div>
+        <div class="reveal">
+          <div class="card">
+            <div class="card-label">Dissolution</div>
+            <h3>Particle Dispersion</h3>
+            <p>Subjects <strong>dissolve at their edges</strong> into scattered geometric fragments or paint droplets. The overall effect creates an impression of a figure <strong>breaking the sound barrier</strong> or shedding their physical form in an explosion of color.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="chevrons" style="margin-top: 2.5rem;">
+        <span></span><span></span><span></span><span></span>
+      </div>
+
+      <div class="section-header reveal" style="margin-top: 2rem;">
+        <span class="section-label">Design Philosophy</span>
+        <h2 class="section-title section-title--magenta">Design <span>Principles</span></h2>
+      </div>
+
+      <ul class="motif-list stagger">
+        <li class="reveal"><strong>Maximalist density</strong> &mdash; pack the maximum amount of visual noise (shards, colors, splatters) into the frame; more is more.</li>
+        <li class="reveal"><strong>Controlled chaos</strong> &mdash; every element appears wild and spontaneous but is precisely positioned for marketing impact and visual balance.</li>
+        <li class="reveal"><strong>Central figure dominance</strong> &mdash; a human subject (athlete, dancer) always anchors the composition at center or slight off-center.</li>
+        <li class="reveal"><strong>Radial energy explosion</strong> &mdash; visual elements radiate outward from the central figure, creating a "detonation" composition.</li>
+        <li class="reveal"><strong>Corporate-clean street grit</strong> &mdash; all grunge and splatter elements are vector-based, crisp, and deliberately placed rather than authentically messy.</li>
+        <li class="reveal"><strong>High contrast &amp; visual urgency</strong> &mdash; neon hues against stark black or white backgrounds demand immediate attention.</li>
+        <li class="reveal"><strong>Layered depth planes</strong> &mdash; background tech lines, midground splatters, foreground subject, and top-layer geometric fragments create z-depth.</li>
+        <li class="reveal"><strong>Dynamic asymmetry</strong> &mdash; compositions lean into directional energy rather than static symmetry, suggesting movement frozen mid-explosion.</li>
+      </ul>
+    </div>
+  </section>
+
+  <div class="divider-angle divider-angle--magenta"></div>
+
+  <!-- ==================== COLOR PALETTE ==================== -->
+  <section class="section section--black">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-label">02 // Chromatic Identity</span>
+        <h2 class="section-title section-title--lime">Color <span>Palette</span></h2>
+      </div>
+
+      <div class="stat-row reveal">
+        <div class="stat-item">
+          <div class="stat-number stat-number--cyan">100%</div>
+          <div class="stat-label">Saturation</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">3&ndash;5</div>
+          <div class="stat-label">Neon Accents</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number stat-number--lime">0</div>
+          <div class="stat-label">Pastels</div>
+        </div>
+      </div>
+
+      <div class="palette-grid stagger">
+        <div class="swatch reveal">
+          <div class="swatch-color" style="background:#000000;"></div>
+          <div class="swatch-info"><div class="swatch-name">Void Black</div><div class="swatch-hex">#000000</div></div>
+        </div>
+        <div class="swatch reveal">
+          <div class="swatch-color" style="background:#0a0a0a;"></div>
+          <div class="swatch-info"><div class="swatch-name">Carbon Black</div><div class="swatch-hex">#0A0A0A</div></div>
+        </div>
+        <div class="swatch reveal">
+          <div class="swatch-color" style="background:#111111;"></div>
+          <div class="swatch-info"><div class="swatch-name">Near Black</div><div class="swatch-hex">#111111</div></div>
+        </div>
+        <div class="swatch reveal">
+          <div class="swatch-color" style="background:#2a2a2a;"></div>
+          <div class="swatch-info"><div class="swatch-name">Charcoal Gray</div><div class="swatch-hex">#2A2A2A</div></div>
+        </div>
+        <div class="swatch reveal">
+          <div class="swatch-color" style="background:#ffffff; border: 1px solid #333;"></div>
+          <div class="swatch-info"><div class="swatch-name">Pure White</div><div class="swatch-hex">#FFFFFF</div></div>
+        </div>
+        <div class="swatch reveal">
+          <div class="swatch-color" style="background:#00e5ff;"></div>
+          <div class="swatch-info"><div class="swatch-name">Neon Cyan</div><div class="swatch-hex">#00E5FF</div></div>
+        </div>
+        <div class="swatch reveal">
+          <div class="swatch-color" style="background:#2979ff;"></div>
+          <div class="swatch-info"><div class="swatch-name">Electric Blue</div><div class="swatch-hex">#2979FF</div></div>
+        </div>
+        <div class="swatch reveal">
+          <div class="swatch-color" style="background:#ff00ff;"></div>
+          <div class="swatch-info"><div class="swatch-name">Hot Magenta</div><div class="swatch-hex">#FF00FF</div></div>
+        </div>
+        <div class="swatch reveal">
+          <div class="swatch-color" style="background:#ff1493;"></div>
+          <div class="swatch-info"><div class="swatch-name">Vivid Pink</div><div class="swatch-hex">#FF1493</div></div>
+        </div>
+        <div class="swatch reveal">
+          <div class="swatch-color" style="background:#ff0066;"></div>
+          <div class="swatch-info"><div class="swatch-name">Hot Pink</div><div class="swatch-hex">#FF0066</div></div>
+        </div>
+        <div class="swatch reveal">
+          <div class="swatch-color" style="background:#76ff03;"></div>
+          <div class="swatch-info"><div class="swatch-name">Neon Lime</div><div class="swatch-hex">#76FF03</div></div>
+        </div>
+        <div class="swatch reveal">
+          <div class="swatch-color" style="background:#ffea00;"></div>
+          <div class="swatch-info"><div class="swatch-name">Electric Yellow</div><div class="swatch-hex">#FFEA00</div></div>
+        </div>
+        <div class="swatch reveal">
+          <div class="swatch-color" style="background:#ff6d00;"></div>
+          <div class="swatch-info"><div class="swatch-name">Hot Orange</div><div class="swatch-hex">#FF6D00</div></div>
+        </div>
+        <div class="swatch reveal">
+          <div class="swatch-color" style="background:#ff1744;"></div>
+          <div class="swatch-info"><div class="swatch-name">Laser Red</div><div class="swatch-hex">#FF1744</div></div>
+        </div>
+        <div class="swatch reveal">
+          <div class="swatch-color" style="background:#aa00ff;"></div>
+          <div class="swatch-info"><div class="swatch-name">Deep Purple</div><div class="swatch-hex">#AA00FF</div></div>
+        </div>
+      </div>
+
+      <div class="chevrons chevrons--lime" style="margin-top:2.5rem;">
+        <span></span><span></span><span></span><span></span>
+      </div>
+
+      <div class="section-header reveal" style="margin-top:1.5rem;">
+        <span class="section-label">Palette Philosophy</span>
+        <h2 class="section-title section-title--orange">Color <span>Approaches</span></h2>
+      </div>
+
+      <div class="grid-2 stagger">
+        <div class="reveal">
+          <div class="card card--on-dark">
+            <h3>Neon-on-Black Dominance</h3>
+            <p>The signature look pairs <strong>blazing neon hues against pitch-black backgrounds</strong> for maximum "color vibration." The CMYK trio core &mdash; cyan, magenta, and yellow &mdash; forms the foundational accent triad.</p>
+          </div>
+        </div>
+        <div class="reveal">
+          <div class="card card--magenta card--on-dark">
+            <h3>Multi-Accent Freedom</h3>
+            <p>Unlike minimal design, Fitness Splatter uses <strong>3&ndash;5 neon accent colors simultaneously</strong> without restraint. Colors at full saturation &mdash; muted or desaturated tones are avoided entirely. No pastels, ever.</p>
+          </div>
+        </div>
+        <div class="reveal">
+          <div class="card card--lime card--on-dark">
+            <h3>Color as Energy Metaphor</h3>
+            <p>Brighter, more saturated colors <strong>concentrate around the central subject</strong>; fragments and splatters at the edges shift hue. Color radiates outward with the composition's energy.</p>
+          </div>
+        </div>
+        <div class="reveal">
+          <div class="card card--on-dark" style="border-color: rgba(255,234,0,0.2);">
+            <h3 style="color: var(--splatter-yellow);">Stark Contrast Pairs</h3>
+            <p>Neon cyan on black, hot pink on white, lime on charcoal &mdash; always <strong>high-contrast, never low-key</strong>. Every color combination demands immediate visual attention and urgency.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider-angle divider-angle--cyan"></div>
+
+  <!-- ==================== TYPOGRAPHY ==================== -->
+  <section class="section section--dark section--halftone">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-label">03 // Typographic System</span>
+        <h2 class="section-title section-title--pink">Typo<span>graphy</span></h2>
+      </div>
+
+      <div class="card reveal" style="margin-bottom:2rem;">
+        <div class="card-label">Type Philosophy</div>
+        <h3>Bold, Aggressive, Unapologetically Loud</h3>
+        <p><strong>Ultra-bold condensed sans-serifs</strong> dominate. All-caps is the default. <strong>Tight tracking</strong> with aggressive kerning, sometimes overlapping. <strong>Italic/slanted variants</strong> reinforce speed. <strong>Neon-glow text treatments</strong> create glowing signage. <strong>Stacked word compositions</strong> in different sizes for visual impact.</p>
+      </div>
+
+      <div class="chevrons chevrons--magenta">
+        <span></span><span></span><span></span><span></span>
+      </div>
+
+      <div class="section-header reveal" style="margin-top:1.5rem;">
+        <span class="section-label">Font Showcase</span>
+        <h2 class="section-title section-title--yellow">Recommended <span>Fonts</span></h2>
+      </div>
+
+      <div class="stagger" style="display:flex; flex-direction:column; gap:0.8rem;">
+        <div class="type-demo reveal">
+          <span class="type-demo-label">Bebas Neue // Hero Titles, Display Text</span>
+          <div class="type-bebas">Shatter Everything</div>
+        </div>
+        <div class="type-demo reveal">
+          <span class="type-demo-label">Anton // Impact Headlines, Callouts</span>
+          <div class="type-anton">Maximum Impact</div>
+        </div>
+        <div class="type-demo reveal">
+          <span class="type-demo-label">Oswald 700 // Section Headings</span>
+          <div class="type-oswald">Controlled Chaos Design</div>
+        </div>
+        <div class="type-demo reveal">
+          <span class="type-demo-label">Black Ops One // Extreme Emphasis</span>
+          <div class="type-blackops">No Limits</div>
+        </div>
+        <div class="type-demo reveal">
+          <span class="type-demo-label">Teko 600 // Secondary Headings, Stats</span>
+          <div class="type-teko">Explosive Energy Burst</div>
+        </div>
+        <div class="type-demo reveal">
+          <span class="type-demo-label">Saira Extra Condensed 700 // Stacked Compositions</span>
+          <div class="type-saira">Break the Sound Barrier</div>
+        </div>
+        <div class="type-demo reveal">
+          <span class="type-demo-label">Orbitron 500 // Futuristic Accent Text</span>
+          <div class="type-orbitron">Digital Future</div>
+        </div>
+        <div class="type-demo reveal">
+          <span class="type-demo-label">Russo One // Athletic Branding</span>
+          <div class="type-russo">Power Through Limits</div>
+        </div>
+        <div class="type-demo reveal">
+          <span class="type-demo-label">Rajdhani 500 // Body Text, UI Labels</span>
+          <div class="type-rajdhani">Readable body text for extended content. Clean and technical with a semi-condensed feel that maintains the aesthetic energy while remaining comfortable to read at length.</div>
+        </div>
+        <div class="type-demo reveal">
+          <span class="type-demo-label">Share Tech // Metadata, Small Print</span>
+          <div class="type-sharetech">TECHNICAL LABEL // METADATA // STATUS INDICATORS // 2012-2017</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider-angle divider-angle--magenta"></div>
+
+  <!-- ==================== LAYOUT PRINCIPLES ==================== -->
+  <section class="section section--black">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-label">04 // Spatial Architecture</span>
+        <h2 class="section-title section-title--purple">Layout <span>Principles</span></h2>
+      </div>
+
+      <div class="grid-2 stagger">
+        <div class="reveal">
+          <div class="card" style="border-color: rgba(170,0,255,0.2);">
+            <h3 style="color: var(--splatter-purple);">Edge-to-Edge Full-Bleed</h3>
+            <p>Backgrounds and splatter elements <strong>extend to all viewport edges</strong> with no visible margin or frame. The canvas is boundless.</p>
+          </div>
+        </div>
+        <div class="reveal">
+          <div class="card card--magenta">
+            <h3>Central Focal Anchor</h3>
+            <p>The hero figure or primary content element is positioned at center, with all <strong>energy radiating outward</strong> in a detonation pattern.</p>
+          </div>
+        </div>
+        <div class="reveal">
+          <div class="card">
+            <h3>Maximalist Fill</h3>
+            <p>Every region populated with fragments, splatters, tech lines, or color. <strong>Empty space is minimal</strong> &mdash; visual density is the goal.</p>
+          </div>
+        </div>
+        <div class="reveal">
+          <div class="card card--lime">
+            <h3>Layered Z-Depth Stacking</h3>
+            <p>Backgrounds, midground textures, subjects, foreground fragments, and UI text each occupy <strong>distinct visual planes</strong>.</p>
+          </div>
+        </div>
+        <div class="reveal">
+          <div class="card card--magenta">
+            <h3>Diagonal Energy Lines</h3>
+            <p>Layout elements and decorative accents follow <strong>diagonal angles (15&ndash;45 degrees)</strong> rather than pure horizontal/vertical orientations.</p>
+          </div>
+        </div>
+        <div class="reveal">
+          <div class="card">
+            <h3>Overlapping Elements</h3>
+            <p>Content panels, images, and text blocks <strong>deliberately overlap</strong> to create a collaged, energetic composition with maximum visual tension.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="chevrons" style="margin-top:2.5rem;">
+        <span></span><span></span><span></span><span></span>
+      </div>
+
+      <div class="section-header reveal" style="margin-top:1.5rem;">
+        <span class="section-label">Section Organization</span>
+        <h2 class="section-title">Section <span>Transitions</span></h2>
+      </div>
+
+      <ul class="motif-list stagger">
+        <li class="reveal"><strong>Angular/diagonal dividers</strong> &mdash; clip-path polygon dividers angled at 5&ndash;15 degrees replace horizontal lines between sections.</li>
+        <li class="reveal"><strong>Alternating color temperature</strong> &mdash; swap between cyan-dominant and magenta-dominant palettes per section to maintain visual energy.</li>
+        <li class="reveal"><strong>Hierarchy through scale and glow</strong> &mdash; primary elements are massive and glow; secondary elements are smaller and matte.</li>
+        <li class="reveal"><strong>Fragmented section transitions</strong> &mdash; sections appear to shatter into one another with polygon clip-path effects.</li>
+        <li class="reveal"><strong>Full-viewport hero sections</strong> &mdash; primary content areas take up 100vh with figures and splatters filling the space.</li>
+        <li class="reveal"><strong>Tight vertical stacking</strong> &mdash; sections pack closely together with minimal padding, keeping energy levels high.</li>
+      </ul>
+    </div>
+  </section>
+
+  <div class="divider-angle divider-angle--cyan"></div>
+
+  <!-- ==================== CSS TECHNIQUES ==================== -->
+  <section class="section section--dark section--halftone">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-label">05 // Implementation</span>
+        <h2 class="section-title">CSS <span>Techniques</span></h2>
+      </div>
+
+      <div class="grid-2 stagger" style="margin-bottom:2rem;">
+        <!-- Neon Glow Demo -->
+        <div class="reveal">
+          <div class="demo-box" style="background: var(--splatter-black);">
+            <div class="demo-box-label">Neon Glow Text</div>
+            <div class="demo-neon-text">Neon Glow</div>
+          </div>
+        </div>
+
+        <!-- Fragment Scatter Demo -->
+        <div class="reveal">
+          <div class="demo-box" style="background: var(--splatter-black);">
+            <div class="demo-box-label">Geometric Fragments</div>
+            <div class="demo-scatter">
+              <div class="demo-frag" style="top:15%; left:12%; width:55px; height:55px; background: var(--splatter-cyan); clip-path: polygon(50% 0%, 0% 100%, 100% 100%); transform: rotate(20deg);"></div>
+              <div class="demo-frag" style="top:25%; right:18%; width:40px; height:40px; background: var(--splatter-magenta); clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%); transform: rotate(-15deg);"></div>
+              <div class="demo-frag" style="bottom:20%; left:30%; width:65px; height:65px; background: var(--splatter-lime); clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%); transform: rotate(35deg);"></div>
+              <div class="demo-frag" style="top:50%; right:25%; width:35px; height:35px; background: var(--splatter-yellow); clip-path: polygon(20% 0%, 100% 10%, 80% 100%, 0% 85%); transform: rotate(-30deg);"></div>
+              <div class="demo-frag" style="bottom:15%; right:12%; width:45px; height:45px; background: var(--splatter-orange); clip-path: polygon(50% 0%, 0% 100%, 100% 100%); transform: rotate(50deg);"></div>
+              <div class="demo-frag" style="top:10%; left:50%; width:30px; height:30px; background: var(--splatter-purple); clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%); transform: rotate(10deg);"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Speed Lines Demo -->
+        <div class="reveal">
+          <div class="demo-box demo-speed" style="background: var(--splatter-black);">
+            <div class="demo-box-label">Speed Lines / Motion Trail</div>
+            <div style="font-family:'Bebas Neue',sans-serif; font-size:2rem; text-transform:uppercase; color:var(--splatter-white); z-index:2; position:relative; letter-spacing:0.05em;">Velocity</div>
+          </div>
+        </div>
+
+        <!-- Halftone Demo -->
+        <div class="reveal">
+          <div class="demo-box demo-halftone" style="background: var(--splatter-charcoal);">
+            <div class="demo-box-label">Halftone Dot Overlay</div>
+            <div style="font-family:'Teko',sans-serif; font-weight:600; font-size:1.8rem; text-transform:uppercase; color:var(--splatter-magenta); letter-spacing:0.08em; z-index:2; position:relative;">Print Texture</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="chevrons chevrons--magenta" style="margin:2rem 0;">
+        <span></span><span></span><span></span><span></span>
+      </div>
+
+      <div class="section-header reveal">
+        <span class="section-label">UI Components</span>
+        <h2 class="section-title section-title--magenta">Buttons &amp; <span>Cards</span></h2>
+      </div>
+
+      <div class="card reveal" style="margin-bottom:2rem;">
+        <div class="card-label">Interactive Components</div>
+        <h3>Splatter Buttons</h3>
+        <p>Buttons use <strong>clip-path for angled corners</strong>, neon border accents, and <strong>glow effects on hover</strong>. The angled cut conveys the same aggressive energy as the overall aesthetic.</p>
+        <div class="btn-row">
+          <a class="btn" href="javascript:void(0)">Engage // Cyan</a>
+          <a class="btn btn--magenta" href="javascript:void(0)">Activate // Magenta</a>
+          <a class="btn btn--lime" href="javascript:void(0)">Launch // Lime</a>
+        </div>
+      </div>
+
+      <div class="grid-3 stagger">
+        <div class="reveal">
+          <div class="card">
+            <div class="card-label">Neon Panel</div>
+            <h3>Cyan Accent Card</h3>
+            <p>Clip-path corner cuts with <strong>neon glow on hover</strong>. Corner accent triangle marks the cut point.</p>
+          </div>
+        </div>
+        <div class="reveal">
+          <div class="card card--magenta">
+            <div class="card-label">Neon Panel</div>
+            <h3>Magenta Card</h3>
+            <p>Same structure, <strong>magenta accent</strong>. Alternating colors maintain visual energy across card grids.</p>
+          </div>
+        </div>
+        <div class="reveal">
+          <div class="card card--lime">
+            <div class="card-label">Neon Panel</div>
+            <h3>Lime Accent Card</h3>
+            <p>Third color variant. The <strong>multi-accent approach</strong> keeps grids from feeling monotone.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider-angle divider-angle--magenta"></div>
+
+  <!-- ==================== MATERIALS & TEXTURES ==================== -->
+  <section class="section section--black">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-label">06 // Surface Treatment</span>
+        <h2 class="section-title section-title--orange">Materials &amp; <span>Textures</span></h2>
+      </div>
+
+      <div class="reveal" style="overflow-x:auto;">
+        <table class="splatter-table">
+          <thead>
+            <tr>
+              <th>Physical Element</th>
+              <th>Web Equivalent</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Shattered glass / crystal</strong></td>
+              <td>CSS <code>clip-path: polygon()</code> fragments with semi-transparent neon fills and <code>backdrop-filter: blur()</code></td>
+            </tr>
+            <tr>
+              <td><strong>Spray paint splatters</strong></td>
+              <td>Layered <code>box-shadow</code> clusters with <code>border-radius: 50%</code> on small elements</td>
+            </tr>
+            <tr>
+              <td><strong>Low-poly mesh</strong></td>
+              <td>SVG polygon fills with adjacent triangles in shifting hue values</td>
+            </tr>
+            <tr>
+              <td><strong>Neon signage glow</strong></td>
+              <td>Multi-layered <code>text-shadow</code> with increasing blur radius on neon color values</td>
+            </tr>
+            <tr>
+              <td><strong>Ink drips and runs</strong></td>
+              <td>CSS gradients with irregular <code>clip-path</code> or SVG paths along vertical axis</td>
+            </tr>
+            <tr>
+              <td><strong>Halftone print screen</strong></td>
+              <td><code>radial-gradient</code> dot patterns at small <code>background-size</code> with low opacity overlay</td>
+            </tr>
+            <tr>
+              <td><strong>Tech circuitry lines</strong></td>
+              <td>Thin <code>border</code> elements at 30&ndash;60 degree angles using <code>transform: rotate()</code></td>
+            </tr>
+            <tr>
+              <td><strong>Holographic foil</strong></td>
+              <td><code>linear-gradient()</code> with multiple color stops animating <code>background-position</code></td>
+            </tr>
+            <tr>
+              <td><strong>Smoke / fog trails</strong></td>
+              <td>Large <code>box-shadow</code> with heavy blur and low opacity on neon pseudo-elements</td>
+            </tr>
+            <tr>
+              <td><strong>Energy burst / flare</strong></td>
+              <td><code>radial-gradient</code> from neon center to transparent with <code>mix-blend-mode: screen</code></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider-angle divider-angle--cyan"></div>
+
+  <!-- ==================== CULTURAL REFERENCES ==================== -->
+  <section class="section section--dark section--halftone">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-label">07 // Cultural Context</span>
+        <h2 class="section-title section-title--yellow">Cultural <span>References</span></h2>
+      </div>
+
+      <div class="grid-2 stagger">
+        <div class="reveal">
+          <div class="card" style="border-color: rgba(255,234,0,0.2);">
+            <h3 style="color: var(--splatter-yellow);">Zumba Fitness Marketing</h3>
+            <p>The <strong>canonical Fitness Splatter application</strong> (2012&ndash;2017). Neon-drenched dancers exploding into geometric fragments &mdash; the style that defined the aesthetic.</p>
+          </div>
+        </div>
+        <div class="reveal">
+          <div class="card card--magenta">
+            <h3>EDM &amp; Hardcore Album Art</h3>
+            <p><strong>Ravemania Speed compilations</strong>, UK Hardcore, and J-Core covers &mdash; shattered dancers with maximum color density pushing the fragmented-figure aesthetic to its extreme.</p>
+          </div>
+        </div>
+        <div class="reveal">
+          <div class="card card--lime">
+            <h3>Street Dance Posters</h3>
+            <p>High-energy promotional materials for <strong>breakdance, hip-hop, and freestyle events</strong>. Mass-produced using stock Envato/GraphicRiver templates with customizable splatter effects.</p>
+          </div>
+        </div>
+        <div class="reveal">
+          <div class="card">
+            <h3>Athletic Brand Marketing</h3>
+            <p><strong>Nike/Adidas athletic campaigns</strong> (2013&ndash;2016) borrowed the shattered-athlete visual language for commercial sports advertising at scale.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="chevrons" style="margin-top:2.5rem;">
+        <span></span><span></span><span></span><span></span>
+      </div>
+
+      <div class="section-header reveal" style="margin-top:1.5rem;">
+        <span class="section-label">Production Tools</span>
+        <h2 class="section-title">Design Tool <span>Context</span></h2>
+      </div>
+
+      <div class="grid-3 stagger">
+        <div class="reveal">
+          <div class="card card--on-dark">
+            <h3>Adobe Illustrator</h3>
+            <p>Vector-based geometric shards, clean polygon construction, crisp splatter brushes. The <strong>primary production tool</strong>.</p>
+          </div>
+        </div>
+        <div class="reveal">
+          <div class="card card--magenta card--on-dark">
+            <h3>Adobe Photoshop</h3>
+            <p>Compositing, layer blending modes, halftone filters, glow effects. The <strong>finishing and compositing</strong> environment.</p>
+          </div>
+        </div>
+        <div class="reveal">
+          <div class="card card--lime card--on-dark">
+            <h3>Envato Templates</h3>
+            <p>Pre-made action/template packs <strong>democratized the style</strong> for small gyms and event promoters worldwide.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider-angle divider-angle--magenta"></div>
+
+  <!-- ==================== RELATED AESTHETICS ==================== -->
+  <section class="section section--black">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-label">08 // Design Connections</span>
+        <h2 class="section-title section-title--purple">Related <span>Aesthetics</span></h2>
+      </div>
+
+      <div class="tag-row reveal" style="margin-bottom:2rem;">
+        <span class="tag">Vectordelia</span>
+        <span class="tag">Avantropop</span>
+        <span class="tag">Colorful Pop</span>
+        <span class="tag">Hands Up</span>
+        <span class="tag">Hexatron</span>
+        <span class="tag">Corporate Memphis</span>
+        <span class="tag">Vaporwave</span>
+      </div>
+
+      <div class="reveal" style="overflow-x:auto;">
+        <table class="splatter-table">
+          <thead>
+            <tr>
+              <th>Aesthetic</th>
+              <th>Relationship to Fitness Splatter</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Vectordelia</strong></td>
+              <td>Predecessor focusing on smooth, organic curves and gradients; Fitness Splatter replaces organic curves with angular shattering</td>
+            </tr>
+            <tr>
+              <td><strong>Avantropop</strong></td>
+              <td>Shares the neon-bright, high-energy sensibility but with more pop-art influence and less geometric fragmentation</td>
+            </tr>
+            <tr>
+              <td><strong>Colorful Pop</strong></td>
+              <td>Similar maximum-saturation palette; Colorful Pop is flatter and more illustrative while Fitness Splatter is photographic and dimensional</td>
+            </tr>
+            <tr>
+              <td><strong>Hands Up</strong></td>
+              <td>Musical genre counterpart; the Hands Up EDM scene uses Fitness Splatter visuals extensively for album and event art</td>
+            </tr>
+            <tr>
+              <td><strong>Hexatron</strong></td>
+              <td>Shares geometric/hexagonal fragmentation; Hexatron is more sci-fi and digital, less athletic and kinetic</td>
+            </tr>
+            <tr>
+              <td><strong>Corporate Memphis</strong></td>
+              <td>Opposite philosophy; Corporate Memphis is flat, minimal, and muted where Fitness Splatter is textured, maximal, and neon</td>
+            </tr>
+            <tr>
+              <td><strong>Vaporwave</strong></td>
+              <td>Both use neon colors but for different purposes; Vaporwave is nostalgic and ironic, Fitness Splatter is earnest and high-energy</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== FOOTER ==================== -->
+  <footer class="footer">
+    <div class="footer-title">Fitness <span>Splatter</span></div>
+    <p>Design Aesthetic Reference // Neon-on-Black // Geometric Fragmentation // c. 2012&ndash;2017</p>
+  </footer>
+
+  <!-- ==================== SCROLL REVEAL JS ==================== -->
+  <script>
+    (function() {
+      var reveals = document.querySelectorAll('.reveal');
+      var observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      }, {
+        threshold: 0.12,
+        rootMargin: '0px 0px -40px 0px'
+      });
+
+      reveals.forEach(function(el) {
+        observer.observe(el);
+      });
+    })();
+  </script>
+</body>
+</html>
