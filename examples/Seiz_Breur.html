@@ -1,0 +1,2242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Seiz Breur -- The Seven Brothers of Breton Art</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;800;900&family=Cinzel+Decorative:wght@400;700;900&family=Uncial+Antiqua&family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Bebas+Neue&family=Josefin+Sans:wght@200;300;400;600&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <style>
+    /* ============================================
+       SEIZ BREUR -- CSS CUSTOM PROPERTIES
+       ============================================ */
+    :root {
+      /* Base / Backgrounds */
+      --sb-ink-black: #1c1a17;
+      --sb-charcoal: #2a2622;
+      --sb-off-white: #f2ece0;
+      --sb-parchment: #f5f0e1;
+      --sb-warm-ivory: #ede5d4;
+
+      /* Grays / Neutrals */
+      --sb-granite: #6b6560;
+      --sb-stone: #a09890;
+      --sb-slate: #4a4a4e;
+
+      /* Earth Tones */
+      --sb-raw-umber: #5c4a38;
+      --sb-burnt-sienna: #8a5a3c;
+      --sb-dark-brown: #3e2e20;
+
+      /* Metallics */
+      --sb-antique-gold: #b8963e;
+      --sb-bronze: #8c7a4e;
+      --sb-gold-light: #d4bb6e;
+
+      /* Accent Colors */
+      --sb-forest-green: #2c4a2e;
+      --sb-muted-navy: #2a3448;
+
+      /* Functional */
+      --sb-bg-primary: var(--sb-off-white);
+      --sb-bg-secondary: var(--sb-parchment);
+      --sb-bg-dark: var(--sb-ink-black);
+      --sb-text-primary: var(--sb-ink-black);
+      --sb-text-secondary: var(--sb-granite);
+      --sb-accent: var(--sb-antique-gold);
+      --sb-border: var(--sb-raw-umber);
+    }
+
+    /* ============================================
+       RESET & BASE
+       ============================================ */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      overflow-x: hidden;
+    }
+
+    body {
+      background-color: var(--sb-off-white);
+      background-image:
+        repeating-linear-gradient(
+          0deg,
+          transparent,
+          transparent 2px,
+          rgba(28, 26, 23, 0.015) 2px,
+          rgba(28, 26, 23, 0.015) 3px
+        );
+      color: var(--sb-ink-black);
+      font-family: 'EB Garamond', 'Cormorant Garamond', 'Georgia', serif;
+      font-size: 1.125rem;
+      font-weight: 400;
+      letter-spacing: 0.01em;
+      line-height: 1.8;
+      overflow-x: hidden;
+    }
+
+    /* ============================================
+       TYPOGRAPHY
+       ============================================ */
+    h1, h2, h3, h4 {
+      font-family: 'Cinzel', 'Georgia', serif;
+      color: var(--sb-ink-black);
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      line-height: 1.2;
+    }
+
+    h2 {
+      font-size: clamp(1.5rem, 3vw, 2.2rem);
+      margin-bottom: 1.5rem;
+    }
+
+    h3 {
+      font-size: clamp(1.1rem, 2vw, 1.4rem);
+      margin-bottom: 1rem;
+      letter-spacing: 0.12em;
+    }
+
+    p {
+      margin-bottom: 1.2rem;
+    }
+
+    a {
+      color: var(--sb-antique-gold);
+      text-decoration: none;
+      border-bottom: 1px solid var(--sb-bronze);
+      transition: color 0.3s ease, border-color 0.3s ease;
+    }
+
+    a:hover {
+      color: var(--sb-gold-light);
+      border-color: var(--sb-gold-light);
+    }
+
+    /* ============================================
+       GOLD TEXT EFFECT
+       ============================================ */
+    .sb-gold-text {
+      background: linear-gradient(
+        135deg,
+        #8c7a4e, #b8963e, #d4bb6e, #b8963e, #8c7a4e
+      );
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* ============================================
+       LOADING OVERLAY
+       ============================================ */
+    .loading-overlay {
+      position: fixed;
+      inset: 0;
+      background: var(--sb-ink-black);
+      z-index: 10000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.8s ease, visibility 0.8s ease;
+    }
+
+    .loading-overlay.hidden {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .loading-triskele {
+      width: 80px;
+      height: 80px;
+      position: relative;
+      animation: triskeleRotate 2s linear infinite;
+    }
+
+    .loading-triskele::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: conic-gradient(
+        from 0deg,
+        var(--sb-antique-gold) 0deg 40deg,
+        transparent 40deg 120deg,
+        var(--sb-antique-gold) 120deg 160deg,
+        transparent 160deg 240deg,
+        var(--sb-antique-gold) 240deg 280deg,
+        transparent 280deg 360deg
+      );
+      border-radius: 50%;
+    }
+
+    @keyframes triskeleRotate {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    /* ============================================
+       HERO SECTION
+       ============================================ */
+    .hero {
+      position: relative;
+      text-align: center;
+      padding: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background-color: var(--sb-ink-black);
+      background-image:
+        repeating-linear-gradient(
+          90deg,
+          transparent,
+          transparent 1px,
+          rgba(242, 236, 224, 0.025) 1px,
+          rgba(242, 236, 224, 0.025) 2px
+        );
+      overflow: hidden;
+    }
+
+    .hero-border-top,
+    .hero-border-bottom {
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 24px;
+      z-index: 2;
+    }
+
+    .hero-border-top {
+      top: 0;
+      background:
+        linear-gradient(135deg, var(--sb-antique-gold) 33.33%, transparent 33.33%) 0 0,
+        linear-gradient(225deg, var(--sb-antique-gold) 33.33%, transparent 33.33%) 0 0;
+      background-size: 24px 24px;
+      background-repeat: repeat-x;
+    }
+
+    .hero-border-bottom {
+      bottom: 0;
+      background:
+        linear-gradient(315deg, var(--sb-antique-gold) 33.33%, transparent 33.33%) 0 100%,
+        linear-gradient(45deg, var(--sb-antique-gold) 33.33%, transparent 33.33%) 0 100%;
+      background-size: 24px 24px;
+      background-repeat: repeat-x;
+    }
+
+    /* SVG Knotwork Corners */
+    .hero-corner {
+      position: absolute;
+      width: 120px;
+      height: 120px;
+      z-index: 3;
+      opacity: 0;
+      animation: cornerFadeIn 1.2s ease forwards;
+    }
+
+    .hero-corner--tl { top: 30px; left: 30px; animation-delay: 0.8s; }
+    .hero-corner--tr { top: 30px; right: 30px; transform: scaleX(-1); animation-delay: 1.0s; }
+    .hero-corner--bl { bottom: 30px; left: 30px; transform: scaleY(-1); animation-delay: 1.2s; }
+    .hero-corner--br { bottom: 30px; right: 30px; transform: scale(-1, -1); animation-delay: 1.4s; }
+
+    @keyframes cornerFadeIn {
+      from { opacity: 0; transform: scale(0.8); }
+      to { opacity: 0.6; }
+    }
+
+    .hero-corner--tr { animation: cornerFadeInFlipX 1.2s ease forwards; animation-delay: 1.0s; }
+    .hero-corner--bl { animation: cornerFadeInFlipY 1.2s ease forwards; animation-delay: 1.2s; }
+    .hero-corner--br { animation: cornerFadeInFlipXY 1.2s ease forwards; animation-delay: 1.4s; }
+
+    @keyframes cornerFadeInFlipX {
+      from { opacity: 0; transform: scaleX(-1) scale(0.8); }
+      to { opacity: 0.6; transform: scaleX(-1); }
+    }
+    @keyframes cornerFadeInFlipY {
+      from { opacity: 0; transform: scaleY(-1) scale(0.8); }
+      to { opacity: 0.6; transform: scaleY(-1); }
+    }
+    @keyframes cornerFadeInFlipXY {
+      from { opacity: 0; transform: scale(-1, -1) scale(0.8); }
+      to { opacity: 0.6; transform: scale(-1, -1); }
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 4;
+      padding: 4rem 2rem;
+    }
+
+    .hero-subtitle-top {
+      font-family: 'Josefin Sans', sans-serif;
+      font-weight: 300;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--sb-antique-gold);
+      font-size: clamp(0.7rem, 1.5vw, 0.95rem);
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: fadeSlideUp 1s ease 0.3s forwards;
+    }
+
+    .hero-title {
+      font-family: 'Bebas Neue', 'Cinzel', sans-serif;
+      font-size: clamp(4rem, 12vw, 10rem);
+      letter-spacing: 0.18em;
+      line-height: 0.95;
+      color: var(--sb-off-white);
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+      opacity: 0;
+      animation: fadeSlideUp 1.2s ease 0.5s forwards;
+    }
+
+    .hero-year {
+      font-family: 'Cinzel', serif;
+      font-weight: 400;
+      font-size: clamp(1rem, 2vw, 1.4rem);
+      letter-spacing: 0.4em;
+      color: var(--sb-stone);
+      margin-bottom: 2rem;
+      opacity: 0;
+      animation: fadeSlideUp 1s ease 0.7s forwards;
+    }
+
+    .hero-divider {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      margin: 1.5rem auto 2rem;
+      width: min(60%, 400px);
+      opacity: 0;
+      animation: fadeSlideUp 1s ease 0.9s forwards;
+    }
+
+    .hero-divider::before,
+    .hero-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--sb-antique-gold), transparent);
+    }
+
+    .hero-triskele {
+      width: 50px;
+      height: 50px;
+      position: relative;
+      flex-shrink: 0;
+    }
+
+    .hero-triskele::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: conic-gradient(
+        from 0deg,
+        var(--sb-antique-gold) 0deg 40deg,
+        transparent 40deg 120deg,
+        var(--sb-antique-gold) 120deg 160deg,
+        transparent 160deg 240deg,
+        var(--sb-antique-gold) 240deg 280deg,
+        transparent 280deg 360deg
+      );
+      border-radius: 50%;
+      opacity: 0.8;
+      animation: slowRotate 20s linear infinite;
+    }
+
+    @keyframes slowRotate {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    .hero-description {
+      font-family: 'EB Garamond', serif;
+      font-size: clamp(1rem, 1.8vw, 1.25rem);
+      font-style: italic;
+      color: var(--sb-warm-ivory);
+      max-width: 600px;
+      margin: 0 auto;
+      line-height: 1.9;
+      opacity: 0;
+      animation: fadeSlideUp 1s ease 1.1s forwards;
+    }
+
+    .hero-scroll-indicator {
+      position: absolute;
+      bottom: 50px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 5;
+      opacity: 0;
+      animation: fadeSlideUp 1s ease 1.6s forwards;
+    }
+
+    .hero-scroll-indicator span {
+      display: block;
+      width: 2px;
+      height: 40px;
+      background: linear-gradient(to bottom, var(--sb-antique-gold), transparent);
+      margin: 0 auto;
+      animation: scrollPulse 2s ease infinite;
+    }
+
+    @keyframes scrollPulse {
+      0%, 100% { opacity: 0.3; transform: scaleY(0.7); }
+      50% { opacity: 1; transform: scaleY(1); }
+    }
+
+    @keyframes fadeSlideUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* ============================================
+       SAWTOOTH DIVIDERS
+       ============================================ */
+    .sb-sawtooth {
+      height: 16px;
+      width: 100%;
+      background:
+        linear-gradient(135deg, var(--sb-ink-black) 33.33%, transparent 33.33%) 0 0,
+        linear-gradient(225deg, var(--sb-ink-black) 33.33%, transparent 33.33%) 0 0;
+      background-size: 16px 16px;
+      background-repeat: repeat-x;
+      margin: 0;
+    }
+
+    .sb-sawtooth-gold {
+      height: 12px;
+      width: 100%;
+      background:
+        linear-gradient(135deg, var(--sb-antique-gold) 33.33%, transparent 33.33%) 0 0,
+        linear-gradient(225deg, var(--sb-antique-gold) 33.33%, transparent 33.33%) 0 0;
+      background-size: 12px 12px;
+      background-repeat: repeat-x;
+    }
+
+    .sb-sawtooth-thin {
+      height: 8px;
+      width: 60%;
+      margin: 2rem auto;
+      background:
+        linear-gradient(135deg, var(--sb-antique-gold) 33.33%, transparent 33.33%) 0 0,
+        linear-gradient(225deg, var(--sb-antique-gold) 33.33%, transparent 33.33%) 0 0;
+      background-size: 8px 8px;
+      background-repeat: repeat-x;
+    }
+
+    /* ============================================
+       ORNAMENTAL DIVIDERS
+       ============================================ */
+    .sb-divider {
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+      margin: 2.5rem auto;
+      width: 70%;
+      max-width: 500px;
+      color: var(--sb-antique-gold);
+    }
+
+    .sb-divider::before,
+    .sb-divider::after {
+      content: '';
+      flex: 1;
+      height: 2px;
+      background: var(--sb-ink-black);
+    }
+
+    .sb-divider span {
+      font-size: 1.2rem;
+      color: var(--sb-antique-gold);
+      letter-spacing: 0.3em;
+    }
+
+    /* ============================================
+       SECTION LAYOUTS
+       ============================================ */
+    .section-light {
+      background-color: var(--sb-off-white);
+      background-image:
+        repeating-linear-gradient(
+          0deg,
+          transparent,
+          transparent 2px,
+          rgba(28, 26, 23, 0.012) 2px,
+          rgba(28, 26, 23, 0.012) 3px
+        );
+      padding: clamp(3rem, 6vw, 6rem) clamp(1.5rem, 4vw, 3rem);
+    }
+
+    .section-parchment {
+      background-color: var(--sb-parchment);
+      background-image:
+        repeating-linear-gradient(
+          0deg,
+          transparent,
+          transparent 3px,
+          rgba(28, 26, 23, 0.01) 3px,
+          rgba(28, 26, 23, 0.01) 4px
+        );
+      padding: clamp(3rem, 6vw, 6rem) clamp(1.5rem, 4vw, 3rem);
+    }
+
+    .section-dark {
+      background-color: var(--sb-ink-black);
+      background-image:
+        repeating-linear-gradient(
+          90deg,
+          transparent,
+          transparent 1px,
+          rgba(242, 236, 224, 0.025) 1px,
+          rgba(242, 236, 224, 0.025) 2px
+        );
+      color: var(--sb-off-white);
+      padding: clamp(3rem, 6vw, 6rem) clamp(1.5rem, 4vw, 3rem);
+    }
+
+    .section-dark h2, .section-dark h3, .section-dark h4 {
+      color: var(--sb-antique-gold);
+    }
+
+    .section-dark .sb-divider::before,
+    .section-dark .sb-divider::after {
+      background: var(--sb-antique-gold);
+    }
+
+    .section-charcoal {
+      background-color: var(--sb-charcoal);
+      background-image:
+        repeating-linear-gradient(
+          90deg,
+          transparent,
+          transparent 1px,
+          rgba(242, 236, 224, 0.02) 1px,
+          rgba(242, 236, 224, 0.02) 2px
+        );
+      color: var(--sb-warm-ivory);
+      padding: clamp(3rem, 6vw, 6rem) clamp(1.5rem, 4vw, 3rem);
+    }
+
+    .section-charcoal h2, .section-charcoal h3 {
+      color: var(--sb-antique-gold);
+    }
+
+    .section-inner {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .section-narrow {
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    /* ============================================
+       CELTIC KNOTWORK BORDER PANELS
+       ============================================ */
+    .sb-knot-border {
+      border: 3px solid var(--sb-ink-black);
+      outline: 3px solid var(--sb-ink-black);
+      outline-offset: 5px;
+      padding: 2.5rem;
+      position: relative;
+      background: var(--sb-off-white);
+    }
+
+    .sb-knot-border::before,
+    .sb-knot-border::after {
+      content: '';
+      position: absolute;
+      width: 14px;
+      height: 14px;
+      background: var(--sb-antique-gold);
+      border: 2px solid var(--sb-ink-black);
+    }
+
+    .sb-knot-border::before {
+      top: -9px;
+      left: -9px;
+    }
+
+    .sb-knot-border::after {
+      bottom: -9px;
+      right: -9px;
+    }
+
+    .sb-knot-border-dark {
+      border-color: var(--sb-antique-gold);
+      outline-color: var(--sb-antique-gold);
+      background: var(--sb-charcoal);
+      color: var(--sb-off-white);
+    }
+
+    /* Additional corners via child elements */
+    .sb-knot-corner-tr,
+    .sb-knot-corner-bl {
+      position: absolute;
+      width: 14px;
+      height: 14px;
+      background: var(--sb-antique-gold);
+      border: 2px solid var(--sb-ink-black);
+    }
+
+    .sb-knot-corner-tr {
+      top: -9px;
+      right: -9px;
+    }
+
+    .sb-knot-corner-bl {
+      bottom: -9px;
+      left: -9px;
+    }
+
+    .sb-knot-border-dark .sb-knot-corner-tr,
+    .sb-knot-border-dark .sb-knot-corner-bl {
+      border-color: var(--sb-antique-gold);
+      background: var(--sb-gold-light);
+    }
+
+    /* ============================================
+       CARD COMPONENT
+       ============================================ */
+    .sb-card {
+      background: var(--sb-off-white);
+      border: 2px solid var(--sb-ink-black);
+      padding: 2.5rem;
+      position: relative;
+      margin: 2rem 0;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .sb-card:hover {
+      transform: translateY(-3px);
+      box-shadow:
+        4px 4px 0 0 var(--sb-ink-black),
+        8px 8px 0 0 rgba(28, 26, 23, 0.1);
+    }
+
+    .sb-card-inner {
+      border: 1px solid var(--sb-antique-gold);
+      padding: 2rem;
+    }
+
+    .sb-card h3 {
+      font-family: 'Cinzel', serif;
+      text-align: center;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 1rem;
+      color: var(--sb-ink-black);
+    }
+
+    .sb-card p {
+      text-align: center;
+      color: var(--sb-granite);
+    }
+
+    /* ============================================
+       INTRODUCTION / MANIFESTO SECTION
+       ============================================ */
+    .intro-text {
+      text-align: center;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .intro-text h2 {
+      margin-bottom: 0.5rem;
+    }
+
+    .sb-dropcap::first-letter {
+      font-family: 'Uncial Antiqua', serif;
+      font-size: 4.2em;
+      float: left;
+      line-height: 0.72;
+      margin-right: 0.12em;
+      margin-top: 0.08em;
+      color: var(--sb-antique-gold);
+    }
+
+    /* ============================================
+       MOTIFS GRID
+       ============================================ */
+    .motifs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      margin-top: 2.5rem;
+    }
+
+    .motif-item {
+      text-align: center;
+      padding: 2rem 1.5rem;
+      border: 1px solid var(--sb-raw-umber);
+      background: rgba(242, 236, 224, 0.4);
+      position: relative;
+      transition: all 0.4s ease;
+    }
+
+    .motif-item::before {
+      content: '';
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      right: 8px;
+      bottom: 8px;
+      border: 1px solid var(--sb-bronze);
+      opacity: 0.4;
+      pointer-events: none;
+      transition: opacity 0.4s ease;
+    }
+
+    .motif-item:hover {
+      background: rgba(242, 236, 224, 0.7);
+      transform: translateY(-2px);
+    }
+
+    .motif-item:hover::before {
+      opacity: 0.8;
+    }
+
+    .motif-symbol {
+      font-size: 2.2rem;
+      margin-bottom: 0.8rem;
+      display: block;
+      color: var(--sb-antique-gold);
+    }
+
+    .motif-item h4 {
+      font-family: 'Cinzel', serif;
+      font-size: 0.85rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--sb-ink-black);
+      margin-bottom: 0.6rem;
+    }
+
+    .motif-item p {
+      font-size: 0.95rem;
+      color: var(--sb-granite);
+      line-height: 1.6;
+      margin-bottom: 0;
+    }
+
+    /* ============================================
+       PRINCIPLES LIST
+       ============================================ */
+    .principles-list {
+      list-style: none;
+      max-width: 700px;
+      margin: 2rem auto 0;
+      counter-reset: principle;
+    }
+
+    .principles-list li {
+      counter-increment: principle;
+      padding: 1.5rem 0 1.5rem 4rem;
+      position: relative;
+      border-bottom: 1px solid rgba(184, 150, 62, 0.3);
+    }
+
+    .principles-list li:last-child {
+      border-bottom: none;
+    }
+
+    .principles-list li::before {
+      content: counter(principle);
+      position: absolute;
+      left: 0;
+      top: 1.5rem;
+      font-family: 'Cinzel Decorative', serif;
+      font-size: 1.6rem;
+      color: var(--sb-antique-gold);
+      width: 2.5rem;
+      text-align: center;
+    }
+
+    .principles-list li strong {
+      font-family: 'Cinzel', serif;
+      font-size: 0.9rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      display: block;
+      margin-bottom: 0.3rem;
+      color: var(--sb-off-white);
+    }
+
+    .principles-list li span {
+      color: var(--sb-stone);
+      font-size: 1rem;
+    }
+
+    /* ============================================
+       COLOR PALETTE DISPLAY
+       ============================================ */
+    .palette-section {
+      text-align: center;
+    }
+
+    .palette-group {
+      margin-bottom: 3rem;
+    }
+
+    .palette-group-title {
+      font-family: 'Josefin Sans', sans-serif;
+      font-weight: 300;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      font-size: 0.8rem;
+      color: var(--sb-antique-gold);
+      margin-bottom: 1.2rem;
+    }
+
+    .palette-row {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .palette-swatch {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.6rem;
+      transition: transform 0.3s ease;
+    }
+
+    .palette-swatch:hover {
+      transform: scale(1.08);
+    }
+
+    .swatch-color {
+      width: 70px;
+      height: 70px;
+      border: 2px solid var(--sb-ink-black);
+      position: relative;
+    }
+
+    .swatch-color::after {
+      content: '';
+      position: absolute;
+      inset: 3px;
+      border: 1px solid rgba(255,255,255,0.15);
+    }
+
+    .swatch-label {
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--sb-granite);
+    }
+
+    .swatch-hex {
+      font-family: 'EB Garamond', serif;
+      font-size: 0.75rem;
+      color: var(--sb-stone);
+      font-style: italic;
+    }
+
+    /* ============================================
+       TYPOGRAPHY SPECIMEN
+       ============================================ */
+    .type-specimen {
+      text-align: center;
+      margin: 2rem 0;
+    }
+
+    .type-specimen-row {
+      padding: 2rem 0;
+      border-bottom: 1px solid rgba(92, 74, 56, 0.2);
+    }
+
+    .type-specimen-row:last-child {
+      border-bottom: none;
+    }
+
+    .type-font-name {
+      font-family: 'Josefin Sans', sans-serif;
+      font-weight: 300;
+      font-size: 0.7rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--sb-antique-gold);
+      margin-bottom: 0.5rem;
+    }
+
+    .type-usage {
+      font-family: 'EB Garamond', serif;
+      font-style: italic;
+      font-size: 0.85rem;
+      color: var(--sb-stone);
+      margin-top: 0.4rem;
+    }
+
+    .type-sample-cinzel-decorative {
+      font-family: 'Cinzel Decorative', serif;
+      font-size: clamp(1.5rem, 3.5vw, 2.5rem);
+      font-weight: 700;
+      color: var(--sb-ink-black);
+      letter-spacing: 0.1em;
+    }
+
+    .type-sample-bebas {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      color: var(--sb-ink-black);
+      letter-spacing: 0.2em;
+      line-height: 1;
+    }
+
+    .type-sample-uncial {
+      font-family: 'Uncial Antiqua', serif;
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      color: var(--sb-antique-gold);
+    }
+
+    .type-sample-cinzel {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(1.3rem, 2.5vw, 1.8rem);
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--sb-ink-black);
+    }
+
+    .type-sample-josefin {
+      font-family: 'Josefin Sans', sans-serif;
+      font-weight: 300;
+      font-size: clamp(1rem, 2vw, 1.3rem);
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--sb-raw-umber);
+    }
+
+    .type-sample-garamond {
+      font-family: 'EB Garamond', serif;
+      font-size: 1.2rem;
+      line-height: 1.9;
+      color: var(--sb-ink-black);
+      max-width: 550px;
+      margin: 0 auto;
+      text-align: justify;
+    }
+
+    /* ============================================
+       ICONIC WORKS SECTION
+       ============================================ */
+    .works-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 0;
+      margin-top: 2.5rem;
+    }
+
+    .work-item {
+      border: 1px solid var(--sb-raw-umber);
+      padding: 2.5rem 2rem;
+      position: relative;
+      overflow: hidden;
+      transition: background 0.4s ease;
+    }
+
+    .work-item::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 4px;
+      height: 0;
+      background: var(--sb-antique-gold);
+      transition: height 0.5s ease;
+    }
+
+    .work-item:hover {
+      background: rgba(242, 236, 224, 0.05);
+    }
+
+    .work-item:hover::before {
+      height: 100%;
+    }
+
+    .work-item h4 {
+      font-family: 'Cinzel', serif;
+      font-size: 0.85rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--sb-antique-gold);
+      margin-bottom: 0.8rem;
+    }
+
+    .work-item p {
+      font-size: 0.95rem;
+      color: var(--sb-stone);
+      line-height: 1.7;
+      margin-bottom: 0;
+    }
+
+    /* ============================================
+       RELATED AESTHETICS TABLE
+       ============================================ */
+    .aesthetics-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 2rem;
+    }
+
+    .aesthetics-table th,
+    .aesthetics-table td {
+      padding: 1.2rem 1.5rem;
+      text-align: left;
+      border-bottom: 1px solid rgba(92, 74, 56, 0.2);
+    }
+
+    .aesthetics-table th {
+      font-family: 'Cinzel', serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--sb-antique-gold);
+      background: rgba(28, 26, 23, 0.03);
+      border-bottom: 2px solid var(--sb-raw-umber);
+    }
+
+    .aesthetics-table td:first-child {
+      font-family: 'Cinzel', serif;
+      font-weight: 600;
+      font-size: 0.9rem;
+      letter-spacing: 0.05em;
+      color: var(--sb-raw-umber);
+      white-space: nowrap;
+    }
+
+    .aesthetics-table td:last-child {
+      color: var(--sb-granite);
+      font-size: 1rem;
+    }
+
+    .aesthetics-table tr:hover {
+      background: rgba(184, 150, 62, 0.04);
+    }
+
+    /* ============================================
+       MATERIALS TABLE (DARK)
+       ============================================ */
+    .materials-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1px;
+      background: var(--sb-raw-umber);
+      border: 1px solid var(--sb-raw-umber);
+      margin-top: 2rem;
+    }
+
+    .material-item {
+      background: var(--sb-charcoal);
+      padding: 1.8rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 1.2rem;
+      transition: background 0.3s ease;
+    }
+
+    .material-item:hover {
+      background: rgba(42, 38, 34, 0.8);
+    }
+
+    .material-physical {
+      font-family: 'Cinzel', serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--sb-antique-gold);
+      min-width: 120px;
+      flex-shrink: 0;
+    }
+
+    .material-web {
+      font-size: 0.95rem;
+      color: var(--sb-stone);
+      line-height: 1.6;
+    }
+
+    /* ============================================
+       QUOTE / MANIFESTO BLOCK
+       ============================================ */
+    .manifesto-block {
+      text-align: center;
+      padding: 3rem 2rem;
+      position: relative;
+    }
+
+    .manifesto-block blockquote {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+      font-weight: 400;
+      line-height: 1.6;
+      color: var(--sb-off-white);
+      letter-spacing: 0.04em;
+      max-width: 650px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .manifesto-block blockquote::before {
+      content: '\201C';
+      font-family: 'Cinzel Decorative', serif;
+      font-size: 5rem;
+      color: var(--sb-antique-gold);
+      position: absolute;
+      top: -2.5rem;
+      left: -1.5rem;
+      line-height: 1;
+      opacity: 0.5;
+    }
+
+    .manifesto-block cite {
+      display: block;
+      margin-top: 1.5rem;
+      font-family: 'Josefin Sans', sans-serif;
+      font-style: normal;
+      font-weight: 300;
+      font-size: 0.8rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--sb-bronze);
+    }
+
+    /* ============================================
+       FOOTER
+       ============================================ */
+    .footer {
+      text-align: center;
+      padding: 3rem 2rem;
+      background: var(--sb-ink-black);
+      border-top: 3px solid var(--sb-antique-gold);
+    }
+
+    .footer-triskele {
+      width: 40px;
+      height: 40px;
+      margin: 0 auto 1.5rem;
+      position: relative;
+    }
+
+    .footer-triskele::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: conic-gradient(
+        from 0deg,
+        var(--sb-antique-gold) 0deg 40deg,
+        transparent 40deg 120deg,
+        var(--sb-antique-gold) 120deg 160deg,
+        transparent 160deg 240deg,
+        var(--sb-antique-gold) 240deg 280deg,
+        transparent 280deg 360deg
+      );
+      border-radius: 50%;
+      opacity: 0.6;
+    }
+
+    .footer-text {
+      font-family: 'Josefin Sans', sans-serif;
+      font-weight: 300;
+      font-size: 0.7rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--sb-granite);
+    }
+
+    .footer-hermine {
+      font-size: 1.5rem;
+      color: var(--sb-antique-gold);
+      margin: 1rem 0;
+      display: block;
+      opacity: 0.7;
+    }
+
+    /* ============================================
+       SCROLL ANIMATIONS
+       ============================================ */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+
+    /* ============================================
+       SVG KNOTWORK ANIMATION
+       ============================================ */
+    .knot-svg {
+      overflow: visible;
+    }
+
+    .knot-svg path {
+      stroke-dasharray: 300;
+      stroke-dashoffset: 300;
+      animation: drawKnot 3s ease forwards;
+    }
+
+    @keyframes drawKnot {
+      to { stroke-dashoffset: 0; }
+    }
+
+    /* ============================================
+       BANNER SECTION HEADER
+       ============================================ */
+    .section-banner {
+      text-align: center;
+      padding: 2.5rem 1rem 2rem;
+      position: relative;
+    }
+
+    .section-banner h2 {
+      position: relative;
+      display: inline-block;
+    }
+
+    .section-banner h2::before,
+    .section-banner h2::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      width: 40px;
+      height: 2px;
+      background: var(--sb-antique-gold);
+    }
+
+    .section-banner h2::before {
+      right: calc(100% + 1rem);
+    }
+
+    .section-banner h2::after {
+      left: calc(100% + 1rem);
+    }
+
+    .section-banner-subtitle {
+      font-family: 'Josefin Sans', sans-serif;
+      font-weight: 300;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      color: var(--sb-antique-gold);
+      margin-top: 0.5rem;
+    }
+
+    /* ============================================
+       GOLD BORDER ACCENT
+       ============================================ */
+    .sb-gold-border {
+      border: 2px solid transparent;
+      border-image: linear-gradient(
+        to right,
+        var(--sb-bronze),
+        var(--sb-antique-gold),
+        var(--sb-gold-light),
+        var(--sb-antique-gold),
+        var(--sb-bronze)
+      ) 1;
+    }
+
+    /* ============================================
+       CSS-ONLY TRISKELE ORNAMENT
+       ============================================ */
+    .sb-triskele {
+      width: 60px;
+      height: 60px;
+      margin: 1.5rem auto;
+      position: relative;
+    }
+
+    .sb-triskele::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: conic-gradient(
+        from 0deg,
+        var(--sb-antique-gold) 0deg 40deg,
+        transparent 40deg 120deg,
+        var(--sb-antique-gold) 120deg 160deg,
+        transparent 160deg 240deg,
+        var(--sb-antique-gold) 240deg 280deg,
+        transparent 280deg 360deg
+      );
+      border-radius: 50%;
+      opacity: 0.7;
+    }
+
+    /* ============================================
+       NAVIGATION BAR
+       ============================================ */
+    .nav-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      background: rgba(28, 26, 23, 0.95);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border-bottom: 1px solid rgba(184, 150, 62, 0.3);
+      padding: 0 2rem;
+      transform: translateY(-100%);
+      transition: transform 0.4s ease;
+    }
+
+    .nav-bar.visible {
+      transform: translateY(0);
+    }
+
+    .nav-inner {
+      max-width: 900px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 56px;
+    }
+
+    .nav-logo {
+      font-family: 'Cinzel', serif;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--sb-off-white);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: 'Josefin Sans', sans-serif;
+      font-weight: 300;
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--sb-stone);
+      border-bottom: none;
+      transition: color 0.3s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--sb-antique-gold);
+    }
+
+    /* ============================================
+       RESPONSIVE DESIGN
+       ============================================ */
+    @media (max-width: 768px) {
+      .hero-corner {
+        width: 60px;
+        height: 60px;
+      }
+
+      .hero-corner--tl { top: 28px; left: 15px; }
+      .hero-corner--tr { top: 28px; right: 15px; }
+      .hero-corner--bl { bottom: 28px; left: 15px; }
+      .hero-corner--br { bottom: 28px; right: 15px; }
+
+      .motifs-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .works-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .materials-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .material-item {
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+
+      .aesthetics-table {
+        font-size: 0.9rem;
+      }
+
+      .aesthetics-table th,
+      .aesthetics-table td {
+        padding: 0.8rem;
+      }
+
+      .nav-links {
+        gap: 1rem;
+      }
+
+      .nav-links a {
+        font-size: 0.6rem;
+        letter-spacing: 0.12em;
+      }
+
+      .sb-knot-border {
+        padding: 1.5rem;
+        outline-offset: 3px;
+      }
+
+      .sb-card {
+        padding: 1.5rem;
+      }
+
+      .sb-card-inner {
+        padding: 1.2rem;
+      }
+
+      .palette-swatch {
+        gap: 0.4rem;
+      }
+
+      .swatch-color {
+        width: 50px;
+        height: 50px;
+      }
+
+      .principles-list li {
+        padding-left: 3rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero-corner {
+        display: none;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .palette-row {
+        gap: 0.5rem;
+      }
+
+      .swatch-color {
+        width: 40px;
+        height: 40px;
+      }
+
+      .swatch-label {
+        font-size: 0.55rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Loading Overlay -->
+  <div class="loading-overlay" id="loader">
+    <div class="loading-triskele"></div>
+  </div>
+
+  <!-- Navigation -->
+  <nav class="nav-bar" id="navbar">
+    <div class="nav-inner">
+      <span class="nav-logo">Seiz Breur</span>
+      <ul class="nav-links">
+        <li><a href="#origins">Origins</a></li>
+        <li><a href="#motifs">Motifs</a></li>
+        <li><a href="#principles">Principles</a></li>
+        <li><a href="#palette">Palette</a></li>
+        <li><a href="#typography">Typography</a></li>
+        <li><a href="#works">Works</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ============================================
+       HERO
+       ============================================ -->
+  <header class="hero" id="hero">
+    <div class="hero-border-top"></div>
+
+    <!-- Knotwork corner ornaments (SVG) -->
+    <svg class="hero-corner hero-corner--tl knot-svg" viewBox="0 0 120 120" fill="none">
+      <path d="M10 110 L10 30 Q10 10 30 10 L110 10" stroke="#b8963e" stroke-width="2" fill="none"/>
+      <path d="M20 110 L20 40 Q20 20 40 20 L110 20" stroke="#b8963e" stroke-width="1.5" fill="none" opacity="0.5"/>
+      <rect x="6" y="6" width="8" height="8" fill="#b8963e" opacity="0.8"/>
+      <path d="M10 80 Q30 80 30 60 Q30 40 50 40" stroke="#b8963e" stroke-width="1" fill="none" opacity="0.4"/>
+      <path d="M40 10 Q40 30 60 30 Q80 30 80 10" stroke="#b8963e" stroke-width="1" fill="none" opacity="0.4"/>
+    </svg>
+    <svg class="hero-corner hero-corner--tr knot-svg" viewBox="0 0 120 120" fill="none">
+      <path d="M10 110 L10 30 Q10 10 30 10 L110 10" stroke="#b8963e" stroke-width="2" fill="none"/>
+      <path d="M20 110 L20 40 Q20 20 40 20 L110 20" stroke="#b8963e" stroke-width="1.5" fill="none" opacity="0.5"/>
+      <rect x="6" y="6" width="8" height="8" fill="#b8963e" opacity="0.8"/>
+      <path d="M10 80 Q30 80 30 60 Q30 40 50 40" stroke="#b8963e" stroke-width="1" fill="none" opacity="0.4"/>
+      <path d="M40 10 Q40 30 60 30 Q80 30 80 10" stroke="#b8963e" stroke-width="1" fill="none" opacity="0.4"/>
+    </svg>
+    <svg class="hero-corner hero-corner--bl knot-svg" viewBox="0 0 120 120" fill="none">
+      <path d="M10 110 L10 30 Q10 10 30 10 L110 10" stroke="#b8963e" stroke-width="2" fill="none"/>
+      <path d="M20 110 L20 40 Q20 20 40 20 L110 20" stroke="#b8963e" stroke-width="1.5" fill="none" opacity="0.5"/>
+      <rect x="6" y="6" width="8" height="8" fill="#b8963e" opacity="0.8"/>
+      <path d="M10 80 Q30 80 30 60 Q30 40 50 40" stroke="#b8963e" stroke-width="1" fill="none" opacity="0.4"/>
+      <path d="M40 10 Q40 30 60 30 Q80 30 80 10" stroke="#b8963e" stroke-width="1" fill="none" opacity="0.4"/>
+    </svg>
+    <svg class="hero-corner hero-corner--br knot-svg" viewBox="0 0 120 120" fill="none">
+      <path d="M10 110 L10 30 Q10 10 30 10 L110 10" stroke="#b8963e" stroke-width="2" fill="none"/>
+      <path d="M20 110 L20 40 Q20 20 40 20 L110 20" stroke="#b8963e" stroke-width="1.5" fill="none" opacity="0.5"/>
+      <rect x="6" y="6" width="8" height="8" fill="#b8963e" opacity="0.8"/>
+      <path d="M10 80 Q30 80 30 60 Q30 40 50 40" stroke="#b8963e" stroke-width="1" fill="none" opacity="0.4"/>
+      <path d="M40 10 Q40 30 60 30 Q80 30 80 10" stroke="#b8963e" stroke-width="1" fill="none" opacity="0.4"/>
+    </svg>
+
+    <div class="hero-content">
+      <p class="hero-subtitle-top">An Artistic Movement of Brittany</p>
+      <h1 class="hero-title">Seiz Breur</h1>
+      <p class="hero-year">1923 &mdash; 1947</p>
+      <div class="hero-divider">
+        <div class="hero-triskele"></div>
+      </div>
+      <p class="hero-description">
+        &ldquo;The Seven Brothers&rdquo; &mdash; a Breton artistic movement that synthesized Art Deco geometry, Arts &amp; Crafts philosophy, and Celtic cultural heritage into a distinctive visual language.
+      </p>
+    </div>
+
+    <div class="hero-scroll-indicator">
+      <span></span>
+    </div>
+
+    <div class="hero-border-bottom"></div>
+  </header>
+
+  <!-- Transition sawtooth -->
+  <div class="sb-sawtooth"></div>
+
+  <!-- ============================================
+       INTRODUCTION
+       ============================================ -->
+  <section class="section-light" id="origins">
+    <div class="section-narrow">
+      <div class="section-banner reveal">
+        <h2>The Movement</h2>
+        <p class="section-banner-subtitle">Origins &amp; Philosophy</p>
+      </div>
+
+      <div class="sb-divider reveal reveal-delay-1"><span>&#10038;</span></div>
+
+      <div class="intro-text reveal reveal-delay-2">
+        <p class="sb-dropcap">Seiz Breur was founded by Jeanne Malivel, a visionary artist who sought to reclaim Breton visual culture from the degradation of mass-produced tourist kitsch. The movement brought together painters, sculptors, architects, and artisans in pursuit of a shared goal: to create authentic, modern interpretations of traditional Breton forms that honored the depth of Celtic heritage while embracing the clarity of modernist design.</p>
+      </div>
+
+      <div class="sb-sawtooth-thin reveal reveal-delay-3"></div>
+
+      <div class="sb-knot-border reveal reveal-delay-3" style="max-width: 650px; margin: 2.5rem auto;">
+        <div class="sb-knot-corner-tr"></div>
+        <div class="sb-knot-corner-bl"></div>
+        <p style="text-align: center; font-size: 1.05rem; line-height: 1.9; color: var(--sb-raw-umber);">
+          The aesthetic is defined by <strong>bold wood-engraving linework</strong>, <strong>Celtic knotwork and spiral motifs</strong>, <strong>restrained earth-tone palettes with gold accents</strong>, and a disciplined fusion of folk-art vitality with modernist structure. It rejected the arbitrary in favor of the culturally rooted &mdash; every ornamental choice grounded in the living traditions of Brittany.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Transition -->
+  <div class="sb-sawtooth-gold"></div>
+
+  <!-- ============================================
+       CORE MOTIFS
+       ============================================ -->
+  <section class="section-parchment" id="motifs">
+    <div class="section-inner">
+      <div class="section-banner reveal">
+        <h2>Core Motifs</h2>
+        <p class="section-banner-subtitle">Symbols &amp; Patterns</p>
+      </div>
+
+      <div class="sb-divider reveal"><span>&#10038;</span></div>
+
+      <div class="motifs-grid">
+        <div class="motif-item reveal reveal-delay-1">
+          <span class="motif-symbol">&#9753;</span>
+          <h4>Triskelion</h4>
+          <p>The three-armed Celtic spiral symbol, used as a central decorative and symbolic device throughout the movement.</p>
+        </div>
+
+        <div class="motif-item reveal reveal-delay-2">
+          <span class="motif-symbol">&#9830;</span>
+          <h4>Hermine</h4>
+          <p>The traditional symbol of Brittany, stylized as a repeating ornamental motif in borders and textile patterns.</p>
+        </div>
+
+        <div class="motif-item reveal reveal-delay-3">
+          <span class="motif-symbol">&#8734;</span>
+          <h4>Celtic Knotwork</h4>
+          <p>Interlaced bands forming continuous, unbroken patterns for borders, dividers, and panel decoration.</p>
+        </div>
+
+        <div class="motif-item reveal reveal-delay-1">
+          <span class="motif-symbol">&#9650;&#9660;</span>
+          <h4>Saw-Tooth Patterns</h4>
+          <p>Sharp, angular zig-zag borders inspired by Art Deco geometry and traditional Breton textile edging.</p>
+        </div>
+
+        <div class="motif-item reveal reveal-delay-2">
+          <span class="motif-symbol">&#10047;</span>
+          <h4>Spirals</h4>
+          <p>Single and double spirals drawn from megalithic and Celtic stone carving traditions.</p>
+        </div>
+
+        <div class="motif-item reveal reveal-delay-3">
+          <span class="motif-symbol">&#9875;</span>
+          <h4>Marine Imagery</h4>
+          <p>Waves, fish, shells, and seaweed reflecting Brittany's Atlantic coastline and maritime heritage.</p>
+        </div>
+
+        <div class="motif-item reveal reveal-delay-1">
+          <span class="motif-symbol">&#10048;</span>
+          <h4>Palmettes</h4>
+          <p>Stylized fan-shaped organic forms &mdash; peacock feathers and palmettes used as decorative fills.</p>
+        </div>
+
+        <div class="motif-item reveal reveal-delay-2">
+          <span class="motif-symbol">&#9998;</span>
+          <h4>Wood-Engraving</h4>
+          <p>Bold, high-contrast black-and-white compositions with crisp, deliberate mark-making.</p>
+        </div>
+
+        <div class="motif-item reveal reveal-delay-3">
+          <span class="motif-symbol">&#9764;</span>
+          <h4>Folkloric Figures</h4>
+          <p>Saints, pilgrims, and legendary characters rendered in flat, emblematic compositions.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Transition -->
+  <div class="sb-sawtooth"></div>
+
+  <!-- ============================================
+       DESIGN PRINCIPLES
+       ============================================ -->
+  <section class="section-dark" id="principles">
+    <div class="section-inner">
+      <div class="section-banner reveal">
+        <h2>Design Principles</h2>
+        <p class="section-banner-subtitle" style="color: var(--sb-bronze);">The Guiding Tenets</p>
+      </div>
+
+      <div class="sb-divider reveal"><span>&#10038;</span></div>
+
+      <ol class="principles-list reveal">
+        <li>
+          <strong>Cultural Authenticity Over Decoration</strong>
+          <span>Every ornamental choice rooted in Breton heritage, never arbitrary. Decoration serves meaning.</span>
+        </li>
+        <li>
+          <strong>Modernist Clarity with Folk-Art Warmth</strong>
+          <span>Art Deco's geometric discipline combined with the handcrafted vitality of traditional craft.</span>
+        </li>
+        <li>
+          <strong>High Contrast, Limited Palette</strong>
+          <span>Visual impact through stark tonal relationships rather than chromatic variety.</span>
+        </li>
+        <li>
+          <strong>Flat, Emblematic Rendering</strong>
+          <span>Figures and forms abstracted into two-dimensional, poster-like compositions.</span>
+        </li>
+        <li>
+          <strong>Unity of Disciplines</strong>
+          <span>Design principles applied consistently across architecture, furniture, ceramics, graphics, textiles, and liturgical objects.</span>
+        </li>
+        <li>
+          <strong>Adaptation to Material</strong>
+          <span>Decorative forms shaped by the function and material of the object, not imposed onto it.</span>
+        </li>
+        <li>
+          <strong>Bold Negative Space</strong>
+          <span>Compositions balance dense patterning against generous open areas for visual breathing room.</span>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- Transition -->
+  <div class="sb-sawtooth-gold"></div>
+
+  <!-- ============================================
+       QUOTE / MANIFESTO
+       ============================================ -->
+  <section class="section-charcoal">
+    <div class="manifesto-block reveal">
+      <blockquote>
+        The art of Brittany must draw from its own deep wells &mdash; the granite coast, the Celtic spiral, the woodcutter's patient hand &mdash; and through modern form, speak again to the world.
+      </blockquote>
+      <cite>The Spirit of Seiz Breur</cite>
+    </div>
+  </section>
+
+  <!-- Transition -->
+  <div class="sb-sawtooth"></div>
+
+  <!-- ============================================
+       COLOR PALETTE
+       ============================================ -->
+  <section class="section-light" id="palette">
+    <div class="section-inner">
+      <div class="section-banner reveal">
+        <h2>Color Palette</h2>
+        <p class="section-banner-subtitle">Earth, Stone &amp; Gold</p>
+      </div>
+
+      <div class="sb-divider reveal"><span>&#10038;</span></div>
+
+      <div class="palette-section reveal">
+
+        <!-- Dominant -->
+        <div class="palette-group">
+          <p class="palette-group-title">Dominant</p>
+          <div class="palette-row">
+            <div class="palette-swatch">
+              <div class="swatch-color" style="background: #1c1a17;"></div>
+              <span class="swatch-label">Ink Black</span>
+              <span class="swatch-hex">#1c1a17</span>
+            </div>
+            <div class="palette-swatch">
+              <div class="swatch-color" style="background: #2a2622;"></div>
+              <span class="swatch-label">Charcoal</span>
+              <span class="swatch-hex">#2a2622</span>
+            </div>
+            <div class="palette-swatch">
+              <div class="swatch-color" style="background: #f2ece0; border-color: #a09890;"></div>
+              <span class="swatch-label">Off-White</span>
+              <span class="swatch-hex">#f2ece0</span>
+            </div>
+            <div class="palette-swatch">
+              <div class="swatch-color" style="background: #f5f0e1; border-color: #a09890;"></div>
+              <span class="swatch-label">Parchment</span>
+              <span class="swatch-hex">#f5f0e1</span>
+            </div>
+            <div class="palette-swatch">
+              <div class="swatch-color" style="background: #ede5d4; border-color: #a09890;"></div>
+              <span class="swatch-label">Warm Ivory</span>
+              <span class="swatch-hex">#ede5d4</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Grays & Neutrals -->
+        <div class="palette-group">
+          <p class="palette-group-title">Grays &amp; Neutrals</p>
+          <div class="palette-row">
+            <div class="palette-swatch">
+              <div class="swatch-color" style="background: #6b6560;"></div>
+              <span class="swatch-label">Granite</span>
+              <span class="swatch-hex">#6b6560</span>
+            </div>
+            <div class="palette-swatch">
+              <div class="swatch-color" style="background: #a09890;"></div>
+              <span class="swatch-label">Stone</span>
+              <span class="swatch-hex">#a09890</span>
+            </div>
+            <div class="palette-swatch">
+              <div class="swatch-color" style="background: #4a4a4e;"></div>
+              <span class="swatch-label">Slate</span>
+              <span class="swatch-hex">#4a4a4e</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Earth Tones -->
+        <div class="palette-group">
+          <p class="palette-group-title">Earth Tones</p>
+          <div class="palette-row">
+            <div class="palette-swatch">
+              <div class="swatch-color" style="background: #5c4a38;"></div>
+              <span class="swatch-label">Raw Umber</span>
+              <span class="swatch-hex">#5c4a38</span>
+            </div>
+            <div class="palette-swatch">
+              <div class="swatch-color" style="background: #8a5a3c;"></div>
+              <span class="swatch-label">Burnt Sienna</span>
+              <span class="swatch-hex">#8a5a3c</span>
+            </div>
+            <div class="palette-swatch">
+              <div class="swatch-color" style="background: #3e2e20;"></div>
+              <span class="swatch-label">Dark Brown</span>
+              <span class="swatch-hex">#3e2e20</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Metallics -->
+        <div class="palette-group">
+          <p class="palette-group-title">Metallics</p>
+          <div class="palette-row">
+            <div class="palette-swatch">
+              <div class="swatch-color" style="background: linear-gradient(135deg, #8c7a4e, #b8963e, #d4bb6e, #b8963e);"></div>
+              <span class="swatch-label">Antique Gold</span>
+              <span class="swatch-hex">#b8963e</span>
+            </div>
+            <div class="palette-swatch">
+              <div class="swatch-color" style="background: #8c7a4e;"></div>
+              <span class="swatch-label">Bronze</span>
+              <span class="swatch-hex">#8c7a4e</span>
+            </div>
+            <div class="palette-swatch">
+              <div class="swatch-color" style="background: #d4bb6e;"></div>
+              <span class="swatch-label">Gold Light</span>
+              <span class="swatch-hex">#d4bb6e</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Accents -->
+        <div class="palette-group">
+          <p class="palette-group-title">Accents</p>
+          <div class="palette-row">
+            <div class="palette-swatch">
+              <div class="swatch-color" style="background: #2c4a2e;"></div>
+              <span class="swatch-label">Forest Green</span>
+              <span class="swatch-hex">#2c4a2e</span>
+            </div>
+            <div class="palette-swatch">
+              <div class="swatch-color" style="background: #2a3448;"></div>
+              <span class="swatch-label">Muted Navy</span>
+              <span class="swatch-hex">#2a3448</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Color Approach -->
+      <div class="sb-knot-border reveal" style="max-width: 650px; margin: 3rem auto 0;">
+        <div class="sb-knot-corner-tr"></div>
+        <div class="sb-knot-corner-bl"></div>
+        <h3 style="text-align: center; margin-bottom: 1.2rem;">Color Approach</h3>
+        <ul style="list-style: none; text-align: left;">
+          <li style="padding: 0.5rem 0; border-bottom: 1px solid rgba(92,74,56,0.15);"><strong style="color: var(--sb-raw-umber);">Black-and-white dominance</strong> &mdash; reflecting the wood-engraving and print heritage</li>
+          <li style="padding: 0.5rem 0; border-bottom: 1px solid rgba(92,74,56,0.15);"><strong style="color: var(--sb-raw-umber);">Earth tones as chromatic range</strong> &mdash; muted, natural pigment colors; never bright or synthetic</li>
+          <li style="padding: 0.5rem 0; border-bottom: 1px solid rgba(92,74,56,0.15);"><strong style="color: var(--sb-raw-umber);">Gold as singular luxury accent</strong> &mdash; used sparingly for headings and ornamental emphasis</li>
+          <li style="padding: 0.5rem 0; border-bottom: 1px solid rgba(92,74,56,0.15);"><strong style="color: var(--sb-raw-umber);">High tonal contrast</strong> &mdash; dark ink tones against pale parchment</li>
+          <li style="padding: 0.5rem 0; border-bottom: 1px solid rgba(92,74,56,0.15);"><strong style="color: var(--sb-raw-umber);">Monochromatic restraint</strong> &mdash; most compositions use only 2&ndash;3 colors</li>
+          <li style="padding: 0.5rem 0;"><strong style="color: var(--sb-raw-umber);">Cool grays balanced by warm browns</strong> &mdash; the granite coast meets the hearth</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Transition -->
+  <div class="sb-sawtooth"></div>
+
+  <!-- ============================================
+       TYPOGRAPHY SPECIMEN
+       ============================================ -->
+  <section class="section-parchment" id="typography">
+    <div class="section-inner">
+      <div class="section-banner reveal">
+        <h2>Typography</h2>
+        <p class="section-banner-subtitle">Typeface Specimen</p>
+      </div>
+
+      <div class="sb-divider reveal"><span>&#10038;</span></div>
+
+      <div class="type-specimen reveal">
+
+        <div class="type-specimen-row">
+          <p class="type-font-name">Cinzel Decorative</p>
+          <p class="type-sample-cinzel-decorative">Celtic Heritage Renewed</p>
+          <p class="type-usage">Feature titles, display text, ornamental headings</p>
+        </div>
+
+        <div class="type-specimen-row">
+          <p class="type-font-name">Bebas Neue</p>
+          <p class="type-sample-bebas">Seiz Breur</p>
+          <p class="type-usage">Banners, large display headlines, hero text</p>
+        </div>
+
+        <div class="type-specimen-row">
+          <p class="type-font-name">Uncial Antiqua</p>
+          <p class="type-sample-uncial">Breizh Atao</p>
+          <p class="type-usage">Decorative headings, drop capitals, Celtic-influenced display</p>
+        </div>
+
+        <div class="type-specimen-row">
+          <p class="type-font-name">Cinzel</p>
+          <p class="type-sample-cinzel">Section Headings &amp; Titles</p>
+          <p class="type-usage">Headlines, section titles, structural hierarchy</p>
+        </div>
+
+        <div class="type-specimen-row">
+          <p class="type-font-name">Josefin Sans</p>
+          <p class="type-sample-josefin">Subtitles &amp; Labels</p>
+          <p class="type-usage">Subheadings, labels, navigation, metadata</p>
+        </div>
+
+        <div class="type-specimen-row">
+          <p class="type-font-name">EB Garamond</p>
+          <p class="type-sample-garamond">The movement brought together painters, sculptors, architects, and artisans in pursuit of a shared goal: to create authentic, modern interpretations of traditional Breton forms.</p>
+          <p class="type-usage">Body text, paragraphs, long-form reading</p>
+        </div>
+
+      </div>
+
+      <!-- Typography characteristics -->
+      <div class="sb-sawtooth-thin reveal"></div>
+
+      <div class="reveal" style="text-align: center; max-width: 600px; margin: 0 auto;">
+        <p style="color: var(--sb-granite); font-size: 1rem; line-height: 1.8;">
+          Seiz Breur typography blends <em>Celtic manuscript traditions</em> with Art Deco's geometric boldness and the graphic clarity of woodcut lettering. Letterforms retain the mark of the engraver's tool &mdash; bold, angular, with strong vertical emphasis and condensed proportions conveying both modernity and monumental weight.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Transition -->
+  <div class="sb-sawtooth-gold"></div>
+
+  <!-- ============================================
+       ICONIC WORKS
+       ============================================ -->
+  <section class="section-dark" id="works">
+    <div class="section-inner">
+      <div class="section-banner reveal">
+        <h2>Iconic Works</h2>
+        <p class="section-banner-subtitle" style="color: var(--sb-bronze);">Representative Creations</p>
+      </div>
+
+      <div class="sb-divider reveal"><span>&#10038;</span></div>
+
+      <div class="works-grid reveal">
+        <div class="work-item">
+          <h4>Wood Engravings</h4>
+          <p>Stark black-and-white compositions by Jeanne Malivel with Celtic motifs, flat figure rendering, and bold negative space &mdash; the foundational visual language.</p>
+        </div>
+
+        <div class="work-item">
+          <h4>Posters &amp; Postcards</h4>
+          <p>Art Deco-influenced graphic design with Breton symbols; condensed uppercase type, central symmetrical compositions, limited color.</p>
+        </div>
+
+        <div class="work-item">
+          <h4>Kornog Magazine</h4>
+          <p>Modernist layouts combining Celtic ornamentation with clean typographic hierarchy in the movement's primary publication.</p>
+        </div>
+
+        <div class="work-item">
+          <h4>Embroidered Banners</h4>
+          <p>Textile works featuring hermine and triskele patterns in traditional needlework translated to modern graphic design.</p>
+        </div>
+
+        <div class="work-item">
+          <h4>Faience Figurines</h4>
+          <p>Ceramic works depicting Breton saints and folk characters in simplified, geometric forms with muted glazes.</p>
+        </div>
+
+        <div class="work-item">
+          <h4>Stained Glass</h4>
+          <p>Religious panels by Xavier de Langlais combining Celtic knotwork borders with figurative scenes in deep, muted tones.</p>
+        </div>
+
+        <div class="work-item">
+          <h4>Furniture &amp; Architecture</h4>
+          <p>Carved wood panels and stone elements featuring saw-tooth and spiral motifs integrated into functional structures.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Transition -->
+  <div class="sb-sawtooth"></div>
+
+  <!-- ============================================
+       MATERIALS & TEXTURES
+       ============================================ -->
+  <section class="section-charcoal">
+    <div class="section-inner">
+      <div class="section-banner reveal">
+        <h2 style="color: var(--sb-antique-gold);">Materials &amp; Textures</h2>
+        <p class="section-banner-subtitle" style="color: var(--sb-bronze);">Physical to Digital Translation</p>
+      </div>
+
+      <div class="sb-divider reveal" style="width: 50%;"><span style="color: var(--sb-bronze);">&#10038;</span></div>
+
+      <div class="materials-grid reveal">
+        <div class="material-item">
+          <span class="material-physical">Wood-Engraved Print</span>
+          <span class="material-web">High-contrast black-and-white sections with fine linear texture overlays</span>
+        </div>
+        <div class="material-item">
+          <span class="material-physical">Granite</span>
+          <span class="material-web">Cool gray textured backgrounds with subtle grain</span>
+        </div>
+        <div class="material-item">
+          <span class="material-physical">Parchment</span>
+          <span class="material-web">Warm off-white backgrounds with subtle noise</span>
+        </div>
+        <div class="material-item">
+          <span class="material-physical">Gold Leaf</span>
+          <span class="material-web">Antique gold gradient text and borders</span>
+        </div>
+        <div class="material-item">
+          <span class="material-physical">Carved Stone</span>
+          <span class="material-web">Heavy, monumental typography with deep letter-spacing</span>
+        </div>
+        <div class="material-item">
+          <span class="material-physical">Textile</span>
+          <span class="material-web">Dense ornamental borders and repeating pattern bands</span>
+        </div>
+        <div class="material-item">
+          <span class="material-physical">Faience</span>
+          <span class="material-web">Muted color panels with dark outline borders</span>
+        </div>
+        <div class="material-item">
+          <span class="material-physical">Stained Glass</span>
+          <span class="material-web">Jewel-tone accent panels with heavy dark leading-style dividers</span>
+        </div>
+        <div class="material-item">
+          <span class="material-physical">Wrought Iron</span>
+          <span class="material-web">Dark structural frames and grid lines</span>
+        </div>
+        <div class="material-item">
+          <span class="material-physical">Celtic Metalwork</span>
+          <span class="material-web">Interlaced knotwork border patterns</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Transition -->
+  <div class="sb-sawtooth-gold"></div>
+
+  <!-- ============================================
+       RELATED AESTHETICS
+       ============================================ -->
+  <section class="section-light" id="related">
+    <div class="section-inner">
+      <div class="section-banner reveal">
+        <h2>Related Aesthetics</h2>
+        <p class="section-banner-subtitle">Kinships &amp; Parallels</p>
+      </div>
+
+      <div class="sb-divider reveal"><span>&#10038;</span></div>
+
+      <div class="reveal">
+        <table class="aesthetics-table">
+          <thead>
+            <tr>
+              <th>Aesthetic</th>
+              <th>Relationship to Seiz Breur</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Art Deco</td>
+              <td>Primary formal influence; geometric structure, bold symmetry, condensed typography</td>
+            </tr>
+            <tr>
+              <td>Arts &amp; Crafts</td>
+              <td>Philosophical kinship; anti-industrial ethos, handcraft values, unity of art and utility</td>
+            </tr>
+            <tr>
+              <td>Bauhaus</td>
+              <td>Contemporary parallel; shared interest in integrating art, craft, and industry; functional modernism</td>
+            </tr>
+            <tr>
+              <td>Celtic Revival</td>
+              <td>Cultural root; Celtic knotwork, spirals, manuscript traditions, and mythological subject matter</td>
+            </tr>
+            <tr>
+              <td>Regionalism</td>
+              <td>Broader movement context; valorization of local culture against centralizing homogenization</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- Transition -->
+  <div class="sb-sawtooth"></div>
+
+  <!-- ============================================
+       LAYOUT PRINCIPLES
+       ============================================ -->
+  <section class="section-dark">
+    <div class="section-inner">
+      <div class="section-banner reveal">
+        <h2>Layout Principles</h2>
+        <p class="section-banner-subtitle" style="color: var(--sb-bronze);">Structure &amp; Composition</p>
+      </div>
+
+      <div class="sb-divider reveal"><span>&#10038;</span></div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 2rem; margin-top: 2rem;">
+
+        <div class="sb-knot-border sb-knot-border-dark reveal reveal-delay-1" style="text-align: center;">
+          <div class="sb-knot-corner-tr" style="border-color: var(--sb-antique-gold); background: var(--sb-gold-light);"></div>
+          <div class="sb-knot-corner-bl" style="border-color: var(--sb-antique-gold); background: var(--sb-gold-light);"></div>
+          <h4 style="color: var(--sb-antique-gold); font-size: 0.8rem; letter-spacing: 0.12em; margin-bottom: 0.8rem;">Strong Central Axis</h4>
+          <p style="font-size: 0.95rem; color: var(--sb-stone); line-height: 1.7; margin: 0;">Content organized along a vertical spine, reflecting monument and stele compositions.</p>
+        </div>
+
+        <div class="sb-knot-border sb-knot-border-dark reveal reveal-delay-2" style="text-align: center;">
+          <div class="sb-knot-corner-tr" style="border-color: var(--sb-antique-gold); background: var(--sb-gold-light);"></div>
+          <div class="sb-knot-corner-bl" style="border-color: var(--sb-antique-gold); background: var(--sb-gold-light);"></div>
+          <h4 style="color: var(--sb-antique-gold); font-size: 0.8rem; letter-spacing: 0.12em; margin-bottom: 0.8rem;">Symmetrical Layouts</h4>
+          <p style="font-size: 0.95rem; color: var(--sb-stone); line-height: 1.7; margin: 0;">Bilateral symmetry dominant, as in Celtic manuscript pages and Breton heraldic design.</p>
+        </div>
+
+        <div class="sb-knot-border sb-knot-border-dark reveal reveal-delay-3" style="text-align: center;">
+          <div class="sb-knot-corner-tr" style="border-color: var(--sb-antique-gold); background: var(--sb-gold-light);"></div>
+          <div class="sb-knot-corner-bl" style="border-color: var(--sb-antique-gold); background: var(--sb-gold-light);"></div>
+          <h4 style="color: var(--sb-antique-gold); font-size: 0.8rem; letter-spacing: 0.12em; margin-bottom: 0.8rem;">Generous Margins</h4>
+          <p style="font-size: 0.95rem; color: var(--sb-stone); line-height: 1.7; margin: 0;">Compositions breathe; density is localized to ornamental borders and headers.</p>
+        </div>
+
+        <div class="sb-knot-border sb-knot-border-dark reveal reveal-delay-1" style="text-align: center;">
+          <div class="sb-knot-corner-tr" style="border-color: var(--sb-antique-gold); background: var(--sb-gold-light);"></div>
+          <div class="sb-knot-corner-bl" style="border-color: var(--sb-antique-gold); background: var(--sb-gold-light);"></div>
+          <h4 style="color: var(--sb-antique-gold); font-size: 0.8rem; letter-spacing: 0.12em; margin-bottom: 0.8rem;">Panel-Based Sections</h4>
+          <p style="font-size: 0.95rem; color: var(--sb-stone); line-height: 1.7; margin: 0;">Content blocks framed like woodcut prints, each section a self-contained visual unit.</p>
+        </div>
+
+        <div class="sb-knot-border sb-knot-border-dark reveal reveal-delay-2" style="text-align: center;">
+          <div class="sb-knot-corner-tr" style="border-color: var(--sb-antique-gold); background: var(--sb-gold-light);"></div>
+          <div class="sb-knot-corner-bl" style="border-color: var(--sb-antique-gold); background: var(--sb-gold-light);"></div>
+          <h4 style="color: var(--sb-antique-gold); font-size: 0.8rem; letter-spacing: 0.12em; margin-bottom: 0.8rem;">Vertical Emphasis</h4>
+          <p style="font-size: 0.95rem; color: var(--sb-stone); line-height: 1.7; margin: 0;">Tall, narrow proportions in both layout and typography, conveying solemnity and gravity.</p>
+        </div>
+
+        <div class="sb-knot-border sb-knot-border-dark reveal reveal-delay-3" style="text-align: center;">
+          <div class="sb-knot-corner-tr" style="border-color: var(--sb-antique-gold); background: var(--sb-gold-light);"></div>
+          <div class="sb-knot-corner-bl" style="border-color: var(--sb-antique-gold); background: var(--sb-gold-light);"></div>
+          <h4 style="color: var(--sb-antique-gold); font-size: 0.8rem; letter-spacing: 0.12em; margin-bottom: 0.8rem;">Banner Headers</h4>
+          <p style="font-size: 0.95rem; color: var(--sb-stone); line-height: 1.7; margin: 0;">Major sections echoing poster and print design with ornamental framing elements.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Transition -->
+  <div class="sb-sawtooth-gold"></div>
+
+  <!-- ============================================
+       CLOSING SECTION
+       ============================================ -->
+  <section class="section-parchment">
+    <div class="section-narrow" style="text-align: center;">
+      <div class="reveal">
+        <div class="sb-triskele"></div>
+        <h2 style="margin-bottom: 1rem;">A Living Heritage</h2>
+        <div class="sb-sawtooth-thin"></div>
+        <p style="max-width: 550px; margin: 0 auto; color: var(--sb-granite); font-size: 1.05rem;">
+          Though active for only twenty-four years, Seiz Breur established an enduring visual vocabulary for Breton identity &mdash; one that continues to influence designers, artists, and craftspeople who seek to honor regional heritage while speaking in a modern voice. The movement proves that authenticity and modernity are not opposites, but natural allies.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       FOOTER
+       ============================================ -->
+  <div class="sb-sawtooth"></div>
+  <footer class="footer">
+    <div class="footer-triskele"></div>
+    <span class="footer-hermine">&#9830; &#9830; &#9830;</span>
+    <p class="footer-text">Seiz Breur &middot; Ar Seiz Breur &middot; The Seven Brothers</p>
+    <p class="footer-text" style="margin-top: 0.5rem; color: var(--sb-slate);">A Design Aesthetic Reference</p>
+  </footer>
+
+  <!-- ============================================
+       JAVASCRIPT
+       ============================================ -->
+  <script>
+    // Loading overlay
+    window.addEventListener('load', function() {
+      setTimeout(function() {
+        document.getElementById('loader').classList.add('hidden');
+      }, 800);
+    });
+
+    // Navbar visibility on scroll
+    (function() {
+      var navbar = document.getElementById('navbar');
+      var hero = document.getElementById('hero');
+      var lastScroll = 0;
+
+      window.addEventListener('scroll', function() {
+        var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        var heroHeight = hero.offsetHeight;
+
+        if (scrollTop > heroHeight * 0.7) {
+          navbar.classList.add('visible');
+        } else {
+          navbar.classList.remove('visible');
+        }
+
+        lastScroll = scrollTop;
+      }, { passive: true });
+    })();
+
+    // Scroll reveal animations
+    (function() {
+      var reveals = document.querySelectorAll('.reveal');
+
+      function checkReveal() {
+        var windowHeight = window.innerHeight;
+        var triggerPoint = windowHeight * 0.85;
+
+        reveals.forEach(function(el) {
+          var rect = el.getBoundingClientRect();
+          if (rect.top < triggerPoint) {
+            el.classList.add('visible');
+          }
+        });
+      }
+
+      window.addEventListener('scroll', checkReveal, { passive: true });
+      window.addEventListener('resize', checkReveal, { passive: true });
+
+      // Initial check
+      checkReveal();
+    })();
+
+    // Smooth scroll for navigation links
+    document.querySelectorAll('.nav-links a').forEach(function(link) {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        var targetId = this.getAttribute('href').substring(1);
+        var target = document.getElementById(targetId);
+        if (target) {
+          var navHeight = document.getElementById('navbar').offsetHeight;
+          var targetPos = target.getBoundingClientRect().top + window.pageYOffset - navHeight - 20;
+          window.scrollTo({ top: targetPos, behavior: 'smooth' });
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>

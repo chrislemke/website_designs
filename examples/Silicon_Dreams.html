@@ -1,0 +1,2465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Silicon Dreams -- A Retro CGI Design Aesthetic</title>
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;500;600;700&family=Exo+2:wght@300;400;500;600&family=Comfortaa:wght@300;400;500&family=Quicksand:wght@300;400;500&family=Orbitron:wght@400;500;700&family=Jost:wght@300;400&family=Inter:wght@300;400&family=Share+Tech+Mono&family=IBM+Plex+Mono:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    /* ========================================
+       CSS CUSTOM PROPERTIES -- SILICON DREAMS
+       ======================================== */
+    :root {
+      /* Backgrounds -- gradient skies and deep voids */
+      --sd-void: #0a0a14;
+      --sd-deep-indigo: #1a1040;
+      --sd-twilight: #2a1860;
+      --sd-night-blue: #182848;
+      --sd-surface: #141428;
+      --sd-surface-raised: #1e1e3a;
+
+      /* Sky / atmospheric blues */
+      --sd-sky-deep: #4466aa;
+      --sd-sky-mid: #6699dd;
+      --sd-sky-bright: #aad4ff;
+      --sd-horizon-glow: #ccddff;
+
+      /* Sunset / warm tones */
+      --sd-sunset-orange: #e88030;
+      --sd-sunset-amber: #d4882c;
+      --sd-sunset-magenta: #cc4488;
+      --sd-sunset-red: #aa1133;
+      --sd-sunset-gold: #e8b040;
+
+      /* Purple / violet atmospherics */
+      --sd-purple-deep: #5522aa;
+      --sd-purple-mid: #7744cc;
+      --sd-purple-soft: #9966dd;
+      --sd-lavender: #b8a0e0;
+
+      /* Chrome / metallic */
+      --sd-chrome-peak: #f0f0f5;
+      --sd-chrome-bright: #c8c8d0;
+      --sd-chrome-mid: #8888a0;
+      --sd-chrome-shadow: #505068;
+      --sd-gold: #c8a832;
+      --sd-bronze: #a07830;
+
+      /* Glass / transparency */
+      --sd-glass-tint: #d0e8ff;
+      --sd-glass-refract: #80c8e0;
+      --sd-glass-overlay: rgba(200, 230, 255, 0.08);
+
+      /* Water */
+      --sd-water-deep: #182848;
+      --sd-water-mid: #2848a0;
+      --sd-water-surface: #4478cc;
+      --sd-water-highlight: #b8d8f0;
+
+      /* Checkerboard */
+      --sd-check-dark: #2a2a48;
+      --sd-check-light: #6868a8;
+
+      /* Functional mappings */
+      --sd-bg-primary: var(--sd-void);
+      --sd-bg-secondary: var(--sd-deep-indigo);
+      --sd-bg-surface: var(--sd-surface);
+      --sd-text-primary: var(--sd-chrome-peak);
+      --sd-text-secondary: var(--sd-sky-bright);
+      --sd-text-muted: var(--sd-chrome-mid);
+      --sd-accent-primary: var(--sd-sky-mid);
+      --sd-accent-secondary: var(--sd-sunset-amber);
+      --sd-border: rgba(100, 150, 220, 0.2);
+
+      /* Glow colors */
+      --sd-glow-blue: rgba(100, 150, 220, 0.5);
+      --sd-glow-purple: rgba(120, 70, 200, 0.5);
+      --sd-glow-amber: rgba(230, 140, 50, 0.4);
+      --sd-glow-chrome: rgba(200, 200, 220, 0.3);
+    }
+
+    /* ========================================
+       RESET AND BASE
+       ======================================== */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--sd-void);
+      color: var(--sd-text-secondary);
+      font-family: 'Jost', 'Inter', sans-serif;
+      font-weight: 300;
+      letter-spacing: 0.02em;
+      line-height: 1.7;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* ========================================
+       KEYFRAME ANIMATIONS
+       ======================================== */
+    @keyframes sd-float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-14px); }
+    }
+
+    @keyframes sd-float-offset {
+      0%, 100% { transform: translateY(0) rotate(15deg); }
+      50% { transform: translateY(-10px) rotate(15deg); }
+    }
+
+    @keyframes sd-rotate {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    @keyframes sd-pulse-glow {
+      0%, 100% { opacity: 0.6; }
+      50% { opacity: 1; }
+    }
+
+    @keyframes sd-water-shimmer {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    @keyframes sd-fade-in-up {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes sd-fade-in {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes sd-scale-in {
+      from {
+        opacity: 0;
+        transform: scale(0.8);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    @keyframes sd-horizon-breathe {
+      0%, 100% {
+        box-shadow:
+          0 0 20px rgba(170, 212, 255, 0.3),
+          0 0 60px rgba(100, 150, 220, 0.15);
+      }
+      50% {
+        box-shadow:
+          0 0 30px rgba(170, 212, 255, 0.5),
+          0 0 80px rgba(100, 150, 220, 0.25);
+      }
+    }
+
+    @keyframes sd-star-twinkle {
+      0%, 100% { opacity: 0.3; }
+      50% { opacity: 1; }
+    }
+
+    @keyframes sd-torus-rotate {
+      0% { transform: rotateX(60deg) rotateZ(0deg); }
+      100% { transform: rotateX(60deg) rotateZ(360deg); }
+    }
+
+    @keyframes sd-chrome-shift {
+      0% { background-position: 0% 0%; }
+      50% { background-position: 100% 100%; }
+      100% { background-position: 0% 0%; }
+    }
+
+    /* ========================================
+       SECTION: HERO -- COOL SKY GRADIENT
+       ======================================== */
+    .hero-section {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(
+        180deg,
+        #0a0a14 0%,
+        #0e0c20 8%,
+        #1a1040 18%,
+        #22204a 28%,
+        #2a3078 38%,
+        #3a4a90 48%,
+        #4466aa 58%,
+        #5580c0 68%,
+        #6699dd 78%,
+        #88bbee 88%,
+        #aad4ff 95%,
+        #ccddff 100%
+      );
+      overflow: hidden;
+      text-align: center;
+      padding: 2rem;
+    }
+
+    /* Stars in the upper dark region */
+    .stars-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 40%;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .star {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      background: var(--sd-chrome-peak);
+      border-radius: 50%;
+      animation: sd-star-twinkle ease-in-out infinite;
+    }
+
+    /* Atmospheric glow behind the title */
+    .hero-atmo-glow {
+      position: absolute;
+      top: 45%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 600px;
+      height: 300px;
+      border-radius: 50%;
+      background: radial-gradient(
+        ellipse,
+        rgba(100, 150, 220, 0.25) 0%,
+        rgba(85, 34, 170, 0.12) 40%,
+        rgba(100, 150, 220, 0.05) 65%,
+        transparent 80%
+      );
+      filter: blur(50px);
+      pointer-events: none;
+      animation: sd-pulse-glow 8s ease-in-out infinite;
+    }
+
+    /* Floating chrome sphere -- top left */
+    .hero-sphere-1 {
+      position: absolute;
+      top: 18%;
+      left: 12%;
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: radial-gradient(
+        circle at 35% 30%,
+        #f0f0f5 0%,
+        #c8c8d0 12%,
+        #8888a0 30%,
+        #505068 50%,
+        #2a2a48 70%,
+        #181830 100%
+      );
+      box-shadow:
+        0 4px 30px rgba(0, 0, 0, 0.6),
+        inset 0 -2px 8px rgba(0, 0, 0, 0.4);
+      animation: sd-float 7s ease-in-out infinite;
+      opacity: 0;
+      animation: sd-float 7s ease-in-out infinite, sd-fade-in 2s 0.5s forwards;
+    }
+
+    .hero-sphere-2 {
+      position: absolute;
+      top: 28%;
+      right: 15%;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: radial-gradient(
+        circle at 30% 25%,
+        #f0f0f5 0%,
+        #c8c8d0 15%,
+        #8888a0 35%,
+        #505068 55%,
+        #2a2a48 75%,
+        #181830 100%
+      );
+      box-shadow:
+        0 4px 20px rgba(0, 0, 0, 0.5),
+        inset 0 -2px 6px rgba(0, 0, 0, 0.3);
+      opacity: 0;
+      animation: sd-float 9s ease-in-out infinite 1s, sd-fade-in 2s 1s forwards;
+    }
+
+    /* Small gold sphere */
+    .hero-sphere-3 {
+      position: absolute;
+      top: 38%;
+      left: 22%;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: radial-gradient(
+        circle at 35% 28%,
+        #e8d060 0%,
+        #c8a832 20%,
+        #a07830 45%,
+        #604820 70%,
+        #302410 100%
+      );
+      box-shadow:
+        0 2px 12px rgba(0, 0, 0, 0.5),
+        inset 0 -1px 3px rgba(0, 0, 0, 0.3);
+      opacity: 0;
+      animation: sd-float 11s ease-in-out infinite 0.5s, sd-fade-in 2s 1.5s forwards;
+    }
+
+    /* Floating geometric -- wireframe torus hint */
+    .hero-torus {
+      position: absolute;
+      top: 22%;
+      right: 28%;
+      width: 60px;
+      height: 60px;
+      border: 2px solid rgba(136, 136, 160, 0.3);
+      border-radius: 50%;
+      opacity: 0;
+      animation: sd-rotate 20s linear infinite, sd-fade-in 2s 2s forwards;
+    }
+
+    .hero-torus::after {
+      content: '';
+      position: absolute;
+      top: 15%;
+      left: 15%;
+      width: 70%;
+      height: 70%;
+      border: 1.5px solid rgba(136, 136, 160, 0.2);
+      border-radius: 50%;
+    }
+
+    /* Diamond / pyramid shape */
+    .hero-diamond {
+      position: absolute;
+      bottom: 30%;
+      right: 10%;
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(
+        135deg,
+        rgba(100, 150, 220, 0.15) 0%,
+        rgba(200, 220, 255, 0.08) 50%,
+        rgba(100, 150, 220, 0.15) 100%
+      );
+      border: 1px solid rgba(170, 212, 255, 0.2);
+      transform: rotate(45deg);
+      opacity: 0;
+      animation: sd-float-offset 8s ease-in-out infinite, sd-fade-in 2s 2.5s forwards;
+    }
+
+    /* Hero title */
+    .hero-title {
+      font-family: 'Rajdhani', 'Exo 2', sans-serif;
+      font-size: clamp(3rem, 8vw, 7rem);
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      line-height: 1.05;
+      background: linear-gradient(
+        180deg,
+        #f0f0f5 0%,
+        #e0e0e8 12%,
+        #c8c8d0 25%,
+        #707088 48%,
+        #a0a0b8 52%,
+        #d0d0d8 70%,
+        #f0f0f5 85%,
+        #c8c8d0 100%
+      );
+      background-size: 100% 200%;
+      animation: sd-chrome-shift 6s ease-in-out infinite;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      filter: drop-shadow(0 0 20px rgba(100, 150, 220, 0.35));
+      position: relative;
+      z-index: 2;
+      opacity: 0;
+      animation: sd-fade-in-up 1.5s 0.3s forwards, sd-chrome-shift 6s ease-in-out infinite;
+    }
+
+    .hero-subtitle {
+      font-family: 'Comfortaa', 'Quicksand', sans-serif;
+      font-size: clamp(0.9rem, 2.2vw, 1.3rem);
+      font-weight: 300;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--sd-lavender);
+      text-shadow: 0 0 15px var(--sd-glow-purple);
+      margin-top: 1.2rem;
+      position: relative;
+      z-index: 2;
+      opacity: 0;
+      animation: sd-fade-in-up 1.5s 0.8s forwards;
+    }
+
+    .hero-description {
+      max-width: 680px;
+      margin: 2rem auto 0;
+      font-family: 'Jost', sans-serif;
+      font-size: clamp(0.88rem, 1.4vw, 1.05rem);
+      font-weight: 300;
+      line-height: 1.8;
+      color: var(--sd-sky-bright);
+      position: relative;
+      z-index: 2;
+      opacity: 0;
+      animation: sd-fade-in-up 1.5s 1.2s forwards;
+    }
+
+    .hero-meta {
+      font-family: 'Share Tech Mono', 'IBM Plex Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      color: var(--sd-chrome-mid);
+      text-shadow: 0 0 5px rgba(100, 150, 220, 0.2);
+      margin-top: 2.5rem;
+      position: relative;
+      z-index: 2;
+      opacity: 0;
+      animation: sd-fade-in 2s 1.8s forwards;
+    }
+
+    /* Horizon line at bottom of hero */
+    .sd-horizon {
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(
+        90deg,
+        transparent 2%,
+        rgba(170, 212, 255, 0.5) 20%,
+        rgba(200, 220, 255, 0.9) 50%,
+        rgba(170, 212, 255, 0.5) 80%,
+        transparent 98%
+      );
+      animation: sd-horizon-breathe 4s ease-in-out infinite;
+      position: relative;
+      z-index: 3;
+    }
+
+    /* ========================================
+       SECTION: WATER REFLECTION ZONE
+       ======================================== */
+    .water-section {
+      position: relative;
+      background: linear-gradient(
+        180deg,
+        #ccddff 0%,
+        #aad4ff 2%,
+        #88bbee 5%,
+        #6699dd 10%,
+        #4478cc 20%,
+        #2848a0 40%,
+        #1e3878 60%,
+        #182848 80%,
+        #0e1a30 100%
+      );
+      padding: 0;
+      min-height: 60px;
+      overflow: hidden;
+    }
+
+    /* Simulated water ripple effect */
+    .water-ripples {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background:
+        repeating-linear-gradient(
+          90deg,
+          transparent,
+          transparent 40px,
+          rgba(170, 212, 255, 0.04) 40px,
+          rgba(170, 212, 255, 0.04) 42px
+        );
+      animation: sd-water-shimmer 12s linear infinite;
+      background-size: 200% 100%;
+      pointer-events: none;
+    }
+
+    /* ========================================
+       SECTION: VISUAL CHARACTERISTICS
+       ======================================== */
+    .characteristics-section {
+      position: relative;
+      background: linear-gradient(
+        180deg,
+        #0e1a30 0%,
+        #0a0a14 10%,
+        #0a0a14 100%
+      );
+      padding: 6rem 2rem 4rem;
+      overflow: hidden;
+    }
+
+    /* Subtle checkerboard floor at the bottom */
+    .characteristics-section::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: -50%;
+      right: -50%;
+      height: 35%;
+      background:
+        repeating-conic-gradient(
+          var(--sd-check-dark) 0% 25%,
+          var(--sd-check-light) 0% 50%
+        );
+      background-size: 50px 50px;
+      transform: perspective(600px) rotateX(72deg);
+      transform-origin: bottom center;
+      mask-image: linear-gradient(to top, rgba(0, 0, 0, 0.4), transparent 70%);
+      -webkit-mask-image: linear-gradient(to top, rgba(0, 0, 0, 0.4), transparent 70%);
+      opacity: 0.35;
+      pointer-events: none;
+    }
+
+    .section-wrapper {
+      max-width: 1000px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .section-label {
+      font-family: 'Quicksand', 'Rajdhani', sans-serif;
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.3em;
+      color: var(--sd-sky-mid);
+      text-shadow: 0 0 6px var(--sd-glow-blue);
+      text-align: center;
+      margin-bottom: 0.8rem;
+    }
+
+    .section-heading {
+      font-family: 'Exo 2', 'Rajdhani', sans-serif;
+      font-size: clamp(1.6rem, 4vw, 2.6rem);
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--sd-sky-bright);
+      text-shadow: 0 0 12px var(--sd-glow-blue);
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    /* Divider */
+    .sd-divider {
+      width: 50%;
+      margin: 0 auto 3rem;
+      border: none;
+      height: 1px;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        var(--sd-sky-mid) 30%,
+        var(--sd-sky-bright) 50%,
+        var(--sd-sky-mid) 70%,
+        transparent
+      );
+      box-shadow:
+        0 0 8px var(--sd-glow-blue),
+        0 0 20px rgba(100, 150, 220, 0.15);
+    }
+
+    .sd-divider--warm {
+      background: linear-gradient(
+        90deg,
+        transparent,
+        var(--sd-sunset-amber) 30%,
+        var(--sd-sunset-orange) 50%,
+        var(--sd-sunset-amber) 70%,
+        transparent
+      );
+      box-shadow:
+        0 0 8px var(--sd-glow-amber),
+        0 0 20px rgba(230, 140, 50, 0.15);
+    }
+
+    /* Glass panels */
+    .sd-glass-panel {
+      background: rgba(20, 30, 60, 0.4);
+      border: 1px solid rgba(170, 212, 255, 0.15);
+      border-radius: 12px;
+      padding: 2.5rem;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      box-shadow:
+        0 8px 32px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(200, 220, 255, 0.1);
+      transition: all 0.5s ease;
+    }
+
+    .sd-glass-panel:hover {
+      background: rgba(25, 40, 80, 0.45);
+      border-color: rgba(170, 212, 255, 0.25);
+      box-shadow:
+        0 8px 32px rgba(0, 0, 0, 0.3),
+        0 0 20px rgba(100, 150, 220, 0.08),
+        inset 0 1px 0 rgba(200, 220, 255, 0.15);
+    }
+
+    .sd-glass-panel--strong {
+      background: rgba(30, 50, 100, 0.35);
+      border: 1px solid rgba(170, 212, 255, 0.25);
+      box-shadow:
+        0 8px 32px rgba(0, 0, 0, 0.4),
+        inset 0 0 40px rgba(100, 150, 220, 0.05),
+        inset 0 1px 0 rgba(200, 220, 255, 0.15);
+    }
+
+    /* Motifs grid */
+    .motifs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 3rem;
+    }
+
+    .motif-card {
+      background: rgba(20, 30, 60, 0.35);
+      border: 1px solid rgba(170, 212, 255, 0.1);
+      border-radius: 10px;
+      padding: 2rem;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      transition: all 0.4s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .motif-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(100, 150, 220, 0.3),
+        transparent
+      );
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+
+    .motif-card:hover {
+      background: rgba(30, 45, 80, 0.45);
+      border-color: rgba(170, 212, 255, 0.2);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    .motif-card:hover::before {
+      opacity: 1;
+    }
+
+    .motif-icon {
+      width: 44px;
+      height: 44px;
+      margin-bottom: 1.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .motif-card h3 {
+      font-family: 'Exo 2', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--sd-sky-bright);
+      margin-bottom: 0.6rem;
+    }
+
+    .motif-card p {
+      font-family: 'Jost', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 300;
+      line-height: 1.65;
+      color: var(--sd-chrome-bright);
+    }
+
+    /* Chrome sphere icon */
+    .icon-sphere {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: radial-gradient(
+        circle at 35% 30%,
+        #f0f0f5 0%,
+        #c8c8d0 15%,
+        #8888a0 35%,
+        #505068 55%,
+        #2a2a48 75%,
+        #181830 100%
+      );
+      box-shadow:
+        0 2px 10px rgba(0, 0, 0, 0.5),
+        inset 0 -1px 3px rgba(0, 0, 0, 0.3);
+    }
+
+    .icon-cube {
+      width: 30px;
+      height: 30px;
+      background: linear-gradient(
+        135deg,
+        #505068 0%,
+        #c8c8d0 30%,
+        #f0f0f5 50%,
+        #8888a0 70%,
+        #505068 100%
+      );
+      transform: rotate(15deg);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+    }
+
+    .icon-water {
+      width: 38px;
+      height: 18px;
+      border-radius: 0 0 50% 50%;
+      background: linear-gradient(
+        180deg,
+        var(--sd-water-surface) 0%,
+        var(--sd-water-deep) 100%
+      );
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+      position: relative;
+    }
+
+    .icon-water::before {
+      content: '';
+      position: absolute;
+      top: -1px;
+      left: 10%;
+      right: 10%;
+      height: 2px;
+      background: var(--sd-water-highlight);
+      border-radius: 1px;
+    }
+
+    .icon-sky {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: linear-gradient(
+        180deg,
+        var(--sd-deep-indigo) 0%,
+        var(--sd-sky-deep) 40%,
+        var(--sd-sunset-orange) 80%,
+        var(--sd-sunset-gold) 100%
+      );
+      box-shadow: 0 0 12px rgba(232, 128, 48, 0.3);
+    }
+
+    .icon-grid {
+      width: 32px;
+      height: 32px;
+      background:
+        repeating-conic-gradient(
+          var(--sd-check-dark) 0% 25%,
+          var(--sd-check-light) 0% 50%
+        );
+      background-size: 16px 16px;
+      opacity: 0.8;
+    }
+
+    .icon-glass {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: rgba(200, 230, 255, 0.1);
+      border: 1.5px solid rgba(200, 230, 255, 0.25);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      box-shadow: inset 0 0 12px rgba(200, 230, 255, 0.08);
+    }
+
+    /* ========================================
+       SECTION: COLOR PALETTE
+       ======================================== */
+    .palette-section {
+      position: relative;
+      background: linear-gradient(
+        180deg,
+        #0a0a14 0%,
+        #1a1040 30%,
+        #2a1860 60%,
+        #5522aa 85%,
+        #7744cc 100%
+      );
+      padding: 5rem 2rem 6rem;
+      overflow: hidden;
+    }
+
+    /* Warm atmospheric glow */
+    .palette-section .warm-glow {
+      position: absolute;
+      top: 20%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 500px;
+      height: 250px;
+      border-radius: 50%;
+      background: radial-gradient(
+        ellipse,
+        rgba(232, 128, 48, 0.15) 0%,
+        rgba(204, 68, 136, 0.08) 40%,
+        transparent 70%
+      );
+      filter: blur(60px);
+      pointer-events: none;
+    }
+
+    .palette-groups {
+      display: flex;
+      flex-direction: column;
+      gap: 3rem;
+    }
+
+    .palette-group-title {
+      font-family: 'Quicksand', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.25em;
+      color: var(--sd-lavender);
+      text-shadow: 0 0 8px var(--sd-glow-purple);
+      margin-bottom: 1rem;
+    }
+
+    .palette-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      justify-content: center;
+    }
+
+    .swatch {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      transition: transform 0.3s ease;
+    }
+
+    .swatch:hover {
+      transform: scale(1.08);
+    }
+
+    .swatch-color {
+      width: 56px;
+      height: 56px;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Shine effect on swatch */
+    .swatch-color::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 50%;
+      background: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.15) 0%,
+        transparent 100%
+      );
+      border-radius: 10px 10px 0 0;
+    }
+
+    .swatch-label {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.58rem;
+      letter-spacing: 0.04em;
+      color: var(--sd-chrome-mid);
+      text-shadow: 0 0 3px rgba(100, 150, 220, 0.15);
+    }
+
+    .swatch-name {
+      font-family: 'Quicksand', sans-serif;
+      font-size: 0.6rem;
+      letter-spacing: 0.06em;
+      color: var(--sd-chrome-bright);
+      max-width: 70px;
+      text-align: center;
+      line-height: 1.3;
+    }
+
+    /* ========================================
+       SECTION: SUNSET DESIGN PRINCIPLES
+       ======================================== */
+    .principles-section {
+      position: relative;
+      background: linear-gradient(
+        180deg,
+        #7744cc 0%,
+        #5522aa 8%,
+        #4a1a6a 16%,
+        #6a1a5a 28%,
+        #cc4488 42%,
+        #e06848 56%,
+        #e88030 68%,
+        #d4882c 78%,
+        #c89028 86%,
+        #e8b040 94%,
+        #f0c848 100%
+      );
+      padding: 6rem 2rem;
+      overflow: hidden;
+    }
+
+    .principles-section .section-heading {
+      color: var(--sd-chrome-peak);
+      text-shadow: 0 0 15px var(--sd-glow-amber);
+    }
+
+    .principles-section .section-label {
+      color: var(--sd-sunset-gold);
+      text-shadow: 0 0 6px var(--sd-glow-amber);
+    }
+
+    .principles-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .principle-card {
+      background: rgba(10, 10, 20, 0.35);
+      border: 1px solid rgba(232, 176, 64, 0.2);
+      border-radius: 10px;
+      padding: 2rem;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      box-shadow:
+        0 8px 30px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(232, 176, 64, 0.1);
+      transition: all 0.4s ease;
+    }
+
+    .principle-card:hover {
+      background: rgba(20, 15, 30, 0.45);
+      border-color: rgba(232, 176, 64, 0.35);
+      transform: translateY(-3px);
+      box-shadow:
+        0 12px 40px rgba(0, 0, 0, 0.4),
+        0 0 20px rgba(232, 128, 48, 0.08);
+    }
+
+    .principle-card h3 {
+      font-family: 'Exo 2', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--sd-sunset-gold);
+      margin-bottom: 0.6rem;
+    }
+
+    .principle-card p {
+      font-family: 'Jost', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 300;
+      line-height: 1.65;
+      color: var(--sd-chrome-bright);
+    }
+
+    /* ========================================
+       SECTION: TYPOGRAPHY SHOWCASE
+       ======================================== */
+    .typography-section {
+      position: relative;
+      background: linear-gradient(
+        180deg,
+        #e8b040 0%,
+        #d4882c 5%,
+        #c06828 10%,
+        #882040 18%,
+        #5522aa 35%,
+        #2a1860 55%,
+        #1a1040 75%,
+        #0a0a14 100%
+      );
+      padding: 5rem 2rem 6rem;
+      overflow: hidden;
+    }
+
+    .type-showcase {
+      display: flex;
+      flex-direction: column;
+      gap: 2.5rem;
+      align-items: center;
+      text-align: center;
+    }
+
+    .type-sample {
+      width: 100%;
+      max-width: 800px;
+    }
+
+    .type-label {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.62rem;
+      letter-spacing: 0.15em;
+      color: var(--sd-chrome-mid);
+      text-shadow: 0 0 4px rgba(100, 150, 220, 0.2);
+      margin-bottom: 0.6rem;
+      text-transform: uppercase;
+    }
+
+    .type-rajdhani {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: clamp(2.2rem, 5.5vw, 4.5rem);
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      background: linear-gradient(
+        180deg,
+        #f0f0f5 0%,
+        #c8c8d0 20%,
+        #606080 48%,
+        #a0a0b8 52%,
+        #d8d8e0 78%,
+        #f0f0f5 100%
+      );
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      filter: drop-shadow(0 0 10px rgba(150, 150, 200, 0.3));
+    }
+
+    .type-exo {
+      font-family: 'Exo 2', sans-serif;
+      font-size: clamp(1.4rem, 3.5vw, 2.5rem);
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--sd-sky-bright);
+      text-shadow: 0 0 12px var(--sd-glow-blue);
+    }
+
+    .type-comfortaa {
+      font-family: 'Comfortaa', sans-serif;
+      font-size: clamp(1.5rem, 4vw, 3rem);
+      font-weight: 300;
+      letter-spacing: 0.08em;
+      color: var(--sd-lavender);
+      text-shadow: 0 0 15px var(--sd-glow-purple);
+    }
+
+    .type-orbitron {
+      font-family: 'Orbitron', sans-serif;
+      font-size: clamp(1rem, 2.5vw, 1.8rem);
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--sd-sunset-gold);
+      text-shadow: 0 0 10px var(--sd-glow-amber);
+    }
+
+    .type-quicksand {
+      font-family: 'Quicksand', sans-serif;
+      font-size: clamp(0.8rem, 1.8vw, 1.1rem);
+      font-weight: 400;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--sd-sky-mid);
+      text-shadow: 0 0 6px var(--sd-glow-blue);
+    }
+
+    .type-mono {
+      font-family: 'Share Tech Mono', 'IBM Plex Mono', monospace;
+      font-size: clamp(0.75rem, 1.4vw, 0.92rem);
+      letter-spacing: 0.05em;
+      color: var(--sd-chrome-mid);
+      text-shadow: 0 0 4px var(--sd-glow-blue);
+    }
+
+    .type-body {
+      font-family: 'Jost', 'Inter', sans-serif;
+      font-size: clamp(0.9rem, 1.3vw, 1.05rem);
+      font-weight: 300;
+      line-height: 1.8;
+      color: var(--sd-sky-bright);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* ========================================
+       SECTION: TECHNIQUES SHOWCASE
+       ======================================== */
+    .techniques-section {
+      position: relative;
+      background: var(--sd-void);
+      padding: 6rem 2rem;
+      overflow: hidden;
+    }
+
+    /* Subtle grid overlay */
+    .techniques-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background:
+        linear-gradient(rgba(100, 150, 220, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(100, 150, 220, 0.03) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
+    }
+
+    .techniques-gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+
+    .technique-demo {
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid rgba(170, 212, 255, 0.1);
+      transition: all 0.4s ease;
+    }
+
+    .technique-demo:hover {
+      border-color: rgba(170, 212, 255, 0.2);
+      box-shadow: 0 0 30px rgba(100, 150, 220, 0.1);
+    }
+
+    .technique-preview {
+      height: 200px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .technique-info {
+      padding: 1.5rem;
+      background: rgba(20, 20, 40, 0.8);
+    }
+
+    .technique-info h3 {
+      font-family: 'Exo 2', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--sd-sky-bright);
+      margin-bottom: 0.4rem;
+    }
+
+    .technique-info p {
+      font-family: 'Jost', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 300;
+      color: var(--sd-chrome-bright);
+      line-height: 1.6;
+    }
+
+    /* Demo: Sky gradient */
+    .demo-sky {
+      background: linear-gradient(
+        180deg,
+        #0a0a14 0%,
+        #1a1040 15%,
+        #2a3078 35%,
+        #4466aa 55%,
+        #6699dd 75%,
+        #aad4ff 92%,
+        #ccddff 100%
+      );
+    }
+
+    /* Demo: Sunset gradient */
+    .demo-sunset {
+      background: linear-gradient(
+        180deg,
+        #0a0a14 0%,
+        #1a1040 10%,
+        #5522aa 25%,
+        #cc4488 45%,
+        #e88030 65%,
+        #d4882c 80%,
+        #e8b040 95%
+      );
+    }
+
+    /* Demo: Chrome sphere scene */
+    .demo-chrome-scene {
+      background: linear-gradient(
+        180deg,
+        #1a1040 0%,
+        #2a3078 40%,
+        #4466aa 70%,
+        #6699dd 100%
+      );
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .demo-sphere-large {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      background: radial-gradient(
+        circle at 35% 30%,
+        #f0f0f5 0%,
+        #c8c8d0 12%,
+        #8888a0 30%,
+        #505068 50%,
+        #2a2a48 70%,
+        #181830 100%
+      );
+      box-shadow:
+        0 6px 30px rgba(0, 0, 0, 0.6),
+        inset 0 -3px 8px rgba(0, 0, 0, 0.4),
+        0 40px 50px -20px rgba(0, 0, 0, 0.5);
+      animation: sd-float 7s ease-in-out infinite;
+    }
+
+    /* Demo: Checkerboard */
+    .demo-checkerboard {
+      background: linear-gradient(
+        180deg,
+        #1a1040 0%,
+        #2a3078 50%,
+        #4466aa 100%
+      );
+      position: relative;
+    }
+
+    .demo-checkerboard::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: -50%;
+      right: -50%;
+      height: 55%;
+      background:
+        repeating-conic-gradient(
+          var(--sd-check-dark) 0% 25%,
+          var(--sd-check-light) 0% 50%
+        );
+      background-size: 40px 40px;
+      transform: perspective(400px) rotateX(68deg);
+      transform-origin: bottom center;
+      mask-image: linear-gradient(to top, rgba(0, 0, 0, 0.6), transparent 75%);
+      -webkit-mask-image: linear-gradient(to top, rgba(0, 0, 0, 0.6), transparent 75%);
+      opacity: 0.6;
+    }
+
+    /* Demo: Glass panel */
+    .demo-glass-scene {
+      background: linear-gradient(
+        180deg,
+        #0a0a14 0%,
+        #2a3078 50%,
+        #4466aa 100%
+      );
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+
+    .demo-glass-box {
+      background: rgba(20, 30, 60, 0.4);
+      border: 1px solid rgba(170, 212, 255, 0.2);
+      border-radius: 10px;
+      padding: 1.5rem 2rem;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      box-shadow:
+        0 8px 32px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(200, 220, 255, 0.12);
+      text-align: center;
+    }
+
+    .demo-glass-box span {
+      font-family: 'Exo 2', sans-serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--sd-sky-bright);
+    }
+
+    /* Demo: Water reflection */
+    .demo-water-scene {
+      background: linear-gradient(
+        180deg,
+        #2a3078 0%,
+        #4466aa 30%,
+        #6699dd 48%,
+        #aad4ff 50%,
+        #6699dd 52%,
+        #4478cc 60%,
+        #2848a0 75%,
+        #182848 100%
+      );
+      position: relative;
+    }
+
+    .demo-water-scene::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(170, 212, 255, 0.6),
+        transparent
+      );
+      box-shadow: 0 0 10px rgba(170, 212, 255, 0.3);
+    }
+
+    /* ========================================
+       SECTION: RELATED AESTHETICS
+       ======================================== */
+    .related-section {
+      position: relative;
+      background: linear-gradient(
+        180deg,
+        var(--sd-void) 0%,
+        #0e1020 50%,
+        #141428 100%
+      );
+      padding: 5rem 2rem 6rem;
+    }
+
+    .related-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+    }
+
+    .related-tag {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      padding: 1rem 1.2rem;
+      background: rgba(20, 30, 60, 0.3);
+      border: 1px solid rgba(170, 212, 255, 0.08);
+      border-radius: 8px;
+      transition: all 0.3s ease;
+    }
+
+    .related-tag:hover {
+      background: rgba(30, 45, 80, 0.4);
+      border-color: rgba(170, 212, 255, 0.18);
+      transform: translateY(-2px);
+    }
+
+    .related-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .related-tag-name {
+      font-family: 'Exo 2', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      color: var(--sd-sky-bright);
+    }
+
+    .related-tag-desc {
+      font-family: 'Jost', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 300;
+      color: var(--sd-chrome-mid);
+      margin-top: 0.2rem;
+    }
+
+    /* ========================================
+       SECTION: FOOTER / CLOSING
+       ======================================== */
+    .footer-section {
+      position: relative;
+      background: linear-gradient(
+        180deg,
+        #141428 0%,
+        #1a1040 40%,
+        #2a3078 70%,
+        #4466aa 90%,
+        #6699dd 100%
+      );
+      padding: 4rem 2rem 3rem;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    /* Inverted horizon -- bottom glow */
+    .footer-section::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(
+        90deg,
+        transparent 5%,
+        rgba(170, 212, 255, 0.5) 25%,
+        rgba(200, 220, 255, 0.8) 50%,
+        rgba(170, 212, 255, 0.5) 75%,
+        transparent 95%
+      );
+      box-shadow:
+        0 0 20px rgba(170, 212, 255, 0.3),
+        0 0 60px rgba(100, 150, 220, 0.15);
+    }
+
+    .footer-chrome-text {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: clamp(1.8rem, 4vw, 3.5rem);
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      background: linear-gradient(
+        180deg,
+        #f0f0f5 0%,
+        #c8c8d0 20%,
+        #606080 48%,
+        #a0a0b8 52%,
+        #d8d8e0 78%,
+        #f0f0f5 100%
+      );
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      filter: drop-shadow(0 0 8px rgba(150, 150, 200, 0.3));
+      margin-bottom: 1.5rem;
+    }
+
+    .footer-tagline {
+      font-family: 'Comfortaa', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 300;
+      letter-spacing: 0.12em;
+      color: var(--sd-lavender);
+      text-shadow: 0 0 10px var(--sd-glow-purple);
+      margin-bottom: 2rem;
+    }
+
+    .footer-meta {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.06em;
+      color: var(--sd-chrome-shadow);
+      text-shadow: 0 0 3px rgba(100, 150, 220, 0.1);
+    }
+
+    /* ========================================
+       BUTTONS
+       ======================================== */
+    .sd-button {
+      display: inline-block;
+      padding: 0.75rem 2.5rem;
+      border: 1px solid rgba(170, 212, 255, 0.3);
+      border-radius: 8px;
+      background: rgba(30, 50, 100, 0.3);
+      color: var(--sd-sky-bright);
+      font-family: 'Exo 2', 'Rajdhani', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.4s ease;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      box-shadow:
+        0 4px 15px rgba(0, 0, 0, 0.2),
+        0 0 8px rgba(100, 150, 220, 0.1);
+    }
+
+    .sd-button:hover {
+      background: rgba(50, 80, 140, 0.4);
+      border-color: rgba(170, 212, 255, 0.5);
+      box-shadow:
+        0 4px 15px rgba(0, 0, 0, 0.2),
+        0 0 20px rgba(100, 150, 220, 0.2),
+        0 0 40px rgba(100, 150, 220, 0.08);
+    }
+
+    .sd-button--warm {
+      border-color: rgba(232, 176, 64, 0.3);
+      background: rgba(100, 60, 20, 0.3);
+      color: var(--sd-sunset-gold);
+      box-shadow:
+        0 4px 15px rgba(0, 0, 0, 0.2),
+        0 0 8px rgba(230, 140, 50, 0.1);
+    }
+
+    .sd-button--warm:hover {
+      background: rgba(120, 80, 30, 0.4);
+      border-color: rgba(232, 176, 64, 0.5);
+      box-shadow:
+        0 4px 15px rgba(0, 0, 0, 0.2),
+        0 0 20px rgba(230, 140, 50, 0.2);
+    }
+
+    /* ========================================
+       MATERIALS TABLE
+       ======================================== */
+    .materials-section {
+      position: relative;
+      background: linear-gradient(
+        180deg,
+        var(--sd-void) 0%,
+        #0e0e22 50%,
+        var(--sd-void) 100%
+      );
+      padding: 5rem 2rem;
+      overflow: hidden;
+    }
+
+    .materials-table-wrapper {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .materials-table {
+      width: 100%;
+      max-width: 900px;
+      margin: 0 auto;
+      border-collapse: separate;
+      border-spacing: 0;
+      background: rgba(20, 30, 60, 0.3);
+      border: 1px solid rgba(170, 212, 255, 0.12);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .materials-table thead th {
+      font-family: 'Exo 2', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--sd-sky-bright);
+      text-shadow: 0 0 6px var(--sd-glow-blue);
+      padding: 1.2rem 1.5rem;
+      text-align: left;
+      background: rgba(20, 30, 60, 0.5);
+      border-bottom: 1px solid rgba(170, 212, 255, 0.1);
+    }
+
+    .materials-table tbody td {
+      font-family: 'Jost', sans-serif;
+      font-size: 0.84rem;
+      font-weight: 300;
+      color: var(--sd-chrome-bright);
+      padding: 1rem 1.5rem;
+      border-bottom: 1px solid rgba(170, 212, 255, 0.05);
+      vertical-align: top;
+    }
+
+    .materials-table tbody tr:last-child td {
+      border-bottom: none;
+    }
+
+    .materials-table tbody tr:hover {
+      background: rgba(30, 50, 100, 0.15);
+    }
+
+    .materials-table td:first-child {
+      font-family: 'Quicksand', sans-serif;
+      font-weight: 500;
+      color: var(--sd-sky-mid);
+      white-space: nowrap;
+    }
+
+    /* ========================================
+       SCROLL REVEAL (JS-driven)
+       ======================================== */
+    .reveal {
+      opacity: 0;
+      transform: translateY(25px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+    .reveal-delay-5 { transition-delay: 0.5s; }
+    .reveal-delay-6 { transition-delay: 0.6s; }
+
+    /* ========================================
+       RESPONSIVE
+       ======================================== */
+    @media (max-width: 768px) {
+      .hero-sphere-1 {
+        width: 50px;
+        height: 50px;
+        top: 12%;
+        left: 8%;
+      }
+
+      .hero-sphere-2 {
+        width: 35px;
+        height: 35px;
+        right: 8%;
+      }
+
+      .hero-sphere-3 {
+        width: 20px;
+        height: 20px;
+      }
+
+      .hero-torus {
+        width: 40px;
+        height: 40px;
+        right: 20%;
+      }
+
+      .hero-diamond {
+        display: none;
+      }
+
+      .motifs-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .principles-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .techniques-gallery {
+        grid-template-columns: 1fr;
+      }
+
+      .related-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .palette-row {
+        gap: 0.5rem;
+      }
+
+      .swatch-color {
+        width: 42px;
+        height: 42px;
+      }
+
+      .materials-table thead th,
+      .materials-table tbody td {
+        padding: 0.8rem 1rem;
+        font-size: 0.78rem;
+      }
+
+      .hero-section {
+        padding: 6rem 1.5rem 4rem;
+      }
+
+      .sd-glass-panel {
+        padding: 1.5rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .swatch-color {
+        width: 36px;
+        height: 36px;
+        border-radius: 8px;
+      }
+
+      .swatch-name {
+        display: none;
+      }
+
+      .hero-sphere-1,
+      .hero-sphere-2,
+      .hero-sphere-3,
+      .hero-torus {
+        display: none;
+      }
+    }
+
+    /* ========================================
+       SELECTION STYLE
+       ======================================== */
+    ::selection {
+      background: rgba(100, 150, 220, 0.3);
+      color: var(--sd-chrome-peak);
+    }
+
+    ::-moz-selection {
+      background: rgba(100, 150, 220, 0.3);
+      color: var(--sd-chrome-peak);
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--sd-void);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--sd-chrome-shadow);
+      border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--sd-chrome-mid);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ==========================================
+       HERO SECTION -- Cool Blue Sky
+       ========================================== -->
+  <section class="hero-section" id="top">
+    <!-- Stars -->
+    <div class="stars-container" id="stars"></div>
+
+    <!-- Atmospheric glow -->
+    <div class="hero-atmo-glow"></div>
+
+    <!-- Floating decorative elements -->
+    <div class="hero-sphere-1"></div>
+    <div class="hero-sphere-2"></div>
+    <div class="hero-sphere-3"></div>
+    <div class="hero-torus"></div>
+    <div class="hero-diamond"></div>
+
+    <!-- Title content -->
+    <h1 class="hero-title">Silicon Dreams</h1>
+    <p class="hero-subtitle">The Visual Language of Early CGI</p>
+    <p class="hero-description">
+      Surreal and uncanny visuals from the golden age of primitive 3D rendering -- mid-1980s to early 2000s.
+      Sparse surrealistic landscapes, chrome and reflective surfaces, floating geometric shapes,
+      and low-resolution textures capturing the dreamlike quality of a world that feels simultaneously
+      utopian and deeply alien.
+    </p>
+    <p class="hero-meta">BRYCE 3D &middot; MIND'S EYE &middot; EARLY PIXAR &middot; TRAPPER KEEPER ART &middot; RAY TRACING DEMOS</p>
+  </section>
+
+  <!-- Horizon line -->
+  <div class="sd-horizon"></div>
+
+  <!-- Water reflection transition -->
+  <div class="water-section">
+    <div class="water-ripples"></div>
+  </div>
+
+  <!-- ==========================================
+       VISUAL CHARACTERISTICS
+       ========================================== -->
+  <section class="characteristics-section">
+    <div class="section-wrapper">
+      <p class="section-label reveal">Visual Language</p>
+      <h2 class="section-heading reveal reveal-delay-1">Core Motifs &amp; Patterns</h2>
+      <hr class="sd-divider reveal reveal-delay-2">
+
+      <div class="motifs-grid">
+        <div class="motif-card reveal reveal-delay-1">
+          <div class="motif-icon"><div class="icon-sky"></div></div>
+          <h3>Surreal Landscapes</h3>
+          <p>Vast empty terrains with minimal objects, evoking alien planets or dreamscapes -- rolling hills, desert plains, and infinite oceans rendered in primitive 3D.</p>
+        </div>
+
+        <div class="motif-card reveal reveal-delay-2">
+          <div class="motif-icon"><div class="icon-water"></div></div>
+          <h3>Reflective Water</h3>
+          <p>Calm, digitally perfect oceans and lakes with mathematically precise reflections. A signature Bryce 3D element and key depth cue in minimal compositions.</p>
+        </div>
+
+        <div class="motif-card reveal reveal-delay-3">
+          <div class="motif-icon"><div class="icon-sphere"></div></div>
+          <h3>Chrome Spheres</h3>
+          <p>Highly reflective orbs, tori, and geometric primitives floating in space or sitting on reflective planes, picking up colors from their surroundings.</p>
+        </div>
+
+        <div class="motif-card reveal reveal-delay-4">
+          <div class="motif-icon"><div class="icon-cube"></div></div>
+          <h3>Floating Geometry</h3>
+          <p>Spheres, cubes, pyramids, and torus knots suspended in surreal environments with no apparent support -- mathematically generated sculptural shapes.</p>
+        </div>
+
+        <div class="motif-card reveal reveal-delay-5">
+          <div class="motif-icon"><div class="icon-sky"></div></div>
+          <h3>Dramatic CG Skies</h3>
+          <p>Banded gradient skies with vivid sunsets, purple-blue atmospheres, and wispy horizontal cloud layers transitioning through multiple color stops.</p>
+        </div>
+
+        <div class="motif-card reveal reveal-delay-6">
+          <div class="motif-icon"><div class="icon-grid"></div></div>
+          <h3>Checkerboard Floors</h3>
+          <p>Reflective checkerboard ground planes extending to the horizon -- a hallmark of early ray-tracing demos and the quintessential CG test scene.</p>
+        </div>
+
+        <div class="motif-card reveal reveal-delay-1">
+          <div class="motif-icon"><div class="icon-glass"></div></div>
+          <h3>Glass Domes</h3>
+          <p>Translucent architectural elements enclosing miniature cities or landscapes on floating islands. Refractive transparent spheres containing other objects.</p>
+        </div>
+
+        <div class="motif-card reveal reveal-delay-2">
+          <div class="motif-icon"><div class="icon-sphere"></div></div>
+          <h3>Big Planets</h3>
+          <p>Oversized celestial bodies looming on the horizon, creating a sci-fi sense of scale. Neoclassical columns and statues placed incongruously in alien landscapes.</p>
+        </div>
+
+        <div class="motif-card reveal reveal-delay-3">
+          <div class="motif-icon"><div class="icon-cube"></div></div>
+          <h3>Low-Poly Models</h3>
+          <p>Visible polygon facets, flat or Gouraud shading, and basic texture mapping that reveals the underlying mesh structure. Technical limitation as defining style.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       COLOR PALETTE
+       ========================================== -->
+  <section class="palette-section">
+    <div class="warm-glow"></div>
+    <div class="section-wrapper">
+      <p class="section-label reveal">Chromatic Identity</p>
+      <h2 class="section-heading reveal reveal-delay-1">Color Palette</h2>
+      <hr class="sd-divider reveal reveal-delay-2">
+
+      <div class="sd-glass-panel reveal reveal-delay-3" style="margin-bottom: 2rem;">
+        <p style="font-family: 'Jost', sans-serif; font-size: 0.92rem; font-weight: 300; line-height: 1.7; color: var(--sd-chrome-bright); text-align: center; max-width: 700px; margin: 0 auto;">
+          Defined by two dominant modes: <strong style="color: var(--sd-sky-bright);">cool blue-purple atmospheric landscapes</strong>
+          and <strong style="color: var(--sd-sunset-gold);">warm amber-gold sunset scenes</strong>, both featuring highly reflective chrome
+          and glass materials. Colors are smooth and gradient-heavy, reflecting ray-traced rendering with soft atmospheric haze.
+        </p>
+      </div>
+
+      <div class="palette-groups">
+        <!-- Primary Sky Colors -->
+        <div class="reveal reveal-delay-1">
+          <p class="palette-group-title">Primary Sky &amp; Space</p>
+          <div class="palette-row">
+            <div class="swatch">
+              <div class="swatch-color" style="background: #0A0A14;"></div>
+              <span class="swatch-label">#0A0A14</span>
+              <span class="swatch-name">Void Black</span>
+            </div>
+            <div class="swatch">
+              <div class="swatch-color" style="background: #1A1040;"></div>
+              <span class="swatch-label">#1A1040</span>
+              <span class="swatch-name">Deep Indigo</span>
+            </div>
+            <div class="swatch">
+              <div class="swatch-color" style="background: #4466AA;"></div>
+              <span class="swatch-label">#4466AA</span>
+              <span class="swatch-name">Bryce Blue</span>
+            </div>
+            <div class="swatch">
+              <div class="swatch-color" style="background: #6699DD;"></div>
+              <span class="swatch-label">#6699DD</span>
+              <span class="swatch-name">Digital Sky</span>
+            </div>
+            <div class="swatch">
+              <div class="swatch-color" style="background: #AAD4FF;"></div>
+              <span class="swatch-label">#AAD4FF</span>
+              <span class="swatch-name">Horizon Glow</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sunset Colors -->
+        <div class="reveal reveal-delay-2">
+          <p class="palette-group-title">Sunset &amp; Warm Tones</p>
+          <div class="palette-row">
+            <div class="swatch">
+              <div class="swatch-color" style="background: #5522AA;"></div>
+              <span class="swatch-label">#5522AA</span>
+              <span class="swatch-name">Twilight Purple</span>
+            </div>
+            <div class="swatch">
+              <div class="swatch-color" style="background: #CC4488;"></div>
+              <span class="swatch-label">#CC4488</span>
+              <span class="swatch-name">Sky Magenta</span>
+            </div>
+            <div class="swatch">
+              <div class="swatch-color" style="background: #E88030;"></div>
+              <span class="swatch-label">#E88030</span>
+              <span class="swatch-name">CGI Sunset</span>
+            </div>
+            <div class="swatch">
+              <div class="swatch-color" style="background: #D4882C;"></div>
+              <span class="swatch-label">#D4882C</span>
+              <span class="swatch-name">Warm Amber</span>
+            </div>
+            <div class="swatch">
+              <div class="swatch-color" style="background: #AA1133;"></div>
+              <span class="swatch-label">#AA1133</span>
+              <span class="swatch-name">Deep Crimson</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Chrome & Metal Colors -->
+        <div class="reveal reveal-delay-3">
+          <p class="palette-group-title">Chrome &amp; Metallic</p>
+          <div class="palette-row">
+            <div class="swatch">
+              <div class="swatch-color" style="background: #F0F0F5;"></div>
+              <span class="swatch-label">#F0F0F5</span>
+              <span class="swatch-name">Peak White</span>
+            </div>
+            <div class="swatch">
+              <div class="swatch-color" style="background: #C8C8D0;"></div>
+              <span class="swatch-label">#C8C8D0</span>
+              <span class="swatch-name">Silver Bright</span>
+            </div>
+            <div class="swatch">
+              <div class="swatch-color" style="background: #8888A0;"></div>
+              <span class="swatch-label">#8888A0</span>
+              <span class="swatch-name">Silver Mid</span>
+            </div>
+            <div class="swatch">
+              <div class="swatch-color" style="background: #505068;"></div>
+              <span class="swatch-label">#505068</span>
+              <span class="swatch-name">Silver Dark</span>
+            </div>
+            <div class="swatch">
+              <div class="swatch-color" style="background: #C8A832;"></div>
+              <span class="swatch-label">#C8A832</span>
+              <span class="swatch-name">Metallic Gold</span>
+            </div>
+            <div class="swatch">
+              <div class="swatch-color" style="background: #A07830;"></div>
+              <span class="swatch-label">#A07830</span>
+              <span class="swatch-name">Warm Bronze</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Water & Landscape Colors -->
+        <div class="reveal reveal-delay-4">
+          <p class="palette-group-title">Water &amp; Landscape</p>
+          <div class="palette-row">
+            <div class="swatch">
+              <div class="swatch-color" style="background: #182848;"></div>
+              <span class="swatch-label">#182848</span>
+              <span class="swatch-name">Ocean Deep</span>
+            </div>
+            <div class="swatch">
+              <div class="swatch-color" style="background: #2848A0;"></div>
+              <span class="swatch-label">#2848A0</span>
+              <span class="swatch-name">Ocean Mid</span>
+            </div>
+            <div class="swatch">
+              <div class="swatch-color" style="background: #4478CC;"></div>
+              <span class="swatch-label">#4478CC</span>
+              <span class="swatch-name">Reflective Blue</span>
+            </div>
+            <div class="swatch">
+              <div class="swatch-color" style="background: #D0E8FF;"></div>
+              <span class="swatch-label">#D0E8FF</span>
+              <span class="swatch-name">Ice Glass</span>
+            </div>
+            <div class="swatch">
+              <div class="swatch-color" style="background: #6B8830;"></div>
+              <span class="swatch-label">#6B8830</span>
+              <span class="swatch-name">Bryce Green</span>
+            </div>
+            <div class="swatch">
+              <div class="swatch-color" style="background: #C0A868;"></div>
+              <span class="swatch-label">#C0A868</span>
+              <span class="swatch-name">Desert Tan</span>
+            </div>
+            <div class="swatch">
+              <div class="swatch-color" style="background: #2A2A48;"></div>
+              <span class="swatch-label">#2A2A48</span>
+              <span class="swatch-name">Floor Dark</span>
+            </div>
+            <div class="swatch">
+              <div class="swatch-color" style="background: #6868A8;"></div>
+              <span class="swatch-label">#6868A8</span>
+              <span class="swatch-name">Floor Light</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       DESIGN PRINCIPLES -- Sunset Gradient
+       ========================================== -->
+  <section class="principles-section">
+    <div class="section-wrapper">
+      <p class="section-label reveal">Philosophy</p>
+      <h2 class="section-heading reveal reveal-delay-1">Design Principles</h2>
+      <hr class="sd-divider sd-divider--warm reveal reveal-delay-2">
+
+      <div class="principles-grid">
+        <div class="principle-card reveal reveal-delay-1">
+          <h3>Dreamlike Surrealism</h3>
+          <p>Environments feel like half-remembered dreams. Familiar objects placed in impossible contexts create a sense of uncanny wonder.</p>
+        </div>
+
+        <div class="principle-card reveal reveal-delay-2">
+          <h3>Vast Negative Space</h3>
+          <p>Compositions emphasize emptiness and solitude. Single objects in enormous landscapes, evoking the sparse beauty of primitive 3D worlds.</p>
+        </div>
+
+        <div class="principle-card reveal reveal-delay-3">
+          <h3>Synthetic Smoothness</h3>
+          <p>Surfaces are unnaturally smooth, clean, and unblemished -- reflecting early CG's inability to render organic imperfection.</p>
+        </div>
+
+        <div class="principle-card reveal reveal-delay-4">
+          <h3>Dramatic Lighting</h3>
+          <p>Strong single-source illumination creating long shadows and vivid specular highlights on reflective surfaces.</p>
+        </div>
+
+        <div class="principle-card reveal reveal-delay-5">
+          <h3>Horizon Compositions</h3>
+          <p>Scenes organized around a clear horizon where sky meets water or ground, with the subject centered in the vast expanse.</p>
+        </div>
+
+        <div class="principle-card reveal reveal-delay-6">
+          <h3>Uncanny Environments</h3>
+          <p>Spaces that resemble reality but feel fundamentally wrong -- too clean, too empty, too perfect. The uncanny valley of places.</p>
+        </div>
+
+        <div class="principle-card reveal reveal-delay-1">
+          <h3>Reflections as Depth</h3>
+          <p>Water reflections and chrome surface reflections provide depth and visual interest in otherwise minimal, sparse scenes.</p>
+        </div>
+
+        <div class="principle-card reveal reveal-delay-2">
+          <h3>Scale Distortion</h3>
+          <p>Objects at impossible scales -- tiny buildings under glass domes, enormous spheres on plains, oversized planets on the horizon.</p>
+        </div>
+
+        <div class="principle-card reveal reveal-delay-3">
+          <h3>Limitation as Style</h3>
+          <p>Low polygon counts, basic texture mapping, and simplified lighting are embraced as defining characteristics rather than flaws.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       TYPOGRAPHY SHOWCASE
+       ========================================== -->
+  <section class="typography-section">
+    <div class="section-wrapper">
+      <p class="section-label reveal" style="color: var(--sd-sunset-gold); text-shadow: 0 0 6px var(--sd-glow-amber);">Type System</p>
+      <h2 class="section-heading reveal reveal-delay-1">Typography</h2>
+      <hr class="sd-divider reveal reveal-delay-2">
+
+      <div class="sd-glass-panel reveal reveal-delay-3" style="margin-bottom: 2.5rem;">
+        <p style="font-family: 'Jost', sans-serif; font-size: 0.92rem; font-weight: 300; line-height: 1.7; color: var(--sd-chrome-bright); text-align: center; max-width: 650px; margin: 0 auto;">
+          Typography evokes the intersection of 90s digital interfaces, early 3D title screens, and new-age spiritualism.
+          Smooth, rounded sans-serifs. Geometric letterforms. Extended display type. Chrome metallic text effects.
+          Light, airy body weights suggesting the ethereal quality of digital spaces.
+        </p>
+      </div>
+
+      <div class="type-showcase">
+        <div class="type-sample reveal reveal-delay-1">
+          <p class="type-label">Rajdhani -- Chrome Display</p>
+          <p class="type-rajdhani">Digital Horizons</p>
+        </div>
+
+        <div class="type-sample reveal reveal-delay-2">
+          <p class="type-label">Exo 2 -- Section Headings</p>
+          <p class="type-exo">Reflective Surfaces of Memory</p>
+        </div>
+
+        <div class="type-sample reveal reveal-delay-3">
+          <p class="type-label">Comfortaa -- Soft Display</p>
+          <p class="type-comfortaa">suspended in infinite space</p>
+        </div>
+
+        <div class="type-sample reveal reveal-delay-4">
+          <p class="type-label">Orbitron -- Technical Display</p>
+          <p class="type-orbitron">Render Engine v2.0 Initialized</p>
+        </div>
+
+        <div class="type-sample reveal reveal-delay-5">
+          <p class="type-label">Quicksand -- Labels &amp; Navigation</p>
+          <p class="type-quicksand">Chrome Materials &middot; Glass Surfaces &middot; Water Reflections &middot; Gradient Skies</p>
+        </div>
+
+        <div class="type-sample reveal reveal-delay-6">
+          <p class="type-label">Share Tech Mono -- Terminal / Metadata</p>
+          <p class="type-mono">SCENE: untitled_landscape_04.brz // RESOLUTION: 640x480 // RENDER_TIME: 47m 23s // POLYGONS: 12,847</p>
+        </div>
+
+        <div class="type-sample reveal reveal-delay-1">
+          <p class="type-label">Jost / Inter -- Body Text</p>
+          <p class="type-body">
+            The charm of Silicon Dreams lives in the synthetic, obviously computer-generated quality of its imagery.
+            Everything feels ray-traced and softly lit, with smooth gradient rendering and atmospheric perspective
+            that makes distant elements fade toward the horizon color.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       CSS TECHNIQUES
+       ========================================== -->
+  <section class="techniques-section">
+    <div class="section-wrapper">
+      <p class="section-label reveal">Implementation</p>
+      <h2 class="section-heading reveal reveal-delay-1">CSS Techniques</h2>
+      <hr class="sd-divider reveal reveal-delay-2">
+
+      <div class="techniques-gallery">
+        <div class="technique-demo reveal reveal-delay-1">
+          <div class="technique-preview demo-sky"></div>
+          <div class="technique-info">
+            <h3>Cool Sky Gradient</h3>
+            <p>The iconic Bryce 3D sky -- deep space at the top transitioning through indigo, blue, to bright horizon glow. Multiple color stops create atmospheric depth.</p>
+          </div>
+        </div>
+
+        <div class="technique-demo reveal reveal-delay-2">
+          <div class="technique-preview demo-sunset"></div>
+          <div class="technique-info">
+            <h3>Sunset Gradient</h3>
+            <p>Warm variant transitioning from void through purple, magenta, and orange to golden amber. The dual-temperature palette provides focal warmth.</p>
+          </div>
+        </div>
+
+        <div class="technique-demo reveal reveal-delay-3">
+          <div class="technique-preview demo-chrome-scene"></div>
+          <div class="technique-info">
+            <h3>Chrome Sphere</h3>
+            <p>Radial gradient with sharp highlight placement at 35% 30%, transitioning from peak white through silver to deep shadow. Floating animation adds dreaminess.</p>
+          </div>
+        </div>
+
+        <div class="technique-demo reveal reveal-delay-4">
+          <div class="technique-preview demo-checkerboard"></div>
+          <div class="technique-info">
+            <h3>Checkerboard Floor</h3>
+            <p>Repeating conic gradient with perspective transform and rotateX -- the classic ray-tracing demo floor extending to the vanishing point.</p>
+          </div>
+        </div>
+
+        <div class="technique-demo reveal reveal-delay-5">
+          <div class="technique-preview demo-glass-scene"></div>
+          <div class="technique-info">
+            <h3>Glass Panel</h3>
+            <p>Frosted glass via backdrop-filter blur with semi-transparent tinted background and subtle luminous border. The dome material translated to UI.</p>
+          </div>
+        </div>
+
+        <div class="technique-demo reveal reveal-delay-6">
+          <div class="technique-preview demo-water-scene"></div>
+          <div class="technique-info">
+            <h3>Water Reflection</h3>
+            <p>Mirrored gradient creating a horizon line with bright band. The upper half represents sky, the lower half simulates still, reflective water.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       MATERIALS TABLE
+       ========================================== -->
+  <section class="materials-section">
+    <div class="section-wrapper">
+      <p class="section-label reveal">Translation Guide</p>
+      <h2 class="section-heading reveal reveal-delay-1">Materials &amp; Textures</h2>
+      <hr class="sd-divider reveal reveal-delay-2">
+
+      <div class="materials-table-wrapper reveal reveal-delay-3">
+        <table class="materials-table">
+          <thead>
+            <tr>
+              <th>Physical Reference</th>
+              <th>Web Equivalent</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Bryce 3D Sky</td>
+              <td>Multi-stop linear-gradient from deep indigo through blue to bright horizon</td>
+            </tr>
+            <tr>
+              <td>Reflective Water</td>
+              <td>Semi-transparent overlay with linear-gradient and mask-image fade</td>
+            </tr>
+            <tr>
+              <td>Chrome Sphere</td>
+              <td>Radial-gradient with sharp highlight and dark edges on circular element</td>
+            </tr>
+            <tr>
+              <td>Checkerboard Floor</td>
+              <td>Repeating-conic-gradient with perspective and rotateX transform</td>
+            </tr>
+            <tr>
+              <td>Glass Dome</td>
+              <td>Backdrop-filter blur with semi-transparent tinted background and subtle border</td>
+            </tr>
+            <tr>
+              <td>Atmospheric Haze</td>
+              <td>Blurred radial-gradient elements with filter: blur(), low opacity</td>
+            </tr>
+            <tr>
+              <td>Sunset Horizon</td>
+              <td>Horizontal linear-gradient band with warm colors and soft box-shadow</td>
+            </tr>
+            <tr>
+              <td>Gold Metallic</td>
+              <td>Multi-stop linear-gradient with alternating gold tones</td>
+            </tr>
+            <tr>
+              <td>Floating Shapes</td>
+              <td>Border-radius elements with chrome radial-gradient and float animation</td>
+            </tr>
+            <tr>
+              <td>Low-Poly Surface</td>
+              <td>Faceted look via clip-path on decorative elements or angular border-radius</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       RELATED AESTHETICS
+       ========================================== -->
+  <section class="related-section">
+    <div class="section-wrapper">
+      <p class="section-label reveal">Aesthetic Family</p>
+      <h2 class="section-heading reveal reveal-delay-1">Related Aesthetics</h2>
+      <hr class="sd-divider reveal reveal-delay-2">
+
+      <div class="sd-glass-panel reveal reveal-delay-3" style="margin-bottom: 2rem;">
+        <p style="font-family: 'Jost', sans-serif; font-size: 0.92rem; font-weight: 300; line-height: 1.7; color: var(--sd-chrome-bright); text-align: center; max-width: 650px; margin: 0 auto;">
+          Silicon Dreams is the visual DNA behind Vaporwave and Seapunk nostalgia.
+          It connects to a web of related aesthetics through shared materials, era, and sensibility.
+        </p>
+      </div>
+
+      <div class="related-grid">
+        <div class="related-tag reveal reveal-delay-1">
+          <div class="related-dot" style="background: #CC88DD;"></div>
+          <div>
+            <div class="related-tag-name">Vaporwave</div>
+            <div class="related-tag-desc">2010s revival with ironic/nostalgic undertones</div>
+          </div>
+        </div>
+
+        <div class="related-tag reveal reveal-delay-2">
+          <div class="related-dot" style="background: #44BBCC;"></div>
+          <div>
+            <div class="related-tag-name">Seapunk</div>
+            <div class="related-tag-desc">Chrome, water, CG with aquatic/ocean theme</div>
+          </div>
+        </div>
+
+        <div class="related-tag reveal reveal-delay-3">
+          <div class="related-dot" style="background: #C8C8D0;"></div>
+          <div>
+            <div class="related-tag-name">Y2K Futurism</div>
+            <div class="related-tag-desc">Chrome-and-glass, technological utopianism</div>
+          </div>
+        </div>
+
+        <div class="related-tag reveal reveal-delay-4">
+          <div class="related-dot" style="background: #88AA66;"></div>
+          <div>
+            <div class="related-tag-name">Low Poly</div>
+            <div class="related-tag-desc">Polygon-count limitations as defining feature</div>
+          </div>
+        </div>
+
+        <div class="related-tag reveal reveal-delay-5">
+          <div class="related-dot" style="background: #FF4466;"></div>
+          <div>
+            <div class="related-tag-name">Laser Grid</div>
+            <div class="related-tag-desc">Wireframe and neon-on-black, shared CG origins</div>
+          </div>
+        </div>
+
+        <div class="related-tag reveal reveal-delay-6">
+          <div class="related-dot" style="background: #66CCAA;"></div>
+          <div>
+            <div class="related-tag-name">Frutiger Aero</div>
+            <div class="related-tag-desc">Spiritual successor -- CGI matured past primitive charm</div>
+          </div>
+        </div>
+
+        <div class="related-tag reveal reveal-delay-1">
+          <div class="related-dot" style="background: #BB88CC;"></div>
+          <div>
+            <div class="related-tag-name">Dreamcore</div>
+            <div class="related-tag-desc">Surreal, uncanny, dream-like quality of environments</div>
+          </div>
+        </div>
+
+        <div class="related-tag reveal reveal-delay-2">
+          <div class="related-dot" style="background: #DDAA44;"></div>
+          <div>
+            <div class="related-tag-name">Memphis Design</div>
+            <div class="related-tag-desc">Contemporary influence on playful geometric forms</div>
+          </div>
+        </div>
+
+        <div class="related-tag reveal reveal-delay-3">
+          <div class="related-dot" style="background: #FF6688;"></div>
+          <div>
+            <div class="related-tag-name">Synthwave</div>
+            <div class="related-tag-desc">Retro-tech nostalgia, chrome, neon-focused</div>
+          </div>
+        </div>
+
+        <div class="related-tag reveal reveal-delay-4">
+          <div class="related-dot" style="background: #AAAACC;"></div>
+          <div>
+            <div class="related-tag-name">Metalheart</div>
+            <div class="related-tag-desc">Chrome and metallic surface obsession</div>
+          </div>
+        </div>
+
+        <div class="related-tag reveal reveal-delay-5">
+          <div class="related-dot" style="background: #88AADD;"></div>
+          <div>
+            <div class="related-tag-name">Early Cyber</div>
+            <div class="related-tag-desc">Raw digital experimentation, 2D manipulation era</div>
+          </div>
+        </div>
+
+        <div class="related-tag reveal reveal-delay-6">
+          <div class="related-dot" style="background: #CC7788;"></div>
+          <div>
+            <div class="related-tag-name">Weirdcore</div>
+            <div class="related-tag-desc">Surreal, unsettling digital imagery</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       FOOTER
+       ========================================== -->
+  <footer class="footer-section">
+    <div class="section-wrapper">
+      <p class="footer-chrome-text reveal">Render Complete</p>
+      <p class="footer-tagline reveal reveal-delay-1">A world of vast empty horizons, impossible architecture, and smooth synthetic materials</p>
+      <hr class="sd-divider reveal reveal-delay-2" style="margin-bottom: 2rem;">
+      <p class="footer-meta reveal reveal-delay-3">
+        SILICON DREAMS DESIGN REFERENCE &middot; AESTHETIC CATALOGUE &middot; ALL GRADIENTS RAY-TRACED AT 640x480
+      </p>
+    </div>
+  </footer>
+
+  <!-- ==========================================
+       JAVASCRIPT -- Stars + Scroll Reveal
+       ========================================== -->
+  <script>
+    // Generate procedural stars in the hero section
+    (function generateStars() {
+      var container = document.getElementById('stars');
+      if (!container) return;
+      var count = 80;
+      for (var i = 0; i < count; i++) {
+        var star = document.createElement('div');
+        star.className = 'star';
+        star.style.left = (Math.random() * 100) + '%';
+        star.style.top = (Math.random() * 100) + '%';
+        star.style.width = (Math.random() * 2 + 1) + 'px';
+        star.style.height = star.style.width;
+        star.style.animationDuration = (Math.random() * 4 + 2) + 's';
+        star.style.animationDelay = (Math.random() * 4) + 's';
+        star.style.opacity = Math.random() * 0.5 + 0.2;
+        container.appendChild(star);
+      }
+    })();
+
+    // Intersection Observer for scroll-triggered reveal animations
+    (function scrollReveal() {
+      var reveals = document.querySelectorAll('.reveal');
+      if (!reveals.length) return;
+
+      if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function(entries) {
+          entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('visible');
+              observer.unobserve(entry.target);
+            }
+          });
+        }, {
+          threshold: 0.1,
+          rootMargin: '0px 0px -40px 0px'
+        });
+
+        reveals.forEach(function(el) {
+          observer.observe(el);
+        });
+      } else {
+        // Fallback: show all immediately
+        reveals.forEach(function(el) {
+          el.classList.add('visible');
+        });
+      }
+    })();
+  </script>
+</body>
+</html>
