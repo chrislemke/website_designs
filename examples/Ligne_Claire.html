@@ -1,0 +1,2027 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ligne Claire -- The Art of the Clear Line</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;500;600;700&family=Bangers&display=swap" rel="stylesheet">
+  <style>
+    /* ============================================================
+       CSS CUSTOM PROPERTIES -- Ligne Claire Palette
+       ============================================================ */
+    :root {
+      /* Primary palette */
+      --lc-blue: #3b7dd8;
+      --lc-red: #d42b2b;
+      --lc-yellow: #f5c842;
+      --lc-green: #4aa84e;
+      --lc-orange: #e87d2f;
+      --lc-brown: #6b3a2a;
+
+      /* Neutrals */
+      --lc-cream: #faf5e8;
+      --lc-ink: #1a1a1a;
+      --lc-sand: #e8d5a3;
+      --lc-slate: #7a8b96;
+
+      /* Atmospheric */
+      --lc-cerulean: #7ab8e0;
+      --lc-mauve: #9c7bad;
+
+      /* Tinted backgrounds */
+      --lc-blue-tint: #e0ebf7;
+      --lc-red-tint: #f8e0e0;
+      --lc-yellow-tint: #fdf3d6;
+      --lc-green-tint: #dff0df;
+
+      /* Page surfaces */
+      --lc-bg-page: #faf5e8;
+      --lc-bg-panel: #ffffff;
+      --lc-bg-muted: #f2ece0;
+
+      /* Text */
+      --lc-text-primary: #1a1a1a;
+      --lc-text-secondary: #5a5245;
+      --lc-text-caption: #7a8b96;
+
+      /* Outline -- the defining element */
+      --lc-outline: #1a1a1a;
+      --lc-outline-width: 2px;
+    }
+
+    /* ============================================================
+       RESET & BASE
+       ============================================================ */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--lc-bg-page);
+      color: var(--lc-text-primary);
+      font-family: 'Nunito', sans-serif;
+      font-weight: 400;
+      font-size: 1rem;
+      line-height: 1.75;
+      overflow-x: hidden;
+    }
+
+    img, svg {
+      display: block;
+      max-width: 100%;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    /* ============================================================
+       TYPOGRAPHY
+       ============================================================ */
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'Fredoka', sans-serif;
+      font-weight: 600;
+      color: var(--lc-text-primary);
+      line-height: 1.2;
+      letter-spacing: 0.01em;
+      text-transform: uppercase;
+    }
+
+    .lc-display {
+      font-family: 'Bangers', 'Fredoka', sans-serif;
+      font-size: clamp(3rem, 7vw, 6rem);
+      font-weight: 400;
+      letter-spacing: 0.04em;
+      line-height: 1.05;
+      text-transform: uppercase;
+    }
+
+    .lc-caption {
+      font-family: 'Nunito', sans-serif;
+      font-weight: 600;
+      font-size: 0.8rem;
+      color: var(--lc-text-caption);
+      line-height: 1.5;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    /* ============================================================
+       UTILITY
+       ============================================================ */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding-left: 40px;
+      padding-right: 40px;
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: clamp(1.6rem, 3vw, 2.4rem);
+      margin-bottom: 12px;
+    }
+
+    .section-subtitle {
+      text-align: center;
+      font-size: 1.05rem;
+      color: var(--lc-text-secondary);
+      max-width: 600px;
+      margin: 0 auto 48px;
+    }
+
+    /* ============================================================
+       ANIMATIONS
+       ============================================================ */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(24px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes drawLine {
+      from { stroke-dashoffset: 1000; }
+      to { stroke-dashoffset: 0; }
+    }
+
+    @keyframes slideInLeft {
+      from {
+        opacity: 0;
+        transform: translateX(-40px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes slideInRight {
+      from {
+        opacity: 0;
+        transform: translateX(40px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes popIn {
+      0% {
+        opacity: 0;
+        transform: scale(0.8);
+      }
+      70% {
+        transform: scale(1.05);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    @keyframes floatSlow {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    @keyframes sunPulse {
+      0%, 100% { r: 22; }
+      50% { r: 25; }
+    }
+
+    .animate-on-scroll {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .animate-on-scroll.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Stagger delays for children */
+    .stagger-1 { transition-delay: 0.1s; }
+    .stagger-2 { transition-delay: 0.2s; }
+    .stagger-3 { transition-delay: 0.3s; }
+    .stagger-4 { transition-delay: 0.4s; }
+    .stagger-5 { transition-delay: 0.5s; }
+    .stagger-6 { transition-delay: 0.6s; }
+
+    /* ============================================================
+       NAVIGATION
+       ============================================================ */
+    .lc-nav-wrapper {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--lc-bg-page);
+      border-bottom: var(--lc-outline-width) solid var(--lc-outline);
+    }
+
+    .lc-nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 16px 40px;
+    }
+
+    .lc-nav__logo {
+      font-family: 'Bangers', sans-serif;
+      font-weight: 400;
+      font-size: 1.8rem;
+      color: var(--lc-text-primary);
+      text-decoration: none;
+      letter-spacing: 0.05em;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .lc-nav__logo-dot {
+      width: 14px;
+      height: 14px;
+      background: var(--lc-red);
+      border: var(--lc-outline-width) solid var(--lc-outline);
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    .lc-nav__links {
+      display: flex;
+      gap: 28px;
+      list-style: none;
+    }
+
+    .lc-nav__links a {
+      font-family: 'Nunito', sans-serif;
+      font-weight: 600;
+      font-size: 0.85rem;
+      color: var(--lc-text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      padding: 4px 0;
+      border-bottom: 2px solid transparent;
+      transition: color 0.15s ease, border-color 0.15s ease;
+    }
+
+    .lc-nav__links a:hover {
+      color: var(--lc-blue);
+      border-bottom-color: var(--lc-blue);
+    }
+
+    .lc-nav__hamburger {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 8px;
+    }
+
+    .lc-nav__hamburger span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--lc-ink);
+      margin: 5px 0;
+      transition: transform 0.3s ease;
+    }
+
+    /* ============================================================
+       HERO SECTION
+       ============================================================ */
+    .lc-hero {
+      border-bottom: var(--lc-outline-width) solid var(--lc-outline);
+      overflow: hidden;
+    }
+
+    .lc-hero__inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 72px 40px 60px;
+      gap: 48px;
+    }
+
+    .lc-hero__content {
+      flex: 1;
+      max-width: 520px;
+      animation: slideInLeft 0.8s ease both;
+    }
+
+    .lc-hero__badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 5px 14px;
+      background: var(--lc-yellow);
+      color: var(--lc-text-primary);
+      border: var(--lc-outline-width) solid var(--lc-outline);
+      border-radius: 3px;
+      font-family: 'Fredoka', sans-serif;
+      font-weight: 600;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 20px;
+    }
+
+    .lc-hero__title {
+      margin-bottom: 20px;
+      color: var(--lc-text-primary);
+    }
+
+    .lc-hero__title .accent-blue { color: var(--lc-blue); }
+    .lc-hero__title .accent-red { color: var(--lc-red); }
+
+    .lc-hero__desc {
+      font-size: 1.1rem;
+      color: var(--lc-text-secondary);
+      margin-bottom: 32px;
+      line-height: 1.8;
+      max-width: 460px;
+    }
+
+    .lc-hero__actions {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .lc-hero__visual {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      animation: slideInRight 0.8s ease 0.2s both;
+    }
+
+    .lc-hero__illustration {
+      width: 100%;
+      max-width: 500px;
+    }
+
+    .lc-hero__illustration svg {
+      width: 100%;
+      height: auto;
+    }
+
+    .hero-cloud {
+      animation: floatSlow 4s ease-in-out infinite;
+    }
+
+    .hero-cloud-2 {
+      animation: floatSlow 5s ease-in-out 1s infinite;
+    }
+
+    .hero-sun {
+      animation: sunPulse 3s ease-in-out infinite;
+    }
+
+    /* ============================================================
+       BUTTONS
+       ============================================================ */
+    .lc-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: var(--lc-blue);
+      color: #ffffff;
+      border: var(--lc-outline-width) solid var(--lc-outline);
+      border-radius: 4px;
+      padding: 13px 32px;
+      font-family: 'Fredoka', sans-serif;
+      font-weight: 600;
+      font-size: 0.92rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      cursor: pointer;
+      transition: background 0.15s ease, transform 0.1s ease;
+      text-decoration: none;
+      position: relative;
+    }
+
+    .lc-button:hover {
+      background: var(--lc-cerulean);
+    }
+
+    .lc-button:active {
+      transform: scale(0.97);
+    }
+
+    .lc-button--red { background: var(--lc-red); }
+    .lc-button--red:hover { background: #b02323; }
+
+    .lc-button--yellow {
+      background: var(--lc-yellow);
+      color: var(--lc-text-primary);
+    }
+    .lc-button--yellow:hover { background: #e0b53a; }
+
+    .lc-button--ghost {
+      background: transparent;
+      color: var(--lc-text-primary);
+    }
+    .lc-button--ghost:hover { background: var(--lc-bg-muted); }
+
+    /* ============================================================
+       INTRODUCTION -- SPEECH BUBBLE SECTION
+       ============================================================ */
+    .lc-intro {
+      padding: 80px 0;
+      border-bottom: var(--lc-outline-width) solid var(--lc-outline);
+      background: var(--lc-bg-muted);
+    }
+
+    .lc-intro__inner {
+      display: flex;
+      align-items: center;
+      gap: 48px;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 40px;
+    }
+
+    .lc-intro__quote-area {
+      flex: 0 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .lc-speech-bubble {
+      position: relative;
+      background: var(--lc-bg-panel);
+      border: var(--lc-outline-width) solid var(--lc-outline);
+      border-radius: 24px;
+      padding: 28px 36px;
+      font-family: 'Fredoka', sans-serif;
+      font-weight: 500;
+      font-size: 1.15rem;
+      text-align: center;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+      line-height: 1.5;
+      max-width: 340px;
+    }
+
+    .lc-speech-bubble::after {
+      content: '';
+      position: absolute;
+      bottom: -16px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 0;
+      border-left: 12px solid transparent;
+      border-right: 12px solid transparent;
+      border-top: 16px solid var(--lc-bg-panel);
+    }
+
+    .lc-speech-bubble::before {
+      content: '';
+      position: absolute;
+      bottom: -19px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 0;
+      border-left: 14px solid transparent;
+      border-right: 14px solid transparent;
+      border-top: 18px solid var(--lc-outline);
+    }
+
+    .lc-speech-bubble .accent { color: var(--lc-red); }
+
+    .lc-intro__attribution {
+      margin-top: 28px;
+      font-family: 'Fredoka', sans-serif;
+      font-weight: 600;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--lc-text-secondary);
+    }
+
+    .lc-intro__text {
+      flex: 1;
+    }
+
+    .lc-intro__text h2 {
+      font-size: clamp(1.5rem, 2.5vw, 2rem);
+      margin-bottom: 16px;
+    }
+
+    .lc-intro__text p {
+      color: var(--lc-text-secondary);
+      font-size: 1.02rem;
+      margin-bottom: 16px;
+      line-height: 1.8;
+    }
+
+    .lc-intro__text p:last-child {
+      margin-bottom: 0;
+    }
+
+    /* ============================================================
+       CORE TRAITS -- COMIC STRIP ROW
+       ============================================================ */
+    .lc-traits {
+      padding: 80px 0;
+      border-bottom: var(--lc-outline-width) solid var(--lc-outline);
+    }
+
+    .lc-strip {
+      display: flex;
+      border: var(--lc-outline-width) solid var(--lc-outline);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .lc-strip__cell {
+      flex: 1;
+      padding: 32px 20px;
+      text-align: center;
+      border-right: var(--lc-outline-width) solid var(--lc-outline);
+      transition: background 0.2s ease;
+    }
+
+    .lc-strip__cell:last-child {
+      border-right: none;
+    }
+
+    .lc-strip__cell:hover {
+      background: var(--lc-yellow-tint);
+    }
+
+    .lc-strip__icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      border: var(--lc-outline-width) solid var(--lc-outline);
+      margin: 0 auto 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .lc-strip__cell h3 {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+      letter-spacing: 0.02em;
+    }
+
+    .lc-strip__cell p {
+      font-size: 0.88rem;
+      color: var(--lc-text-secondary);
+      line-height: 1.6;
+    }
+
+    /* ============================================================
+       DESIGN PRINCIPLES -- PANEL GRID
+       ============================================================ */
+    .lc-principles {
+      padding: 80px 0;
+      background: var(--lc-bg-panel);
+      border-bottom: var(--lc-outline-width) solid var(--lc-outline);
+    }
+
+    .lc-panel-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 20px;
+    }
+
+    .lc-panel {
+      background: var(--lc-bg-panel);
+      border: var(--lc-outline-width) solid var(--lc-outline);
+      border-radius: 4px;
+      padding: 0;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.2s ease;
+    }
+
+    .lc-panel:hover {
+      transform: translateY(-3px);
+    }
+
+    .lc-panel__header {
+      padding: 14px 24px;
+      border-bottom: var(--lc-outline-width) solid var(--lc-outline);
+      font-family: 'Fredoka', sans-serif;
+      font-weight: 600;
+      font-size: 0.95rem;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .lc-panel__header-num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      border: 2px solid #ffffff;
+      font-size: 0.8rem;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .lc-panel__body {
+      padding: 24px;
+    }
+
+    .lc-panel__body p {
+      font-size: 0.95rem;
+      color: var(--lc-text-secondary);
+      line-height: 1.75;
+    }
+
+    /* ============================================================
+       COLOR PALETTE SECTION
+       ============================================================ */
+    .lc-palette-section {
+      padding: 80px 0;
+      border-bottom: var(--lc-outline-width) solid var(--lc-outline);
+      background: var(--lc-bg-page);
+    }
+
+    .lc-palette-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 16px;
+    }
+
+    .lc-swatch {
+      border: var(--lc-outline-width) solid var(--lc-outline);
+      border-radius: 4px;
+      overflow: hidden;
+      transition: transform 0.2s ease;
+      background: var(--lc-bg-panel);
+    }
+
+    .lc-swatch:hover {
+      transform: scale(1.04);
+    }
+
+    .lc-swatch__color {
+      height: 80px;
+      border-bottom: var(--lc-outline-width) solid var(--lc-outline);
+    }
+
+    .lc-swatch__info {
+      padding: 12px 14px;
+    }
+
+    .lc-swatch__name {
+      font-family: 'Fredoka', sans-serif;
+      font-weight: 600;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      margin-bottom: 2px;
+    }
+
+    .lc-swatch__hex {
+      font-family: 'Nunito', sans-serif;
+      font-weight: 400;
+      font-size: 0.75rem;
+      color: var(--lc-text-caption);
+      letter-spacing: 0.02em;
+    }
+
+    /* ============================================================
+       TYPOGRAPHY SHOWCASE
+       ============================================================ */
+    .lc-typography {
+      padding: 80px 0;
+      background: var(--lc-bg-muted);
+      border-bottom: var(--lc-outline-width) solid var(--lc-outline);
+    }
+
+    .lc-type-showcase {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .lc-type-card {
+      border: var(--lc-outline-width) solid var(--lc-outline);
+      border-radius: 4px;
+      background: var(--lc-bg-panel);
+      padding: 32px;
+    }
+
+    .lc-type-card__label {
+      font-family: 'Nunito', sans-serif;
+      font-weight: 600;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--lc-text-caption);
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--lc-sand);
+    }
+
+    .lc-type-card--display .lc-type-card__sample {
+      font-family: 'Bangers', sans-serif;
+      font-size: 3.5rem;
+      letter-spacing: 0.04em;
+      line-height: 1.1;
+      color: var(--lc-text-primary);
+    }
+
+    .lc-type-card--heading .lc-type-card__sample {
+      font-family: 'Fredoka', sans-serif;
+      font-weight: 600;
+      font-size: 2rem;
+      text-transform: uppercase;
+      letter-spacing: 0.01em;
+      line-height: 1.2;
+    }
+
+    .lc-type-card--body .lc-type-card__sample {
+      font-family: 'Nunito', sans-serif;
+      font-weight: 400;
+      font-size: 1.05rem;
+      line-height: 1.8;
+      color: var(--lc-text-secondary);
+    }
+
+    .lc-type-card--caption .lc-type-card__sample {
+      font-family: 'Nunito', sans-serif;
+      font-weight: 600;
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--lc-text-caption);
+      line-height: 1.5;
+    }
+
+    .lc-type-card__meta {
+      margin-top: 16px;
+      font-size: 0.75rem;
+      color: var(--lc-text-caption);
+      font-family: 'Nunito', sans-serif;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    /* ============================================================
+       DO'S AND DON'TS
+       ============================================================ */
+    .lc-dos-donts {
+      padding: 80px 0;
+      border-bottom: var(--lc-outline-width) solid var(--lc-outline);
+    }
+
+    .lc-dos-donts__grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .lc-rule-card {
+      border: var(--lc-outline-width) solid var(--lc-outline);
+      border-radius: 4px;
+      overflow: hidden;
+      background: var(--lc-bg-panel);
+    }
+
+    .lc-rule-card__header {
+      padding: 14px 24px;
+      border-bottom: var(--lc-outline-width) solid var(--lc-outline);
+      font-family: 'Fredoka', sans-serif;
+      font-weight: 600;
+      font-size: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .lc-rule-card__header--do { background: var(--lc-green); }
+    .lc-rule-card__header--dont { background: var(--lc-red); }
+
+    .lc-rule-card__body {
+      padding: 24px;
+    }
+
+    .lc-rule-card__body ul {
+      list-style: none;
+    }
+
+    .lc-rule-card__body li {
+      padding: 8px 0;
+      padding-left: 28px;
+      position: relative;
+      font-size: 0.92rem;
+      color: var(--lc-text-secondary);
+      border-bottom: 1px solid var(--lc-bg-muted);
+      line-height: 1.6;
+    }
+
+    .lc-rule-card__body li:last-child {
+      border-bottom: none;
+    }
+
+    .lc-rule-card__body li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 14px;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      border: var(--lc-outline-width) solid var(--lc-outline);
+    }
+
+    .lc-rule-card__header--do + .lc-rule-card__body li::before {
+      background: var(--lc-green-tint);
+    }
+
+    .lc-rule-card__header--dont + .lc-rule-card__body li::before {
+      background: var(--lc-red-tint);
+    }
+
+    /* ============================================================
+       RELATED AESTHETICS
+       ============================================================ */
+    .lc-related {
+      padding: 80px 0;
+      background: var(--lc-bg-panel);
+      border-bottom: var(--lc-outline-width) solid var(--lc-outline);
+    }
+
+    .lc-related__scroll {
+      display: flex;
+      gap: 16px;
+      overflow-x: auto;
+      padding-bottom: 8px;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: thin;
+      scrollbar-color: var(--lc-sand) transparent;
+    }
+
+    .lc-related__scroll::-webkit-scrollbar {
+      height: 6px;
+    }
+
+    .lc-related__scroll::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .lc-related__scroll::-webkit-scrollbar-thumb {
+      background: var(--lc-sand);
+      border-radius: 3px;
+    }
+
+    .lc-related-card {
+      flex: 0 0 260px;
+      border: var(--lc-outline-width) solid var(--lc-outline);
+      border-radius: 4px;
+      overflow: hidden;
+      background: var(--lc-bg-panel);
+      transition: transform 0.2s ease;
+    }
+
+    .lc-related-card:hover {
+      transform: translateY(-3px);
+    }
+
+    .lc-related-card__color {
+      height: 8px;
+    }
+
+    .lc-related-card__body {
+      padding: 20px;
+    }
+
+    .lc-related-card__name {
+      font-family: 'Fredoka', sans-serif;
+      font-weight: 600;
+      font-size: 0.92rem;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+      margin-bottom: 8px;
+    }
+
+    .lc-related-card__desc {
+      font-size: 0.85rem;
+      color: var(--lc-text-secondary);
+      line-height: 1.6;
+    }
+
+    /* ============================================================
+       CTA / CALLOUT SECTION
+       ============================================================ */
+    .lc-cta {
+      background: var(--lc-blue);
+      color: #ffffff;
+      text-align: center;
+      padding: 72px 40px;
+      border-bottom: var(--lc-outline-width) solid var(--lc-outline);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .lc-cta h2 {
+      color: #ffffff;
+      font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+      margin-bottom: 16px;
+    }
+
+    .lc-cta p {
+      font-size: 1.1rem;
+      opacity: 0.92;
+      margin-bottom: 32px;
+      max-width: 560px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .lc-cta .lc-button--yellow { margin: 0; }
+
+    .lc-cta__decor {
+      position: absolute;
+      opacity: 0.12;
+    }
+
+    .lc-cta__decor--left {
+      top: -20px;
+      left: -40px;
+    }
+
+    .lc-cta__decor--right {
+      bottom: -30px;
+      right: -30px;
+    }
+
+    /* ============================================================
+       COMPONENT SHOWCASE
+       ============================================================ */
+    .lc-components {
+      padding: 80px 0;
+      background: var(--lc-bg-muted);
+      border-bottom: var(--lc-outline-width) solid var(--lc-outline);
+    }
+
+    .lc-component-row {
+      display: flex;
+      gap: 20px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    .lc-component-box {
+      flex: 1;
+      min-width: 280px;
+      border: var(--lc-outline-width) solid var(--lc-outline);
+      border-radius: 4px;
+      background: var(--lc-bg-panel);
+      overflow: hidden;
+    }
+
+    .lc-component-box__title {
+      padding: 12px 20px;
+      background: var(--lc-bg-muted);
+      border-bottom: var(--lc-outline-width) solid var(--lc-outline);
+      font-family: 'Fredoka', sans-serif;
+      font-weight: 600;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--lc-text-caption);
+    }
+
+    .lc-component-box__content {
+      padding: 28px 24px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .lc-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 4px 14px;
+      border: var(--lc-outline-width) solid var(--lc-outline);
+      border-radius: 3px;
+      font-family: 'Fredoka', sans-serif;
+      font-weight: 600;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .lc-input {
+      width: 100%;
+      padding: 12px 16px;
+      border: var(--lc-outline-width) solid var(--lc-outline);
+      border-radius: 4px;
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.95rem;
+      color: var(--lc-text-primary);
+      background: var(--lc-bg-panel);
+      transition: border-color 0.15s ease;
+      outline: none;
+    }
+
+    .lc-input:focus {
+      border-color: var(--lc-blue);
+    }
+
+    .lc-input::placeholder {
+      color: var(--lc-text-caption);
+    }
+
+    /* ============================================================
+       FOOTER
+       ============================================================ */
+    .lc-footer {
+      background: var(--lc-ink);
+      color: var(--lc-sand);
+      border-top: 4px solid var(--lc-red);
+    }
+
+    .lc-footer__inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 48px 40px 32px;
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 40px;
+    }
+
+    .lc-footer__brand {
+      font-family: 'Bangers', sans-serif;
+      font-size: 1.6rem;
+      letter-spacing: 0.04em;
+      color: var(--lc-cream);
+      margin-bottom: 12px;
+    }
+
+    .lc-footer__desc {
+      font-size: 0.9rem;
+      color: var(--lc-slate);
+      line-height: 1.7;
+    }
+
+    .lc-footer__col-title {
+      font-family: 'Fredoka', sans-serif;
+      font-weight: 600;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--lc-cream);
+      margin-bottom: 16px;
+    }
+
+    .lc-footer__links {
+      list-style: none;
+    }
+
+    .lc-footer__links li {
+      margin-bottom: 8px;
+    }
+
+    .lc-footer__links a {
+      font-size: 0.88rem;
+      color: var(--lc-slate);
+      transition: color 0.15s ease;
+    }
+
+    .lc-footer__links a:hover {
+      color: var(--lc-cerulean);
+    }
+
+    .lc-footer__bottom {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px 40px;
+      border-top: 1px solid #333;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.8rem;
+      color: var(--lc-slate);
+    }
+
+    .lc-footer__palette {
+      display: flex;
+      gap: 6px;
+    }
+
+    .lc-footer__palette-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      border: 1px solid #444;
+    }
+
+    /* ============================================================
+       RESPONSIVE
+       ============================================================ */
+    @media (max-width: 900px) {
+      .lc-footer__inner {
+        grid-template-columns: 1fr 1fr;
+        gap: 32px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        padding-left: 20px;
+        padding-right: 20px;
+      }
+
+      .lc-nav {
+        padding: 14px 20px;
+      }
+
+      .lc-nav__links {
+        display: none;
+      }
+
+      .lc-nav__hamburger {
+        display: block;
+      }
+
+      .lc-nav__links.open {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: var(--lc-bg-page);
+        border-bottom: var(--lc-outline-width) solid var(--lc-outline);
+        padding: 16px 20px;
+        gap: 16px;
+        z-index: 99;
+      }
+
+      .lc-hero__inner {
+        flex-direction: column-reverse;
+        text-align: center;
+        padding: 40px 20px;
+        gap: 32px;
+      }
+
+      .lc-hero__content {
+        max-width: 100%;
+      }
+
+      .lc-hero__desc {
+        max-width: 100%;
+      }
+
+      .lc-hero__actions {
+        justify-content: center;
+      }
+
+      .lc-intro__inner {
+        flex-direction: column;
+        padding: 0 20px;
+        text-align: center;
+      }
+
+      .lc-strip {
+        flex-direction: column;
+      }
+
+      .lc-strip__cell {
+        border-right: none;
+        border-bottom: var(--lc-outline-width) solid var(--lc-outline);
+      }
+
+      .lc-strip__cell:last-child {
+        border-bottom: none;
+      }
+
+      .lc-panel-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .lc-type-showcase {
+        grid-template-columns: 1fr;
+      }
+
+      .lc-dos-donts__grid {
+        grid-template-columns: 1fr;
+      }
+
+      .lc-footer__inner {
+        grid-template-columns: 1fr;
+        gap: 28px;
+      }
+
+      .lc-footer__bottom {
+        flex-direction: column;
+        gap: 12px;
+        text-align: center;
+      }
+
+      .lc-cta {
+        padding: 52px 20px;
+      }
+
+      .lc-type-card--display .lc-type-card__sample {
+        font-size: 2.5rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .lc-hero__actions {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .lc-component-row {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================================
+       NAVIGATION
+       ============================================================ -->
+  <header class="lc-nav-wrapper">
+    <nav class="lc-nav">
+      <a href="#" class="lc-nav__logo">
+        <span class="lc-nav__logo-dot"></span>
+        Ligne Claire
+      </a>
+      <ul class="lc-nav__links" id="navLinks">
+        <li><a href="#origins">Origins</a></li>
+        <li><a href="#traits">Traits</a></li>
+        <li><a href="#principles">Principles</a></li>
+        <li><a href="#palette">Palette</a></li>
+        <li><a href="#typography">Typography</a></li>
+        <li><a href="#rules">Rules</a></li>
+      </ul>
+      <button class="lc-nav__hamburger" id="hamburger" aria-label="Toggle navigation">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </nav>
+  </header>
+
+  <!-- ============================================================
+       HERO
+       ============================================================ -->
+  <section class="lc-hero">
+    <div class="lc-hero__inner">
+      <div class="lc-hero__content">
+        <div class="lc-hero__badge">Design Aesthetic Reference</div>
+        <h1 class="lc-display">
+          The <span class="accent-blue">Clear</span> Line
+        </h1>
+        <p class="lc-hero__desc">
+          Ligne Claire -- French for "clear line" -- is an illustration and visual design aesthetic pioneered by Belgian cartoonist Herge, creator of The Adventures of Tintin. Defined by uniform-weight outlines, flat unmodulated color, and structured visual storytelling.
+        </p>
+        <div class="lc-hero__actions">
+          <a href="#traits" class="lc-button">Explore the Style</a>
+          <a href="#palette" class="lc-button lc-button--ghost">View Palette</a>
+        </div>
+      </div>
+      <div class="lc-hero__visual">
+        <div class="lc-hero__illustration">
+          <svg viewBox="0 0 500 380" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Sky -->
+            <rect width="500" height="380" rx="4" fill="#7AB8E0" stroke="#1a1a1a" stroke-width="2"/>
+            <!-- Sun -->
+            <circle class="hero-sun" cx="420" cy="55" r="22" fill="#F5C842" stroke="#1a1a1a" stroke-width="2"/>
+            <!-- Sun rays -->
+            <line x1="420" y1="25" x2="420" y2="18" stroke="#F5C842" stroke-width="2" stroke-linecap="round"/>
+            <line x1="420" y1="85" x2="420" y2="92" stroke="#F5C842" stroke-width="2" stroke-linecap="round"/>
+            <line x1="390" y1="55" x2="383" y2="55" stroke="#F5C842" stroke-width="2" stroke-linecap="round"/>
+            <line x1="450" y1="55" x2="457" y2="55" stroke="#F5C842" stroke-width="2" stroke-linecap="round"/>
+            <line x1="399" y1="34" x2="394" y2="29" stroke="#F5C842" stroke-width="2" stroke-linecap="round"/>
+            <line x1="441" y1="76" x2="446" y2="81" stroke="#F5C842" stroke-width="2" stroke-linecap="round"/>
+            <line x1="441" y1="34" x2="446" y2="29" stroke="#F5C842" stroke-width="2" stroke-linecap="round"/>
+            <line x1="399" y1="76" x2="394" y2="81" stroke="#F5C842" stroke-width="2" stroke-linecap="round"/>
+
+            <!-- Clouds -->
+            <g class="hero-cloud">
+              <ellipse cx="110" cy="55" rx="44" ry="20" fill="#FAF5E8" stroke="#1a1a1a" stroke-width="2"/>
+              <ellipse cx="86" cy="50" rx="28" ry="16" fill="#FAF5E8" stroke="#1a1a1a" stroke-width="2"/>
+              <ellipse cx="136" cy="50" rx="22" ry="14" fill="#FAF5E8" stroke="#1a1a1a" stroke-width="2"/>
+            </g>
+            <g class="hero-cloud-2">
+              <ellipse cx="320" cy="85" rx="36" ry="16" fill="#FAF5E8" stroke="#1a1a1a" stroke-width="2"/>
+              <ellipse cx="300" cy="80" rx="22" ry="12" fill="#FAF5E8" stroke="#1a1a1a" stroke-width="2"/>
+            </g>
+
+            <!-- Building 1 - Sand -->
+            <rect x="30" y="140" width="110" height="220" fill="#E8D5A3" stroke="#1a1a1a" stroke-width="2"/>
+            <!-- Roof detail -->
+            <rect x="28" y="130" width="114" height="14" fill="#6B3A2A" stroke="#1a1a1a" stroke-width="2"/>
+            <!-- Windows B1 -->
+            <rect x="46" y="155" width="28" height="36" rx="2" fill="#3B7DD8" stroke="#1a1a1a" stroke-width="2"/>
+            <line x1="60" y1="155" x2="60" y2="191" stroke="#1a1a1a" stroke-width="2"/>
+            <line x1="46" y1="173" x2="74" y2="173" stroke="#1a1a1a" stroke-width="2"/>
+            <rect x="96" y="155" width="28" height="36" rx="2" fill="#3B7DD8" stroke="#1a1a1a" stroke-width="2"/>
+            <line x1="110" y1="155" x2="110" y2="191" stroke="#1a1a1a" stroke-width="2"/>
+            <line x1="96" y1="173" x2="124" y2="173" stroke="#1a1a1a" stroke-width="2"/>
+            <rect x="46" y="215" width="28" height="36" rx="2" fill="#3B7DD8" stroke="#1a1a1a" stroke-width="2"/>
+            <line x1="60" y1="215" x2="60" y2="251" stroke="#1a1a1a" stroke-width="2"/>
+            <line x1="46" y1="233" x2="74" y2="233" stroke="#1a1a1a" stroke-width="2"/>
+            <rect x="96" y="215" width="28" height="36" rx="2" fill="#3B7DD8" stroke="#1a1a1a" stroke-width="2"/>
+            <line x1="110" y1="215" x2="110" y2="251" stroke="#1a1a1a" stroke-width="2"/>
+            <line x1="96" y1="233" x2="124" y2="233" stroke="#1a1a1a" stroke-width="2"/>
+            <!-- Door -->
+            <rect x="66" y="306" width="36" height="54" rx="2" fill="#6B3A2A" stroke="#1a1a1a" stroke-width="2"/>
+            <circle cx="95" cy="333" r="3" fill="#F5C842" stroke="#1a1a1a" stroke-width="1.5"/>
+
+            <!-- Building 2 - Red (tallest) -->
+            <rect x="160" y="80" width="100" height="280" fill="#D42B2B" stroke="#1a1a1a" stroke-width="2"/>
+            <!-- Roof detail -->
+            <rect x="158" y="70" width="104" height="14" fill="#1a1a1a" stroke="#1a1a1a" stroke-width="1"/>
+            <!-- Antenna -->
+            <line x1="210" y1="70" x2="210" y2="40" stroke="#1a1a1a" stroke-width="2"/>
+            <circle cx="210" cy="36" r="4" fill="#F5C842" stroke="#1a1a1a" stroke-width="2"/>
+            <!-- Windows B2 -->
+            <rect x="176" y="100" width="24" height="32" rx="2" fill="#F5C842" stroke="#1a1a1a" stroke-width="2"/>
+            <rect x="220" y="100" width="24" height="32" rx="2" fill="#F5C842" stroke="#1a1a1a" stroke-width="2"/>
+            <rect x="176" y="155" width="24" height="32" rx="2" fill="#F5C842" stroke="#1a1a1a" stroke-width="2"/>
+            <rect x="220" y="155" width="24" height="32" rx="2" fill="#F5C842" stroke="#1a1a1a" stroke-width="2"/>
+            <rect x="176" y="210" width="24" height="32" rx="2" fill="#F5C842" stroke="#1a1a1a" stroke-width="2"/>
+            <rect x="220" y="210" width="24" height="32" rx="2" fill="#F5C842" stroke="#1a1a1a" stroke-width="2"/>
+            <rect x="176" y="265" width="24" height="32" rx="2" fill="#F5C842" stroke="#1a1a1a" stroke-width="2"/>
+            <rect x="220" y="265" width="24" height="32" rx="2" fill="#F5C842" stroke="#1a1a1a" stroke-width="2"/>
+
+            <!-- Building 3 - Green -->
+            <rect x="280" y="165" width="100" height="195" fill="#4AA84E" stroke="#1a1a1a" stroke-width="2"/>
+            <!-- Roof -->
+            <polygon points="280,165 330,125 380,165" fill="#4AA84E" stroke="#1a1a1a" stroke-width="2"/>
+            <!-- Windows B3 -->
+            <rect x="296" y="185" width="24" height="30" rx="12" fill="#FAF5E8" stroke="#1a1a1a" stroke-width="2"/>
+            <rect x="340" y="185" width="24" height="30" rx="12" fill="#FAF5E8" stroke="#1a1a1a" stroke-width="2"/>
+            <rect x="296" y="240" width="24" height="30" rx="12" fill="#FAF5E8" stroke="#1a1a1a" stroke-width="2"/>
+            <rect x="340" y="240" width="24" height="30" rx="12" fill="#FAF5E8" stroke="#1a1a1a" stroke-width="2"/>
+            <!-- Door -->
+            <rect x="311" y="316" width="38" height="44" rx="19" fill="#6B3A2A" stroke="#1a1a1a" stroke-width="2"/>
+
+            <!-- Building 4 - Small Orange -->
+            <rect x="400" y="230" width="80" height="130" fill="#E87D2F" stroke="#1a1a1a" stroke-width="2"/>
+            <rect x="398" y="222" width="84" height="12" fill="#6B3A2A" stroke="#1a1a1a" stroke-width="2"/>
+            <rect x="414" y="250" width="20" height="26" rx="2" fill="#FAF5E8" stroke="#1a1a1a" stroke-width="2"/>
+            <rect x="448" y="250" width="20" height="26" rx="2" fill="#FAF5E8" stroke="#1a1a1a" stroke-width="2"/>
+            <rect x="428" y="314" width="24" height="46" rx="2" fill="#6B3A2A" stroke="#1a1a1a" stroke-width="2"/>
+
+            <!-- Ground -->
+            <rect x="0" y="356" width="500" height="24" fill="#E8D5A3" stroke="#1a1a1a" stroke-width="2"/>
+            <!-- Ground details -->
+            <line x1="0" y1="368" x2="500" y2="368" stroke="#1a1a1a" stroke-width="1" opacity="0.3"/>
+
+            <!-- Lamppost -->
+            <rect x="148" y="310" width="4" height="50" fill="#1a1a1a"/>
+            <ellipse cx="150" cy="308" rx="8" ry="5" fill="#F5C842" stroke="#1a1a1a" stroke-width="2"/>
+
+            <!-- Tree -->
+            <rect x="450" y="310" width="6" height="46" fill="#6B3A2A" stroke="#1a1a1a" stroke-width="1.5"/>
+            <circle cx="453" cy="296" r="18" fill="#4AA84E" stroke="#1a1a1a" stroke-width="2"/>
+            <circle cx="440" cy="304" r="12" fill="#4AA84E" stroke="#1a1a1a" stroke-width="2"/>
+            <circle cx="466" cy="302" r="13" fill="#4AA84E" stroke="#1a1a1a" stroke-width="2"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       INTRODUCTION with SPEECH BUBBLE
+       ============================================================ -->
+  <section class="lc-intro" id="origins">
+    <div class="lc-intro__inner">
+      <div class="lc-intro__quote-area animate-on-scroll">
+        <div class="lc-speech-bubble">
+          "The line must prevail over the tint, <span class="accent">clarity over virtuosity.</span>"
+        </div>
+        <div class="lc-intro__attribution">-- Herge</div>
+      </div>
+      <div class="lc-intro__text animate-on-scroll stagger-2">
+        <h2>The Philosophy of Clarity</h2>
+        <p>
+          Ligne Claire is defined by uniform-weight outlines, flat unmodulated color, minimal shading, and a balance of cartoonish simplicity in foreground elements against realistically detailed backgrounds. The style prioritizes clarity, readability, and structured visual storytelling above all else.
+        </p>
+        <p>
+          Clarity and readability take absolute priority over artistic expressiveness. The outline defines everything -- without the clear line, the image loses its identity. Color serves the drawing, never the reverse; tint supports linework rather than overshadowing it.
+        </p>
+        <p>
+          Apparent simplicity is deceptive -- achieving clean, precise linework and carefully chosen flat color requires significant craftsmanship. Every shade is chosen for readability and narrative function, not for decorative effect.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       CORE TRAITS -- COMIC STRIP
+       ============================================================ -->
+  <section class="lc-traits" id="traits">
+    <div class="container">
+      <h2 class="section-title animate-on-scroll">Core Visual Traits</h2>
+      <p class="section-subtitle animate-on-scroll stagger-1">The defining characteristics that make Ligne Claire instantly recognizable across nearly a century of visual storytelling.</p>
+
+      <div class="lc-strip animate-on-scroll stagger-2">
+        <div class="lc-strip__cell">
+          <div class="lc-strip__icon" style="background: var(--lc-blue-tint);">
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><path d="M4 24L24 4" stroke="#1a1a1a" stroke-width="2.5" stroke-linecap="round"/><path d="M4 14L14 4" stroke="#1a1a1a" stroke-width="2.5" stroke-linecap="round"/><path d="M14 24L24 14" stroke="#1a1a1a" stroke-width="2.5" stroke-linecap="round"/></svg>
+          </div>
+          <h3>Uniform Lines</h3>
+          <p>Every element defined by clear, distinct black lines of consistent thickness -- no variation in stroke weight</p>
+        </div>
+        <div class="lc-strip__cell">
+          <div class="lc-strip__icon" style="background: var(--lc-red-tint);">
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><rect x="4" y="4" width="20" height="20" rx="3" fill="#D42B2B" stroke="#1a1a1a" stroke-width="2"/></svg>
+          </div>
+          <h3>Flat Color</h3>
+          <p>Solid color fills without gradients, blending, or modulation -- each area is a single uniform hue</p>
+        </div>
+        <div class="lc-strip__cell">
+          <div class="lc-strip__icon" style="background: var(--lc-yellow-tint);">
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><circle cx="14" cy="14" r="10" fill="#F5C842" stroke="#1a1a1a" stroke-width="2"/><path d="M9 14L12 17L19 10" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <h3>No Hatching</h3>
+          <p>Shading is eliminated entirely -- depth and form communicated through line and color alone</p>
+        </div>
+        <div class="lc-strip__cell">
+          <div class="lc-strip__icon" style="background: var(--lc-green-tint);">
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><rect x="3" y="3" width="10" height="10" rx="1" fill="#4AA84E" stroke="#1a1a1a" stroke-width="2"/><rect x="15" y="3" width="10" height="10" rx="1" fill="#7AB8E0" stroke="#1a1a1a" stroke-width="2"/><rect x="3" y="15" width="10" height="10" rx="1" fill="#E87D2F" stroke="#1a1a1a" stroke-width="2"/><rect x="15" y="15" width="10" height="10" rx="1" fill="#F5C842" stroke="#1a1a1a" stroke-width="2"/></svg>
+          </div>
+          <h3>Clean Separation</h3>
+          <p>Every object and element is distinctly separated by its outline, preventing visual ambiguity</p>
+        </div>
+        <div class="lc-strip__cell">
+          <div class="lc-strip__icon" style="background: #f3e8f7;">
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><circle cx="14" cy="12" r="6" fill="#9C7BAD" stroke="#1a1a1a" stroke-width="2"/><path d="M10 18C10 18 8 20 8 22C8 24 10 26 14 26C18 26 20 24 20 22C20 20 18 18 18 18" stroke="#1a1a1a" stroke-width="2" fill="none"/></svg>
+          </div>
+          <h3>Illuminated Shadows</h3>
+          <p>Cast shadows rendered in lighter or colored tones rather than dark values, preserving brightness</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       DESIGN PRINCIPLES -- PANELS
+       ============================================================ -->
+  <section class="lc-principles" id="principles">
+    <div class="container">
+      <h2 class="section-title animate-on-scroll">Design Principles</h2>
+      <p class="section-subtitle animate-on-scroll stagger-1">The guiding rules that underpin every decision in the Ligne Claire approach to visual design.</p>
+
+      <div class="lc-panel-grid">
+        <div class="lc-panel animate-on-scroll stagger-1">
+          <div class="lc-panel__header" style="background: var(--lc-blue);">
+            <span class="lc-panel__header-num">1</span>
+            Line Defines Everything
+          </div>
+          <div class="lc-panel__body">
+            <p>The outline is the fundamental building block. Without the clear line, the image loses its identity. Every element, from characters to architecture, is brought into existence by its outline first, color second.</p>
+          </div>
+        </div>
+
+        <div class="lc-panel animate-on-scroll stagger-2">
+          <div class="lc-panel__header" style="background: var(--lc-red);">
+            <span class="lc-panel__header-num">2</span>
+            Color Serves the Drawing
+          </div>
+          <div class="lc-panel__body">
+            <p>Tint supports linework rather than overshadowing it. Flat color fields enhance legibility by eliminating tonal noise. Every shade is chosen for readability and narrative function, not for decorative effect.</p>
+          </div>
+        </div>
+
+        <div class="lc-panel animate-on-scroll stagger-3">
+          <div class="lc-panel__header" style="background: var(--lc-green);">
+            <span class="lc-panel__header-num">3</span>
+            Compositional Depth
+          </div>
+          <div class="lc-panel__body">
+            <p>Depth is achieved through layered planes -- foreground, midground, and background -- defined by line and color position, not by atmospheric perspective or shading techniques.</p>
+          </div>
+        </div>
+
+        <div class="lc-panel animate-on-scroll stagger-4">
+          <div class="lc-panel__header" style="background: var(--lc-orange);">
+            <span class="lc-panel__header-num">4</span>
+            Deceptive Simplicity
+          </div>
+          <div class="lc-panel__body">
+            <p>Apparent simplicity is deceptive. Achieving clean, precise linework and carefully chosen flat color requires significant craftsmanship. The reduction to essentials is itself a demanding discipline.</p>
+          </div>
+        </div>
+
+        <div class="lc-panel animate-on-scroll stagger-5">
+          <div class="lc-panel__header" style="background: var(--lc-mauve);">
+            <span class="lc-panel__header-num">5</span>
+            Visual Hierarchy
+          </div>
+          <div class="lc-panel__body">
+            <p>Hierarchy is established through line weight consistency, color contrast, and spatial positioning. The panel-based grid creates order, rhythm, and a deliberate reading flow across the composition.</p>
+          </div>
+        </div>
+
+        <div class="lc-panel animate-on-scroll stagger-6">
+          <div class="lc-panel__header" style="background: var(--lc-brown);">
+            <span class="lc-panel__header-num">6</span>
+            Minimal Embellishment
+          </div>
+          <div class="lc-panel__body">
+            <p>Ornamentation is stripped away. Every visual element serves the narrative or spatial clarity. Decoration that does not advance comprehension is removed without hesitation.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       COLOR PALETTE
+       ============================================================ -->
+  <section class="lc-palette-section" id="palette">
+    <div class="container">
+      <h2 class="section-title animate-on-scroll">The Ligne Claire Palette</h2>
+      <p class="section-subtitle animate-on-scroll stagger-1">Strong, saturated primaries and secondaries applied flat, with warm cream backgrounds. Every color is chosen to be instantly readable and narratively functional.</p>
+
+      <div class="lc-palette-grid">
+        <div class="lc-swatch animate-on-scroll stagger-1">
+          <div class="lc-swatch__color" style="background: #3B7DD8;"></div>
+          <div class="lc-swatch__info">
+            <div class="lc-swatch__name">Tintin Blue</div>
+            <div class="lc-swatch__hex">#3B7DD8</div>
+          </div>
+        </div>
+        <div class="lc-swatch animate-on-scroll stagger-1">
+          <div class="lc-swatch__color" style="background: #D42B2B;"></div>
+          <div class="lc-swatch__info">
+            <div class="lc-swatch__name">Signal Red</div>
+            <div class="lc-swatch__hex">#D42B2B</div>
+          </div>
+        </div>
+        <div class="lc-swatch animate-on-scroll stagger-2">
+          <div class="lc-swatch__color" style="background: #F5C842;"></div>
+          <div class="lc-swatch__info">
+            <div class="lc-swatch__name">Sunshine Yellow</div>
+            <div class="lc-swatch__hex">#F5C842</div>
+          </div>
+        </div>
+        <div class="lc-swatch animate-on-scroll stagger-2">
+          <div class="lc-swatch__color" style="background: #4AA84E;"></div>
+          <div class="lc-swatch__info">
+            <div class="lc-swatch__name">Herge Green</div>
+            <div class="lc-swatch__hex">#4AA84E</div>
+          </div>
+        </div>
+        <div class="lc-swatch animate-on-scroll stagger-3">
+          <div class="lc-swatch__color" style="background: #E87D2F;"></div>
+          <div class="lc-swatch__info">
+            <div class="lc-swatch__name">Warm Orange</div>
+            <div class="lc-swatch__hex">#E87D2F</div>
+          </div>
+        </div>
+        <div class="lc-swatch animate-on-scroll stagger-3">
+          <div class="lc-swatch__color" style="background: #6B3A2A;"></div>
+          <div class="lc-swatch__info">
+            <div class="lc-swatch__name">Deep Brown</div>
+            <div class="lc-swatch__hex">#6B3A2A</div>
+          </div>
+        </div>
+        <div class="lc-swatch animate-on-scroll stagger-4">
+          <div class="lc-swatch__color" style="background: #FAF5E8;"></div>
+          <div class="lc-swatch__info">
+            <div class="lc-swatch__name">Cream White</div>
+            <div class="lc-swatch__hex">#FAF5E8</div>
+          </div>
+        </div>
+        <div class="lc-swatch animate-on-scroll stagger-4">
+          <div class="lc-swatch__color" style="background: #1A1A1A;"></div>
+          <div class="lc-swatch__info">
+            <div class="lc-swatch__name">Ink Black</div>
+            <div class="lc-swatch__hex">#1A1A1A</div>
+          </div>
+        </div>
+        <div class="lc-swatch animate-on-scroll stagger-5">
+          <div class="lc-swatch__color" style="background: #7AB8E0;"></div>
+          <div class="lc-swatch__info">
+            <div class="lc-swatch__name">Sky Cerulean</div>
+            <div class="lc-swatch__hex">#7AB8E0</div>
+          </div>
+        </div>
+        <div class="lc-swatch animate-on-scroll stagger-5">
+          <div class="lc-swatch__color" style="background: #E8D5A3;"></div>
+          <div class="lc-swatch__info">
+            <div class="lc-swatch__name">Soft Sand</div>
+            <div class="lc-swatch__hex">#E8D5A3</div>
+          </div>
+        </div>
+        <div class="lc-swatch animate-on-scroll stagger-6">
+          <div class="lc-swatch__color" style="background: #9C7BAD;"></div>
+          <div class="lc-swatch__info">
+            <div class="lc-swatch__name">Muted Mauve</div>
+            <div class="lc-swatch__hex">#9C7BAD</div>
+          </div>
+        </div>
+        <div class="lc-swatch animate-on-scroll stagger-6">
+          <div class="lc-swatch__color" style="background: #7A8B96;"></div>
+          <div class="lc-swatch__info">
+            <div class="lc-swatch__name">Slate Grey</div>
+            <div class="lc-swatch__hex">#7A8B96</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Color usage guidelines -->
+      <div style="margin-top: 48px;">
+        <div class="lc-strip animate-on-scroll" style="border-radius: 4px;">
+          <div class="lc-strip__cell" style="background: var(--lc-yellow-tint);">
+            <h3 style="margin-bottom: 6px;">Flat Fills Only</h3>
+            <p>No gradients, no textures, no color modulation within a single area</p>
+          </div>
+          <div class="lc-strip__cell" style="background: var(--lc-blue-tint);">
+            <h3 style="margin-bottom: 6px;">Warm Backgrounds</h3>
+            <p>Never use stark white -- the warm cream evokes the printed album feel</p>
+          </div>
+          <div class="lc-strip__cell" style="background: var(--lc-red-tint);">
+            <h3 style="margin-bottom: 6px;">Black for Outlines</h3>
+            <p>Ink color is used exclusively for defining lines, never for large fills</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       TYPOGRAPHY SHOWCASE
+       ============================================================ -->
+  <section class="lc-typography" id="typography">
+    <div class="container">
+      <h2 class="section-title animate-on-scroll">Typography</h2>
+      <p class="section-subtitle animate-on-scroll stagger-1">Clean sans-serif faces that echo the precision and clarity of the linework. Uppercase for display, generous spacing for readability.</p>
+
+      <div class="lc-type-showcase">
+        <div class="lc-type-card lc-type-card--display animate-on-scroll stagger-2">
+          <div class="lc-type-card__label">Display / Hero</div>
+          <div class="lc-type-card__sample">Adventures<br>in Clarity</div>
+          <div class="lc-type-card__meta">Bangers -- 400 weight -- Comic book impact for large headlines</div>
+        </div>
+        <div class="lc-type-card lc-type-card--heading animate-on-scroll stagger-3">
+          <div class="lc-type-card__label">Headings</div>
+          <div class="lc-type-card__sample">The Clear Line Defines Everything</div>
+          <div class="lc-type-card__meta">Fredoka -- 600 weight -- Rounded terminals echo smooth linework</div>
+        </div>
+        <div class="lc-type-card lc-type-card--body animate-on-scroll stagger-4">
+          <div class="lc-type-card__label">Body Text</div>
+          <div class="lc-type-card__sample">Ligne Claire typography mirrors the aesthetic's core principle: clear, legible, unpretentious. Text in the original comics used hand-lettered capitals; for web applications, this translates to clean sans-serif faces with medium weight and generous spacing.</div>
+          <div class="lc-type-card__meta">Nunito -- 400 weight -- Rounded geometric sans-serif for comfortable reading</div>
+        </div>
+        <div class="lc-type-card lc-type-card--caption animate-on-scroll stagger-5">
+          <div class="lc-type-card__label">Captions &amp; Labels</div>
+          <div class="lc-type-card__sample">Design Aesthetic Reference -- Pioneered by Herge -- Est. 1929 -- Franco-Belgian Tradition -- Clear Line School</div>
+          <div class="lc-type-card__meta">Nunito -- 600 weight -- Uppercase with wide tracking for secondary text</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       COMPONENT SHOWCASE
+       ============================================================ -->
+  <section class="lc-components">
+    <div class="container">
+      <h2 class="section-title animate-on-scroll">Component Language</h2>
+      <p class="section-subtitle animate-on-scroll stagger-1">Every UI element is defined by its clear outline. No drop shadows, no elevation effects -- the line is everything.</p>
+
+      <div class="lc-component-row animate-on-scroll stagger-2">
+        <div class="lc-component-box">
+          <div class="lc-component-box__title">Buttons</div>
+          <div class="lc-component-box__content">
+            <button class="lc-button">Primary</button>
+            <button class="lc-button lc-button--red">Signal</button>
+            <button class="lc-button lc-button--yellow">Highlight</button>
+            <button class="lc-button lc-button--ghost">Ghost</button>
+          </div>
+        </div>
+        <div class="lc-component-box">
+          <div class="lc-component-box__title">Badges</div>
+          <div class="lc-component-box__content">
+            <span class="lc-badge" style="background: var(--lc-yellow);">Ligne Claire</span>
+            <span class="lc-badge" style="background: var(--lc-blue-tint);">Herge</span>
+            <span class="lc-badge" style="background: var(--lc-red-tint);">Tintin</span>
+            <span class="lc-badge" style="background: var(--lc-green-tint);">Clarity</span>
+            <span class="lc-badge" style="background: var(--lc-sand);">1929</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="lc-component-row animate-on-scroll stagger-3">
+        <div class="lc-component-box">
+          <div class="lc-component-box__title">Form Input</div>
+          <div class="lc-component-box__content" style="flex-direction: column;">
+            <input type="text" class="lc-input" placeholder="Enter your name..." />
+            <input type="text" class="lc-input" placeholder="Search for clarity..." />
+          </div>
+        </div>
+        <div class="lc-component-box">
+          <div class="lc-component-box__title">Speech Bubble</div>
+          <div class="lc-component-box__content" style="justify-content: center; padding: 32px 24px 48px;">
+            <div class="lc-speech-bubble" style="max-width: 280px; font-size: 0.95rem;">
+              Every element must earn its place through clarity!
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       DO'S AND DON'TS
+       ============================================================ -->
+  <section class="lc-dos-donts" id="rules">
+    <div class="container">
+      <h2 class="section-title animate-on-scroll">The Rules</h2>
+      <p class="section-subtitle animate-on-scroll stagger-1">A clear guide to what belongs in the Ligne Claire vocabulary -- and what must be left out.</p>
+
+      <div class="lc-dos-donts__grid">
+        <div class="lc-rule-card animate-on-scroll stagger-2">
+          <div class="lc-rule-card__header lc-rule-card__header--do">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="8" fill="none" stroke="#fff" stroke-width="2"/><path d="M6 10L9 13L14 7" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Design Do's
+          </div>
+          <div class="lc-rule-card__body">
+            <ul>
+              <li>Define every element with a clear, uniform-weight black outline</li>
+              <li>Use flat, solid color fills without any gradients or textures</li>
+              <li>Choose warm off-white or cream backgrounds</li>
+              <li>Organize content in panel-based grid layouts with visible borders</li>
+              <li>Use uppercase, rounded sans-serif typography for headings</li>
+              <li>Maintain moderate contrast -- prefer warm neutrals</li>
+              <li>Keep palettes limited to 3-4 active colors per section</li>
+              <li>Use lighter tints for shadows, never dark values</li>
+              <li>Reference comic-strip conventions: speech bubbles, panels, strips</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="lc-rule-card animate-on-scroll stagger-3">
+          <div class="lc-rule-card__header lc-rule-card__header--dont">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="8" fill="none" stroke="#fff" stroke-width="2"/><path d="M7 7L13 13M13 7L7 13" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
+            Design Don'ts
+          </div>
+          <div class="lc-rule-card__body">
+            <ul>
+              <li>Use drop shadows, box shadows, or depth simulation effects</li>
+              <li>Apply gradients, blend modes, or color transitions</li>
+              <li>Use varying line weights for emphasis</li>
+              <li>Employ hatching, cross-hatching, or stippling for shading</li>
+              <li>Use photographic textures or material simulations</li>
+              <li>Choose decorative, serif, or script typefaces</li>
+              <li>Create stark, high-contrast compositions</li>
+              <li>Leave elements undefined without their outline border</li>
+              <li>Use pure black (#000) for large fills -- reserve ink for outlines</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       RELATED AESTHETICS
+       ============================================================ -->
+  <section class="lc-related">
+    <div class="container">
+      <h2 class="section-title animate-on-scroll">Related Aesthetics</h2>
+      <p class="section-subtitle animate-on-scroll stagger-1">Ligne Claire does not exist in isolation. These neighboring styles share visual vocabulary, historical roots, or philosophical principles.</p>
+
+      <div class="lc-related__scroll animate-on-scroll stagger-2">
+        <div class="lc-related-card">
+          <div class="lc-related-card__color" style="background: var(--lc-orange);"></div>
+          <div class="lc-related-card__body">
+            <div class="lc-related-card__name">Adventurecore</div>
+            <div class="lc-related-card__desc">Shares the sense of exploration and travel narrative. Tintin's globe-trotting adventures are a foundational reference.</div>
+          </div>
+        </div>
+        <div class="lc-related-card">
+          <div class="lc-related-card__color" style="background: var(--lc-slate);"></div>
+          <div class="lc-related-card__body">
+            <div class="lc-related-card__name">Fleischer Style</div>
+            <div class="lc-related-card__desc">Contemporary early-animation aesthetic with similar clear outlines and flat color, with more rubbery proportions.</div>
+          </div>
+        </div>
+        <div class="lc-related-card">
+          <div class="lc-related-card__color" style="background: var(--lc-red);"></div>
+          <div class="lc-related-card__body">
+            <div class="lc-related-card__name">Vintage Hero</div>
+            <div class="lc-related-card__desc">Overlapping vocabulary of clear outlines, primary colors, and narrative-driven illustration from the golden age of comics.</div>
+          </div>
+        </div>
+        <div class="lc-related-card">
+          <div class="lc-related-card__color" style="background: var(--lc-blue);"></div>
+          <div class="lc-related-card__body">
+            <div class="lc-related-card__name">Flat Design</div>
+            <div class="lc-related-card__desc">Modern digital descendant sharing flat color, no-shadow principles but stripping away the defining outline and warmth.</div>
+          </div>
+        </div>
+        <div class="lc-related-card">
+          <div class="lc-related-card__color" style="background: var(--lc-green);"></div>
+          <div class="lc-related-card__body">
+            <div class="lc-related-card__name">Atoomstijl</div>
+            <div class="lc-related-card__desc">Direct stylistic offspring applying Ligne Claire principles to posters, LP covers, and graphic design with mid-century modernist influence.</div>
+          </div>
+        </div>
+        <div class="lc-related-card">
+          <div class="lc-related-card__color" style="background: var(--lc-cerulean);"></div>
+          <div class="lc-related-card__body">
+            <div class="lc-related-card__name">Franco-Belgian Comics</div>
+            <div class="lc-related-card__desc">The broader tradition from which Ligne Claire emerged, including related but distinct styles from Moebius, Franquin, and others.</div>
+          </div>
+        </div>
+        <div class="lc-related-card">
+          <div class="lc-related-card__color" style="background: var(--lc-yellow);"></div>
+          <div class="lc-related-card__body">
+            <div class="lc-related-card__name">Pop Art</div>
+            <div class="lc-related-card__desc">Shares bold outlines, flat color, and comic-book visual language, though Pop Art embraces irony that Ligne Claire avoids.</div>
+          </div>
+        </div>
+        <div class="lc-related-card">
+          <div class="lc-related-card__color" style="background: var(--lc-mauve);"></div>
+          <div class="lc-related-card__body">
+            <div class="lc-related-card__name">Ukiyo-e / Shin-hanga</div>
+            <div class="lc-related-card__desc">Japanese woodblock prints contributed compositional principles and flat-color-within-outline techniques that influenced Herge.</div>
+          </div>
+        </div>
+        <div class="lc-related-card">
+          <div class="lc-related-card__color" style="background: var(--lc-sand);"></div>
+          <div class="lc-related-card__body">
+            <div class="lc-related-card__name">Corporate Memphis</div>
+            <div class="lc-related-card__desc">Modern flat illustration echoing the flat-fill, outline-defined approach but with a distinctly corporate figure vocabulary.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       CTA
+       ============================================================ -->
+  <section class="lc-cta">
+    <div class="lc-cta__decor lc-cta__decor--left">
+      <svg width="200" height="200" viewBox="0 0 200 200" fill="none"><circle cx="100" cy="100" r="90" stroke="#ffffff" stroke-width="3"/><circle cx="100" cy="100" r="60" stroke="#ffffff" stroke-width="3"/><circle cx="100" cy="100" r="30" stroke="#ffffff" stroke-width="3"/></svg>
+    </div>
+    <div class="lc-cta__decor lc-cta__decor--right">
+      <svg width="160" height="160" viewBox="0 0 160 160" fill="none"><rect x="10" y="10" width="140" height="140" stroke="#ffffff" stroke-width="3"/><rect x="40" y="40" width="80" height="80" stroke="#ffffff" stroke-width="3"/></svg>
+    </div>
+    <h2>Draw Your Own Clear Line</h2>
+    <p>Join a tradition of clarity and precision that spans nearly a century of visual storytelling. The line must prevail over the tint -- clarity over virtuosity.</p>
+    <a href="#" class="lc-button lc-button--yellow">Begin Creating</a>
+  </section>
+
+  <!-- ============================================================
+       FOOTER
+       ============================================================ -->
+  <footer class="lc-footer">
+    <div class="lc-footer__inner">
+      <div>
+        <div class="lc-footer__brand">Ligne Claire</div>
+        <p class="lc-footer__desc">A showcase of the clear line design aesthetic pioneered by Herge and the Franco-Belgian comics tradition. Built as a living reference for designers and developers.</p>
+      </div>
+      <div>
+        <div class="lc-footer__col-title">Sections</div>
+        <ul class="lc-footer__links">
+          <li><a href="#origins">Origins</a></li>
+          <li><a href="#traits">Core Traits</a></li>
+          <li><a href="#principles">Principles</a></li>
+          <li><a href="#palette">Palette</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="lc-footer__col-title">Reference</div>
+        <ul class="lc-footer__links">
+          <li><a href="#typography">Typography</a></li>
+          <li><a href="#rules">Rules</a></li>
+          <li><a href="#">Components</a></li>
+          <li><a href="#">Related Styles</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="lc-footer__col-title">Tradition</div>
+        <ul class="lc-footer__links">
+          <li><a href="#">Herge</a></li>
+          <li><a href="#">Tintin</a></li>
+          <li><a href="#">Franco-Belgian</a></li>
+          <li><a href="#">Atoomstijl</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="lc-footer__bottom">
+      <span>Designed in the Ligne Claire tradition. Clear lines, bold colors, honest craft.</span>
+      <div class="lc-footer__palette">
+        <span class="lc-footer__palette-dot" style="background: #3B7DD8;"></span>
+        <span class="lc-footer__palette-dot" style="background: #D42B2B;"></span>
+        <span class="lc-footer__palette-dot" style="background: #F5C842;"></span>
+        <span class="lc-footer__palette-dot" style="background: #4AA84E;"></span>
+        <span class="lc-footer__palette-dot" style="background: #E87D2F;"></span>
+        <span class="lc-footer__palette-dot" style="background: #7AB8E0;"></span>
+        <span class="lc-footer__palette-dot" style="background: #9C7BAD;"></span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ============================================================
+       JAVASCRIPT
+       ============================================================ -->
+  <script>
+    // Mobile nav toggle
+    const hamburger = document.getElementById('hamburger');
+    const navLinks = document.getElementById('navLinks');
+
+    hamburger.addEventListener('click', () => {
+      navLinks.classList.toggle('open');
+    });
+
+    // Close mobile nav on link click
+    navLinks.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        navLinks.classList.remove('open');
+      });
+    });
+
+    // Scroll-triggered animations using IntersectionObserver
+    const observerOptions = {
+      root: null,
+      rootMargin: '0px 0px -60px 0px',
+      threshold: 0.1
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
+
+    document.querySelectorAll('.animate-on-scroll').forEach(el => {
+      observer.observe(el);
+    });
+
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        const href = this.getAttribute('href');
+        if (href === '#') return;
+        e.preventDefault();
+        const target = document.querySelector(href);
+        if (target) {
+          const navHeight = document.querySelector('.lc-nav-wrapper').offsetHeight;
+          const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - navHeight - 20;
+          window.scrollTo({
+            top: targetPosition,
+            behavior: 'smooth'
+          });
+        }
+      });
+    });
+  </script>
+</body>
+</html>

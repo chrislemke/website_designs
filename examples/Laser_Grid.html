@@ -1,0 +1,2336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LASER GRID // Design Aesthetic Reference</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600;700&family=Share+Tech+Mono&family=Inter:wght@300;400&family=Rajdhani:wght@300;400;600;700&family=Michroma&family=Audiowide&display=swap" rel="stylesheet">
+  <style>
+    /* ============================================
+       LASER GRID -- CSS Custom Properties
+       ============================================ */
+    :root {
+      /* Backgrounds */
+      --laser-black: #000000;
+      --laser-near-black: #080810;
+      --laser-surface: #111118;
+      --laser-surface-raised: #1a1a28;
+
+      /* Primary grid / structural colors */
+      --laser-cyan: #00ffff;
+      --laser-cyan-mid: #00e5ff;
+      --laser-cyan-pale: #a0f0ff;
+      --laser-cyan-dim: #006680;
+
+      /* Laser / accent colors */
+      --laser-magenta: #ff0080;
+      --laser-pink: #ff2d78;
+      --laser-violet: #9b30ff;
+      --laser-blue: #0044ff;
+      --laser-orange: #ff6600;
+
+      /* Chrome metallics */
+      --laser-chrome-bright: #f0f0f0;
+      --laser-chrome: #c0c0c0;
+      --laser-chrome-dark: #707080;
+      --laser-steel: #4a4a5e;
+
+      /* Glass */
+      --laser-glass: #ccefff;
+      --laser-glass-tint: rgba(200, 240, 255, 0.08);
+
+      /* Neon glows */
+      --laser-glow-cyan: rgba(0, 255, 255, 0.6);
+      --laser-glow-magenta: rgba(255, 0, 128, 0.6);
+      --laser-glow-violet: rgba(155, 48, 255, 0.5);
+      --laser-glow-orange: rgba(255, 102, 0, 0.5);
+      --laser-glow-white: rgba(240, 240, 255, 0.4);
+
+      /* Functional mappings */
+      --laser-bg-primary: var(--laser-black);
+      --laser-bg-secondary: var(--laser-near-black);
+      --laser-bg-surface: var(--laser-surface);
+      --laser-text-primary: var(--laser-chrome-bright);
+      --laser-text-secondary: var(--laser-cyan-pale);
+      --laser-text-muted: var(--laser-chrome-dark);
+      --laser-accent-primary: var(--laser-cyan);
+      --laser-accent-secondary: var(--laser-magenta);
+      --laser-border: rgba(0, 255, 255, 0.2);
+    }
+
+    /* ============================================
+       RESET & BASE
+       ============================================ */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--laser-black);
+      color: var(--laser-text-secondary);
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+      letter-spacing: 0.02em;
+      line-height: 1.7;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    ::selection {
+      background: rgba(0, 255, 255, 0.25);
+      color: var(--laser-chrome-bright);
+    }
+
+    /* ============================================
+       ANIMATIONS
+       ============================================ */
+    @keyframes grid-scroll {
+      0% { background-position: 0 0, 0 0; }
+      100% { background-position: 0 40px, 0 0; }
+    }
+
+    @keyframes neon-pulse {
+      0%, 100% {
+        text-shadow:
+          0 0 7px var(--laser-cyan),
+          0 0 10px var(--laser-cyan),
+          0 0 21px var(--laser-cyan),
+          0 0 42px rgba(0, 255, 255, 0.4);
+      }
+      50% {
+        text-shadow:
+          0 0 4px var(--laser-cyan),
+          0 0 7px var(--laser-cyan),
+          0 0 15px var(--laser-cyan),
+          0 0 30px rgba(0, 255, 255, 0.25);
+      }
+    }
+
+    @keyframes magenta-pulse {
+      0%, 100% {
+        text-shadow:
+          0 0 7px var(--laser-magenta),
+          0 0 10px var(--laser-magenta),
+          0 0 21px var(--laser-magenta),
+          0 0 42px rgba(255, 0, 128, 0.4);
+      }
+      50% {
+        text-shadow:
+          0 0 4px var(--laser-magenta),
+          0 0 7px var(--laser-magenta),
+          0 0 15px var(--laser-magenta),
+          0 0 30px rgba(255, 0, 128, 0.25);
+      }
+    }
+
+    @keyframes laser-sweep {
+      0% { left: -10%; opacity: 0; }
+      5% { opacity: 1; }
+      95% { opacity: 1; }
+      100% { left: 110%; opacity: 0; }
+    }
+
+    @keyframes scan-line {
+      0% { top: -2%; }
+      100% { top: 102%; }
+    }
+
+    @keyframes fade-in-up {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fade-in {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes glow-border-pulse {
+      0%, 100% {
+        box-shadow:
+          0 0 10px rgba(0, 255, 255, 0.08),
+          inset 0 0 20px rgba(0, 0, 0, 0.5);
+      }
+      50% {
+        box-shadow:
+          0 0 18px rgba(0, 255, 255, 0.14),
+          0 0 40px rgba(0, 255, 255, 0.04),
+          inset 0 0 20px rgba(0, 0, 0, 0.5);
+      }
+    }
+
+    @keyframes flicker {
+      0%, 100% { opacity: 1; }
+      92% { opacity: 1; }
+      93% { opacity: 0.7; }
+      94% { opacity: 1; }
+      96% { opacity: 0.85; }
+      97% { opacity: 1; }
+    }
+
+    @keyframes horizon-breathe {
+      0%, 100% { opacity: 0.8; transform: translateX(-50%) scaleX(1); }
+      50% { opacity: 1; transform: translateX(-50%) scaleX(1.08); }
+    }
+
+    @keyframes typewriter-blink {
+      0%, 100% { border-color: var(--laser-cyan); }
+      50% { border-color: transparent; }
+    }
+
+    @keyframes chrome-shimmer {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* ============================================
+       SCANLINE OVERLAY (full-page)
+       ============================================ */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      pointer-events: none;
+      z-index: 9999;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0, 0, 0, 0.03) 2px,
+        rgba(0, 0, 0, 0.03) 4px
+      );
+    }
+
+    /* ============================================
+       NAVIGATION
+       ============================================ */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: linear-gradient(180deg, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.6) 70%, transparent 100%);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      border-bottom: 1px solid rgba(0, 255, 255, 0.06);
+    }
+
+    .nav-logo {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--laser-cyan);
+      text-shadow: 0 0 8px var(--laser-glow-cyan);
+      animation: flicker 8s ease-in-out infinite;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: 'Michroma', sans-serif;
+      font-size: 0.55rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--laser-chrome-dark);
+      text-decoration: none;
+      transition: all 0.3s ease;
+      padding: 0.3rem 0;
+      position: relative;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 1px;
+      background: var(--laser-cyan);
+      box-shadow: 0 0 6px var(--laser-glow-cyan);
+      transition: width 0.3s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--laser-cyan);
+      text-shadow: 0 0 8px rgba(0, 255, 255, 0.4);
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    /* ============================================
+       HERO SECTION
+       ============================================ */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      overflow: hidden;
+      padding: 6rem 2rem 4rem;
+    }
+
+    /* Horizon glow */
+    .hero-horizon {
+      position: absolute;
+      bottom: 32%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 700px;
+      height: 250px;
+      border-radius: 50%;
+      background: radial-gradient(
+        ellipse,
+        rgba(255, 0, 128, 0.28) 0%,
+        rgba(155, 48, 255, 0.12) 35%,
+        rgba(0, 255, 255, 0.04) 60%,
+        transparent 80%
+      );
+      filter: blur(40px);
+      pointer-events: none;
+      animation: horizon-breathe 6s ease-in-out infinite;
+    }
+
+    /* Perspective grid floor */
+    .hero-grid {
+      position: absolute;
+      bottom: 0;
+      left: -60%;
+      right: -60%;
+      height: 55%;
+      background:
+        linear-gradient(rgba(0, 255, 255, 0.2) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 255, 255, 0.2) 1px, transparent 1px);
+      background-size: 60px 40px;
+      transform: perspective(500px) rotateX(65deg);
+      transform-origin: bottom center;
+      mask-image: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent 85%);
+      -webkit-mask-image: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent 85%);
+      pointer-events: none;
+      animation: grid-scroll 2s linear infinite;
+    }
+
+    /* Horizontal horizon line */
+    .hero-horizon-line {
+      position: absolute;
+      bottom: 42%;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--laser-cyan), var(--laser-magenta), var(--laser-cyan), transparent);
+      box-shadow:
+        0 0 8px var(--laser-glow-cyan),
+        0 0 20px rgba(0, 255, 255, 0.15);
+      pointer-events: none;
+      opacity: 0.6;
+    }
+
+    /* Laser beams in hero */
+    .hero-laser-1 {
+      position: absolute;
+      height: 1px;
+      width: 120px;
+      top: 30%;
+      background: linear-gradient(90deg, transparent, var(--laser-cyan), transparent);
+      box-shadow: 0 0 6px var(--laser-glow-cyan), 0 0 15px rgba(0, 255, 255, 0.25);
+      animation: laser-sweep 5s linear infinite;
+      pointer-events: none;
+      opacity: 0.5;
+    }
+
+    .hero-laser-2 {
+      position: absolute;
+      height: 1px;
+      width: 80px;
+      top: 22%;
+      background: linear-gradient(90deg, transparent, var(--laser-magenta), transparent);
+      box-shadow: 0 0 6px var(--laser-glow-magenta), 0 0 15px rgba(255, 0, 128, 0.25);
+      animation: laser-sweep 7s linear infinite 2s;
+      pointer-events: none;
+      opacity: 0.4;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-label {
+      font-family: 'Michroma', 'Rajdhani', sans-serif;
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5em;
+      color: var(--laser-cyan-mid);
+      text-shadow: 0 0 6px var(--laser-glow-cyan);
+      margin-bottom: 2rem;
+      animation: fade-in 1s ease 0.3s both;
+    }
+
+    .hero-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: clamp(3rem, 8vw, 7rem);
+      font-weight: 900;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      line-height: 1.05;
+      /* Pinstriped text effect */
+      background: repeating-linear-gradient(
+        180deg,
+        var(--laser-cyan) 0px,
+        var(--laser-cyan) 3px,
+        transparent 3px,
+        transparent 7px
+      );
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      filter: drop-shadow(0 0 12px var(--laser-glow-cyan)) drop-shadow(0 0 40px rgba(0, 255, 255, 0.2));
+      animation: fade-in-up 1s ease 0.5s both;
+    }
+
+    .hero-subtitle {
+      font-family: 'Exo 2', sans-serif;
+      font-size: clamp(0.85rem, 2vw, 1.15rem);
+      font-weight: 300;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--laser-chrome);
+      margin-top: 1.5rem;
+      text-shadow: 0 0 6px rgba(192, 192, 192, 0.3);
+      animation: fade-in-up 1s ease 0.8s both;
+    }
+
+    .hero-tagline {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.8rem;
+      color: var(--laser-chrome-dark);
+      margin-top: 2.5rem;
+      letter-spacing: 0.08em;
+      animation: fade-in-up 1s ease 1.1s both;
+    }
+
+    .hero-tagline span {
+      color: var(--laser-cyan-mid);
+      text-shadow: 0 0 4px rgba(0, 229, 255, 0.3);
+    }
+
+    .cursor-blink {
+      display: inline-block;
+      width: 8px;
+      height: 1em;
+      background: var(--laser-cyan);
+      margin-left: 4px;
+      vertical-align: text-bottom;
+      animation: typewriter-blink 1s step-end infinite;
+      box-shadow: 0 0 6px var(--laser-glow-cyan);
+    }
+
+    .hero-year {
+      font-family: 'Orbitron', sans-serif;
+      font-size: clamp(0.6rem, 1vw, 0.75rem);
+      font-weight: 400;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--laser-magenta);
+      text-shadow: 0 0 8px var(--laser-glow-magenta);
+      margin-top: 3rem;
+      animation: fade-in 1s ease 1.4s both;
+    }
+
+    /* ============================================
+       DIVIDERS
+       ============================================ */
+    .laser-divider {
+      width: 80%;
+      max-width: 900px;
+      margin: 0 auto;
+      border: none;
+      height: 1px;
+      background: var(--laser-cyan);
+      box-shadow:
+        0 0 6px var(--laser-glow-cyan),
+        0 0 15px rgba(0, 255, 255, 0.3),
+        0 0 30px rgba(0, 255, 255, 0.1);
+    }
+
+    .laser-divider--gradient {
+      background: linear-gradient(
+        90deg,
+        transparent,
+        var(--laser-cyan) 20%,
+        var(--laser-magenta) 80%,
+        transparent
+      );
+      box-shadow:
+        0 0 8px var(--laser-glow-cyan),
+        0 0 16px rgba(255, 0, 128, 0.2);
+    }
+
+    .laser-divider--magenta {
+      background: var(--laser-magenta);
+      box-shadow:
+        0 0 6px var(--laser-glow-magenta),
+        0 0 15px rgba(255, 0, 128, 0.3),
+        0 0 30px rgba(255, 0, 128, 0.1);
+    }
+
+    .laser-divider--fade {
+      background: linear-gradient(90deg, transparent, var(--laser-cyan), transparent);
+      box-shadow:
+        0 0 6px var(--laser-glow-cyan),
+        0 0 15px rgba(0, 255, 255, 0.2);
+    }
+
+    /* ============================================
+       SECTIONS (general)
+       ============================================ */
+    .section {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 5rem 2rem;
+      position: relative;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 3.5rem;
+    }
+
+    .section-label {
+      font-family: 'Michroma', 'Rajdhani', sans-serif;
+      font-size: 0.6rem;
+      text-transform: uppercase;
+      letter-spacing: 0.4em;
+      color: var(--laser-magenta);
+      text-shadow: 0 0 6px var(--laser-glow-magenta);
+      margin-bottom: 1rem;
+      display: block;
+    }
+
+    .section-title {
+      font-family: 'Exo 2', sans-serif;
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--laser-cyan);
+      text-shadow:
+        0 0 7px var(--laser-cyan),
+        0 0 10px var(--laser-cyan),
+        0 0 21px var(--laser-cyan),
+        0 0 42px rgba(0, 255, 255, 0.3);
+    }
+
+    .section-title--chrome {
+      background: linear-gradient(
+        180deg,
+        #ffffff 0%,
+        #e0e0e0 20%,
+        #707080 48%,
+        #a0a0b0 52%,
+        #e0e0e0 80%,
+        #ffffff 100%
+      );
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      filter: drop-shadow(0 0 8px rgba(200, 200, 255, 0.2));
+      text-shadow: none;
+    }
+
+    /* ============================================
+       INTRO SECTION
+       ============================================ */
+    .intro-section {
+      position: relative;
+    }
+
+    .intro-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image:
+        linear-gradient(rgba(0, 255, 255, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 255, 255, 0.04) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+    }
+
+    .intro-text {
+      max-width: 800px;
+      margin: 0 auto;
+      text-align: center;
+      font-size: 1.05rem;
+      line-height: 1.9;
+      color: var(--laser-cyan-pale);
+      position: relative;
+      z-index: 1;
+    }
+
+    .intro-text strong {
+      color: var(--laser-cyan);
+      font-weight: 400;
+      text-shadow: 0 0 6px rgba(0, 255, 255, 0.3);
+    }
+
+    .intro-text em {
+      color: var(--laser-magenta);
+      font-style: italic;
+      text-shadow: 0 0 6px rgba(255, 0, 128, 0.3);
+    }
+
+    /* ============================================
+       LASER CARDS
+       ============================================ */
+    .laser-card {
+      background: rgba(0, 0, 0, 0.6);
+      border: 1px solid rgba(0, 255, 255, 0.2);
+      padding: 2.5rem;
+      position: relative;
+      box-shadow:
+        0 0 10px rgba(0, 255, 255, 0.06),
+        inset 0 0 20px rgba(0, 0, 0, 0.5);
+      transition: all 0.4s ease;
+    }
+
+    .laser-card::before,
+    .laser-card::after {
+      content: '';
+      position: absolute;
+      width: 18px;
+      height: 18px;
+      border-color: var(--laser-cyan);
+      border-style: solid;
+      transition: all 0.4s ease;
+    }
+
+    .laser-card::before {
+      top: -1px;
+      left: -1px;
+      border-width: 2px 0 0 2px;
+      box-shadow: -2px -2px 6px rgba(0, 255, 255, 0.2);
+    }
+
+    .laser-card::after {
+      bottom: -1px;
+      right: -1px;
+      border-width: 0 2px 2px 0;
+      box-shadow: 2px 2px 6px rgba(0, 255, 255, 0.2);
+    }
+
+    .laser-card:hover {
+      border-color: rgba(0, 255, 255, 0.45);
+      box-shadow:
+        0 0 20px rgba(0, 255, 255, 0.12),
+        0 0 40px rgba(0, 255, 255, 0.04),
+        inset 0 0 20px rgba(0, 0, 0, 0.5);
+    }
+
+    .laser-card:hover::before {
+      width: 24px;
+      height: 24px;
+      box-shadow: -3px -3px 10px rgba(0, 255, 255, 0.35);
+    }
+
+    .laser-card:hover::after {
+      width: 24px;
+      height: 24px;
+      box-shadow: 3px 3px 10px rgba(0, 255, 255, 0.35);
+    }
+
+    .laser-card--magenta {
+      border-color: rgba(255, 0, 128, 0.2);
+    }
+
+    .laser-card--magenta::before,
+    .laser-card--magenta::after {
+      border-color: var(--laser-magenta);
+    }
+
+    .laser-card--magenta::before {
+      box-shadow: -2px -2px 6px rgba(255, 0, 128, 0.2);
+    }
+
+    .laser-card--magenta::after {
+      box-shadow: 2px 2px 6px rgba(255, 0, 128, 0.2);
+    }
+
+    .laser-card--magenta:hover {
+      border-color: rgba(255, 0, 128, 0.45);
+      box-shadow:
+        0 0 20px rgba(255, 0, 128, 0.12),
+        0 0 40px rgba(255, 0, 128, 0.04),
+        inset 0 0 20px rgba(0, 0, 0, 0.5);
+    }
+
+    /* ============================================
+       VISUAL CHARACTERISTICS GRID
+       ============================================ */
+    .motifs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .motif-item {
+      padding: 1.8rem;
+      background: rgba(8, 8, 16, 0.8);
+      border: 1px solid rgba(0, 255, 255, 0.1);
+      position: relative;
+      transition: all 0.35s ease;
+    }
+
+    .motif-item::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 3px;
+      height: 100%;
+      background: var(--laser-cyan);
+      box-shadow: 0 0 8px var(--laser-glow-cyan);
+      opacity: 0;
+      transition: opacity 0.35s ease;
+    }
+
+    .motif-item:hover {
+      border-color: rgba(0, 255, 255, 0.3);
+      background: rgba(8, 8, 16, 0.95);
+    }
+
+    .motif-item:hover::before {
+      opacity: 1;
+    }
+
+    .motif-name {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--laser-cyan);
+      margin-bottom: 0.6rem;
+    }
+
+    .motif-desc {
+      font-size: 0.88rem;
+      color: var(--laser-chrome);
+      line-height: 1.6;
+    }
+
+    /* ============================================
+       COLOR PALETTE SECTION
+       ============================================ */
+    .palette-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .color-swatch {
+      position: relative;
+      padding: 1.2rem;
+      border: 1px solid rgba(0, 255, 255, 0.1);
+      background: var(--laser-near-black);
+      text-align: center;
+      transition: all 0.3s ease;
+      overflow: hidden;
+    }
+
+    .color-swatch:hover {
+      border-color: rgba(0, 255, 255, 0.35);
+      transform: translateY(-2px);
+    }
+
+    .swatch-preview {
+      width: 100%;
+      height: 50px;
+      border-radius: 2px;
+      margin-bottom: 0.8rem;
+      position: relative;
+    }
+
+    .swatch-preview--glow {
+      box-shadow: 0 0 15px currentColor;
+    }
+
+    .swatch-name {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--laser-chrome-bright);
+      margin-bottom: 0.3rem;
+    }
+
+    .swatch-hex {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--laser-chrome-dark);
+    }
+
+    /* ============================================
+       DESIGN PRINCIPLES
+       ============================================ */
+    .principles-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1rem;
+      list-style: none;
+      margin-top: 2rem;
+    }
+
+    .principle-item {
+      padding: 1.5rem;
+      border-left: 1px solid var(--laser-magenta);
+      box-shadow: -2px 0 8px rgba(255, 0, 128, 0.15);
+      background: rgba(255, 0, 128, 0.02);
+      transition: all 0.3s ease;
+    }
+
+    .principle-item:hover {
+      background: rgba(255, 0, 128, 0.05);
+      box-shadow: -3px 0 15px rgba(255, 0, 128, 0.25);
+    }
+
+    .principle-title {
+      font-family: 'Exo 2', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--laser-magenta);
+      margin-bottom: 0.5rem;
+    }
+
+    .principle-desc {
+      font-size: 0.88rem;
+      color: var(--laser-chrome);
+      line-height: 1.6;
+    }
+
+    /* ============================================
+       TYPOGRAPHY SHOWCASE
+       ============================================ */
+    .type-showcase {
+      margin-top: 2rem;
+    }
+
+    .type-specimen {
+      padding: 2.5rem;
+      margin-bottom: 1.5rem;
+      border: 1px solid rgba(0, 255, 255, 0.08);
+      background: rgba(0, 0, 0, 0.4);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .type-specimen-label {
+      font-family: 'Michroma', sans-serif;
+      font-size: 0.5rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--laser-chrome-dark);
+      margin-bottom: 1rem;
+      display: block;
+    }
+
+    .type-display {
+      font-family: 'Orbitron', sans-serif;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      line-height: 1.1;
+      color: var(--laser-chrome-bright);
+      text-shadow:
+        0 0 10px var(--laser-glow-cyan),
+        0 0 40px var(--laser-glow-cyan),
+        0 0 80px rgba(0, 255, 255, 0.15);
+    }
+
+    .type-chrome {
+      font-family: 'Orbitron', sans-serif;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      background: linear-gradient(
+        180deg,
+        #ffffff 0%,
+        #e0e0e0 20%,
+        #707080 48%,
+        #a0a0b0 52%,
+        #e0e0e0 80%,
+        #ffffff 100%
+      );
+      background-size: 100% 200%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      filter: drop-shadow(0 0 8px rgba(200, 200, 255, 0.2));
+      animation: chrome-shimmer 6s ease-in-out infinite;
+    }
+
+    .type-pinstripe {
+      font-family: 'Orbitron', sans-serif;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      background: repeating-linear-gradient(
+        180deg,
+        var(--laser-cyan) 0px,
+        var(--laser-cyan) 3px,
+        transparent 3px,
+        transparent 6px
+      );
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      filter: drop-shadow(0 0 8px var(--laser-glow-cyan));
+    }
+
+    .type-neon-magenta {
+      font-family: 'Audiowide', sans-serif;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--laser-magenta);
+      text-shadow:
+        0 0 7px var(--laser-magenta),
+        0 0 10px var(--laser-magenta),
+        0 0 21px var(--laser-magenta),
+        0 0 42px rgba(255, 0, 128, 0.4),
+        0 0 82px rgba(255, 0, 128, 0.15);
+      animation: magenta-pulse 4s ease-in-out infinite;
+    }
+
+    .type-heading {
+      font-family: 'Exo 2', sans-serif;
+      font-size: 1.3rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--laser-cyan);
+      text-shadow: 0 0 8px var(--laser-glow-cyan);
+    }
+
+    .type-mono {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.9rem;
+      letter-spacing: 0.05em;
+      color: var(--laser-cyan-mid);
+      text-shadow: 0 0 4px rgba(0, 229, 255, 0.3);
+    }
+
+    .type-body {
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+      font-size: 1rem;
+      line-height: 1.7;
+      letter-spacing: 0.02em;
+      color: var(--laser-cyan-pale);
+    }
+
+    .font-name {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--laser-chrome-dark);
+      margin-top: 0.8rem;
+      letter-spacing: 0.05em;
+    }
+
+    /* ============================================
+       TECHNIQUES / EFFECTS DEMOS
+       ============================================ */
+    .effects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+
+    .effect-demo {
+      border: 1px solid rgba(0, 255, 255, 0.12);
+      overflow: hidden;
+    }
+
+    .effect-preview {
+      height: 200px;
+      position: relative;
+      overflow: hidden;
+      background: var(--laser-black);
+    }
+
+    .effect-info {
+      padding: 1.5rem;
+      background: var(--laser-near-black);
+      border-top: 1px solid rgba(0, 255, 255, 0.1);
+    }
+
+    .effect-name {
+      font-family: 'Exo 2', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--laser-cyan);
+      margin-bottom: 0.4rem;
+    }
+
+    .effect-desc {
+      font-size: 0.82rem;
+      color: var(--laser-chrome-dark);
+      line-height: 1.5;
+    }
+
+    /* Effect: Perspective Grid */
+    .demo-grid-floor {
+      position: absolute;
+      bottom: 0;
+      left: -50%;
+      right: -50%;
+      height: 70%;
+      background:
+        linear-gradient(rgba(0, 255, 255, 0.25) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 255, 255, 0.25) 1px, transparent 1px);
+      background-size: 50px 30px;
+      transform: perspective(400px) rotateX(60deg);
+      transform-origin: bottom center;
+      mask-image: linear-gradient(to top, rgba(0,0,0,0.9), transparent 80%);
+      -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,0.9), transparent 80%);
+      animation: grid-scroll 2s linear infinite;
+    }
+
+    .demo-grid-horizon-glow {
+      position: absolute;
+      bottom: 50%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 250px;
+      height: 80px;
+      border-radius: 50%;
+      background: radial-gradient(ellipse, rgba(255, 0, 128, 0.35) 0%, rgba(155, 48, 255, 0.15) 40%, transparent 70%);
+      filter: blur(20px);
+    }
+
+    /* Effect: Glass Block */
+    .demo-glass-block {
+      position: absolute;
+      inset: 20px;
+      background: rgba(200, 240, 255, 0.04);
+      border: 1px solid rgba(200, 240, 255, 0.12);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      background-image:
+        linear-gradient(rgba(200, 240, 255, 0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(200, 240, 255, 0.06) 1px, transparent 1px);
+      background-size: 50px 50px;
+    }
+
+    .demo-glass-light {
+      position: absolute;
+      top: 30%;
+      left: 30%;
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(0, 255, 255, 0.2), transparent 70%);
+      filter: blur(15px);
+    }
+
+    /* Effect: Neon Wireframe */
+    .demo-wireframe {
+      position: absolute;
+      inset: 30px;
+      border: 1px solid var(--laser-cyan);
+      box-shadow:
+        0 0 10px var(--laser-glow-cyan),
+        inset 0 0 10px rgba(0, 255, 255, 0.05);
+      animation: glow-border-pulse 3s ease-in-out infinite;
+    }
+
+    .demo-wireframe-inner {
+      position: absolute;
+      inset: 20px;
+      border: 1px solid rgba(255, 0, 128, 0.4);
+      box-shadow:
+        0 0 8px rgba(255, 0, 128, 0.3),
+        inset 0 0 8px rgba(255, 0, 128, 0.03);
+      transform: rotate(15deg);
+    }
+
+    .demo-wireframe-cross-h {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: rgba(0, 255, 255, 0.2);
+      box-shadow: 0 0 4px rgba(0, 255, 255, 0.2);
+    }
+
+    .demo-wireframe-cross-v {
+      position: absolute;
+      left: 50%;
+      top: 0;
+      bottom: 0;
+      width: 1px;
+      background: rgba(0, 255, 255, 0.2);
+      box-shadow: 0 0 4px rgba(0, 255, 255, 0.2);
+    }
+
+    /* Effect: Chrome Surface */
+    .demo-chrome-surface {
+      position: absolute;
+      inset: 25px;
+      background: linear-gradient(
+        135deg,
+        #404050 0%,
+        #c0c0c0 25%,
+        #ffffff 35%,
+        #808090 50%,
+        #c0c0c0 65%,
+        #ffffff 75%,
+        #404050 100%
+      );
+      clip-path: polygon(20% 0%, 80% 0%, 100% 50%, 80% 100%, 20% 100%, 0% 50%);
+    }
+
+    .demo-chrome-surface-glow {
+      position: absolute;
+      inset: 20px;
+      clip-path: polygon(20% 0%, 80% 0%, 100% 50%, 80% 100%, 20% 100%, 0% 50%);
+      box-shadow: 0 0 30px rgba(200, 200, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    /* Effect: Airbrush Glow */
+    .demo-airbrush-cyan {
+      position: absolute;
+      width: 160px;
+      height: 160px;
+      border-radius: 50%;
+      top: 20%;
+      left: 15%;
+      background: radial-gradient(circle, rgba(0, 255, 255, 0.25) 0%, rgba(0, 229, 255, 0.08) 40%, transparent 70%);
+      filter: blur(20px);
+    }
+
+    .demo-airbrush-magenta {
+      position: absolute;
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      top: 25%;
+      right: 15%;
+      background: radial-gradient(circle, rgba(255, 0, 128, 0.25) 0%, rgba(255, 45, 120, 0.08) 40%, transparent 70%);
+      filter: blur(20px);
+    }
+
+    .demo-airbrush-violet {
+      position: absolute;
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      bottom: 15%;
+      left: 40%;
+      background: radial-gradient(circle, rgba(155, 48, 255, 0.2) 0%, transparent 70%);
+      filter: blur(25px);
+    }
+
+    /* Effect: Laser Scan */
+    .demo-laser-scan-line {
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent 5%, rgba(0, 255, 255, 0.3) 20%, rgba(0, 255, 255, 0.3) 80%, transparent 95%);
+      animation: scan-line 4s linear infinite;
+      box-shadow: 0 0 10px var(--laser-glow-cyan);
+    }
+
+    .demo-laser-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--laser-cyan-dim);
+      text-align: center;
+      line-height: 1.8;
+      letter-spacing: 0.1em;
+    }
+
+    /* ============================================
+       RELATED AESTHETICS
+       ============================================ */
+    .related-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .related-item {
+      padding: 1.5rem;
+      border: 1px solid rgba(155, 48, 255, 0.15);
+      background: rgba(155, 48, 255, 0.02);
+      transition: all 0.3s ease;
+    }
+
+    .related-item:hover {
+      border-color: rgba(155, 48, 255, 0.4);
+      background: rgba(155, 48, 255, 0.06);
+      box-shadow: 0 0 15px rgba(155, 48, 255, 0.1);
+    }
+
+    .related-name {
+      font-family: 'Exo 2', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--laser-violet);
+      text-shadow: 0 0 6px rgba(155, 48, 255, 0.3);
+      margin-bottom: 0.5rem;
+    }
+
+    .related-desc {
+      font-size: 0.82rem;
+      color: var(--laser-chrome-dark);
+      line-height: 1.5;
+    }
+
+    /* ============================================
+       INTERIOR DESIGN SECTION
+       ============================================ */
+    .interior-list {
+      list-style: none;
+      max-width: 700px;
+      margin: 2rem auto 0;
+    }
+
+    .interior-list li {
+      padding: 1rem 1.5rem;
+      border-bottom: 1px solid rgba(0, 255, 255, 0.06);
+      font-size: 0.92rem;
+      color: var(--laser-chrome);
+      line-height: 1.6;
+      position: relative;
+      padding-left: 2.5rem;
+      transition: background 0.3s ease;
+    }
+
+    .interior-list li:hover {
+      background: rgba(0, 255, 255, 0.02);
+    }
+
+    .interior-list li::before {
+      content: '';
+      position: absolute;
+      left: 0.5rem;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 8px;
+      height: 8px;
+      border: 1px solid var(--laser-cyan);
+      box-shadow: 0 0 4px var(--laser-glow-cyan);
+    }
+
+    .interior-list li strong {
+      color: var(--laser-cyan-pale);
+      font-weight: 400;
+    }
+
+    /* ============================================
+       MATERIALS TABLE
+       ============================================ */
+    .materials-table-wrapper {
+      overflow-x: auto;
+      margin-top: 2rem;
+    }
+
+    .materials-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+    }
+
+    .materials-table th {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--laser-cyan);
+      text-shadow: 0 0 4px rgba(0, 255, 255, 0.2);
+      padding: 1rem 1.2rem;
+      text-align: left;
+      border-bottom: 1px solid rgba(0, 255, 255, 0.3);
+    }
+
+    .materials-table td {
+      padding: 0.9rem 1.2rem;
+      border-bottom: 1px solid rgba(0, 255, 255, 0.06);
+      color: var(--laser-chrome);
+      vertical-align: top;
+    }
+
+    .materials-table td:first-child {
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      color: var(--laser-cyan-pale);
+      white-space: nowrap;
+    }
+
+    .materials-table tr:hover td {
+      background: rgba(0, 255, 255, 0.02);
+    }
+
+    /* ============================================
+       APPROACHES SECTION
+       ============================================ */
+    .approaches-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .approach-item {
+      padding: 1.5rem;
+      background: rgba(0, 0, 0, 0.3);
+      border-top: 2px solid var(--laser-cyan);
+      box-shadow: 0 -2px 10px rgba(0, 255, 255, 0.15);
+      transition: all 0.3s ease;
+    }
+
+    .approach-item:hover {
+      box-shadow: 0 -3px 18px rgba(0, 255, 255, 0.25);
+    }
+
+    .approach-title {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--laser-cyan);
+      margin-bottom: 0.5rem;
+    }
+
+    .approach-desc {
+      font-size: 0.85rem;
+      color: var(--laser-chrome);
+      line-height: 1.55;
+    }
+
+    /* ============================================
+       BUTTONS
+       ============================================ */
+    .laser-button {
+      display: inline-block;
+      padding: 0.7rem 2.5rem;
+      border: 1px solid var(--laser-cyan);
+      background: transparent;
+      color: var(--laser-cyan);
+      font-family: 'Exo 2', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      box-shadow:
+        0 0 8px rgba(0, 255, 255, 0.15),
+        inset 0 0 8px rgba(0, 255, 255, 0.03);
+    }
+
+    .laser-button:hover {
+      background: rgba(0, 255, 255, 0.08);
+      box-shadow:
+        0 0 15px var(--laser-glow-cyan),
+        0 0 40px rgba(0, 255, 255, 0.12),
+        inset 0 0 15px rgba(0, 255, 255, 0.06);
+    }
+
+    .laser-button--magenta {
+      border-color: var(--laser-magenta);
+      color: var(--laser-magenta);
+      box-shadow:
+        0 0 8px rgba(255, 0, 128, 0.15),
+        inset 0 0 8px rgba(255, 0, 128, 0.03);
+    }
+
+    .laser-button--magenta:hover {
+      background: rgba(255, 0, 128, 0.08);
+      box-shadow:
+        0 0 15px var(--laser-glow-magenta),
+        0 0 40px rgba(255, 0, 128, 0.12),
+        inset 0 0 15px rgba(255, 0, 128, 0.06);
+    }
+
+    /* ============================================
+       FOOTER
+       ============================================ */
+    .footer {
+      text-align: center;
+      padding: 4rem 2rem 3rem;
+      position: relative;
+    }
+
+    .footer-grid-bg {
+      position: absolute;
+      top: 0;
+      left: -50%;
+      right: -50%;
+      height: 100%;
+      background-image:
+        linear-gradient(rgba(0, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 255, 255, 0.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+    }
+
+    .footer-logo {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--laser-cyan);
+      text-shadow:
+        0 0 7px var(--laser-cyan),
+        0 0 10px var(--laser-cyan),
+        0 0 21px var(--laser-cyan);
+      animation: neon-pulse 3s ease-in-out infinite;
+      position: relative;
+      z-index: 1;
+    }
+
+    .footer-text {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--laser-chrome-dark);
+      margin-top: 1rem;
+      letter-spacing: 0.08em;
+      position: relative;
+      z-index: 1;
+    }
+
+    .footer-text span {
+      color: var(--laser-magenta);
+    }
+
+    /* ============================================
+       IMAGERY GUIDELINES
+       ============================================ */
+    .imagery-guidelines {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1rem;
+      margin-top: 2rem;
+      list-style: none;
+    }
+
+    .imagery-guideline {
+      padding: 1.2rem 1.5rem;
+      border: 1px solid rgba(255, 102, 0, 0.12);
+      background: rgba(255, 102, 0, 0.02);
+      transition: all 0.3s ease;
+    }
+
+    .imagery-guideline:hover {
+      border-color: rgba(255, 102, 0, 0.3);
+      background: rgba(255, 102, 0, 0.05);
+    }
+
+    .imagery-guideline-text {
+      font-size: 0.85rem;
+      color: var(--laser-chrome);
+      line-height: 1.55;
+    }
+
+    .imagery-guideline-text strong {
+      color: var(--laser-orange);
+      font-weight: 400;
+      text-shadow: 0 0 4px var(--laser-glow-orange);
+    }
+
+    /* ============================================
+       STATUS BAR (decorative)
+       ============================================ */
+    .status-bar {
+      display: flex;
+      justify-content: center;
+      gap: 3rem;
+      flex-wrap: wrap;
+      margin-top: 2rem;
+      padding: 1rem;
+    }
+
+    .status-item {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--laser-chrome-dark);
+      letter-spacing: 0.08em;
+    }
+
+    .status-item .value {
+      color: var(--laser-cyan-mid);
+      text-shadow: 0 0 4px rgba(0, 229, 255, 0.3);
+    }
+
+    .status-item .value--magenta {
+      color: var(--laser-magenta);
+      text-shadow: 0 0 4px rgba(255, 0, 128, 0.3);
+    }
+
+    .status-item .value--active {
+      color: var(--laser-cyan);
+      text-shadow: 0 0 6px var(--laser-glow-cyan);
+    }
+
+    /* ============================================
+       SCROLL REVEAL (JS-driven)
+       ============================================ */
+    .reveal {
+      opacity: 0;
+      transform: translateY(25px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+
+    /* ============================================
+       RESPONSIVE
+       ============================================ */
+    @media (max-width: 768px) {
+      .nav-links {
+        gap: 1rem;
+      }
+
+      .nav-links a {
+        font-size: 0.5rem;
+        letter-spacing: 0.15em;
+      }
+
+      .hero {
+        padding: 5rem 1.5rem 3rem;
+      }
+
+      .hero-horizon {
+        width: 350px;
+        height: 150px;
+      }
+
+      .section {
+        padding: 3.5rem 1.5rem;
+      }
+
+      .motifs-grid,
+      .effects-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .palette-grid {
+        grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+      }
+
+      .principles-list {
+        grid-template-columns: 1fr;
+      }
+
+      .laser-card {
+        padding: 1.8rem;
+      }
+
+      .status-bar {
+        gap: 1.5rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      nav {
+        padding: 0.8rem 1rem;
+      }
+
+      .nav-links {
+        gap: 0.6rem;
+      }
+
+      .nav-links a {
+        font-size: 0.45rem;
+        letter-spacing: 0.1em;
+      }
+
+      .hero-title {
+        letter-spacing: 0.06em;
+      }
+
+      .laser-divider {
+        width: 90%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ========== NAVIGATION ========== -->
+  <nav>
+    <div class="nav-logo">Laser Grid</div>
+    <ul class="nav-links">
+      <li><a href="#overview">Overview</a></li>
+      <li><a href="#visuals">Visuals</a></li>
+      <li><a href="#palette">Palette</a></li>
+      <li><a href="#typography">Type</a></li>
+      <li><a href="#effects">Effects</a></li>
+      <li><a href="#related">Related</a></li>
+    </ul>
+  </nav>
+
+  <!-- ========== HERO ========== -->
+  <header class="hero">
+    <div class="hero-horizon"></div>
+    <div class="hero-horizon-line"></div>
+    <div class="hero-grid"></div>
+    <div class="hero-laser-1"></div>
+    <div class="hero-laser-2"></div>
+
+    <div class="hero-content">
+      <span class="hero-label">Design Aesthetic Reference</span>
+      <h1 class="hero-title">Laser Grid</h1>
+      <p class="hero-subtitle">Neon Lines / Dark Ground / Chrome Surfaces</p>
+      <p class="hero-tagline">
+        <span>SYS.INIT</span> // GRID ACTIVE // VECTOR DISPLAY <span>ONLINE</span><span class="cursor-blink"></span>
+      </p>
+      <p class="hero-year">1970s &mdash; 1980s &mdash; Revival</p>
+    </div>
+  </header>
+
+  <hr class="laser-divider--gradient laser-divider">
+
+  <!-- ========== STATUS BAR ========== -->
+  <div class="status-bar">
+    <span class="status-item">AESTHETIC: <span class="value--active value">LASER GRID</span></span>
+    <span class="status-item">ERA: <span class="value">1972-1989</span></span>
+    <span class="status-item">PALETTE: <span class="value">CYAN / MAGENTA / CHROME</span></span>
+    <span class="status-item">STATUS: <span class="value--magenta value">ACTIVE</span></span>
+  </div>
+
+  <hr class="laser-divider--fade laser-divider">
+
+  <!-- ========== OVERVIEW / INTRO ========== -->
+  <section class="section intro-section" id="overview">
+    <div class="section-header reveal">
+      <span class="section-label">// System Overview</span>
+      <h2 class="section-title">What Is Laser Grid?</h2>
+    </div>
+    <div class="laser-card reveal reveal-delay-1">
+      <p class="intro-text">
+        Laser Grid is a visual design aesthetic prevalent in the <strong>1970s and 1980s</strong>, overlapping with Memphis Design and Memphis Lite. It is characterized by <strong>laser-like visuals on dark backgrounds</strong>, a <strong>grid motif</strong>, and <strong>airbrushed chrome effects</strong>. The aesthetic originated from early vector computer graphics (films from 1972 onward), gaining mainstream prominence through <em>Tron</em> (1982) and <em>The Black Hole</em> (1979). It merged with airbrushed advertising styles and profoundly influenced interior design (glass block walls, floor-to-ceiling mirrors, chrome slat ceilings), corporate logo design (IBM's 1962 stripe redesign inspiring AT&T, Microsoft, and Sierra Entertainment), and later retrowave/synthwave revivals. Laser Grid is the <strong>source of the 1980s love of glass block walls and floor-to-ceiling mirrors</strong>.
+      </p>
+    </div>
+  </section>
+
+  <hr class="laser-divider">
+
+  <!-- ========== VISUAL CHARACTERISTICS ========== -->
+  <section class="section" id="visuals">
+    <div class="section-header reveal">
+      <span class="section-label">// Core Motifs &amp; Patterns</span>
+      <h2 class="section-title">Visual Characteristics</h2>
+    </div>
+
+    <div class="motifs-grid">
+      <div class="motif-item reveal">
+        <div class="motif-name">Perspective Grids</div>
+        <div class="motif-desc">Grids receding to a vanishing point create the iconic "laser floor" effect -- the defining motif of the aesthetic.</div>
+      </div>
+      <div class="motif-item reveal reveal-delay-1">
+        <div class="motif-name">Wireframes</div>
+        <div class="motif-desc">Skeletal geometric structures rendered as glowing lines on dark backgrounds, evoking early 3D computer graphics.</div>
+      </div>
+      <div class="motif-item reveal reveal-delay-2">
+        <div class="motif-name">Vector Light on Dark</div>
+        <div class="motif-desc">Bright line art against pure black, mimicking early CRT displays and vector graphics monitors.</div>
+      </div>
+      <div class="motif-item reveal reveal-delay-3">
+        <div class="motif-name">Pinstriped Logos</div>
+        <div class="motif-desc">Horizontal striping through letterforms and logotypes, inspired by the IBM stripe treatment of 1962.</div>
+      </div>
+      <div class="motif-item reveal">
+        <div class="motif-name">Glowing Lines</div>
+        <div class="motif-desc">All bright elements appear to emit light, as if drawn by laser. No hard edges -- all light sources feather outward.</div>
+      </div>
+      <div class="motif-item reveal reveal-delay-1">
+        <div class="motif-name">Neon Lighting</div>
+        <div class="motif-desc">Neon tubes define architectural edges and spatial boundaries, serving as both structure and decoration.</div>
+      </div>
+      <div class="motif-item reveal reveal-delay-2">
+        <div class="motif-name">Airbrushed Chrome</div>
+        <div class="motif-desc">Heavy use of airbrush to create glowing or chromed appearances -- soft gradients simulating reflective metal surfaces.</div>
+      </div>
+      <div class="motif-item reveal reveal-delay-3">
+        <div class="motif-name">Glass Blocks</div>
+        <div class="motif-desc">Translucent geometric building material used architecturally and decoratively, paired with chrome surfaces.</div>
+      </div>
+      <div class="motif-item reveal">
+        <div class="motif-name">Chrome &amp; Glass</div>
+        <div class="motif-desc">The signature material pairing -- chrome slat ceilings, floor-to-ceiling mirrors, reflective everything.</div>
+      </div>
+      <div class="motif-item reveal reveal-delay-1">
+        <div class="motif-name">Laser Beams</div>
+        <div class="motif-desc">Literal laser beam imagery -- straight lines of light converging, diverging, and sweeping through space.</div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="laser-divider--magenta laser-divider">
+
+  <!-- ========== DESIGN PRINCIPLES ========== -->
+  <section class="section">
+    <div class="section-header reveal">
+      <span class="section-label">// Design Logic</span>
+      <h2 class="section-title section-title--chrome">Design Principles</h2>
+    </div>
+
+    <ul class="principles-list">
+      <li class="principle-item reveal">
+        <div class="principle-title">Dark-Ground Composition</div>
+        <div class="principle-desc">Black is the canvas; everything luminous is the content. Unlike related aesthetics using dark navy, Laser Grid favors true black.</div>
+      </li>
+      <li class="principle-item reveal reveal-delay-1">
+        <div class="principle-title">Technical Precision</div>
+        <div class="principle-desc">Right angles, mathematical grids, clean intersections. Geometric rigor governs every element placement.</div>
+      </li>
+      <li class="principle-item reveal reveal-delay-2">
+        <div class="principle-title">Depth Through Perspective</div>
+        <div class="principle-desc">Vanishing-point grids create dramatic spatial recession, establishing ground planes and horizon lines.</div>
+      </li>
+      <li class="principle-item reveal reveal-delay-3">
+        <div class="principle-title">Light as Structure</div>
+        <div class="principle-desc">Glowing lines define space, not fill or texture. Structure emerges from luminosity rather than mass.</div>
+      </li>
+      <li class="principle-item reveal">
+        <div class="principle-title">High Contrast Extremes</div>
+        <div class="principle-desc">Near-black backgrounds with intensely bright accents. No middle tones -- only the void and the glow.</div>
+      </li>
+      <li class="principle-item reveal reveal-delay-1">
+        <div class="principle-title">Reflective Surface Obsession</div>
+        <div class="principle-desc">Chrome, glass, and mirror create visual complexity through reflections and gradient simulations.</div>
+      </li>
+      <li class="principle-item reveal reveal-delay-2">
+        <div class="principle-title">Symmetry &amp; Regularity</div>
+        <div class="principle-desc">Grid patterns enforce order and repetition. Centered, symmetrical compositions reflect grid regularity.</div>
+      </li>
+      <li class="principle-item reveal reveal-delay-3">
+        <div class="principle-title">Minimalism of Form</div>
+        <div class="principle-desc">Simple geometric shapes rendered with dramatic lighting -- minimalism of form, maximalism of effect.</div>
+      </li>
+    </ul>
+  </section>
+
+  <hr class="laser-divider--fade laser-divider">
+
+  <!-- ========== COLOR PALETTE ========== -->
+  <section class="section" id="palette">
+    <div class="section-header reveal">
+      <span class="section-label">// Color System</span>
+      <h2 class="section-title">Color Palette</h2>
+    </div>
+
+    <div class="laser-card reveal reveal-delay-1">
+      <p class="intro-text" style="margin-bottom: 2.5rem; font-size: 0.95rem;">
+        The Laser Grid palette is <strong>cyan-dominant</strong> with <strong>magenta as counterpoint</strong>. Chrome gradient accents add metallic depth. Typically only 2-3 colors appear per composition against black: cyan grid + magenta laser + chrome text.
+      </p>
+
+      <div class="palette-grid">
+        <div class="color-swatch">
+          <div class="swatch-preview" style="background: #000000; border: 1px solid rgba(255,255,255,0.08);"></div>
+          <div class="swatch-name">Void Black</div>
+          <div class="swatch-hex">#000000</div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch-preview" style="background: #080810; border: 1px solid rgba(255,255,255,0.06);"></div>
+          <div class="swatch-name">Near Black</div>
+          <div class="swatch-hex">#080810</div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch-preview" style="background: #111118; border: 1px solid rgba(255,255,255,0.05);"></div>
+          <div class="swatch-name">Dark Charcoal</div>
+          <div class="swatch-hex">#111118</div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch-preview swatch-preview--glow" style="background: #00ffff; color: #00ffff; box-shadow: 0 0 20px rgba(0,255,255,0.5);"></div>
+          <div class="swatch-name">Electric Cyan</div>
+          <div class="swatch-hex">#00FFFF</div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch-preview swatch-preview--glow" style="background: #00e5ff; color: #00e5ff; box-shadow: 0 0 18px rgba(0,229,255,0.4);"></div>
+          <div class="swatch-name">Laser Cyan</div>
+          <div class="swatch-hex">#00E5FF</div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch-preview" style="background: #a0f0ff;"></div>
+          <div class="swatch-name">Ice Blue</div>
+          <div class="swatch-hex">#A0F0FF</div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch-preview swatch-preview--glow" style="background: #ff0080; color: #ff0080; box-shadow: 0 0 20px rgba(255,0,128,0.5);"></div>
+          <div class="swatch-name">Hot Magenta</div>
+          <div class="swatch-hex">#FF0080</div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch-preview swatch-preview--glow" style="background: #ff2d78; color: #ff2d78; box-shadow: 0 0 18px rgba(255,45,120,0.4);"></div>
+          <div class="swatch-name">Neon Pink</div>
+          <div class="swatch-hex">#FF2D78</div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch-preview swatch-preview--glow" style="background: #9b30ff; color: #9b30ff; box-shadow: 0 0 18px rgba(155,48,255,0.4);"></div>
+          <div class="swatch-name">Vivid Violet</div>
+          <div class="swatch-hex">#9B30FF</div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch-preview swatch-preview--glow" style="background: #0044ff; color: #0044ff; box-shadow: 0 0 18px rgba(0,68,255,0.4);"></div>
+          <div class="swatch-name">Electric Blue</div>
+          <div class="swatch-hex">#0044FF</div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch-preview swatch-preview--glow" style="background: #ff6600; color: #ff6600; box-shadow: 0 0 18px rgba(255,102,0,0.4);"></div>
+          <div class="swatch-name">Neon Orange</div>
+          <div class="swatch-hex">#FF6600</div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch-preview" style="background: #f0f0f0;"></div>
+          <div class="swatch-name">Chrome White</div>
+          <div class="swatch-hex">#F0F0F0</div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch-preview" style="background: #c0c0c0;"></div>
+          <div class="swatch-name">Chrome Silver</div>
+          <div class="swatch-hex">#C0C0C0</div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch-preview" style="background: #707080;"></div>
+          <div class="swatch-name">Chrome Dark</div>
+          <div class="swatch-hex">#707080</div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch-preview" style="background: #4a4a5e;"></div>
+          <div class="swatch-name">Steel Blue-Grey</div>
+          <div class="swatch-hex">#4A4A5E</div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch-preview" style="background: #ccefff;"></div>
+          <div class="swatch-name">Glass Tint</div>
+          <div class="swatch-hex">#CCEFFF</div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch-preview" style="background: #003344; border: 1px solid rgba(0,255,255,0.1);"></div>
+          <div class="swatch-name">Grid Fade</div>
+          <div class="swatch-hex">#003344</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="laser-divider">
+
+  <!-- ========== COLOR APPROACHES ========== -->
+  <section class="section">
+    <div class="section-header reveal">
+      <span class="section-label">// Chromatic Strategy</span>
+      <h2 class="section-title">Palette Approaches</h2>
+    </div>
+
+    <div class="approaches-grid">
+      <div class="approach-item reveal">
+        <div class="approach-title">Pure Black Ground</div>
+        <div class="approach-desc">Unlike related aesthetics that use dark navy or purple, Laser Grid favors true black backgrounds for maximum contrast.</div>
+      </div>
+      <div class="approach-item reveal reveal-delay-1">
+        <div class="approach-title">Cyan-Dominant</div>
+        <div class="approach-desc">Electric cyan is the workhorse color for all grid and structural elements -- the primary visual identity of the aesthetic.</div>
+      </div>
+      <div class="approach-item reveal reveal-delay-2">
+        <div class="approach-title">Magenta Counterpoint</div>
+        <div class="approach-desc">Hot pink and magenta provide warm contrast against dominant cyan, creating visual tension and energy.</div>
+      </div>
+      <div class="approach-item reveal reveal-delay-3">
+        <div class="approach-title">Chrome Accents</div>
+        <div class="approach-desc">Metallic silver gradients on text and decorative elements add a sense of manufactured precision and luxury.</div>
+      </div>
+      <div class="approach-item reveal">
+        <div class="approach-title">Minimal Color Count</div>
+        <div class="approach-desc">Typically 2-3 colors maximum against black per composition -- restraint produces greater visual impact.</div>
+      </div>
+      <div class="approach-item reveal reveal-delay-1">
+        <div class="approach-title">Glow Falloff</div>
+        <div class="approach-desc">Bright elements fade to black through soft radial gradients, never sharp cutoffs. The airbrush principle applied everywhere.</div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="laser-divider--gradient laser-divider">
+
+  <!-- ========== TYPOGRAPHY ========== -->
+  <section class="section" id="typography">
+    <div class="section-header reveal">
+      <span class="section-label">// Type System</span>
+      <h2 class="section-title">Typography</h2>
+    </div>
+
+    <div class="laser-card reveal reveal-delay-1" style="margin-bottom: 2rem;">
+      <p class="intro-text" style="font-size: 0.95rem;">
+        Laser Grid typography reflects its <strong>corporate-technical</strong> and <strong>vector-graphics</strong> origins: geometric sans-serifs, monospaced terminal fonts, pinstriped letterforms, extended tracking, ALL CAPS display, and chrome/neon text effects. <strong>No serifs, no scripts</strong> -- the aesthetic is purely geometric and technical.
+      </p>
+    </div>
+
+    <div class="type-showcase">
+      <div class="type-specimen reveal">
+        <span class="type-specimen-label">Display / Hero -- Orbitron 700 -- Neon Glow</span>
+        <div class="type-display">Laser Grid</div>
+        <div class="font-name">font-family: 'Orbitron' // text-shadow: multi-layered cyan glow</div>
+      </div>
+
+      <div class="type-specimen reveal reveal-delay-1">
+        <span class="type-specimen-label">Chrome Metallic -- Orbitron 700 -- Gradient Clip</span>
+        <div class="type-chrome">Chrome Effect</div>
+        <div class="font-name">font-family: 'Orbitron' // background: linear-gradient // background-clip: text</div>
+      </div>
+
+      <div class="type-specimen reveal reveal-delay-2">
+        <span class="type-specimen-label">Pinstriped -- Orbitron 900 -- Repeating Gradient</span>
+        <div class="type-pinstripe">Pinstripe</div>
+        <div class="font-name">font-family: 'Orbitron' // background: repeating-linear-gradient // background-clip: text</div>
+      </div>
+
+      <div class="type-specimen reveal reveal-delay-3">
+        <span class="type-specimen-label">Neon Magenta -- Audiowide -- Pulse Animation</span>
+        <div class="type-neon-magenta">Neon Pulse</div>
+        <div class="font-name">font-family: 'Audiowide' // animation: magenta-pulse 4s infinite</div>
+      </div>
+
+      <div class="type-specimen reveal">
+        <span class="type-specimen-label">Section Heading -- Exo 2 600 -- Cyan Glow</span>
+        <div class="type-heading">Section Headings Use Exo 2</div>
+        <div class="font-name">font-family: 'Exo 2' // letter-spacing: 0.1em // text-transform: uppercase</div>
+      </div>
+
+      <div class="type-specimen reveal reveal-delay-1">
+        <span class="type-specimen-label">Monospace / Terminal -- Share Tech Mono</span>
+        <div class="type-mono">SYS.LOAD &gt; grid_init(0xFF) // VECTOR_DISPLAY: ACTIVE // RENDER_MODE: WIREFRAME</div>
+        <div class="font-name">font-family: 'Share Tech Mono' // color: var(--laser-cyan-mid)</div>
+      </div>
+
+      <div class="type-specimen reveal reveal-delay-2">
+        <span class="type-specimen-label">Body Text -- Inter 300 -- Pale Cyan</span>
+        <div class="type-body">Body text uses thin-weight Inter at 300 weight, suggesting laser-thin precision. Light letterforms float on dark backgrounds with generous line-height for readability. The text color is a pale, slightly blue-shifted white that feels like reflected light rather than direct illumination.</div>
+        <div class="font-name">font-family: 'Inter' // font-weight: 300 // line-height: 1.7</div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="laser-divider--magenta laser-divider">
+
+  <!-- ========== EFFECTS / TECHNIQUES ========== -->
+  <section class="section" id="effects">
+    <div class="section-header reveal">
+      <span class="section-label">// CSS Techniques</span>
+      <h2 class="section-title">Signature Effects</h2>
+    </div>
+
+    <div class="effects-grid">
+      <!-- Perspective Grid -->
+      <div class="effect-demo reveal">
+        <div class="effect-preview">
+          <div class="demo-grid-horizon-glow"></div>
+          <div class="demo-grid-floor"></div>
+        </div>
+        <div class="effect-info">
+          <div class="effect-name">Perspective Grid Floor</div>
+          <div class="effect-desc">The signature Laser Grid effect: CSS grid pattern with perspective transform and rotateX, animated with background-position scrolling. Mask-image creates the horizon fade.</div>
+        </div>
+      </div>
+
+      <!-- Glass Block -->
+      <div class="effect-demo reveal reveal-delay-1">
+        <div class="effect-preview">
+          <div class="demo-glass-light"></div>
+          <div class="demo-glass-block"></div>
+        </div>
+        <div class="effect-info">
+          <div class="effect-name">Glass Block Panel</div>
+          <div class="effect-desc">Semi-transparent panel with backdrop-filter blur and a subtle grid overlay simulating glass block segmentation. Inner light sources refract through the surface.</div>
+        </div>
+      </div>
+
+      <!-- Wireframe -->
+      <div class="effect-demo reveal reveal-delay-2">
+        <div class="effect-preview">
+          <div class="demo-wireframe">
+            <div class="demo-wireframe-cross-h"></div>
+            <div class="demo-wireframe-cross-v"></div>
+          </div>
+          <div class="demo-wireframe-inner"></div>
+        </div>
+        <div class="effect-info">
+          <div class="effect-name">Neon Wireframe</div>
+          <div class="effect-desc">Thin 1px borders with multi-layered box-shadow creating neon glow. Corner accents and cross-hair guides add the technical blueprint feel.</div>
+        </div>
+      </div>
+
+      <!-- Chrome Surface -->
+      <div class="effect-demo reveal reveal-delay-3">
+        <div class="effect-preview">
+          <div class="demo-chrome-surface"></div>
+          <div class="demo-chrome-surface-glow"></div>
+        </div>
+        <div class="effect-info">
+          <div class="effect-name">Chrome Metallic Surface</div>
+          <div class="effect-desc">Multi-stop linear gradient alternating silver tones creates the chrome reflection effect. Applied to shapes via clip-path for geometric precision.</div>
+        </div>
+      </div>
+
+      <!-- Airbrush -->
+      <div class="effect-demo reveal">
+        <div class="effect-preview">
+          <div class="demo-airbrush-cyan"></div>
+          <div class="demo-airbrush-magenta"></div>
+          <div class="demo-airbrush-violet"></div>
+        </div>
+        <div class="effect-info">
+          <div class="effect-name">Airbrush Glow</div>
+          <div class="effect-desc">Large radial-gradient circles with filter: blur() create the classic airbrush look. Overlapping colored glows simulate the atmospheric light mixing of the era.</div>
+        </div>
+      </div>
+
+      <!-- Scan Line -->
+      <div class="effect-demo reveal reveal-delay-1">
+        <div class="effect-preview">
+          <div class="demo-laser-text">
+            SECTOR 7-G ONLINE<br>
+            GRID STATUS: NOMINAL<br>
+            VECTOR BUFFER: 64K<br>
+            RENDER PIPELINE: ACTIVE
+          </div>
+          <div class="demo-laser-scan-line"></div>
+        </div>
+        <div class="effect-info">
+          <div class="effect-name">Laser Scanline</div>
+          <div class="effect-desc">Animated horizontal line sweeping vertically, simulating CRT scanning and laser measurement. Creates dynamic tension in static compositions.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="laser-divider--fade laser-divider">
+
+  <!-- ========== LAYOUT PRINCIPLES ========== -->
+  <section class="section">
+    <div class="section-header reveal">
+      <span class="section-label">// Spatial Logic</span>
+      <h2 class="section-title">Layout Principles</h2>
+    </div>
+
+    <div class="motifs-grid">
+      <div class="motif-item reveal">
+        <div class="motif-name">True Black Full-Bleed</div>
+        <div class="motif-desc">The entire viewport is black; content floats within the void. No colored backgrounds, no greys -- pure darkness.</div>
+      </div>
+      <div class="motif-item reveal reveal-delay-1">
+        <div class="motif-name">Grid Spatial Anchor</div>
+        <div class="motif-desc">The perspective grid floor establishes a "ground plane" beneath content, creating depth and architectural presence.</div>
+      </div>
+      <div class="motif-item reveal reveal-delay-2">
+        <div class="motif-name">Centered Symmetry</div>
+        <div class="motif-desc">Content aligned to the central axis, reflecting the regularity and mathematical order of the grid itself.</div>
+      </div>
+      <div class="motif-item reveal reveal-delay-3">
+        <div class="motif-name">Generous Negative Space</div>
+        <div class="motif-desc">Large areas of black between elements reinforce the void/space feeling. Each element is given maximum visual impact.</div>
+      </div>
+      <div class="motif-item reveal">
+        <div class="motif-name">Geometric Containment</div>
+        <div class="motif-desc">Content areas defined by thin glowing lines rather than filled backgrounds. Wireframe-bordered panels contain information.</div>
+      </div>
+      <div class="motif-item reveal reveal-delay-1">
+        <div class="motif-name">Layered Depth Planes</div>
+        <div class="motif-desc">Background grid, midground structural lines, foreground content -- three distinct depth layers create spatial richness.</div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="laser-divider">
+
+  <!-- ========== MATERIALS TABLE ========== -->
+  <section class="section">
+    <div class="section-header reveal">
+      <span class="section-label">// Physical to Digital</span>
+      <h2 class="section-title section-title--chrome">Materials &amp; Textures</h2>
+    </div>
+
+    <div class="materials-table-wrapper reveal reveal-delay-1">
+      <table class="materials-table">
+        <thead>
+          <tr>
+            <th>Physical Reference</th>
+            <th>Web Equivalent</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Laser grid floor</td>
+            <td>CSS grid pattern with perspective and rotateX transform, fading with mask-image</td>
+          </tr>
+          <tr>
+            <td>Neon tube lighting</td>
+            <td>Multi-layered text-shadow or box-shadow in cyan/magenta, optional pulse animation</td>
+          </tr>
+          <tr>
+            <td>Chrome slat ceiling</td>
+            <td>Repeating linear-gradient with alternating silver tones and narrow gaps</td>
+          </tr>
+          <tr>
+            <td>Glass block wall</td>
+            <td>Semi-transparent panel with backdrop-filter: blur(), subtle grid overlay</td>
+          </tr>
+          <tr>
+            <td>Floor-to-ceiling mirror</td>
+            <td>Linear-gradient with chrome stops, slight distortion via filter</td>
+          </tr>
+          <tr>
+            <td>Airbrush glow</td>
+            <td>Large radial-gradient blurs with filter: blur() on absolutely-positioned elements</td>
+          </tr>
+          <tr>
+            <td>Wireframe geometry</td>
+            <td>Thin border outlines (1px) with neon glow box-shadow, no fill</td>
+          </tr>
+          <tr>
+            <td>CRT / vector display</td>
+            <td>Text-shadow glow on monospaced text, scanline overlay, cyan tint</td>
+          </tr>
+          <tr>
+            <td>Pinstriped logo</td>
+            <td>Repeating-linear-gradient as background-clip: text mask through letterforms</td>
+          </tr>
+          <tr>
+            <td>Laser beam</td>
+            <td>Narrow linear-gradient element with high glow, animated position</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <hr class="laser-divider--gradient laser-divider">
+
+  <!-- ========== IMAGERY GUIDELINES ========== -->
+  <section class="section">
+    <div class="section-header reveal">
+      <span class="section-label">// Visual Direction</span>
+      <h2 class="section-title">Imagery Guidelines</h2>
+    </div>
+
+    <ul class="imagery-guidelines">
+      <li class="imagery-guideline reveal">
+        <div class="imagery-guideline-text"><strong>Embrace total darkness</strong> -- imagery should emerge from pure black, not dark grey or dark blue</div>
+      </li>
+      <li class="imagery-guideline reveal reveal-delay-1">
+        <div class="imagery-guideline-text"><strong>Wireframe illustrations</strong> over filled or photographic imagery -- line art captures the vector origin</div>
+      </li>
+      <li class="imagery-guideline reveal reveal-delay-2">
+        <div class="imagery-guideline-text"><strong>Cyan/magenta color grading</strong> on any photographs, pushing toward a duotone look</div>
+      </li>
+      <li class="imagery-guideline reveal reveal-delay-3">
+        <div class="imagery-guideline-text"><strong>Geometric and architectural subjects</strong> -- buildings, interiors, technical structures</div>
+      </li>
+      <li class="imagery-guideline reveal">
+        <div class="imagery-guideline-text"><strong>Perspective grid overlays</strong> on images as decorative layers, reinforcing the signature motif</div>
+      </li>
+      <li class="imagery-guideline reveal reveal-delay-1">
+        <div class="imagery-guideline-text"><strong>Vector-style computer graphics</strong> -- the look of early 3D wireframes from Tron and The Black Hole</div>
+      </li>
+      <li class="imagery-guideline reveal reveal-delay-2">
+        <div class="imagery-guideline-text"><strong>Chrome and reflective surfaces</strong> -- metallic textures, mirrors, glass in all imagery</div>
+      </li>
+      <li class="imagery-guideline reveal reveal-delay-3">
+        <div class="imagery-guideline-text"><strong>Avoid organic forms</strong> -- no plants, no natural textures; everything built, manufactured, geometric</div>
+      </li>
+    </ul>
+  </section>
+
+  <hr class="laser-divider--magenta laser-divider">
+
+  <!-- ========== INTERIOR DESIGN ========== -->
+  <section class="section">
+    <div class="section-header reveal">
+      <span class="section-label">// Environmental Reference</span>
+      <h2 class="section-title">Interior Design Influence</h2>
+    </div>
+
+    <div class="laser-card--magenta laser-card reveal reveal-delay-1">
+      <p class="intro-text" style="font-size: 0.95rem; margin-bottom: 1.5rem;">
+        The Laser Grid aesthetic influenced physical space design extensively. These principles translate to web design as: geometric containers, reflective/gradient surfaces, luminous edge-lines as structural definition, and dark backgrounds with strategically placed light accents.
+      </p>
+
+      <ul class="interior-list">
+        <li><strong>Right-angle shapes</strong> dominating room layouts and furniture</li>
+        <li><strong>Black combined with chrome and glass</strong> as the primary material palette</li>
+        <li><strong>Glass block walls</strong> as room dividers and decorative elements</li>
+        <li><strong>Floor-to-ceiling mirrors</strong> on closet doors and walls -- the 1980s interior signature</li>
+        <li><strong>Chrome slat ceilings</strong> reflecting light in striped patterns</li>
+        <li><strong>Neon lighting</strong> as architectural accent, defining edges and transitions</li>
+        <li><strong>Minimalist, tech-forward furnishing</strong> -- clean lines, metallic finishes</li>
+      </ul>
+    </div>
+  </section>
+
+  <hr class="laser-divider--fade laser-divider">
+
+  <!-- ========== RELATED AESTHETICS ========== -->
+  <section class="section" id="related">
+    <div class="section-header reveal">
+      <span class="section-label">// Connected Systems</span>
+      <h2 class="section-title">Related Aesthetics</h2>
+    </div>
+
+    <div class="related-grid">
+      <div class="related-item reveal">
+        <div class="related-name">Synthwave</div>
+        <div class="related-desc">Modern revival; reinterprets Laser Grid's perspective grids and neon-on-black with contemporary digital tools.</div>
+      </div>
+      <div class="related-item reveal reveal-delay-1">
+        <div class="related-name">Italo Disco</div>
+        <div class="related-desc">Contemporary sibling; shares laser grids, airbrush, and chrome but adds romantic, sunset, and figure elements.</div>
+      </div>
+      <div class="related-item reveal reveal-delay-2">
+        <div class="related-name">Cassette Futurism</div>
+        <div class="related-desc">Shares the 1980s retro-tech origins; focuses more on physical media and hardware aesthetics.</div>
+      </div>
+      <div class="related-item reveal reveal-delay-3">
+        <div class="related-name">Early Cyber</div>
+        <div class="related-desc">Overlapping era; shares wireframe and CRT-display visual language with the same vector-graphic roots.</div>
+      </div>
+      <div class="related-item reveal">
+        <div class="related-name">Cyberpunk</div>
+        <div class="related-desc">Descendant aesthetic; inherits neon-on-dark and grid motifs, adds dystopian narrative layers and urban grit.</div>
+      </div>
+      <div class="related-item reveal reveal-delay-1">
+        <div class="related-name">Memphis Design</div>
+        <div class="related-desc">Contemporary overlap; Laser Grid's grid rigor contrasts with Memphis's playful asymmetry and bold color.</div>
+      </div>
+      <div class="related-item reveal reveal-delay-2">
+        <div class="related-name">Silicon Dreams</div>
+        <div class="related-desc">Shares the computer-generated imagery origin and chrome surface obsession of the early digital era.</div>
+      </div>
+      <div class="related-item reveal reveal-delay-3">
+        <div class="related-name">Vaporwave</div>
+        <div class="related-desc">Nostalgic recontextualization of Laser Grid's grids and chrome, with ironic/surreal layering and pastels.</div>
+      </div>
+      <div class="related-item reveal">
+        <div class="related-name">Memphis Lite</div>
+        <div class="related-desc">Softer sibling of Memphis that overlaps with Laser Grid in corporate and commercial contexts of the era.</div>
+      </div>
+      <div class="related-item reveal reveal-delay-1">
+        <div class="related-name">Monochrome Luxe</div>
+        <div class="related-desc">Shares the black + chrome/metallic palette and reflective surface emphasis in a more restrained register.</div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="laser-divider">
+
+  <!-- ========== FOOTER ========== -->
+  <footer class="footer">
+    <div class="footer-grid-bg"></div>
+    <div class="footer-logo">Laser Grid</div>
+    <p class="footer-text">
+      DESIGN REFERENCE // <span>AESTHETIC DATABASE</span> // VECTOR SYSTEM ONLINE
+    </p>
+    <div class="status-bar" style="margin-top: 1rem;">
+      <span class="status-item">GRID: <span class="value--active value">NOMINAL</span></span>
+      <span class="status-item">RENDER: <span class="value">COMPLETE</span></span>
+      <span class="status-item">SESSION: <span class="value--magenta value">ACTIVE</span></span>
+    </div>
+  </footer>
+
+  <!-- ========== SCROLL REVEAL JS ========== -->
+  <script>
+    (function() {
+      var reveals = document.querySelectorAll('.reveal');
+
+      function checkReveal() {
+        var windowHeight = window.innerHeight;
+        var revealPoint = 80;
+
+        for (var i = 0; i < reveals.length; i++) {
+          var revealTop = reveals[i].getBoundingClientRect().top;
+
+          if (revealTop < windowHeight - revealPoint) {
+            reveals[i].classList.add('visible');
+          }
+        }
+      }
+
+      window.addEventListener('scroll', checkReveal, { passive: true });
+      window.addEventListener('resize', checkReveal, { passive: true });
+
+      // Initial check
+      checkReveal();
+    })();
+  </script>
+</body>
+</html>
