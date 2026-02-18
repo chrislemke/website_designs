@@ -1,0 +1,1824 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Synthwave -- Retro-Futuristic Design Aesthetic</title>
+  <link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Outfit:wght@300;400;500;600&family=Orbitron:wght@400;700;900&family=Exo+2:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <style>
+    /* ===== CUSTOM PROPERTIES ===== */
+    :root {
+      /* Warm neons */
+      --synth-orange: #ff6b35;
+      --synth-pink: #ff2e97;
+      --synth-magenta: #ff006e;
+      --synth-purple: #8b00ff;
+      --synth-violet: #4a0080;
+
+      /* Cool neons */
+      --synth-cyan: #00e5ff;
+      --synth-blue: #0066ff;
+
+      /* Chrome */
+      --synth-chrome: #c0c0d0;
+      --synth-chrome-bright: #ffffff;
+
+      /* Backgrounds */
+      --synth-bg-midnight: #0d0221;
+      --synth-bg-dark: #150030;
+      --synth-bg-panel: #1a0940;
+
+      /* Text */
+      --synth-text-primary: #e0d0ff;
+      --synth-text-secondary: #7a6b8e;
+
+      /* Gradients */
+      --synth-gradient-sunset: linear-gradient(180deg, #ff6b35 0%, #ff2e97 30%, #8b00ff 60%, #0d0221 100%);
+      --synth-gradient-sky: linear-gradient(180deg, #4a0080 0%, #8b00ff 40%, #ff2e97 70%, #ff6b35 100%);
+      --synth-gradient-chrome: linear-gradient(180deg, #ffffff 0%, #c0c0d0 40%, #606080 60%, #c0c0d0 80%, #ffffff 100%);
+
+      /* Glows */
+      --synth-glow-pink: 0 0 10px rgba(255, 46, 151, 0.5), 0 0 40px rgba(255, 46, 151, 0.2);
+      --synth-glow-cyan: 0 0 10px rgba(0, 229, 255, 0.5), 0 0 40px rgba(0, 229, 255, 0.2);
+      --synth-glow-purple: 0 0 10px rgba(139, 0, 255, 0.5), 0 0 40px rgba(139, 0, 255, 0.2);
+    }
+
+    /* ===== RESET & BASE ===== */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--synth-bg-midnight);
+      color: var(--synth-text-primary);
+      font-family: 'Outfit', sans-serif;
+      font-weight: 400;
+      font-size: 1rem;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'Audiowide', cursive;
+      font-weight: 400;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      line-height: 1.15;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      max-width: 100%;
+    }
+
+    /* ===== STARFIELD BACKGROUND ===== */
+    .starfield {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .star {
+      position: absolute;
+      border-radius: 50%;
+      background: #fff;
+    }
+
+    /* ===== NAVIGATION ===== */
+    .synth-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      padding: 0 40px;
+      transition: background 0.4s ease;
+    }
+
+    .synth-nav.scrolled {
+      background: rgba(13, 2, 33, 0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255, 46, 151, 0.1);
+    }
+
+    .synth-nav__inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px 0;
+    }
+
+    .synth-nav__logo {
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 900;
+      font-size: 1.4rem;
+      color: var(--synth-pink);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      text-shadow: 0 0 12px rgba(255, 46, 151, 0.6), 0 0 30px rgba(255, 46, 151, 0.2);
+      animation: pulseGlow 3s ease-in-out infinite;
+    }
+
+    @keyframes pulseGlow {
+      0%, 100% { text-shadow: 0 0 12px rgba(255, 46, 151, 0.6), 0 0 30px rgba(255, 46, 151, 0.2); }
+      50% { text-shadow: 0 0 18px rgba(255, 46, 151, 0.8), 0 0 50px rgba(255, 46, 151, 0.3); }
+    }
+
+    .synth-nav__links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+
+    .synth-nav__links a {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 500;
+      font-size: 0.85rem;
+      color: var(--synth-text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      transition: color 0.3s, text-shadow 0.3s;
+      position: relative;
+    }
+
+    .synth-nav__links a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 1px;
+      background: var(--synth-cyan);
+      box-shadow: 0 0 6px rgba(0, 229, 255, 0.4);
+      transition: width 0.3s ease;
+    }
+
+    .synth-nav__links a:hover {
+      color: var(--synth-cyan);
+      text-shadow: 0 0 10px rgba(0, 229, 255, 0.4);
+    }
+
+    .synth-nav__links a:hover::after {
+      width: 100%;
+    }
+
+    /* ===== HERO SECTION ===== */
+    .synth-hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 120px 40px 80px;
+      background: linear-gradient(180deg, #0d0221 0%, #150030 10%, #4a0080 30%, #8b00ff 45%, #ff2e97 62%, #ff6b35 78%, #ff6b35 82%, #ff2e97 88%, #8b00ff 94%, #150030 100%);
+      overflow: hidden;
+    }
+
+    /* Striped sun */
+    .synth-sun {
+      position: absolute;
+      bottom: 28%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 340px;
+      height: 340px;
+      border-radius: 50%;
+      background: linear-gradient(180deg, #ffe066 0%, #ff6b35 25%, #ff2e97 55%, #8b00ff 100%);
+      -webkit-mask-image: repeating-linear-gradient(0deg, #000 0px, #000 7px, transparent 7px, transparent 11px);
+      mask-image: repeating-linear-gradient(0deg, #000 0px, #000 7px, transparent 7px, transparent 11px);
+      z-index: 1;
+      animation: sunPulse 6s ease-in-out infinite;
+      filter: blur(0.5px);
+    }
+
+    @keyframes sunPulse {
+      0%, 100% { transform: translateX(-50%) scale(1); opacity: 1; }
+      50% { transform: translateX(-50%) scale(1.03); opacity: 0.95; }
+    }
+
+    /* Sun glow halo */
+    .synth-sun-glow {
+      position: absolute;
+      bottom: 24%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 500px;
+      height: 500px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255, 107, 53, 0.3) 0%, rgba(255, 46, 151, 0.15) 40%, transparent 70%);
+      z-index: 0;
+      animation: sunPulse 6s ease-in-out infinite;
+    }
+
+    /* Perspective grid floor */
+    .synth-grid {
+      position: absolute;
+      bottom: 0;
+      left: -30%;
+      right: -30%;
+      height: 38%;
+      background:
+        repeating-linear-gradient(90deg, transparent, transparent 59px, rgba(255, 46, 151, 0.35) 59px, rgba(255, 46, 151, 0.35) 60px),
+        repeating-linear-gradient(0deg, transparent, transparent 59px, rgba(255, 46, 151, 0.35) 59px, rgba(255, 46, 151, 0.35) 60px);
+      transform: perspective(400px) rotateX(55deg);
+      transform-origin: bottom center;
+      z-index: 2;
+      animation: gridScroll 3s linear infinite;
+    }
+
+    @keyframes gridScroll {
+      0% { background-position: 0 0; }
+      100% { background-position: 0 60px; }
+    }
+
+    /* Horizon glow line */
+    .synth-horizon {
+      position: absolute;
+      bottom: 37%;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, transparent 5%, var(--synth-orange) 20%, var(--synth-pink) 50%, var(--synth-orange) 80%, transparent 95%);
+      z-index: 3;
+      box-shadow: 0 0 20px rgba(255, 46, 151, 0.6), 0 0 60px rgba(255, 107, 53, 0.3);
+    }
+
+    .synth-hero__content {
+      position: relative;
+      z-index: 10;
+      max-width: 900px;
+    }
+
+    .synth-hero__tagline {
+      font-family: 'Exo 2', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--synth-cyan);
+      margin-bottom: 24px;
+      text-shadow: 0 0 12px rgba(0, 229, 255, 0.4);
+      animation: fadeSlideUp 1s ease-out 0.2s both;
+    }
+
+    .synth-hero__title {
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 900;
+      font-size: clamp(3rem, 8vw, 7rem);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      line-height: 1;
+      margin-bottom: 28px;
+      background: linear-gradient(
+        180deg,
+        #ffffff 0%,
+        #e8e0f0 15%,
+        #c0c0d0 30%,
+        #808098 48%,
+        #c0c0d0 55%,
+        #ffffff 65%,
+        #a8a0c0 80%,
+        #ffffff 100%
+      );
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      filter: drop-shadow(0 0 30px rgba(255, 46, 151, 0.35)) drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+      animation: fadeSlideUp 1s ease-out 0.4s both;
+    }
+
+    .synth-hero__subtitle {
+      font-family: 'Outfit', sans-serif;
+      font-size: clamp(1rem, 2vw, 1.2rem);
+      font-weight: 300;
+      color: rgba(224, 208, 255, 0.75);
+      max-width: 650px;
+      margin: 0 auto 40px;
+      line-height: 1.8;
+      animation: fadeSlideUp 1s ease-out 0.6s both;
+    }
+
+    .synth-hero__buttons {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
+      animation: fadeSlideUp 1s ease-out 0.8s both;
+    }
+
+    @keyframes fadeSlideUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ===== BUTTONS ===== */
+    .synth-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: transparent;
+      color: var(--synth-pink);
+      border: 2px solid var(--synth-pink);
+      border-radius: 4px;
+      padding: 14px 44px;
+      font-family: 'Audiowide', cursive;
+      font-size: 0.82rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.35s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .synth-button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 46, 151, 0.15), transparent);
+      transition: left 0.5s ease;
+    }
+
+    .synth-button:hover::before {
+      left: 100%;
+    }
+
+    .synth-button:hover {
+      background: var(--synth-pink);
+      color: var(--synth-bg-midnight);
+      box-shadow: var(--synth-glow-pink);
+      transform: translateY(-2px);
+    }
+
+    .synth-button--cyan {
+      color: var(--synth-cyan);
+      border-color: var(--synth-cyan);
+    }
+
+    .synth-button--cyan:hover {
+      background: var(--synth-cyan);
+      color: var(--synth-bg-midnight);
+      box-shadow: var(--synth-glow-cyan);
+    }
+
+    .synth-button--filled {
+      background: linear-gradient(135deg, var(--synth-pink), var(--synth-purple));
+      color: #ffffff;
+      border: none;
+    }
+
+    .synth-button--filled:hover {
+      box-shadow: var(--synth-glow-pink);
+      filter: brightness(1.15);
+      transform: translateY(-2px);
+    }
+
+    /* ===== NEON DIVIDER ===== */
+    .synth-divider {
+      border: none;
+      height: 2px;
+      background: linear-gradient(90deg, transparent 0%, var(--synth-cyan) 20%, var(--synth-pink) 50%, var(--synth-purple) 80%, transparent 100%);
+      max-width: 1200px;
+      margin: 0 auto;
+      box-shadow: 0 0 10px rgba(255, 46, 151, 0.3), 0 0 30px rgba(255, 46, 151, 0.1);
+    }
+
+    /* ===== SECTION CONTAINER ===== */
+    .synth-container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 40px;
+    }
+
+    /* ===== SECTION TITLE ===== */
+    .synth-section-title {
+      text-align: center;
+      margin-bottom: 16px;
+    }
+
+    .synth-section-title__label {
+      display: block;
+      font-family: 'Exo 2', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--synth-cyan);
+      margin-bottom: 12px;
+      text-shadow: 0 0 8px rgba(0, 229, 255, 0.3);
+    }
+
+    .synth-section-title__heading {
+      font-family: 'Audiowide', cursive;
+      font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+      color: var(--synth-text-primary);
+    }
+
+    .synth-section-title__heading--neon {
+      color: var(--synth-pink);
+      text-shadow: 0 0 8px rgba(255, 46, 151, 0.6), 0 0 25px rgba(255, 46, 151, 0.25);
+    }
+
+    .synth-section-title__heading--chrome {
+      background: var(--synth-gradient-chrome);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      filter: drop-shadow(0 0 15px rgba(255, 46, 151, 0.25));
+    }
+
+    .synth-section-subtitle {
+      text-align: center;
+      color: var(--synth-text-secondary);
+      font-size: 1.05rem;
+      max-width: 700px;
+      margin: 0 auto 56px;
+      line-height: 1.8;
+    }
+
+    /* ===== INTRO / ABOUT SECTION ===== */
+    .section-intro {
+      padding: 100px 0 80px;
+      background: var(--synth-bg-midnight);
+      position: relative;
+    }
+
+    .intro-content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+
+    .intro-text p {
+      color: var(--synth-text-secondary);
+      font-size: 1.02rem;
+      line-height: 1.85;
+      margin-bottom: 20px;
+    }
+
+    .intro-text p:first-child {
+      color: var(--synth-text-primary);
+      font-size: 1.08rem;
+    }
+
+    .intro-visual {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Retro TV / Monitor shape */
+    .retro-monitor {
+      width: 100%;
+      max-width: 400px;
+      aspect-ratio: 4/3;
+      background: linear-gradient(135deg, #1a0940 0%, #0d0221 100%);
+      border: 3px solid rgba(255, 46, 151, 0.3);
+      border-radius: 16px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 0 30px rgba(255, 46, 151, 0.15), inset 0 0 60px rgba(139, 0, 255, 0.1);
+    }
+
+    .retro-monitor::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent 0px,
+        transparent 2px,
+        rgba(255, 46, 151, 0.03) 2px,
+        rgba(255, 46, 151, 0.03) 4px
+      );
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .retro-monitor__screen {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      right: 20px;
+      bottom: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .monitor-palm {
+      font-size: 60px;
+      filter: drop-shadow(0 0 15px rgba(255, 46, 151, 0.5));
+      animation: palmSway 4s ease-in-out infinite;
+    }
+
+    @keyframes palmSway {
+      0%, 100% { transform: rotate(-3deg); }
+      50% { transform: rotate(3deg); }
+    }
+
+    .monitor-text {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--synth-cyan);
+      text-shadow: 0 0 10px rgba(0, 229, 255, 0.5);
+    }
+
+    .monitor-year {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 2.2rem;
+      font-weight: 900;
+      background: linear-gradient(180deg, var(--synth-orange), var(--synth-pink));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      filter: drop-shadow(0 0 10px rgba(255, 46, 151, 0.4));
+    }
+
+    /* ===== VISUAL CHARACTERISTICS ===== */
+    .section-traits {
+      padding: 80px 0 100px;
+      background: linear-gradient(180deg, var(--synth-bg-midnight) 0%, var(--synth-bg-dark) 100%);
+      position: relative;
+    }
+
+    .traits-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+    }
+
+    .synth-card {
+      background: rgba(26, 9, 64, 0.6);
+      border: 1px solid rgba(255, 46, 151, 0.12);
+      border-radius: 4px;
+      padding: 32px;
+      position: relative;
+      transition: border-color 0.4s, box-shadow 0.4s, transform 0.4s;
+    }
+
+    .synth-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--synth-cyan), var(--synth-pink), var(--synth-purple));
+      opacity: 0.6;
+      transition: opacity 0.4s;
+    }
+
+    .synth-card:hover {
+      border-color: rgba(255, 46, 151, 0.35);
+      box-shadow: 0 0 15px rgba(255, 46, 151, 0.12), 0 8px 32px rgba(0, 0, 0, 0.3);
+      transform: translateY(-4px);
+    }
+
+    .synth-card:hover::before {
+      opacity: 1;
+    }
+
+    .synth-card__icon {
+      font-size: 1.8rem;
+      margin-bottom: 16px;
+      display: block;
+    }
+
+    .synth-card__title {
+      font-family: 'Audiowide', cursive;
+      font-size: 0.9rem;
+      letter-spacing: 0.06em;
+      color: var(--synth-text-primary);
+      margin-bottom: 12px;
+      text-transform: uppercase;
+    }
+
+    .synth-card__desc {
+      color: var(--synth-text-secondary);
+      font-size: 0.92rem;
+      line-height: 1.7;
+    }
+
+    /* ===== COLOR PALETTE SECTION ===== */
+    .section-palette {
+      padding: 100px 0;
+      background: var(--synth-bg-dark);
+      position: relative;
+    }
+
+    .palette-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 20px;
+    }
+
+    .palette-swatch {
+      position: relative;
+      border-radius: 6px;
+      overflow: hidden;
+      transition: transform 0.3s, box-shadow 0.3s;
+      cursor: default;
+    }
+
+    .palette-swatch:hover {
+      transform: translateY(-4px) scale(1.02);
+    }
+
+    .palette-swatch__color {
+      height: 90px;
+      position: relative;
+    }
+
+    .palette-swatch__color::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 30px;
+      background: linear-gradient(transparent, rgba(13, 2, 33, 0.8));
+    }
+
+    .palette-swatch__info {
+      background: rgba(26, 9, 64, 0.8);
+      padding: 14px 16px;
+      border: 1px solid rgba(255, 46, 151, 0.1);
+      border-top: none;
+      border-radius: 0 0 6px 6px;
+    }
+
+    .palette-swatch__name {
+      font-family: 'Audiowide', cursive;
+      font-size: 0.65rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--synth-text-primary);
+      margin-bottom: 4px;
+    }
+
+    .palette-swatch__hex {
+      font-family: 'Exo 2', sans-serif;
+      font-size: 0.75rem;
+      color: var(--synth-text-secondary);
+      letter-spacing: 0.04em;
+    }
+
+    /* ===== TYPOGRAPHY SECTION ===== */
+    .section-typography {
+      padding: 100px 0;
+      background: linear-gradient(180deg, var(--synth-bg-dark) 0%, var(--synth-bg-midnight) 100%);
+    }
+
+    .type-showcase {
+      display: grid;
+      gap: 48px;
+    }
+
+    .type-specimen {
+      background: rgba(26, 9, 64, 0.4);
+      border: 1px solid rgba(255, 46, 151, 0.1);
+      border-radius: 6px;
+      padding: 40px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .type-specimen::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      width: 3px;
+      background: linear-gradient(180deg, var(--synth-cyan), var(--synth-pink), var(--synth-purple));
+    }
+
+    .type-specimen__label {
+      font-family: 'Exo 2', sans-serif;
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--synth-cyan);
+      margin-bottom: 16px;
+      text-shadow: 0 0 6px rgba(0, 229, 255, 0.3);
+    }
+
+    .type-specimen__sample--display {
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 900;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      line-height: 1.1;
+      background: linear-gradient(180deg, #ffffff 0%, #c0c0d0 40%, #808098 55%, #c0c0d0 70%, #ffffff 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      filter: drop-shadow(0 0 15px rgba(255, 46, 151, 0.2));
+    }
+
+    .type-specimen__sample--heading {
+      font-family: 'Audiowide', cursive;
+      font-size: clamp(1.5rem, 3vw, 2.2rem);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--synth-pink);
+      text-shadow: 0 0 8px rgba(255, 46, 151, 0.5), 0 0 25px rgba(255, 46, 151, 0.2);
+    }
+
+    .type-specimen__sample--body {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.05rem;
+      line-height: 1.8;
+      color: var(--synth-text-primary);
+      max-width: 600px;
+    }
+
+    .type-specimen__sample--italic {
+      font-family: 'Exo 2', sans-serif;
+      font-style: italic;
+      font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+      color: var(--synth-cyan);
+      text-shadow: 0 0 10px rgba(0, 229, 255, 0.3);
+    }
+
+    .type-specimen__meta {
+      margin-top: 16px;
+      font-family: 'Exo 2', sans-serif;
+      font-size: 0.78rem;
+      color: var(--synth-text-secondary);
+      letter-spacing: 0.04em;
+    }
+
+    /* ===== DESIGN PRINCIPLES ===== */
+    .section-principles {
+      padding: 100px 0;
+      background: var(--synth-bg-midnight);
+      position: relative;
+    }
+
+    .principles-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 32px;
+    }
+
+    .principle-item {
+      display: flex;
+      gap: 20px;
+      padding: 24px;
+      border-radius: 4px;
+      background: rgba(26, 9, 64, 0.3);
+      border: 1px solid rgba(255, 46, 151, 0.08);
+      transition: border-color 0.3s, background 0.3s;
+    }
+
+    .principle-item:hover {
+      border-color: rgba(255, 46, 151, 0.2);
+      background: rgba(26, 9, 64, 0.5);
+    }
+
+    .principle-item__number {
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 900;
+      font-size: 1.8rem;
+      line-height: 1;
+      background: linear-gradient(180deg, var(--synth-orange), var(--synth-pink));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      flex-shrink: 0;
+      width: 44px;
+    }
+
+    .principle-item__text {
+      color: var(--synth-text-secondary);
+      font-size: 0.95rem;
+      line-height: 1.7;
+    }
+
+    .principle-item__text strong {
+      color: var(--synth-text-primary);
+      font-weight: 500;
+    }
+
+    /* ===== STATS SECTION ===== */
+    .section-stats {
+      padding: 80px 0;
+      background: linear-gradient(180deg, var(--synth-bg-midnight) 0%, #1a0940 50%, var(--synth-bg-midnight) 100%);
+    }
+
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+    }
+
+    .synth-stat {
+      text-align: center;
+      padding: 32px 16px;
+    }
+
+    .synth-stat__number {
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 900;
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      background: var(--synth-gradient-chrome);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1.1;
+      margin-bottom: 10px;
+      filter: drop-shadow(0 0 10px rgba(255, 46, 151, 0.2));
+    }
+
+    .synth-stat__label {
+      font-family: 'Audiowide', cursive;
+      font-size: 0.62rem;
+      color: var(--synth-text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+    }
+
+    /* ===== DO'S AND DON'TS ===== */
+    .section-rules {
+      padding: 100px 0;
+      background: var(--synth-bg-midnight);
+    }
+
+    .rules-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+    }
+
+    .rules-column {
+      padding: 40px;
+      border-radius: 6px;
+      position: relative;
+    }
+
+    .rules-column--do {
+      background: rgba(0, 229, 255, 0.03);
+      border: 1px solid rgba(0, 229, 255, 0.15);
+    }
+
+    .rules-column--dont {
+      background: rgba(255, 46, 151, 0.03);
+      border: 1px solid rgba(255, 46, 151, 0.15);
+    }
+
+    .rules-column__title {
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 700;
+      font-size: 1.1rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 28px;
+    }
+
+    .rules-column--do .rules-column__title {
+      color: var(--synth-cyan);
+      text-shadow: 0 0 10px rgba(0, 229, 255, 0.4);
+    }
+
+    .rules-column--dont .rules-column__title {
+      color: var(--synth-pink);
+      text-shadow: 0 0 10px rgba(255, 46, 151, 0.4);
+    }
+
+    .rules-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .rules-list li {
+      font-size: 0.92rem;
+      color: var(--synth-text-secondary);
+      line-height: 1.6;
+      padding-left: 24px;
+      position: relative;
+    }
+
+    .rules-column--do .rules-list li::before {
+      content: '+';
+      position: absolute;
+      left: 0;
+      color: var(--synth-cyan);
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+
+    .rules-column--dont .rules-list li::before {
+      content: '\00D7';
+      position: absolute;
+      left: 2px;
+      color: var(--synth-pink);
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 700;
+      font-size: 1.1rem;
+      line-height: 1.4;
+    }
+
+    /* ===== RELATED AESTHETICS ===== */
+    .section-related {
+      padding: 100px 0 80px;
+      background: linear-gradient(180deg, var(--synth-bg-midnight) 0%, var(--synth-bg-dark) 100%);
+    }
+
+    .related-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+
+    .related-item {
+      padding: 24px 28px;
+      background: rgba(26, 9, 64, 0.35);
+      border: 1px solid rgba(255, 46, 151, 0.08);
+      border-radius: 4px;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+
+    .related-item:hover {
+      border-color: rgba(255, 46, 151, 0.25);
+      transform: translateY(-2px);
+    }
+
+    .related-item__name {
+      font-family: 'Audiowide', cursive;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--synth-pink);
+      margin-bottom: 8px;
+      text-shadow: 0 0 6px rgba(255, 46, 151, 0.3);
+    }
+
+    .related-item__desc {
+      font-size: 0.88rem;
+      color: var(--synth-text-secondary);
+      line-height: 1.65;
+    }
+
+    /* ===== CTA SECTION ===== */
+    .section-cta {
+      padding: 120px 40px;
+      text-align: center;
+      background: linear-gradient(180deg, var(--synth-bg-dark) 0%, #1a0940 30%, #4a0080 60%, #8b00ff 80%, #ff2e97 95%, #ff6b35 100%);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .section-cta__grid {
+      position: absolute;
+      top: 0;
+      left: -30%;
+      right: -30%;
+      height: 45%;
+      background:
+        repeating-linear-gradient(90deg, transparent, transparent 59px, rgba(255, 46, 151, 0.2) 59px, rgba(255, 46, 151, 0.2) 60px),
+        repeating-linear-gradient(0deg, transparent, transparent 59px, rgba(255, 46, 151, 0.2) 59px, rgba(255, 46, 151, 0.2) 60px);
+      transform: perspective(400px) rotateX(-55deg);
+      transform-origin: top center;
+      z-index: 0;
+      animation: gridScroll 3s linear infinite reverse;
+    }
+
+    .section-cta__content {
+      position: relative;
+      z-index: 5;
+    }
+
+    .section-cta__title {
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 900;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--synth-text-primary);
+      margin-bottom: 20px;
+      text-shadow: 0 0 20px rgba(224, 208, 255, 0.3);
+    }
+
+    .section-cta__text {
+      font-size: 1.1rem;
+      color: rgba(224, 208, 255, 0.6);
+      max-width: 550px;
+      margin: 0 auto 36px;
+      line-height: 1.8;
+    }
+
+    /* ===== FOOTER ===== */
+    .synth-footer {
+      background: #060012;
+      text-align: center;
+      padding: 40px;
+      position: relative;
+    }
+
+    .synth-footer::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent 0%, var(--synth-cyan) 20%, var(--synth-pink) 50%, var(--synth-purple) 80%, transparent 100%);
+      box-shadow: 0 0 8px rgba(255, 46, 151, 0.3);
+    }
+
+    .synth-footer__logo {
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 900;
+      font-size: 1rem;
+      color: var(--synth-pink);
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      text-shadow: 0 0 10px rgba(255, 46, 151, 0.4);
+      margin-bottom: 12px;
+    }
+
+    .synth-footer__text {
+      font-family: 'Exo 2', sans-serif;
+      font-size: 0.78rem;
+      color: var(--synth-text-secondary);
+      letter-spacing: 0.08em;
+    }
+
+    /* ===== SCROLL ANIMATIONS ===== */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+    .reveal-delay-5 { transition-delay: 0.5s; }
+    .reveal-delay-6 { transition-delay: 0.6s; }
+
+    /* ===== SCANLINE OVERLAY ===== */
+    .scanlines {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 9999;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent 0px,
+        transparent 2px,
+        rgba(0, 0, 0, 0.015) 2px,
+        rgba(0, 0, 0, 0.015) 4px
+      );
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 1024px) {
+      .intro-content {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+
+      .intro-visual {
+        order: -1;
+      }
+
+      .retro-monitor {
+        max-width: 320px;
+        margin: 0 auto;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .synth-hero {
+        min-height: 90vh;
+        padding: 100px 24px 60px;
+      }
+
+      .synth-sun {
+        width: 200px;
+        height: 200px;
+      }
+
+      .synth-sun-glow {
+        width: 300px;
+        height: 300px;
+      }
+
+      .synth-nav {
+        padding: 0 20px;
+      }
+
+      .synth-nav__links {
+        gap: 16px;
+      }
+
+      .synth-nav__links a {
+        font-size: 0.75rem;
+      }
+
+      .synth-container {
+        padding: 0 24px;
+      }
+
+      .stats-row {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .rules-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .rules-column {
+        padding: 28px;
+      }
+
+      .type-specimen {
+        padding: 28px;
+      }
+
+      .principle-item {
+        padding: 20px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .synth-hero {
+        padding: 100px 16px 40px;
+      }
+
+      .synth-sun {
+        width: 150px;
+        height: 150px;
+        bottom: 30%;
+      }
+
+      .synth-hero__buttons {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .synth-button {
+        width: 100%;
+        max-width: 280px;
+      }
+
+      .synth-nav__links {
+        display: none;
+      }
+
+      .stats-row {
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+      }
+
+      .synth-stat__number {
+        font-size: 1.8rem;
+      }
+
+      .palette-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+      }
+
+      .traits-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .principles-list {
+        grid-template-columns: 1fr;
+      }
+
+      .related-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Scanline overlay -->
+  <div class="scanlines"></div>
+
+  <!-- Starfield (generated by JS) -->
+  <div class="starfield" id="starfield"></div>
+
+  <!-- Navigation -->
+  <nav class="synth-nav" id="nav">
+    <div class="synth-nav__inner">
+      <a href="#" class="synth-nav__logo">Synthwave</a>
+      <ul class="synth-nav__links">
+        <li><a href="#about">About</a></li>
+        <li><a href="#traits">Traits</a></li>
+        <li><a href="#palette">Palette</a></li>
+        <li><a href="#typography">Type</a></li>
+        <li><a href="#principles">Principles</a></li>
+        <li><a href="#rules">Rules</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="synth-hero">
+    <div class="synth-sun-glow"></div>
+    <div class="synth-sun"></div>
+    <div class="synth-horizon"></div>
+    <div class="synth-grid"></div>
+    <div class="synth-hero__content">
+      <p class="synth-hero__tagline">Retro-Futuristic Design Aesthetic</p>
+      <h1 class="synth-hero__title">Synthwave</h1>
+      <p class="synth-hero__subtitle">A neon-drenched celebration of 1980s pop culture, electronic music, and science fiction cinema -- amplified to mythic proportions.</p>
+      <div class="synth-hero__buttons">
+        <a href="#about" class="synth-button synth-button--filled">Explore the Aesthetic</a>
+        <a href="#palette" class="synth-button synth-button--cyan">View Palette</a>
+      </div>
+    </div>
+  </section>
+
+  <hr class="synth-divider">
+
+  <!-- About / Intro -->
+  <section class="section-intro" id="about">
+    <div class="synth-container">
+      <div class="intro-content">
+        <div class="intro-text reveal">
+          <div class="synth-section-title" style="text-align:left; margin-bottom:28px;">
+            <span class="synth-section-title__label">Design Reference</span>
+            <h2 class="synth-section-title__heading synth-section-title__heading--neon">What is Synthwave?</h2>
+          </div>
+          <p>Synthwave is a retro-futuristic aesthetic rooted in 1980s pop culture, electronic music, and science fiction cinema. It celebrates the neon-drenched optimism of an imagined 1980s future: glowing sunset gradients, chrome lettering, Lamborghini silhouettes, and infinite perspective grids stretching toward electric-purple horizons.</p>
+          <p>Unlike the ironic detachment of Vaporwave, Synthwave is earnest and celebratory -- it genuinely loves the 80s and amplifies its visual language to mythic proportions. In web and UI design, Synthwave translates to bold neon-on-dark palettes, dramatic gradient skies, retro-futuristic typography, chrome effects, and an overwhelming sense of speed, power, and nocturnal glamour.</p>
+        </div>
+        <div class="intro-visual reveal reveal-delay-2">
+          <div class="retro-monitor">
+            <div class="retro-monitor__screen">
+              <div class="monitor-palm">&#127796;</div>
+              <div class="monitor-year">1985</div>
+              <div class="monitor-text">Forever Sunset</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="synth-divider">
+
+  <!-- Visual Characteristics -->
+  <section class="section-traits" id="traits">
+    <div class="synth-container">
+      <div class="synth-section-title reveal">
+        <span class="synth-section-title__label">Core Design Traits</span>
+        <h2 class="synth-section-title__heading synth-section-title__heading--chrome">Visual Characteristics</h2>
+      </div>
+      <p class="synth-section-subtitle reveal reveal-delay-1">The building blocks of the Synthwave visual language -- each element contributes to a cinematic, larger-than-life aesthetic.</p>
+      <div class="traits-grid">
+        <div class="synth-card reveal reveal-delay-1">
+          <span class="synth-card__icon">&#127751;</span>
+          <h3 class="synth-card__title">Neon Sunset Gradients</h3>
+          <p class="synth-card__desc">Dramatic orange-to-pink-to-purple horizons dominating hero sections and backgrounds. The eternal sunset is the beating heart of Synthwave.</p>
+        </div>
+        <div class="synth-card reveal reveal-delay-2">
+          <span class="synth-card__icon">&#9638;</span>
+          <h3 class="synth-card__title">Perspective Grid Floors</h3>
+          <p class="synth-card__desc">Wireframe grids in neon pink or cyan receding to a vanishing point, evoking Tron and 80s music videos. Depth and infinite space.</p>
+        </div>
+        <div class="synth-card reveal reveal-delay-3">
+          <span class="synth-card__icon">&#10024;</span>
+          <h3 class="synth-card__title">Chrome & Metallic Lettering</h3>
+          <p class="synth-card__desc">Reflective, gradient-filled text that appears to be made of polished metal. Premium and powerful, never cheap.</p>
+        </div>
+        <div class="synth-card reveal reveal-delay-1">
+          <span class="synth-card__icon">&#127796;</span>
+          <h3 class="synth-card__title">Silhouetted Objects</h3>
+          <p class="synth-card__desc">Sports cars, palm trees, and cityscapes rendered as dark silhouettes against glowing skies. DeLoreans, Lamborghinis, Ferraris.</p>
+        </div>
+        <div class="synth-card reveal reveal-delay-2">
+          <span class="synth-card__icon">&#9728;</span>
+          <h3 class="synth-card__title">The Striped Sun</h3>
+          <p class="synth-card__desc">A large, horizontally striped setting sun with scan-line gaps -- the most iconic Synthwave symbol. Always present at the horizon.</p>
+        </div>
+        <div class="synth-card reveal reveal-delay-3">
+          <span class="synth-card__icon">&#127776;</span>
+          <h3 class="synth-card__title">Starfields & Cosmic Elements</h3>
+          <p class="synth-card__desc">Distant stars, nebulae, and galaxies suggesting infinite space. The cosmos as backdrop to the neon world below.</p>
+        </div>
+        <div class="synth-card reveal reveal-delay-1">
+          <span class="synth-card__icon">&#9889;</span>
+          <h3 class="synth-card__title">Electric Neon Outlines</h3>
+          <p class="synth-card__desc">Thin, glowing neon lines in cyan, magenta, and purple tracing shapes and borders. Light as structure.</p>
+        </div>
+        <div class="synth-card reveal reveal-delay-2">
+          <span class="synth-card__icon">&#9650;</span>
+          <h3 class="synth-card__title">80s Geometric Patterns</h3>
+          <p class="synth-card__desc">Chevrons, triangles, parallel lines, and diamond grids. Strong geometric language inherited from the decade of excess.</p>
+        </div>
+        <div class="synth-card reveal reveal-delay-3">
+          <span class="synth-card__icon">&#128251;</span>
+          <h3 class="synth-card__title">Retro-Futuristic Imagery</h3>
+          <p class="synth-card__desc">VHS tapes, cassettes, arcade cabinets, motorcycles, aviator sunglasses. Artifacts of an imagined future that never quite arrived.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="synth-divider">
+
+  <!-- Stats -->
+  <section class="section-stats">
+    <div class="synth-container">
+      <div class="stats-row">
+        <div class="synth-stat reveal">
+          <div class="synth-stat__number">15</div>
+          <div class="synth-stat__label">Palette Colors</div>
+        </div>
+        <div class="synth-stat reveal reveal-delay-1">
+          <div class="synth-stat__number">10</div>
+          <div class="synth-stat__label">Curated Fonts</div>
+        </div>
+        <div class="synth-stat reveal reveal-delay-2">
+          <div class="synth-stat__number">5</div>
+          <div class="synth-stat__label">Font Pairings</div>
+        </div>
+        <div class="synth-stat reveal reveal-delay-3">
+          <div class="synth-stat__number">9</div>
+          <div class="synth-stat__label">Related Styles</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="synth-divider">
+
+  <!-- Color Palette -->
+  <section class="section-palette" id="palette">
+    <div class="synth-container">
+      <div class="synth-section-title reveal">
+        <span class="synth-section-title__label">Neon Sunset Palette</span>
+        <h2 class="synth-section-title__heading synth-section-title__heading--neon">Color System</h2>
+      </div>
+      <p class="synth-section-subtitle reveal reveal-delay-1">Vivid neons piercing through darkness. Sunset warm colors paired with cool cyan and purple accents -- high-contrast and cinematic.</p>
+      <div class="palette-grid">
+        <div class="palette-swatch reveal reveal-delay-1">
+          <div class="palette-swatch__color" style="background: #ff6b35;"></div>
+          <div class="palette-swatch__info">
+            <div class="palette-swatch__name">Horizon Orange</div>
+            <div class="palette-swatch__hex">#FF6B35</div>
+          </div>
+        </div>
+        <div class="palette-swatch reveal reveal-delay-2">
+          <div class="palette-swatch__color" style="background: #ff2e97;"></div>
+          <div class="palette-swatch__info">
+            <div class="palette-swatch__name">Neon Pink</div>
+            <div class="palette-swatch__hex">#FF2E97</div>
+          </div>
+        </div>
+        <div class="palette-swatch reveal reveal-delay-3">
+          <div class="palette-swatch__color" style="background: #ff006e;"></div>
+          <div class="palette-swatch__info">
+            <div class="palette-swatch__name">Hot Magenta</div>
+            <div class="palette-swatch__hex">#FF006E</div>
+          </div>
+        </div>
+        <div class="palette-swatch reveal reveal-delay-4">
+          <div class="palette-swatch__color" style="background: #8b00ff;"></div>
+          <div class="palette-swatch__info">
+            <div class="palette-swatch__name">Laser Purple</div>
+            <div class="palette-swatch__hex">#8B00FF</div>
+          </div>
+        </div>
+        <div class="palette-swatch reveal reveal-delay-5">
+          <div class="palette-swatch__color" style="background: #4a0080;"></div>
+          <div class="palette-swatch__info">
+            <div class="palette-swatch__name">Deep Violet</div>
+            <div class="palette-swatch__hex">#4A0080</div>
+          </div>
+        </div>
+        <div class="palette-swatch reveal reveal-delay-6">
+          <div class="palette-swatch__color" style="background: #00e5ff;"></div>
+          <div class="palette-swatch__info">
+            <div class="palette-swatch__name">Electric Cyan</div>
+            <div class="palette-swatch__hex">#00E5FF</div>
+          </div>
+        </div>
+        <div class="palette-swatch reveal reveal-delay-1">
+          <div class="palette-swatch__color" style="background: #0066ff;"></div>
+          <div class="palette-swatch__info">
+            <div class="palette-swatch__name">Neon Blue</div>
+            <div class="palette-swatch__hex">#0066FF</div>
+          </div>
+        </div>
+        <div class="palette-swatch reveal reveal-delay-2">
+          <div class="palette-swatch__color" style="background: linear-gradient(180deg, #ffffff, #c0c0d0, #808098, #c0c0d0);"></div>
+          <div class="palette-swatch__info">
+            <div class="palette-swatch__name">Chrome Silver</div>
+            <div class="palette-swatch__hex">#C0C0D0</div>
+          </div>
+        </div>
+        <div class="palette-swatch reveal reveal-delay-3">
+          <div class="palette-swatch__color" style="background: #0d0221;"></div>
+          <div class="palette-swatch__info">
+            <div class="palette-swatch__name">Midnight Navy</div>
+            <div class="palette-swatch__hex">#0D0221</div>
+          </div>
+        </div>
+        <div class="palette-swatch reveal reveal-delay-4">
+          <div class="palette-swatch__color" style="background: #150030;"></div>
+          <div class="palette-swatch__info">
+            <div class="palette-swatch__name">Dark Purple</div>
+            <div class="palette-swatch__hex">#150030</div>
+          </div>
+        </div>
+        <div class="palette-swatch reveal reveal-delay-5">
+          <div class="palette-swatch__color" style="background: #1a0940;"></div>
+          <div class="palette-swatch__info">
+            <div class="palette-swatch__name">Twilight</div>
+            <div class="palette-swatch__hex">#1A0940</div>
+          </div>
+        </div>
+        <div class="palette-swatch reveal reveal-delay-6">
+          <div class="palette-swatch__color" style="background: #e0d0ff;"></div>
+          <div class="palette-swatch__info">
+            <div class="palette-swatch__name">Starlight</div>
+            <div class="palette-swatch__hex">#E0D0FF</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="synth-divider">
+
+  <!-- Typography -->
+  <section class="section-typography" id="typography">
+    <div class="synth-container">
+      <div class="synth-section-title reveal">
+        <span class="synth-section-title__label">Retro-Futuristic Faces</span>
+        <h2 class="synth-section-title__heading synth-section-title__heading--chrome">Typography</h2>
+      </div>
+      <p class="synth-section-subtitle reveal reveal-delay-1">Bold, dramatic, and cinematic. Every headline should feel like it could be a movie title. Every word should carry the weight of chrome.</p>
+      <div class="type-showcase">
+        <div class="type-specimen reveal">
+          <div class="type-specimen__label">Display / Orbitron 900</div>
+          <div class="type-specimen__sample--display">Chrome Horizons</div>
+          <div class="type-specimen__meta">Geometric, futuristic -- ideal for hero text and display headlines. Used with chrome gradient fills.</div>
+        </div>
+        <div class="type-specimen reveal reveal-delay-1">
+          <div class="type-specimen__label">Heading / Audiowide 400</div>
+          <div class="type-specimen__sample--heading">Neon Midnight Drive</div>
+          <div class="type-specimen__meta">Wide, retro-futuristic face -- the classic Synthwave heading font. All-caps with generous letter-spacing.</div>
+        </div>
+        <div class="type-specimen reveal reveal-delay-2">
+          <div class="type-specimen__label">Body / Outfit 400</div>
+          <div class="type-specimen__sample--body">The city stretches endlessly beneath a violet sky, its towers crowned with pulsing neon signs. Every surface reflects the last light of a sun that never fully sets. This is the world Synthwave imagines: a perpetual 1985, rendered in chrome and electric color.</div>
+          <div class="type-specimen__meta">Modern geometric sans-serif -- clean, readable body text that stays out of the way of dramatic headlines.</div>
+        </div>
+        <div class="type-specimen reveal reveal-delay-3">
+          <div class="type-specimen__label">Accent / Exo 2 Italic</div>
+          <div class="type-specimen__sample--italic">Speed. Power. Nocturnal glamour.</div>
+          <div class="type-specimen__meta">Italic implies motion and dynamism. Used for taglines, callouts, and emphasizing the sense of velocity.</div>
+        </div>
+      </div>
+
+      <!-- Font pairing table -->
+      <div style="margin-top:60px;">
+        <h3 style="font-family:'Audiowide',cursive; font-size:1rem; color:var(--synth-cyan); text-shadow:0 0 8px rgba(0,229,255,0.3); text-transform:uppercase; letter-spacing:0.1em; margin-bottom:24px; text-align:center;" class="reveal">Recommended Font Pairings</h3>
+        <div style="overflow-x:auto;" class="reveal reveal-delay-1">
+          <table style="width:100%; border-collapse:collapse; font-size:0.9rem;">
+            <thead>
+              <tr style="border-bottom:1px solid rgba(255,46,151,0.2);">
+                <th style="text-align:left; padding:14px 16px; font-family:'Audiowide',cursive; font-size:0.7rem; color:var(--synth-text-secondary); text-transform:uppercase; letter-spacing:0.1em; font-weight:400;">Heading</th>
+                <th style="text-align:left; padding:14px 16px; font-family:'Audiowide',cursive; font-size:0.7rem; color:var(--synth-text-secondary); text-transform:uppercase; letter-spacing:0.1em; font-weight:400;">Body</th>
+                <th style="text-align:left; padding:14px 16px; font-family:'Audiowide',cursive; font-size:0.7rem; color:var(--synth-text-secondary); text-transform:uppercase; letter-spacing:0.1em; font-weight:400;">Character</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom:1px solid rgba(255,46,151,0.08);">
+                <td style="padding:14px 16px; color:var(--synth-pink);">Audiowide</td>
+                <td style="padding:14px 16px; color:var(--synth-text-primary);">Outfit</td>
+                <td style="padding:14px 16px; color:var(--synth-text-secondary);">Classic synthwave, album-cover drama</td>
+              </tr>
+              <tr style="border-bottom:1px solid rgba(255,46,151,0.08);">
+                <td style="padding:14px 16px; color:var(--synth-pink);">Orbitron</td>
+                <td style="padding:14px 16px; color:var(--synth-text-primary);">Exo 2</td>
+                <td style="padding:14px 16px; color:var(--synth-text-secondary);">Futuristic, tech-forward</td>
+              </tr>
+              <tr style="border-bottom:1px solid rgba(255,46,151,0.08);">
+                <td style="padding:14px 16px; color:var(--synth-pink);">Righteous</td>
+                <td style="padding:14px 16px; color:var(--synth-text-primary);">Quicksand</td>
+                <td style="padding:14px 16px; color:var(--synth-text-secondary);">Warm retro, approachable 80s</td>
+              </tr>
+              <tr style="border-bottom:1px solid rgba(255,46,151,0.08);">
+                <td style="padding:14px 16px; color:var(--synth-pink);">Russo One</td>
+                <td style="padding:14px 16px; color:var(--synth-text-primary);">Space Grotesk</td>
+                <td style="padding:14px 16px; color:var(--synth-text-secondary);">Bold mechanical, clean body</td>
+              </tr>
+              <tr>
+                <td style="padding:14px 16px; color:var(--synth-pink);">Bungee Shade</td>
+                <td style="padding:14px 16px; color:var(--synth-text-primary);">Rajdhani</td>
+                <td style="padding:14px 16px; color:var(--synth-text-secondary);">Maximum drama, condensed body</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="synth-divider">
+
+  <!-- Design Principles -->
+  <section class="section-principles" id="principles">
+    <div class="synth-container">
+      <div class="synth-section-title reveal">
+        <span class="synth-section-title__label">Design Philosophy</span>
+        <h2 class="synth-section-title__heading synth-section-title__heading--neon">Principles</h2>
+      </div>
+      <p class="synth-section-subtitle reveal reveal-delay-1">The rules that govern every Synthwave composition. Follow them and every design feels like an album cover or movie poster.</p>
+      <div class="principles-list">
+        <div class="principle-item reveal">
+          <span class="principle-item__number">01</span>
+          <p class="principle-item__text"><strong>Celebrate the 80s unironically.</strong> Synthwave is sincere nostalgia amplified to the mythic. No irony, no deconstruction.</p>
+        </div>
+        <div class="principle-item reveal reveal-delay-1">
+          <span class="principle-item__number">02</span>
+          <p class="principle-item__text"><strong>Build drama through contrast.</strong> Dark backgrounds against vivid neon accents. The darkness makes the light sing.</p>
+        </div>
+        <div class="principle-item reveal reveal-delay-2">
+          <span class="principle-item__number">03</span>
+          <p class="principle-item__text"><strong>The eternal sunset.</strong> Gradient skies are the primary visual motif -- the beating heart of every Synthwave composition.</p>
+        </div>
+        <div class="principle-item reveal">
+          <span class="principle-item__number">04</span>
+          <p class="principle-item__text"><strong>Create depth with perspective.</strong> Grids and vanishing-point compositions pull the viewer into the scene.</p>
+        </div>
+        <div class="principle-item reveal reveal-delay-1">
+          <span class="principle-item__number">05</span>
+          <p class="principle-item__text"><strong>Chrome means premium.</strong> Metallic effects should feel polished and powerful, never cheap or flimsy.</p>
+        </div>
+        <div class="principle-item reveal reveal-delay-2">
+          <span class="principle-item__number">06</span>
+          <p class="principle-item__text"><strong>Album cover energy.</strong> Every composition should feel like it could be an album cover or movie poster.</p>
+        </div>
+        <div class="principle-item reveal">
+          <span class="principle-item__number">07</span>
+          <p class="principle-item__text"><strong>Cinematic color transitions.</strong> Gradients should be smooth and sweeping, never harsh or abrupt.</p>
+        </div>
+        <div class="principle-item reveal reveal-delay-1">
+          <span class="principle-item__number">08</span>
+          <p class="principle-item__text"><strong>Imply motion and speed.</strong> Even static designs should feel dynamic -- diagonal lines, perspective, implied velocity.</p>
+        </div>
+        <div class="principle-item reveal reveal-delay-2">
+          <span class="principle-item__number">09</span>
+          <p class="principle-item__text"><strong>Focused palette logic.</strong> Sunset warm colors (orange, pink, magenta) paired with cool accents (cyan, purple). Never random.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="synth-divider">
+
+  <!-- Do's and Don'ts -->
+  <section class="section-rules" id="rules">
+    <div class="synth-container">
+      <div class="synth-section-title reveal">
+        <span class="synth-section-title__label">Design Guidelines</span>
+        <h2 class="synth-section-title__heading synth-section-title__heading--chrome">Do's & Don'ts</h2>
+      </div>
+      <p class="synth-section-subtitle reveal reveal-delay-1">Stay true to the aesthetic. The line between Synthwave and its neighbors is clear -- here is how to stay on the right side.</p>
+      <div class="rules-grid">
+        <div class="rules-column rules-column--do reveal">
+          <h3 class="rules-column__title">Do</h3>
+          <ul class="rules-list">
+            <li>Use dramatic sunset gradients (orange to pink to purple to dark) as hero backgrounds</li>
+            <li>Apply chrome/metallic gradient effects to headlines using background-clip: text</li>
+            <li>Include the iconic striped sun motif in hero sections</li>
+            <li>Add perspective grid floors that recede toward the horizon</li>
+            <li>Use neon glow effects (text-shadow, box-shadow) on interactive elements</li>
+            <li>Maintain a dark canvas (navy, deep purple) for non-gradient sections</li>
+            <li>Keep typography bold, wide, uppercase, and cinematic</li>
+            <li>Reference 80s visual culture: sports cars, palm trees, geometric patterns, starfields</li>
+          </ul>
+        </div>
+        <div class="rules-column rules-column--dont reveal reveal-delay-2">
+          <h3 class="rules-column__title">Don't</h3>
+          <ul class="rules-list">
+            <li>Use pastel, washed-out colors -- Synthwave is vivid and high-contrast</li>
+            <li>Apply ironic or deconstructive treatments -- Synthwave celebrates the 80s sincerely</li>
+            <li>Use light or white backgrounds -- the aesthetic requires darkness for neon to shine</li>
+            <li>Mix too many neon colors in one area -- maintain the sunset warm-to-cool gradient logic</li>
+            <li>Use serif or handwritten typefaces -- stick to geometric sans-serifs and display faces</li>
+            <li>Over-complicate layouts -- Synthwave compositions are bold and simple, like movie posters</li>
+            <li>Forget the sense of depth and perspective -- flat layouts miss the cinematic quality</li>
+            <li>Add VHS degradation or glitch effects -- those belong to Vaporwave, not Synthwave</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="synth-divider">
+
+  <!-- Related Aesthetics -->
+  <section class="section-related" id="related">
+    <div class="synth-container">
+      <div class="synth-section-title reveal">
+        <span class="synth-section-title__label">Aesthetic Family</span>
+        <h2 class="synth-section-title__heading synth-section-title__heading--neon">Related Styles</h2>
+      </div>
+      <p class="synth-section-subtitle reveal reveal-delay-1">Synthwave exists within a constellation of related aesthetics. Each shares DNA but expresses a distinct vision.</p>
+      <div class="related-grid">
+        <div class="related-item reveal">
+          <div class="related-item__name">Vaporwave</div>
+          <p class="related-item__desc">Both reference 80s/90s nostalgia, but Synthwave is sincere and cinematic while Vaporwave is ironic and deconstructive.</p>
+        </div>
+        <div class="related-item reveal reveal-delay-1">
+          <div class="related-item__name">Cyberpunk</div>
+          <p class="related-item__desc">Shares the neon-on-dark palette. Cyberpunk is dystopian and gritty; Synthwave is glamorous and aspirational.</p>
+        </div>
+        <div class="related-item reveal reveal-delay-2">
+          <div class="related-item__name">Outrun</div>
+          <p class="related-item__desc">A direct visual sub-genre of Synthwave, specifically focused on driving, speed, and sports car imagery.</p>
+        </div>
+        <div class="related-item reveal reveal-delay-3">
+          <div class="related-item__name">Retrowave</div>
+          <p class="related-item__desc">Often used interchangeably with Synthwave. May emphasize the music scene more than the visual aesthetic.</p>
+        </div>
+        <div class="related-item reveal reveal-delay-4">
+          <div class="related-item__name">RGB Gamer</div>
+          <p class="related-item__desc">Shares neon LED lighting aesthetic. RGB Gamer is more about hardware and performance culture.</p>
+        </div>
+        <div class="related-item reveal reveal-delay-5">
+          <div class="related-item__name">Silicon Dreams</div>
+          <p class="related-item__desc">Shares retro-futuristic digital themes but with a more corporate, utopian tone.</p>
+        </div>
+        <div class="related-item reveal reveal-delay-1">
+          <div class="related-item__name">Space Age</div>
+          <p class="related-item__desc">Both imagine futuristic visions. Space Age references 1960s NASA optimism; Synthwave references 1980s pop culture.</p>
+        </div>
+        <div class="related-item reveal reveal-delay-2">
+          <div class="related-item__name">Chromecore</div>
+          <p class="related-item__desc">Shares the metallic/chrome visual treatment. Chromecore is broader and not era-specific.</p>
+        </div>
+        <div class="related-item reveal reveal-delay-3">
+          <div class="related-item__name">8-Bit</div>
+          <p class="related-item__desc">Both reference retro technology. 8-Bit focuses on pixel art and gaming; Synthwave on cinematic glamour.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="section-cta">
+    <div class="section-cta__grid"></div>
+    <div class="section-cta__content reveal">
+      <h2 class="section-cta__title">Chase the Horizon</h2>
+      <p class="section-cta__text">The sunset never ends. The grid stretches forever. The only question is how fast you want to go.</p>
+      <a href="#" class="synth-button synth-button--filled" onclick="window.scrollTo({top:0,behavior:'smooth'}); return false;">Back to the Top</a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="synth-footer">
+    <div class="synth-footer__logo">Synthwave</div>
+    <div class="synth-footer__text">Design Reference // Forged in the neon glow of an endless 1985</div>
+  </footer>
+
+  <!-- JavaScript -->
+  <script>
+    // ===== STARFIELD GENERATION =====
+    (function() {
+      const starfield = document.getElementById('starfield');
+      const starCount = 120;
+      const fragment = document.createDocumentFragment();
+
+      for (let i = 0; i < starCount; i++) {
+        const star = document.createElement('div');
+        star.classList.add('star');
+        const size = Math.random() * 2 + 0.5;
+        star.style.width = size + 'px';
+        star.style.height = size + 'px';
+        star.style.left = Math.random() * 100 + '%';
+        star.style.top = Math.random() * 60 + '%';
+        star.style.opacity = Math.random() * 0.6 + 0.1;
+        star.style.animation = 'twinkle ' + (Math.random() * 4 + 2) + 's ease-in-out ' + (Math.random() * 4) + 's infinite';
+        fragment.appendChild(star);
+      }
+
+      starfield.appendChild(fragment);
+
+      // Add twinkle keyframes dynamically
+      const style = document.createElement('style');
+      style.textContent = '@keyframes twinkle { 0%, 100% { opacity: var(--tw-start, 0.2); } 50% { opacity: var(--tw-end, 0.7); } }';
+      document.head.appendChild(style);
+    })();
+
+    // ===== NAV SCROLL EFFECT =====
+    (function() {
+      const nav = document.getElementById('nav');
+      let ticking = false;
+
+      window.addEventListener('scroll', function() {
+        if (!ticking) {
+          requestAnimationFrame(function() {
+            if (window.scrollY > 60) {
+              nav.classList.add('scrolled');
+            } else {
+              nav.classList.remove('scrolled');
+            }
+            ticking = false;
+          });
+          ticking = true;
+        }
+      });
+    })();
+
+    // ===== SCROLL REVEAL =====
+    (function() {
+      const reveals = document.querySelectorAll('.reveal');
+
+      function checkReveal() {
+        const windowHeight = window.innerHeight;
+        reveals.forEach(function(el) {
+          const top = el.getBoundingClientRect().top;
+          if (top < windowHeight - 80) {
+            el.classList.add('visible');
+          }
+        });
+      }
+
+      let rafPending = false;
+      window.addEventListener('scroll', function() {
+        if (!rafPending) {
+          requestAnimationFrame(function() {
+            checkReveal();
+            rafPending = false;
+          });
+          rafPending = true;
+        }
+      });
+
+      // Initial check
+      checkReveal();
+    })();
+
+    // ===== SMOOTH SCROLL FOR ANCHOR LINKS =====
+    document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
+      anchor.addEventListener('click', function(e) {
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          e.preventDefault();
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+  </script>
+</body>
+</html>

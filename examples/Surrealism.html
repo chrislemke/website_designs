@@ -1,0 +1,1996 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Surrealism -- The Architecture of Dreams</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Cormorant+Garamond:wght@300;400;500;600&family=Special+Elite&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --surreal-sand: #C2A366;
+      --surreal-twilight: #2C3E6B;
+      --surreal-amber: #D4881C;
+      --surreal-sky: #87CEEB;
+      --surreal-void: #1A1A2E;
+      --surreal-bone: #F5F0E8;
+      --surreal-crimson: #8B1A1A;
+      --surreal-green: #4A7C59;
+      --surreal-violet: #6B4C8A;
+      --surreal-flesh: #E8B4A2;
+      --surreal-sienna: #A0522D;
+      --surreal-silver: #C0C0C0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-weight: 400;
+      font-size: 1.125rem;
+      line-height: 1.8;
+      color: var(--surreal-void);
+      background: var(--surreal-bone);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3, h4 {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      line-height: 1.2;
+    }
+
+    /* ========== NAVIGATION ========== */
+    .surreal-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: center;
+      gap: 48px;
+      padding: 20px 0;
+      background: rgba(245, 240, 232, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--surreal-sand);
+      transition: opacity 0.6s ease;
+    }
+
+    .surreal-nav a {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: var(--surreal-twilight);
+      text-decoration: none;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      position: relative;
+      transition: color 0.3s ease;
+    }
+
+    .surreal-nav a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 50%;
+      width: 0;
+      height: 1.5px;
+      background: var(--surreal-amber);
+      transition: width 0.3s ease, left 0.3s ease;
+    }
+
+    .surreal-nav a:hover {
+      color: var(--surreal-amber);
+    }
+
+    .surreal-nav a:hover::after {
+      width: 100%;
+      left: 0;
+    }
+
+    /* ========== HERO SECTION ========== */
+    .surreal-hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      align-items: center;
+      padding: 80px 40px 120px;
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(
+        to bottom,
+        #5a9cc5 0%,
+        var(--surreal-sky) 30%,
+        var(--surreal-sky) 54%,
+        #b8a680 55%,
+        var(--surreal-sand) 56%,
+        #d4c49a 100%
+      );
+    }
+
+    /* Horizon line */
+    .surreal-hero::before {
+      content: '';
+      position: absolute;
+      top: 55%;
+      left: -5%;
+      right: -5%;
+      height: 1px;
+      background: rgba(26, 26, 46, 0.15);
+      z-index: 1;
+    }
+
+    /* Floating eye in the sky */
+    .floating-eye {
+      position: absolute;
+      top: 18%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 120px;
+      height: 70px;
+      z-index: 2;
+      animation: eyeFloat 8s ease-in-out infinite;
+    }
+
+    .eye-outer {
+      width: 120px;
+      height: 60px;
+      border-radius: 50%;
+      background: var(--surreal-bone);
+      position: relative;
+      box-shadow:
+        0 20px 60px rgba(26, 26, 46, 0.15),
+        0 0 0 2px rgba(194, 163, 102, 0.3);
+      overflow: hidden;
+    }
+
+    .eye-iris {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 40% 40%, var(--surreal-amber), var(--surreal-sienna));
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      animation: irisLook 12s ease-in-out infinite;
+    }
+
+    .eye-pupil {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: var(--surreal-void);
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .eye-pupil::after {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.8);
+      position: absolute;
+      top: 3px;
+      right: 3px;
+    }
+
+    /* Eye shadow on the ground */
+    .eye-ground-shadow {
+      position: absolute;
+      top: 56%;
+      left: 50%;
+      transform: translateX(-50%) scaleY(0.3) skewX(-15deg);
+      width: 200px;
+      height: 60px;
+      background: radial-gradient(ellipse, rgba(26, 26, 46, 0.12) 0%, transparent 70%);
+      animation: eyeFloat 8s ease-in-out infinite;
+      z-index: 1;
+    }
+
+    @keyframes eyeFloat {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(-20px); }
+    }
+
+    @keyframes irisLook {
+      0%, 100% { transform: translate(-50%, -50%); }
+      20% { transform: translate(-40%, -55%); }
+      40% { transform: translate(-60%, -48%); }
+      60% { transform: translate(-45%, -50%); }
+      80% { transform: translate(-55%, -53%); }
+    }
+
+    /* Melting clock on the right */
+    .melting-clock {
+      position: absolute;
+      top: 38%;
+      right: 12%;
+      z-index: 3;
+      animation: clockDrip 6s ease-in-out infinite;
+    }
+
+    .clock-face {
+      width: 90px;
+      height: 80px;
+      border-radius: 50% 50% 60% 40% / 50% 50% 70% 30%;
+      background: var(--surreal-bone);
+      border: 2px solid var(--surreal-sand);
+      position: relative;
+      box-shadow: 8px 20px 40px rgba(26, 26, 46, 0.12);
+      transform: rotate(15deg) scaleY(0.85);
+    }
+
+    .clock-hand-h {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 2px;
+      height: 20px;
+      background: var(--surreal-void);
+      transform-origin: bottom center;
+      transform: translateX(-50%) rotate(-30deg);
+    }
+
+    .clock-hand-m {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 1.5px;
+      height: 28px;
+      background: var(--surreal-crimson);
+      transform-origin: bottom center;
+      transform: translateX(-50%) rotate(80deg);
+      animation: minuteHand 30s linear infinite;
+    }
+
+    .clock-center {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--surreal-void);
+      transform: translate(-50%, -50%);
+    }
+
+    .clock-drip {
+      position: absolute;
+      bottom: -25px;
+      left: 30%;
+      width: 30px;
+      height: 30px;
+      background: var(--surreal-bone);
+      border: 2px solid var(--surreal-sand);
+      border-top: none;
+      border-radius: 0 0 50% 50%;
+      animation: dripPulse 4s ease-in-out infinite;
+    }
+
+    @keyframes clockDrip {
+      0%, 100% { transform: rotate(-5deg); }
+      50% { transform: rotate(2deg) translateY(4px); }
+    }
+
+    @keyframes dripPulse {
+      0%, 100% { height: 30px; opacity: 0.8; }
+      50% { height: 38px; opacity: 1; }
+    }
+
+    @keyframes minuteHand {
+      from { transform: translateX(-50%) rotate(80deg); }
+      to { transform: translateX(-50%) rotate(440deg); }
+    }
+
+    /* Floating geometric shape on the left */
+    .floating-cube {
+      position: absolute;
+      top: 30%;
+      left: 10%;
+      z-index: 2;
+      animation: cubeFloat 10s ease-in-out infinite;
+    }
+
+    .cube-face {
+      width: 50px;
+      height: 50px;
+      border: 2px solid var(--surreal-twilight);
+      background: rgba(44, 62, 107, 0.05);
+      transform: perspective(300px) rotateY(-25deg) rotateX(10deg);
+      box-shadow: 15px 30px 40px rgba(26, 26, 46, 0.08);
+    }
+
+    .cube-shadow {
+      width: 70px;
+      height: 15px;
+      background: radial-gradient(ellipse, rgba(26, 26, 46, 0.1) 0%, transparent 70%);
+      margin-top: 30px;
+      transform: skewX(-20deg);
+    }
+
+    @keyframes cubeFloat {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-15px) rotate(3deg); }
+    }
+
+    /* Title area */
+    .hero-content {
+      position: relative;
+      z-index: 10;
+      text-align: center;
+      max-width: 800px;
+    }
+
+    .hero-content h1 {
+      font-size: clamp(3rem, 8vw, 6rem);
+      font-weight: 900;
+      color: var(--surreal-void);
+      margin-bottom: 8px;
+      text-shadow: 2px 4px 8px rgba(26, 26, 46, 0.08);
+      opacity: 0;
+      animation: titleReveal 1.5s ease-out 0.3s forwards;
+    }
+
+    .hero-subtitle {
+      font-family: 'Playfair Display', serif;
+      font-weight: 400;
+      font-style: italic;
+      font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+      color: var(--surreal-twilight);
+      letter-spacing: 0.08em;
+      opacity: 0;
+      animation: titleReveal 1.5s ease-out 0.8s forwards;
+    }
+
+    .hero-line {
+      width: 80px;
+      height: 2px;
+      background: var(--surreal-amber);
+      margin: 28px auto 0;
+      opacity: 0;
+      animation: titleReveal 1.2s ease-out 1.2s forwards;
+    }
+
+    @keyframes titleReveal {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Small floating objects scattered */
+    .floating-sphere {
+      position: absolute;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, var(--surreal-flesh), var(--surreal-sienna));
+      box-shadow: 0 10px 30px rgba(26, 26, 46, 0.1);
+    }
+
+    .sphere-1 {
+      width: 20px;
+      height: 20px;
+      top: 42%;
+      left: 30%;
+      animation: sphereFloat 7s ease-in-out infinite 1s;
+    }
+
+    .sphere-2 {
+      width: 14px;
+      height: 14px;
+      top: 35%;
+      right: 25%;
+      background: radial-gradient(circle at 35% 35%, var(--surreal-silver), #888);
+      animation: sphereFloat 9s ease-in-out infinite 0.5s;
+    }
+
+    .sphere-3 {
+      width: 10px;
+      height: 10px;
+      top: 25%;
+      left: 22%;
+      background: radial-gradient(circle at 35% 35%, var(--surreal-violet), #4a3068);
+      animation: sphereFloat 11s ease-in-out infinite 2s;
+    }
+
+    @keyframes sphereFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-12px); }
+    }
+
+    /* ========== SECTION SEPARATOR ========== */
+    .horizon-divider {
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--surreal-sand), transparent);
+      margin: 0;
+    }
+
+    /* ========== INTRODUCTION SECTION ========== */
+    .section-intro {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 120px 40px 100px;
+      position: relative;
+    }
+
+    .section-intro .intro-text {
+      font-size: 1.35rem;
+      line-height: 2;
+      color: #3A3A50;
+      text-align: center;
+      max-width: 720px;
+      margin: 0 auto;
+      opacity: 0;
+      animation: fadeInUp 1s ease-out forwards;
+      animation-timeline: view();
+      animation-range: entry 0% entry 30%;
+    }
+
+    .section-intro .intro-text em {
+      font-style: italic;
+      color: var(--surreal-twilight);
+    }
+
+    .typewriter-quote {
+      font-family: 'Special Elite', cursive;
+      font-size: 1rem;
+      color: var(--surreal-sienna);
+      text-align: center;
+      margin-top: 48px;
+      letter-spacing: 0.03em;
+      line-height: 1.7;
+      opacity: 0.85;
+    }
+
+    .typewriter-quote::before,
+    .typewriter-quote::after {
+      content: '\2014';
+      margin: 0 8px;
+      color: var(--surreal-sand);
+    }
+
+    /* ========== VISUAL CHARACTERISTICS ========== */
+    .section-characteristics {
+      background: linear-gradient(
+        to bottom,
+        var(--surreal-bone) 0%,
+        #eae5da 100%
+      );
+      padding: 100px 40px 120px;
+      position: relative;
+    }
+
+    .section-characteristics::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--surreal-sand), transparent);
+    }
+
+    .section-title {
+      font-size: clamp(2rem, 4vw, 3rem);
+      text-align: center;
+      color: var(--surreal-void);
+      margin-bottom: 16px;
+    }
+
+    .section-title-sub {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: 1.1rem;
+      text-align: center;
+      color: var(--surreal-twilight);
+      letter-spacing: 0.08em;
+      margin-bottom: 72px;
+    }
+
+    .traits-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 40px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .trait-card {
+      background: var(--surreal-bone);
+      border: 1px solid var(--surreal-sand);
+      padding: 48px 40px;
+      position: relative;
+      box-shadow:
+        15px 30px 50px rgba(26, 26, 46, 0.08),
+        0 0 0 1px rgba(194, 163, 102, 0.15);
+      transform: perspective(800px) rotateY(-1.5deg) rotateX(0.5deg);
+      transition: transform 0.6s ease, box-shadow 0.6s ease;
+    }
+
+    .trait-card:nth-child(even) {
+      transform: perspective(800px) rotateY(1.5deg) rotateX(-0.5deg);
+    }
+
+    .trait-card:hover {
+      transform: perspective(800px) rotateY(0deg) rotateX(0deg) translateY(-4px);
+      box-shadow:
+        10px 20px 40px rgba(26, 26, 46, 0.12),
+        0 0 0 1px rgba(194, 163, 102, 0.25);
+    }
+
+    /* Dramatic shadow beneath card */
+    .trait-card::after {
+      content: '';
+      position: absolute;
+      bottom: -25px;
+      left: 5%;
+      width: 110%;
+      height: 35px;
+      background: radial-gradient(ellipse, rgba(26, 26, 46, 0.1) 0%, transparent 70%);
+      transform: skewX(-10deg);
+      z-index: -1;
+      transition: opacity 0.6s ease;
+    }
+
+    .trait-card:hover::after {
+      opacity: 0.6;
+    }
+
+    .trait-icon {
+      font-size: 2rem;
+      margin-bottom: 20px;
+      display: block;
+      color: var(--surreal-amber);
+    }
+
+    .trait-card h3 {
+      font-size: 1.3rem;
+      color: var(--surreal-void);
+      margin-bottom: 12px;
+      font-weight: 700;
+    }
+
+    .trait-card p {
+      font-size: 1.05rem;
+      line-height: 1.75;
+      color: #4a4a5e;
+    }
+
+    /* ========== DESIGN PRINCIPLES ========== */
+    .section-principles {
+      padding: 120px 40px;
+      max-width: 1100px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .principles-layout {
+      display: grid;
+      grid-template-columns: 1fr 1px 1fr;
+      gap: 60px;
+      margin-top: 60px;
+    }
+
+    .principles-col {
+      display: flex;
+      flex-direction: column;
+      gap: 48px;
+    }
+
+    .principles-divider {
+      background: linear-gradient(to bottom, transparent, var(--surreal-sand), transparent);
+    }
+
+    .principle-item {
+      position: relative;
+      padding-left: 24px;
+    }
+
+    .principle-item::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 6px;
+      width: 8px;
+      height: 8px;
+      border: 1.5px solid var(--surreal-amber);
+      border-radius: 50%;
+    }
+
+    .principle-item h4 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--surreal-twilight);
+      margin-bottom: 8px;
+    }
+
+    .principle-item p {
+      font-size: 1.05rem;
+      line-height: 1.75;
+      color: #4a4a5e;
+    }
+
+    /* ========== COLOR PALETTE ========== */
+    .section-palette {
+      background: var(--surreal-void);
+      padding: 120px 40px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Starfield effect */
+    .section-palette::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background:
+        radial-gradient(1px 1px at 10% 20%, rgba(255,255,255,0.15), transparent),
+        radial-gradient(1px 1px at 30% 60%, rgba(255,255,255,0.1), transparent),
+        radial-gradient(1px 1px at 50% 10%, rgba(255,255,255,0.12), transparent),
+        radial-gradient(1px 1px at 70% 80%, rgba(255,255,255,0.08), transparent),
+        radial-gradient(1px 1px at 90% 40%, rgba(255,255,255,0.14), transparent),
+        radial-gradient(1px 1px at 15% 85%, rgba(255,255,255,0.1), transparent),
+        radial-gradient(1px 1px at 85% 15%, rgba(255,255,255,0.12), transparent),
+        radial-gradient(1.5px 1.5px at 45% 45%, rgba(255,255,255,0.06), transparent),
+        radial-gradient(1px 1px at 60% 30%, rgba(255,255,255,0.1), transparent),
+        radial-gradient(1px 1px at 25% 50%, rgba(255,255,255,0.08), transparent);
+    }
+
+    .section-palette .section-title {
+      color: var(--surreal-bone);
+      position: relative;
+      z-index: 1;
+    }
+
+    .section-palette .section-title-sub {
+      color: var(--surreal-sand);
+      position: relative;
+      z-index: 1;
+    }
+
+    .palette-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 24px;
+      max-width: 1100px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .palette-group-label {
+      grid-column: 1 / -1;
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 500;
+      font-size: 0.9rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--surreal-sand);
+      margin-top: 20px;
+      margin-bottom: -8px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .color-swatch {
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.5s ease, box-shadow 0.5s ease;
+    }
+
+    .color-swatch:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    .swatch-color {
+      height: 120px;
+      position: relative;
+    }
+
+    .swatch-color::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 30px;
+      background: linear-gradient(to bottom, transparent, rgba(26, 26, 46, 0.08));
+    }
+
+    .swatch-info {
+      padding: 16px;
+      background: rgba(26, 26, 46, 0.6);
+      backdrop-filter: blur(4px);
+    }
+
+    .swatch-name {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: var(--surreal-bone);
+      margin-bottom: 4px;
+    }
+
+    .swatch-hex {
+      font-family: 'Special Elite', cursive;
+      font-size: 0.8rem;
+      color: var(--surreal-sand);
+      letter-spacing: 0.05em;
+    }
+
+    .swatch-desc {
+      font-size: 0.85rem;
+      color: var(--surreal-silver);
+      margin-top: 6px;
+      line-height: 1.5;
+    }
+
+    /* ========== TYPOGRAPHY SECTION ========== */
+    .section-typography {
+      padding: 120px 40px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .type-specimens {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 60px;
+      margin-top: 60px;
+    }
+
+    .type-specimen {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      align-items: center;
+      padding: 48px;
+      background: var(--surreal-bone);
+      border: 1px solid rgba(194, 163, 102, 0.3);
+      position: relative;
+      box-shadow: 12px 24px 48px rgba(26, 26, 46, 0.06);
+    }
+
+    .type-specimen::after {
+      content: '';
+      position: absolute;
+      bottom: -20px;
+      left: 8%;
+      width: 100%;
+      height: 25px;
+      background: radial-gradient(ellipse, rgba(26, 26, 46, 0.07) 0%, transparent 70%);
+      transform: skewX(-8deg);
+      z-index: -1;
+    }
+
+    .type-display {
+      text-align: center;
+    }
+
+    .type-display .sample-text {
+      color: var(--surreal-void);
+    }
+
+    .type-meta h3 {
+      font-size: 1.2rem;
+      color: var(--surreal-twilight);
+      margin-bottom: 8px;
+    }
+
+    .type-meta p {
+      font-size: 1rem;
+      line-height: 1.7;
+      color: #4a4a5e;
+    }
+
+    .type-meta .type-weights {
+      font-family: 'Special Elite', cursive;
+      font-size: 0.85rem;
+      color: var(--surreal-sienna);
+      margin-top: 12px;
+    }
+
+    .type-meta .type-role {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 600;
+      font-size: 0.85rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--surreal-amber);
+      margin-bottom: 4px;
+    }
+
+    /* Individual font specimens */
+    .specimen-playfair .sample-text {
+      font-family: 'Playfair Display', serif;
+      font-weight: 900;
+      font-size: 3.5rem;
+      line-height: 1.1;
+    }
+
+    .specimen-cormorant .sample-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 400;
+      font-size: 2rem;
+      line-height: 1.6;
+    }
+
+    .specimen-special .sample-text {
+      font-family: 'Special Elite', cursive;
+      font-size: 1.3rem;
+      line-height: 1.8;
+      color: var(--surreal-sienna);
+    }
+
+    /* ========== CSS TECHNIQUES ========== */
+    .section-techniques {
+      background: linear-gradient(
+        to bottom,
+        #eae5da 0%,
+        var(--surreal-bone) 100%
+      );
+      padding: 120px 40px;
+      position: relative;
+    }
+
+    .section-techniques::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--surreal-sand), transparent);
+    }
+
+    .techniques-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 48px;
+      max-width: 1200px;
+      margin: 60px auto 0;
+    }
+
+    .technique-demo {
+      background: var(--surreal-bone);
+      border: 1px solid var(--surreal-sand);
+      overflow: hidden;
+      position: relative;
+      box-shadow: 10px 20px 40px rgba(26, 26, 46, 0.06);
+    }
+
+    .technique-preview {
+      height: 200px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .technique-info {
+      padding: 32px;
+      border-top: 1px solid rgba(194, 163, 102, 0.25);
+    }
+
+    .technique-info h3 {
+      font-size: 1.15rem;
+      color: var(--surreal-void);
+      margin-bottom: 8px;
+    }
+
+    .technique-info p {
+      font-size: 0.95rem;
+      line-height: 1.7;
+      color: #4a4a5e;
+    }
+
+    /* Technique demos */
+
+    /* Floating card demo */
+    .demo-float-card {
+      background: linear-gradient(
+        to bottom,
+        var(--surreal-sky) 0%,
+        var(--surreal-sky) 60%,
+        var(--surreal-sand) 60.5%,
+        var(--surreal-sand) 100%
+      );
+    }
+
+    .mini-card {
+      width: 120px;
+      height: 80px;
+      background: var(--surreal-bone);
+      border: 1px solid var(--surreal-sand);
+      box-shadow: 8px 16px 32px rgba(26, 26, 46, 0.12);
+      transform: perspective(500px) rotateY(-3deg) rotateX(2deg);
+      transition: transform 0.6s ease;
+      position: relative;
+    }
+
+    .mini-card::after {
+      content: '';
+      position: absolute;
+      bottom: -20px;
+      left: 10%;
+      width: 120%;
+      height: 25px;
+      background: radial-gradient(ellipse, rgba(26, 26, 46, 0.15) 0%, transparent 70%);
+      transform: skewX(-12deg);
+    }
+
+    .demo-float-card:hover .mini-card {
+      transform: perspective(500px) rotateY(0deg) rotateX(0deg) translateY(-8px);
+    }
+
+    /* Melting demo */
+    .demo-melting {
+      background: var(--surreal-sky);
+    }
+
+    .melt-shape {
+      width: 100px;
+      height: 60px;
+      background: var(--surreal-bone);
+      border: 2px solid var(--surreal-sand);
+      border-radius: 4px;
+      position: relative;
+      transition: transform 0.6s ease;
+    }
+
+    .melt-shape::after {
+      content: '';
+      position: absolute;
+      bottom: -20px;
+      left: 10%;
+      width: 80%;
+      height: 25px;
+      background: var(--surreal-bone);
+      border: 2px solid var(--surreal-sand);
+      border-top: none;
+      filter: blur(3px);
+      opacity: 0.6;
+      border-radius: 0 0 50% 50%;
+      transform: scaleY(1.3);
+      transition: all 0.6s ease;
+    }
+
+    .demo-melting:hover .melt-shape::after {
+      height: 35px;
+      opacity: 0.8;
+      filter: blur(5px);
+    }
+
+    /* Shadow demo */
+    .demo-shadow {
+      background: linear-gradient(
+        to bottom,
+        var(--surreal-sky) 0%,
+        var(--surreal-sky) 60%,
+        var(--surreal-sand) 60.5%,
+        var(--surreal-sand) 100%
+      );
+    }
+
+    .shadow-object {
+      width: 40px;
+      height: 60px;
+      background: var(--surreal-twilight);
+      position: relative;
+    }
+
+    .shadow-object::after {
+      content: '';
+      position: absolute;
+      bottom: -30px;
+      left: -20%;
+      width: 160%;
+      height: 40px;
+      background: radial-gradient(ellipse, rgba(26, 26, 46, 0.25) 0%, transparent 70%);
+      transform: skewX(-25deg);
+      transition: transform 0.6s ease;
+    }
+
+    .demo-shadow:hover .shadow-object::after {
+      transform: skewX(-35deg) scaleX(1.3);
+    }
+
+    /* Button demo */
+    .demo-button {
+      background: var(--surreal-void);
+    }
+
+    .demo-surreal-btn {
+      background: var(--surreal-twilight);
+      color: var(--surreal-bone);
+      border: 2px solid var(--surreal-amber);
+      padding: 12px 28px;
+      font-family: 'Playfair Display', serif;
+      font-size: 0.85rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      cursor: pointer;
+      position: relative;
+      transition: all 0.4s ease;
+    }
+
+    .demo-surreal-btn:hover {
+      background: var(--surreal-amber);
+      color: var(--surreal-void);
+      box-shadow: 8px 16px 32px rgba(0, 0, 0, 0.4);
+      transform: translateY(-3px);
+    }
+
+    /* ========== DO'S AND DON'TS ========== */
+    .section-guidelines {
+      padding: 120px 40px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .guidelines-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      margin-top: 60px;
+    }
+
+    .guidelines-column h3 {
+      font-size: 1.5rem;
+      margin-bottom: 32px;
+      padding-bottom: 16px;
+      border-bottom: 2px solid var(--surreal-amber);
+    }
+
+    .guidelines-column.do-col h3 {
+      color: var(--surreal-green);
+    }
+
+    .guidelines-column.dont-col h3 {
+      color: var(--surreal-crimson);
+    }
+
+    .guideline-item {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 24px;
+      align-items: flex-start;
+    }
+
+    .guideline-marker {
+      flex-shrink: 0;
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Playfair Display', serif;
+      font-size: 0.85rem;
+      font-weight: 700;
+      margin-top: 3px;
+    }
+
+    .do-col .guideline-marker {
+      color: var(--surreal-green);
+      border: 1.5px solid var(--surreal-green);
+      border-radius: 50%;
+    }
+
+    .dont-col .guideline-marker {
+      color: var(--surreal-crimson);
+      border: 1.5px solid var(--surreal-crimson);
+    }
+
+    .guideline-text {
+      font-size: 1.05rem;
+      line-height: 1.7;
+      color: #4a4a5e;
+    }
+
+    /* ========== RELATED AESTHETICS ========== */
+    .section-related {
+      background: var(--surreal-twilight);
+      padding: 100px 40px;
+      position: relative;
+    }
+
+    .section-related .section-title {
+      color: var(--surreal-bone);
+    }
+
+    .section-related .section-title-sub {
+      color: var(--surreal-sand);
+    }
+
+    .related-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+      max-width: 1100px;
+      margin: 60px auto 0;
+    }
+
+    .related-card {
+      padding: 32px;
+      border: 1px solid rgba(194, 163, 102, 0.25);
+      background: rgba(26, 26, 46, 0.3);
+      transition: all 0.4s ease;
+      position: relative;
+    }
+
+    .related-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 3px;
+      height: 0;
+      background: var(--surreal-amber);
+      transition: height 0.4s ease;
+    }
+
+    .related-card:hover {
+      background: rgba(26, 26, 46, 0.5);
+      border-color: rgba(194, 163, 102, 0.4);
+    }
+
+    .related-card:hover::before {
+      height: 100%;
+    }
+
+    .related-card h4 {
+      font-size: 1.15rem;
+      color: var(--surreal-bone);
+      margin-bottom: 8px;
+    }
+
+    .related-card p {
+      font-size: 0.95rem;
+      line-height: 1.7;
+      color: var(--surreal-silver);
+    }
+
+    /* ========== FOOTER ========== */
+    .surreal-footer {
+      text-align: center;
+      padding: 80px 40px;
+      position: relative;
+      background: linear-gradient(
+        to bottom,
+        var(--surreal-bone) 0%,
+        #e8e2d6 100%
+      );
+    }
+
+    .surreal-footer::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--surreal-sand), transparent);
+    }
+
+    .footer-quote {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-weight: 400;
+      font-size: clamp(1.3rem, 3vw, 2rem);
+      color: var(--surreal-twilight);
+      max-width: 700px;
+      margin: 0 auto 24px;
+      line-height: 1.5;
+    }
+
+    .footer-attribution {
+      font-family: 'Special Elite', cursive;
+      font-size: 0.9rem;
+      color: var(--surreal-sienna);
+      letter-spacing: 0.05em;
+    }
+
+    .footer-line {
+      width: 40px;
+      height: 1px;
+      background: var(--surreal-amber);
+      margin: 32px auto 0;
+    }
+
+    .footer-note {
+      font-size: 0.85rem;
+      color: var(--surreal-sand);
+      margin-top: 32px;
+      letter-spacing: 0.08em;
+    }
+
+    /* ========== RESPONSIVE ========== */
+    @media (max-width: 768px) {
+      .surreal-nav {
+        gap: 20px;
+        padding: 16px 20px;
+        flex-wrap: wrap;
+      }
+
+      .surreal-nav a {
+        font-size: 0.8rem;
+        letter-spacing: 0.08em;
+      }
+
+      .surreal-hero {
+        padding: 60px 24px 80px;
+      }
+
+      .melting-clock {
+        right: 5%;
+        top: 32%;
+      }
+
+      .clock-face {
+        width: 60px;
+        height: 54px;
+      }
+
+      .floating-cube {
+        left: 5%;
+      }
+
+      .cube-face {
+        width: 35px;
+        height: 35px;
+      }
+
+      .floating-eye {
+        top: 15%;
+      }
+
+      .eye-outer {
+        width: 80px;
+        height: 42px;
+      }
+
+      .eye-iris {
+        width: 28px;
+        height: 28px;
+      }
+
+      .eye-pupil {
+        width: 12px;
+        height: 12px;
+      }
+
+      .section-intro {
+        padding: 80px 24px 60px;
+      }
+
+      .section-characteristics {
+        padding: 80px 24px;
+      }
+
+      .traits-grid {
+        grid-template-columns: 1fr;
+        gap: 28px;
+      }
+
+      .trait-card {
+        padding: 36px 28px;
+        transform: none;
+      }
+
+      .trait-card:nth-child(even) {
+        transform: none;
+      }
+
+      .section-principles {
+        padding: 80px 24px;
+      }
+
+      .principles-layout {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+
+      .principles-divider {
+        display: none;
+      }
+
+      .section-palette {
+        padding: 80px 24px;
+      }
+
+      .palette-grid {
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+        gap: 16px;
+      }
+
+      .section-typography {
+        padding: 80px 24px;
+      }
+
+      .type-specimen {
+        grid-template-columns: 1fr;
+        padding: 32px 24px;
+      }
+
+      .specimen-playfair .sample-text {
+        font-size: 2.5rem;
+      }
+
+      .section-techniques {
+        padding: 80px 24px;
+      }
+
+      .techniques-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .guidelines-grid {
+        grid-template-columns: 1fr;
+        gap: 48px;
+      }
+
+      .section-guidelines {
+        padding: 80px 24px;
+      }
+
+      .section-related {
+        padding: 80px 24px;
+      }
+
+      .related-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .surreal-nav {
+        gap: 12px;
+      }
+
+      .surreal-nav a {
+        font-size: 0.72rem;
+      }
+
+      .hero-content h1 {
+        font-size: 2.4rem;
+      }
+
+      .sphere-1, .sphere-2, .sphere-3 {
+        display: none;
+      }
+
+      .palette-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    /* ========== SCROLL ANIMATIONS ========== */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .fade-in-delay-1 { transition-delay: 0.1s; }
+    .fade-in-delay-2 { transition-delay: 0.2s; }
+    .fade-in-delay-3 { transition-delay: 0.3s; }
+    .fade-in-delay-4 { transition-delay: 0.4s; }
+    .fade-in-delay-5 { transition-delay: 0.5s; }
+    .fade-in-delay-6 { transition-delay: 0.6s; }
+    .fade-in-delay-7 { transition-delay: 0.7s; }
+    .fade-in-delay-8 { transition-delay: 0.8s; }
+
+    /* ========== CUSTOM SCROLLBAR ========== */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--surreal-bone);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--surreal-sand);
+      border-radius: 0;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--surreal-amber);
+    }
+
+    /* ========== SELECTION ========== */
+    ::selection {
+      background: var(--surreal-amber);
+      color: var(--surreal-bone);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="surreal-nav">
+    <a href="#characteristics">Traits</a>
+    <a href="#principles">Principles</a>
+    <a href="#palette">Palette</a>
+    <a href="#typography">Typography</a>
+    <a href="#techniques">Techniques</a>
+    <a href="#guidelines">Guidelines</a>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="surreal-hero">
+    <!-- Floating eye -->
+    <div class="floating-eye">
+      <div class="eye-outer">
+        <div class="eye-iris">
+          <div class="eye-pupil"></div>
+        </div>
+      </div>
+    </div>
+    <div class="eye-ground-shadow"></div>
+
+    <!-- Melting clock -->
+    <div class="melting-clock">
+      <div class="clock-face">
+        <div class="clock-hand-h"></div>
+        <div class="clock-hand-m"></div>
+        <div class="clock-center"></div>
+        <div class="clock-drip"></div>
+      </div>
+    </div>
+
+    <!-- Floating cube -->
+    <div class="floating-cube">
+      <div class="cube-face"></div>
+      <div class="cube-shadow"></div>
+    </div>
+
+    <!-- Floating spheres -->
+    <div class="floating-sphere sphere-1"></div>
+    <div class="floating-sphere sphere-2"></div>
+    <div class="floating-sphere sphere-3"></div>
+
+    <!-- Title -->
+    <div class="hero-content">
+      <h1>Surrealism</h1>
+      <p class="hero-subtitle">The Architecture of Dreams</p>
+      <div class="hero-line"></div>
+    </div>
+  </section>
+
+  <!-- Introduction -->
+  <section class="section-intro">
+    <p class="intro-text fade-in">
+      Surrealism is a cultural and artistic movement that originated in the early 1920s, most famously associated with <em>Salvador Dali</em>, <em>Rene Magritte</em>, and <em>Max Ernst</em>. In design, Surrealism translates to dreamlike impossible juxtapositions, melting forms, and subconscious imagery made tangible. It favors the uncanny, the irrational, and the poetic collision of unrelated objects in hyper-real or barren landscapes.
+    </p>
+    <p class="typewriter-quote fade-in fade-in-delay-2">
+      When applied to web and presentation design, Surrealism creates arresting, thought-provoking compositions that linger in memory by subverting visual expectations.
+    </p>
+  </section>
+
+  <div class="horizon-divider"></div>
+
+  <!-- Visual Characteristics -->
+  <section id="characteristics" class="section-characteristics">
+    <h2 class="section-title fade-in">Visual Characteristics</h2>
+    <p class="section-title-sub fade-in fade-in-delay-1">Core design traits of the surrealist language</p>
+
+    <div class="traits-grid">
+      <div class="trait-card fade-in fade-in-delay-1">
+        <span class="trait-icon">&loz;</span>
+        <h3>Impossible Juxtapositions</h3>
+        <p>Unrelated objects placed together in dreamlike scenes that defy logic -- a fish walking on land, a clock melting over a branch. The familiar made impossible.</p>
+      </div>
+      <div class="trait-card fade-in fade-in-delay-2">
+        <span class="trait-icon">&cir;</span>
+        <h3>Hyper-Real Rendering</h3>
+        <p>Photographic or painterly realism applied to impossible subjects, creating an uncanny valley of believability that unsettles the viewer.</p>
+      </div>
+      <div class="trait-card fade-in fade-in-delay-3">
+        <span class="trait-icon">&sim;</span>
+        <h3>Melting and Morphing Forms</h3>
+        <p>Solid objects appear to soften, drip, warp, or transform into other objects, blurring the line between states of being.</p>
+      </div>
+      <div class="trait-card fade-in fade-in-delay-4">
+        <span class="trait-icon">&mdash;</span>
+        <h3>Vast Empty Landscapes</h3>
+        <p>Sparse desert plains, infinite horizons, and deep perspective creating a sense of isolation and the boundless subconscious.</p>
+      </div>
+      <div class="trait-card fade-in fade-in-delay-5">
+        <span class="trait-icon">&uarr;</span>
+        <h3>Floating and Levitating Objects</h3>
+        <p>Elements defy gravity, hovering in space without visible support, creating a weightless dream-state atmosphere.</p>
+      </div>
+      <div class="trait-card fade-in fade-in-delay-6">
+        <span class="trait-icon">&Delta;</span>
+        <h3>Scale Distortion</h3>
+        <p>Ordinary objects rendered at absurd sizes or miniaturized to create disorientation and challenge perceived reality.</p>
+      </div>
+      <div class="trait-card fade-in fade-in-delay-7">
+        <span class="trait-icon">&block;</span>
+        <h3>Shadow Play</h3>
+        <p>Long dramatic shadows that may not match their source objects, or shadows that take on independent forms and lives of their own.</p>
+      </div>
+      <div class="trait-card fade-in fade-in-delay-8">
+        <span class="trait-icon">&oplus;</span>
+        <h3>Eyes and Body Fragments</h3>
+        <p>Disembodied eyes, hands, and lips appear as recurring motifs symbolizing perception, desire, and the depths of the subconscious.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Design Principles -->
+  <section id="principles" class="section-principles">
+    <h2 class="section-title fade-in">Design Principles</h2>
+    <p class="section-title-sub fade-in fade-in-delay-1">The philosophy beneath the surface</p>
+
+    <div class="principles-layout">
+      <div class="principles-col">
+        <div class="principle-item fade-in fade-in-delay-1">
+          <h4>Defamiliarization</h4>
+          <p>Make the familiar strange by placing everyday objects in unexpected contexts. A door opening to the sky. A staircase descending into the ocean.</p>
+        </div>
+        <div class="principle-item fade-in fade-in-delay-2">
+          <h4>Dream Logic</h4>
+          <p>Compositions follow emotional rather than rational spatial relationships. Elements connect through feeling, not physics.</p>
+        </div>
+        <div class="principle-item fade-in fade-in-delay-3">
+          <h4>Hyper-Clarity Amid Absurdity</h4>
+          <p>Crisp rendering and sharp focus on impossible content heightens the surreal effect. The more real it looks, the more unreal it feels.</p>
+        </div>
+      </div>
+
+      <div class="principles-divider"></div>
+
+      <div class="principles-col">
+        <div class="principle-item fade-in fade-in-delay-4">
+          <h4>Negative Space as Narrative</h4>
+          <p>Empty space suggests the vastness of the subconscious mind. What is absent speaks as loudly as what is present.</p>
+        </div>
+        <div class="principle-item fade-in fade-in-delay-5">
+          <h4>Tension Between Order and Chaos</h4>
+          <p>Classical composition techniques frame irrational content, creating a paradox of structured absurdity.</p>
+        </div>
+        <div class="principle-item fade-in fade-in-delay-6">
+          <h4>Symbolic Layering</h4>
+          <p>Every element carries potential symbolic or psychological meaning, inviting interpretation beyond the surface.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="horizon-divider"></div>
+
+  <!-- Color Palette -->
+  <section id="palette" class="section-palette">
+    <h2 class="section-title fade-in">Color Palette</h2>
+    <p class="section-title-sub fade-in fade-in-delay-1">Hues drawn from twilight, bone, and shadow</p>
+
+    <div class="palette-grid">
+      <p class="palette-group-label fade-in">Primary Palette</p>
+
+      <div class="color-swatch fade-in fade-in-delay-1">
+        <div class="swatch-color" style="background: #C2A366;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Desert Sand</div>
+          <div class="swatch-hex">#C2A366</div>
+          <div class="swatch-desc">Infinite landscapes</div>
+        </div>
+      </div>
+
+      <div class="color-swatch fade-in fade-in-delay-2">
+        <div class="swatch-color" style="background: #2C3E6B;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Twilight Blue</div>
+          <div class="swatch-hex">#2C3E6B</div>
+          <div class="swatch-desc">Mystery and depth</div>
+        </div>
+      </div>
+
+      <div class="color-swatch fade-in fade-in-delay-3">
+        <div class="swatch-color" style="background: #D4881C;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Dali Amber</div>
+          <div class="swatch-hex">#D4881C</div>
+          <div class="swatch-desc">Melting golden warmth</div>
+        </div>
+      </div>
+
+      <div class="color-swatch fade-in fade-in-delay-4">
+        <div class="swatch-color" style="background: #87CEEB;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Magritte Sky</div>
+          <div class="swatch-hex">#87CEEB</div>
+          <div class="swatch-desc">Impossible blue backdrop</div>
+        </div>
+      </div>
+
+      <div class="color-swatch fade-in fade-in-delay-5">
+        <div class="swatch-color" style="background: #1A1A2E;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Void Black</div>
+          <div class="swatch-hex">#1A1A2E</div>
+          <div class="swatch-desc">Deep negative space</div>
+        </div>
+      </div>
+
+      <div class="color-swatch fade-in fade-in-delay-6">
+        <div class="swatch-color" style="background: #F5F0E8;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Bone White</div>
+          <div class="swatch-hex">#F5F0E8</div>
+          <div class="swatch-desc">Bleached surfaces</div>
+        </div>
+      </div>
+
+      <p class="palette-group-label fade-in">Accent Colors</p>
+
+      <div class="color-swatch fade-in fade-in-delay-1">
+        <div class="swatch-color" style="background: #8B1A1A;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Blood Crimson</div>
+          <div class="swatch-hex">#8B1A1A</div>
+          <div class="swatch-desc">Dramatic accents</div>
+        </div>
+      </div>
+
+      <div class="color-swatch fade-in fade-in-delay-2">
+        <div class="swatch-color" style="background: #4A7C59;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Absinthe Green</div>
+          <div class="swatch-hex">#4A7C59</div>
+          <div class="swatch-desc">Uncanny nature</div>
+        </div>
+      </div>
+
+      <div class="color-swatch fade-in fade-in-delay-3">
+        <div class="swatch-color" style="background: #6B4C8A;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Phantom Violet</div>
+          <div class="swatch-hex">#6B4C8A</div>
+          <div class="swatch-desc">Dream states</div>
+        </div>
+      </div>
+
+      <div class="color-swatch fade-in fade-in-delay-4">
+        <div class="swatch-color" style="background: #E8B4A2;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Flesh Pink</div>
+          <div class="swatch-hex">#E8B4A2</div>
+          <div class="swatch-desc">Human warmth</div>
+        </div>
+      </div>
+
+      <div class="color-swatch fade-in fade-in-delay-5">
+        <div class="swatch-color" style="background: #A0522D;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Burnt Sienna</div>
+          <div class="swatch-hex">#A0522D</div>
+          <div class="swatch-desc">Barren earth</div>
+        </div>
+      </div>
+
+      <div class="color-swatch fade-in fade-in-delay-6">
+        <div class="swatch-color" style="background: #C0C0C0;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Mercury Silver</div>
+          <div class="swatch-hex">#C0C0C0</div>
+          <div class="swatch-desc">Metallic reflections</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Typography -->
+  <section id="typography" class="section-typography">
+    <h2 class="section-title fade-in">Typography</h2>
+    <p class="section-title-sub fade-in fade-in-delay-1">Classical authority grounding irrational content</p>
+
+    <div class="type-specimens">
+      <div class="type-specimen specimen-playfair fade-in fade-in-delay-2">
+        <div class="type-display">
+          <div class="sample-text">The Persistence<br>of Memory</div>
+        </div>
+        <div class="type-meta">
+          <div class="type-role">Display &amp; Headings</div>
+          <h3>Playfair Display</h3>
+          <p>Elegant serif with dramatic stroke contrast, commanding presence for titles and display text. Its classical authority creates perfect tension against surreal content.</p>
+          <div class="type-weights">Weights: 400, 500, 700, 900</div>
+        </div>
+      </div>
+
+      <div class="type-specimen specimen-cormorant fade-in fade-in-delay-3">
+        <div class="type-display">
+          <div class="sample-text">Objects hover in impossible stillness above an endless plain, their shadows stretching toward a horizon that never arrives.</div>
+        </div>
+        <div class="type-meta">
+          <div class="type-role">Body Text</div>
+          <h3>Cormorant Garamond</h3>
+          <p>Refined old-style serif with classical authority and excellent readability. Its light weights create an ethereal, dreamlike quality in extended passages.</p>
+          <div class="type-weights">Weights: 300, 400, 500, 600</div>
+        </div>
+      </div>
+
+      <div class="type-specimen specimen-special fade-in fade-in-delay-4">
+        <div class="type-display">
+          <div class="sample-text">The subconscious writes in symbols. This machine translates them into words that drip like melting wax across the page.</div>
+        </div>
+        <div class="type-meta">
+          <div class="type-role">Accent &amp; Annotations</div>
+          <h3>Special Elite</h3>
+          <p>Typewriter-inspired face evoking automatic writing sessions and surrealist journal entries. Perfect for annotations, quotes, and marginalia.</p>
+          <div class="type-weights">Weight: 400</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="horizon-divider"></div>
+
+  <!-- CSS Techniques -->
+  <section id="techniques" class="section-techniques">
+    <h2 class="section-title fade-in">CSS Techniques</h2>
+    <p class="section-title-sub fade-in fade-in-delay-1">Translating the impossible into interactive design</p>
+
+    <div class="techniques-grid">
+      <div class="technique-demo fade-in fade-in-delay-1">
+        <div class="technique-preview demo-float-card">
+          <div class="mini-card"></div>
+        </div>
+        <div class="technique-info">
+          <h3>Floating Surreal Card</h3>
+          <p>Perspective transforms and dramatic drop shadows create hovering objects that appear suspended above the surface. Hover to level the card.</p>
+        </div>
+      </div>
+
+      <div class="technique-demo fade-in fade-in-delay-2">
+        <div class="technique-preview demo-melting">
+          <div class="melt-shape"></div>
+        </div>
+        <div class="technique-info">
+          <h3>Melting Element Effect</h3>
+          <p>Blurred pseudo-elements beneath objects simulate the iconic Dali melting motif. Hover to intensify the drip.</p>
+        </div>
+      </div>
+
+      <div class="technique-demo fade-in fade-in-delay-3">
+        <div class="technique-preview demo-shadow">
+          <div class="shadow-object"></div>
+        </div>
+        <div class="technique-info">
+          <h3>Dramatic Shadow</h3>
+          <p>Elongated, skewed radial gradients create impossible shadows that stretch across barren landscapes. Hover to shift the shadow.</p>
+        </div>
+      </div>
+
+      <div class="technique-demo fade-in fade-in-delay-4">
+        <div class="technique-preview demo-button">
+          <button class="demo-surreal-btn">Enter the Dream</button>
+        </div>
+        <div class="technique-info">
+          <h3>Surreal Button</h3>
+          <p>Classical serif typography meets twilight depths. Amber borders and dramatic lift on hover create a portal-like interaction.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Do's and Don'ts -->
+  <section id="guidelines" class="section-guidelines">
+    <h2 class="section-title fade-in">Design Guidelines</h2>
+    <p class="section-title-sub fade-in fade-in-delay-1">Navigating the boundary between dream and design</p>
+
+    <div class="guidelines-grid">
+      <div class="guidelines-column do-col fade-in fade-in-delay-2">
+        <h3>Do</h3>
+        <div class="guideline-item">
+          <span class="guideline-marker">+</span>
+          <span class="guideline-text">Use vast negative space to evoke the infinite subconscious landscape</span>
+        </div>
+        <div class="guideline-item">
+          <span class="guideline-marker">+</span>
+          <span class="guideline-text">Juxtapose hyper-realistic imagery with impossible scenarios</span>
+        </div>
+        <div class="guideline-item">
+          <span class="guideline-marker">+</span>
+          <span class="guideline-text">Employ dramatic, elongated shadows for theatrical depth</span>
+        </div>
+        <div class="guideline-item">
+          <span class="guideline-marker">+</span>
+          <span class="guideline-text">Use classical serif typography to ground irrational content in visual authority</span>
+        </div>
+        <div class="guideline-item">
+          <span class="guideline-marker">+</span>
+          <span class="guideline-text">Create a sense of stillness and quiet tension in compositions</span>
+        </div>
+        <div class="guideline-item">
+          <span class="guideline-marker">+</span>
+          <span class="guideline-text">Let single powerful images speak rather than cluttering with many elements</span>
+        </div>
+        <div class="guideline-item">
+          <span class="guideline-marker">+</span>
+          <span class="guideline-text">Use subtle perspective distortion to unsettle the viewer</span>
+        </div>
+      </div>
+
+      <div class="guidelines-column dont-col fade-in fade-in-delay-3">
+        <h3>Don't</h3>
+        <div class="guideline-item">
+          <span class="guideline-marker">&times;</span>
+          <span class="guideline-text">Fill every area with content; emptiness is essential to the surrealist mood</span>
+        </div>
+        <div class="guideline-item">
+          <span class="guideline-marker">&times;</span>
+          <span class="guideline-text">Use cartoonish or playful rendering; surrealism requires convincing realism</span>
+        </div>
+        <div class="guideline-item">
+          <span class="guideline-marker">&times;</span>
+          <span class="guideline-text">Apply bright, saturated candy colors; favor muted earth tones and twilight hues</span>
+        </div>
+        <div class="guideline-item">
+          <span class="guideline-marker">&times;</span>
+          <span class="guideline-text">Use rounded, bubbly UI elements; prefer sharp edges and classical geometry</span>
+        </div>
+        <div class="guideline-item">
+          <span class="guideline-marker">&times;</span>
+          <span class="guideline-text">Add excessive animation; surrealism is about frozen impossible moments</span>
+        </div>
+        <div class="guideline-item">
+          <span class="guideline-marker">&times;</span>
+          <span class="guideline-text">Confuse surrealism with fantasy or psychedelic art; it is rooted in the uncanny</span>
+        </div>
+        <div class="guideline-item">
+          <span class="guideline-marker">&times;</span>
+          <span class="guideline-text">Use generic stock photography; every image should feel deliberate and symbolic</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="horizon-divider"></div>
+
+  <!-- Related Aesthetics -->
+  <section class="section-related">
+    <h2 class="section-title fade-in">Related Aesthetics</h2>
+    <p class="section-title-sub fade-in fade-in-delay-1">Adjacent territories of the imagination</p>
+
+    <div class="related-grid">
+      <div class="related-card fade-in fade-in-delay-1">
+        <h4>Art Deco</h4>
+        <p>Shares the 1920s-30s origin period. Art Deco celebrates rational geometry while Surrealism subverts it -- order versus the deliberate dismantling of order.</p>
+      </div>
+      <div class="related-card fade-in fade-in-delay-2">
+        <h4>Art Nouveau</h4>
+        <p>Both draw on organic forms, but Art Nouveau celebrates natural beauty while Surrealism distorts it into something uncanny and psychologically charged.</p>
+      </div>
+      <div class="related-card fade-in fade-in-delay-3">
+        <h4>Whimsigothic</h4>
+        <p>Shares dreamlike and mysterious qualities with a darker, more fantastical approach. Where Surrealism is cerebral, Whimsigothic is enchanted.</p>
+      </div>
+      <div class="related-card fade-in fade-in-delay-4">
+        <h4>Maximalism</h4>
+        <p>Surrealism can be maximalist in concept but typically uses sparse compositions. The density lives in meaning, not in visual volume.</p>
+      </div>
+      <div class="related-card fade-in fade-in-delay-5">
+        <h4>Dark Aero</h4>
+        <p>Both create atmospheric depth through layering and dramatic lighting. Dark Aero channels technology; Surrealism channels the subconscious.</p>
+      </div>
+      <div class="related-card fade-in fade-in-delay-6">
+        <h4>Ligne Claire</h4>
+        <p>Clean rendering style that can serve surreal content, as seen in Moebius comics. Clarity of line meets impossibility of subject.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="surreal-footer">
+    <p class="footer-quote fade-in">
+      "Surrealism is destructive, but it destroys only what it considers to be shackles limiting our vision."
+    </p>
+    <p class="footer-attribution fade-in fade-in-delay-1">Salvador Dali</p>
+    <div class="footer-line"></div>
+    <p class="footer-note fade-in fade-in-delay-2">A design aesthetic reference</p>
+  </footer>
+
+  <!-- JavaScript: Scroll animations -->
+  <script>
+    (function() {
+      // Intersection Observer for fade-in animations
+      const fadeElements = document.querySelectorAll('.fade-in');
+
+      const observerOptions = {
+        root: null,
+        rootMargin: '0px 0px -60px 0px',
+        threshold: 0.1
+      };
+
+      const observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, observerOptions);
+
+      fadeElements.forEach(function(el) {
+        observer.observe(el);
+      });
+
+      // Parallax-like effect on the floating eye (subtle)
+      var eye = document.querySelector('.floating-eye');
+      var eyeShadow = document.querySelector('.eye-ground-shadow');
+
+      window.addEventListener('mousemove', function(e) {
+        if (!eye || window.innerWidth < 768) return;
+        var x = (e.clientX / window.innerWidth - 0.5) * 10;
+        var y = (e.clientY / window.innerHeight - 0.5) * 5;
+        var iris = document.querySelector('.eye-iris');
+        if (iris) {
+          iris.style.transform = 'translate(calc(-50% + ' + x + 'px), calc(-50% + ' + y + 'px))';
+          iris.style.transition = 'transform 0.3s ease-out';
+        }
+      });
+
+      // Smooth scroll for nav links
+      document.querySelectorAll('.surreal-nav a').forEach(function(link) {
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+          var targetId = this.getAttribute('href').substring(1);
+          var target = document.getElementById(targetId);
+          if (target) {
+            var navHeight = document.querySelector('.surreal-nav').offsetHeight;
+            var targetPosition = target.getBoundingClientRect().top + window.pageYOffset - navHeight - 20;
+            window.scrollTo({
+              top: targetPosition,
+              behavior: 'smooth'
+            });
+          }
+        });
+      });
+
+      // Nav background opacity on scroll
+      var nav = document.querySelector('.surreal-nav');
+      window.addEventListener('scroll', function() {
+        if (window.scrollY > 100) {
+          nav.style.background = 'rgba(245, 240, 232, 0.95)';
+        } else {
+          nav.style.background = 'rgba(245, 240, 232, 0.85)';
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
