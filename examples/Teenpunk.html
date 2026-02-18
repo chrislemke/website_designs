@@ -1,0 +1,2157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TEENPUNK -- The Aesthetic of Commercialized Rebellion</title>
+  <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Bangers&family=Rock+Salt&family=Bungee&family=Londrina+Solid&family=Cabin+Sketch:wght@700&family=Nunito:wght@400;700&family=Patrick+Hand&family=Staatliches&display=swap" rel="stylesheet">
+  <style>
+    /* ============================================
+       TEENPUNK DESIGN SYSTEM
+       Hot Topic clearance rack meets MySpace profile
+       ============================================ */
+
+    :root {
+      /* Backgrounds */
+      --tp-black: #0d0d0d;
+      --tp-charcoal: #1a1a1a;
+      --tp-slate: #2a2a2a;
+
+      /* Pink spectrum */
+      --tp-hot-pink: #ff1493;
+      --tp-neon-pink: #ff69b4;
+      --tp-blush: #ff85b3;
+
+      /* Neutrals */
+      --tp-white: #ffffff;
+      --tp-off-white: #f0e6ef;
+      --tp-silver: #c0c0c0;
+
+      /* Accent colors */
+      --tp-red: #cc0000;
+      --tp-neon-green: #39ff14;
+      --tp-purple: #9b30ff;
+      --tp-notebook-blue: #6699cc;
+      --tp-plaid-red: #cc3333;
+
+      /* Functional mappings */
+      --tp-bg-primary: var(--tp-black);
+      --tp-bg-surface: var(--tp-charcoal);
+      --tp-bg-elevated: var(--tp-slate);
+      --tp-text-primary: var(--tp-off-white);
+      --tp-text-heading: var(--tp-hot-pink);
+      --tp-text-muted: var(--tp-silver);
+      --tp-accent: var(--tp-hot-pink);
+      --tp-accent-secondary: var(--tp-neon-pink);
+      --tp-border: var(--tp-hot-pink);
+      --tp-glow: rgba(255, 20, 147, 0.4);
+    }
+
+    /* ============================================
+       RESET & BASE
+       ============================================ */
+
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--tp-bg-primary);
+      color: var(--tp-text-primary);
+      font-family: 'Nunito', sans-serif;
+      font-weight: 400;
+      font-size: 1rem;
+      line-height: 1.7;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Subtle fishnet overlay on the entire page */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(45deg, transparent 46%, rgba(255, 20, 147, 0.025) 46%, rgba(255, 20, 147, 0.025) 54%, transparent 54%),
+        linear-gradient(-45deg, transparent 46%, rgba(255, 20, 147, 0.025) 46%, rgba(255, 20, 147, 0.025) 54%, transparent 54%);
+      background-size: 20px 20px;
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    /* ============================================
+       ANIMATIONS
+       ============================================ */
+
+    @keyframes tp-sparkle {
+      0%, 100% { opacity: 0; transform: scale(0.5) rotate(0deg); }
+      50% { opacity: 1; transform: scale(1) rotate(180deg); }
+    }
+
+    @keyframes tp-neon-pulse {
+      0%, 100% {
+        box-shadow:
+          0 0 5px var(--tp-hot-pink),
+          0 0 15px rgba(255, 20, 147, 0.3);
+      }
+      50% {
+        box-shadow:
+          0 0 10px var(--tp-hot-pink),
+          0 0 30px rgba(255, 20, 147, 0.5),
+          0 0 50px rgba(255, 20, 147, 0.2);
+      }
+    }
+
+    @keyframes tp-splat-in {
+      0% { transform: scale(0) rotate(-20deg); opacity: 0; }
+      70% { transform: scale(1.15) rotate(3deg); opacity: 1; }
+      100% { transform: scale(1) rotate(0deg); opacity: 1; }
+    }
+
+    @keyframes tp-text-glow {
+      0%, 100% {
+        text-shadow:
+          3px 3px 0 rgba(0, 0, 0, 0.8),
+          0 0 20px rgba(255, 20, 147, 0.3),
+          0 0 40px rgba(255, 20, 147, 0.15);
+      }
+      50% {
+        text-shadow:
+          3px 3px 0 rgba(0, 0, 0, 0.8),
+          0 0 40px rgba(255, 20, 147, 0.6),
+          0 0 80px rgba(255, 20, 147, 0.3),
+          0 0 120px rgba(255, 20, 147, 0.15);
+      }
+    }
+
+    @keyframes tp-skull-bob {
+      0%, 100% { transform: rotate(-5deg); }
+      50% { transform: rotate(5deg); }
+    }
+
+    @keyframes tp-float {
+      0%, 100% { transform: translateY(0) rotate(var(--float-rot, 0deg)); }
+      50% { transform: translateY(-8px) rotate(var(--float-rot, 0deg)); }
+    }
+
+    @keyframes tp-drip {
+      0% { height: 0; opacity: 0; }
+      30% { opacity: 1; }
+      100% { height: 40px; opacity: 0.6; }
+    }
+
+    @keyframes tp-slide-in-left {
+      0% { transform: translateX(-60px) rotate(-3deg); opacity: 0; }
+      100% { transform: translateX(0) rotate(0deg); opacity: 1; }
+    }
+
+    @keyframes tp-slide-in-right {
+      0% { transform: translateX(60px) rotate(3deg); opacity: 0; }
+      100% { transform: translateX(0) rotate(0deg); opacity: 1; }
+    }
+
+    @keyframes tp-fade-up {
+      0% { transform: translateY(30px); opacity: 0; }
+      100% { transform: translateY(0); opacity: 1; }
+    }
+
+    @keyframes tp-star-spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    @keyframes tp-blink {
+      0%, 49% { opacity: 1; }
+      50%, 100% { opacity: 0.3; }
+    }
+
+    @keyframes tp-glitch {
+      0%, 100% { transform: translate(0); }
+      20% { transform: translate(-2px, 1px); }
+      40% { transform: translate(2px, -1px); }
+      60% { transform: translate(-1px, -1px); }
+      80% { transform: translate(1px, 2px); }
+    }
+
+    /* ============================================
+       SPARKLE PARTICLES (JS-controlled)
+       ============================================ */
+
+    .sparkle {
+      position: fixed;
+      pointer-events: none;
+      z-index: 9998;
+      font-size: 0.5rem;
+      color: var(--tp-white);
+      animation: tp-sparkle 1.5s ease-in-out forwards;
+    }
+
+    .sparkle.pink { color: var(--tp-hot-pink); }
+    .sparkle.silver { color: var(--tp-silver); }
+
+    /* ============================================
+       CHECKERBOARD PATTERNS
+       ============================================ */
+
+    .tp-check-divider {
+      height: 16px;
+      border: none;
+      margin: 0;
+      background-image:
+        linear-gradient(45deg, var(--tp-black) 25%, transparent 25%),
+        linear-gradient(-45deg, var(--tp-black) 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, var(--tp-black) 75%),
+        linear-gradient(-45deg, transparent 75%, var(--tp-black) 75%);
+      background-size: 16px 16px;
+      background-position: 0 0, 0 8px, 8px -8px, -8px 0;
+      background-color: var(--tp-white);
+      display: block;
+      width: 100%;
+    }
+
+    .tp-check-divider.thick {
+      height: 24px;
+      background-size: 24px 24px;
+      background-position: 0 0, 0 12px, 12px -12px, -12px 0;
+    }
+
+    /* ============================================
+       STUDS DIVIDER
+       ============================================ */
+
+    .tp-studs {
+      border: none;
+      height: 12px;
+      position: relative;
+      margin: 2rem 0;
+      background: transparent;
+    }
+
+    .tp-studs::before {
+      content: '';
+      position: absolute;
+      top: 4px;
+      left: 5%;
+      right: 5%;
+      height: 4px;
+      background: repeating-linear-gradient(
+        90deg,
+        var(--tp-silver) 0px,
+        var(--tp-silver) 4px,
+        transparent 4px,
+        transparent 12px
+      );
+      border-radius: 2px;
+    }
+
+    /* ============================================
+       HERO SECTION
+       ============================================ */
+
+    .hero {
+      text-align: center;
+      padding: 5rem 2rem 4rem;
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background:
+        radial-gradient(ellipse at 20% 40%, rgba(255, 20, 147, 0.1) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 60%, rgba(155, 48, 255, 0.05) 0%, transparent 40%),
+        radial-gradient(ellipse at 50% 90%, rgba(255, 20, 147, 0.06) 0%, transparent 50%);
+    }
+
+    /* Decorative floating elements around hero */
+    .hero-deco {
+      position: absolute;
+      pointer-events: none;
+      font-size: 2rem;
+      opacity: 0.15;
+      animation: tp-float 4s ease-in-out infinite;
+    }
+
+    .hero-deco:nth-child(1) { top: 12%; left: 8%; --float-rot: -12deg; animation-delay: 0s; font-size: 3rem; }
+    .hero-deco:nth-child(2) { top: 20%; right: 10%; --float-rot: 8deg; animation-delay: 0.7s; }
+    .hero-deco:nth-child(3) { bottom: 25%; left: 12%; --float-rot: -5deg; animation-delay: 1.2s; font-size: 2.5rem; }
+    .hero-deco:nth-child(4) { bottom: 15%; right: 8%; --float-rot: 15deg; animation-delay: 0.3s; }
+    .hero-deco:nth-child(5) { top: 45%; left: 3%; --float-rot: -20deg; animation-delay: 2s; font-size: 1.5rem; }
+    .hero-deco:nth-child(6) { top: 35%; right: 4%; --float-rot: 10deg; animation-delay: 1.5s; font-size: 1.8rem; }
+
+    .hero-skull {
+      font-size: clamp(4rem, 12vw, 8rem);
+      margin-bottom: 1rem;
+      position: relative;
+      display: inline-block;
+      animation: tp-skull-bob 3s ease-in-out infinite;
+      filter: drop-shadow(0 0 20px rgba(255, 20, 147, 0.4));
+    }
+
+    .hero-skull .skull-char {
+      color: var(--tp-white);
+      text-shadow: 0 0 30px rgba(255, 20, 147, 0.5);
+    }
+
+    .hero-skull .bow {
+      position: absolute;
+      top: -0.15em;
+      right: -0.1em;
+      font-size: 0.35em;
+      color: var(--tp-hot-pink);
+      transform: rotate(15deg);
+      text-shadow: none;
+      filter: drop-shadow(0 0 8px rgba(255, 20, 147, 0.6));
+    }
+
+    .hero h1 {
+      font-family: 'Permanent Marker', cursive;
+      font-size: clamp(3.5rem, 12vw, 9rem);
+      line-height: 0.9;
+      text-transform: uppercase;
+      color: var(--tp-hot-pink);
+      animation: tp-text-glow 3s ease-in-out infinite;
+      margin-bottom: 0.5rem;
+      position: relative;
+      letter-spacing: 0.02em;
+    }
+
+    /* Dripping paint effect from the title */
+    .hero h1 .drip {
+      position: absolute;
+      bottom: -8px;
+      width: 4px;
+      background: var(--tp-hot-pink);
+      border-radius: 0 0 3px 3px;
+      animation: tp-drip 3s ease-in infinite;
+      opacity: 0.6;
+    }
+
+    .hero h1 .drip:nth-child(1) { left: 15%; animation-delay: 0s; }
+    .hero h1 .drip:nth-child(2) { left: 42%; animation-delay: 1.5s; width: 3px; }
+    .hero h1 .drip:nth-child(3) { left: 78%; animation-delay: 0.8s; }
+
+    .hero .tagline {
+      font-family: 'Rock Salt', cursive;
+      font-size: clamp(0.7rem, 2vw, 1rem);
+      color: var(--tp-neon-pink);
+      transform: rotate(-2deg);
+      display: inline-block;
+      margin-top: 1rem;
+      position: relative;
+    }
+
+    .hero .tagline::before,
+    .hero .tagline::after {
+      content: '\2726';
+      position: absolute;
+      color: var(--tp-white);
+      font-size: 0.6rem;
+      animation: tp-sparkle 2s ease-in-out infinite;
+    }
+
+    .hero .tagline::before {
+      top: -10px;
+      left: -18px;
+      animation-delay: 0s;
+    }
+
+    .hero .tagline::after {
+      bottom: -8px;
+      right: -15px;
+      animation-delay: 1s;
+      font-size: 0.4rem;
+    }
+
+    .hero .era-badge {
+      display: inline-block;
+      margin-top: 2rem;
+      padding: 0.5rem 1.5rem;
+      font-family: 'Bangers', cursive;
+      font-size: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--tp-black);
+      background: var(--tp-hot-pink);
+      border: 2px solid var(--tp-white);
+      transform: rotate(2deg);
+      box-shadow:
+        3px 3px 0 rgba(0, 0, 0, 0.5),
+        0 0 15px rgba(255, 20, 147, 0.4);
+    }
+
+    .scroll-hint {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: 'Patrick Hand', cursive;
+      font-size: 0.85rem;
+      color: var(--tp-neon-pink);
+      opacity: 0.6;
+      animation: tp-float 2s ease-in-out infinite;
+      --float-rot: 0deg;
+    }
+
+    /* ============================================
+       SECTION LAYOUT
+       ============================================ */
+
+    .content-section {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 3rem 2rem;
+      position: relative;
+    }
+
+    .content-section.wide {
+      max-width: 1100px;
+    }
+
+    /* Section entrance animation */
+    .content-section {
+      opacity: 0;
+      animation: tp-fade-up 0.6s ease-out forwards;
+    }
+
+    .content-section:nth-child(odd) { animation-delay: 0.1s; }
+    .content-section:nth-child(even) { animation-delay: 0.15s; }
+
+    /* ============================================
+       HEADINGS
+       ============================================ */
+
+    h2 {
+      font-family: 'Bangers', cursive;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--tp-white);
+      text-shadow:
+        2px 2px 0 var(--tp-hot-pink),
+        4px 4px 0 rgba(0, 0, 0, 0.5);
+      margin-bottom: 1.5rem;
+      position: relative;
+      display: inline-block;
+    }
+
+    h2::after {
+      content: '\2605';
+      position: absolute;
+      top: -8px;
+      right: -25px;
+      font-size: 0.4em;
+      color: var(--tp-hot-pink);
+      animation: tp-star-spin 8s linear infinite;
+    }
+
+    h3 {
+      font-family: 'Rock Salt', cursive;
+      font-size: clamp(0.9rem, 2.5vw, 1.3rem);
+      color: var(--tp-neon-pink);
+      transform: rotate(-1deg);
+      margin: 2rem 0 1rem;
+      display: inline-block;
+    }
+
+    h4 {
+      font-family: 'Londrina Solid', cursive;
+      font-size: 1.3rem;
+      color: var(--tp-hot-pink);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin: 1.5rem 0 0.75rem;
+    }
+
+    /* ============================================
+       PARAGRAPH & LINKS
+       ============================================ */
+
+    p {
+      margin-bottom: 1rem;
+    }
+
+    a {
+      color: var(--tp-hot-pink);
+      text-decoration: none;
+      border-bottom: 2px solid rgba(255, 20, 147, 0.4);
+      transition: all 0.15s;
+    }
+
+    a:hover {
+      color: var(--tp-neon-pink);
+      border-bottom-color: var(--tp-neon-pink);
+      text-shadow: 0 0 8px rgba(255, 20, 147, 0.4);
+    }
+
+    strong {
+      color: var(--tp-white);
+      font-weight: 700;
+    }
+
+    em {
+      color: var(--tp-neon-pink);
+      font-style: italic;
+    }
+
+    /* ============================================
+       NOTEBOOK CARD
+       ============================================ */
+
+    .tp-notebook-card {
+      background: var(--tp-white);
+      color: var(--tp-black);
+      padding: 2rem 2rem 2rem 3.8rem;
+      position: relative;
+      transform: rotate(calc(var(--tilt, -1) * 1deg));
+      box-shadow:
+        3px 3px 12px rgba(0, 0, 0, 0.6),
+        0 0 0 1px rgba(0, 0, 0, 0.1);
+      margin: 1.5rem 0;
+      font-family: 'Patrick Hand', cursive;
+      font-size: 1.1rem;
+      line-height: 1.85;
+      z-index: 1;
+    }
+
+    .tp-notebook-card::before {
+      content: '';
+      position: absolute;
+      inset: 1.5rem 1rem 1rem 1rem;
+      background-image: repeating-linear-gradient(
+        transparent, transparent 27px, #B8D4E8 27px, #B8D4E8 28px
+      );
+      pointer-events: none;
+    }
+
+    .tp-notebook-card::after {
+      content: '';
+      position: absolute;
+      top: 1rem;
+      bottom: 1rem;
+      left: 3.2rem;
+      width: 2px;
+      background: #CC4444;
+      opacity: 0.4;
+    }
+
+    .tp-notebook-card strong {
+      color: var(--tp-hot-pink);
+    }
+
+    .tp-notebook-card em {
+      color: var(--tp-purple);
+    }
+
+    /* ============================================
+       GLOW PANEL
+       ============================================ */
+
+    .tp-glow-panel {
+      border: 2px solid var(--tp-hot-pink);
+      background: var(--tp-charcoal);
+      padding: 2rem;
+      margin: 1.5rem 0;
+      box-shadow:
+        0 0 5px var(--tp-hot-pink),
+        0 0 15px rgba(255, 20, 147, 0.3),
+        inset 0 0 20px rgba(255, 20, 147, 0.05);
+      border-radius: 2px;
+      position: relative;
+    }
+
+    .tp-glow-panel.pulse {
+      animation: tp-neon-pulse 2.5s ease-in-out infinite;
+    }
+
+    /* ============================================
+       STICKERS
+       ============================================ */
+
+    .tp-sticker {
+      display: inline-block;
+      padding: 0.4rem 1.2rem;
+      font-family: 'Bangers', cursive;
+      font-size: 0.95rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--tp-white);
+      background: var(--tp-hot-pink);
+      border: 2px solid var(--tp-white);
+      border-radius: 3px;
+      transform: rotate(var(--sticker-tilt, 2deg));
+      box-shadow:
+        2px 2px 0 rgba(0, 0, 0, 0.4),
+        0 0 10px rgba(255, 20, 147, 0.3);
+      transition: transform 0.15s ease;
+      cursor: default;
+    }
+
+    .tp-sticker:hover {
+      transform: rotate(calc(var(--sticker-tilt, 2deg) * -1)) scale(1.08);
+    }
+
+    .tp-sticker--dark {
+      background: var(--tp-black);
+      color: var(--tp-hot-pink);
+      border-color: var(--tp-hot-pink);
+    }
+
+    .tp-sticker--green {
+      background: var(--tp-black);
+      color: var(--tp-neon-green);
+      border-color: var(--tp-neon-green);
+      box-shadow:
+        2px 2px 0 rgba(0, 0, 0, 0.4),
+        0 0 10px rgba(57, 255, 20, 0.2);
+    }
+
+    .tp-sticker--purple {
+      background: var(--tp-purple);
+      border-color: var(--tp-white);
+      box-shadow:
+        2px 2px 0 rgba(0, 0, 0, 0.4),
+        0 0 10px rgba(155, 48, 255, 0.3);
+    }
+
+    .sticker-cluster {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      margin: 1.5rem 0;
+      align-items: flex-start;
+    }
+
+    /* ============================================
+       DOODLE ANNOTATIONS
+       ============================================ */
+
+    .tp-doodle {
+      font-family: 'Rock Salt', cursive;
+      font-size: 0.65rem;
+      color: var(--tp-neon-pink);
+      transform: rotate(-3deg);
+      display: inline-block;
+      margin-left: 0.3rem;
+    }
+
+    .tp-doodle.green {
+      color: var(--tp-neon-green);
+    }
+
+    /* ============================================
+       SPLATTER DECORATIONS
+       ============================================ */
+
+    .tp-splatter {
+      position: relative;
+    }
+
+    .tp-splatter::before {
+      content: '';
+      position: absolute;
+      top: -20px;
+      right: -15px;
+      width: 80px;
+      height: 80px;
+      border-radius: 60% 40% 55% 45% / 50% 60% 40% 50%;
+      background: var(--tp-hot-pink);
+      opacity: 0.12;
+      transform: rotate(-15deg);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .tp-splatter::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 10%;
+      width: 50px;
+      height: 50px;
+      border-radius: 50% 40% 60% 45% / 55% 45% 50% 50%;
+      background: var(--tp-neon-pink);
+      opacity: 0.1;
+      transform: rotate(20deg);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ============================================
+       PLAID BACKGROUND SECTIONS
+       ============================================ */
+
+    .tp-plaid-bg {
+      background-color: var(--tp-black);
+      background-image:
+        repeating-linear-gradient(
+          0deg,
+          transparent, transparent 18px,
+          rgba(255, 20, 147, 0.12) 18px, rgba(255, 20, 147, 0.12) 20px,
+          transparent 20px, transparent 28px,
+          rgba(255, 20, 147, 0.06) 28px, rgba(255, 20, 147, 0.06) 29px
+        ),
+        repeating-linear-gradient(
+          90deg,
+          transparent, transparent 18px,
+          rgba(255, 20, 147, 0.12) 18px, rgba(255, 20, 147, 0.12) 20px,
+          transparent 20px, transparent 28px,
+          rgba(255, 20, 147, 0.06) 28px, rgba(255, 20, 147, 0.06) 29px
+        );
+    }
+
+    /* ============================================
+       BUTTON / CTA
+       ============================================ */
+
+    .tp-button {
+      display: inline-block;
+      padding: 0.7rem 2rem;
+      font-family: 'Bangers', cursive;
+      font-size: 1.1rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--tp-white);
+      background: var(--tp-hot-pink);
+      border: 2px solid var(--tp-white);
+      cursor: pointer;
+      transform: rotate(-1deg);
+      box-shadow:
+        3px 3px 0 rgba(0, 0, 0, 0.5),
+        0 0 15px rgba(255, 20, 147, 0.3);
+      transition: all 0.15s ease;
+      border-bottom: 2px solid var(--tp-white);
+    }
+
+    .tp-button:hover {
+      background: var(--tp-white);
+      color: var(--tp-hot-pink);
+      border-color: var(--tp-hot-pink);
+      border-bottom-color: var(--tp-hot-pink);
+      transform: rotate(1deg) scale(1.05);
+      box-shadow:
+        4px 4px 0 rgba(0, 0, 0, 0.5),
+        0 0 25px rgba(255, 20, 147, 0.5);
+    }
+
+    .tp-button:active {
+      transform: rotate(0deg) scale(0.98);
+      box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.5);
+    }
+
+    .tp-button--dark {
+      background: var(--tp-black);
+      border-color: var(--tp-hot-pink);
+      color: var(--tp-hot-pink);
+    }
+
+    .tp-button--dark:hover {
+      background: var(--tp-hot-pink);
+      color: var(--tp-black);
+      border-color: var(--tp-white);
+      border-bottom-color: var(--tp-white);
+    }
+
+    /* ============================================
+       MOTIF GRID (icon showcase)
+       ============================================ */
+
+    .motif-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+      gap: 1.2rem;
+      margin: 2rem 0;
+    }
+
+    .motif-item {
+      text-align: center;
+      padding: 1.2rem 0.5rem;
+      background: var(--tp-charcoal);
+      border: 1px solid rgba(255, 20, 147, 0.2);
+      border-radius: 3px;
+      transform: rotate(var(--tilt, 0deg));
+      transition: all 0.2s ease;
+      position: relative;
+    }
+
+    .motif-item:hover {
+      border-color: var(--tp-hot-pink);
+      box-shadow: 0 0 15px rgba(255, 20, 147, 0.3);
+      transform: rotate(0deg) scale(1.05);
+    }
+
+    .motif-icon {
+      font-size: 2rem;
+      display: block;
+      margin-bottom: 0.5rem;
+      filter: drop-shadow(0 0 5px rgba(255, 20, 147, 0.3));
+    }
+
+    .motif-label {
+      font-family: 'Bangers', cursive;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--tp-neon-pink);
+    }
+
+    /* ============================================
+       COLOR PALETTE DISPLAY
+       ============================================ */
+
+    .palette-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 1rem;
+      margin: 2rem 0;
+    }
+
+    .palette-swatch {
+      text-align: center;
+      border-radius: 3px;
+      overflow: hidden;
+      background: var(--tp-charcoal);
+      border: 1px solid rgba(255, 20, 147, 0.15);
+      transform: rotate(var(--tilt, 0deg));
+      transition: transform 0.2s ease;
+    }
+
+    .palette-swatch:hover {
+      transform: rotate(0deg) scale(1.05);
+    }
+
+    .swatch-color {
+      height: 70px;
+      width: 100%;
+    }
+
+    .swatch-info {
+      padding: 0.6rem 0.4rem;
+    }
+
+    .swatch-name {
+      font-family: 'Bangers', cursive;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--tp-white);
+    }
+
+    .swatch-hex {
+      font-family: 'Patrick Hand', cursive;
+      font-size: 0.8rem;
+      color: var(--tp-silver);
+    }
+
+    /* ============================================
+       TYPOGRAPHY SHOWCASE
+       ============================================ */
+
+    .type-specimen {
+      margin: 1.5rem 0;
+      padding: 1.5rem;
+      background: var(--tp-slate);
+      border-left: 4px solid var(--tp-hot-pink);
+      position: relative;
+    }
+
+    .type-specimen .font-name {
+      font-family: 'Bangers', cursive;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--tp-hot-pink);
+      margin-bottom: 0.5rem;
+    }
+
+    .type-specimen .font-sample {
+      font-size: 1.8rem;
+      color: var(--tp-white);
+      line-height: 1.3;
+    }
+
+    .type-specimen .font-usage {
+      font-family: 'Patrick Hand', cursive;
+      font-size: 0.85rem;
+      color: var(--tp-silver);
+      margin-top: 0.4rem;
+    }
+
+    /* ============================================
+       REFERENCE CARD (cultural references)
+       ============================================ */
+
+    .ref-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1.2rem;
+      margin: 2rem 0;
+    }
+
+    .ref-card {
+      background: var(--tp-charcoal);
+      border: 1px solid rgba(255, 20, 147, 0.15);
+      padding: 1.3rem;
+      position: relative;
+      transform: rotate(var(--tilt, 0deg));
+      transition: all 0.2s ease;
+    }
+
+    .ref-card:hover {
+      border-color: var(--tp-hot-pink);
+      box-shadow: 0 0 15px rgba(255, 20, 147, 0.2);
+      transform: rotate(0deg) translateY(-3px);
+    }
+
+    .ref-card .ref-name {
+      font-family: 'Permanent Marker', cursive;
+      font-size: 1.1rem;
+      color: var(--tp-hot-pink);
+      margin-bottom: 0.3rem;
+    }
+
+    .ref-card .ref-era {
+      font-family: 'Bangers', cursive;
+      font-size: 0.75rem;
+      color: var(--tp-silver);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+
+    .ref-card .ref-desc {
+      font-size: 0.9rem;
+      color: var(--tp-off-white);
+      line-height: 1.6;
+    }
+
+    /* ============================================
+       RELATED AESTHETICS TABLE
+       ============================================ */
+
+    .aesthetic-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 2rem 0;
+      font-size: 0.95rem;
+    }
+
+    .aesthetic-table th {
+      font-family: 'Bangers', cursive;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--tp-hot-pink);
+      padding: 0.8rem;
+      text-align: left;
+      border-bottom: 2px solid var(--tp-hot-pink);
+      font-size: 1.1rem;
+    }
+
+    .aesthetic-table td {
+      padding: 0.8rem;
+      border-bottom: 1px solid rgba(255, 20, 147, 0.15);
+      vertical-align: top;
+    }
+
+    .aesthetic-table td:first-child {
+      font-family: 'Permanent Marker', cursive;
+      color: var(--tp-white);
+      white-space: nowrap;
+      width: 130px;
+    }
+
+    .aesthetic-table tr:hover td {
+      background: rgba(255, 20, 147, 0.05);
+    }
+
+    /* ============================================
+       DESIGN PRINCIPLES LIST
+       ============================================ */
+
+    .principle-list {
+      list-style: none;
+      padding: 0;
+      margin: 1.5rem 0;
+    }
+
+    .principle-list li {
+      position: relative;
+      padding: 0.8rem 0 0.8rem 2.5rem;
+      border-bottom: 1px solid rgba(255, 20, 147, 0.1);
+    }
+
+    .principle-list li::before {
+      content: '\2605';
+      position: absolute;
+      left: 0;
+      top: 0.8rem;
+      color: var(--tp-hot-pink);
+      font-size: 1.1rem;
+    }
+
+    .principle-list li strong {
+      display: block;
+      font-family: 'Londrina Solid', cursive;
+      font-size: 1.15rem;
+      color: var(--tp-hot-pink);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 0.2rem;
+    }
+
+    /* ============================================
+       CSS TECHNIQUES SHOWCASE
+       ============================================ */
+
+    .technique-demo {
+      margin: 2rem 0;
+      padding: 2rem;
+      background: var(--tp-slate);
+      border: 1px solid rgba(255, 20, 147, 0.1);
+      position: relative;
+    }
+
+    .technique-demo .demo-label {
+      position: absolute;
+      top: -0.7rem;
+      left: 1rem;
+      padding: 0 0.5rem;
+      font-family: 'Bangers', cursive;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--tp-hot-pink);
+      background: var(--tp-slate);
+    }
+
+    /* Checkerboard demo */
+    .demo-checkerboard {
+      height: 60px;
+      background-image:
+        linear-gradient(45deg, var(--tp-black) 25%, transparent 25%),
+        linear-gradient(-45deg, var(--tp-black) 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, var(--tp-black) 75%),
+        linear-gradient(-45deg, transparent 75%, var(--tp-black) 75%);
+      background-size: 20px 20px;
+      background-position: 0 0, 0 10px, 10px -10px, -10px 0;
+      background-color: var(--tp-white);
+      margin-bottom: 1rem;
+    }
+
+    /* Fishnet demo */
+    .demo-fishnet {
+      height: 60px;
+      background-color: var(--tp-charcoal);
+      background-image:
+        linear-gradient(45deg, transparent 46%, rgba(255, 20, 147, 0.15) 46%, rgba(255, 20, 147, 0.15) 54%, transparent 54%),
+        linear-gradient(-45deg, transparent 46%, rgba(255, 20, 147, 0.15) 46%, rgba(255, 20, 147, 0.15) 54%, transparent 54%);
+      background-size: 16px 16px;
+      margin-bottom: 1rem;
+    }
+
+    /* Plaid demo */
+    .demo-plaid {
+      height: 60px;
+      background-color: var(--tp-black);
+      background-image:
+        repeating-linear-gradient(
+          0deg,
+          transparent, transparent 18px,
+          rgba(255, 20, 147, 0.15) 18px, rgba(255, 20, 147, 0.15) 20px,
+          transparent 20px, transparent 28px,
+          rgba(255, 20, 147, 0.08) 28px, rgba(255, 20, 147, 0.08) 29px
+        ),
+        repeating-linear-gradient(
+          90deg,
+          transparent, transparent 18px,
+          rgba(255, 20, 147, 0.15) 18px, rgba(255, 20, 147, 0.15) 20px,
+          transparent 20px, transparent 28px,
+          rgba(255, 20, 147, 0.08) 28px, rgba(255, 20, 147, 0.08) 29px
+        );
+      margin-bottom: 1rem;
+    }
+
+    .demo-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+    }
+
+    .demo-row .demo-label-inline {
+      font-family: 'Patrick Hand', cursive;
+      font-size: 0.8rem;
+      color: var(--tp-silver);
+      text-align: center;
+      margin-top: 0.3rem;
+    }
+
+    /* ============================================
+       FOOTER
+       ============================================ */
+
+    .footer {
+      text-align: center;
+      padding: 3rem 2rem;
+      position: relative;
+      background:
+        radial-gradient(ellipse at 50% 0%, rgba(255, 20, 147, 0.08) 0%, transparent 60%);
+    }
+
+    .footer .skull-row {
+      font-size: 1.5rem;
+      letter-spacing: 1rem;
+      margin-bottom: 1rem;
+      color: var(--tp-silver);
+      opacity: 0.3;
+    }
+
+    .footer p {
+      font-family: 'Patrick Hand', cursive;
+      font-size: 0.85rem;
+      color: var(--tp-silver);
+      opacity: 0.6;
+    }
+
+    .footer .footer-brand {
+      font-family: 'Permanent Marker', cursive;
+      font-size: 1.3rem;
+      color: var(--tp-hot-pink);
+      text-shadow: 0 0 15px rgba(255, 20, 147, 0.3);
+    }
+
+    /* ============================================
+       MATERIALS TABLE
+       ============================================ */
+
+    .materials-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1rem;
+      margin: 2rem 0;
+    }
+
+    .material-card {
+      background: var(--tp-charcoal);
+      border: 1px solid rgba(255, 20, 147, 0.1);
+      padding: 1rem;
+      text-align: center;
+      transform: rotate(var(--tilt, 0deg));
+      transition: all 0.2s ease;
+    }
+
+    .material-card:hover {
+      border-color: var(--tp-hot-pink);
+      transform: rotate(0deg) scale(1.03);
+    }
+
+    .material-card .mat-physical {
+      font-family: 'Permanent Marker', cursive;
+      font-size: 0.9rem;
+      color: var(--tp-hot-pink);
+      margin-bottom: 0.3rem;
+    }
+
+    .material-card .mat-arrow {
+      font-size: 1.2rem;
+      color: var(--tp-silver);
+      opacity: 0.4;
+      margin: 0.2rem 0;
+    }
+
+    .material-card .mat-web {
+      font-family: 'Patrick Hand', cursive;
+      font-size: 0.85rem;
+      color: var(--tp-off-white);
+    }
+
+    /* ============================================
+       INTRO DESCRIPTION BOX
+       ============================================ */
+
+    .intro-box {
+      position: relative;
+      padding: 2.5rem;
+      background: var(--tp-charcoal);
+      border: 2px solid var(--tp-hot-pink);
+      margin: 2rem 0;
+      box-shadow:
+        0 0 5px var(--tp-hot-pink),
+        0 0 20px rgba(255, 20, 147, 0.2),
+        inset 0 0 30px rgba(255, 20, 147, 0.03);
+    }
+
+    .intro-box::before {
+      content: '';
+      position: absolute;
+      top: -25px;
+      right: -20px;
+      width: 100px;
+      height: 100px;
+      border-radius: 55% 45% 60% 40% / 50% 55% 45% 50%;
+      background: var(--tp-hot-pink);
+      opacity: 0.08;
+      transform: rotate(-10deg);
+      pointer-events: none;
+    }
+
+    .intro-box::after {
+      content: '';
+      position: absolute;
+      bottom: -15px;
+      left: 5%;
+      width: 60px;
+      height: 60px;
+      border-radius: 45% 55% 50% 50% / 55% 45% 55% 45%;
+      background: var(--tp-neon-pink);
+      opacity: 0.06;
+      pointer-events: none;
+    }
+
+    .intro-box p {
+      position: relative;
+      z-index: 1;
+      font-size: 1.05rem;
+      line-height: 1.8;
+    }
+
+    /* ============================================
+       QUOTE BLOCK
+       ============================================ */
+
+    .tp-quote {
+      position: relative;
+      padding: 1.5rem 2rem 1.5rem 3rem;
+      margin: 2rem 0;
+      border-left: 4px solid var(--tp-hot-pink);
+      background: rgba(255, 20, 147, 0.04);
+      font-style: italic;
+      font-size: 1.1rem;
+      color: var(--tp-neon-pink);
+    }
+
+    .tp-quote::before {
+      content: '\201C';
+      position: absolute;
+      top: 0.5rem;
+      left: 0.5rem;
+      font-family: 'Permanent Marker', cursive;
+      font-size: 2.5rem;
+      color: var(--tp-hot-pink);
+      opacity: 0.3;
+      font-style: normal;
+    }
+
+    /* ============================================
+       SCROLL-TRIGGERED ANIMATION
+       ============================================ */
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .reveal-left {
+      opacity: 0;
+      transform: translateX(-40px) rotate(-2deg);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .reveal-left.visible {
+      opacity: 1;
+      transform: translateX(0) rotate(0deg);
+    }
+
+    .reveal-right {
+      opacity: 0;
+      transform: translateX(40px) rotate(2deg);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .reveal-right.visible {
+      opacity: 1;
+      transform: translateX(0) rotate(0deg);
+    }
+
+    /* ============================================
+       RESPONSIVE
+       ============================================ */
+
+    @media (max-width: 768px) {
+      .hero { padding: 3rem 1.5rem; }
+      .hero-skull { font-size: clamp(3rem, 15vw, 5rem); }
+      .content-section { padding: 2rem 1.2rem; }
+      .tp-notebook-card { padding: 1.5rem 1.2rem 1.5rem 2.8rem; font-size: 1rem; }
+      .tp-glow-panel { padding: 1.5rem; }
+      .intro-box { padding: 1.5rem; }
+      .motif-grid { grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 0.8rem; }
+      .palette-grid { grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); }
+      .ref-grid { grid-template-columns: 1fr; }
+      .demo-row { grid-template-columns: 1fr; }
+      .materials-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+      .hero-deco { display: none; }
+
+      .aesthetic-table { font-size: 0.85rem; }
+      .aesthetic-table td:first-child { width: auto; white-space: normal; }
+    }
+
+    @media (max-width: 480px) {
+      .hero h1 { font-size: clamp(2.5rem, 14vw, 4rem); }
+      .motif-grid { grid-template-columns: repeat(3, 1fr); }
+      .palette-grid { grid-template-columns: repeat(2, 1fr); }
+      .sticker-cluster { gap: 0.5rem; }
+      .tp-sticker { font-size: 0.8rem; padding: 0.3rem 0.8rem; }
+    }
+
+    /* ============================================
+       CUSTOM SCROLLBAR
+       ============================================ */
+
+    ::-webkit-scrollbar {
+      width: 10px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--tp-black);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--tp-hot-pink);
+      border: 2px solid var(--tp-black);
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--tp-neon-pink);
+    }
+
+    /* ============================================
+       CURSOR SPARKLE TRAIL
+       ============================================ */
+
+    .trail-sparkle {
+      position: fixed;
+      pointer-events: none;
+      z-index: 99999;
+      font-size: 0.7rem;
+      color: var(--tp-hot-pink);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================
+       HERO SECTION
+       ============================================ -->
+
+  <section class="hero">
+    <!-- Floating decorative elements -->
+    <span class="hero-deco" aria-hidden="true">&#9733;</span>
+    <span class="hero-deco" aria-hidden="true">&#9760;</span>
+    <span class="hero-deco" aria-hidden="true">&#9829;</span>
+    <span class="hero-deco" aria-hidden="true">&#9733;</span>
+    <span class="hero-deco" aria-hidden="true">&#9889;</span>
+    <span class="hero-deco" aria-hidden="true">&#9829;</span>
+
+    <div class="hero-skull" aria-hidden="true">
+      <span class="skull-char">&#9760;</span>
+      <span class="bow">&#10084;</span>
+    </div>
+
+    <h1>
+      Teenpunk
+      <span class="drip" aria-hidden="true"></span>
+      <span class="drip" aria-hidden="true"></span>
+      <span class="drip" aria-hidden="true"></span>
+    </h1>
+
+    <span class="tagline">the aesthetic of commercialized rebellion</span>
+
+    <br>
+    <span class="era-badge">Late 1990s -- Early 2010s</span>
+
+    <div class="scroll-hint">&#8595; scroll down, punk &#8595;</div>
+  </section>
+
+  <hr class="tp-check-divider thick">
+
+  <!-- ============================================
+       WHAT IS TEENPUNK?
+       ============================================ -->
+
+  <section class="content-section">
+    <h2>What is Teenpunk?</h2>
+
+    <div class="intro-box reveal">
+      <p>Teenpunk is the commercial youth aesthetic that dominated late-1990s to early-2010s mall culture, fusing <strong>punk-inspired motifs with accessible, mass-market fashion</strong>. It packages teenage rebellion and non-conformity into a playful, consumer-friendly format -- the visual language of Hot Topic clearance racks, Avril Lavigne music videos, Monster High dolls, and Myspace profile pages.</p>
+    </div>
+
+    <div class="tp-notebook-card reveal" style="--tilt: -1.5">
+      <p>The palette is built on a stark <strong>black-and-hot-pink foundation</strong> with checkerboard patterns, skull-and-crossbones adorned with bows, paint splatters, and fishnet textures. The mood is <em>edgy-but-accessible</em>: punk princess angst filtered through pop hooks and mall retail.</p>
+      <p style="margin-top: 0.5rem;">Everything looks like it was designed on a composition notebook cover in study hall -- stars, hearts, lightning bolts, and band logos scrawled over every surface.</p>
+    </div>
+
+    <div class="tp-quote reveal">
+      Where authentic punk rejects commercialism, Teenpunk <em>is</em> the commercialized rebellion, and it owns that contradiction with neon-streaked confidence.
+    </div>
+
+    <div class="sticker-cluster reveal">
+      <span class="tp-sticker" style="--sticker-tilt: -2deg">Mall Culture</span>
+      <span class="tp-sticker--dark tp-sticker" style="--sticker-tilt: 3deg">Pop Punk</span>
+      <span class="tp-sticker" style="--sticker-tilt: -1deg">Hot Topic</span>
+      <span class="tp-sticker--purple tp-sticker" style="--sticker-tilt: 2deg">MySpace Era</span>
+      <span class="tp-sticker--green tp-sticker" style="--sticker-tilt: -3deg">Scene Kid</span>
+    </div>
+  </section>
+
+  <hr class="tp-studs">
+
+  <!-- ============================================
+       CORE MOTIFS
+       ============================================ -->
+
+  <section class="content-section wide">
+    <h2>Core Motifs &amp; Patterns</h2>
+
+    <p>The Teenpunk visual vocabulary is built from a specific set of icons, textures, and patterns that repeat across every surface -- from locker doors to album covers to MySpace layouts.</p>
+
+    <div class="motif-grid reveal">
+      <div class="motif-item" style="--tilt: -2deg">
+        <span class="motif-icon">&#9760;</span>
+        <span class="motif-label">Skulls + Bows</span>
+      </div>
+      <div class="motif-item" style="--tilt: 1deg">
+        <span class="motif-icon" style="font-size:1.4rem;">&#9632;&#9633;&#9632;&#9633;</span>
+        <span class="motif-label">Checkerboard</span>
+      </div>
+      <div class="motif-item" style="--tilt: -1deg">
+        <span class="motif-icon">&#9733;</span>
+        <span class="motif-label">Stars</span>
+      </div>
+      <div class="motif-item" style="--tilt: 2deg">
+        <span class="motif-icon">&#9889;</span>
+        <span class="motif-label">Lightning</span>
+      </div>
+      <div class="motif-item" style="--tilt: -1.5deg">
+        <span class="motif-icon">&#9829;</span>
+        <span class="motif-label">Hearts</span>
+      </div>
+      <div class="motif-item" style="--tilt: 1.5deg">
+        <span class="motif-icon">&#10070;</span>
+        <span class="motif-label">Splatters</span>
+      </div>
+      <div class="motif-item" style="--tilt: -2deg">
+        <span class="motif-icon">&#9838;</span>
+        <span class="motif-label">Guitars</span>
+      </div>
+      <div class="motif-item" style="--tilt: 0.5deg">
+        <span class="motif-icon">&#10036;</span>
+        <span class="motif-label">Glitter</span>
+      </div>
+      <div class="motif-item" style="--tilt: -1deg">
+        <span class="motif-icon">&#128388;</span>
+        <span class="motif-label">Safety Pins</span>
+      </div>
+      <div class="motif-item" style="--tilt: 2.5deg">
+        <span class="motif-icon" style="background: linear-gradient(90deg, #ff1493, #39ff14, #9b30ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 1.5rem;">///</span>
+        <span class="motif-label">Hair Streaks</span>
+      </div>
+    </div>
+
+    <div class="tp-glow-panel reveal tp-splatter">
+      <h3>The Signature Icon</h3>
+      <p><strong>Skulls with feminine accents</strong> are the defining Teenpunk symbol: skulls adorned with hair bows, hearts for eyes, rhinestones, or lipstick. The juxtaposition of tough and cute defines the entire aesthetic. Crossbones appear paired with skulls or used independently as the pirate-punk crossover symbol.</p>
+    </div>
+
+    <div class="tp-notebook-card reveal" style="--tilt: 1.2">
+      <p><strong>Checkerboard patterns</strong> appear on everything -- inspired by Vans slip-ons and ska punk culture. Used as borders, fills, backgrounds, and accent strips. <strong>Fishnet texture</strong> (the diamond-grid stocking pattern) provides overlay textures and border treatments. <strong>Plaid / tartan patterns</strong> in pink-and-black reference school-uniform skirts gone rebellious.</p>
+    </div>
+
+    <div class="tp-notebook-card reveal" style="--tilt: -0.8">
+      <p><strong>Paint splatters and drips</strong> create graffiti-style effects in hot pink, white, or neon green against black backgrounds. <strong>Glitter and sparkle effects</strong> reference MySpace-era glitter graphics: sparkling overlays, rhinestone-like dots, shimmer animations. <strong>Composition notebook lines</strong> suggest school notebook doodles everywhere.</p>
+    </div>
+  </section>
+
+  <hr class="tp-check-divider">
+
+  <!-- ============================================
+       DESIGN PRINCIPLES
+       ============================================ -->
+
+  <section class="content-section tp-plaid-bg" style="max-width: 100%; padding: 0;">
+    <div style="max-width: 900px; margin: 0 auto; padding: 3rem 2rem;">
+      <h2>Design Principles</h2>
+
+      <ul class="principle-list">
+        <li class="reveal">
+          <strong>Black Base with Hot Pink Punch</strong>
+          The core visual formula is near-black backgrounds or elements with hot pink as the primary accent. This pairing is non-negotiable -- it is the Teenpunk DNA.
+        </li>
+        <li class="reveal">
+          <strong>Tough Meets Cute</strong>
+          Every design element should balance edginess with playfulness. Skulls wear bows, danger symbols get hearts. The collision of opposites creates the visual tension.
+        </li>
+        <li class="reveal">
+          <strong>Maximalist Layering</strong>
+          Pile on the motifs! Stars, splatters, checks, and skulls can coexist in the same composition like a sticker-bombed locker door.
+        </li>
+        <li class="reveal">
+          <strong>Hand-Drawn Energy</strong>
+          Elements should look sketched, doodled, or stamped rather than precision-engineered. The vibe is notebook margins, not design studio.
+        </li>
+        <li class="reveal">
+          <strong>Commercial Rebellion</strong>
+          The aesthetic is self-aware about its mass-market nature. It is polished enough for retail packaging but rough enough to feel "alternative."
+        </li>
+        <li class="reveal">
+          <strong>Scrapbook Collage</strong>
+          Compositions feel assembled from cut-out stickers, magazine clippings, and printouts layered on a black or dark surface.
+        </li>
+        <li class="reveal">
+          <strong>MySpace-Era Digital Sparkle</strong>
+          Glitter graphics, sparkle overlays, and animated shine effects reference the social media platform where the aesthetic thrived.
+        </li>
+        <li class="reveal">
+          <strong>High Contrast, Limited Palette</strong>
+          Restrict the palette to black, white, hot pink, and one or two supporting accents. More colors dilute the identity.
+        </li>
+        <li class="reveal">
+          <strong>Youth-Targeted Boldness</strong>
+          Everything should be legible, loud, and immediately appealing. Subtlety is not the goal.
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <hr class="tp-check-divider">
+
+  <!-- ============================================
+       COLOR PALETTE
+       ============================================ -->
+
+  <section class="content-section wide">
+    <h2>Color Palette</h2>
+
+    <p>The Teenpunk palette is aggressively artificial and commercial. <strong>No pastels, no earth tones</strong> -- muted or natural colors break the spell. The overwhelming majority of the design should be black and hot pink; this is the DNA.</p>
+
+    <div class="palette-grid reveal">
+      <div class="palette-swatch" style="--tilt: -1deg">
+        <div class="swatch-color" style="background: #0d0d0d;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Jet Black</div>
+          <div class="swatch-hex">#0D0D0D</div>
+        </div>
+      </div>
+      <div class="palette-swatch" style="--tilt: 1deg">
+        <div class="swatch-color" style="background: #1a1a1a;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Charcoal</div>
+          <div class="swatch-hex">#1A1A1A</div>
+        </div>
+      </div>
+      <div class="palette-swatch" style="--tilt: -0.5deg">
+        <div class="swatch-color" style="background: #2a2a2a;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Dark Slate</div>
+          <div class="swatch-hex">#2A2A2A</div>
+        </div>
+      </div>
+      <div class="palette-swatch" style="--tilt: 1.5deg">
+        <div class="swatch-color" style="background: #ff1493; box-shadow: inset 0 0 20px rgba(255,255,255,0.15), 0 0 15px rgba(255,20,147,0.4);"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Hot Pink</div>
+          <div class="swatch-hex">#FF1493</div>
+        </div>
+      </div>
+      <div class="palette-swatch" style="--tilt: -1.5deg">
+        <div class="swatch-color" style="background: #ff69b4; box-shadow: inset 0 0 15px rgba(255,255,255,0.1);"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Neon Pink</div>
+          <div class="swatch-hex">#FF69B4</div>
+        </div>
+      </div>
+      <div class="palette-swatch" style="--tilt: 0.5deg">
+        <div class="swatch-color" style="background: #ff85b3;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Blush Pink</div>
+          <div class="swatch-hex">#FF85B3</div>
+        </div>
+      </div>
+      <div class="palette-swatch" style="--tilt: -1deg">
+        <div class="swatch-color" style="background: #ffffff; border-bottom: 1px solid #eee;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Pure White</div>
+          <div class="swatch-hex">#FFFFFF</div>
+        </div>
+      </div>
+      <div class="palette-swatch" style="--tilt: 2deg">
+        <div class="swatch-color" style="background: #f0e6ef;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Off-White</div>
+          <div class="swatch-hex">#F0E6EF</div>
+        </div>
+      </div>
+      <div class="palette-swatch" style="--tilt: -2deg">
+        <div class="swatch-color" style="background: #cc0000; box-shadow: inset 0 0 15px rgba(0,0,0,0.2);"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Punk Red</div>
+          <div class="swatch-hex">#CC0000</div>
+        </div>
+      </div>
+      <div class="palette-swatch" style="--tilt: 1deg">
+        <div class="swatch-color" style="background: #39ff14; box-shadow: inset 0 0 15px rgba(0,0,0,0.15), 0 0 10px rgba(57,255,20,0.3);"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Neon Green</div>
+          <div class="swatch-hex">#39FF14</div>
+        </div>
+      </div>
+      <div class="palette-swatch" style="--tilt: -1.5deg">
+        <div class="swatch-color" style="background: #9b30ff; box-shadow: inset 0 0 15px rgba(0,0,0,0.15), 0 0 10px rgba(155,48,255,0.3);"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Electric Purple</div>
+          <div class="swatch-hex">#9B30FF</div>
+        </div>
+      </div>
+      <div class="palette-swatch" style="--tilt: 0.5deg">
+        <div class="swatch-color" style="background: #c0c0c0; background-image: linear-gradient(135deg, rgba(255,255,255,0.3) 0%, transparent 50%, rgba(255,255,255,0.1) 100%);"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Silver Glitter</div>
+          <div class="swatch-hex">#C0C0C0</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tp-glow-panel pulse reveal">
+      <h4>Palette Rules</h4>
+      <p><strong>Black-and-pink dominance</strong> -- the overwhelming majority should be black and hot pink. <strong>White as structural contrast</strong> in checkerboard patterns, skull fills, star outlines, and stark text. <strong>One neon accent for variety</strong> -- green or purple appears sparingly for energy pops (referencing dyed hair streaks) but must never compete with hot pink. <strong>Pink glow effects</strong> -- hot pink box-shadows and text-shadows create the neon-sign glow that elevates flat elements.</p>
+    </div>
+  </section>
+
+  <hr class="tp-studs">
+
+  <!-- ============================================
+       TYPOGRAPHY
+       ============================================ -->
+
+  <section class="content-section">
+    <h2>Typography</h2>
+
+    <p>Teenpunk typography is <strong>bold, angular, and slightly distressed</strong> -- it looks like band merchandise lettering and notebook scrawl. A mix of uppercase aggression and lowercase casualness, with star and heart dingbats integrated as separators.</p>
+
+    <div class="type-specimen reveal-left">
+      <div class="font-name">Permanent Marker</div>
+      <div class="font-sample" style="font-family: 'Permanent Marker', cursive; color: var(--tp-hot-pink); text-transform: uppercase;">
+        Punk Princess Angst
+      </div>
+      <div class="font-usage">Hero headlines, bold statements, notebook scrawl</div>
+    </div>
+
+    <div class="type-specimen reveal-right">
+      <div class="font-name">Bangers</div>
+      <div class="font-sample" style="font-family: 'Bangers', cursive; text-transform: uppercase; letter-spacing: 0.06em;">
+        Section Headings & Callouts
+      </div>
+      <div class="font-usage">Section headings, energetic display text, sticker labels</div>
+    </div>
+
+    <div class="type-specimen reveal-left">
+      <div class="font-name">Rock Salt</div>
+      <div class="font-sample" style="font-family: 'Rock Salt', cursive; font-size: 1.4rem; color: var(--tp-neon-pink); transform: rotate(-1deg); display: inline-block;">
+        scrawled in the margins like a secret note
+      </div>
+      <div class="font-usage">Annotations, personal asides, doodle-style labels</div>
+    </div>
+
+    <div class="type-specimen reveal-right">
+      <div class="font-name">Bungee</div>
+      <div class="font-sample" style="font-family: 'Bungee', cursive; text-transform: uppercase;">
+        BLOCK STENCIL POWER
+      </div>
+      <div class="font-usage">Stencil-style headings, band-logo-adjacent display</div>
+    </div>
+
+    <div class="type-specimen reveal-left">
+      <div class="font-name">Londrina Solid</div>
+      <div class="font-sample" style="font-family: 'Londrina Solid', cursive; text-transform: uppercase; letter-spacing: 0.03em;">
+        Friendly Punk Headings
+      </div>
+      <div class="font-usage">Casual emphasis, friendly punk headings</div>
+    </div>
+
+    <div class="type-specimen reveal-right">
+      <div class="font-name">Cabin Sketch</div>
+      <div class="font-sample" style="font-family: 'Cabin Sketch', cursive; font-size: 1.6rem;">
+        Notebook Doodle Vibes
+      </div>
+      <div class="font-usage">Notebook doodle headings, illustrated feel</div>
+    </div>
+
+    <div class="type-specimen reveal-left">
+      <div class="font-name">Nunito</div>
+      <div class="font-sample" style="font-family: 'Nunito', sans-serif; font-size: 1.2rem; font-weight: 400;">
+        The body text of Teenpunk is friendly, rounded, and readable. Nunito provides a warm youth-oriented base for extended reading.
+      </div>
+      <div class="font-usage">Body text -- readable, friendly, slightly rounded sans-serif</div>
+    </div>
+
+    <div class="type-specimen reveal-right">
+      <div class="font-name">Patrick Hand</div>
+      <div class="font-sample" style="font-family: 'Patrick Hand', cursive; font-size: 1.3rem;">
+        hand-lettered notes on notebook paper, passed between desks
+      </div>
+      <div class="font-usage">Body text alternative with hand-lettered character</div>
+    </div>
+  </section>
+
+  <hr class="tp-check-divider">
+
+  <!-- ============================================
+       LAYOUT PRINCIPLES
+       ============================================ -->
+
+  <section class="content-section">
+    <h2>Layout Principles</h2>
+
+    <div class="tp-glow-panel reveal tp-splatter">
+      <h4>Dark, Immersive Backdrop</h4>
+      <p>The page should feel like a <strong>decorated locker interior</strong> or a blacked-out bedroom wall covered in posters and stickers. Full-bleed dark backgrounds extend edge-to-edge; content sits within as lighter or accented panels.</p>
+    </div>
+
+    <div class="tp-notebook-card reveal" style="--tilt: -1.8">
+      <p><strong>Sticker-bomb layering</strong> -- elements overlap, stack, and crowd like stickers, patches, and cutouts plastered across a surface. <strong>Slight rotations on most elements</strong> (1-3 degrees in alternating directions) create the hand-placed, scrapbook feel.</p>
+    </div>
+
+    <div class="tp-notebook-card reveal" style="--tilt: 1.3">
+      <p><strong>Moderate structure with chaotic decoration</strong> -- maintain readable content flow (unlike pure punk chaos) but decorate aggressively around and between content blocks. <strong>Notebook-page containers</strong> look like torn-out pages pinned to the dark background.</p>
+    </div>
+
+    <div class="tp-glow-panel reveal">
+      <h4>Section Organization</h4>
+      <p style="margin-bottom: 0.5rem;">Use <strong>checkerboard strip dividers</strong> between major sections. Apply <strong>pink glow borders</strong> around featured content. Create hierarchy through the <strong>pink spectrum</strong> -- primary content in hot pink, secondary in neon pink, tertiary in blush or white.</p>
+      <p>Employ <strong>sticker-style elements</strong> that look like puffy stickers or iron-on patches. Use scattered <strong>star and heart decorations</strong> in section gutters and margins. Apply <strong>splatter accents</strong> at transitions.</p>
+    </div>
+  </section>
+
+  <hr class="tp-studs">
+
+  <!-- ============================================
+       CSS TECHNIQUES SHOWCASE
+       ============================================ -->
+
+  <section class="content-section wide">
+    <h2>Textures &amp; Patterns</h2>
+
+    <p>The Teenpunk toolkit relies on CSS-generated textures that translate physical materials into web equivalents. Here are the three core patterns in action:</p>
+
+    <div class="technique-demo reveal">
+      <span class="demo-label">Live Pattern Demos</span>
+      <div class="demo-row">
+        <div>
+          <div class="demo-checkerboard"></div>
+          <div class="demo-label-inline">Checkerboard</div>
+        </div>
+        <div>
+          <div class="demo-fishnet"></div>
+          <div class="demo-label-inline">Fishnet</div>
+        </div>
+        <div>
+          <div class="demo-plaid"></div>
+          <div class="demo-label-inline">Plaid / Tartan</div>
+        </div>
+      </div>
+    </div>
+
+    <h3>Materials Translation</h3>
+
+    <p>Physical Teenpunk materials and their web equivalents:</p>
+
+    <div class="materials-grid reveal">
+      <div class="material-card" style="--tilt: -1deg">
+        <div class="mat-physical">Fishnet Stockings</div>
+        <div class="mat-arrow">&#8595;</div>
+        <div class="mat-web">Crossed diagonal gradients at 45deg with low-opacity pink</div>
+      </div>
+      <div class="material-card" style="--tilt: 1.5deg">
+        <div class="mat-physical">Checkerboard Vans</div>
+        <div class="mat-arrow">&#8595;</div>
+        <div class="mat-web">Alternating black-and-white squares via linear-gradient at 45deg</div>
+      </div>
+      <div class="material-card" style="--tilt: -0.5deg">
+        <div class="mat-physical">Studded Belt</div>
+        <div class="mat-arrow">&#8595;</div>
+        <div class="mat-web">Repeating small circles in silver along a dark border strip</div>
+      </div>
+      <div class="material-card" style="--tilt: 2deg">
+        <div class="mat-physical">Notebook Paper</div>
+        <div class="mat-arrow">&#8595;</div>
+        <div class="mat-web">White background with repeating-linear-gradient ruled lines</div>
+      </div>
+      <div class="material-card" style="--tilt: -1.5deg">
+        <div class="mat-physical">Iron-On Patches</div>
+        <div class="mat-arrow">&#8595;</div>
+        <div class="mat-web">Rounded-corner panels with thick borders and rotate transforms</div>
+      </div>
+      <div class="material-card" style="--tilt: 1deg">
+        <div class="mat-physical">Sticker Sheet</div>
+        <div class="mat-arrow">&#8595;</div>
+        <div class="mat-web">Inline-block elements with varied rotations and drop shadows</div>
+      </div>
+      <div class="material-card" style="--tilt: -2deg">
+        <div class="mat-physical">Punk Plaid Skirt</div>
+        <div class="mat-arrow">&#8595;</div>
+        <div class="mat-web">Tartan via crossed repeating-linear-gradient in pink on black</div>
+      </div>
+      <div class="material-card" style="--tilt: 0.5deg">
+        <div class="mat-physical">Paint-Splattered Tee</div>
+        <div class="mat-arrow">&#8595;</div>
+        <div class="mat-web">Dark bg with irregular border-radius blobs in hot pink</div>
+      </div>
+      <div class="material-card" style="--tilt: -1deg">
+        <div class="mat-physical">Glitter Graphics</div>
+        <div class="mat-arrow">&#8595;</div>
+        <div class="mat-web">Four-pointed star characters with keyframe opacity animation</div>
+      </div>
+      <div class="material-card" style="--tilt: 1.5deg">
+        <div class="mat-physical">Band Poster</div>
+        <div class="mat-arrow">&#8595;</div>
+        <div class="mat-web">Cards with slight rotate, box-shadow depth, rough edges</div>
+      </div>
+      <div class="material-card" style="--tilt: -0.5deg">
+        <div class="mat-physical">Safety Pins</div>
+        <div class="mat-arrow">&#8595;</div>
+        <div class="mat-web">Angled metallic-colored line segments as decorative markers</div>
+      </div>
+      <div class="material-card" style="--tilt: 2deg">
+        <div class="mat-physical">Neon Hair Streak</div>
+        <div class="mat-arrow">&#8595;</div>
+        <div class="mat-web">Thin gradient stripe in neon pink or green as accent highlights</div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="tp-check-divider">
+
+  <!-- ============================================
+       ANIMATION & MOTION
+       ============================================ -->
+
+  <section class="content-section">
+    <h2>Animation &amp; Motion</h2>
+
+    <p>Teenpunk motion design references MySpace-era sparkle graphics and the tactile energy of picking up stickers. Movement should feel playful and slightly chaotic.</p>
+
+    <div class="tp-glow-panel pulse reveal">
+      <h4>&#10036; Sparkle Twinkle</h4>
+      <p>Small star/diamond shapes that fade in, rotate, and fade out at staggered intervals, referencing MySpace glitter graphics. <span class="tp-doodle">^ like this page!</span></p>
+    </div>
+
+    <div class="tp-glow-panel reveal" style="border-color: var(--tp-neon-green); box-shadow: 0 0 5px var(--tp-neon-green), 0 0 15px rgba(57,255,20,0.2);">
+      <h4 style="color: var(--tp-neon-green);">&#9889; Gentle Hover Bounces</h4>
+      <p>Interactive elements scale up slightly and rotate on hover, like picking up a sticker from a sheet. Try hovering over the motif icons and sticker badges on this page.</p>
+    </div>
+
+    <div class="tp-glow-panel reveal">
+      <h4>&#9733; Pink Neon Pulse</h4>
+      <p>Rhythmic brightening and dimming of pink glow borders and text-shadows. This panel above with the sparkle section demonstrates the pulse animation -- watch the border glow breathe.</p>
+    </div>
+
+    <div class="tp-notebook-card reveal" style="--tilt: -1">
+      <p><strong>Paint splatter pop-in</strong> -- elements appear with a quick scale-up animation from center, as if splatted onto the page. <strong>Skull bobble</strong> -- decorative skull icons nod and rotate subtly on loop (see the hero skull above).</p>
+    </div>
+  </section>
+
+  <hr class="tp-studs">
+
+  <!-- ============================================
+       CULTURAL REFERENCES
+       ============================================ -->
+
+  <section class="content-section wide">
+    <h2>Cultural References</h2>
+
+    <p>The following define the Teenpunk visual language and serve as design references. These people, brands, and cultural moments shaped the aesthetic's DNA.</p>
+
+    <div class="ref-grid">
+      <div class="ref-card reveal" style="--tilt: -1deg">
+        <div class="ref-name">Avril Lavigne</div>
+        <div class="ref-era">2002 -- 2010</div>
+        <div class="ref-desc">The quintessential Teenpunk figurehead. Her music videos, album art, and fashion line (Abbey Dawn) are the aesthetic's north star: black tank tops, neckties, checkered wristbands, pink streaks, and bratty pop-punk attitude.</div>
+      </div>
+      <div class="ref-card reveal" style="--tilt: 1.5deg">
+        <div class="ref-name">Hot Topic</div>
+        <div class="ref-era">Peak 2000s</div>
+        <div class="ref-desc">The mall retail epicenter. The store's visual merchandising, product design, and brand identity <em>are</em> the aesthetic: skulls, checkers, pink-on-black everything.</div>
+      </div>
+      <div class="ref-card reveal" style="--tilt: -0.5deg">
+        <div class="ref-name">Monster High</div>
+        <div class="ref-era">2010 -- 2018</div>
+        <div class="ref-desc">Mattel's fashion-doll franchise that crystallized Teenpunk motifs. Characters like Draculaura embodied the skull-with-bow, pink-and-black palette, and girly-punk crossover.</div>
+      </div>
+      <div class="ref-card reveal" style="--tilt: 1deg">
+        <div class="ref-name">MySpace Profiles</div>
+        <div class="ref-era">2005 -- 2008</div>
+        <div class="ref-desc">Where Teenpunk thrived digitally: custom CSS profiles with glitter graphics, sparkling cursors, embedded pop-punk playlists, and pink-on-black layouts.</div>
+      </div>
+      <div class="ref-card reveal" style="--tilt: -1.5deg">
+        <div class="ref-name">Pop-Punk Scene</div>
+        <div class="ref-era">2000s</div>
+        <div class="ref-desc">Bands like Paramore, My Chemical Romance, Fall Out Boy, and All Time Low whose merch and visual branding inhabited the Teenpunk space.</div>
+      </div>
+      <div class="ref-card reveal" style="--tilt: 2deg">
+        <div class="ref-name">Scene Kid Culture</div>
+        <div class="ref-era">2006 -- 2012</div>
+        <div class="ref-desc">The MySpace-era youth subculture adjacent to and overlapping with Teenpunk, adding more extreme hair styling and digital photo editing.</div>
+      </div>
+      <div class="ref-card reveal" style="--tilt: -1deg">
+        <div class="ref-name">Freaky Friday</div>
+        <div class="ref-era">2003</div>
+        <div class="ref-desc">Lindsay Lohan's character with her garage band, black-and-pink wardrobe, and rebellious-but-lovable energy.</div>
+      </div>
+      <div class="ref-card reveal" style="--tilt: 0.5deg">
+        <div class="ref-name">Claire's / Delia's</div>
+        <div class="ref-era">2000s Retail</div>
+        <div class="ref-desc">Teen accessories and fashion retailers that mass-produced Teenpunk jewelry, bags, and room decor for the mall-going demographic.</div>
+      </div>
+      <div class="ref-card reveal" style="--tilt: -2deg">
+        <div class="ref-name">The Veronicas</div>
+        <div class="ref-era">2000s</div>
+        <div class="ref-desc">Australian pop-punk duo whose visual identity exemplified the twin-punk-princess aesthetic.</div>
+      </div>
+      <div class="ref-card reveal" style="--tilt: 1.5deg">
+        <div class="ref-name">Olivia Rodrigo</div>
+        <div class="ref-era">2020s Revival</div>
+        <div class="ref-desc">The modern revival/nostalgia wave, bringing Teenpunk motifs back through Y2K and pop-punk revival aesthetics.</div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="tp-check-divider">
+
+  <!-- ============================================
+       RELATED AESTHETICS
+       ============================================ -->
+
+  <section class="content-section">
+    <h2>Related Aesthetics</h2>
+
+    <p>Teenpunk exists within a constellation of overlapping youth aesthetics. Here is how it relates to its neighbors:</p>
+
+    <table class="aesthetic-table reveal">
+      <thead>
+        <tr>
+          <th>Aesthetic</th>
+          <th>Relationship to Teenpunk</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Emo</td>
+          <td>Overlapping 2000s youth subculture; shares the black base and emotional intensity but is more introspective and melancholy. Teenpunk is more extroverted and playful.</td>
+        </tr>
+        <tr>
+          <td>Scene</td>
+          <td>Direct sibling aesthetic; Scene pushes Teenpunk's neon accents and hair styling to extremes; more digitally oriented with heavier MySpace/Photoshop editing.</td>
+        </tr>
+        <tr>
+          <td>Mallgoth</td>
+          <td>Shares the Hot Topic retail origin and dark base palette; Mallgoth leans darker, more gothic, less pink, and less pop.</td>
+        </tr>
+        <tr>
+          <td>DIY Punk</td>
+          <td>The authentic ancestor; Teenpunk borrows punk's visual vocabulary (skulls, safety pins, studs, plaid) but strips away the anti-commercial ideology.</td>
+        </tr>
+        <tr>
+          <td>Skater</td>
+          <td>Parallel youth subculture; shares checkerboard Vans, casual attitude, and board-sports energy. Skater is more neutral-toned where Teenpunk is pink.</td>
+        </tr>
+        <tr>
+          <td>Glitter Graphics</td>
+          <td>The digital arm of the same era; sparkle GIFs, animated MySpace layouts, and blingy text effects that decorated Teenpunk's online presence.</td>
+        </tr>
+        <tr>
+          <td>Pop-Punk</td>
+          <td>The musical genre that provides Teenpunk's soundtrack; the band merch aesthetic feeds directly into the visual identity.</td>
+        </tr>
+        <tr>
+          <td>Parisian Girly</td>
+          <td>A softer, more feminine counterpart; shares the pink-and-black palette but replaces punk edge with French romantic elegance.</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <hr class="tp-check-divider thick">
+
+  <!-- ============================================
+       INTERACTIVE DEMO SECTION
+       ============================================ -->
+
+  <section class="content-section" style="text-align: center;">
+    <h2>Try It Out</h2>
+    <p style="margin-bottom: 2rem;">Interactive elements styled in the Teenpunk aesthetic. Hover, click, and experience the tactile energy of commercialized rebellion.</p>
+
+    <div style="display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: center; margin-bottom: 2rem;" class="reveal">
+      <a href="#" class="tp-button" onclick="return false;">Hot Topic Approved</a>
+      <a href="#" class="tp-button--dark tp-button" onclick="return false;">Mall Punk Forever</a>
+    </div>
+
+    <div class="sticker-cluster reveal" style="justify-content: center;">
+      <span class="tp-sticker" style="--sticker-tilt: -3deg">&#9760; Skulls</span>
+      <span class="tp-sticker--dark tp-sticker" style="--sticker-tilt: 2deg">&#9829; Hearts</span>
+      <span class="tp-sticker" style="--sticker-tilt: -1deg">&#9733; Stars</span>
+      <span class="tp-sticker--purple tp-sticker" style="--sticker-tilt: 3deg">&#9889; Lightning</span>
+      <span class="tp-sticker--green tp-sticker" style="--sticker-tilt: -2deg">&#10036; Glitter</span>
+      <span class="tp-sticker--dark tp-sticker" style="--sticker-tilt: 1deg">&#9760; Crossbones</span>
+      <span class="tp-sticker" style="--sticker-tilt: -2deg">&#10084; Bows</span>
+      <span class="tp-sticker--dark tp-sticker" style="--sticker-tilt: 2deg">&#127928; Guitars</span>
+    </div>
+  </section>
+
+  <hr class="tp-check-divider">
+
+  <!-- ============================================
+       FOOTER
+       ============================================ -->
+
+  <footer class="footer">
+    <div class="skull-row" aria-hidden="true">&#9760; &#9733; &#9829; &#9760; &#9733; &#9829; &#9760;</div>
+    <div class="footer-brand">TEENPUNK</div>
+    <p style="margin-top: 0.5rem;">Commercialized rebellion since the late 90s</p>
+    <p style="margin-top: 0.3rem; font-size: 0.75rem; opacity: 0.4;">A design reference showcase &bull; All content from the Teenpunk Design Reference</p>
+    <div style="margin-top: 1.5rem;">
+      <span class="tp-sticker" style="--sticker-tilt: 0deg; font-size: 0.7rem; padding: 0.3rem 0.8rem;">&#9733; Stay Punk &#9733;</span>
+    </div>
+  </footer>
+
+  <hr class="tp-check-divider">
+
+  <!-- ============================================
+       JAVASCRIPT
+       ============================================ -->
+
+  <script>
+    // ==============================
+    // Scroll-triggered reveal animations
+    // ==============================
+    (function() {
+      const revealEls = document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
+
+      const observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, {
+        threshold: 0.15,
+        rootMargin: '0px 0px -50px 0px'
+      });
+
+      revealEls.forEach(function(el) {
+        observer.observe(el);
+      });
+    })();
+
+    // ==============================
+    // Random sparkle generation
+    // ==============================
+    (function() {
+      var sparkleChars = ['\u2726', '\u2605', '\u2734', '\u2726'];
+      var sparkleColors = ['', 'pink', 'silver'];
+
+      function createSparkle() {
+        var sparkle = document.createElement('span');
+        sparkle.className = 'sparkle ' + sparkleColors[Math.floor(Math.random() * sparkleColors.length)];
+        sparkle.textContent = sparkleChars[Math.floor(Math.random() * sparkleChars.length)];
+        sparkle.style.left = (Math.random() * 100) + 'vw';
+        sparkle.style.top = (Math.random() * 100) + 'vh';
+        sparkle.style.fontSize = (0.3 + Math.random() * 0.6) + 'rem';
+        sparkle.style.animationDuration = (1 + Math.random() * 2) + 's';
+        document.body.appendChild(sparkle);
+
+        setTimeout(function() {
+          if (sparkle.parentNode) {
+            sparkle.parentNode.removeChild(sparkle);
+          }
+        }, 3000);
+      }
+
+      // Spawn sparkles periodically
+      setInterval(createSparkle, 800);
+
+      // Initial burst of sparkles
+      for (var i = 0; i < 5; i++) {
+        setTimeout(createSparkle, i * 200);
+      }
+    })();
+
+    // ==============================
+    // Cursor sparkle trail (mouse move)
+    // ==============================
+    (function() {
+      var lastSparkleTime = 0;
+      var sparkleInterval = 120; // ms between trail sparkles
+
+      document.addEventListener('mousemove', function(e) {
+        var now = Date.now();
+        if (now - lastSparkleTime < sparkleInterval) return;
+        lastSparkleTime = now;
+
+        var sparkle = document.createElement('span');
+        sparkle.className = 'sparkle pink';
+        sparkle.textContent = '\u2726';
+        sparkle.style.left = e.clientX + 'px';
+        sparkle.style.top = e.clientY + 'px';
+        sparkle.style.fontSize = (0.3 + Math.random() * 0.4) + 'rem';
+        sparkle.style.animationDuration = '0.8s';
+        document.body.appendChild(sparkle);
+
+        setTimeout(function() {
+          if (sparkle.parentNode) {
+            sparkle.parentNode.removeChild(sparkle);
+          }
+        }, 900);
+      });
+    })();
+
+    // ==============================
+    // Sticker click pop effect
+    // ==============================
+    (function() {
+      var stickers = document.querySelectorAll('.tp-sticker');
+      stickers.forEach(function(sticker) {
+        sticker.addEventListener('click', function() {
+          sticker.style.animation = 'tp-splat-in 0.3s ease-out';
+          setTimeout(function() {
+            sticker.style.animation = '';
+          }, 300);
+        });
+      });
+    })();
+
+    // ==============================
+    // Content sections fade-in on load
+    // ==============================
+    (function() {
+      var sections = document.querySelectorAll('.content-section');
+      sections.forEach(function(section, i) {
+        section.style.animationDelay = (i * 0.05) + 's';
+      });
+    })();
+  </script>
+</body>
+</html>

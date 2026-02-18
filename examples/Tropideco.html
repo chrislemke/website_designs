@@ -1,0 +1,2233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tropideco -- Synthetic Paradise</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bungee+Shade&family=Lilita+One&family=Luckiest+Guy&family=Fredoka:wght@400;600&family=Pacifico&family=Righteous&family=Nunito:wght@400;600;700&family=Montserrat:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* ========================================
+       CSS CUSTOM PROPERTIES -- TROPIDECO
+    ======================================== */
+    :root {
+      /* Dark bases */
+      --tropi-teal-deep: #004d4d;
+      --tropi-jungle: #1a3c2a;
+      --tropi-navy: #0a1628;
+      --tropi-dark: #0d2818;
+
+      /* Neon accents */
+      --tropi-magenta: #ff2d8a;
+      --tropi-cyan: #00e5ff;
+      --tropi-teal-neon: #00e5cc;
+      --tropi-green-neon: #39ff14;
+      --tropi-purple-neon: #bf40ff;
+
+      /* Warm tones */
+      --tropi-coral: #ff6b4a;
+      --tropi-orange: #ff8c42;
+      --tropi-gold: #ffd700;
+      --tropi-tan: #d4a574;
+      --tropi-bamboo: #b8945a;
+
+      /* Foliage */
+      --tropi-emerald: #006b3f;
+      --tropi-lime: #a8e06c;
+      --tropi-green: #32cd32;
+
+      /* Water */
+      --tropi-turquoise: #40e0d0;
+      --tropi-aqua: #7fdbff;
+      --tropi-pool: #00bcd4;
+
+      /* Purples */
+      --tropi-purple-deep: #4a0e4e;
+      --tropi-purple: #5c1a66;
+
+      /* Neutrals */
+      --tropi-white: #f5f0e6;
+      --tropi-tile: #e8f4f8;
+      --tropi-sand: #ede8d8;
+
+      /* Neon glows */
+      --tropi-glow-magenta: rgba(255, 45, 138, 0.45);
+      --tropi-glow-cyan: rgba(0, 229, 255, 0.4);
+      --tropi-glow-teal: rgba(0, 229, 204, 0.4);
+      --tropi-glow-green: rgba(57, 255, 20, 0.35);
+      --tropi-glow-purple: rgba(191, 64, 255, 0.35);
+      --tropi-glow-magenta-strong: rgba(255, 45, 138, 0.65);
+      --tropi-glow-cyan-strong: rgba(0, 229, 255, 0.6);
+
+      /* Functional */
+      --tropi-bg-primary: var(--tropi-teal-deep);
+      --tropi-bg-secondary: var(--tropi-jungle);
+      --tropi-bg-surface: var(--tropi-dark);
+      --tropi-text-primary: var(--tropi-white);
+      --tropi-text-secondary: var(--tropi-sand);
+      --tropi-accent: var(--tropi-magenta);
+      --tropi-accent-secondary: var(--tropi-cyan);
+      --tropi-border: rgba(0, 229, 204, 0.25);
+    }
+
+    /* ========================================
+       RESET & BASE
+    ======================================== */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Nunito', sans-serif;
+      font-weight: 400;
+      font-size: 1.05rem;
+      letter-spacing: 0.01em;
+      line-height: 1.7;
+      color: var(--tropi-sand);
+      background: var(--tropi-navy);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* ========================================
+       TYPOGRAPHY
+    ======================================== */
+    h1, h2, h3 {
+      font-family: 'Lilita One', sans-serif;
+      font-weight: 400;
+      letter-spacing: 0.04em;
+      color: var(--tropi-gold);
+      text-shadow:
+        0 0 10px var(--tropi-glow-cyan),
+        0 2px 4px rgba(0, 0, 0, 0.4);
+    }
+
+    h2 {
+      font-size: clamp(1.6rem, 4vw, 2.4rem);
+      margin-bottom: 1.2rem;
+    }
+
+    h3 {
+      font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+      margin-bottom: 0.8rem;
+    }
+
+    p + p { margin-top: 1rem; }
+
+    a { color: var(--tropi-cyan); text-decoration: none; transition: all 0.3s ease; }
+    a:hover { color: var(--tropi-magenta); text-shadow: 0 0 8px var(--tropi-glow-magenta); }
+
+    strong { color: var(--tropi-white); font-weight: 700; }
+
+    /* ========================================
+       NAV
+    ======================================== */
+    .tropi-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: center;
+      gap: 1.4rem;
+      padding: 1rem 2rem;
+      background: linear-gradient(180deg, rgba(10, 22, 40, 0.95) 0%, rgba(10, 22, 40, 0.7) 70%, transparent 100%);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      flex-wrap: wrap;
+    }
+
+    .tropi-nav a {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--tropi-teal-neon);
+      padding: 0.4rem 0.7rem;
+      border-radius: 4px;
+      transition: all 0.3s ease;
+      white-space: nowrap;
+    }
+
+    .tropi-nav a:hover {
+      color: var(--tropi-magenta);
+      text-shadow: 0 0 10px var(--tropi-glow-magenta);
+      background: rgba(255, 45, 138, 0.08);
+    }
+
+    /* ========================================
+       HERO SECTION
+    ======================================== */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 6rem 2rem 4rem;
+      position: relative;
+      overflow: hidden;
+      background:
+        radial-gradient(ellipse 80% 50% at 50% 20%, rgba(255, 45, 138, 0.1) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 40% at 70% 80%, rgba(0, 229, 255, 0.07) 0%, transparent 50%),
+        radial-gradient(ellipse 50% 50% at 20% 70%, rgba(191, 64, 255, 0.06) 0%, transparent 50%),
+        linear-gradient(180deg, #0a1628 0%, #004d4d 50%, #0d2818 100%);
+    }
+
+    /* Animated palm leaf silhouettes in the hero */
+    .hero-foliage-left,
+    .hero-foliage-right {
+      position: absolute;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .hero-foliage-left {
+      top: 0;
+      left: -40px;
+      width: 320px;
+      height: 500px;
+      opacity: 0.35;
+      animation: sway-left 8s ease-in-out infinite alternate;
+    }
+
+    .hero-foliage-right {
+      top: -20px;
+      right: -40px;
+      width: 300px;
+      height: 480px;
+      opacity: 0.3;
+      animation: sway-right 9s ease-in-out infinite alternate;
+      transform-origin: top right;
+    }
+
+    @keyframes sway-left {
+      0% { transform: rotate(0deg) translateX(0); }
+      100% { transform: rotate(3deg) translateX(8px); }
+    }
+
+    @keyframes sway-right {
+      0% { transform: rotate(0deg) translateX(0); }
+      100% { transform: rotate(-3deg) translateX(-8px); }
+    }
+
+    .hero-title {
+      font-family: 'Bungee Shade', sans-serif;
+      font-size: clamp(3rem, 10vw, 8rem);
+      font-weight: 400;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      line-height: 1.05;
+      color: var(--tropi-magenta);
+      text-shadow:
+        0 0 10px var(--tropi-glow-magenta),
+        0 0 40px var(--tropi-glow-magenta),
+        0 0 80px var(--tropi-glow-magenta-strong),
+        0 3px 6px rgba(0, 0, 0, 0.5);
+      position: relative;
+      z-index: 2;
+      animation: hero-glow 4s ease-in-out infinite alternate;
+    }
+
+    @keyframes hero-glow {
+      0% {
+        text-shadow:
+          0 0 10px var(--tropi-glow-magenta),
+          0 0 40px var(--tropi-glow-magenta),
+          0 0 80px var(--tropi-glow-magenta-strong),
+          0 3px 6px rgba(0, 0, 0, 0.5);
+      }
+      100% {
+        text-shadow:
+          0 0 15px var(--tropi-glow-magenta),
+          0 0 55px var(--tropi-glow-magenta-strong),
+          0 0 100px var(--tropi-glow-magenta-strong),
+          0 0 140px rgba(255, 45, 138, 0.3),
+          0 3px 6px rgba(0, 0, 0, 0.5);
+      }
+    }
+
+    .hero-tagline {
+      font-family: 'Pacifico', cursive;
+      font-size: clamp(1.1rem, 3vw, 1.8rem);
+      color: var(--tropi-coral);
+      margin-top: 1.2rem;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+      position: relative;
+      z-index: 2;
+      opacity: 0;
+      animation: fade-in-up 1s 0.6s ease forwards;
+    }
+
+    .hero-subtitle {
+      font-family: 'Nunito', sans-serif;
+      font-size: clamp(0.95rem, 2vw, 1.15rem);
+      color: var(--tropi-sand);
+      max-width: 640px;
+      margin-top: 1.5rem;
+      position: relative;
+      z-index: 2;
+      opacity: 0;
+      animation: fade-in-up 1s 1s ease forwards;
+    }
+
+    .hero-aliases {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--tropi-teal-neon);
+      margin-top: 2rem;
+      position: relative;
+      z-index: 2;
+      opacity: 0;
+      animation: fade-in-up 1s 1.3s ease forwards;
+    }
+
+    .hero-aliases span {
+      display: inline-block;
+      padding: 0.3rem 0.8rem;
+      margin: 0.25rem;
+      border: 1px solid rgba(0, 229, 204, 0.25);
+      border-radius: 20px;
+      background: rgba(0, 229, 204, 0.06);
+      transition: all 0.3s ease;
+    }
+
+    .hero-aliases span:hover {
+      border-color: var(--tropi-magenta);
+      color: var(--tropi-magenta);
+      background: rgba(255, 45, 138, 0.08);
+      box-shadow: 0 0 12px var(--tropi-glow-magenta);
+    }
+
+    @keyframes fade-in-up {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Neon wave divider */
+    .neon-wave {
+      width: 60%;
+      max-width: 400px;
+      margin: 2rem auto;
+      height: 3px;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        var(--tropi-cyan) 15%,
+        var(--tropi-turquoise) 35%,
+        var(--tropi-teal-neon) 50%,
+        var(--tropi-turquoise) 65%,
+        var(--tropi-cyan) 85%,
+        transparent
+      );
+      border: none;
+      border-radius: 2px;
+      box-shadow:
+        0 0 8px var(--tropi-glow-cyan),
+        0 0 20px var(--tropi-glow-teal);
+      position: relative;
+      z-index: 2;
+      opacity: 0;
+      animation: fade-in-up 1s 0.3s ease forwards;
+    }
+
+    /* Scroll indicator */
+    .scroll-hint {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+      animation: float 2.5s ease-in-out infinite;
+    }
+
+    .scroll-hint svg {
+      width: 28px;
+      height: 28px;
+      fill: none;
+      stroke: var(--tropi-teal-neon);
+      stroke-width: 2;
+      opacity: 0.5;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(10px); }
+    }
+
+    /* ========================================
+       WAVE SVG DIVIDERS
+    ======================================== */
+    .wave-divider {
+      display: block;
+      width: 100%;
+      height: 60px;
+      position: relative;
+      z-index: 3;
+    }
+
+    .wave-divider path { transition: fill 0.3s ease; }
+
+    /* ========================================
+       SECTIONS -- GENERAL
+    ======================================== */
+    .tropi-section {
+      position: relative;
+      padding: 5rem 2rem;
+      overflow: hidden;
+    }
+
+    .tropi-section .section-inner {
+      max-width: 1000px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 3;
+    }
+
+    .section-label {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--tropi-teal-neon);
+      margin-bottom: 0.8rem;
+      display: block;
+    }
+
+    /* ========================================
+       SECTION: VISUAL CHARACTERISTICS
+    ======================================== */
+    .section-visual {
+      background:
+        radial-gradient(ellipse 70% 50% at 30% 30%, rgba(0, 229, 204, 0.05) 0%, transparent 60%),
+        linear-gradient(180deg, #004d4d 0%, #0d2818 50%, #1a3c2a 100%);
+    }
+
+    /* Bamboo-framed card */
+    .bamboo-frame {
+      border: 4px solid var(--tropi-bamboo);
+      border-radius: 8px;
+      padding: 2.5rem;
+      position: relative;
+      background: rgba(13, 40, 24, 0.85);
+      box-shadow:
+        inset 0 0 20px rgba(0, 0, 0, 0.3),
+        0 4px 20px rgba(0, 0, 0, 0.4);
+    }
+
+    .bamboo-frame::before,
+    .bamboo-frame::after {
+      content: '';
+      position: absolute;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: var(--tropi-tan);
+      border: 2px solid var(--tropi-bamboo);
+    }
+
+    .bamboo-frame::before { top: -7px; left: -7px; }
+    .bamboo-frame::after { bottom: -7px; right: -7px; }
+
+    /* Motif grid */
+    .motif-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .motif-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      padding: 1.2rem;
+      border-radius: 10px;
+      background: rgba(0, 77, 77, 0.4);
+      border: 1px solid rgba(0, 229, 204, 0.1);
+      transition: all 0.3s ease;
+    }
+
+    .motif-item:hover {
+      border-color: rgba(0, 229, 204, 0.3);
+      background: rgba(0, 77, 77, 0.6);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .motif-icon {
+      flex-shrink: 0;
+      width: 42px;
+      height: 42px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+      border-radius: 8px;
+      background: rgba(0, 229, 255, 0.08);
+      border: 1px solid rgba(0, 229, 255, 0.15);
+    }
+
+    .motif-item h3 {
+      font-family: 'Fredoka', sans-serif;
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: var(--tropi-cyan);
+      text-shadow: 0 0 6px var(--tropi-glow-cyan);
+      margin-bottom: 0.3rem;
+    }
+
+    .motif-item p {
+      font-size: 0.88rem;
+      line-height: 1.55;
+      color: rgba(237, 232, 216, 0.8);
+    }
+
+    /* ========================================
+       SECTION: DESIGN PRINCIPLES
+    ======================================== */
+    .section-principles {
+      background:
+        radial-gradient(ellipse 60% 40% at 80% 20%, rgba(255, 45, 138, 0.06) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 50% at 10% 80%, rgba(191, 64, 255, 0.05) 0%, transparent 60%),
+        linear-gradient(180deg, #1a3c2a 0%, #0a1628 50%, #004d4d 100%);
+    }
+
+    .principles-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+      list-style: none;
+    }
+
+    .principle-card {
+      background: linear-gradient(135deg, rgba(0, 77, 77, 0.6) 0%, rgba(13, 40, 24, 0.8) 100%);
+      border: 1px solid rgba(0, 229, 204, 0.15);
+      border-radius: 14px;
+      padding: 2rem;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.4s ease;
+    }
+
+    .principle-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--tropi-magenta), var(--tropi-cyan), var(--tropi-green-neon));
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+
+    .principle-card:hover::before { opacity: 1; }
+
+    .principle-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(0, 229, 204, 0.3);
+      box-shadow:
+        0 8px 30px rgba(0, 0, 0, 0.4),
+        0 0 40px rgba(0, 229, 204, 0.06);
+    }
+
+    .principle-card .principle-name {
+      font-family: 'Lilita One', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 400;
+      color: var(--tropi-gold);
+      text-shadow: 0 0 8px rgba(255, 215, 0, 0.2);
+      margin-bottom: 0.6rem;
+    }
+
+    .principle-card p {
+      font-size: 0.92rem;
+      line-height: 1.6;
+      color: rgba(237, 232, 216, 0.85);
+    }
+
+    /* ========================================
+       SECTION: COLOR PALETTE
+    ======================================== */
+    .section-palette {
+      background:
+        radial-gradient(ellipse 60% 60% at 50% 50%, rgba(0, 229, 204, 0.04) 0%, transparent 60%),
+        linear-gradient(180deg, #004d4d 0%, #0d2818 100%);
+    }
+
+    .palette-group {
+      margin-bottom: 2.5rem;
+    }
+
+    .palette-group-title {
+      font-family: 'Fredoka', sans-serif;
+      font-weight: 600;
+      font-size: 1rem;
+      color: var(--tropi-turquoise);
+      margin-bottom: 1rem;
+      text-shadow: 0 0 6px var(--tropi-glow-teal);
+    }
+
+    .swatch-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+    }
+
+    .swatch {
+      flex: 0 0 auto;
+      width: 100px;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      transition: all 0.3s ease;
+      cursor: default;
+    }
+
+    .swatch:hover {
+      transform: scale(1.08);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    }
+
+    .swatch-color {
+      height: 60px;
+      position: relative;
+    }
+
+    .swatch-color.has-glow::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 10px 10px 0 0;
+      box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.1);
+    }
+
+    .swatch-info {
+      padding: 0.5rem 0.6rem;
+      background: rgba(13, 40, 24, 0.9);
+    }
+
+    .swatch-name {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.62rem;
+      font-weight: 600;
+      color: var(--tropi-white);
+      letter-spacing: 0.03em;
+    }
+
+    .swatch-hex {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.58rem;
+      font-weight: 500;
+      color: rgba(237, 232, 216, 0.5);
+      margin-top: 0.15rem;
+    }
+
+    /* ========================================
+       SECTION: TYPOGRAPHY SHOWCASE
+    ======================================== */
+    .section-typography {
+      background:
+        radial-gradient(ellipse 70% 50% at 40% 40%, rgba(255, 140, 66, 0.05) 0%, transparent 60%),
+        linear-gradient(180deg, #0d2818 0%, #0a1628 50%, #004d4d 100%);
+    }
+
+    .type-showcase {
+      display: flex;
+      flex-direction: column;
+      gap: 2.5rem;
+      margin-top: 2rem;
+    }
+
+    .type-specimen {
+      padding: 2rem;
+      border-radius: 12px;
+      background: rgba(0, 77, 77, 0.3);
+      border: 1px solid rgba(0, 229, 204, 0.1);
+    }
+
+    .type-specimen-meta {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--tropi-teal-neon);
+      margin-bottom: 0.8rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid rgba(0, 229, 204, 0.1);
+    }
+
+    .type-bungee-shade {
+      font-family: 'Bungee Shade', sans-serif;
+      font-size: clamp(1.8rem, 5vw, 3.5rem);
+      color: var(--tropi-magenta);
+      text-shadow:
+        0 0 10px var(--tropi-glow-magenta),
+        0 0 40px var(--tropi-glow-magenta);
+      line-height: 1.2;
+    }
+
+    .type-lilita {
+      font-family: 'Lilita One', sans-serif;
+      font-size: clamp(1.5rem, 4vw, 2.8rem);
+      color: var(--tropi-gold);
+      text-shadow: 0 0 10px var(--tropi-glow-cyan), 0 2px 4px rgba(0, 0, 0, 0.4);
+      line-height: 1.2;
+    }
+
+    .type-luckiest {
+      font-family: 'Luckiest Guy', sans-serif;
+      font-size: clamp(1.3rem, 3.5vw, 2.4rem);
+      color: var(--tropi-cyan);
+      text-shadow: 0 0 8px var(--tropi-glow-cyan), 0 0 25px var(--tropi-glow-cyan);
+      line-height: 1.3;
+    }
+
+    .type-pacifico {
+      font-family: 'Pacifico', cursive;
+      font-size: clamp(1.3rem, 3vw, 2.2rem);
+      color: var(--tropi-coral);
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+      line-height: 1.3;
+    }
+
+    .type-fredoka {
+      font-family: 'Fredoka', sans-serif;
+      font-weight: 600;
+      font-size: clamp(1.1rem, 2.5vw, 1.6rem);
+      color: var(--tropi-lime);
+      text-shadow: 0 0 6px var(--tropi-glow-green);
+      line-height: 1.4;
+    }
+
+    .type-nunito {
+      font-family: 'Nunito', sans-serif;
+      font-size: 1.05rem;
+      color: var(--tropi-sand);
+      line-height: 1.7;
+    }
+
+    /* ========================================
+       SECTION: AQUARIUM (CSS TECHNIQUES)
+    ======================================== */
+    .section-techniques {
+      background:
+        radial-gradient(ellipse 80% 50% at 50% 30%, rgba(0, 188, 212, 0.06) 0%, transparent 60%),
+        linear-gradient(180deg, #004d4d 0%, #006666 20%, #0d2818 60%, #0a1628 100%);
+    }
+
+    .aquarium-panel {
+      background: linear-gradient(
+        180deg,
+        rgba(0, 107, 63, 0.15) 0%,
+        rgba(0, 188, 212, 0.2) 50%,
+        rgba(0, 77, 77, 0.25) 100%
+      );
+      border: 2px solid rgba(0, 229, 255, 0.2);
+      border-radius: 12px;
+      padding: 3rem;
+      position: relative;
+      overflow: hidden;
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      box-shadow:
+        0 0 30px rgba(0, 229, 255, 0.08),
+        inset 0 0 40px rgba(0, 188, 212, 0.05);
+    }
+
+    .aquarium-panel::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 30% 20% at 25% 30%, rgba(0, 229, 255, 0.06) 0%, transparent 70%),
+        radial-gradient(ellipse 25% 15% at 65% 55%, rgba(64, 224, 208, 0.05) 0%, transparent 70%),
+        radial-gradient(ellipse 20% 25% at 80% 20%, rgba(0, 229, 255, 0.04) 0%, transparent 70%);
+      pointer-events: none;
+      animation: caustics 8s ease-in-out infinite alternate;
+    }
+
+    @keyframes caustics {
+      0% { opacity: 0.6; transform: translateX(0) translateY(0); }
+      100% { opacity: 1; transform: translateX(10px) translateY(-5px); }
+    }
+
+    /* Floating fish */
+    .fish-container {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .fish {
+      position: absolute;
+      font-size: 1.4rem;
+      opacity: 0.3;
+      animation-timing-function: ease-in-out;
+      animation-iteration-count: infinite;
+    }
+
+    .fish-1 { top: 15%; animation: swim-right 14s linear infinite; font-size: 1.2rem; opacity: 0.2; }
+    .fish-2 { top: 45%; animation: swim-left 18s 3s linear infinite; font-size: 1rem; opacity: 0.15; }
+    .fish-3 { top: 70%; animation: swim-right 22s 7s linear infinite; font-size: 1.5rem; opacity: 0.25; }
+    .fish-4 { top: 30%; animation: swim-left 16s 10s linear infinite; font-size: 0.9rem; opacity: 0.12; }
+
+    @keyframes swim-right {
+      0% { left: -5%; transform: scaleX(1); }
+      100% { left: 105%; transform: scaleX(1); }
+    }
+
+    @keyframes swim-left {
+      0% { left: 105%; transform: scaleX(-1); }
+      100% { left: -5%; transform: scaleX(-1); }
+    }
+
+    .technique-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .technique-item {
+      padding: 1.5rem;
+      border-radius: 10px;
+      background: rgba(0, 77, 77, 0.5);
+      border: 1px solid rgba(0, 229, 204, 0.12);
+      transition: all 0.3s ease;
+    }
+
+    .technique-item:hover {
+      border-color: var(--tropi-cyan);
+      box-shadow: 0 0 15px rgba(0, 229, 255, 0.1);
+    }
+
+    .technique-item h3 {
+      font-family: 'Fredoka', sans-serif;
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: var(--tropi-turquoise);
+      margin-bottom: 0.5rem;
+    }
+
+    .technique-physical {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--tropi-orange);
+      margin-bottom: 0.4rem;
+    }
+
+    .technique-item p {
+      font-size: 0.88rem;
+      line-height: 1.55;
+      color: rgba(237, 232, 216, 0.75);
+    }
+
+    /* ========================================
+       SECTION: SUB-STYLES
+    ======================================== */
+    .section-substyles {
+      background:
+        radial-gradient(ellipse 60% 50% at 70% 30%, rgba(255, 45, 138, 0.05) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 40% at 20% 70%, rgba(57, 255, 20, 0.04) 0%, transparent 60%),
+        linear-gradient(180deg, #0a1628 0%, #004d4d 50%, #1a3c2a 100%);
+    }
+
+    .substyle-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+
+    .substyle-card {
+      border-radius: 14px;
+      overflow: hidden;
+      transition: all 0.4s ease;
+      position: relative;
+    }
+
+    .substyle-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .substyle-header {
+      padding: 2rem 1.8rem 1.2rem;
+      position: relative;
+    }
+
+    .substyle-card:nth-child(1) .substyle-header {
+      background: linear-gradient(135deg, rgba(255, 45, 138, 0.15) 0%, rgba(0, 229, 255, 0.1) 100%);
+      border-bottom: 2px solid var(--tropi-magenta);
+    }
+
+    .substyle-card:nth-child(2) .substyle-header {
+      background: linear-gradient(135deg, rgba(74, 14, 78, 0.4) 0%, rgba(26, 60, 42, 0.3) 100%);
+      border-bottom: 2px solid rgba(191, 64, 255, 0.4);
+    }
+
+    .substyle-card:nth-child(3) .substyle-header {
+      background: linear-gradient(135deg, rgba(0, 229, 255, 0.15) 0%, rgba(0, 188, 212, 0.1) 100%);
+      border-bottom: 2px solid var(--tropi-cyan);
+    }
+
+    .substyle-card:nth-child(4) .substyle-header {
+      background: linear-gradient(135deg, rgba(212, 165, 116, 0.15) 0%, rgba(184, 148, 90, 0.1) 100%);
+      border-bottom: 2px solid var(--tropi-bamboo);
+    }
+
+    .substyle-body {
+      padding: 1.5rem 1.8rem 2rem;
+      background: rgba(13, 40, 24, 0.7);
+      border: 1px solid rgba(0, 229, 204, 0.08);
+      border-top: none;
+      border-radius: 0 0 14px 14px;
+    }
+
+    .substyle-card h3 {
+      font-family: 'Lilita One', sans-serif;
+      font-size: 1.2rem;
+    }
+
+    .substyle-card:nth-child(1) h3 { color: var(--tropi-magenta); text-shadow: 0 0 10px var(--tropi-glow-magenta); }
+    .substyle-card:nth-child(2) h3 { color: var(--tropi-purple-neon); text-shadow: 0 0 10px var(--tropi-glow-purple); }
+    .substyle-card:nth-child(3) h3 { color: var(--tropi-cyan); text-shadow: 0 0 10px var(--tropi-glow-cyan); }
+    .substyle-card:nth-child(4) h3 { color: var(--tropi-gold); text-shadow: 0 0 8px rgba(255, 215, 0, 0.3); }
+
+    .substyle-era {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--tropi-teal-neon);
+      margin-top: 0.3rem;
+    }
+
+    .substyle-body p {
+      font-size: 0.9rem;
+      line-height: 1.6;
+      color: rgba(237, 232, 216, 0.8);
+    }
+
+    .substyle-body .web-approach {
+      margin-top: 1rem;
+      padding-top: 0.8rem;
+      border-top: 1px solid rgba(0, 229, 204, 0.1);
+      font-size: 0.82rem;
+      color: var(--tropi-teal-neon);
+    }
+
+    .substyle-body .web-approach strong {
+      color: var(--tropi-teal-neon);
+      font-weight: 700;
+    }
+
+    /* Flickering neon for Dead variant */
+    .flicker-text {
+      animation: neon-flicker 4s infinite;
+    }
+
+    @keyframes neon-flicker {
+      0%, 18%, 22%, 25%, 53%, 57%, 100% {
+        opacity: 1;
+      }
+      20%, 24%, 55% {
+        opacity: 0.4;
+      }
+    }
+
+    /* ========================================
+       SECTION: RELATED AESTHETICS
+    ======================================== */
+    .section-related {
+      background: linear-gradient(180deg, #1a3c2a 0%, #0d2818 50%, #0a1628 100%);
+    }
+
+    .related-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .related-item {
+      padding: 1.2rem 1.4rem;
+      border-radius: 8px;
+      background: rgba(0, 77, 77, 0.3);
+      border: 1px solid rgba(0, 229, 204, 0.1);
+      transition: all 0.3s ease;
+    }
+
+    .related-item:hover {
+      background: rgba(0, 77, 77, 0.5);
+      border-color: rgba(0, 229, 204, 0.25);
+    }
+
+    .related-item h3 {
+      font-family: 'Fredoka', sans-serif;
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: var(--tropi-orange);
+      text-shadow: none;
+      margin-bottom: 0.3rem;
+    }
+
+    .related-item p {
+      font-size: 0.82rem;
+      line-height: 1.5;
+      color: rgba(237, 232, 216, 0.7);
+    }
+
+    /* ========================================
+       SECTION: LAYOUT PRINCIPLES
+    ======================================== */
+    .section-layout {
+      background:
+        radial-gradient(ellipse 70% 50% at 50% 50%, rgba(255, 215, 0, 0.04) 0%, transparent 60%),
+        linear-gradient(180deg, #0a1628 0%, #004d4d 60%, #0d2818 100%);
+    }
+
+    .layout-features {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .layout-feature {
+      padding: 1.8rem;
+      border-radius: 12px;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .layout-feature:nth-child(odd) {
+      background: linear-gradient(135deg, rgba(0, 77, 77, 0.5) 0%, rgba(13, 40, 24, 0.7) 100%);
+      border: 1px solid rgba(0, 229, 204, 0.12);
+    }
+
+    .layout-feature:nth-child(even) {
+      background: linear-gradient(135deg, rgba(13, 40, 24, 0.5) 0%, rgba(10, 22, 40, 0.7) 100%);
+      border: 1px solid rgba(255, 45, 138, 0.12);
+    }
+
+    .layout-feature:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .layout-feature h3 {
+      font-family: 'Fredoka', sans-serif;
+      font-weight: 600;
+      font-size: 1rem;
+      color: var(--tropi-gold);
+      margin-bottom: 0.5rem;
+    }
+
+    .layout-feature p {
+      font-size: 0.88rem;
+      line-height: 1.55;
+      color: rgba(237, 232, 216, 0.8);
+    }
+
+    /* ========================================
+       NEON DEMO BOXES
+    ======================================== */
+    .neon-demo-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      margin-top: 2.5rem;
+      justify-content: center;
+    }
+
+    .neon-demo-box {
+      width: 160px;
+      height: 80px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Lilita One', sans-serif;
+      font-size: 0.85rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: all 0.3s ease;
+    }
+
+    .neon-demo-box:hover { transform: scale(1.05); }
+
+    .neon-magenta {
+      border: 2px solid var(--tropi-magenta);
+      color: var(--tropi-magenta);
+      box-shadow: 0 0 8px var(--tropi-glow-magenta), 0 0 20px var(--tropi-glow-magenta), inset 0 0 8px var(--tropi-glow-magenta);
+    }
+
+    .neon-cyan-border {
+      border: 2px solid var(--tropi-cyan);
+      color: var(--tropi-cyan);
+      box-shadow: 0 0 8px var(--tropi-glow-cyan), 0 0 20px var(--tropi-glow-cyan), inset 0 0 8px var(--tropi-glow-cyan);
+    }
+
+    .neon-green-border {
+      border: 2px solid var(--tropi-green-neon);
+      color: var(--tropi-green-neon);
+      box-shadow: 0 0 8px var(--tropi-glow-green), 0 0 20px var(--tropi-glow-green), inset 0 0 8px var(--tropi-glow-green);
+    }
+
+    .neon-purple-border {
+      border: 2px solid var(--tropi-purple-neon);
+      color: var(--tropi-purple-neon);
+      box-shadow: 0 0 8px var(--tropi-glow-purple), 0 0 20px var(--tropi-glow-purple), inset 0 0 8px var(--tropi-glow-purple);
+    }
+
+    /* ========================================
+       BUTTON SHOWCASE
+    ======================================== */
+    .button-showcase {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.2rem;
+      margin-top: 2rem;
+      justify-content: center;
+    }
+
+    .tropi-btn-primary {
+      background: var(--tropi-magenta);
+      color: #fff;
+      border: none;
+      padding: 0.85rem 2.2rem;
+      border-radius: 8px;
+      font-family: 'Lilita One', sans-serif;
+      font-size: 0.95rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      cursor: pointer;
+      box-shadow: 0 4px 16px var(--tropi-glow-magenta);
+      transition: all 0.3s ease;
+    }
+
+    .tropi-btn-primary:hover {
+      background: #ff1493;
+      box-shadow: 0 4px 20px var(--tropi-glow-magenta-strong), 0 0 40px var(--tropi-glow-magenta);
+      transform: translateY(-2px);
+    }
+
+    .tropi-btn-secondary {
+      background: transparent;
+      color: var(--tropi-cyan);
+      border: 2px solid var(--tropi-cyan);
+      padding: 0.75rem 2rem;
+      border-radius: 8px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .tropi-btn-secondary:hover {
+      background: var(--tropi-cyan);
+      color: var(--tropi-dark);
+      box-shadow: 0 0 12px var(--tropi-glow-cyan), 0 0 30px var(--tropi-glow-cyan);
+    }
+
+    .tropi-btn-cta {
+      background: linear-gradient(135deg, var(--tropi-coral), var(--tropi-orange));
+      color: #fff;
+      border: none;
+      padding: 0.9rem 2.4rem;
+      border-radius: 24px;
+      font-family: 'Lilita One', sans-serif;
+      font-size: 1rem;
+      letter-spacing: 0.04em;
+      cursor: pointer;
+      box-shadow: 0 4px 16px rgba(255, 107, 74, 0.3);
+      transition: all 0.3s ease;
+    }
+
+    .tropi-btn-cta:hover {
+      box-shadow: 0 6px 24px rgba(255, 107, 74, 0.45), 0 0 30px rgba(255, 140, 66, 0.2);
+      transform: translateY(-2px);
+    }
+
+    /* ========================================
+       FOOTER
+    ======================================== */
+    .tropi-footer {
+      background: linear-gradient(180deg, #0d2818 0%, #0a1628 100%);
+      padding: 4rem 2rem 2rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .tropi-footer::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg,
+        transparent 0%,
+        var(--tropi-magenta) 20%,
+        var(--tropi-cyan) 40%,
+        var(--tropi-green-neon) 60%,
+        var(--tropi-purple-neon) 80%,
+        transparent 100%
+      );
+      box-shadow: 0 0 15px var(--tropi-glow-cyan);
+    }
+
+    .footer-title {
+      font-family: 'Bungee Shade', sans-serif;
+      font-size: clamp(1.5rem, 4vw, 2.5rem);
+      color: var(--tropi-magenta);
+      text-shadow:
+        0 0 10px var(--tropi-glow-magenta),
+        0 0 30px var(--tropi-glow-magenta);
+      margin-bottom: 1rem;
+      letter-spacing: 0.06em;
+    }
+
+    .footer-tagline {
+      font-family: 'Pacifico', cursive;
+      font-size: 1.2rem;
+      color: var(--tropi-coral);
+      margin-bottom: 2rem;
+    }
+
+    .footer-meta {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(237, 232, 216, 0.3);
+      margin-top: 2rem;
+    }
+
+    /* Terrazzo texture in footer */
+    .footer-terrazzo {
+      position: absolute;
+      inset: 0;
+      background-image:
+        radial-gradient(circle 3px at 12% 20%, rgba(0, 229, 204, 0.08) 1.5px, transparent 2px),
+        radial-gradient(circle 2px at 40% 55%, rgba(255, 45, 138, 0.06) 1px, transparent 1.5px),
+        radial-gradient(circle 4px at 65% 25%, rgba(168, 224, 108, 0.06) 2px, transparent 3px),
+        radial-gradient(circle 2.5px at 25% 75%, rgba(0, 188, 212, 0.05) 1.2px, transparent 2px),
+        radial-gradient(circle 3px at 80% 50%, rgba(255, 215, 0, 0.04) 1.5px, transparent 2px),
+        radial-gradient(circle 2px at 50% 85%, rgba(191, 64, 255, 0.04) 1px, transparent 1.5px),
+        radial-gradient(circle 2px at 88% 72%, rgba(255, 107, 74, 0.05) 1px, transparent 1.5px),
+        radial-gradient(circle 3px at 35% 10%, rgba(0, 229, 255, 0.05) 1.5px, transparent 2px);
+      pointer-events: none;
+    }
+
+    /* ========================================
+       SCROLL ANIMATIONS
+    ======================================== */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+
+    /* ========================================
+       FOLIAGE OVERLAYS (SVG inline)
+    ======================================== */
+    .foliage-overlay {
+      position: absolute;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .foliage-left {
+      top: 0;
+      left: -30px;
+      width: 220px;
+      height: 350px;
+      opacity: 0.2;
+    }
+
+    .foliage-right {
+      top: 5%;
+      right: -30px;
+      width: 200px;
+      height: 320px;
+      opacity: 0.18;
+    }
+
+    /* ========================================
+       TIKI MASK DECORATION
+    ======================================== */
+    .tiki-decoration {
+      text-align: center;
+      margin: 3rem 0;
+      position: relative;
+      z-index: 3;
+    }
+
+    .tiki-decoration svg {
+      width: 50px;
+      height: 60px;
+      opacity: 0.2;
+    }
+
+    /* ========================================
+       RESPONSIVE
+    ======================================== */
+    @media (max-width: 768px) {
+      .tropi-nav {
+        gap: 0.6rem;
+        padding: 0.8rem 1rem;
+      }
+
+      .tropi-nav a {
+        font-size: 0.6rem;
+        padding: 0.3rem 0.5rem;
+      }
+
+      .tropi-section {
+        padding: 3.5rem 1.2rem;
+      }
+
+      .motif-grid,
+      .principles-list,
+      .technique-grid,
+      .substyle-cards,
+      .related-grid,
+      .layout-features {
+        grid-template-columns: 1fr;
+      }
+
+      .bamboo-frame {
+        padding: 1.5rem;
+      }
+
+      .aquarium-panel {
+        padding: 2rem 1.5rem;
+      }
+
+      .swatch {
+        width: 80px;
+      }
+
+      .swatch-color {
+        height: 48px;
+      }
+
+      .hero-foliage-left,
+      .hero-foliage-right {
+        width: 160px;
+        height: 260px;
+      }
+
+      .neon-demo-box {
+        width: 130px;
+        height: 65px;
+        font-size: 0.7rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero {
+        padding: 5rem 1rem 3rem;
+      }
+
+      .tropi-nav {
+        gap: 0.3rem;
+      }
+
+      .tropi-nav a {
+        font-size: 0.55rem;
+        padding: 0.25rem 0.4rem;
+        letter-spacing: 0.08em;
+      }
+
+      .hero-foliage-left,
+      .hero-foliage-right {
+        width: 120px;
+        height: 200px;
+        opacity: 0.15;
+      }
+
+      .swatch-row {
+        gap: 0.5rem;
+      }
+
+      .swatch {
+        width: 70px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============== NAVIGATION ============== -->
+  <nav class="tropi-nav" role="navigation">
+    <a href="#overview">Overview</a>
+    <a href="#visuals">Visuals</a>
+    <a href="#principles">Principles</a>
+    <a href="#palette">Palette</a>
+    <a href="#typography">Typography</a>
+    <a href="#layout">Layout</a>
+    <a href="#techniques">Techniques</a>
+    <a href="#substyles">Sub-styles</a>
+    <a href="#related">Related</a>
+  </nav>
+
+  <!-- ============== HERO ============== -->
+  <header class="hero" id="overview">
+
+    <!-- SVG palm leaf -- left -->
+    <div class="hero-foliage-left">
+      <svg viewBox="0 0 320 500" xmlns="http://www.w3.org/2000/svg" fill="none" width="100%" height="100%">
+        <path d="M20 500 Q80 380 50 280 Q20 180 70 100 Q100 50 160 10 Q120 80 130 160 Q140 260 110 350 Q80 430 70 500Z" fill="#006b3f" opacity="0.6"/>
+        <path d="M0 480 Q50 360 30 260 Q10 170 60 90 Q80 40 120 15 Q95 80 100 150 Q110 240 85 330 Q60 410 50 480Z" fill="#32cd32" opacity="0.3"/>
+        <path d="M40 490 Q100 400 80 310 Q55 200 95 120 Q120 70 170 30 Q140 100 145 180 Q150 270 125 360 Q100 440 90 490Z" fill="#a8e06c" opacity="0.15"/>
+      </svg>
+    </div>
+
+    <!-- SVG palm leaf -- right -->
+    <div class="hero-foliage-right">
+      <svg viewBox="0 0 300 480" xmlns="http://www.w3.org/2000/svg" fill="none" width="100%" height="100%">
+        <path d="M280 480 Q220 370 250 270 Q280 170 230 90 Q200 40 140 5 Q180 70 170 150 Q160 250 190 340 Q220 420 230 480Z" fill="#006b3f" opacity="0.6"/>
+        <path d="M300 460 Q250 350 270 250 Q290 160 240 80 Q215 35 180 10 Q205 75 200 145 Q190 230 215 320 Q240 400 250 460Z" fill="#32cd32" opacity="0.3"/>
+        <path d="M260 470 Q200 380 220 290 Q245 190 205 110 Q180 60 130 25 Q160 90 155 170 Q150 260 175 350 Q200 430 210 470Z" fill="#a8e06c" opacity="0.15"/>
+      </svg>
+    </div>
+
+    <h1 class="hero-title">Tropideco</h1>
+
+    <hr class="neon-wave">
+
+    <p class="hero-tagline">Where the palms are plastic and the neon never fades</p>
+
+    <p class="hero-subtitle">
+      A design aesthetic prominent in the 1990s and early 2000s, characterized by the
+      commercialized simulation of tropical environments -- shopping malls, water parks,
+      themed restaurants, and resort hotels recreating a synthetic version of paradise.
+    </p>
+
+    <div class="hero-aliases">
+      <span>Tropi-Kitsch</span>
+      <span>Tiki Liminal</span>
+      <span>2000's Tropical</span>
+      <span>Tropical Nostalgia</span>
+      <span>Kitsch Tropical</span>
+    </div>
+
+    <div class="scroll-hint">
+      <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12l7 7 7-7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+  </header>
+
+  <!-- Wave transition -->
+  <svg class="wave-divider" viewBox="0 0 1440 60" preserveAspectRatio="none">
+    <path d="M0,30 C240,55 480,5 720,30 C960,55 1200,5 1440,30 L1440,60 L0,60 Z" fill="#004d4d"/>
+  </svg>
+
+  <!-- ============== VISUAL CHARACTERISTICS ============== -->
+  <section class="tropi-section section-visual" id="visuals">
+
+    <!-- Foliage overlay -->
+    <div class="foliage-overlay foliage-left">
+      <svg viewBox="0 0 220 350" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+        <path d="M10 350 Q50 260 30 190 Q10 120 50 60 Q70 25 100 5 Q80 60 85 110 Q95 180 75 250 Q55 310 45 350Z" fill="#006b3f" opacity="0.5"/>
+        <path d="M0 330 Q35 260 25 200 Q15 140 45 80 Q60 45 85 20 Q70 70 72 120 Q78 180 60 240 Q42 290 38 330Z" fill="#32cd32" opacity="0.2"/>
+      </svg>
+    </div>
+    <div class="foliage-overlay foliage-right">
+      <svg viewBox="0 0 200 320" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+        <path d="M190 320 Q150 250 170 180 Q190 110 150 50 Q130 20 100 5 Q120 50 115 100 Q110 170 130 240 Q150 290 155 320Z" fill="#006b3f" opacity="0.45"/>
+        <path d="M200 300 Q165 240 175 180 Q185 120 155 65 Q140 35 115 15 Q130 55 128 100 Q122 160 140 220 Q158 275 162 300Z" fill="#a8e06c" opacity="0.18"/>
+      </svg>
+    </div>
+
+    <div class="section-inner">
+      <span class="section-label reveal">Core Motifs & Patterns</span>
+      <h2 class="reveal reveal-delay-1">Visual Characteristics</h2>
+      <p class="reveal reveal-delay-2" style="max-width: 700px;">Unlike traditional Tiki or Polynesian pop-culture styling, Tropideco emphasizes <strong>artificiality and exaggeration</strong> -- fiberglass palm trees over real ones, neon-lit tiki bars over authentic craftsmanship, hyper-saturated colors over natural tones.</p>
+
+      <div class="motif-grid">
+        <div class="motif-item reveal">
+          <div class="motif-icon">&#x1F3AD;</div>
+          <div>
+            <h3>Tiki Masks & Moai</h3>
+            <p>Carved, cartoonish Polynesian-style faces and Easter Island heads used as decorative focal points.</p>
+          </div>
+        </div>
+        <div class="motif-item reveal reveal-delay-1">
+          <div class="motif-icon">&#x1F334;</div>
+          <div>
+            <h3>Artificial Foliage</h3>
+            <p>Fiberglass and plastic palm trees, ferns, monstera leaves, and tropical flowers -- lush but unmistakably synthetic.</p>
+          </div>
+        </div>
+        <div class="motif-item reveal reveal-delay-2">
+          <div class="motif-icon">&#x1F4A1;</div>
+          <div>
+            <h3>Neon Lighting</h3>
+            <p>Colored neon tubing in magenta, teal, electric blue, and hot pink for signage, accent lighting, and atmospheric glow.</p>
+          </div>
+        </div>
+        <div class="motif-item reveal reveal-delay-3">
+          <div class="motif-icon">&#x1F420;</div>
+          <div>
+            <h3>Aquariums & Fish Tanks</h3>
+            <p>Built-in wall aquariums, cylindrical fish tanks, and contained tropical wildlife displays as architectural features.</p>
+          </div>
+        </div>
+        <div class="motif-item reveal reveal-delay-4">
+          <div class="motif-icon">&#x1F30A;</div>
+          <div>
+            <h3>Water Features</h3>
+            <p>Artificial waterfalls, rock grottos, splash pads, water slides, and indoor pools with tropical theming.</p>
+          </div>
+        </div>
+        <div class="motif-item reveal">
+          <div class="motif-icon">&#x1F38D;</div>
+          <div>
+            <h3>Faux Wood & Bamboo</h3>
+            <p>Plastic and fiberglass surfaces molded to imitate bamboo, driftwood, and tropical hardwoods -- smooth and polished.</p>
+          </div>
+        </div>
+        <div class="motif-item reveal reveal-delay-1">
+          <div class="motif-icon">&#x1F3D6;</div>
+          <div>
+            <h3>Resort Architecture</h3>
+            <p>Thatched roof structures, poolside cabanas, A-frame huts, and open-air dining pavilions -- all made from synthetic materials.</p>
+          </div>
+        </div>
+        <div class="motif-item reveal reveal-delay-2">
+          <div class="motif-icon">&#x1F33A;</div>
+          <div>
+            <h3>Hawaiian Motifs</h3>
+            <p>Hibiscus flowers, plumeria, pineapples, hula dancers, steel guitars, and Hawaiian shirt patterns.</p>
+          </div>
+        </div>
+        <div class="motif-item reveal reveal-delay-3">
+          <div class="motif-icon">&#x1F422;</div>
+          <div>
+            <h3>Cartoonish Marine Life</h3>
+            <p>Stylized, oversized depictions of tropical fish, seahorses, starfish, dolphins, and sea turtles in bright saturated colors.</p>
+          </div>
+        </div>
+        <div class="motif-item reveal reveal-delay-4">
+          <div class="motif-icon">&#x2728;</div>
+          <div>
+            <h3>Terrazzo & Polished Stone</h3>
+            <p>The smooth, commercial-grade flooring of malls and resort lobbies -- an unmistakable tactile signature.</p>
+          </div>
+        </div>
+        <div class="motif-item reveal">
+          <div class="motif-icon">&#x1F3C4;</div>
+          <div>
+            <h3>Beach & Pool Accessories</h3>
+            <p>Inflatable toys, tiki torches, cocktail umbrellas, lei garlands, surfboards as wall decor.</p>
+          </div>
+        </div>
+        <div class="motif-item reveal reveal-delay-1">
+          <div class="motif-icon">&#x1F6A7;</div>
+          <div>
+            <h3>Themed Signage</h3>
+            <p>Bamboo-framed menu boards, carved wooden signs with tropical typography, backlit acrylic panels.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Wave -->
+  <svg class="wave-divider" viewBox="0 0 1440 60" preserveAspectRatio="none">
+    <path d="M0,20 C180,50 360,0 540,25 C720,50 900,0 1080,25 C1260,50 1440,10 1440,20 L1440,60 L0,60 Z" fill="#1a3c2a"/>
+  </svg>
+
+  <!-- ============== DESIGN PRINCIPLES ============== -->
+  <section class="tropi-section section-principles" id="principles">
+    <div class="section-inner">
+      <span class="section-label reveal">Design Philosophy</span>
+      <h2 class="reveal reveal-delay-1">Design Principles</h2>
+      <p class="reveal reveal-delay-2" style="max-width: 650px;">The aesthetic evokes a nostalgic, slightly surreal atmosphere where the boundary between genuine tropical warmth and plastic commercial recreation is deliberately blurred.</p>
+
+      <ul class="principles-list">
+        <li class="principle-card reveal">
+          <div class="principle-name">Synthetic Over Authentic</div>
+          <p>Every element should feel like a commercial recreation, not the real thing. Smooth plastic over rough natural texture. The artificiality is the point.</p>
+        </li>
+        <li class="principle-card reveal reveal-delay-1">
+          <div class="principle-name">Hyper-Saturation</div>
+          <p>Colors are pushed beyond natural levels. Greens are electric, blues are neon, reds are punchy. Nothing is muted or subtle -- restraint has no place here.</p>
+        </li>
+        <li class="principle-card reveal reveal-delay-2">
+          <div class="principle-name">Enclosed Tropical Simulation</div>
+          <p>The environment is self-contained -- an indoor world with no real sky, creating a liminal, timeless quality. Always indoors, never outdoors.</p>
+        </li>
+        <li class="principle-card reveal reveal-delay-3">
+          <div class="principle-name">Cartoonish Exaggeration</div>
+          <p>Motifs are oversized, simplified, and playful rather than detailed or realistic. Everything has theme-park energy.</p>
+        </li>
+        <li class="principle-card reveal reveal-delay-4">
+          <div class="principle-name">Layered Theming</div>
+          <p>Multiple tropical elements stacked together -- foliage, water, neon, tiki, and marine life all in one space. Density is essential.</p>
+        </li>
+        <li class="principle-card reveal">
+          <div class="principle-name">Commercial Warmth</div>
+          <p>The atmosphere is inviting and entertaining, designed to sell the fantasy of a tropical vacation. Friendly, approachable, and family-oriented.</p>
+        </li>
+        <li class="principle-card reveal reveal-delay-1">
+          <div class="principle-name">Nostalgic Artificiality</div>
+          <p>The fakeness is part of the charm -- it triggers memories of childhood visits to themed restaurants and water parks. Plastic paradise, fondly remembered.</p>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Wave -->
+  <svg class="wave-divider" viewBox="0 0 1440 60" preserveAspectRatio="none">
+    <path d="M0,30 C360,0 720,60 1080,20 C1260,5 1380,40 1440,30 L1440,60 L0,60 Z" fill="#004d4d"/>
+  </svg>
+
+  <!-- ============== COLOR PALETTE ============== -->
+  <section class="tropi-section section-palette" id="palette">
+    <div class="section-inner">
+      <span class="section-label reveal">The Neon Spectrum</span>
+      <h2 class="reveal reveal-delay-1">Color Palette</h2>
+      <p class="reveal reveal-delay-2" style="max-width: 680px;">
+        A <strong>dark tropical base</strong> of deep teals, jungle greens, and navy blues -- punctuated by
+        <strong>neon accents</strong> in magenta, cyan, and electric green that replicate the signage and
+        accent lighting of 90s themed venues.
+      </p>
+
+      <!-- Dark Bases -->
+      <div class="palette-group reveal">
+        <div class="palette-group-title">Dark Bases</div>
+        <div class="swatch-row">
+          <div class="swatch">
+            <div class="swatch-color" style="background: #004d4d;"></div>
+            <div class="swatch-info">
+              <div class="swatch-name">Deep Teal</div>
+              <div class="swatch-hex">#004D4D</div>
+            </div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background: #1a3c2a;"></div>
+            <div class="swatch-info">
+              <div class="swatch-name">Jungle Green</div>
+              <div class="swatch-hex">#1A3C2A</div>
+            </div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background: #0a1628;"></div>
+            <div class="swatch-info">
+              <div class="swatch-name">Rich Navy</div>
+              <div class="swatch-hex">#0A1628</div>
+            </div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background: #0d2818;"></div>
+            <div class="swatch-info">
+              <div class="swatch-name">Dark Jungle</div>
+              <div class="swatch-hex">#0D2818</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Neon Accents -->
+      <div class="palette-group reveal">
+        <div class="palette-group-title">Neon Accents</div>
+        <div class="swatch-row">
+          <div class="swatch">
+            <div class="swatch-color has-glow" style="background: #ff2d8a; box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.15);"></div>
+            <div class="swatch-info">
+              <div class="swatch-name">Neon Magenta</div>
+              <div class="swatch-hex">#FF2D8A</div>
+            </div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color has-glow" style="background: #00e5ff; box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.15);"></div>
+            <div class="swatch-info">
+              <div class="swatch-name">Bright Cyan</div>
+              <div class="swatch-hex">#00E5FF</div>
+            </div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color has-glow" style="background: #00e5cc; box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.15);"></div>
+            <div class="swatch-info">
+              <div class="swatch-name">Electric Teal</div>
+              <div class="swatch-hex">#00E5CC</div>
+            </div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color has-glow" style="background: #39ff14; box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.15);"></div>
+            <div class="swatch-info">
+              <div class="swatch-name">Electric Green</div>
+              <div class="swatch-hex">#39FF14</div>
+            </div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color has-glow" style="background: #bf40ff; box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.15);"></div>
+            <div class="swatch-info">
+              <div class="swatch-name">Neon Purple</div>
+              <div class="swatch-hex">#BF40FF</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Warm Tones -->
+      <div class="palette-group reveal">
+        <div class="palette-group-title">Warm Tones</div>
+        <div class="swatch-row">
+          <div class="swatch">
+            <div class="swatch-color" style="background: #ff6b4a;"></div>
+            <div class="swatch-info">
+              <div class="swatch-name">Hot Coral</div>
+              <div class="swatch-hex">#FF6B4A</div>
+            </div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background: #ff8c42;"></div>
+            <div class="swatch-info">
+              <div class="swatch-name">Sunset Orange</div>
+              <div class="swatch-hex">#FF8C42</div>
+            </div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background: #ffd700;"></div>
+            <div class="swatch-info">
+              <div class="swatch-name">Golden Yellow</div>
+              <div class="swatch-hex">#FFD700</div>
+            </div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background: #d4a574;"></div>
+            <div class="swatch-info">
+              <div class="swatch-name">Warm Tan</div>
+              <div class="swatch-hex">#D4A574</div>
+            </div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background: #b8945a;"></div>
+            <div class="swatch-info">
+              <div class="swatch-name">Faux Bamboo</div>
+              <div class="swatch-hex">#B8945A</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Foliage & Water -->
+      <div class="palette-group reveal">
+        <div class="palette-group-title">Foliage & Water</div>
+        <div class="swatch-row">
+          <div class="swatch">
+            <div class="swatch-color" style="background: #006b3f;"></div>
+            <div class="swatch-info">
+              <div class="swatch-name">Deep Emerald</div>
+              <div class="swatch-hex">#006B3F</div>
+            </div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background: #a8e06c;"></div>
+            <div class="swatch-info">
+              <div class="swatch-name">Lime</div>
+              <div class="swatch-hex">#A8E06C</div>
+            </div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background: #40e0d0;"></div>
+            <div class="swatch-info">
+              <div class="swatch-name">Turquoise</div>
+              <div class="swatch-hex">#40E0D0</div>
+            </div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background: #7fdbff;"></div>
+            <div class="swatch-info">
+              <div class="swatch-name">Aqua Blue</div>
+              <div class="swatch-hex">#7FDBFF</div>
+            </div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background: #00bcd4;"></div>
+            <div class="swatch-info">
+              <div class="swatch-name">Pool</div>
+              <div class="swatch-hex">#00BCD4</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Neutrals -->
+      <div class="palette-group reveal">
+        <div class="palette-group-title">Neutrals</div>
+        <div class="swatch-row">
+          <div class="swatch">
+            <div class="swatch-color" style="background: #f5f0e6;"></div>
+            <div class="swatch-info">
+              <div class="swatch-name">Fiberglass White</div>
+              <div class="swatch-hex">#F5F0E6</div>
+            </div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background: #e8f4f8;"></div>
+            <div class="swatch-info">
+              <div class="swatch-name">Pool Tile</div>
+              <div class="swatch-hex">#E8F4F8</div>
+            </div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background: #ede8d8;"></div>
+            <div class="swatch-info">
+              <div class="swatch-name">Sand</div>
+              <div class="swatch-hex">#EDE8D8</div>
+            </div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background: #4a0e4e;"></div>
+            <div class="swatch-info">
+              <div class="swatch-name">Deep Purple</div>
+              <div class="swatch-hex">#4A0E4E</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Neon glow demo boxes -->
+      <div class="reveal">
+        <h3 style="margin-top: 3rem; margin-bottom: 0.5rem;">Neon Glow Effects</h3>
+        <p style="font-size: 0.9rem; color: rgba(237,232,216,0.7); margin-bottom: 1rem;">The signature element -- multi-layered box-shadow and text-shadow in tropical neon hues.</p>
+        <div class="neon-demo-row">
+          <div class="neon-demo-box neon-magenta">Magenta</div>
+          <div class="neon-demo-box neon-cyan-border">Cyan</div>
+          <div class="neon-demo-box neon-green-border">Green</div>
+          <div class="neon-demo-box neon-purple-border">Purple</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Wave -->
+  <svg class="wave-divider" viewBox="0 0 1440 60" preserveAspectRatio="none">
+    <path d="M0,25 C240,50 480,5 720,35 C960,5 1200,50 1440,25 L1440,60 L0,60 Z" fill="#0d2818"/>
+  </svg>
+
+  <!-- ============== TYPOGRAPHY ============== -->
+  <section class="tropi-section section-typography" id="typography">
+    <div class="section-inner">
+      <span class="section-label reveal">Themed Restaurant Signage</span>
+      <h2 class="reveal reveal-delay-1">Typography</h2>
+      <p class="reveal reveal-delay-2" style="max-width: 680px;">
+        Tropideco typography reflects <strong>themed restaurant signage, water park branding, and 90s resort-style commercial lettering</strong>.
+        Rounded, bold display fonts. Tiki-inspired faces. Playful, cartoonish weights. Uppercase for impact.
+      </p>
+
+      <div class="type-showcase">
+        <div class="type-specimen reveal">
+          <div class="type-specimen-meta">Bungee Shade -- Hero Display / Neon Sign</div>
+          <div class="type-bungee-shade">Welcome to Paradise</div>
+        </div>
+
+        <div class="type-specimen reveal reveal-delay-1">
+          <div class="type-specimen-meta">Lilita One -- Headlines / Section Titles</div>
+          <div class="type-lilita">The Neon Never Fades in Synthetic Paradise</div>
+        </div>
+
+        <div class="type-specimen reveal reveal-delay-2">
+          <div class="type-specimen-meta">Luckiest Guy -- Accent / Theme Park Energy</div>
+          <div class="type-luckiest">Splash Zone Ahead!</div>
+        </div>
+
+        <div class="type-specimen reveal reveal-delay-3">
+          <div class="type-specimen-meta">Pacifico -- Decorative Script / Beach Bar Signage</div>
+          <div class="type-pacifico">hand-painted beach vibes since 1993</div>
+        </div>
+
+        <div class="type-specimen reveal reveal-delay-4">
+          <div class="type-specimen-meta">Fredoka -- Subheadings / Callouts</div>
+          <div class="type-fredoka">Rounded, Bubbly, and Approachable Warmth</div>
+        </div>
+
+        <div class="type-specimen reveal">
+          <div class="type-specimen-meta">Nunito -- Body Text / UI Elements</div>
+          <div class="type-nunito">The body text lives in Nunito -- a friendly, rounded geometric sans-serif that provides warm readability. Its soft terminals and open letterforms complement the playful display faces without competing for attention. Clean, legible, and comfortable for extended reading of tropical content.</div>
+        </div>
+      </div>
+
+      <!-- Button showcase -->
+      <div class="reveal" style="margin-top: 3rem; text-align: center;">
+        <h3 style="margin-bottom: 0.5rem;">Button Styles</h3>
+        <p style="font-size: 0.9rem; color: rgba(237,232,216,0.7); margin-bottom: 1.5rem;">Neon tropical buttons for every occasion.</p>
+        <div class="button-showcase">
+          <button class="tropi-btn-primary">Neon Primary</button>
+          <button class="tropi-btn-secondary">Outlined Cyan</button>
+          <button class="tropi-btn-cta">Sunset CTA</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Wave -->
+  <svg class="wave-divider" viewBox="0 0 1440 60" preserveAspectRatio="none">
+    <path d="M0,35 C180,10 360,50 540,20 C720,50 900,10 1080,35 C1260,10 1380,45 1440,35 L1440,60 L0,60 Z" fill="#0a1628"/>
+  </svg>
+
+  <!-- ============== LAYOUT PRINCIPLES ============== -->
+  <section class="tropi-section section-layout" id="layout">
+    <div class="section-inner">
+      <span class="section-label reveal">Structure & Space</span>
+      <h2 class="reveal reveal-delay-1">Layout Principles</h2>
+      <p class="reveal reveal-delay-2" style="max-width: 680px;">
+        The spatial organization of Tropideco simulates moving through a themed environment --
+        from the dramatic entrance into dark, immersive corridors of layered content.
+      </p>
+
+      <div class="layout-features">
+        <div class="layout-feature reveal">
+          <h3>Dark Immersive Sections</h3>
+          <p>Full-bleed backgrounds that wrap the user in a themed environment, like walking through a themed restaurant or water park. No real sky, no outside world.</p>
+        </div>
+        <div class="layout-feature reveal reveal-delay-1">
+          <h3>Centered Content Corridors</h3>
+          <p>Content flows down a central axis, like moving through a resort lobby or mall concourse. The eye is guided forward, always deeper into the experience.</p>
+        </div>
+        <div class="layout-feature reveal reveal-delay-2">
+          <h3>Layered Depth</h3>
+          <p>Overlapping elements at different z-depths -- foliage in foreground, content in middle, atmospheric glow in background -- to simulate the dense, layered theming of real spaces.</p>
+        </div>
+        <div class="layout-feature reveal reveal-delay-3">
+          <h3>Gradient Transitions</h3>
+          <p>Sections fade from one tropical tone to another -- deep teal to jungle green, navy to purple. No hard cuts, only atmospheric shifts.</p>
+        </div>
+        <div class="layout-feature reveal reveal-delay-4">
+          <h3>Neon-Accented Headers</h3>
+          <p>Text with multi-layered glow effects that feel like themed signage -- the kind you'd see glowing above the entrance to an indoor lagoon.</p>
+        </div>
+        <div class="layout-feature reveal">
+          <h3>Bamboo-Framed Containers</h3>
+          <p>Border effects that simulate the faux-bamboo frames used in real Tropideco environments. Warm tan borders with rounded joint accents at corners.</p>
+        </div>
+      </div>
+
+      <!-- Bamboo frame demo -->
+      <div class="bamboo-frame reveal" style="margin-top: 3rem;">
+        <h3 style="font-family: 'Fredoka', sans-serif; color: var(--tropi-turquoise); margin-bottom: 0.8rem;">Bamboo Frame Demo</h3>
+        <p style="font-size: 0.92rem;">This panel demonstrates the faux-bamboo frame treatment -- warm tan border with rounded joint accents at corners, dark interior with inset shadows. It simulates the bamboo-framed information boards and decorative panels found in themed restaurants, resort lobbies, and tiki bars. Note the subtle corner joints created with pseudo-elements.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Wave -->
+  <svg class="wave-divider" viewBox="0 0 1440 60" preserveAspectRatio="none">
+    <path d="M0,30 C240,55 480,5 720,30 C960,55 1200,5 1440,30 L1440,60 L0,60 Z" fill="#004d4d"/>
+  </svg>
+
+  <!-- ============== CSS TECHNIQUES ============== -->
+  <section class="tropi-section section-techniques" id="techniques">
+    <div class="section-inner">
+      <span class="section-label reveal">Materials & Textures for Web</span>
+      <h2 class="reveal reveal-delay-1">CSS / Design Techniques</h2>
+      <p class="reveal reveal-delay-2" style="max-width: 680px;">
+        Physical Tropideco materials translated into web equivalents -- every texture, surface,
+        and lighting effect recreated with CSS gradients, shadows, and animations.
+      </p>
+
+      <!-- Aquarium panel demo -->
+      <div class="aquarium-panel reveal" style="margin-top: 2.5rem; margin-bottom: 2.5rem;">
+        <div class="fish-container">
+          <div class="fish fish-1">&#x1F41F;</div>
+          <div class="fish fish-2">&#x1F420;</div>
+          <div class="fish fish-3">&#x1F421;</div>
+          <div class="fish fish-4">&#x1F990;</div>
+        </div>
+        <div style="position: relative; z-index: 2;">
+          <h3 style="font-family: 'Fredoka', sans-serif; color: var(--tropi-cyan); text-shadow: 0 0 8px var(--tropi-glow-cyan); font-size: 1.2rem; margin-bottom: 0.8rem;">Aquarium Panel</h3>
+          <p style="font-size: 0.92rem;">This panel is styled like a built-in aquarium -- semi-transparent with backdrop-filter blur, cool blue-green tints, animated light caustics rippling across the surface, and fish swimming through the background. In real Tropideco environments, built-in wall aquariums and cylindrical fish tanks served as both architectural features and ambient lighting sources.</p>
+        </div>
+      </div>
+
+      <div class="technique-grid">
+        <div class="technique-item reveal">
+          <div class="technique-physical">Fiberglass Foliage</div>
+          <h3>SVG Leaf Overlays</h3>
+          <p>SVG leaf shapes as decorative overlays at section edges, in saturated greens at low-medium opacity. Positioned absolutely with pointer-events: none.</p>
+        </div>
+        <div class="technique-item reveal reveal-delay-1">
+          <div class="technique-physical">Neon Tube Lighting</div>
+          <h3>Multi-Layer Glow</h3>
+          <p>Multi-layered text-shadow and box-shadow glow effects in magenta, cyan, and green. Stacking 3-4 shadow layers creates the authentic neon tube appearance.</p>
+        </div>
+        <div class="technique-item reveal reveal-delay-2">
+          <div class="technique-physical">Aquarium Glass</div>
+          <h3>Frosted Panels</h3>
+          <p>Semi-transparent panels with backdrop-filter: blur() and cool blue-green tints. Animated radial-gradient caustics simulate underwater light refraction.</p>
+        </div>
+        <div class="technique-item reveal reveal-delay-3">
+          <div class="technique-physical">Pool / Water Feature</div>
+          <h3>Wave Dividers</h3>
+          <p>SVG wave shapes and CSS gradient lines in turquoise-to-cyan as section dividers. Animated caustic light patterns using layered radial gradients.</p>
+        </div>
+        <div class="technique-item reveal reveal-delay-4">
+          <div class="technique-physical">Terrazzo Floor</div>
+          <h3>Speckled Gradients</h3>
+          <p>Speckled radial-gradient chips in tropical colors on light stone-toned backgrounds. Multiple tiny radial-gradients at random positions simulate the classic flooring.</p>
+        </div>
+        <div class="technique-item reveal">
+          <div class="technique-physical">Polished Plastic</div>
+          <h3>Smooth Dark Gradients</h3>
+          <p>Smooth dark gradient backgrounds with subtle sheen via linear-gradient highlight bands. The signature smooth, polished plastic feel of commercial recreation.</p>
+        </div>
+        <div class="technique-item reveal reveal-delay-1">
+          <div class="technique-physical">Tiki Wood Carving</div>
+          <h3>Inset Shadow Panels</h3>
+          <p>Dark, warm-toned panels with deep inset shadows and carved-border effects. Heavy box-shadow: inset creates visual depth within the panel surface.</p>
+        </div>
+        <div class="technique-item reveal reveal-delay-2">
+          <div class="technique-physical">Rock Grotto</div>
+          <h3>Depth Gradients</h3>
+          <p>Dark textured backgrounds with layered depth gradients and mist-like radial-gradient overlays. Multiple stacked gradients simulate cavernous depth.</p>
+        </div>
+        <div class="technique-item reveal reveal-delay-3">
+          <div class="technique-physical">Sunset Sky</div>
+          <h3>Warm Gradients</h3>
+          <p>Warm gradient backgrounds transitioning from orange through coral to deep purple. The classic Tropideco sunset captured in linear-gradient layers.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Wave -->
+  <svg class="wave-divider" viewBox="0 0 1440 60" preserveAspectRatio="none">
+    <path d="M0,20 C360,50 720,0 1080,35 C1260,50 1380,15 1440,20 L1440,60 L0,60 Z" fill="#0a1628"/>
+  </svg>
+
+  <!-- ============== SUB-STYLES ============== -->
+  <section class="tropi-section section-substyles" id="substyles">
+    <div class="section-inner">
+      <span class="section-label reveal">Variations & Moods</span>
+      <h2 class="reveal reveal-delay-1">Sub-styles</h2>
+      <p class="reveal reveal-delay-2" style="max-width: 680px;">
+        Tropideco manifests in several distinct variations -- from the buzzing peak of 90s commercial paradise
+        to the eerie stillness of abandoned themed spaces.
+      </p>
+
+      <div class="substyle-cards">
+        <!-- Golden-Era -->
+        <div class="substyle-card reveal">
+          <div class="substyle-header">
+            <h3>Golden-Era Tropideco</h3>
+            <div class="substyle-era">Peak 90s -- Maximum Theming</div>
+          </div>
+          <div class="substyle-body">
+            <p>Bright, bustling, maximally themed environment. Every surface covered in tropical decoration -- dense and immersive. Neon signage glowing at full brightness, aquariums bubbling, waterfalls running. Optimistic, commercial, family-entertainment energy.</p>
+            <p class="web-approach"><strong>Web:</strong> Vibrant saturated colors, multiple neon glow effects, layered foliage overlays, dense visual richness.</p>
+          </div>
+        </div>
+
+        <!-- Dead Tropideco -->
+        <div class="substyle-card reveal reveal-delay-1">
+          <div class="substyle-header">
+            <h3><span class="flicker-text">Dead Tropideco</span></h3>
+            <div class="substyle-era">Liminal Variant -- The Abandoned</div>
+          </div>
+          <div class="substyle-body">
+            <p>The abandoned water park, the shuttered themed restaurant, the decaying resort lobby. Faded, desaturated colors. Neon signs half-lit or flickering. Empty pools, dry fountains. Eerie, nostalgic, melancholic atmosphere. Shared sensibility with Liminal Space and Dreamcore.</p>
+            <p class="web-approach"><strong>Web:</strong> Muted/desaturated palette, flickering neon animations, reduced opacity, darker backgrounds, subtle grain overlay.</p>
+          </div>
+        </div>
+
+        <!-- Water Park -->
+        <div class="substyle-card reveal reveal-delay-2">
+          <div class="substyle-header">
+            <h3>Water Park Tropideco</h3>
+            <div class="substyle-era">Splash Zone -- Kinetic Energy</div>
+          </div>
+          <div class="substyle-body">
+            <p>Focused specifically on the indoor water park experience. Dominated by bright aquas, cyans, and turquoises with splash-zone energy. Slide structures, wave pools, lazy rivers as visual motifs. More active and kinetic than the general variant.</p>
+            <p class="web-approach"><strong>Web:</strong> Bright water-tone palette, dynamic wave dividers, bold rounded typography, energetic and playful layout.</p>
+          </div>
+        </div>
+
+        <!-- Resort Lobby -->
+        <div class="substyle-card reveal reveal-delay-3">
+          <div class="substyle-header">
+            <h3>Resort Lobby Tropideco</h3>
+            <div class="substyle-era">Refined -- Upscale Casual</div>
+          </div>
+          <div class="substyle-body">
+            <p>The quieter, more refined side. Polished stone floors, large potted palms, soft ambient lighting. Tiki bar elements mixed with commercial hospitality design. More subdued neon, more warm wood tones, upscale-casual atmosphere.</p>
+            <p class="web-approach"><strong>Web:</strong> Warmer palette with more tan/bamboo, subtler neon, elegant rounded typography, spacious layouts with premium feel.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Wave -->
+  <svg class="wave-divider" viewBox="0 0 1440 60" preserveAspectRatio="none">
+    <path d="M0,30 C180,5 360,50 540,25 C720,5 900,50 1080,30 C1260,5 1440,40 1440,30 L1440,60 L0,60 Z" fill="#1a3c2a"/>
+  </svg>
+
+  <!-- ============== RELATED AESTHETICS ============== -->
+  <section class="tropi-section section-related" id="related">
+    <div class="section-inner">
+      <span class="section-label reveal">Adjacent Worlds</span>
+      <h2 class="reveal reveal-delay-1">Related Aesthetics</h2>
+      <p class="reveal reveal-delay-2" style="max-width: 680px;">
+        Tropideco sits at the intersection of several aesthetic movements -- sharing DNA with
+        mall culture, tropical traditions, and the broader landscape of 90s/2000s commercial nostalgia.
+      </p>
+
+      <div class="related-grid">
+        <div class="related-item reveal">
+          <h3>Tropical</h3>
+          <p>Broader parent category. Tropideco is specifically the commercialized, artificial simulation -- not the real thing.</p>
+        </div>
+        <div class="related-item reveal reveal-delay-1">
+          <h3>Tiki</h3>
+          <p>Close sibling. Shares Polynesian motifs but Tiki is rooted in mid-century pop-culture authenticity while Tropideco is 90s synthetic.</p>
+        </div>
+        <div class="related-item reveal reveal-delay-2">
+          <h3>Mallsoft</h3>
+          <p>Shared commercial-indoor-space DNA. Mallsoft is the mall itself; Tropideco is the themed tropical zone within it.</p>
+        </div>
+        <div class="related-item reveal reveal-delay-3">
+          <h3>Liminal Space</h3>
+          <p>Shared in the "dead" variant. Empty themed spaces are powerfully liminal -- places designed for crowds, now abandoned.</p>
+        </div>
+        <div class="related-item reveal reveal-delay-4">
+          <h3>Dreamcore</h3>
+          <p>Shared surreal, half-remembered quality. Tropideco environments often appear in Dreamcore imagery.</p>
+        </div>
+        <div class="related-item reveal">
+          <h3>Frutiger Aero</h3>
+          <p>Both feature glossy, nature-referencing commercial design from the 2000s. Frutiger Aero is digital/tech; Tropideco is physical/architectural.</p>
+        </div>
+        <div class="related-item reveal reveal-delay-1">
+          <h3>Poolcore</h3>
+          <p>Subset focused on pool and water aesthetics. Overlaps with Tropideco's water park dimension.</p>
+        </div>
+        <div class="related-item reveal reveal-delay-2">
+          <h3>Nautical</h3>
+          <p>Shares marine elements but Nautical is traditional and preppy while Tropideco is synthetic and kitschy.</p>
+        </div>
+        <div class="related-item reveal reveal-delay-3">
+          <h3>Beach Day</h3>
+          <p>Shares beach motifs but Beach Day is outdoors and natural. Tropideco is indoors and artificial -- always indoors.</p>
+        </div>
+        <div class="related-item reveal reveal-delay-4">
+          <h3>Nostalgia</h3>
+          <p>Tropideco is inherently nostalgic, evoking specific 90s-2000s childhood commercial experiences. The plastic paradise fondly remembered.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============== FOOTER ============== -->
+  <footer class="tropi-footer">
+    <div class="footer-terrazzo"></div>
+    <div style="position: relative; z-index: 2;">
+      <div class="footer-title">Tropideco</div>
+      <div class="footer-tagline">Fiberglass foliage, glowing aquariums, and the warm hum of commercial tropicana</div>
+
+      <hr style="width: 60%; max-width: 400px; margin: 2rem auto; height: 2px; border: none;
+        background: linear-gradient(90deg, transparent, var(--tropi-magenta) 20%, var(--tropi-cyan) 50%, var(--tropi-green-neon) 80%, transparent);
+        box-shadow: 0 0 10px var(--tropi-glow-cyan); opacity: 0.6;">
+
+      <p style="font-size: 0.92rem; max-width: 600px; margin: 0 auto; color: rgba(237,232,216,0.6);">
+        A design aesthetic prominent in the 1990s and early 2000s -- the commercialized simulation of tropical environments.
+        Where the palms are plastic and the neon never fades.
+      </p>
+
+      <div class="footer-meta">
+        Tropideco Design Reference &middot; Aesthetic Showcase
+      </div>
+    </div>
+  </footer>
+
+  <!-- ============== SCROLL REVEAL JS ============== -->
+  <script>
+    (function() {
+      // Intersection Observer for scroll reveals
+      var observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      }, {
+        threshold: 0.1,
+        rootMargin: '0px 0px -40px 0px'
+      });
+
+      document.querySelectorAll('.reveal').forEach(function(el) {
+        observer.observe(el);
+      });
+
+      // Smooth scroll for nav links
+      document.querySelectorAll('.tropi-nav a').forEach(function(link) {
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+          var target = document.querySelector(this.getAttribute('href'));
+          if (target) {
+            var offset = 60;
+            var top = target.getBoundingClientRect().top + window.pageYOffset - offset;
+            window.scrollTo({ top: top, behavior: 'smooth' });
+          }
+        });
+      });
+
+      // Parallax-ish effect on hero foliage
+      var heroLeaves = document.querySelectorAll('.hero-foliage-left, .hero-foliage-right');
+      var hero = document.querySelector('.hero');
+
+      if (hero && heroLeaves.length > 0) {
+        window.addEventListener('scroll', function() {
+          var scrolled = window.pageYOffset;
+          var heroHeight = hero.offsetHeight;
+          if (scrolled < heroHeight) {
+            var factor = scrolled * 0.15;
+            heroLeaves.forEach(function(leaf, i) {
+              var direction = i === 0 ? -1 : 1;
+              leaf.style.transform = 'translateY(' + (factor * 0.5) + 'px) translateX(' + (factor * 0.3 * direction) + 'px)';
+            });
+          }
+        }, { passive: true });
+      }
+    })();
+  </script>
+</body>
+</html>
