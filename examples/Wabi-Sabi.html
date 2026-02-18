@@ -1,0 +1,1252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wabi-Sabi -- The Beauty of Imperfection</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Karla:wght@300;400;500&family=Noto+Serif+JP:wght@300;400;500&family=Source+Serif+4:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet">
+  <style>
+    /* === Custom Properties === */
+    :root {
+      --ws-paper: #F5F0E8;
+      --ws-stone: #E8E0D4;
+      --ws-ink: #3A3632;
+      --ws-moss: #7A8B72;
+      --ws-clay: #B89B7A;
+      --ws-blue: #8A9AA4;
+      --ws-ash: #9E9790;
+      --ws-earth: #5C534A;
+      --ws-lichen: #A3AC96;
+      --ws-rust: #A0735C;
+      --ws-fog: #D6D2CB;
+      --ws-soot: #2C2825;
+    }
+
+    /* === Reset === */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* === Body & Background === */
+    body {
+      font-family: 'Source Serif 4', Georgia, serif;
+      font-size: 1.05rem;
+      line-height: 1.9;
+      color: var(--ws-ink);
+      background: var(--ws-paper);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overflow-x: hidden;
+    }
+
+    /* Rice paper texture overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1000;
+      opacity: 0.025;
+      background-image: url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+
+    /* === Navigation === */
+    .ws-nav {
+      padding: 28px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .ws-nav-brand {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 0.95rem;
+      font-weight: 400;
+      color: var(--ws-earth);
+      text-decoration: none;
+      letter-spacing: 0.05em;
+    }
+
+    .ws-nav-links {
+      display: flex;
+      gap: 8px;
+    }
+
+    .ws-nav-links a {
+      font-family: 'Karla', sans-serif;
+      font-size: 0.8rem;
+      color: var(--ws-ash);
+      text-decoration: none;
+      letter-spacing: 0.04em;
+      padding: 8px 14px;
+      transition: color 0.4s ease;
+    }
+
+    .ws-nav-links a:hover {
+      color: var(--ws-ink);
+    }
+
+    /* === Main Container === */
+    .ws-main {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 40px;
+    }
+
+    /* === Hero Section === */
+    .ws-hero {
+      padding: 80px 0 60px;
+      max-width: 640px;
+      margin-left: 7%;
+      position: relative;
+    }
+
+    .ws-hero-label {
+      font-family: 'Karla', sans-serif;
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      color: var(--ws-ash);
+      text-transform: uppercase;
+      margin-bottom: 28px;
+      display: block;
+      opacity: 0;
+      animation: fadeInSlow 2s ease 0.3s forwards;
+    }
+
+    .ws-hero h1 {
+      font-family: 'Noto Serif JP', serif;
+      font-size: clamp(2rem, 4.5vw, 3rem);
+      font-weight: 300;
+      color: var(--ws-soot);
+      line-height: 1.35;
+      margin-bottom: 28px;
+      letter-spacing: 0.02em;
+      opacity: 0;
+      animation: fadeInSlow 2.5s ease 0.6s forwards;
+    }
+
+    .ws-hero-desc {
+      font-size: 1.1rem;
+      color: var(--ws-earth);
+      line-height: 2;
+      max-width: 540px;
+      font-weight: 300;
+      opacity: 0;
+      animation: fadeInSlow 2.5s ease 1s forwards;
+    }
+
+    /* Japanese character watermark */
+    .ws-hero::after {
+      content: '\4F98';
+      position: absolute;
+      top: 40px;
+      right: -120px;
+      font-family: 'Noto Serif JP', serif;
+      font-size: 14rem;
+      font-weight: 300;
+      color: var(--ws-fog);
+      opacity: 0.3;
+      pointer-events: none;
+      line-height: 1;
+      z-index: -1;
+      animation: fadeInSlow 4s ease 0.2s forwards;
+    }
+
+    /* === Dividers === */
+    .ws-divider {
+      border: none;
+      height: 1px;
+      background: var(--ws-fog);
+      max-width: 100px;
+      margin: 64px 0;
+      opacity: 0;
+      animation: fadeInSlow 2s ease 1.4s forwards;
+    }
+
+    .ws-divider--wide {
+      max-width: 180px;
+    }
+
+    .ws-divider--offset {
+      margin-left: 7%;
+    }
+
+    .ws-divider--center {
+      margin-left: auto;
+      margin-right: auto;
+      max-width: 60px;
+    }
+
+    .ws-dot-divider {
+      text-align: center;
+      margin: 72px 0;
+      color: var(--ws-ash);
+      font-size: 0.6rem;
+      letter-spacing: 1.2em;
+    }
+
+    /* === Section: Overview === */
+    .ws-section {
+      padding: 20px 0 40px;
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity 1.2s ease, transform 1.2s ease;
+    }
+
+    .ws-section.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .ws-section-label {
+      font-family: 'Karla', sans-serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.16em;
+      color: var(--ws-ash);
+      text-transform: uppercase;
+      margin-bottom: 32px;
+      padding-left: 7%;
+    }
+
+    .ws-section h2 {
+      font-family: 'Noto Serif JP', serif;
+      font-size: clamp(1.5rem, 3vw, 2rem);
+      font-weight: 400;
+      color: var(--ws-soot);
+      margin-bottom: 20px;
+      letter-spacing: 0.02em;
+      line-height: 1.4;
+    }
+
+    .ws-section h3 {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 1.15rem;
+      font-weight: 400;
+      color: var(--ws-soot);
+      margin-bottom: 16px;
+      letter-spacing: 0.02em;
+    }
+
+    /* === Content Blocks === */
+    .ws-content {
+      max-width: 620px;
+      margin-left: 7%;
+    }
+
+    .ws-content p {
+      color: var(--ws-earth);
+      line-height: 2;
+      margin-bottom: 24px;
+      font-weight: 300;
+    }
+
+    /* === Principle Cards === */
+    .ws-principles {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 28px;
+      max-width: 640px;
+      margin-left: 7%;
+      margin-top: 36px;
+    }
+
+    .ws-card {
+      background: var(--ws-stone);
+      border: none;
+      border-left: 2px solid var(--ws-clay);
+      padding: 28px 32px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .ws-card::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background:
+        linear-gradient(73deg, transparent 30%, rgba(184, 155, 122, 0.06) 30.5%, transparent 31%),
+        linear-gradient(147deg, transparent 55%, rgba(184, 155, 122, 0.04) 55.5%, transparent 56%);
+      pointer-events: none;
+    }
+
+    .ws-card h3 {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 1.1rem;
+      font-weight: 400;
+      color: var(--ws-soot);
+      margin-bottom: 10px;
+    }
+
+    .ws-card p {
+      color: var(--ws-earth);
+      line-height: 1.9;
+      font-size: 0.98rem;
+    }
+
+    .ws-card .ws-card-accent {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 3rem;
+      color: var(--ws-fog);
+      position: absolute;
+      top: 12px;
+      right: 20px;
+      font-weight: 300;
+      opacity: 0.5;
+      line-height: 1;
+    }
+
+    /* === Asymmetric Quote === */
+    .ws-quote {
+      margin: 56px 0 56px 18%;
+      padding-left: 24px;
+      border-left: 1px solid var(--ws-clay);
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.35rem;
+      font-weight: 300;
+      color: var(--ws-earth);
+      line-height: 2;
+      font-style: italic;
+      max-width: 480px;
+    }
+
+    .ws-quote-source {
+      display: block;
+      font-family: 'Karla', sans-serif;
+      font-size: 0.75rem;
+      font-style: normal;
+      font-weight: 400;
+      color: var(--ws-ash);
+      letter-spacing: 0.04em;
+      margin-top: 14px;
+    }
+
+    /* === Color Palette Section === */
+    .ws-palette {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+      gap: 20px;
+      max-width: 680px;
+      margin-left: 7%;
+      margin-top: 36px;
+    }
+
+    .ws-swatch {
+      text-align: left;
+    }
+
+    .ws-swatch-color {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      margin-bottom: 10px;
+      position: relative;
+    }
+
+    /* Irregular top edge on swatches */
+    .ws-swatch:nth-child(odd) .ws-swatch-color {
+      clip-path: polygon(0 2%, 35% 0%, 68% 1%, 100% 0%, 100% 100%, 0 100%);
+    }
+
+    .ws-swatch:nth-child(even) .ws-swatch-color {
+      clip-path: polygon(0 0%, 42% 1.5%, 75% 0%, 100% 1%, 100% 100%, 0 100%);
+    }
+
+    .ws-swatch-name {
+      font-family: 'Karla', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 400;
+      color: var(--ws-ink);
+      letter-spacing: 0.02em;
+    }
+
+    .ws-swatch-hex {
+      font-family: 'Karla', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 300;
+      color: var(--ws-ash);
+      letter-spacing: 0.02em;
+      margin-top: 2px;
+    }
+
+    .ws-swatch-role {
+      font-family: 'Karla', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 300;
+      color: var(--ws-ash);
+      margin-top: 3px;
+    }
+
+    /* === Typography Showcase === */
+    .ws-type-showcase {
+      max-width: 640px;
+      margin-left: 7%;
+      margin-top: 36px;
+    }
+
+    .ws-type-pair {
+      margin-bottom: 40px;
+      padding: 28px 0;
+      border-bottom: 1px solid var(--ws-fog);
+    }
+
+    .ws-type-pair:last-child {
+      border-bottom: none;
+    }
+
+    .ws-type-heading-sample {
+      margin-bottom: 8px;
+      color: var(--ws-soot);
+      line-height: 1.4;
+    }
+
+    .ws-type-body-sample {
+      color: var(--ws-earth);
+      line-height: 1.9;
+      margin-bottom: 12px;
+    }
+
+    .ws-type-meta {
+      font-family: 'Karla', sans-serif;
+      font-size: 0.7rem;
+      color: var(--ws-ash);
+      letter-spacing: 0.03em;
+    }
+
+    /* === Traits List === */
+    .ws-traits {
+      max-width: 620px;
+      margin-left: 7%;
+      margin-top: 32px;
+      list-style: none;
+    }
+
+    .ws-traits li {
+      padding: 14px 0;
+      border-bottom: 1px solid var(--ws-fog);
+      display: flex;
+      align-items: baseline;
+      gap: 16px;
+      font-size: 0.98rem;
+      color: var(--ws-earth);
+      line-height: 1.8;
+    }
+
+    .ws-traits li:last-child {
+      border-bottom: none;
+    }
+
+    .ws-traits li::before {
+      content: '';
+      display: inline-block;
+      width: 5px;
+      height: 5px;
+      background: var(--ws-clay);
+      border-radius: 50%;
+      flex-shrink: 0;
+      position: relative;
+      top: -2px;
+    }
+
+    .ws-trait-name {
+      font-weight: 500;
+      color: var(--ws-ink);
+    }
+
+    /* === Do's and Don'ts === */
+    .ws-dos-donts {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      max-width: 680px;
+      margin-left: 7%;
+      margin-top: 36px;
+    }
+
+    .ws-do, .ws-dont {
+      list-style: none;
+    }
+
+    .ws-do-label, .ws-dont-label {
+      font-family: 'Karla', sans-serif;
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--ws-fog);
+    }
+
+    .ws-do-label {
+      color: var(--ws-moss);
+    }
+
+    .ws-dont-label {
+      color: var(--ws-rust);
+    }
+
+    .ws-do li, .ws-dont li {
+      font-size: 0.9rem;
+      color: var(--ws-earth);
+      line-height: 1.7;
+      padding: 8px 0;
+      padding-left: 14px;
+      position: relative;
+    }
+
+    .ws-do li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 16px;
+      width: 4px;
+      height: 4px;
+      background: var(--ws-moss);
+      border-radius: 50%;
+    }
+
+    .ws-dont li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 16px;
+      width: 6px;
+      height: 1px;
+      background: var(--ws-rust);
+    }
+
+    /* === Related Aesthetics === */
+    .ws-related {
+      max-width: 640px;
+      margin-left: 7%;
+      margin-top: 36px;
+    }
+
+    .ws-related-item {
+      padding: 18px 0;
+      border-bottom: 1px solid var(--ws-fog);
+    }
+
+    .ws-related-item:last-child {
+      border-bottom: none;
+    }
+
+    .ws-related-name {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 1rem;
+      font-weight: 400;
+      color: var(--ws-soot);
+      margin-bottom: 4px;
+    }
+
+    .ws-related-desc {
+      font-size: 0.9rem;
+      color: var(--ws-ash);
+      line-height: 1.7;
+      font-weight: 300;
+    }
+
+    /* === Component Showcase === */
+    .ws-showcase {
+      max-width: 640px;
+      margin-left: 7%;
+      margin-top: 40px;
+    }
+
+    .ws-showcase-item {
+      margin-bottom: 48px;
+    }
+
+    .ws-showcase-label {
+      font-family: 'Karla', sans-serif;
+      font-size: 0.68rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--ws-ash);
+      margin-bottom: 16px;
+    }
+
+    /* Button showcase */
+    .ws-button {
+      display: inline-block;
+      background: transparent;
+      color: var(--ws-earth);
+      border: 1px solid var(--ws-ash);
+      border-radius: 0;
+      padding: 11px 30px;
+      font-family: 'Karla', sans-serif;
+      font-size: 0.83rem;
+      font-weight: 400;
+      letter-spacing: 0.06em;
+      text-decoration: none;
+      cursor: pointer;
+      transition: border-color 0.5s ease, color 0.5s ease;
+    }
+
+    .ws-button:hover {
+      border-color: var(--ws-earth);
+      color: var(--ws-soot);
+    }
+
+    .ws-button--accent {
+      border-color: var(--ws-clay);
+      color: var(--ws-earth);
+    }
+
+    .ws-button--accent:hover {
+      border-color: var(--ws-rust);
+      color: var(--ws-soot);
+    }
+
+    /* Input showcase */
+    .ws-input-group {
+      margin-top: 8px;
+    }
+
+    .ws-input-label {
+      font-family: 'Karla', sans-serif;
+      font-size: 0.75rem;
+      color: var(--ws-ash);
+      letter-spacing: 0.04em;
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .ws-input {
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid var(--ws-fog);
+      padding: 10px 0;
+      font-family: 'Source Serif 4', serif;
+      font-size: 1rem;
+      color: var(--ws-ink);
+      width: 100%;
+      max-width: 340px;
+      outline: none;
+      transition: border-color 0.4s ease;
+    }
+
+    .ws-input:focus {
+      border-bottom-color: var(--ws-clay);
+    }
+
+    .ws-input::placeholder {
+      color: var(--ws-fog);
+    }
+
+    /* === Footer === */
+    .ws-footer {
+      margin-top: 100px;
+      padding: 48px 0 60px;
+      text-align: center;
+      position: relative;
+    }
+
+    .ws-footer::before {
+      content: '';
+      display: block;
+      width: 40px;
+      height: 1px;
+      background: var(--ws-fog);
+      margin: 0 auto 40px;
+    }
+
+    .ws-footer-text {
+      font-family: 'Karla', sans-serif;
+      font-size: 0.72rem;
+      color: var(--ws-ash);
+      letter-spacing: 0.08em;
+      line-height: 2;
+    }
+
+    .ws-footer-char {
+      display: block;
+      font-family: 'Noto Serif JP', serif;
+      font-size: 1.8rem;
+      font-weight: 300;
+      color: var(--ws-fog);
+      margin-bottom: 20px;
+    }
+
+    /* === Animations === */
+    @keyframes fadeInSlow {
+      from {
+        opacity: 0;
+        transform: translateY(6px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* === Responsive === */
+    @media (max-width: 768px) {
+      .ws-nav {
+        padding: 20px 24px;
+      }
+
+      .ws-nav-links {
+        gap: 0;
+      }
+
+      .ws-nav-links a {
+        padding: 8px 8px;
+        font-size: 0.75rem;
+      }
+
+      .ws-main {
+        padding: 0 24px;
+      }
+
+      .ws-hero {
+        padding: 60px 0 40px;
+        margin-left: 0;
+      }
+
+      .ws-hero::after {
+        right: -40px;
+        font-size: 8rem;
+        top: 20px;
+      }
+
+      .ws-content,
+      .ws-principles,
+      .ws-palette,
+      .ws-type-showcase,
+      .ws-traits,
+      .ws-dos-donts,
+      .ws-related,
+      .ws-showcase {
+        margin-left: 0;
+      }
+
+      .ws-section-label {
+        padding-left: 0;
+      }
+
+      .ws-quote {
+        margin-left: 8%;
+        font-size: 1.15rem;
+      }
+
+      .ws-divider--offset {
+        margin-left: 0;
+      }
+
+      .ws-palette {
+        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+        gap: 16px;
+      }
+
+      .ws-dos-donts {
+        grid-template-columns: 1fr;
+        gap: 32px;
+      }
+
+      .ws-card .ws-card-accent {
+        font-size: 2rem;
+        top: 8px;
+        right: 14px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .ws-hero h1 {
+        font-size: 1.7rem;
+      }
+
+      .ws-hero::after {
+        font-size: 6rem;
+        right: -20px;
+      }
+
+      .ws-palette {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    /* Larger screens: increase breathing room */
+    @media (min-width: 1200px) {
+      .ws-hero {
+        padding-top: 120px;
+        padding-bottom: 80px;
+      }
+
+      .ws-divider {
+        margin: 80px 0;
+      }
+
+      .ws-dot-divider {
+        margin: 90px 0;
+      }
+    }
+
+    /* === Kintsugi decorative line -- subtle crack across the page === */
+    .ws-kintsugi-line {
+      position: relative;
+      height: 80px;
+      max-width: 680px;
+      margin: 20px 0 20px 7%;
+      overflow: hidden;
+    }
+
+    .ws-kintsugi-line svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    @media (max-width: 768px) {
+      .ws-kintsugi-line {
+        margin-left: 0;
+        height: 60px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="ws-nav">
+    <a href="#" class="ws-nav-brand">wabi-sabi</a>
+    <div class="ws-nav-links">
+      <a href="#overview">overview</a>
+      <a href="#principles">principles</a>
+      <a href="#palette">palette</a>
+      <a href="#typography">typography</a>
+    </div>
+  </nav>
+
+  <main class="ws-main">
+
+    <!-- Hero -->
+    <section class="ws-hero">
+      <span class="ws-hero-label">A Japanese aesthetic philosophy</span>
+      <h1>Wabi-Sabi</h1>
+      <p class="ws-hero-desc">
+        Rooted in the acceptance of imperfection, impermanence, and incompleteness.
+        Beauty found in cracked pottery, weathered wood, uneven textures,
+        and the quiet asymmetry of natural forms.
+      </p>
+    </section>
+
+    <hr class="ws-divider ws-divider--offset">
+
+    <!-- Overview Section -->
+    <section id="overview" class="ws-section">
+      <p class="ws-section-label">Overview</p>
+      <div class="ws-content">
+        <p>
+          Wabi-Sabi is a Japanese aesthetic philosophy rooted in the acceptance of imperfection,
+          impermanence, and incompleteness. Derived from Buddhist teachings, it finds beauty in
+          cracked pottery, weathered wood, uneven textures, and the quiet asymmetry of natural forms.
+        </p>
+        <p>
+          In digital design, Wabi-Sabi translates into muted earth tones, generous negative space,
+          subtle organic textures, and deliberate irregularity that resists the sterile perfection
+          of most modern interfaces. The aesthetic prizes restraint, quietude, and the patina of
+          time over polish and precision.
+        </p>
+      </div>
+    </section>
+
+    <div class="ws-quote ws-section">
+      In the space between objects, meaning accumulates like dust.
+      <span class="ws-quote-source">-- on Ma (negative space)</span>
+    </div>
+
+    <!-- Visual Characteristics -->
+    <section class="ws-section">
+      <p class="ws-section-label">Visual Characteristics</p>
+      <div class="ws-content">
+        <h2>Core Design Traits</h2>
+      </div>
+      <ul class="ws-traits">
+        <li><span><span class="ws-trait-name">Muted earth tones</span> -- soft grays, warm beiges, moss greens, stone blues, and clay browns that evoke natural materials</span></li>
+        <li><span><span class="ws-trait-name">Natural textures</span> -- visible grain, rough paper, cracked glaze, weathered stone, and handmade ceramic surfaces</span></li>
+        <li><span><span class="ws-trait-name">Quiet asymmetry</span> -- intentionally off-center compositions, uneven margins, and irregular alignments</span></li>
+        <li><span><span class="ws-trait-name">Generous negative space</span> -- large areas of emptiness (ma) that give elements room to breathe</span></li>
+        <li><span><span class="ws-trait-name">Imperfect edges</span> -- rough borders, uneven lines, and organic shapes that show the mark of the hand</span></li>
+        <li><span><span class="ws-trait-name">Minimal ornamentation</span> -- beauty comes from the material itself, not decoration</span></li>
+        <li><span><span class="ws-trait-name">Subtle tonal variation</span> -- closely related tones that require careful attention to distinguish</span></li>
+      </ul>
+    </section>
+
+    <!-- Kintsugi decorative crack -->
+    <div class="ws-kintsugi-line" aria-hidden="true">
+      <svg viewBox="0 0 680 80" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+        <path d="M0 45 Q40 42 80 48 Q130 55 170 40 Q210 25 260 38 Q310 52 360 35 Q400 22 440 42 Q490 60 540 37 Q580 20 620 43 Q650 55 680 40"
+              stroke="#B89B7A" stroke-width="0.5" opacity="0.35" fill="none"/>
+        <path d="M170 40 Q175 52 180 65" stroke="#B89B7A" stroke-width="0.3" opacity="0.25" fill="none"/>
+        <path d="M360 35 Q365 22 372 12" stroke="#B89B7A" stroke-width="0.3" opacity="0.2" fill="none"/>
+        <path d="M540 37 Q535 50 530 62" stroke="#B89B7A" stroke-width="0.3" opacity="0.2" fill="none"/>
+      </svg>
+    </div>
+
+    <!-- Design Principles -->
+    <section id="principles" class="ws-section">
+      <p class="ws-section-label">Design Principles</p>
+      <div class="ws-principles">
+        <div class="ws-card">
+          <span class="ws-card-accent">&#28961;</span>
+          <h3>Less is more (and less)</h3>
+          <p>Strip away everything unnecessary until only the essential remains. Then consider removing something more.</p>
+        </div>
+        <div class="ws-card">
+          <span class="ws-card-accent">&#32654;</span>
+          <h3>Embrace imperfection</h3>
+          <p>Introduce small irregularities in alignment, texture, and shape. Nothing should look factory-perfect.</p>
+        </div>
+        <div class="ws-card">
+          <span class="ws-card-accent">&#26408;</span>
+          <h3>Respect for materials</h3>
+          <p>Let textures, surfaces, and natural colors speak for themselves without heavy overlay or effects.</p>
+        </div>
+        <div class="ws-card">
+          <span class="ws-card-accent">&#38291;</span>
+          <h3>Ma (negative space)</h3>
+          <p>Empty space is not absence; it is an active compositional element that gives meaning to what is present.</p>
+        </div>
+        <div class="ws-card">
+          <span class="ws-card-accent">&#38745;</span>
+          <h3>Quiet over loud</h3>
+          <p>The design should whisper, not shout. Every element should earn its place through necessity, not emphasis.</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="ws-dot-divider" aria-hidden="true">...</div>
+
+    <!-- Color Palette -->
+    <section id="palette" class="ws-section">
+      <p class="ws-section-label">Color Palette</p>
+      <div class="ws-content">
+        <h2>Earth, Stone, and Ash</h2>
+        <p>
+          Colors drawn from natural materials -- the warmth of unglazed clay, the coolness of
+          weathered stone, the quiet green of moss on old walls. No more than three or four
+          should appear in any single view.
+        </p>
+      </div>
+      <div class="ws-palette">
+        <div class="ws-swatch">
+          <div class="ws-swatch-color" style="background: var(--ws-paper);"></div>
+          <div class="ws-swatch-name">Rice Paper</div>
+          <div class="ws-swatch-hex">#F5F0E8</div>
+          <div class="ws-swatch-role">Primary background</div>
+        </div>
+        <div class="ws-swatch">
+          <div class="ws-swatch-color" style="background: var(--ws-stone);"></div>
+          <div class="ws-swatch-name">Warm Stone</div>
+          <div class="ws-swatch-hex">#E8E0D4</div>
+          <div class="ws-swatch-role">Surface background</div>
+        </div>
+        <div class="ws-swatch">
+          <div class="ws-swatch-color" style="background: var(--ws-fog);"></div>
+          <div class="ws-swatch-name">Fog</div>
+          <div class="ws-swatch-hex">#D6D2CB</div>
+          <div class="ws-swatch-role">Dividers</div>
+        </div>
+        <div class="ws-swatch">
+          <div class="ws-swatch-color" style="background: var(--ws-ash);"></div>
+          <div class="ws-swatch-name">Ash</div>
+          <div class="ws-swatch-hex">#9E9790</div>
+          <div class="ws-swatch-role">Muted text</div>
+        </div>
+        <div class="ws-swatch">
+          <div class="ws-swatch-color" style="background: var(--ws-clay);"></div>
+          <div class="ws-swatch-name">Clay</div>
+          <div class="ws-swatch-hex">#B89B7A</div>
+          <div class="ws-swatch-role">Secondary accent</div>
+        </div>
+        <div class="ws-swatch">
+          <div class="ws-swatch-color" style="background: var(--ws-moss);"></div>
+          <div class="ws-swatch-name">Moss</div>
+          <div class="ws-swatch-hex">#7A8B72</div>
+          <div class="ws-swatch-role">Primary accent</div>
+        </div>
+        <div class="ws-swatch">
+          <div class="ws-swatch-color" style="background: var(--ws-lichen);"></div>
+          <div class="ws-swatch-name">Lichen</div>
+          <div class="ws-swatch-hex">#A3AC96</div>
+          <div class="ws-swatch-role">Soft green accent</div>
+        </div>
+        <div class="ws-swatch">
+          <div class="ws-swatch-color" style="background: var(--ws-blue);"></div>
+          <div class="ws-swatch-name">Weathered Blue</div>
+          <div class="ws-swatch-hex">#8A9AA4</div>
+          <div class="ws-swatch-role">Tertiary accent</div>
+        </div>
+        <div class="ws-swatch">
+          <div class="ws-swatch-color" style="background: var(--ws-rust);"></div>
+          <div class="ws-swatch-name">Rust</div>
+          <div class="ws-swatch-hex">#A0735C</div>
+          <div class="ws-swatch-role">Warm emphasis</div>
+        </div>
+        <div class="ws-swatch">
+          <div class="ws-swatch-color" style="background: var(--ws-earth);"></div>
+          <div class="ws-swatch-name">Deep Earth</div>
+          <div class="ws-swatch-hex">#5C534A</div>
+          <div class="ws-swatch-role">Secondary text</div>
+        </div>
+        <div class="ws-swatch">
+          <div class="ws-swatch-color" style="background: var(--ws-ink);"></div>
+          <div class="ws-swatch-name">Charcoal Ink</div>
+          <div class="ws-swatch-hex">#3A3632</div>
+          <div class="ws-swatch-role">Primary text</div>
+        </div>
+        <div class="ws-swatch">
+          <div class="ws-swatch-color" style="background: var(--ws-soot);"></div>
+          <div class="ws-swatch-name">Soot</div>
+          <div class="ws-swatch-hex">#2C2825</div>
+          <div class="ws-swatch-role">Dark text</div>
+        </div>
+      </div>
+    </section>
+
+    <hr class="ws-divider ws-divider--center">
+
+    <!-- Typography -->
+    <section id="typography" class="ws-section">
+      <p class="ws-section-label">Typography</p>
+      <div class="ws-content">
+        <h2>Quiet Letterforms</h2>
+        <p>
+          Typography in Wabi-Sabi should be unhurried. Thin weights, generous line-height,
+          and careful letter-spacing create the feeling of words placed with intention
+          rather than urgency.
+        </p>
+      </div>
+      <div class="ws-type-showcase">
+        <div class="ws-type-pair">
+          <div class="ws-type-heading-sample" style="font-family: 'Noto Serif JP', serif; font-size: 1.6rem; font-weight: 400; letter-spacing: 0.03em;">
+            The crack in the bowl lets light pass through
+          </div>
+          <div class="ws-type-body-sample" style="font-family: 'Source Serif 4', serif; font-weight: 400;">
+            Beauty lives not in perfection but in the quiet evidence of time, use,
+            and the acceptance of things as they are.
+          </div>
+          <div class="ws-type-meta">Noto Serif JP 400 + Source Serif 4 400 -- Japanese-inflected editorial calm</div>
+        </div>
+        <div class="ws-type-pair">
+          <div class="ws-type-heading-sample" style="font-family: 'Cormorant Garamond', serif; font-size: 1.7rem; font-weight: 300; letter-spacing: 0.02em;">
+            What was broken is joined with gold
+          </div>
+          <div class="ws-type-body-sample" style="font-family: 'Karla', sans-serif; font-weight: 400; font-size: 0.95rem;">
+            The repair becomes part of the history, not something to hide.
+            Each fracture line is a story made visible.
+          </div>
+          <div class="ws-type-meta">Cormorant Garamond 300 + Karla 400 -- Elegant lightness and quiet clarity</div>
+        </div>
+        <div class="ws-type-pair">
+          <div class="ws-type-heading-sample" style="font-family: 'Noto Serif JP', serif; font-size: 1.5rem; font-weight: 500; letter-spacing: 0.03em;">
+            Mono no aware -- the gentle sadness of passing things
+          </div>
+          <div class="ws-type-body-sample" style="font-family: 'Karla', sans-serif; font-weight: 300; font-size: 0.93rem; letter-spacing: 0.01em;">
+            A fallen leaf, a fading shadow, the last cup of tea grown cold.
+            Nothing lasts, and that is precisely what makes it beautiful.
+          </div>
+          <div class="ws-type-meta">Noto Serif JP 500 + Karla 300 -- Traditional heading with restrained modern body</div>
+        </div>
+      </div>
+    </section>
+
+    <div class="ws-quote ws-section">
+      Nothing lasts, nothing is finished, and nothing is perfect.
+      <span class="ws-quote-source">-- Richard Powell</span>
+    </div>
+
+    <!-- Layout Principles -->
+    <section class="ws-section">
+      <p class="ws-section-label">Layout Principles</p>
+      <ul class="ws-traits">
+        <li><span><span class="ws-trait-name">Asymmetric compositions</span> -- offset content from center; use unequal column widths rather than perfect halves</span></li>
+        <li><span><span class="ws-trait-name">Abundant negative space</span> -- at least 40% of visible area should be empty; sections separated by 60-100px of breathing room</span></li>
+        <li><span><span class="ws-trait-name">Single-column or sparse two-column</span> -- avoid complex grid structures; simplicity of arrangement is essential</span></li>
+        <li><span><span class="ws-trait-name">Narrow content width</span> -- keep text columns at 600-700px max; the extra page margin is part of the design</span></li>
+        <li><span><span class="ws-trait-name">Organic section breaks</span> -- a thin, slightly uneven horizontal line, a single dot, or pure whitespace as dividers</span></li>
+        <li><span><span class="ws-trait-name">Top-heavy layouts</span> -- content can gravitate toward the upper portion of the page, leaving generous space below</span></li>
+      </ul>
+    </section>
+
+    <hr class="ws-divider ws-divider--offset ws-divider--wide">
+
+    <!-- Do's and Don'ts -->
+    <section class="ws-section">
+      <p class="ws-section-label">Design Guidance</p>
+      <div class="ws-content">
+        <h2>Do's and Don'ts</h2>
+      </div>
+      <div class="ws-dos-donts">
+        <div>
+          <div class="ws-do-label">Do</div>
+          <ul class="ws-do">
+            <li>Use muted, low-saturation earth tones drawn from natural materials</li>
+            <li>Leave abundant negative space; let the emptiness carry meaning</li>
+            <li>Introduce slight irregularities in alignment, spacing, and borders</li>
+            <li>Use thin, delicate type weights (300-400) for a quiet, unhurried feel</li>
+            <li>Choose textures that suggest natural aging: paper grain, stone, ceramic glaze</li>
+            <li>Use asymmetric layouts with content offset from center</li>
+            <li>Keep decorative elements to an absolute minimum</li>
+          </ul>
+        </div>
+        <div>
+          <div class="ws-dont-label">Don't</div>
+          <ul class="ws-dont">
+            <li>Avoid saturated or vivid colors that demand attention loudly</li>
+            <li>Avoid perfectly centered, symmetrical layouts -- they feel too manufactured</li>
+            <li>Do not use glossy effects, glass morphism, neon glows, or metallic surfaces</li>
+            <li>Avoid heavy font weights (700+) for body text</li>
+            <li>Do not use rounded, bubbly, or cartoon-like design elements</li>
+            <li>Avoid filling the page; if there is no empty space, the design has failed</li>
+            <li>Do not add excessive animation or motion effects; stillness is essential</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div class="ws-dot-divider" aria-hidden="true">...</div>
+
+    <!-- Component Showcase -->
+    <section class="ws-section">
+      <p class="ws-section-label">Component Examples</p>
+      <div class="ws-content">
+        <h2>Interface Elements</h2>
+        <p>
+          Components in Wabi-Sabi design are stripped to their essence.
+          Borders are thin, corners are square, transitions are slow and deliberate.
+        </p>
+      </div>
+      <div class="ws-showcase">
+        <div class="ws-showcase-item">
+          <div class="ws-showcase-label">Buttons</div>
+          <div style="display: flex; gap: 16px; flex-wrap: wrap; align-items: center;">
+            <button class="ws-button">sit quietly</button>
+            <button class="ws-button ws-button--accent">contemplate</button>
+          </div>
+        </div>
+        <div class="ws-showcase-item">
+          <div class="ws-showcase-label">Text Input</div>
+          <div class="ws-input-group">
+            <label class="ws-input-label">A thought, perhaps</label>
+            <input type="text" class="ws-input" placeholder="what remains when everything unnecessary is removed">
+          </div>
+        </div>
+        <div class="ws-showcase-item">
+          <div class="ws-showcase-label">Card</div>
+          <div class="ws-card" style="max-width: 420px;">
+            <h3>Kintsugi</h3>
+            <p>What was broken is joined with gold. The repair becomes part of the history, not something to hide. Each fracture line is a story made visible.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <hr class="ws-divider ws-divider--center">
+
+    <!-- Related Aesthetics -->
+    <section class="ws-section">
+      <p class="ws-section-label">Related Aesthetics</p>
+      <div class="ws-content">
+        <h2>Neighboring Sensibilities</h2>
+      </div>
+      <div class="ws-related">
+        <div class="ws-related-item">
+          <div class="ws-related-name">Cottagecore</div>
+          <div class="ws-related-desc">Both appreciate natural materials and imperfection, but Cottagecore is warm and abundant while Wabi-Sabi is spare and austere</div>
+        </div>
+        <div class="ws-related-item">
+          <div class="ws-related-name">Arts and Crafts</div>
+          <div class="ws-related-desc">Shares the reverence for handmade quality and honest materials, with a Western rather than Japanese sensibility</div>
+        </div>
+        <div class="ws-related-item">
+          <div class="ws-related-name">Dark Academia</div>
+          <div class="ws-related-desc">Both value patina and age but Dark Academia is warm, layered, and Western; Wabi-Sabi is cool, minimal, and Japanese</div>
+        </div>
+        <div class="ws-related-item">
+          <div class="ws-related-name">Coastal Style</div>
+          <div class="ws-related-desc">Shares muted, nature-derived colors but Coastal is lighter and more relaxed</div>
+        </div>
+        <div class="ws-related-item">
+          <div class="ws-related-name">Biedermeier</div>
+          <div class="ws-related-desc">Both emphasize domestic simplicity and restrained decoration</div>
+        </div>
+        <div class="ws-related-item">
+          <div class="ws-related-name">Claymorphism</div>
+          <div class="ws-related-desc">Claymorphism pursues soft imperfection through 3D illusion; Wabi-Sabi finds imperfection in real texture and material</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Implementation Tips -->
+    <section class="ws-section">
+      <p class="ws-section-label">Implementation</p>
+      <div class="ws-content">
+        <h2>Tips for the Craftsperson</h2>
+      </div>
+      <ul class="ws-traits">
+        <li><span><span class="ws-trait-name">Avoid pixel perfection</span> -- intentionally nudge elements a few pixels off-grid; use odd numbers for margins and padding</span></li>
+        <li><span><span class="ws-trait-name">Texture through CSS</span> -- use subtle SVG noise filters or fine repeating-linear-gradient patterns to simulate paper grain</span></li>
+        <li><span><span class="ws-trait-name">Thin borders only</span> -- borders should be 1px and lightly colored; avoid thick or bold borders</span></li>
+        <li><span><span class="ws-trait-name">No box-shadow</span> -- depth comes from background color contrast and left-border accents, not drop shadows</span></li>
+        <li><span><span class="ws-trait-name">Color restraint</span> -- use no more than 3-4 colors in any single view; the palette should feel monochromatic with a single warm accent</span></li>
+        <li><span><span class="ws-trait-name">Image treatment</span> -- apply desaturation and reduced contrast to photographs to bring them into the muted palette</span></li>
+        <li><span><span class="ws-trait-name">Line-height</span> -- use generous line-height (1.8-2.0) for body text; the vertical space between lines is part of the design</span></li>
+      </ul>
+    </section>
+
+    <!-- Footer -->
+    <footer class="ws-footer">
+      <span class="ws-footer-char">&#20365;</span>
+      <p class="ws-footer-text">
+        Wabi-Sabi -- the beauty of imperfection
+        <br>
+        A design aesthetic rooted in Buddhist teachings
+      </p>
+    </footer>
+
+  </main>
+
+  <!-- Scroll reveal script (minimal, respectful) -->
+  <script>
+    (function() {
+      var sections = document.querySelectorAll('.ws-section');
+
+      // Simple Intersection Observer for gentle reveal
+      if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function(entries) {
+          entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('visible');
+              observer.unobserve(entry.target);
+            }
+          });
+        }, {
+          threshold: 0.1,
+          rootMargin: '0px 0px -40px 0px'
+        });
+
+        sections.forEach(function(section) {
+          observer.observe(section);
+        });
+      } else {
+        // Fallback: show everything
+        sections.forEach(function(section) {
+          section.classList.add('visible');
+        });
+      }
+    })();
+  </script>
+
+</body>
+</html>
