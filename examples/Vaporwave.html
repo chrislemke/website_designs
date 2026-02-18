@@ -1,0 +1,1892 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vaporwave -- Design Aesthetic Showcase</title>
+  <link href="https://fonts.googleapis.com/css2?family=Monoton&family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&family=VT323&family=Press+Start+2P&family=Noto+Sans+JP:wght@400;700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    /* ===== CUSTOM PROPERTIES ===== */
+    :root {
+      --vapor-pink: #ff71ce;
+      --vapor-soft-rose: #ffb3d9;
+      --vapor-hot-pink: #e50086;
+      --vapor-teal: #01cdfe;
+      --vapor-mint: #05ffa1;
+      --vapor-lavender: #b967ff;
+      --vapor-violet: #6b2fa0;
+      --vapor-orange: #ffa86a;
+
+      --vapor-bg-light: #f5e6f0;
+      --vapor-bg-cream: #fffbfc;
+      --vapor-bg-dark: #1a0a2e;
+      --vapor-bg-panel: #2d1b4e;
+
+      --vapor-text-dark: #2d1b4e;
+      --vapor-text-light: #fffbfc;
+      --vapor-text-muted: #8b7e96;
+      --vapor-marble-gray: #c4b7c9;
+
+      --vapor-gradient-sky: linear-gradient(135deg, #ff71ce 0%, #01cdfe 50%, #b967ff 100%);
+      --vapor-gradient-sunset: linear-gradient(180deg, #ff71ce 0%, #ffa86a 50%, #b967ff 100%);
+      --vapor-gradient-soft: linear-gradient(135deg, #f5e6f0 0%, #e8d5f5 50%, #d5e8f5 100%);
+    }
+
+    /* ===== RESET & BASE ===== */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--vapor-bg-light);
+      color: var(--vapor-text-dark);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 1rem;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 700;
+      line-height: 1.2;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+
+    /* ===== GLOBAL SCAN LINES OVERLAY ===== */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 3px,
+        rgba(255, 113, 206, 0.015) 3px,
+        rgba(255, 113, 206, 0.015) 6px
+      );
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    /* ===== KEYFRAMES ===== */
+    @keyframes float {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      33% { transform: translateY(-12px) rotate(1deg); }
+      66% { transform: translateY(6px) rotate(-0.5deg); }
+    }
+
+    @keyframes floatSlow {
+      0%, 100% { transform: translateY(0) translateX(0); }
+      50% { transform: translateY(-20px) translateX(8px); }
+    }
+
+    @keyframes tracking {
+      0% { top: 0%; opacity: 0; }
+      8% { opacity: 0.6; }
+      12% { opacity: 0; }
+      100% { top: 100%; opacity: 0; }
+    }
+
+    @keyframes glitchSkew {
+      0% { transform: skew(0deg); }
+      20% { transform: skew(-1deg); }
+      40% { transform: skew(0.5deg); }
+      60% { transform: skew(-0.3deg); }
+      80% { transform: skew(0.8deg); }
+      100% { transform: skew(0deg); }
+    }
+
+    @keyframes chromatic {
+      0%, 100% { text-shadow: 3px 3px 0 var(--vapor-teal), -1px -1px 0 var(--vapor-lavender); }
+      25% { text-shadow: 4px 2px 0 var(--vapor-teal), -2px -1px 0 var(--vapor-pink); }
+      50% { text-shadow: 2px 4px 0 var(--vapor-mint), -1px -2px 0 var(--vapor-lavender); }
+      75% { text-shadow: 3px 3px 0 var(--vapor-teal), -2px 0px 0 var(--vapor-hot-pink); }
+    }
+
+    @keyframes fadeSlideUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes gridScroll {
+      from { transform: perspective(400px) rotateX(55deg) translateY(0); }
+      to { transform: perspective(400px) rotateX(55deg) translateY(60px); }
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+
+    @keyframes flicker {
+      0%, 100% { opacity: 1; }
+      92% { opacity: 1; }
+      93% { opacity: 0.3; }
+      94% { opacity: 1; }
+      96% { opacity: 0.7; }
+      97% { opacity: 1; }
+    }
+
+    @keyframes rgbSplit {
+      0%, 100% { filter: none; }
+      25% { filter: drop-shadow(2px 0 0 rgba(255,113,206,0.4)) drop-shadow(-2px 0 0 rgba(1,205,254,0.4)); }
+      50% { filter: none; }
+      75% { filter: drop-shadow(1px 0 0 rgba(255,113,206,0.3)) drop-shadow(-1px 0 0 rgba(5,255,161,0.3)); }
+    }
+
+    /* ===== NAVIGATION ===== */
+    .vapor-nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 20px 40px;
+      position: relative;
+      z-index: 100;
+    }
+
+    .vapor-nav__logo {
+      font-family: 'Monoton', cursive;
+      font-size: 1.5rem;
+      color: var(--vapor-pink);
+      text-shadow: 2px 2px 0 var(--vapor-teal);
+      transition: all 0.3s;
+    }
+
+    .vapor-nav__logo:hover {
+      animation: chromatic 0.5s ease-in-out;
+    }
+
+    .vapor-nav__jp {
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: 0.7rem;
+      color: var(--vapor-text-muted);
+      letter-spacing: 0.15em;
+      margin-left: 12px;
+      opacity: 0.7;
+    }
+
+    .vapor-nav__links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+
+    .vapor-nav__links a {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 500;
+      font-size: 0.8rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--vapor-text-muted);
+      transition: color 0.3s, text-shadow 0.3s;
+      position: relative;
+    }
+
+    .vapor-nav__links a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--vapor-gradient-sky);
+      transition: width 0.3s;
+    }
+
+    .vapor-nav__links a:hover {
+      color: var(--vapor-pink);
+    }
+
+    .vapor-nav__links a:hover::after {
+      width: 100%;
+    }
+
+    /* ===== HERO SECTION ===== */
+    .vapor-hero {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      min-height: 92vh;
+      padding: 80px 40px 120px;
+      background: var(--vapor-gradient-sunset);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* VHS tracking line */
+    .vapor-hero__tracking {
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: rgba(255, 255, 255, 0.35);
+      box-shadow: 0 0 20px rgba(255, 113, 206, 0.4);
+      animation: tracking 12s linear infinite;
+      z-index: 5;
+    }
+
+    /* Perspective grid floor */
+    .vapor-hero__grid {
+      position: absolute;
+      bottom: 0;
+      left: -30%;
+      right: -30%;
+      height: 50%;
+      background:
+        repeating-linear-gradient(90deg, transparent, transparent 59px, rgba(255,255,255,0.18) 59px, rgba(255,255,255,0.18) 60px),
+        repeating-linear-gradient(0deg, transparent, transparent 59px, rgba(255,255,255,0.18) 59px, rgba(255,255,255,0.18) 60px);
+      animation: gridScroll 4s linear infinite;
+      transform-origin: bottom;
+      pointer-events: none;
+    }
+
+    /* Floating decorative elements */
+    .vapor-hero__deco {
+      position: absolute;
+      font-size: 4rem;
+      opacity: 0.12;
+      pointer-events: none;
+      animation: floatSlow 8s ease-in-out infinite;
+    }
+
+    .vapor-hero__deco--1 { top: 10%; left: 8%; animation-delay: 0s; font-size: 6rem; }
+    .vapor-hero__deco--2 { top: 20%; right: 10%; animation-delay: -3s; font-size: 3.5rem; }
+    .vapor-hero__deco--3 { bottom: 35%; left: 5%; animation-delay: -5s; font-size: 5rem; }
+    .vapor-hero__deco--4 { bottom: 25%; right: 6%; animation-delay: -2s; font-size: 4rem; }
+    .vapor-hero__deco--5 { top: 40%; left: 20%; animation-delay: -7s; font-size: 2.5rem; }
+
+    .vapor-hero__content {
+      position: relative;
+      z-index: 10;
+      max-width: 800px;
+      animation: fadeSlideUp 1.2s ease-out;
+    }
+
+    .vapor-hero__jp-label {
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: 0.9rem;
+      letter-spacing: 0.5em;
+      color: rgba(255, 255, 255, 0.5);
+      margin-bottom: 20px;
+    }
+
+    .vapor-hero__title {
+      font-family: 'Monoton', cursive;
+      font-size: clamp(3rem, 8vw, 6.5rem);
+      font-weight: 400;
+      color: #fff;
+      text-shadow: 4px 4px 0 var(--vapor-teal), 8px 8px 0 rgba(107, 47, 160, 0.25);
+      margin-bottom: 1.5rem;
+      line-height: 1.1;
+      animation: flicker 10s linear infinite;
+    }
+
+    .vapor-hero__subtitle {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 400;
+      font-size: 1.15rem;
+      color: rgba(255, 255, 255, 0.8);
+      letter-spacing: 0.18em;
+      margin-bottom: 12px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .vapor-hero__desc {
+      font-family: 'VT323', monospace;
+      font-size: 1rem;
+      color: rgba(255, 255, 255, 0.45);
+      letter-spacing: 0.1em;
+      margin-bottom: 40px;
+    }
+
+    .vapor-hero__btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(255, 255, 255, 0.12);
+      color: #fff;
+      border: 2px solid rgba(255, 255, 255, 0.4);
+      padding: 16px 44px;
+      font-family: 'VT323', monospace;
+      font-size: 1.2rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.3s;
+      backdrop-filter: blur(4px);
+      box-shadow: 4px 4px 0 rgba(107, 47, 160, 0.3);
+    }
+
+    .vapor-hero__btn:hover {
+      background: var(--vapor-pink);
+      border-color: var(--vapor-pink);
+      transform: translate(-2px, -2px);
+      box-shadow: 6px 6px 0 rgba(107, 47, 160, 0.5);
+    }
+
+    /* ===== MARQUEE STRIP ===== */
+    .vapor-marquee {
+      background: var(--vapor-bg-dark);
+      padding: 14px 0;
+      overflow: hidden;
+      border-top: 2px solid var(--vapor-pink);
+      border-bottom: 2px solid var(--vapor-teal);
+      position: relative;
+    }
+
+    .vapor-marquee__inner {
+      display: flex;
+      white-space: nowrap;
+      animation: marquee 30s linear infinite;
+    }
+
+    .vapor-marquee__text {
+      font-family: 'VT323', monospace;
+      font-size: 1rem;
+      color: var(--vapor-mint);
+      letter-spacing: 0.15em;
+      text-shadow: 0 0 8px rgba(5, 255, 161, 0.4);
+      padding-right: 60px;
+    }
+
+    .vapor-marquee__text span {
+      color: var(--vapor-pink);
+      margin: 0 20px;
+    }
+
+    /* ===== INTRO SECTION ===== */
+    .vapor-intro {
+      padding: 100px 40px;
+      background: var(--vapor-gradient-soft);
+      position: relative;
+    }
+
+    .vapor-intro__container {
+      max-width: 900px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .vapor-intro__label {
+      font-family: 'VT323', monospace;
+      font-size: 0.9rem;
+      color: var(--vapor-lavender);
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+      display: block;
+    }
+
+    .vapor-intro__heading {
+      font-family: 'DM Sans', sans-serif;
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 700;
+      color: var(--vapor-violet);
+      margin-bottom: 30px;
+      letter-spacing: 0.02em;
+    }
+
+    .vapor-intro__text {
+      font-size: 1.08rem;
+      color: var(--vapor-text-dark);
+      line-height: 1.9;
+      max-width: 750px;
+      margin: 0 auto 20px;
+      opacity: 0.85;
+    }
+
+    .vapor-intro__jp {
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: 0.8rem;
+      color: var(--vapor-text-muted);
+      letter-spacing: 0.3em;
+      margin-top: 30px;
+      opacity: 0.6;
+    }
+
+    /* ===== VISUAL TRAITS (CARDS) ===== */
+    .vapor-traits {
+      padding: 100px 40px;
+      background: var(--vapor-bg-light);
+      position: relative;
+    }
+
+    .vapor-traits::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--vapor-gradient-sky);
+    }
+
+    .vapor-section-header {
+      text-align: center;
+      max-width: 700px;
+      margin: 0 auto 60px;
+    }
+
+    .vapor-section-header__label {
+      font-family: 'VT323', monospace;
+      font-size: 0.85rem;
+      color: var(--vapor-teal);
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+      display: block;
+    }
+
+    .vapor-section-header__title {
+      font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+      color: var(--vapor-violet);
+      margin-bottom: 14px;
+    }
+
+    .vapor-section-header__subtitle {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 400;
+      font-size: 0.9rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--vapor-text-muted);
+    }
+
+    .vapor-card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 28px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .vapor-card {
+      background: rgba(255, 255, 255, 0.75);
+      border: 2px solid var(--vapor-pink);
+      border-radius: 0;
+      position: relative;
+      backdrop-filter: blur(8px);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .vapor-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 6px 6px 0 rgba(107, 47, 160, 0.15);
+    }
+
+    .vapor-card__titlebar {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: linear-gradient(90deg, var(--vapor-pink), var(--vapor-lavender));
+      padding: 6px 12px;
+      font-family: 'VT323', monospace;
+      font-size: 0.85rem;
+      color: white;
+    }
+
+    .vapor-card__dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      border: 1px solid rgba(255, 255, 255, 0.55);
+    }
+
+    .vapor-card__body {
+      padding: 26px;
+    }
+
+    .vapor-card__icon {
+      font-size: 1.6rem;
+      margin-bottom: 14px;
+      display: block;
+      animation: float 6s ease-in-out infinite;
+    }
+
+    .vapor-card__title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--vapor-violet);
+      margin-bottom: 8px;
+    }
+
+    .vapor-card__text {
+      font-size: 0.92rem;
+      color: var(--vapor-text-muted);
+      line-height: 1.65;
+    }
+
+    /* ===== PRINCIPLES SECTION ===== */
+    .vapor-principles {
+      padding: 100px 40px;
+      background: var(--vapor-bg-dark);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .vapor-principles::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        repeating-linear-gradient(
+          0deg,
+          transparent,
+          transparent 3px,
+          rgba(255, 113, 206, 0.02) 3px,
+          rgba(255, 113, 206, 0.02) 6px
+        );
+      pointer-events: none;
+    }
+
+    .vapor-principles .vapor-section-header__label { color: var(--vapor-mint); }
+    .vapor-principles .vapor-section-header__title { color: var(--vapor-soft-rose); }
+    .vapor-principles .vapor-section-header__subtitle { color: var(--vapor-marble-gray); }
+
+    .vapor-principles-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 30px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .vapor-principle {
+      padding: 32px 28px;
+      border: 1px solid rgba(255, 113, 206, 0.2);
+      background: rgba(45, 27, 78, 0.6);
+      backdrop-filter: blur(6px);
+      position: relative;
+      transition: border-color 0.3s, background 0.3s;
+    }
+
+    .vapor-principle:hover {
+      border-color: var(--vapor-pink);
+      background: rgba(45, 27, 78, 0.9);
+    }
+
+    .vapor-principle__number {
+      font-family: 'Monoton', cursive;
+      font-size: 2rem;
+      color: var(--vapor-pink);
+      opacity: 0.3;
+      margin-bottom: 16px;
+      display: block;
+    }
+
+    .vapor-principle__title {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--vapor-soft-rose);
+      margin-bottom: 10px;
+      letter-spacing: 0.04em;
+    }
+
+    .vapor-principle__text {
+      font-size: 0.9rem;
+      color: var(--vapor-marble-gray);
+      line-height: 1.7;
+    }
+
+    /* ===== COLOR PALETTE SECTION ===== */
+    .vapor-palette {
+      padding: 100px 40px;
+      background: var(--vapor-bg-cream);
+    }
+
+    .vapor-palette-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 16px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .vapor-swatch {
+      text-align: center;
+      transition: transform 0.3s;
+    }
+
+    .vapor-swatch:hover {
+      transform: scale(1.05);
+    }
+
+    .vapor-swatch__color {
+      height: 90px;
+      border: 2px solid rgba(45, 27, 78, 0.1);
+      margin-bottom: 10px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .vapor-swatch__color::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(255,255,255,0.05) 2px,
+        rgba(255,255,255,0.05) 4px
+      );
+      pointer-events: none;
+    }
+
+    .vapor-swatch__name {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 700;
+      font-size: 0.75rem;
+      letter-spacing: 0.06em;
+      color: var(--vapor-text-dark);
+      margin-bottom: 2px;
+    }
+
+    .vapor-swatch__hex {
+      font-family: 'VT323', monospace;
+      font-size: 0.85rem;
+      color: var(--vapor-text-muted);
+    }
+
+    /* ===== TYPOGRAPHY SECTION ===== */
+    .vapor-typography {
+      padding: 100px 40px;
+      background: var(--vapor-gradient-soft);
+      position: relative;
+    }
+
+    .vapor-type-showcase {
+      max-width: 1000px;
+      margin: 0 auto;
+      display: grid;
+      gap: 50px;
+    }
+
+    .vapor-type-item {
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      gap: 30px;
+      align-items: start;
+      padding-bottom: 50px;
+      border-bottom: 1px solid rgba(185, 103, 255, 0.15);
+    }
+
+    .vapor-type-item:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .vapor-type-label {
+      font-family: 'VT323', monospace;
+      font-size: 0.8rem;
+      color: var(--vapor-lavender);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+    }
+
+    .vapor-type-meta {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.78rem;
+      color: var(--vapor-text-muted);
+      margin-top: 6px;
+      line-height: 1.5;
+    }
+
+    .vapor-type-sample--monoton {
+      font-family: 'Monoton', cursive;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      color: var(--vapor-pink);
+      text-shadow: 3px 3px 0 var(--vapor-teal), -1px -1px 0 var(--vapor-lavender);
+      line-height: 1.2;
+    }
+
+    .vapor-type-sample--vt323 {
+      font-family: 'VT323', monospace;
+      font-size: 1.8rem;
+      color: var(--vapor-mint);
+      text-shadow: 0 0 8px rgba(5, 255, 161, 0.35);
+      background: var(--vapor-bg-dark);
+      padding: 20px 24px;
+      line-height: 1.5;
+    }
+
+    .vapor-type-sample--press {
+      font-family: 'Press Start 2P', cursive;
+      font-size: 0.85rem;
+      color: var(--vapor-teal);
+      line-height: 2;
+      letter-spacing: 0.05em;
+    }
+
+    .vapor-type-sample--dm {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 1.1rem;
+      color: var(--vapor-text-dark);
+      line-height: 1.8;
+      letter-spacing: 0.01em;
+    }
+
+    .vapor-type-sample--jp {
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: 1.4rem;
+      color: var(--vapor-text-muted);
+      letter-spacing: 0.3em;
+      line-height: 2;
+    }
+
+    .vapor-type-sample--space {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.3rem;
+      font-weight: 500;
+      color: var(--vapor-violet);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+    }
+
+    /* ===== RETRO WINDOWS ===== */
+    .vapor-windows {
+      padding: 100px 40px;
+      background: var(--vapor-bg-light);
+      position: relative;
+    }
+
+    .vapor-windows-container {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 30px;
+    }
+
+    .vapor-window {
+      border: 2px solid var(--vapor-violet);
+      background: var(--vapor-bg-cream);
+      animation: rgbSplit 10s ease-in-out infinite;
+    }
+
+    .vapor-window__titlebar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: linear-gradient(90deg, var(--vapor-violet), var(--vapor-pink));
+      padding: 5px 10px;
+      font-family: 'VT323', monospace;
+      font-size: 0.85rem;
+      color: white;
+    }
+
+    .vapor-window__controls {
+      display: flex;
+      gap: 4px;
+    }
+
+    .vapor-window__controls span {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 14px;
+      height: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      font-size: 8px;
+      line-height: 1;
+      color: rgba(255,255,255,0.7);
+    }
+
+    .vapor-window__body {
+      padding: 22px;
+    }
+
+    .vapor-window__body h3 {
+      font-size: 1rem;
+      color: var(--vapor-violet);
+      margin-bottom: 10px;
+    }
+
+    .vapor-window__body p {
+      font-size: 0.9rem;
+      color: var(--vapor-text-muted);
+      line-height: 1.65;
+    }
+
+    .vapor-window__body ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .vapor-window__body ul li {
+      font-size: 0.88rem;
+      color: var(--vapor-text-muted);
+      padding: 6px 0;
+      border-bottom: 1px solid rgba(185, 103, 255, 0.1);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .vapor-window__body ul li::before {
+      content: '>';
+      font-family: 'VT323', monospace;
+      color: var(--vapor-pink);
+      font-size: 1rem;
+    }
+
+    /* ===== QUOTE / TEXT BLOCK ===== */
+    .vapor-quote {
+      padding: 100px 40px;
+      background: var(--vapor-gradient-sunset);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .vapor-quote::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0, 0, 0, 0.03) 2px,
+        rgba(0, 0, 0, 0.03) 4px
+      );
+      pointer-events: none;
+    }
+
+    .vapor-quote__jp {
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: 0.8rem;
+      color: rgba(255, 255, 255, 0.4);
+      letter-spacing: 0.5em;
+      margin-bottom: 30px;
+      display: block;
+    }
+
+    .vapor-quote__text {
+      font-family: 'DM Sans', sans-serif;
+      font-size: clamp(1.4rem, 3vw, 2.2rem);
+      font-weight: 400;
+      font-style: italic;
+      color: #fff;
+      max-width: 700px;
+      margin: 0 auto 20px;
+      letter-spacing: 0.04em;
+      line-height: 1.6;
+      position: relative;
+      z-index: 2;
+    }
+
+    .vapor-quote__attr {
+      font-family: 'VT323', monospace;
+      font-size: 0.95rem;
+      color: rgba(255, 255, 255, 0.5);
+      letter-spacing: 0.2em;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* ===== DO'S AND DON'TS ===== */
+    .vapor-guidelines {
+      padding: 100px 40px;
+      background: var(--vapor-bg-dark);
+      position: relative;
+    }
+
+    .vapor-guidelines .vapor-section-header__label { color: var(--vapor-orange); }
+    .vapor-guidelines .vapor-section-header__title { color: var(--vapor-soft-rose); }
+    .vapor-guidelines .vapor-section-header__subtitle { color: var(--vapor-marble-gray); }
+
+    .vapor-guidelines-columns {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .vapor-guidelines-col {
+      padding: 32px;
+      border: 1px solid rgba(255, 113, 206, 0.2);
+      background: rgba(45, 27, 78, 0.4);
+    }
+
+    .vapor-guidelines-col__header {
+      font-family: 'VT323', monospace;
+      font-size: 1.4rem;
+      letter-spacing: 0.15em;
+      margin-bottom: 24px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid rgba(255, 113, 206, 0.15);
+    }
+
+    .vapor-guidelines-col--do .vapor-guidelines-col__header {
+      color: var(--vapor-mint);
+      text-shadow: 0 0 8px rgba(5, 255, 161, 0.3);
+    }
+
+    .vapor-guidelines-col--dont .vapor-guidelines-col__header {
+      color: var(--vapor-hot-pink);
+      text-shadow: 0 0 8px rgba(229, 0, 134, 0.3);
+    }
+
+    .vapor-guidelines-col ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .vapor-guidelines-col ul li {
+      font-size: 0.88rem;
+      color: var(--vapor-marble-gray);
+      line-height: 1.65;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(255, 113, 206, 0.06);
+      padding-left: 24px;
+      position: relative;
+    }
+
+    .vapor-guidelines-col--do ul li::before {
+      content: '+';
+      position: absolute;
+      left: 0;
+      font-family: 'VT323', monospace;
+      font-size: 1.1rem;
+      color: var(--vapor-mint);
+    }
+
+    .vapor-guidelines-col--dont ul li::before {
+      content: 'x';
+      position: absolute;
+      left: 2px;
+      font-family: 'VT323', monospace;
+      font-size: 1.1rem;
+      color: var(--vapor-hot-pink);
+    }
+
+    /* ===== RELATED AESTHETICS ===== */
+    .vapor-related {
+      padding: 100px 40px;
+      background: var(--vapor-gradient-soft);
+    }
+
+    .vapor-related-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 20px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .vapor-related-item {
+      background: rgba(255, 255, 255, 0.7);
+      border: 1px solid rgba(185, 103, 255, 0.2);
+      padding: 24px;
+      backdrop-filter: blur(6px);
+      transition: all 0.3s;
+    }
+
+    .vapor-related-item:hover {
+      border-color: var(--vapor-pink);
+      transform: translateY(-3px);
+      box-shadow: 4px 4px 0 rgba(107, 47, 160, 0.1);
+    }
+
+    .vapor-related-item__name {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: var(--vapor-violet);
+      margin-bottom: 8px;
+    }
+
+    .vapor-related-item__desc {
+      font-size: 0.82rem;
+      color: var(--vapor-text-muted);
+      line-height: 1.6;
+    }
+
+    /* ===== CTA / BOTTOM SECTION ===== */
+    .vapor-cta {
+      padding: 120px 40px;
+      background: var(--vapor-bg-dark);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .vapor-cta__grid {
+      position: absolute;
+      bottom: 0;
+      left: -30%;
+      right: -30%;
+      height: 55%;
+      background:
+        repeating-linear-gradient(90deg, transparent, transparent 59px, rgba(255,113,206,0.08) 59px, rgba(255,113,206,0.08) 60px),
+        repeating-linear-gradient(0deg, transparent, transparent 59px, rgba(255,113,206,0.08) 59px, rgba(255,113,206,0.08) 60px);
+      transform: perspective(400px) rotateX(55deg);
+      transform-origin: bottom;
+      pointer-events: none;
+    }
+
+    .vapor-cta__content {
+      position: relative;
+      z-index: 2;
+    }
+
+    .vapor-cta__jp {
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: 0.85rem;
+      color: rgba(255, 255, 255, 0.3);
+      letter-spacing: 0.5em;
+      margin-bottom: 24px;
+    }
+
+    .vapor-cta__title {
+      font-family: 'Monoton', cursive;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 400;
+      color: var(--vapor-pink);
+      text-shadow: 3px 3px 0 var(--vapor-teal), -1px -1px 0 var(--vapor-lavender);
+      margin-bottom: 16px;
+      animation: chromatic 8s ease-in-out infinite;
+    }
+
+    .vapor-cta__text {
+      font-size: 1rem;
+      color: rgba(255, 255, 255, 0.5);
+      letter-spacing: 0.15em;
+      margin-bottom: 40px;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .vapor-cta__btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--vapor-gradient-sky);
+      color: #ffffff;
+      border: none;
+      padding: 16px 48px;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 700;
+      font-size: 0.9rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      cursor: pointer;
+      box-shadow: 5px 5px 0 var(--vapor-violet);
+      transition: all 0.3s;
+    }
+
+    .vapor-cta__btn:hover {
+      transform: translate(-3px, -3px);
+      box-shadow: 8px 8px 0 var(--vapor-violet);
+    }
+
+    /* ===== FOOTER ===== */
+    .vapor-footer {
+      background: var(--vapor-bg-dark);
+      border-top: 1px solid rgba(255, 113, 206, 0.15);
+      padding: 40px 40px;
+      text-align: center;
+    }
+
+    .vapor-footer__logo {
+      font-family: 'Monoton', cursive;
+      font-size: 1.2rem;
+      color: var(--vapor-pink);
+      text-shadow: 2px 2px 0 var(--vapor-teal);
+      margin-bottom: 14px;
+      display: block;
+    }
+
+    .vapor-footer__jp {
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: 0.7rem;
+      color: var(--vapor-text-muted);
+      letter-spacing: 0.4em;
+      margin-bottom: 10px;
+      opacity: 0.5;
+    }
+
+    .vapor-footer__text {
+      font-family: 'VT323', monospace;
+      font-size: 0.9rem;
+      color: var(--vapor-text-muted);
+      letter-spacing: 0.1em;
+    }
+
+    .vapor-footer__text span {
+      color: var(--vapor-pink);
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 768px) {
+      .vapor-nav {
+        padding: 16px 20px;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .vapor-nav__links {
+        gap: 16px;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .vapor-hero {
+        min-height: 70vh;
+        padding: 60px 20px 80px;
+      }
+
+      .vapor-hero__deco { display: none; }
+
+      .vapor-marquee { padding: 10px 0; }
+
+      .vapor-intro,
+      .vapor-traits,
+      .vapor-principles,
+      .vapor-palette,
+      .vapor-typography,
+      .vapor-windows,
+      .vapor-quote,
+      .vapor-guidelines,
+      .vapor-related,
+      .vapor-cta {
+        padding: 60px 20px;
+      }
+
+      .vapor-type-item {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+
+      .vapor-guidelines-columns {
+        grid-template-columns: 1fr;
+        gap: 24px;
+      }
+
+      .vapor-windows-container {
+        grid-template-columns: 1fr;
+      }
+
+      .vapor-card-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .vapor-palette-grid {
+        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+        gap: 10px;
+      }
+
+      .vapor-swatch__color {
+        height: 60px;
+      }
+
+      .vapor-related-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .vapor-hero__title {
+        font-size: clamp(2rem, 10vw, 3rem);
+      }
+
+      .vapor-nav__jp { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== NAVIGATION ===== -->
+  <nav class="vapor-nav">
+    <div style="display:flex;align-items:baseline;">
+      <a href="#" class="vapor-nav__logo">VAPOR</a>
+      <span class="vapor-nav__jp">&nbsp;&nbsp;</span>
+    </div>
+    <ul class="vapor-nav__links">
+      <li><a href="#traits">Traits</a></li>
+      <li><a href="#palette">Palette</a></li>
+      <li><a href="#type">Type</a></li>
+      <li><a href="#components">Components</a></li>
+      <li><a href="#guidelines">Guide</a></li>
+    </ul>
+  </nav>
+
+  <!-- ===== HERO ===== -->
+  <section class="vapor-hero">
+    <div class="vapor-hero__tracking"></div>
+    <div class="vapor-hero__grid"></div>
+
+    <!-- Floating decorative Unicode elements -->
+    <div class="vapor-hero__deco vapor-hero__deco--1" aria-hidden="true">&#127796;</div>
+    <div class="vapor-hero__deco vapor-hero__deco--2" aria-hidden="true">&#9883;</div>
+    <div class="vapor-hero__deco vapor-hero__deco--3" aria-hidden="true">&#9681;</div>
+    <div class="vapor-hero__deco vapor-hero__deco--4" aria-hidden="true">&#9670;</div>
+    <div class="vapor-hero__deco vapor-hero__deco--5" aria-hidden="true">&#9651;</div>
+
+    <div class="vapor-hero__content">
+      <p class="vapor-hero__jp-label" aria-hidden="true">&#12532;&#12455;&#12452;&#12497;&#12540;&#12454;&#12455;&#12452;&#12502;</p>
+      <h1 class="vapor-hero__title">Vaporwave</h1>
+      <p class="vapor-hero__subtitle">A glitched 90s nostalgia aesthetic born from internet culture -- filtering late-capitalist consumer imagery through a pastel pink-and-teal haze.</p>
+      <p class="vapor-hero__desc">[ DESIGN AESTHETIC REFERENCE // ver 2.0 ]</p>
+      <a href="#traits" class="vapor-hero__btn">&#9660; Explore Archive</a>
+    </div>
+  </section>
+
+  <!-- ===== MARQUEE ===== -->
+  <div class="vapor-marquee">
+    <div class="vapor-marquee__inner">
+      <span class="vapor-marquee__text">VAPORWAVE DESIGN REFERENCE <span>&#9670;</span> PASTEL GRADIENTS <span>&#9670;</span> GREEK STATUARY <span>&#9670;</span> VHS TRACKING <span>&#9670;</span> WINDOWS 95 <span>&#9670;</span> PALM TREES <span>&#9670;</span> JAPANESE TEXT <span>&#9670;</span> MARBLE DREAMS <span>&#9670;</span> CHROMATIC ABERRATION <span>&#9670;</span> DIGITAL PLAZA <span>&#9670;</span> FORGOTTEN FUTURES <span>&#9670;</span></span>
+      <span class="vapor-marquee__text">VAPORWAVE DESIGN REFERENCE <span>&#9670;</span> PASTEL GRADIENTS <span>&#9670;</span> GREEK STATUARY <span>&#9670;</span> VHS TRACKING <span>&#9670;</span> WINDOWS 95 <span>&#9670;</span> PALM TREES <span>&#9670;</span> JAPANESE TEXT <span>&#9670;</span> MARBLE DREAMS <span>&#9670;</span> CHROMATIC ABERRATION <span>&#9670;</span> DIGITAL PLAZA <span>&#9670;</span> FORGOTTEN FUTURES <span>&#9670;</span></span>
+    </div>
+  </div>
+
+  <!-- ===== INTRO ===== -->
+  <section class="vapor-intro">
+    <div class="vapor-intro__container">
+      <span class="vapor-intro__label">// SYSTEM.OVERVIEW</span>
+      <h2 class="vapor-intro__heading">What Is Vaporwave?</h2>
+      <p class="vapor-intro__text">
+        Vaporwave appropriates and distorts imagery from late-capitalist consumer culture -- Greek statuary, early Windows operating systems, Japanese text, shopping mall architecture, and corporate clip art -- filtering everything through a pastel pink-and-teal haze. The visual language is deliberately lo-fi, ironic, and surreal, combining VHS tracking errors with marble busts, palm trees, and obsolete technology.
+      </p>
+      <p class="vapor-intro__text">
+        In web design, Vaporwave translates to pastel gradient backgrounds, retro UI chrome, grid overlays, glitch distortion, and a tone that hovers between sincere nostalgia and subversive parody.
+      </p>
+      <p class="vapor-intro__jp" aria-hidden="true">&#12494;&#12473;&#12479;&#12523;&#12472;&#12450;&#12288;&#12539;&#12288;&#12487;&#12472;&#12479;&#12523;&#12288;&#12539;&#12288;&#12489;&#12522;&#12540;&#12512;</p>
+    </div>
+  </section>
+
+  <!-- ===== VISUAL TRAITS ===== -->
+  <section class="vapor-traits" id="traits">
+    <div class="vapor-section-header">
+      <span class="vapor-section-header__label">// VISUAL.CHARACTERISTICS</span>
+      <h2 class="vapor-section-header__title">Core Design Traits</h2>
+      <p class="vapor-section-header__subtitle">The building blocks of vaporwave</p>
+    </div>
+
+    <div class="vapor-card-grid">
+      <div class="vapor-card">
+        <div class="vapor-card__titlebar">
+          <span class="vapor-card__dot"></span>
+          <span class="vapor-card__dot"></span>
+          <span class="vapor-card__dot"></span>
+          pastel_gradients.exe
+        </div>
+        <div class="vapor-card__body">
+          <span class="vapor-card__icon" style="animation-delay: 0s;">&#9727;</span>
+          <h3 class="vapor-card__title">Pastel Pink &amp; Teal Dominance</h3>
+          <p class="vapor-card__text">Soft, washed-out gradients that evoke faded VHS tapes and early computer displays. The foundational color story of the entire aesthetic.</p>
+        </div>
+      </div>
+
+      <div class="vapor-card">
+        <div class="vapor-card__titlebar">
+          <span class="vapor-card__dot"></span>
+          <span class="vapor-card__dot"></span>
+          <span class="vapor-card__dot"></span>
+          classical_ruins.exe
+        </div>
+        <div class="vapor-card__body">
+          <span class="vapor-card__icon" style="animation-delay: -1s;">&#127963;</span>
+          <h3 class="vapor-card__title">Greek &amp; Roman Statuary</h3>
+          <p class="vapor-card__text">Busts, columns, and classical sculptures used ironically as decorative motifs, juxtaposed with digital artifacts.</p>
+        </div>
+      </div>
+
+      <div class="vapor-card">
+        <div class="vapor-card__titlebar">
+          <span class="vapor-card__dot"></span>
+          <span class="vapor-card__dot"></span>
+          <span class="vapor-card__dot"></span>
+          katakana_dream.exe
+        </div>
+        <div class="vapor-card__body">
+          <span class="vapor-card__icon" style="animation-delay: -2s;">&#12450;</span>
+          <h3 class="vapor-card__title">Japanese Text Accents</h3>
+          <p class="vapor-card__text">Katakana, hiragana, or kanji characters used decoratively, referencing 90s Japanese consumer culture and globalization.</p>
+        </div>
+      </div>
+
+      <div class="vapor-card">
+        <div class="vapor-card__titlebar">
+          <span class="vapor-card__dot"></span>
+          <span class="vapor-card__dot"></span>
+          <span class="vapor-card__dot"></span>
+          win95_shell.exe
+        </div>
+        <div class="vapor-card__body">
+          <span class="vapor-card__icon" style="animation-delay: -3s;">&#128187;</span>
+          <h3 class="vapor-card__title">Windows 95/98 UI Elements</h3>
+          <p class="vapor-card__text">Retro dialog boxes, title bars, scrollbars, and system fonts -- the chrome of obsolete operating systems repurposed as decoration.</p>
+        </div>
+      </div>
+
+      <div class="vapor-card">
+        <div class="vapor-card__titlebar">
+          <span class="vapor-card__dot"></span>
+          <span class="vapor-card__dot"></span>
+          <span class="vapor-card__dot"></span>
+          grid_horizon.exe
+        </div>
+        <div class="vapor-card__body">
+          <span class="vapor-card__icon" style="animation-delay: -4s;">&#9638;</span>
+          <h3 class="vapor-card__title">Checkerboard &amp; Perspective Grids</h3>
+          <p class="vapor-card__text">Wireframe floors and tiled patterns suggesting early 3D rendering software and the infinite digital horizon.</p>
+        </div>
+      </div>
+
+      <div class="vapor-card">
+        <div class="vapor-card__titlebar">
+          <span class="vapor-card__dot"></span>
+          <span class="vapor-card__dot"></span>
+          <span class="vapor-card__dot"></span>
+          vhs_corrupt.exe
+        </div>
+        <div class="vapor-card__body">
+          <span class="vapor-card__icon" style="animation-delay: -5s;">&#128252;</span>
+          <h3 class="vapor-card__title">VHS &amp; Glitch Artifacts</h3>
+          <p class="vapor-card__text">Tracking errors, chromatic aberration, scan lines, and RGB color separation -- degradation as a deliberate stylistic choice.</p>
+        </div>
+      </div>
+
+      <div class="vapor-card">
+        <div class="vapor-card__titlebar">
+          <span class="vapor-card__dot"></span>
+          <span class="vapor-card__dot"></span>
+          <span class="vapor-card__dot"></span>
+          palm_paradise.exe
+        </div>
+        <div class="vapor-card__body">
+          <span class="vapor-card__icon" style="animation-delay: -1.5s;">&#127796;</span>
+          <h3 class="vapor-card__title">Palm Trees &amp; Tropical Plants</h3>
+          <p class="vapor-card__text">Synthetic, oversaturated tropical imagery evoking 80s/90s leisure culture, screensavers, and faux-paradise advertising.</p>
+        </div>
+      </div>
+
+      <div class="vapor-card">
+        <div class="vapor-card__titlebar">
+          <span class="vapor-card__dot"></span>
+          <span class="vapor-card__dot"></span>
+          <span class="vapor-card__dot"></span>
+          marble_luxury.exe
+        </div>
+        <div class="vapor-card__body">
+          <span class="vapor-card__icon" style="animation-delay: -3.5s;">&#9830;</span>
+          <h3 class="vapor-card__title">Marble &amp; Faux-Luxury Textures</h3>
+          <p class="vapor-card__text">Pink marble, chrome surfaces, and fake opulence -- the hollow grandeur of shopping mall aesthetics rendered digital.</p>
+        </div>
+      </div>
+
+      <div class="vapor-card">
+        <div class="vapor-card__titlebar">
+          <span class="vapor-card__dot"></span>
+          <span class="vapor-card__dot"></span>
+          <span class="vapor-card__dot"></span>
+          sunset_ocean.exe
+        </div>
+        <div class="vapor-card__body">
+          <span class="vapor-card__icon" style="animation-delay: -2.5s;">&#127748;</span>
+          <h3 class="vapor-card__title">Dolphins, Sunsets &amp; Water</h3>
+          <p class="vapor-card__text">Serene, dreamy motifs from stock photography and screensavers. The eternal sunset that never quite arrives.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== DESIGN PRINCIPLES ===== -->
+  <section class="vapor-principles">
+    <div class="vapor-section-header">
+      <span class="vapor-section-header__label">// DESIGN.PRINCIPLES</span>
+      <h2 class="vapor-section-header__title">How To Think Vaporwave</h2>
+      <p class="vapor-section-header__subtitle">The philosophy behind the aesthetic</p>
+    </div>
+
+    <div class="vapor-principles-grid">
+      <div class="vapor-principle">
+        <span class="vapor-principle__number">01</span>
+        <h3 class="vapor-principle__title">Embrace Irony &amp; Ambiguity</h3>
+        <p class="vapor-principle__text">Vaporwave is simultaneously nostalgic and critical of consumer culture. The tone should hover between sincerity and parody.</p>
+      </div>
+      <div class="vapor-principle">
+        <span class="vapor-principle__number">02</span>
+        <h3 class="vapor-principle__title">Layer Disparate Elements</h3>
+        <p class="vapor-principle__text">Classical sculpture + digital glitch + corporate branding + Japanese text. The collision of unrelated cultural artifacts creates meaning.</p>
+      </div>
+      <div class="vapor-principle">
+        <span class="vapor-principle__number">03</span>
+        <h3 class="vapor-principle__title">Soft, Low-Contrast Pastels</h3>
+        <p class="vapor-principle__text">Use pastel palettes rather than harsh neon. Distinguish from Cyberpunk -- Vaporwave is washed-out and dreamy, not dark and electric.</p>
+      </div>
+      <div class="vapor-principle">
+        <span class="vapor-principle__number">04</span>
+        <h3 class="vapor-principle__title">Intentional Degradation</h3>
+        <p class="vapor-principle__text">Distort and degrade intentionally. Compression artifacts, color shifts, and tracking errors are features, not bugs.</p>
+      </div>
+      <div class="vapor-principle">
+        <span class="vapor-principle__number">05</span>
+        <h3 class="vapor-principle__title">Reference Obsolete Technology</h3>
+        <p class="vapor-principle__text">Early Macintosh, Windows 95, dial-up internet, CD-ROMs. The material culture of a digital era that already feels ancient.</p>
+      </div>
+      <div class="vapor-principle">
+        <span class="vapor-principle__number">06</span>
+        <h3 class="vapor-principle__title">Deliberate Wrongness</h3>
+        <p class="vapor-principle__text">Typography can be stretched, compressed, or set in inappropriate system fonts. Rules exist to be bent -- carefully and with intention.</p>
+      </div>
+      <div class="vapor-principle">
+        <span class="vapor-principle__number">07</span>
+        <h3 class="vapor-principle__title">Emptiness &amp; Loneliness</h3>
+        <p class="vapor-principle__text">Negative space evokes the lonely, surreal atmosphere of an abandoned digital mall. The mood is dreamy, melancholic, and slightly unsettling.</p>
+      </div>
+      <div class="vapor-principle">
+        <span class="vapor-principle__number">08</span>
+        <h3 class="vapor-principle__title">Curated Chaos</h3>
+        <p class="vapor-principle__text">The clash of elements should feel intentional, not random. Every mismatched piece is placed with purpose to create a surreal but cohesive whole.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== QUOTE ===== -->
+  <section class="vapor-quote">
+    <span class="vapor-quote__jp" aria-hidden="true">&#26410;&#26469;&#12399;&#12371;&#12371;&#12395;&#12354;&#12427;</span>
+    <blockquote class="vapor-quote__text">
+      "The overall mood should feel dreamy, melancholic, and slightly unsettling -- simultaneously nostalgic and critical of consumer culture."
+    </blockquote>
+    <p class="vapor-quote__attr">-- VAPORWAVE DESIGN PHILOSOPHY</p>
+  </section>
+
+  <!-- ===== COLOR PALETTE ===== -->
+  <section class="vapor-palette" id="palette">
+    <div class="vapor-section-header">
+      <span class="vapor-section-header__label">// COLOR.SYSTEM</span>
+      <h2 class="vapor-section-header__title">The Vaporwave Classic Palette</h2>
+      <p class="vapor-section-header__subtitle">Fourteen colors from pastel haze to CRT dark</p>
+    </div>
+
+    <div class="vapor-palette-grid">
+      <div class="vapor-swatch">
+        <div class="vapor-swatch__color" style="background:#ff71ce;"></div>
+        <p class="vapor-swatch__name">Pastel Pink</p>
+        <p class="vapor-swatch__hex">#FF71CE</p>
+      </div>
+      <div class="vapor-swatch">
+        <div class="vapor-swatch__color" style="background:#ffb3d9;"></div>
+        <p class="vapor-swatch__name">Soft Rose</p>
+        <p class="vapor-swatch__hex">#FFB3D9</p>
+      </div>
+      <div class="vapor-swatch">
+        <div class="vapor-swatch__color" style="background:#e50086;"></div>
+        <p class="vapor-swatch__name">Hot Pink</p>
+        <p class="vapor-swatch__hex">#E50086</p>
+      </div>
+      <div class="vapor-swatch">
+        <div class="vapor-swatch__color" style="background:#01cdfe;"></div>
+        <p class="vapor-swatch__name">Aqua Teal</p>
+        <p class="vapor-swatch__hex">#01CDFE</p>
+      </div>
+      <div class="vapor-swatch">
+        <div class="vapor-swatch__color" style="background:#05ffa1;"></div>
+        <p class="vapor-swatch__name">Mint Dream</p>
+        <p class="vapor-swatch__hex">#05FFA1</p>
+      </div>
+      <div class="vapor-swatch">
+        <div class="vapor-swatch__color" style="background:#b967ff;"></div>
+        <p class="vapor-swatch__name">Lavender Haze</p>
+        <p class="vapor-swatch__hex">#B967FF</p>
+      </div>
+      <div class="vapor-swatch">
+        <div class="vapor-swatch__color" style="background:#6b2fa0;"></div>
+        <p class="vapor-swatch__name">Deep Violet</p>
+        <p class="vapor-swatch__hex">#6B2FA0</p>
+      </div>
+      <div class="vapor-swatch">
+        <div class="vapor-swatch__color" style="background:#ffa86a;"></div>
+        <p class="vapor-swatch__name">Sunset Orange</p>
+        <p class="vapor-swatch__hex">#FFA86A</p>
+      </div>
+      <div class="vapor-swatch">
+        <div class="vapor-swatch__color" style="background:#fffbfc; border-color: #c4b7c9;"></div>
+        <p class="vapor-swatch__name">VHS White</p>
+        <p class="vapor-swatch__hex">#FFFBFC</p>
+      </div>
+      <div class="vapor-swatch">
+        <div class="vapor-swatch__color" style="background:#f5e6f0;"></div>
+        <p class="vapor-swatch__name">Faded Cream</p>
+        <p class="vapor-swatch__hex">#F5E6F0</p>
+      </div>
+      <div class="vapor-swatch">
+        <div class="vapor-swatch__color" style="background:#1a0a2e;"></div>
+        <p class="vapor-swatch__name">CRT Dark</p>
+        <p class="vapor-swatch__hex">#1A0A2E</p>
+      </div>
+      <div class="vapor-swatch">
+        <div class="vapor-swatch__color" style="background:#2d1b4e;"></div>
+        <p class="vapor-swatch__name">Grid Purple</p>
+        <p class="vapor-swatch__hex">#2D1B4E</p>
+      </div>
+      <div class="vapor-swatch">
+        <div class="vapor-swatch__color" style="background:#c4b7c9;"></div>
+        <p class="vapor-swatch__name">Marble Gray</p>
+        <p class="vapor-swatch__hex">#C4B7C9</p>
+      </div>
+      <div class="vapor-swatch">
+        <div class="vapor-swatch__color" style="background:#8b7e96;"></div>
+        <p class="vapor-swatch__name">Static</p>
+        <p class="vapor-swatch__hex">#8B7E96</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== TYPOGRAPHY ===== -->
+  <section class="vapor-typography" id="type">
+    <div class="vapor-section-header">
+      <span class="vapor-section-header__label">// TYPE.SYSTEM</span>
+      <h2 class="vapor-section-header__title">Typography</h2>
+      <p class="vapor-section-header__subtitle">Deliberately eclectic, always memorable</p>
+    </div>
+
+    <div class="vapor-type-showcase">
+      <div class="vapor-type-item">
+        <div>
+          <p class="vapor-type-label">Display / Hero</p>
+          <p class="vapor-type-meta">Monoton 400<br>Retro outline display for large headlines</p>
+        </div>
+        <div class="vapor-type-sample--monoton">
+          Digital Plaza
+        </div>
+      </div>
+
+      <div class="vapor-type-item">
+        <div>
+          <p class="vapor-type-label">CRT / Terminal</p>
+          <p class="vapor-type-meta">VT323 400<br>Pixel/CRT monospace for retro UI</p>
+        </div>
+        <div class="vapor-type-sample--vt323">
+          C:\VAPOR\> loading aesthetic_module...<br>
+          [=====---------] 42% complete<br>
+          > REALITY.EXE has stopped responding_
+        </div>
+      </div>
+
+      <div class="vapor-type-item">
+        <div>
+          <p class="vapor-type-label">Pixel / 8-Bit</p>
+          <p class="vapor-type-meta">Press Start 2P 400<br>Decorative headlines, game-style elements</p>
+        </div>
+        <div class="vapor-type-sample--press">
+          INSERT COIN TO CONTINUE<br>
+          PLAYER 1 READY
+        </div>
+      </div>
+
+      <div class="vapor-type-item">
+        <div>
+          <p class="vapor-type-label">Body Text</p>
+          <p class="vapor-type-meta">DM Sans 400/500/700<br>Clean geometric sans for readable content</p>
+        </div>
+        <div class="vapor-type-sample--dm">
+          Vaporwave typography is deliberately eclectic -- mixing system fonts, pixel fonts, and wide geometric faces in unexpected ways. Full-width or spaced-out letters create a dreamy, disconnected feeling. Typography can be deliberately "wrong" -- stretched, compressed, or set in inappropriate system fonts.
+        </div>
+      </div>
+
+      <div class="vapor-type-item">
+        <div>
+          <p class="vapor-type-label">Japanese Accent</p>
+          <p class="vapor-type-meta">Noto Sans JP 400<br>CJK decorative text and labels</p>
+        </div>
+        <div class="vapor-type-sample--jp">
+          &#12487;&#12472;&#12479;&#12523; &#12503;&#12521;&#12470; &#12539; &#26410;&#26469;&#12398;&#22818; &#12539; &#12494;&#12473;&#12479;&#12523;&#12472;&#12450;
+        </div>
+      </div>
+
+      <div class="vapor-type-item">
+        <div>
+          <p class="vapor-type-label">Subheadings</p>
+          <p class="vapor-type-meta">Space Grotesk 500<br>Geometric, wide -- modern contrast</p>
+        </div>
+        <div class="vapor-type-sample--space">
+          Forgotten Futures Archive
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== COMPONENT SHOWCASE (RETRO WINDOWS) ===== -->
+  <section class="vapor-windows" id="components">
+    <div class="vapor-section-header">
+      <span class="vapor-section-header__label">// UI.COMPONENTS</span>
+      <h2 class="vapor-section-header__title">Retro Window Components</h2>
+      <p class="vapor-section-header__subtitle">Windows 95 UI chrome reimagined</p>
+    </div>
+
+    <div class="vapor-windows-container">
+      <div class="vapor-window">
+        <div class="vapor-window__titlebar">
+          <span>layout_principles.txt</span>
+          <div class="vapor-window__controls">
+            <span>_</span>
+            <span>&#9633;</span>
+            <span>x</span>
+          </div>
+        </div>
+        <div class="vapor-window__body">
+          <h3>Layout Principles</h3>
+          <ul>
+            <li>Centered, medium-width containers (900-1100px)</li>
+            <li>Perspective grid backgrounds receding to vanishing point</li>
+            <li>Retro window/dialog layouts with faux title bars</li>
+            <li>Asymmetric, collage-style arrangements</li>
+            <li>Full-bleed pastel gradient backgrounds</li>
+            <li>Wide letter-spacing in headers for dreamy effect</li>
+            <li>Floating decorative elements as accents</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="vapor-window">
+        <div class="vapor-window__titlebar">
+          <span>section_anatomy.txt</span>
+          <div class="vapor-window__controls">
+            <span>_</span>
+            <span>&#9633;</span>
+            <span>x</span>
+          </div>
+        </div>
+        <div class="vapor-window__body">
+          <h3>Section Organization</h3>
+          <ul>
+            <li>Navigation: Retro title bar or minimal spaced links</li>
+            <li>Hero: Large gradient with Monoton headline</li>
+            <li>Content cards: Retro-framed on pastel backgrounds</li>
+            <li>Gallery: Collage grid with VHS overlays</li>
+            <li>Quote blocks: Wide letter-spaced centered text</li>
+            <li>CTA: Gradient background with retro buttons</li>
+            <li>Footer: Dark purple, Japanese text, pixel font</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="vapor-window">
+        <div class="vapor-window__titlebar">
+          <span>responsive.cfg</span>
+          <div class="vapor-window__controls">
+            <span>_</span>
+            <span>&#9633;</span>
+            <span>x</span>
+          </div>
+        </div>
+        <div class="vapor-window__body">
+          <h3>Responsive Approach</h3>
+          <ul>
+            <li>Maintain pastel gradients across all breakpoints</li>
+            <li>Reduce floating decorative elements on mobile</li>
+            <li>Stack collage layouts to single columns</li>
+            <li>Preserve letter-spacing, reduce font size</li>
+            <li>Retro dialogs shrink to fit mobile widths</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Button showcase -->
+    <div style="text-align:center; margin-top:60px; display:flex; gap:20px; justify-content:center; flex-wrap:wrap;">
+      <button class="vapor-cta__btn" onclick="return false;" style="font-family:'DM Sans',sans-serif; font-weight:700; font-size:0.9rem; letter-spacing:0.15em; text-transform:uppercase; cursor:pointer; border:none; padding:16px 48px; background:linear-gradient(135deg,#ff71ce,#01cdfe,#b967ff); color:#fff; box-shadow:5px 5px 0 #6b2fa0; transition:all 0.3s;">PRIMARY BUTTON</button>
+      <button style="display:inline-flex; align-items:center; background:transparent; color:var(--vapor-pink); border:2px solid var(--vapor-pink); padding:14px 36px; font-family:'VT323',monospace; font-size:1.1rem; letter-spacing:0.06em; cursor:pointer; box-shadow:3px 3px 0 var(--vapor-teal); transition:all 0.3s;">RETRO OUTLINE</button>
+    </div>
+  </section>
+
+  <!-- ===== DO'S AND DON'TS ===== -->
+  <section class="vapor-guidelines" id="guidelines">
+    <div class="vapor-section-header">
+      <span class="vapor-section-header__label">// DESIGN.GUIDELINES</span>
+      <h2 class="vapor-section-header__title">Do's &amp; Don'ts</h2>
+      <p class="vapor-section-header__subtitle">Rules for the aesthetic</p>
+    </div>
+
+    <div class="vapor-guidelines-columns">
+      <div class="vapor-guidelines-col vapor-guidelines-col--do">
+        <h3 class="vapor-guidelines-col__header">[ DO ]</h3>
+        <ul>
+          <li>Use pastel pink-to-teal gradients as the foundational color story</li>
+          <li>Reference 90s digital culture: Windows 95 UI, early web graphics, clip art</li>
+          <li>Include Japanese text as decorative accents with cultural awareness</li>
+          <li>Apply VHS tracking lines, scan lines, and chromatic aberration subtly</li>
+          <li>Use extremely wide letter-spacing on display text</li>
+          <li>Mix classical imagery with digital glitch for surreal contrast</li>
+          <li>Incorporate retro UI elements: dialog boxes, pixel scroll bars</li>
+          <li>Maintain a tone that balances nostalgia with irony</li>
+        </ul>
+      </div>
+      <div class="vapor-guidelines-col vapor-guidelines-col--dont">
+        <h3 class="vapor-guidelines-col__header">[ DON'T ]</h3>
+        <ul>
+          <li>Use dark, high-contrast neon-on-black palettes (that is Cyberpunk)</li>
+          <li>Make the aesthetic too clean or polished -- degradation is essential</li>
+          <li>Use modern, minimalist UI patterns -- reference outdated interfaces</li>
+          <li>Overload with competing elements -- preserve emptiness and loneliness</li>
+          <li>Use aggressive, angular shapes -- favor soft gradients and curves</li>
+          <li>Forget the ironic distance -- this is not sincere 90s celebration</li>
+          <li>Use serif or script typefaces -- stick to system/pixel/geometric fonts</li>
+          <li>Apply the aesthetic randomly -- the clash should feel curated</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== RELATED AESTHETICS ===== -->
+  <section class="vapor-related">
+    <div class="vapor-section-header">
+      <span class="vapor-section-header__label">// RELATED.AESTHETICS</span>
+      <h2 class="vapor-section-header__title">Adjacent Aesthetics</h2>
+      <p class="vapor-section-header__subtitle">The neighborhood of vaporwave</p>
+    </div>
+
+    <div class="vapor-related-grid">
+      <div class="vapor-related-item">
+        <h3 class="vapor-related-item__name">Synthwave</h3>
+        <p class="vapor-related-item__desc">Shares 80s nostalgia and neon colors, but is more earnest, action-oriented, and music-driven. Vaporwave is ironic and melancholic.</p>
+      </div>
+      <div class="vapor-related-item">
+        <h3 class="vapor-related-item__name">Cyberpunk</h3>
+        <p class="vapor-related-item__desc">Both reference technology culture, but Cyberpunk is dark and dystopian while Vaporwave is pastel and surreal.</p>
+      </div>
+      <div class="vapor-related-item">
+        <h3 class="vapor-related-item__name">Y2K Futurism</h3>
+        <p class="vapor-related-item__desc">Overlaps in late-90s digital aesthetics (chrome, translucency), but Y2K is optimistic while Vaporwave is nostalgic.</p>
+      </div>
+      <div class="vapor-related-item">
+        <h3 class="vapor-related-item__name">8-Bit</h3>
+        <p class="vapor-related-item__desc">Both use pixel art and retro technology references. 8-Bit is more game-focused and playful in character.</p>
+      </div>
+      <div class="vapor-related-item">
+        <h3 class="vapor-related-item__name">Liminal Space</h3>
+        <p class="vapor-related-item__desc">Shares the eerie, empty, nostalgic quality of abandoned digital and physical spaces.</p>
+      </div>
+      <div class="vapor-related-item">
+        <h3 class="vapor-related-item__name">Seapunk</h3>
+        <p class="vapor-related-item__desc">Direct sibling aesthetic. Shares the teal/aqua palette and aquatic imagery, with a more ocean-focused direction.</p>
+      </div>
+      <div class="vapor-related-item">
+        <h3 class="vapor-related-item__name">Frutiger Aero</h3>
+        <p class="vapor-related-item__desc">The sincere, corporate version of the same late-90s/early-2000s digital aesthetic that Vaporwave deconstructs.</p>
+      </div>
+      <div class="vapor-related-item">
+        <h3 class="vapor-related-item__name">Webcore</h3>
+        <p class="vapor-related-item__desc">Both celebrate early internet aesthetics. Webcore is broader; Vaporwave is more specific in its cultural critique.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CTA ===== -->
+  <section class="vapor-cta">
+    <div class="vapor-cta__grid"></div>
+    <div class="vapor-cta__content">
+      <p class="vapor-cta__jp" aria-hidden="true">&#12487;&#12472;&#12479;&#12523; &#12503;&#12521;&#12470; &#12434;&#35370;&#12428;&#12427;</p>
+      <h2 class="vapor-cta__title">Remember</h2>
+      <p class="vapor-cta__text">The future was supposed to be different. It was supposed to be beautiful. Welcome to the abandoned shopping mall of the internet.</p>
+      <button class="vapor-cta__btn" onclick="window.scrollTo({top:0,behavior:'smooth'})">Rewind to Top</button>
+    </div>
+  </section>
+
+  <!-- ===== MARQUEE (BOTTOM) ===== -->
+  <div class="vapor-marquee" style="border-top-color: var(--vapor-lavender); border-bottom: none;">
+    <div class="vapor-marquee__inner" style="animation-direction: reverse;">
+      <span class="vapor-marquee__text">&#12532;&#12455;&#12452;&#12497;&#12540;&#12454;&#12455;&#12452;&#12502; <span>&#9670;</span> EVERYTHING IS ON SALE <span>&#9670;</span> NOTHING IS REAL <span>&#9670;</span> &#26410;&#26469;&#12399;&#12371;&#12371;&#12395;&#12354;&#12427; <span>&#9670;</span> DIGITAL DREAMS <span>&#9670;</span> MARBLE &amp; CHROME <span>&#9670;</span> ABANDONED MALL <span>&#9670;</span> VHS TRACKING <span>&#9670;</span> PASTEL HAZE <span>&#9670;</span></span>
+      <span class="vapor-marquee__text">&#12532;&#12455;&#12452;&#12497;&#12540;&#12454;&#12455;&#12452;&#12502; <span>&#9670;</span> EVERYTHING IS ON SALE <span>&#9670;</span> NOTHING IS REAL <span>&#9670;</span> &#26410;&#26469;&#12399;&#12371;&#12371;&#12395;&#12354;&#12427; <span>&#9670;</span> DIGITAL DREAMS <span>&#9670;</span> MARBLE &amp; CHROME <span>&#9670;</span> ABANDONED MALL <span>&#9670;</span> VHS TRACKING <span>&#9670;</span> PASTEL HAZE <span>&#9670;</span></span>
+    </div>
+  </div>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="vapor-footer">
+    <span class="vapor-footer__logo">VAPOR</span>
+    <p class="vapor-footer__jp" aria-hidden="true">&#12487;&#12472;&#12479;&#12523; &#12503;&#12521;&#12470; &#12539; &#12487;&#12470;&#12452;&#12531; &#12522;&#12501;&#12449;&#12524;&#12531;&#12473;</p>
+    <p class="vapor-footer__text">[ VAPORWAVE DESIGN REFERENCE ] <span>//</span> est. 2010s <span>//</span> all rights imagined <span>//</span> nothing is real</p>
+  </footer>
+
+  <!-- ===== JAVASCRIPT: SCROLL REVEAL ===== -->
+  <script>
+    (function() {
+      // Intersection Observer for fade-in-on-scroll
+      const observerOptions = {
+        root: null,
+        rootMargin: '0px 0px -60px 0px',
+        threshold: 0.1
+      };
+
+      const fadeElements = document.querySelectorAll(
+        '.vapor-card, .vapor-principle, .vapor-swatch, .vapor-type-item, .vapor-window, .vapor-related-item, .vapor-guidelines-col'
+      );
+
+      fadeElements.forEach(function(el) {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(24px)';
+        el.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
+      });
+
+      const observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            // Stagger siblings
+            var parent = entry.target.parentElement;
+            var siblings = Array.from(parent.children);
+            var index = siblings.indexOf(entry.target);
+            var delay = index * 80;
+
+            setTimeout(function() {
+              entry.target.style.opacity = '1';
+              entry.target.style.transform = 'translateY(0)';
+            }, delay);
+
+            observer.unobserve(entry.target);
+          }
+        });
+      }, observerOptions);
+
+      fadeElements.forEach(function(el) {
+        observer.observe(el);
+      });
+
+      // Smooth scroll for nav links
+      document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
+        anchor.addEventListener('click', function(e) {
+          var targetId = this.getAttribute('href');
+          if (targetId && targetId !== '#') {
+            var target = document.querySelector(targetId);
+            if (target) {
+              e.preventDefault();
+              target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+          }
+        });
+      });
+
+      // Parallax-like effect on hero grid
+      var heroGrid = document.querySelector('.vapor-hero__grid');
+      if (heroGrid) {
+        window.addEventListener('scroll', function() {
+          var scrolled = window.pageYOffset;
+          var heroHeight = document.querySelector('.vapor-hero').offsetHeight;
+          if (scrolled < heroHeight) {
+            heroGrid.style.opacity = 1 - (scrolled / heroHeight) * 0.6;
+          }
+        }, { passive: true });
+      }
+    })();
+  </script>
+</body>
+</html>

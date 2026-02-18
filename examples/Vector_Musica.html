@@ -1,0 +1,2328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vector Musica -- Design Aesthetic Showcase</title>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&family=Nunito+Sans:wght@400;600&family=Comfortaa:wght@400;500;700&family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* =============================================
+       VECTOR MUSICA -- CSS Custom Properties
+       ============================================= */
+    :root {
+      /* Pinks */
+      --vm-pink: #f8c8dc;
+      --vm-pink-mid: #f4b6cc;
+      --vm-pink-deep: #f2a7c3;
+      --vm-rose: #e899b8;
+
+      /* Purples / Lavender */
+      --vm-lavender: #c5b3e6;
+      --vm-lavender-light: #d4c2f0;
+      --vm-lavender-pale: #e0d1f5;
+      --vm-purple-soft: #b8a4d9;
+
+      /* Blues */
+      --vm-baby-blue: #a8d8ea;
+      --vm-powder-blue: #c6e7f2;
+      --vm-blue-light: #d4eef8;
+
+      /* Accents */
+      --vm-magenta: #e04f9a;
+      --vm-hot-pink: #ff69b4;
+      --vm-bokeh-gold: #ffe4a0;
+
+      /* Neutrals */
+      --vm-white: #ffffff;
+      --vm-white-pink: #fff5fa;
+      --vm-white-warm: #fff0f5;
+      --vm-grey-soft: #c8c0cc;
+      --vm-grey-tinted: #d8cfe0;
+      --vm-grey-dark: #6b5f70;
+      --vm-dark: #3d2f42;
+
+      /* Stave / structural */
+      --vm-stave: #e0b8d0;
+      --vm-stave-dark: #d4a0c0;
+
+      /* Glass / transparency */
+      --vm-glass: rgba(255, 245, 250, 0.50);
+      --vm-glass-border: rgba(255, 255, 255, 0.65);
+      --vm-bokeh-pink: rgba(248, 200, 220, 0.25);
+      --vm-bokeh-lavender: rgba(197, 179, 230, 0.2);
+      --vm-shadow: rgba(100, 60, 100, 0.1);
+
+      /* Functional mappings */
+      --vm-bg-primary: var(--vm-white-pink);
+      --vm-bg-secondary: var(--vm-lavender-pale);
+      --vm-bg-surface: var(--vm-glass);
+      --vm-text-primary: var(--vm-dark);
+      --vm-text-secondary: var(--vm-grey-dark);
+      --vm-accent: var(--vm-magenta);
+      --vm-accent-secondary: var(--vm-lavender);
+      --vm-border: var(--vm-glass-border);
+    }
+
+    /* =============================================
+       RESET & BASE
+       ============================================= */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Nunito Sans', 'Nunito', sans-serif;
+      font-weight: 400;
+      letter-spacing: 0.01em;
+      line-height: 1.65;
+      color: var(--vm-text-secondary);
+      background: var(--vm-white-pink);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    h1, h2, h3, h4 {
+      font-family: 'Quicksand', 'Nunito', sans-serif;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      color: var(--vm-dark);
+      line-height: 1.2;
+    }
+
+    a {
+      color: var(--vm-magenta);
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    a:hover {
+      color: var(--vm-hot-pink);
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    /* =============================================
+       GLOBAL AMBIENT DECORATIONS
+       ============================================= */
+    .vm-ambient {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .vm-ambient .bokeh {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(60px);
+      opacity: 0.18;
+    }
+
+    .vm-ambient .bokeh-1 {
+      width: 420px; height: 420px;
+      background: var(--vm-pink);
+      top: -8%; right: -6%;
+      animation: vm-drift 18s ease-in-out infinite alternate;
+    }
+
+    .vm-ambient .bokeh-2 {
+      width: 350px; height: 350px;
+      background: var(--vm-lavender);
+      bottom: 10%; left: -10%;
+      animation: vm-drift 22s ease-in-out infinite alternate-reverse;
+    }
+
+    .vm-ambient .bokeh-3 {
+      width: 250px; height: 250px;
+      background: var(--vm-baby-blue);
+      top: 45%; right: 5%;
+      opacity: 0.12;
+      animation: vm-drift 15s ease-in-out infinite alternate;
+      animation-delay: 3s;
+    }
+
+    .vm-ambient .bokeh-4 {
+      width: 180px; height: 180px;
+      background: var(--vm-bokeh-gold);
+      top: 25%; left: 12%;
+      opacity: 0.1;
+      animation: vm-sparkle-slow 8s ease-in-out infinite;
+    }
+
+    .vm-ambient .bokeh-5 {
+      width: 300px; height: 300px;
+      background: var(--vm-pink-deep);
+      bottom: 30%; right: 20%;
+      opacity: 0.1;
+      animation: vm-drift 20s ease-in-out infinite alternate;
+      animation-delay: 6s;
+    }
+
+    @keyframes vm-drift {
+      0% { transform: translate(0, 0) scale(1); }
+      100% { transform: translate(30px, -20px) scale(1.08); }
+    }
+
+    @keyframes vm-sparkle-slow {
+      0%, 100% { opacity: 0.08; transform: scale(1); }
+      50% { opacity: 0.16; transform: scale(1.12); }
+    }
+
+    /* Floating music notes */
+    .vm-ambient .note {
+      position: absolute;
+      color: var(--vm-stave);
+      opacity: 0.2;
+      font-size: 1.6rem;
+    }
+
+    .vm-ambient .note-1 { top: 18%; left: 6%; animation: vm-float-note 5s ease-in-out infinite; }
+    .vm-ambient .note-2 { top: 55%; right: 8%; font-size: 1.3rem; animation: vm-float-note 6s ease-in-out infinite; animation-delay: 1.2s; }
+    .vm-ambient .note-3 { bottom: 20%; left: 10%; font-size: 1.1rem; color: var(--vm-lavender); animation: vm-float-note 7s ease-in-out infinite; animation-delay: 2.5s; }
+    .vm-ambient .note-4 { top: 35%; right: 15%; font-size: 1.8rem; color: var(--vm-pink-mid); opacity: 0.15; animation: vm-float-note 8s ease-in-out infinite; animation-delay: 0.5s; }
+    .vm-ambient .note-5 { bottom: 40%; left: 20%; font-size: 1.4rem; animation: vm-float-note 5.5s ease-in-out infinite; animation-delay: 3s; }
+
+    @keyframes vm-float-note {
+      0% { transform: translateY(0) rotate(0deg); opacity: 0.2; }
+      50% { transform: translateY(-18px) rotate(10deg); opacity: 0.35; }
+      100% { transform: translateY(0) rotate(0deg); opacity: 0.2; }
+    }
+
+    /* Hearts and stars */
+    .vm-ambient .heart {
+      position: absolute;
+      color: var(--vm-pink-mid);
+      opacity: 0.18;
+      font-size: 0.9rem;
+    }
+
+    .vm-ambient .heart-1 { top: 28%; right: 4%; animation: vm-twinkle 4s ease-in-out infinite; }
+    .vm-ambient .heart-2 { bottom: 32%; left: 4%; font-size: 0.7rem; animation: vm-twinkle 5s ease-in-out infinite; animation-delay: 1s; }
+    .vm-ambient .heart-3 { top: 68%; left: 8%; font-size: 1rem; animation: vm-twinkle 6s ease-in-out infinite; animation-delay: 2s; }
+
+    .vm-ambient .star {
+      position: absolute;
+      color: var(--vm-bokeh-gold);
+      opacity: 0.3;
+      font-size: 0.8rem;
+    }
+
+    .vm-ambient .star-1 { top: 15%; left: 25%; animation: vm-twinkle 3s ease-in-out infinite; }
+    .vm-ambient .star-2 { top: 42%; right: 22%; font-size: 0.6rem; animation: vm-twinkle 4s ease-in-out infinite; animation-delay: 1.5s; }
+    .vm-ambient .star-3 { bottom: 18%; right: 30%; animation: vm-twinkle 3.5s ease-in-out infinite; animation-delay: 0.8s; }
+    .vm-ambient .star-4 { top: 60%; left: 30%; font-size: 0.7rem; animation: vm-twinkle 5s ease-in-out infinite; animation-delay: 2.2s; }
+
+    @keyframes vm-twinkle {
+      0%, 100% { opacity: 0.15; transform: scale(0.8); }
+      50% { opacity: 0.5; transform: scale(1.3); }
+    }
+
+    /* =============================================
+       NAVIGATION
+       ============================================= */
+    .vm-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(255, 245, 250, 0.7);
+      backdrop-filter: blur(20px) saturate(1.3);
+      -webkit-backdrop-filter: blur(20px) saturate(1.3);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+      transition: all 0.3s ease;
+    }
+
+    .vm-nav.scrolled {
+      background: rgba(255, 245, 250, 0.88);
+      box-shadow: 0 4px 24px rgba(197, 179, 230, 0.12);
+    }
+
+    .vm-nav-logo {
+      font-family: 'Quicksand', sans-serif;
+      font-weight: 700;
+      font-size: 1.25rem;
+      color: var(--vm-magenta);
+      letter-spacing: 0.03em;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .vm-nav-logo .logo-note {
+      font-size: 1.4rem;
+      opacity: 0.7;
+    }
+
+    .vm-nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .vm-nav-links a {
+      font-family: 'Nunito Sans', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--vm-grey-dark);
+      text-decoration: none;
+      position: relative;
+      padding-bottom: 2px;
+      transition: color 0.3s ease;
+    }
+
+    .vm-nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 0%;
+      height: 2px;
+      background: linear-gradient(90deg, var(--vm-pink-mid), var(--vm-magenta));
+      border-radius: 1px;
+      transition: width 0.3s ease;
+    }
+
+    .vm-nav-links a:hover {
+      color: var(--vm-magenta);
+    }
+
+    .vm-nav-links a:hover::after {
+      width: 100%;
+    }
+
+    /* =============================================
+       HERO SECTION
+       ============================================= */
+    .vm-hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 8rem 2rem 5rem;
+      background: linear-gradient(
+        180deg,
+        #fff0f5 0%,
+        #f8c8dc 20%,
+        #d4c2f0 55%,
+        #b8a4d9 75%,
+        #a8d8ea 100%
+      );
+      overflow: hidden;
+    }
+
+    /* Animated stave SVG behind hero */
+    .vm-hero-stave {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .vm-hero-stave svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    .vm-hero-stave path {
+      fill: none;
+      stroke-width: 1.5;
+      opacity: 0.2;
+    }
+
+    .stave-line-1 { stroke: rgba(255, 255, 255, 0.5); }
+    .stave-line-2 { stroke: rgba(255, 255, 255, 0.4); }
+    .stave-line-3 { stroke: rgba(255, 255, 255, 0.35); }
+    .stave-line-4 { stroke: rgba(255, 255, 255, 0.3); }
+    .stave-line-5 { stroke: rgba(255, 255, 255, 0.25); }
+
+    @keyframes stave-draw {
+      from { stroke-dashoffset: 2000; }
+      to { stroke-dashoffset: 0; }
+    }
+
+    .vm-hero-stave path {
+      stroke-dasharray: 2000;
+      stroke-dashoffset: 2000;
+      animation: stave-draw 3s ease-out forwards;
+    }
+
+    .vm-hero-stave path:nth-child(2) { animation-delay: 0.15s; }
+    .vm-hero-stave path:nth-child(3) { animation-delay: 0.3s; }
+    .vm-hero-stave path:nth-child(4) { animation-delay: 0.45s; }
+    .vm-hero-stave path:nth-child(5) { animation-delay: 0.6s; }
+
+    /* Dancer silhouette */
+    .vm-hero-silhouette {
+      position: absolute;
+      bottom: 5%;
+      right: 8%;
+      width: 220px;
+      height: 380px;
+      z-index: 2;
+      opacity: 0;
+      animation: vm-silhouette-in 1.8s ease-out 1s forwards;
+    }
+
+    @keyframes vm-silhouette-in {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .vm-hero-content {
+      position: relative;
+      z-index: 3;
+      max-width: 800px;
+    }
+
+    .vm-hero-badge {
+      display: inline-block;
+      font-family: 'Quicksand', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.8);
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 999px;
+      padding: 0.4rem 1.4rem;
+      margin-bottom: 2rem;
+      opacity: 0;
+      animation: vm-fade-up 1s ease-out 0.3s forwards;
+    }
+
+    .vm-hero-title {
+      font-family: 'Quicksand', 'Comfortaa', sans-serif;
+      font-size: clamp(3rem, 6vw, 5.5rem);
+      font-weight: 700;
+      letter-spacing: 0.01em;
+      line-height: 1.1;
+      color: var(--vm-white);
+      text-shadow:
+        0 2px 20px rgba(224, 79, 154, 0.3),
+        0 4px 40px rgba(184, 164, 217, 0.2),
+        0 1px 0 rgba(255, 255, 255, 0.3);
+      margin-bottom: 0.3rem;
+      opacity: 0;
+      animation: vm-fade-up 1s ease-out 0.5s forwards;
+    }
+
+    .vm-hero-title .accent {
+      background: linear-gradient(135deg, #ffffff 30%, var(--vm-bokeh-gold) 70%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .vm-hero-subtitle {
+      font-family: 'Comfortaa', 'Quicksand', sans-serif;
+      font-size: clamp(1rem, 2vw, 1.35rem);
+      font-weight: 400;
+      color: rgba(255, 255, 255, 0.85);
+      margin-top: 1.2rem;
+      line-height: 1.7;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      opacity: 0;
+      animation: vm-fade-up 1s ease-out 0.7s forwards;
+    }
+
+    .vm-hero-stave-divider {
+      height: 50px;
+      width: 60%;
+      margin: 2rem auto 0;
+      background: no-repeat center / 100% auto;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 50'%3E%3Cpath d='M0,12 C100,4 200,20 300,12 S500,4 600,12' fill='none' stroke='rgba(255,255,255,0.35)' stroke-width='1.2'/%3E%3Cpath d='M0,25 C100,17 200,33 300,25 S500,17 600,25' fill='none' stroke='rgba(255,255,255,0.3)' stroke-width='1.2'/%3E%3Cpath d='M0,38 C100,30 200,46 300,38 S500,30 600,38' fill='none' stroke='rgba(255,255,255,0.25)' stroke-width='1.2'/%3E%3Ccircle cx='150' cy='8' r='4' fill='rgba(255,228,160,0.5)'/%3E%3Ccircle cx='350' cy='30' r='3' fill='rgba(255,255,255,0.4)'/%3E%3Ccircle cx='480' cy='14' r='3.5' fill='rgba(248,200,220,0.45)'/%3E%3C/svg%3E");
+      opacity: 0;
+      animation: vm-fade-up 1s ease-out 0.9s forwards;
+    }
+
+    .vm-hero-scroll {
+      position: absolute;
+      bottom: 3rem;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 3;
+      color: rgba(255, 255, 255, 0.6);
+      font-family: 'Quicksand', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      opacity: 0;
+      animation: vm-fade-up 1s ease-out 1.3s forwards;
+    }
+
+    .vm-hero-scroll .scroll-arrow {
+      width: 20px;
+      height: 20px;
+      border-right: 2px solid rgba(255, 255, 255, 0.5);
+      border-bottom: 2px solid rgba(255, 255, 255, 0.5);
+      transform: rotate(45deg);
+      animation: vm-scroll-bounce 2s ease-in-out infinite;
+    }
+
+    @keyframes vm-scroll-bounce {
+      0%, 100% { transform: rotate(45deg) translate(0, 0); opacity: 0.5; }
+      50% { transform: rotate(45deg) translate(4px, 4px); opacity: 0.9; }
+    }
+
+    @keyframes vm-fade-up {
+      from { opacity: 0; transform: translateY(25px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* =============================================
+       SECTION SHARED STYLES
+       ============================================= */
+    .vm-section {
+      position: relative;
+      z-index: 1;
+      padding: 5rem 2rem;
+    }
+
+    .vm-container {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .vm-section-header {
+      text-align: center;
+      margin-bottom: 3.5rem;
+    }
+
+    .vm-section-label {
+      font-family: 'Quicksand', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--vm-magenta);
+      margin-bottom: 0.8rem;
+      display: block;
+    }
+
+    .vm-section-title {
+      font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+      color: var(--vm-dark);
+      margin-bottom: 1rem;
+    }
+
+    .vm-section-desc {
+      max-width: 650px;
+      margin: 0 auto;
+      font-size: 1.05rem;
+      color: var(--vm-grey-dark);
+      line-height: 1.75;
+    }
+
+    /* Stave divider used between sections */
+    .vm-stave-divider {
+      height: 60px;
+      width: 70%;
+      margin: 0 auto;
+      background: no-repeat center / 100% auto;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 60'%3E%3Cpath d='M0,15 C100,5 200,25 300,15 S500,5 600,15' fill='none' stroke='%23e0b8d0' stroke-width='1.5'/%3E%3Cpath d='M0,25 C100,15 200,35 300,25 S500,15 600,25' fill='none' stroke='%23e0b8d0' stroke-width='1.5'/%3E%3Cpath d='M0,35 C100,25 200,45 300,35 S500,25 600,35' fill='none' stroke='%23e0b8d0' stroke-width='1.5'/%3E%3Cpath d='M0,45 C100,35 200,55 300,45 S500,35 600,45' fill='none' stroke='%23e0b8d0' stroke-width='1.5'/%3E%3Ccircle cx='100' cy='10' r='3.5' fill='%23e04f9a' opacity='0.25'/%3E%3Ccircle cx='250' cy='30' r='3' fill='%23c5b3e6' opacity='0.3'/%3E%3Ccircle cx='420' cy='18' r='2.5' fill='%23f8c8dc' opacity='0.35'/%3E%3Ccircle cx='530' cy='40' r='3' fill='%23a8d8ea' opacity='0.3'/%3E%3C/svg%3E");
+      opacity: 0.6;
+    }
+
+    /* Melodic line */
+    .vm-melodic-line {
+      height: 30px;
+      width: 50%;
+      margin: 2rem auto;
+      background: no-repeat center / 100% auto;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 30'%3E%3Cpath d='M0,15 C50,5 100,25 150,15 S250,5 300,15 S350,25 400,15' fill='none' stroke='%23e04f9a' stroke-width='1.5' opacity='0.3'/%3E%3Ccircle cx='80' cy='10' r='4' fill='%23e04f9a' opacity='0.2'/%3E%3Ccircle cx='200' cy='20' r='3' fill='%23c5b3e6' opacity='0.3'/%3E%3Ccircle cx='320' cy='8' r='3.5' fill='%23f8c8dc' opacity='0.3'/%3E%3C/svg%3E");
+    }
+
+    /* Luminous line divider */
+    .vm-line-divider {
+      width: 40%;
+      margin: 0 auto;
+      border: none;
+      height: 2px;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        var(--vm-pink-mid) 25%,
+        var(--vm-magenta) 50%,
+        var(--vm-pink-mid) 75%,
+        transparent
+      );
+      opacity: 0.35;
+      border-radius: 1px;
+    }
+
+    /* =============================================
+       SECTION 1: OVERVIEW (About)
+       ============================================= */
+    .vm-overview {
+      background: linear-gradient(
+        180deg,
+        var(--vm-baby-blue) 0%,
+        var(--vm-powder-blue) 15%,
+        var(--vm-white) 40%,
+        var(--vm-white-pink) 100%
+      );
+    }
+
+    .vm-overview-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+
+    /* Glass card */
+    .vm-glass-card {
+      background: var(--vm-glass);
+      backdrop-filter: blur(16px) saturate(1.2);
+      -webkit-backdrop-filter: blur(16px) saturate(1.2);
+      border: 1px solid var(--vm-glass-border);
+      border-radius: 22px;
+      padding: 2.2rem;
+      position: relative;
+      overflow: hidden;
+      box-shadow:
+        0 8px 32px rgba(197, 179, 230, 0.15),
+        inset 0 1px 0 rgba(255, 255, 255, 0.8);
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+    }
+
+    .vm-glass-card:hover {
+      transform: translateY(-4px);
+      box-shadow:
+        0 12px 40px rgba(197, 179, 230, 0.22),
+        inset 0 1px 0 rgba(255, 255, 255, 0.9);
+    }
+
+    .vm-glass-card::before {
+      content: attr(data-note);
+      position: absolute;
+      top: -8px;
+      right: 16px;
+      font-size: 3.5rem;
+      color: var(--vm-pink);
+      opacity: 0.1;
+      pointer-events: none;
+      line-height: 1;
+    }
+
+    .vm-glass-card h3 {
+      font-size: 1.15rem;
+      margin-bottom: 0.8rem;
+      color: var(--vm-dark);
+    }
+
+    .vm-glass-card p {
+      font-size: 0.93rem;
+      line-height: 1.7;
+      color: var(--vm-grey-dark);
+    }
+
+    .vm-glass-card .card-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 44px;
+      height: 44px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--vm-pink), var(--vm-lavender-light));
+      color: white;
+      font-size: 1.3rem;
+      margin-bottom: 1rem;
+      box-shadow: 0 4px 12px rgba(224, 79, 154, 0.2);
+    }
+
+    /* =============================================
+       SECTION 2: CHARACTERISTICS (Visual)
+       ============================================= */
+    .vm-characteristics {
+      background: linear-gradient(
+        180deg,
+        var(--vm-white-pink) 0%,
+        var(--vm-white) 30%,
+        var(--vm-lavender-pale) 100%
+      );
+    }
+
+    .vm-motif-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .vm-motif-card {
+      background: linear-gradient(
+        180deg,
+        #ffffff 0%,
+        #fff5fa 60%,
+        #faf0f5 100%
+      );
+      border: 1px solid rgba(248, 200, 220, 0.3);
+      border-radius: 20px;
+      padding: 1.8rem;
+      position: relative;
+      overflow: hidden;
+      box-shadow:
+        0 4px 20px rgba(197, 179, 230, 0.12),
+        0 1px 4px rgba(224, 79, 154, 0.05);
+      transition: box-shadow 0.4s ease, transform 0.4s ease;
+    }
+
+    .vm-motif-card:hover {
+      transform: translateY(-3px);
+      box-shadow:
+        0 8px 32px rgba(197, 179, 230, 0.2),
+        0 2px 8px rgba(224, 79, 154, 0.08);
+    }
+
+    .vm-motif-card::before {
+      content: attr(data-symbol);
+      position: absolute;
+      top: -5px;
+      right: 14px;
+      font-size: 3rem;
+      color: var(--vm-pink);
+      opacity: 0.08;
+      pointer-events: none;
+    }
+
+    .vm-motif-card .motif-icon {
+      font-size: 1.6rem;
+      margin-bottom: 0.8rem;
+      display: block;
+      opacity: 0.5;
+    }
+
+    .vm-motif-card h4 {
+      font-size: 1rem;
+      color: var(--vm-dark);
+      margin-bottom: 0.5rem;
+    }
+
+    .vm-motif-card p {
+      font-size: 0.87rem;
+      line-height: 1.65;
+      color: var(--vm-grey-dark);
+    }
+
+    /* =============================================
+       SECTION 3: COLOR PALETTE
+       ============================================= */
+    .vm-palette {
+      background: linear-gradient(
+        180deg,
+        var(--vm-lavender-pale) 0%,
+        var(--vm-white) 30%,
+        var(--vm-white-pink) 100%
+      );
+    }
+
+    .vm-palette-display {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.2rem;
+      justify-content: center;
+      margin-top: 2rem;
+    }
+
+    .vm-swatch {
+      width: 110px;
+      text-align: center;
+      transition: transform 0.3s ease;
+    }
+
+    .vm-swatch:hover {
+      transform: translateY(-4px);
+    }
+
+    .vm-swatch-color {
+      width: 110px;
+      height: 110px;
+      border-radius: 22px;
+      box-shadow:
+        0 4px 16px rgba(100, 60, 100, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.4);
+      margin-bottom: 0.6rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .vm-swatch-color::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 40%;
+      background: linear-gradient(180deg, rgba(255,255,255,0.25) 0%, transparent 100%);
+      border-radius: 22px 22px 0 0;
+    }
+
+    .vm-swatch-name {
+      font-family: 'Quicksand', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--vm-dark);
+      letter-spacing: 0.02em;
+    }
+
+    .vm-swatch-hex {
+      font-family: 'Nunito Sans', monospace;
+      font-size: 0.68rem;
+      color: var(--vm-grey-dark);
+      margin-top: 0.15rem;
+    }
+
+    /* Gradient showcase */
+    .vm-gradient-showcase {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+
+    .vm-gradient-sample {
+      height: 100px;
+      border-radius: 18px;
+      box-shadow:
+        0 4px 20px rgba(100, 60, 100, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+      display: flex;
+      align-items: flex-end;
+      padding: 1rem 1.2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .vm-gradient-sample span {
+      font-family: 'Quicksand', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: rgba(255, 255, 255, 0.9);
+      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    /* =============================================
+       SECTION 4: TYPOGRAPHY
+       ============================================= */
+    .vm-typography {
+      background: linear-gradient(
+        180deg,
+        var(--vm-white-pink) 0%,
+        #ffffff 40%,
+        var(--vm-lavender-pale) 100%
+      );
+    }
+
+    .vm-type-showcase {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+      margin-top: 2rem;
+    }
+
+    .vm-type-specimen {
+      background: var(--vm-glass);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid var(--vm-glass-border);
+      border-radius: 22px;
+      padding: 2.5rem;
+      text-align: left;
+      box-shadow:
+        0 6px 24px rgba(197, 179, 230, 0.12),
+        inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    }
+
+    .vm-type-label {
+      font-family: 'Quicksand', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--vm-magenta);
+      margin-bottom: 1rem;
+      display: block;
+    }
+
+    .vm-type-sample-quicksand {
+      font-family: 'Quicksand', sans-serif;
+      font-size: 2.8rem;
+      font-weight: 700;
+      color: var(--vm-dark);
+      line-height: 1.2;
+      margin-bottom: 0.5rem;
+    }
+
+    .vm-type-sample-comfortaa {
+      font-family: 'Comfortaa', sans-serif;
+      font-size: 1.6rem;
+      font-weight: 500;
+      color: var(--vm-purple-soft);
+      line-height: 1.3;
+      margin-bottom: 0.5rem;
+    }
+
+    .vm-type-sample-nunito {
+      font-family: 'Nunito', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: var(--vm-grey-dark);
+      line-height: 1.5;
+      margin-bottom: 0.5rem;
+    }
+
+    .vm-type-sample-body {
+      font-family: 'Nunito Sans', sans-serif;
+      font-size: 1rem;
+      font-weight: 400;
+      color: var(--vm-grey-dark);
+      line-height: 1.75;
+      max-width: 600px;
+    }
+
+    .vm-font-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1.2rem;
+      margin-top: 2rem;
+    }
+
+    .vm-font-chip {
+      background: linear-gradient(180deg, #ffffff, #fff5fa);
+      border: 1px solid rgba(248, 200, 220, 0.25);
+      border-radius: 14px;
+      padding: 1.2rem;
+      text-align: center;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .vm-font-chip:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(197, 179, 230, 0.15);
+    }
+
+    .vm-font-chip .font-preview {
+      font-size: 1.5rem;
+      color: var(--vm-dark);
+      margin-bottom: 0.4rem;
+      line-height: 1.3;
+    }
+
+    .vm-font-chip .font-name {
+      font-family: 'Quicksand', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: var(--vm-magenta);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .vm-font-chip .font-use {
+      font-family: 'Nunito Sans', sans-serif;
+      font-size: 0.72rem;
+      color: var(--vm-grey-dark);
+      margin-top: 0.2rem;
+    }
+
+    /* =============================================
+       SECTION 5: DESIGN PRINCIPLES
+       ============================================= */
+    .vm-principles {
+      background: linear-gradient(
+        180deg,
+        var(--vm-lavender-pale) 0%,
+        var(--vm-white) 40%,
+        var(--vm-white-warm) 100%
+      );
+    }
+
+    .vm-principle-list {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .vm-principle {
+      background: rgba(255, 245, 250, 0.6);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      border-radius: 18px;
+      padding: 1.8rem;
+      position: relative;
+      transition: transform 0.3s ease;
+    }
+
+    .vm-principle:hover {
+      transform: translateY(-3px);
+    }
+
+    .vm-principle::before {
+      content: attr(data-num);
+      position: absolute;
+      top: -10px;
+      left: 18px;
+      font-family: 'Fredoka', 'Quicksand', sans-serif;
+      font-size: 2.4rem;
+      font-weight: 700;
+      color: var(--vm-pink);
+      opacity: 0.15;
+      line-height: 1;
+    }
+
+    .vm-principle h4 {
+      font-size: 1rem;
+      color: var(--vm-dark);
+      margin-bottom: 0.5rem;
+    }
+
+    .vm-principle p {
+      font-size: 0.88rem;
+      line-height: 1.65;
+      color: var(--vm-grey-dark);
+    }
+
+    /* =============================================
+       SECTION 6: MEDIA & CULTURAL CONTEXT
+       ============================================= */
+    .vm-media {
+      background: linear-gradient(
+        180deg,
+        var(--vm-white-warm) 0%,
+        var(--vm-white) 25%,
+        var(--vm-white-pink) 70%,
+        var(--vm-pink) 100%
+      );
+    }
+
+    .vm-media-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 1.2rem;
+      margin-top: 2rem;
+    }
+
+    .vm-media-item {
+      background: linear-gradient(135deg, rgba(255,255,255,0.7), rgba(255,245,250,0.6));
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      border-radius: 16px;
+      padding: 1.4rem;
+      text-align: center;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .vm-media-item:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 28px rgba(197, 179, 230, 0.18);
+    }
+
+    .vm-media-item .media-icon {
+      font-size: 1.8rem;
+      margin-bottom: 0.6rem;
+      display: block;
+      opacity: 0.5;
+    }
+
+    .vm-media-item h4 {
+      font-size: 0.9rem;
+      color: var(--vm-dark);
+      margin-bottom: 0.3rem;
+    }
+
+    .vm-media-item p {
+      font-size: 0.78rem;
+      color: var(--vm-grey-dark);
+      line-height: 1.55;
+    }
+
+    /* =============================================
+       SECTION 7: RELATED AESTHETICS
+       ============================================= */
+    .vm-related {
+      background: linear-gradient(
+        180deg,
+        var(--vm-pink) 0%,
+        var(--vm-lavender-light) 40%,
+        var(--vm-baby-blue) 80%,
+        var(--vm-powder-blue) 100%
+      );
+      color: white;
+    }
+
+    .vm-related .vm-section-label {
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    .vm-related .vm-section-title {
+      color: var(--vm-white);
+      text-shadow: 0 2px 12px rgba(224, 79, 154, 0.2);
+    }
+
+    .vm-related .vm-section-desc {
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    .vm-related-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1.2rem;
+      margin-top: 2rem;
+    }
+
+    .vm-related-chip {
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 16px;
+      padding: 1.3rem;
+      text-align: center;
+      transition: transform 0.3s ease, background 0.3s ease;
+    }
+
+    .vm-related-chip:hover {
+      transform: translateY(-3px);
+      background: rgba(255, 255, 255, 0.3);
+    }
+
+    .vm-related-chip h4 {
+      font-size: 0.9rem;
+      color: var(--vm-white);
+      margin-bottom: 0.3rem;
+    }
+
+    .vm-related-chip p {
+      font-size: 0.75rem;
+      color: rgba(255, 255, 255, 0.75);
+      line-height: 1.55;
+    }
+
+    /* =============================================
+       SECTION 8: MATERIALS & TECHNIQUES
+       ============================================= */
+    .vm-materials {
+      background: linear-gradient(
+        180deg,
+        var(--vm-powder-blue) 0%,
+        var(--vm-white) 30%,
+        var(--vm-white-pink) 100%
+      );
+    }
+
+    .vm-materials-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      margin-top: 2rem;
+      background: var(--vm-glass);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid var(--vm-glass-border);
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 6px 24px rgba(197, 179, 230, 0.12);
+    }
+
+    .vm-materials-table th {
+      font-family: 'Quicksand', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--vm-magenta);
+      background: rgba(248, 200, 220, 0.15);
+      padding: 1rem 1.5rem;
+      text-align: left;
+      border-bottom: 1px solid rgba(248, 200, 220, 0.2);
+    }
+
+    .vm-materials-table td {
+      padding: 0.9rem 1.5rem;
+      font-size: 0.88rem;
+      color: var(--vm-grey-dark);
+      border-bottom: 1px solid rgba(248, 200, 220, 0.1);
+      vertical-align: top;
+    }
+
+    .vm-materials-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .vm-materials-table tr:hover td {
+      background: rgba(248, 200, 220, 0.06);
+    }
+
+    .vm-materials-table td:first-child {
+      font-family: 'Quicksand', sans-serif;
+      font-weight: 600;
+      color: var(--vm-dark);
+    }
+
+    /* =============================================
+       FOOTER
+       ============================================= */
+    .vm-footer {
+      background: linear-gradient(
+        180deg,
+        var(--vm-white-pink) 0%,
+        var(--vm-pink) 30%,
+        var(--vm-lavender) 70%,
+        var(--vm-purple-soft) 100%
+      );
+      padding: 4rem 2rem 3rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .vm-footer-stave {
+      height: 50px;
+      width: 60%;
+      margin: 0 auto 2rem;
+      background: no-repeat center / 100% auto;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 50'%3E%3Cpath d='M0,12 C100,4 200,20 300,12 S500,4 600,12' fill='none' stroke='rgba(255,255,255,0.3)' stroke-width='1.2'/%3E%3Cpath d='M0,25 C100,17 200,33 300,25 S500,17 600,25' fill='none' stroke='rgba(255,255,255,0.25)' stroke-width='1.2'/%3E%3Cpath d='M0,38 C100,30 200,46 300,38 S500,30 600,38' fill='none' stroke='rgba(255,255,255,0.2)' stroke-width='1.2'/%3E%3C/svg%3E");
+    }
+
+    .vm-footer-title {
+      font-family: 'Quicksand', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--vm-white);
+      text-shadow: 0 2px 12px rgba(224, 79, 154, 0.2);
+      margin-bottom: 0.8rem;
+    }
+
+    .vm-footer-text {
+      font-size: 0.9rem;
+      color: rgba(255, 255, 255, 0.75);
+      max-width: 500px;
+      margin: 0 auto 1.5rem;
+      line-height: 1.65;
+    }
+
+    .vm-footer-era {
+      font-family: 'Comfortaa', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 400;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    /* Pastel button */
+    .vm-button {
+      display: inline-block;
+      padding: 0.75rem 2rem;
+      border-radius: 999px;
+      border: none;
+      background: linear-gradient(135deg, #f8c8dc 0%, #e04f9a 100%);
+      color: #ffffff;
+      font-family: 'Quicksand', 'Nunito', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      box-shadow:
+        0 4px 16px rgba(224, 79, 154, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.35);
+      transition: all 0.35s ease;
+      text-decoration: none;
+    }
+
+    .vm-button:hover {
+      background: linear-gradient(135deg, #f4b6cc 0%, #d4408a 100%);
+      box-shadow:
+        0 6px 24px rgba(224, 79, 154, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.4);
+      transform: translateY(-2px);
+      color: #ffffff;
+    }
+
+    .vm-button--lavender {
+      background: linear-gradient(135deg, #d4c2f0 0%, #b8a4d9 100%);
+      box-shadow: 0 4px 16px rgba(197, 179, 230, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+    }
+
+    .vm-button--lavender:hover {
+      background: linear-gradient(135deg, #c5b3e6 0%, #a898cc 100%);
+      box-shadow: 0 6px 24px rgba(197, 179, 230, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+    }
+
+    .vm-button--ghost {
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      box-shadow: none;
+    }
+
+    .vm-button--ghost:hover {
+      background: rgba(255, 255, 255, 0.35);
+      box-shadow: 0 4px 16px rgba(255, 255, 255, 0.15);
+    }
+
+    /* =============================================
+       SCROLL ANIMATIONS
+       ============================================= */
+    .vm-reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .vm-reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .vm-reveal-delay-1 { transition-delay: 0.1s; }
+    .vm-reveal-delay-2 { transition-delay: 0.2s; }
+    .vm-reveal-delay-3 { transition-delay: 0.3s; }
+    .vm-reveal-delay-4 { transition-delay: 0.4s; }
+    .vm-reveal-delay-5 { transition-delay: 0.5s; }
+    .vm-reveal-delay-6 { transition-delay: 0.6s; }
+
+    /* =============================================
+       CSS TECHNIQUES SHOWCASE
+       ============================================= */
+    .vm-techniques {
+      background: linear-gradient(
+        180deg,
+        var(--vm-white-pink) 0%,
+        var(--vm-white) 50%,
+        var(--vm-lavender-pale) 100%
+      );
+    }
+
+    .vm-demo-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+
+    .vm-demo-box {
+      border-radius: 20px;
+      padding: 2rem;
+      min-height: 180px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .vm-demo-box .demo-label {
+      font-family: 'Quicksand', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--vm-magenta);
+      margin-bottom: 0.3rem;
+    }
+
+    .vm-demo-box .demo-title {
+      font-family: 'Quicksand', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--vm-dark);
+    }
+
+    .vm-demo-glass {
+      background: var(--vm-glass);
+      backdrop-filter: blur(16px) saturate(1.2);
+      -webkit-backdrop-filter: blur(16px) saturate(1.2);
+      border: 1px solid var(--vm-glass-border);
+      box-shadow:
+        0 8px 32px rgba(197, 179, 230, 0.15),
+        inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    }
+
+    .vm-demo-bokeh {
+      background: linear-gradient(135deg, var(--vm-pink), var(--vm-lavender-light));
+    }
+
+    .vm-demo-bokeh .demo-label,
+    .vm-demo-bokeh .demo-title {
+      color: white;
+    }
+
+    .vm-demo-bokeh .demo-label {
+      color: rgba(255,255,255,0.8);
+    }
+
+    .vm-demo-bokeh .bokeh-circle {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.15);
+      filter: blur(20px);
+    }
+
+    .vm-demo-bokeh .bokeh-circle:nth-child(1) {
+      width: 100px; height: 100px; top: -20px; right: -10px;
+      animation: vm-sparkle-slow 5s ease-in-out infinite;
+    }
+    .vm-demo-bokeh .bokeh-circle:nth-child(2) {
+      width: 60px; height: 60px; bottom: 20px; left: 30px;
+      background: rgba(255, 228, 160, 0.2);
+      animation: vm-sparkle-slow 6s ease-in-out infinite;
+      animation-delay: 1.5s;
+    }
+    .vm-demo-bokeh .bokeh-circle:nth-child(3) {
+      width: 80px; height: 80px; top: 40%; left: 50%;
+      background: rgba(168, 216, 234, 0.15);
+      animation: vm-sparkle-slow 7s ease-in-out infinite;
+      animation-delay: 3s;
+    }
+
+    .vm-demo-filigree {
+      background-color: var(--vm-white-pink);
+      background-image:
+        radial-gradient(ellipse at 20% 50%, rgba(248, 200, 220, 0.12) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 50%, rgba(197, 179, 230, 0.12) 0%, transparent 50%);
+      border: 1px solid rgba(248, 200, 220, 0.3);
+      box-shadow: 0 4px 20px rgba(197, 179, 230, 0.12);
+    }
+
+    .vm-demo-silhouette {
+      background: linear-gradient(180deg, var(--vm-white), var(--vm-lavender-pale));
+      border: 1px solid rgba(248, 200, 220, 0.2);
+      box-shadow: 0 4px 20px rgba(197, 179, 230, 0.12);
+    }
+
+    .vm-demo-silhouette .silhouette-figure {
+      position: absolute;
+      top: 10px;
+      right: 20px;
+      width: 80px;
+      height: 120px;
+      opacity: 0.12;
+    }
+
+    /* =============================================
+       BUTTON ROW
+       ============================================= */
+    .vm-button-row {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      margin-top: 2rem;
+      flex-wrap: wrap;
+    }
+
+    /* =============================================
+       RESPONSIVE DESIGN
+       ============================================= */
+    @media (max-width: 768px) {
+      .vm-nav-links {
+        display: none;
+      }
+
+      .vm-overview-grid,
+      .vm-principle-list,
+      .vm-demo-row,
+      .vm-gradient-showcase {
+        grid-template-columns: 1fr;
+      }
+
+      .vm-motif-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .vm-media-grid,
+      .vm-related-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .vm-font-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .vm-hero-silhouette {
+        display: none;
+      }
+
+      .vm-swatch {
+        width: 85px;
+      }
+
+      .vm-swatch-color {
+        width: 85px;
+        height: 85px;
+      }
+
+      .vm-section {
+        padding: 3.5rem 1.5rem;
+      }
+
+      .vm-hero {
+        padding: 7rem 1.5rem 4rem;
+      }
+
+      .vm-materials-table {
+        display: block;
+        overflow-x: auto;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .vm-media-grid,
+      .vm-related-grid,
+      .vm-font-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .vm-palette-display {
+        gap: 0.8rem;
+      }
+
+      .vm-swatch {
+        width: 70px;
+      }
+
+      .vm-swatch-color {
+        width: 70px;
+        height: 70px;
+        border-radius: 16px;
+      }
+    }
+
+    /* =============================================
+       SPARKLE PARTICLE CANVAS (JS-driven)
+       ============================================= */
+    #sparkle-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 999;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Ambient background decorations -->
+  <div class="vm-ambient">
+    <div class="bokeh bokeh-1"></div>
+    <div class="bokeh bokeh-2"></div>
+    <div class="bokeh bokeh-3"></div>
+    <div class="bokeh bokeh-4"></div>
+    <div class="bokeh bokeh-5"></div>
+    <span class="note note-1">&#9834;</span>
+    <span class="note note-2">&#9835;</span>
+    <span class="note note-3">&#9834;</span>
+    <span class="note note-4">&#9835;</span>
+    <span class="note note-5">&#9834;</span>
+    <span class="heart heart-1">&#9829;</span>
+    <span class="heart heart-2">&#9829;</span>
+    <span class="heart heart-3">&#9829;</span>
+    <span class="star star-1">&#10022;</span>
+    <span class="star star-2">&#10022;</span>
+    <span class="star star-3">&#10022;</span>
+    <span class="star star-4">&#10022;</span>
+  </div>
+
+  <!-- Sparkle canvas for cursor trail -->
+  <canvas id="sparkle-canvas"></canvas>
+
+  <!-- Navigation -->
+  <nav class="vm-nav" id="nav">
+    <div class="vm-nav-logo">
+      <span class="logo-note">&#9835;</span>
+      Vector Musica
+    </div>
+    <ul class="vm-nav-links">
+      <li><a href="#overview">Overview</a></li>
+      <li><a href="#visual">Visual</a></li>
+      <li><a href="#palette">Palette</a></li>
+      <li><a href="#typography">Type</a></li>
+      <li><a href="#principles">Principles</a></li>
+      <li><a href="#media">Media</a></li>
+    </ul>
+  </nav>
+
+  <!-- ============================================
+       HERO SECTION
+       ============================================ -->
+  <section class="vm-hero">
+    <!-- Animated stave lines behind -->
+    <div class="vm-hero-stave">
+      <svg viewBox="0 0 1400 800" preserveAspectRatio="none">
+        <path class="stave-line-1" d="M-50,150 C200,80 400,220 700,150 S1100,80 1450,180" />
+        <path class="stave-line-2" d="M-50,220 C200,150 400,290 700,220 S1100,150 1450,250" />
+        <path class="stave-line-3" d="M-50,290 C200,220 400,360 700,290 S1100,220 1450,320" />
+        <path class="stave-line-4" d="M-50,500 C250,440 500,560 750,500 S1050,440 1450,520" />
+        <path class="stave-line-5" d="M-50,570 C250,510 500,630 750,570 S1050,510 1450,590" />
+      </svg>
+    </div>
+
+    <!-- Dancer silhouette -->
+    <div class="vm-hero-silhouette">
+      <svg viewBox="0 0 200 350" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="silGrad" x1="100" y1="0" x2="100" y2="350" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#c8c0cc" stop-opacity="0.4"/>
+            <stop offset="50%" stop-color="#d8cfe0" stop-opacity="0.3"/>
+            <stop offset="100%" stop-color="#e0d8ea" stop-opacity="0.1"/>
+          </linearGradient>
+        </defs>
+        <!-- Stylized dancer figure -->
+        <ellipse cx="100" cy="32" rx="22" ry="26" fill="url(#silGrad)"/>
+        <path d="M100,58 C90,58 75,80 72,120 C70,140 78,160 85,175 L65,260 C60,280 70,300 80,315 L75,345" stroke="url(#silGrad)" stroke-width="3" fill="none" stroke-linecap="round"/>
+        <path d="M100,58 C110,58 125,80 128,120 C130,140 122,155 115,175 L140,230 C150,245 155,260 145,270" stroke="url(#silGrad)" stroke-width="3" fill="none" stroke-linecap="round"/>
+        <path d="M85,175 L115,175" stroke="url(#silGrad)" stroke-width="2" fill="none"/>
+        <path d="M100,120 L60,95 C50,90 42,85 35,92" stroke="url(#silGrad)" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+        <path d="M100,120 L145,80 C155,72 165,70 170,78" stroke="url(#silGrad)" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+        <path d="M80,315 L90,345 L95,350" stroke="url(#silGrad)" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+        <path d="M115,175 L125,260 C128,280 120,310 110,340 L115,350" stroke="url(#silGrad)" stroke-width="3" fill="none" stroke-linecap="round"/>
+        <!-- Headphone arc -->
+        <path d="M76,22 C76,5 124,5 124,22" stroke="url(#silGrad)" stroke-width="3" fill="none" stroke-linecap="round"/>
+        <ellipse cx="76" cy="28" rx="7" ry="10" fill="url(#silGrad)" opacity="0.4"/>
+        <ellipse cx="124" cy="28" rx="7" ry="10" fill="url(#silGrad)" opacity="0.4"/>
+      </svg>
+    </div>
+
+    <div class="vm-hero-content">
+      <div class="vm-hero-badge">Vectordelia Subgenre</div>
+      <h1 class="vm-hero-title">
+        Vector <span class="accent">Musica</span>
+      </h1>
+      <div class="vm-hero-stave-divider"></div>
+      <p class="vm-hero-subtitle">
+        A soft, melodic, and feminine visual aesthetic of pastel gradients, flowing musical staves, and sparkling bokeh -- the whimsical elegance of late-2000s design
+      </p>
+    </div>
+
+    <div class="vm-hero-scroll">
+      <span>Scroll to explore</span>
+      <div class="scroll-arrow"></div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       SECTION 1: OVERVIEW
+       ============================================ -->
+  <section class="vm-section vm-overview" id="overview">
+    <div class="vm-container">
+      <div class="vm-section-header vm-reveal">
+        <span class="vm-section-label">About the Aesthetic</span>
+        <h2 class="vm-section-title">Whimsy, Elegance, Melody</h2>
+        <p class="vm-section-desc">
+          Vector Musica (also known as Musica Metro) is a subgenre of Vectordelia characterized by a soft, melodic, and feminine visual aesthetic. Where standard Vectordelia employs bright CMYK colors and jagged ink splatters with high contrast and urban styling, Vector Musica inverts that approach with pastel gradients, smooth curves, and sparkling bokeh effects to convey whimsy and elegance.
+        </p>
+      </div>
+
+      <div class="vm-overview-grid">
+        <div class="vm-glass-card vm-reveal vm-reveal-delay-1" data-note="&#9835;">
+          <div class="card-icon">&#9834;</div>
+          <h3>Musical Composition</h3>
+          <p>The style centers on flowing musical staves as primary compositional elements, embellished with scattered notes, hearts, stars, and floral filigree. The curved staff is the backbone of every layout.</p>
+        </div>
+        <div class="vm-glass-card vm-reveal vm-reveal-delay-2" data-note="&#9829;">
+          <div class="card-icon">&#10022;</div>
+          <h3>Intimate Atmosphere</h3>
+          <p>Figures are rendered as soft grey or tinted gradient silhouettes rather than stark black ones, and compositions favor solitary figures over crowds, creating an intimate, magical atmosphere.</p>
+        </div>
+        <div class="vm-glass-card vm-reveal vm-reveal-delay-3" data-note="&#9834;">
+          <div class="card-icon">&#10024;</div>
+          <h3>Sparkling Dreamscape</h3>
+          <p>Bokeh effects, light particles, and star accents create a sense of enchantment and wonder. Every surface transitions through soft pastel tones, creating gentle chromatic movement.</p>
+        </div>
+        <div class="vm-glass-card vm-reveal vm-reveal-delay-4" data-note="&#9835;">
+          <div class="card-icon">&#9835;</div>
+          <h3>Cultural Peak</h3>
+          <p>The aesthetic peaked in the late 2000s to early 2010s, dominating magical girl anime, virtual idol media, tween-targeted TV, and feminine stationery design worldwide.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="vm-stave-divider vm-reveal"></div>
+
+  <!-- ============================================
+       SECTION 2: VISUAL CHARACTERISTICS
+       ============================================ -->
+  <section class="vm-section vm-characteristics" id="visual">
+    <div class="vm-container">
+      <div class="vm-section-header vm-reveal">
+        <span class="vm-section-label">Core Motifs &amp; Patterns</span>
+        <h2 class="vm-section-title">Visual Language</h2>
+        <p class="vm-section-desc">
+          Every element in Vector Musica favors gentle curves and sweeps. No jagged edges, no ink splatters, no angular forms -- only smooth flowing beauty.
+        </p>
+      </div>
+
+      <div class="vm-motif-grid">
+        <div class="vm-motif-card vm-reveal vm-reveal-delay-1" data-symbol="&#9835;">
+          <span class="motif-icon">&#9835;</span>
+          <h4>Curved Musical Staves</h4>
+          <p>Flowing, sinuous staff lines that sweep across the composition as the primary structural and decorative element, guiding the viewer's eye.</p>
+        </div>
+        <div class="vm-motif-card vm-reveal vm-reveal-delay-2" data-symbol="&#9834;">
+          <span class="motif-icon">&#9834;</span>
+          <h4>Scattered Music Notes</h4>
+          <p>Eighth notes, quarter notes, and treble clefs distributed along and around the staves as recurring ornamental motifs.</p>
+        </div>
+        <div class="vm-motif-card vm-reveal vm-reveal-delay-3" data-symbol="&#9829;">
+          <span class="motif-icon">&#9829;</span>
+          <h4>Hearts &amp; Stars</h4>
+          <p>Small decorative accents scattered throughout, adding sweetness and sparkle to every composition.</p>
+        </div>
+        <div class="vm-motif-card vm-reveal vm-reveal-delay-4" data-symbol="&#10047;">
+          <span class="motif-icon">&#10047;</span>
+          <h4>Floral Filigree</h4>
+          <p>Delicate, ornate floral scrollwork and vine patterns borrowed from the Vectorbloom aesthetic, used as fills and border decoration.</p>
+        </div>
+        <div class="vm-motif-card vm-reveal vm-reveal-delay-5" data-symbol="&#10022;">
+          <span class="motif-icon">&#10022;</span>
+          <h4>Bokeh Effects</h4>
+          <p>Soft, sparkling out-of-focus light circles creating a dreamy, atmospheric shimmer across the composition.</p>
+        </div>
+        <div class="vm-motif-card vm-reveal vm-reveal-delay-6" data-symbol="&#9835;">
+          <span class="motif-icon">&#9899;</span>
+          <h4>Soft Gradient Silhouettes</h4>
+          <p>Graceful figures rendered as soft grey or pastel-tinted gradient silhouettes -- never harsh, never solid black.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="vm-melodic-line vm-reveal"></div>
+
+  <!-- ============================================
+       SECTION 3: COLOR PALETTE
+       ============================================ -->
+  <section class="vm-section vm-palette" id="palette">
+    <div class="vm-container">
+      <div class="vm-section-header vm-reveal">
+        <span class="vm-section-label">Color System</span>
+        <h2 class="vm-section-title">Pastel Harmony</h2>
+        <p class="vm-section-desc">
+          Pinks, lavenders, and baby blues dominate. The overall impression is soft, dreamy, and feminine. All colors sit close in value -- nothing is jarring or high-contrast.
+        </p>
+      </div>
+
+      <!-- Swatches -->
+      <div class="vm-palette-display vm-reveal">
+        <div class="vm-swatch">
+          <div class="vm-swatch-color" style="background: linear-gradient(135deg, #f8c8dc, #f4b6cc);"></div>
+          <div class="vm-swatch-name">Pastel Pink</div>
+          <div class="vm-swatch-hex">#F8C8DC</div>
+        </div>
+        <div class="vm-swatch">
+          <div class="vm-swatch-color" style="background: linear-gradient(135deg, #f2a7c3, #e899b8);"></div>
+          <div class="vm-swatch-name">Soft Rose</div>
+          <div class="vm-swatch-hex">#F2A7C3</div>
+        </div>
+        <div class="vm-swatch">
+          <div class="vm-swatch-color" style="background: linear-gradient(135deg, #c5b3e6, #b8a4d9);"></div>
+          <div class="vm-swatch-name">Lavender</div>
+          <div class="vm-swatch-hex">#C5B3E6</div>
+        </div>
+        <div class="vm-swatch">
+          <div class="vm-swatch-color" style="background: linear-gradient(135deg, #d4c2f0, #e0d1f5);"></div>
+          <div class="vm-swatch-name">Soft Purple</div>
+          <div class="vm-swatch-hex">#D4C2F0</div>
+        </div>
+        <div class="vm-swatch">
+          <div class="vm-swatch-color" style="background: linear-gradient(135deg, #a8d8ea, #b5e0f0);"></div>
+          <div class="vm-swatch-name">Baby Blue</div>
+          <div class="vm-swatch-hex">#A8D8EA</div>
+        </div>
+        <div class="vm-swatch">
+          <div class="vm-swatch-color" style="background: linear-gradient(135deg, #c6e7f2, #d4eef8);"></div>
+          <div class="vm-swatch-name">Powder Blue</div>
+          <div class="vm-swatch-hex">#C6E7F2</div>
+        </div>
+        <div class="vm-swatch">
+          <div class="vm-swatch-color" style="background: linear-gradient(135deg, #e04f9a, #d4408a);"></div>
+          <div class="vm-swatch-name">Magenta</div>
+          <div class="vm-swatch-hex">#E04F9A</div>
+        </div>
+        <div class="vm-swatch">
+          <div class="vm-swatch-color" style="background: linear-gradient(135deg, #ff69b4, #ff5da0);"></div>
+          <div class="vm-swatch-name">Hot Pink</div>
+          <div class="vm-swatch-hex">#FF69B4</div>
+        </div>
+        <div class="vm-swatch">
+          <div class="vm-swatch-color" style="background: linear-gradient(135deg, #ffe4a0, #ffd87a); border: 1px solid rgba(248,200,220,0.2);"></div>
+          <div class="vm-swatch-name">Bokeh Gold</div>
+          <div class="vm-swatch-hex">#FFE4A0</div>
+        </div>
+        <div class="vm-swatch">
+          <div class="vm-swatch-color" style="background: linear-gradient(135deg, #c8c0cc, #b8b0be);"></div>
+          <div class="vm-swatch-name">Silhouette Grey</div>
+          <div class="vm-swatch-hex">#C8C0CC</div>
+        </div>
+        <div class="vm-swatch">
+          <div class="vm-swatch-color" style="background: linear-gradient(135deg, #e0b8d0, #d4a0c0);"></div>
+          <div class="vm-swatch-name">Stave Line</div>
+          <div class="vm-swatch-hex">#E0B8D0</div>
+        </div>
+        <div class="vm-swatch">
+          <div class="vm-swatch-color" style="background: linear-gradient(135deg, #fff5fa, #fff0f5); border: 1px solid rgba(248,200,220,0.2);"></div>
+          <div class="vm-swatch-name">Soft White</div>
+          <div class="vm-swatch-hex">#FFF5FA</div>
+        </div>
+      </div>
+
+      <!-- Gradient showcase -->
+      <div class="vm-gradient-showcase vm-reveal">
+        <div class="vm-gradient-sample" style="background: linear-gradient(135deg, #fff5fa 0%, #f8c8dc 25%, #d4c2f0 55%, #a8d8ea 85%, #c6e7f2 100%);">
+          <span>Signature Gradient</span>
+        </div>
+        <div class="vm-gradient-sample" style="background: linear-gradient(180deg, #fff0f5 0%, #f8c8dc 20%, #c5b3e6 60%, #a8d8ea 100%);">
+          <span>Hero Gradient</span>
+        </div>
+        <div class="vm-gradient-sample" style="background: linear-gradient(135deg, #f8c8dc 0%, #e04f9a 100%);">
+          <span>Accent Gradient</span>
+        </div>
+        <div class="vm-gradient-sample" style="background: linear-gradient(135deg, #d4c2f0 0%, #b8a4d9 100%);">
+          <span>Lavender Gradient</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="vm-stave-divider vm-reveal"></div>
+
+  <!-- ============================================
+       SECTION 4: TYPOGRAPHY
+       ============================================ -->
+  <section class="vm-section vm-typography" id="typography">
+    <div class="vm-container">
+      <div class="vm-section-header vm-reveal">
+        <span class="vm-section-label">Typography System</span>
+        <h2 class="vm-section-title">Rounded, Soft, Musical</h2>
+        <p class="vm-section-desc">
+          Vector Musica typography is rounded, soft, feminine, and highly legible, reflecting the Frutiger humanist family influence. Warm, organic letterforms with soft terminals that feel approachable and musical.
+        </p>
+      </div>
+
+      <div class="vm-type-showcase vm-reveal">
+        <div class="vm-type-specimen">
+          <span class="vm-type-label">Display / Headlines -- Quicksand 700</span>
+          <div class="vm-type-sample-quicksand">A Melody in Pastel Light</div>
+          <span class="vm-type-label" style="margin-top: 1.5rem;">Subheadings -- Comfortaa 500</span>
+          <div class="vm-type-sample-comfortaa">Soft curves and sparkling elegance</div>
+          <span class="vm-type-label" style="margin-top: 1.5rem;">Section Heads -- Nunito 600</span>
+          <div class="vm-type-sample-nunito">Warm, approachable, Frutiger-family feel</div>
+          <span class="vm-type-label" style="margin-top: 1.5rem;">Body Text -- Nunito Sans 400</span>
+          <div class="vm-type-sample-body">The aesthetic favors light to medium weight for body text -- airy and delicate, never heavy or imposing. Rounded terminals and open counters make letterforms feel friendly, playful, and bubbly. Standard to slightly open letter-spacing ensures comfortable readability.</div>
+        </div>
+      </div>
+
+      <div class="vm-font-grid vm-reveal">
+        <div class="vm-font-chip">
+          <div class="font-preview" style="font-family: 'Quicksand', sans-serif; font-weight: 700;">Quicksand</div>
+          <div class="font-name">Quicksand</div>
+          <div class="font-use">Headlines, display text</div>
+        </div>
+        <div class="vm-font-chip">
+          <div class="font-preview" style="font-family: 'Nunito', sans-serif; font-weight: 700;">Nunito</div>
+          <div class="font-name">Nunito</div>
+          <div class="font-use">Headlines, subheadings</div>
+        </div>
+        <div class="vm-font-chip">
+          <div class="font-preview" style="font-family: 'Nunito Sans', sans-serif; font-weight: 400;">Nunito Sans</div>
+          <div class="font-name">Nunito Sans</div>
+          <div class="font-use">Body text, paragraphs</div>
+        </div>
+        <div class="vm-font-chip">
+          <div class="font-preview" style="font-family: 'Comfortaa', sans-serif; font-weight: 500;">Comfortaa</div>
+          <div class="font-name">Comfortaa</div>
+          <div class="font-use">Display, decorative</div>
+        </div>
+        <div class="vm-font-chip">
+          <div class="font-preview" style="font-family: 'Fredoka', sans-serif; font-weight: 600;">Fredoka</div>
+          <div class="font-name">Fredoka</div>
+          <div class="font-use">Playful accents</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="vm-line-divider vm-reveal">
+
+  <!-- ============================================
+       SECTION 5: DESIGN PRINCIPLES
+       ============================================ -->
+  <section class="vm-section vm-principles" id="principles">
+    <div class="vm-container">
+      <div class="vm-section-header vm-reveal">
+        <span class="vm-section-label">Design Philosophy</span>
+        <h2 class="vm-section-title">Guiding Principles</h2>
+        <p class="vm-section-desc">
+          The rules that shape every Vector Musica composition -- from color choices to compositional structure.
+        </p>
+      </div>
+
+      <div class="vm-principle-list">
+        <div class="vm-principle vm-reveal vm-reveal-delay-1" data-num="01">
+          <h4>Softness Over Contrast</h4>
+          <p>Reject the high-contrast, urban energy of standard Vectordelia in favor of gentle, dreamy compositions. Every transition should feel gradual and effortless.</p>
+        </div>
+        <div class="vm-principle vm-reveal vm-reveal-delay-2" data-num="02">
+          <h4>Pastel Gradients Over Flat Fills</h4>
+          <p>Every surface should transition through soft pastel tones rather than using bold, flat primary colors. Gradients create gentle movement across the composition.</p>
+        </div>
+        <div class="vm-principle vm-reveal vm-reveal-delay-3" data-num="03">
+          <h4>Musical Structure as Composition</h4>
+          <p>The curved musical staff is the backbone of the layout, with all other elements arranged along or around it. The stave guides the viewer's eye through the design.</p>
+        </div>
+        <div class="vm-principle vm-reveal vm-reveal-delay-4" data-num="04">
+          <h4>Intimate Scale</h4>
+          <p>Solitary figures rather than crowds. The viewer should feel personally addressed, as if the scene is meant just for them. Each composition is a private moment.</p>
+        </div>
+        <div class="vm-principle vm-reveal vm-reveal-delay-5" data-num="05">
+          <h4>Whimsy &amp; Elegance</h4>
+          <p>The overall impression should be magical, light, and graceful. Never aggressive, loud, or chaotic. Beauty through restraint and gentleness.</p>
+        </div>
+        <div class="vm-principle vm-reveal vm-reveal-delay-6" data-num="06">
+          <h4>Sparkling Atmosphere</h4>
+          <p>Bokeh, light particles, and star effects create a sense of enchantment and wonder. The air itself seems to shimmer with possibility.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="vm-stave-divider vm-reveal"></div>
+
+  <!-- ============================================
+       SECTION 6: CSS TECHNIQUES DEMO
+       ============================================ -->
+  <section class="vm-section vm-techniques" id="techniques">
+    <div class="vm-container">
+      <div class="vm-section-header vm-reveal">
+        <span class="vm-section-label">Implementation</span>
+        <h2 class="vm-section-title">Signature Techniques</h2>
+        <p class="vm-section-desc">
+          The web design patterns that bring Vector Musica to life -- frosted glass, bokeh effects, soft silhouettes, and floral filigree.
+        </p>
+      </div>
+
+      <div class="vm-demo-row">
+        <div class="vm-demo-box vm-demo-glass vm-reveal vm-reveal-delay-1">
+          <div class="demo-label">Frosted Glass</div>
+          <div class="demo-title">Semi-transparent pastel-tinted panels with backdrop blur and white inner borders</div>
+        </div>
+        <div class="vm-demo-box vm-demo-bokeh vm-reveal vm-reveal-delay-2">
+          <div class="bokeh-circle"></div>
+          <div class="bokeh-circle"></div>
+          <div class="bokeh-circle"></div>
+          <div class="demo-label">Bokeh Sparkle</div>
+          <div class="demo-title">Blurred light circles at low opacity with gentle scale animation</div>
+        </div>
+        <div class="vm-demo-box vm-demo-filigree vm-reveal vm-reveal-delay-3">
+          <div class="demo-label">Floral Filigree</div>
+          <div class="demo-title">Radial gradient patterns at low opacity as delicate background textures</div>
+        </div>
+        <div class="vm-demo-box vm-demo-silhouette vm-reveal vm-reveal-delay-4">
+          <div class="silhouette-figure">
+            <svg viewBox="0 0 80 120" fill="none">
+              <defs>
+                <linearGradient id="miniSilGrad" x1="40" y1="0" x2="40" y2="120" gradientUnits="userSpaceOnUse">
+                  <stop offset="0%" stop-color="#c8c0cc" stop-opacity="0.5"/>
+                  <stop offset="100%" stop-color="#e0d8ea" stop-opacity="0.15"/>
+                </linearGradient>
+              </defs>
+              <ellipse cx="40" cy="14" rx="10" ry="12" fill="url(#miniSilGrad)"/>
+              <path d="M40,26 C35,26 28,40 27,55 C26,65 30,72 34,78 L28,105 L32,118" stroke="url(#miniSilGrad)" stroke-width="2" fill="none" stroke-linecap="round"/>
+              <path d="M40,26 C45,26 52,40 53,55 C54,65 50,72 46,78 L52,105 L48,118" stroke="url(#miniSilGrad)" stroke-width="2" fill="none" stroke-linecap="round"/>
+              <path d="M40,50 L25,40" stroke="url(#miniSilGrad)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+              <path d="M40,50 L58,38" stroke="url(#miniSilGrad)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="demo-label">Soft Silhouette</div>
+          <div class="demo-title">Gradient-filled figures fading from grey to translucent pastel tints</div>
+        </div>
+      </div>
+
+      <!-- Button showcase -->
+      <div class="vm-button-row vm-reveal" style="margin-top: 3rem;">
+        <a href="#" class="vm-button" onclick="event.preventDefault()">Pink Accent Button</a>
+        <a href="#" class="vm-button vm-button--lavender" onclick="event.preventDefault()">Lavender Variant</a>
+      </div>
+    </div>
+  </section>
+
+  <div class="vm-melodic-line vm-reveal"></div>
+
+  <!-- ============================================
+       SECTION 7: MATERIALS & TEXTURES
+       ============================================ -->
+  <section class="vm-section vm-materials" id="materials">
+    <div class="vm-container">
+      <div class="vm-section-header vm-reveal">
+        <span class="vm-section-label">Materials &amp; Textures</span>
+        <h2 class="vm-section-title">Visual Metaphors for the Web</h2>
+        <p class="vm-section-desc">
+          Physical and conceptual Vector Musica materials translated into CSS and web techniques.
+        </p>
+      </div>
+
+      <table class="vm-materials-table vm-reveal">
+        <thead>
+          <tr>
+            <th>Conceptual Material</th>
+            <th>Web Equivalent</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Pastel watercolor wash</td>
+            <td>Multi-stop pastel linear gradients (pink-lavender-blue) across backgrounds</td>
+          </tr>
+          <tr>
+            <td>Sparkling bokeh</td>
+            <td>Large blurred circles (filter: blur) at low opacity with gentle scale animation</td>
+          </tr>
+          <tr>
+            <td>Musical staff</td>
+            <td>SVG curved paths with multiple parallel lines as decorative dividers</td>
+          </tr>
+          <tr>
+            <td>Soft fabric / satin</td>
+            <td>Smooth pastel gradients with subtle inner highlight (inset box-shadow)</td>
+          </tr>
+          <tr>
+            <td>Frosted glass</td>
+            <td>Semi-transparent background + backdrop-filter: blur(16px) + white inner border</td>
+          </tr>
+          <tr>
+            <td>Scattered confetti</td>
+            <td>Small positioned elements (notes, hearts, stars) at low opacity</td>
+          </tr>
+          <tr>
+            <td>Pearl / iridescence</td>
+            <td>Radial gradient with white center, subtle pink and lavender shifts</td>
+          </tr>
+          <tr>
+            <td>Fairy dust / sparkle</td>
+            <td>Tiny bright dots with radial gradient and twinkling animation</td>
+          </tr>
+          <tr>
+            <td>Floral lace / filigree</td>
+            <td>SVG scrollwork patterns at low opacity as corner ornaments</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <div class="vm-stave-divider vm-reveal"></div>
+
+  <!-- ============================================
+       SECTION 8: ASSOCIATED MEDIA
+       ============================================ -->
+  <section class="vm-section vm-media" id="media">
+    <div class="vm-container">
+      <div class="vm-section-header vm-reveal">
+        <span class="vm-section-label">Cultural Context</span>
+        <h2 class="vm-section-title">Where It Lived</h2>
+        <p class="vm-section-desc">
+          Products and media that exemplify the Vector Musica aesthetic -- from magical girl anime to tween stationery.
+        </p>
+      </div>
+
+      <div class="vm-media-grid">
+        <div class="vm-media-item vm-reveal vm-reveal-delay-1">
+          <span class="media-icon">&#10024;</span>
+          <h4>Winx Club</h4>
+          <p>Seasons 4-5: magical girl transformations with flowing pastel vectors and sparkling bokeh</p>
+        </div>
+        <div class="vm-media-item vm-reveal vm-reveal-delay-2">
+          <span class="media-icon">&#9834;</span>
+          <h4>Suite PreCure</h4>
+          <p>Japanese magical girl anime built entirely around musical motifs with pastel palettes</p>
+        </div>
+        <div class="vm-media-item vm-reveal vm-reveal-delay-3">
+          <span class="media-icon">&#9835;</span>
+          <h4>Mermaid Melody</h4>
+          <p>Idol/magical girl series with musical transformation sequences in pastel vector style</p>
+        </div>
+        <div class="vm-media-item vm-reveal vm-reveal-delay-4">
+          <span class="media-icon">&#10022;</span>
+          <h4>Shugo Chara!</h4>
+          <p>Magical girl anime with vector-style transformations and pastel palette</p>
+        </div>
+        <div class="vm-media-item vm-reveal vm-reveal-delay-5">
+          <span class="media-icon">&#9829;</span>
+          <h4>Love Live! &amp; Aikatsu!</h4>
+          <p>Virtual idol anime with stage performance graphics featuring flowing vector staves</p>
+        </div>
+        <div class="vm-media-item vm-reveal vm-reveal-delay-6">
+          <span class="media-icon">&#9835;</span>
+          <h4>Project DIVA</h4>
+          <p>Rhythm game backgrounds with flowing musical vector compositions</p>
+        </div>
+        <div class="vm-media-item vm-reveal vm-reveal-delay-1">
+          <span class="media-icon">&#9834;</span>
+          <h4>Just Dance</h4>
+          <p>Dance game UI and girly-themed routines with pastel vector backgrounds</p>
+        </div>
+        <div class="vm-media-item vm-reveal vm-reveal-delay-2">
+          <span class="media-icon">&#10024;</span>
+          <h4>Violetta</h4>
+          <p>Disney Channel series with music-themed pastel vector graphics</p>
+        </div>
+        <div class="vm-media-item vm-reveal vm-reveal-delay-3">
+          <span class="media-icon">&#9829;</span>
+          <h4>Sanrio Stationery</h4>
+          <p>My Melody lines with pastel vector musical designs in the late 2000s</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       SECTION 9: RELATED AESTHETICS
+       ============================================ -->
+  <section class="vm-section vm-related" id="related">
+    <div class="vm-container">
+      <div class="vm-section-header vm-reveal">
+        <span class="vm-section-label">Aesthetic Family</span>
+        <h2 class="vm-section-title">Related Aesthetics</h2>
+        <p class="vm-section-desc">
+          Vector Musica exists within a rich ecosystem of visual movements -- sibling, parent, and cousin aesthetics that share its DNA.
+        </p>
+      </div>
+
+      <div class="vm-related-grid">
+        <div class="vm-related-chip vm-reveal vm-reveal-delay-1">
+          <h4>Vectordelia</h4>
+          <p>Parent aesthetic. Vector Musica is the softer, feminine, music-focused subgenre.</p>
+        </div>
+        <div class="vm-related-chip vm-reveal vm-reveal-delay-2">
+          <h4>Vectorbloom</h4>
+          <p>Sibling subgenre sharing floral filigree, but focused on botanical motifs.</p>
+        </div>
+        <div class="vm-related-chip vm-reveal vm-reveal-delay-3">
+          <h4>Frutiger Aero</h4>
+          <p>Broader family sharing soft, optimistic, rounded design philosophy.</p>
+        </div>
+        <div class="vm-related-chip vm-reveal vm-reveal-delay-4">
+          <h4>Magical Girl</h4>
+          <p>Overlapping aesthetic. Many magical girl properties are primary exemplars.</p>
+        </div>
+        <div class="vm-related-chip vm-reveal vm-reveal-delay-5">
+          <h4>McBling</h4>
+          <p>Contemporary sparkly, feminine, tween-targeted aesthetic of the same era.</p>
+        </div>
+        <div class="vm-related-chip vm-reveal vm-reveal-delay-6">
+          <h4>Pianocore</h4>
+          <p>Shares musical motifs and soft elegance, but with classical piano focus.</p>
+        </div>
+        <div class="vm-related-chip vm-reveal vm-reveal-delay-1">
+          <h4>Danish Pastel</h4>
+          <p>Shares the pastel palette and feminine sensibility from Scandinavian design.</p>
+        </div>
+        <div class="vm-related-chip vm-reveal vm-reveal-delay-2">
+          <h4>Cutecore</h4>
+          <p>Shares the sweet, heart-and-star-decorated, feminine sensibility.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       FOOTER
+       ============================================ -->
+  <footer class="vm-footer">
+    <div class="vm-footer-stave"></div>
+    <div class="vm-footer-title">Vector Musica</div>
+    <p class="vm-footer-text">
+      A soft, melodic whisper from the late 2000s -- pastel gradients, flowing staves, and sparkling bokeh capturing the whimsical elegance of a generation's imagination.
+    </p>
+    <div class="vm-button-row" style="margin-bottom: 2rem;">
+      <a href="#overview" class="vm-button vm-button--ghost">Back to Top</a>
+    </div>
+    <div class="vm-footer-era">Late 2000s -- Early 2010s</div>
+  </footer>
+
+  <!-- ============================================
+       JAVASCRIPT
+       ============================================ -->
+  <script>
+    // ------------------------------------------
+    // Scroll reveal animation
+    // ------------------------------------------
+    (function() {
+      var reveals = document.querySelectorAll('.vm-reveal');
+      var observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      }, {
+        threshold: 0.12,
+        rootMargin: '0px 0px -40px 0px'
+      });
+
+      reveals.forEach(function(el) {
+        observer.observe(el);
+      });
+    })();
+
+    // ------------------------------------------
+    // Nav scroll state
+    // ------------------------------------------
+    (function() {
+      var nav = document.getElementById('nav');
+      window.addEventListener('scroll', function() {
+        if (window.scrollY > 60) {
+          nav.classList.add('scrolled');
+        } else {
+          nav.classList.remove('scrolled');
+        }
+      });
+    })();
+
+    // ------------------------------------------
+    // Sparkle cursor trail (fairy dust)
+    // ------------------------------------------
+    (function() {
+      var canvas = document.getElementById('sparkle-canvas');
+      var ctx = canvas.getContext('2d');
+      var particles = [];
+      var mouse = { x: -1000, y: -1000 };
+      var lastMouse = { x: -1000, y: -1000 };
+      var throttleTimer = 0;
+
+      function resize() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
+      resize();
+      window.addEventListener('resize', resize);
+
+      document.addEventListener('mousemove', function(e) {
+        mouse.x = e.clientX;
+        mouse.y = e.clientY;
+      });
+
+      var colors = [
+        'rgba(248, 200, 220, 0.9)',
+        'rgba(197, 179, 230, 0.8)',
+        'rgba(168, 216, 234, 0.7)',
+        'rgba(255, 228, 160, 0.85)',
+        'rgba(224, 79, 154, 0.6)',
+        'rgba(255, 255, 255, 0.9)'
+      ];
+
+      function createParticle(x, y) {
+        return {
+          x: x,
+          y: y,
+          vx: (Math.random() - 0.5) * 1.5,
+          vy: (Math.random() - 0.5) * 1.5 - 0.5,
+          life: 1,
+          decay: 0.015 + Math.random() * 0.02,
+          size: 2 + Math.random() * 3,
+          color: colors[Math.floor(Math.random() * colors.length)]
+        };
+      }
+
+      function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        // Spawn particles on movement
+        var dx = mouse.x - lastMouse.x;
+        var dy = mouse.y - lastMouse.y;
+        var dist = Math.sqrt(dx * dx + dy * dy);
+
+        if (dist > 3 && particles.length < 80) {
+          particles.push(createParticle(mouse.x, mouse.y));
+          if (dist > 8) {
+            particles.push(createParticle(
+              mouse.x + (Math.random() - 0.5) * 10,
+              mouse.y + (Math.random() - 0.5) * 10
+            ));
+          }
+        }
+
+        lastMouse.x = mouse.x;
+        lastMouse.y = mouse.y;
+
+        // Update and draw
+        for (var i = particles.length - 1; i >= 0; i--) {
+          var p = particles[i];
+          p.x += p.vx;
+          p.y += p.vy;
+          p.vy += 0.02; // slight gravity
+          p.life -= p.decay;
+
+          if (p.life <= 0) {
+            particles.splice(i, 1);
+            continue;
+          }
+
+          ctx.globalAlpha = p.life;
+          ctx.fillStyle = p.color;
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.size * p.life, 0, Math.PI * 2);
+          ctx.fill();
+
+          // Inner glow
+          ctx.globalAlpha = p.life * 0.5;
+          ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.size * p.life * 0.4, 0, Math.PI * 2);
+          ctx.fill();
+        }
+
+        ctx.globalAlpha = 1;
+        requestAnimationFrame(animate);
+      }
+
+      animate();
+    })();
+  </script>
+</body>
+</html>
