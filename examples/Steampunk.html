@@ -1,0 +1,2597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Steampunk -- A Design Aesthetic Reference</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Spectral:ital,wght@0,400;0,600;1,400&family=Playfair+Display:ital,wght@0,700;0,900;1,400&family=Special+Elite&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=UnifrakturMaguntia&display=swap" rel="stylesheet">
+  <style>
+    /* ===== CSS Custom Properties ===== */
+    :root {
+      /* Metallics */
+      --steam-brass: #c8a84e;
+      --steam-brass-dark: #9a7b2f;
+      --steam-gold: #d4a843;
+      --steam-copper: #b87333;
+      --steam-copper-dark: #8b5e3c;
+
+      /* Backgrounds */
+      --steam-bg-parchment: #f4e8c1;
+      --steam-bg-cream: #fff8e7;
+      --steam-bg-dark: #3c2415;
+      --steam-bg-mahogany: #4e1e0e;
+
+      /* Text */
+      --steam-text-sepia: #704214;
+      --steam-text-dark: #3c2415;
+      --steam-text-muted: #6b6b6b;
+      --steam-text-light: #f4e8c1;
+
+      /* Accents */
+      --steam-sienna: #a0522d;
+      --steam-rust: #8b3a1a;
+      --steam-verdigris: #43b3ae;
+      --steam-iron: #2c2c2c;
+
+      /* Borders */
+      --steam-border-light: #d4c5a0;
+      --steam-border-dark: #9a7b2f;
+
+      /* Textures */
+      --steam-leather: linear-gradient(145deg, #4a3020 0%, #3c2415 50%, #4a3020 100%);
+      --steam-brass-surface: linear-gradient(145deg, #d4a843 0%, #c8a84e 40%, #9a7b2f 60%, #c8a84e 100%);
+      --steam-parchment: linear-gradient(180deg, #fff8e7 0%, #f4e8c1 100%);
+    }
+
+    /* ===== Reset & Base ===== */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--steam-bg-cream);
+      color: var(--steam-text-sepia);
+      font-family: 'Spectral', 'Crimson Text', serif;
+      font-weight: 400;
+      font-size: 1.05rem;
+      line-height: 1.8;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'Cinzel', 'Playfair Display', serif;
+      font-weight: 700;
+      color: var(--steam-text-sepia);
+      line-height: 1.2;
+      letter-spacing: 0.03em;
+    }
+
+    a { color: var(--steam-brass-dark); text-decoration: none; transition: color 0.2s; }
+    a:hover { color: var(--steam-gold); }
+
+    img { max-width: 100%; display: block; }
+
+    /* ===== Parchment Noise Overlay ===== */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0.025;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+      background-size: 200px 200px;
+    }
+
+    /* ===== Animations ===== */
+    @keyframes gearSpin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes gearSpinReverse {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(-360deg); }
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes shimmer {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+
+    @keyframes steamRise {
+      0% { transform: translateY(0) scale(1); opacity: 0.4; }
+      50% { transform: translateY(-40px) scale(1.3); opacity: 0.2; }
+      100% { transform: translateY(-80px) scale(1.6); opacity: 0; }
+    }
+
+    @keyframes tickTock {
+      0%, 100% { transform: rotate(-15deg); }
+      50% { transform: rotate(15deg); }
+    }
+
+    @keyframes gaugeNeedle {
+      0%, 100% { transform: rotate(-40deg); transform-origin: bottom center; }
+      50% { transform: rotate(40deg); transform-origin: bottom center; }
+    }
+
+    @keyframes pulseGlow {
+      0%, 100% { box-shadow: 0 0 8px rgba(200, 168, 78, 0.3); }
+      50% { box-shadow: 0 0 20px rgba(200, 168, 78, 0.6); }
+    }
+
+    @keyframes typeReveal {
+      from { width: 0; }
+      to { width: 100%; }
+    }
+
+    .animate-on-scroll {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .animate-on-scroll.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ===== Navigation ===== */
+    .steam-nav {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: linear-gradient(145deg, #4a3020, #3c2415, #4a3020);
+      border-bottom: 3px solid var(--steam-brass-dark);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+    }
+
+    .steam-nav__inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 16px 40px;
+    }
+
+    .steam-nav__logo {
+      font-family: 'Cinzel', serif;
+      font-weight: 900;
+      font-size: 1.3rem;
+      color: var(--steam-gold);
+      text-decoration: none;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .steam-nav__logo .nav-gear {
+      display: inline-block;
+      width: 22px;
+      height: 22px;
+      animation: gearSpin 8s linear infinite;
+    }
+
+    .steam-nav__links {
+      display: flex;
+      gap: 28px;
+      list-style: none;
+    }
+
+    .steam-nav__links a {
+      font-family: 'Cinzel', serif;
+      font-weight: 500;
+      font-size: 0.82rem;
+      color: var(--steam-border-light);
+      text-decoration: none;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      transition: color 0.2s;
+      position: relative;
+    }
+
+    .steam-nav__links a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--steam-gold);
+      transition: width 0.3s ease;
+    }
+
+    .steam-nav__links a:hover { color: var(--steam-gold); }
+    .steam-nav__links a:hover::after { width: 100%; }
+
+    .nav-hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 4px;
+    }
+
+    .nav-hamburger span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--steam-gold);
+      transition: all 0.3s;
+    }
+
+    /* ===== Hero Section ===== */
+    .steam-hero {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 100px 40px 120px;
+      background: var(--steam-parchment);
+      overflow: hidden;
+    }
+
+    /* Decorative gears in hero background */
+    .hero-gear {
+      position: absolute;
+      border-radius: 50%;
+      opacity: 0.07;
+    }
+
+    .hero-gear--1 {
+      width: 300px;
+      height: 300px;
+      top: -60px;
+      right: -60px;
+      border: 20px solid var(--steam-brass-dark);
+      animation: gearSpin 30s linear infinite;
+    }
+
+    .hero-gear--2 {
+      width: 200px;
+      height: 200px;
+      bottom: -40px;
+      left: -40px;
+      border: 14px solid var(--steam-copper);
+      animation: gearSpinReverse 22s linear infinite;
+    }
+
+    .hero-gear--3 {
+      width: 140px;
+      height: 140px;
+      top: 60%;
+      right: 12%;
+      border: 10px solid var(--steam-brass);
+      animation: gearSpin 18s linear infinite;
+    }
+
+    .hero-gear--4 {
+      width: 100px;
+      height: 100px;
+      top: 20%;
+      left: 8%;
+      border: 8px solid var(--steam-copper-dark);
+      animation: gearSpinReverse 14s linear infinite;
+    }
+
+    /* Steam particles */
+    .steam-particle {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: rgba(200, 168, 78, 0.2);
+      animation: steamRise 4s ease-in infinite;
+    }
+
+    .steam-particle:nth-child(1) { left: 15%; bottom: 10%; animation-delay: 0s; animation-duration: 3.5s; }
+    .steam-particle:nth-child(2) { left: 25%; bottom: 5%; animation-delay: 0.8s; animation-duration: 4.2s; width: 8px; height: 8px; }
+    .steam-particle:nth-child(3) { right: 20%; bottom: 8%; animation-delay: 1.5s; animation-duration: 3.8s; }
+    .steam-particle:nth-child(4) { right: 30%; bottom: 3%; animation-delay: 2.2s; animation-duration: 4.5s; width: 5px; height: 5px; }
+    .steam-particle:nth-child(5) { left: 40%; bottom: 12%; animation-delay: 0.5s; animation-duration: 3.2s; width: 7px; height: 7px; }
+    .steam-particle:nth-child(6) { right: 10%; bottom: 15%; animation-delay: 1.8s; animation-duration: 4.8s; }
+
+    /* Ornate top border */
+    .steam-hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 5%;
+      right: 5%;
+      height: 4px;
+      background: repeating-linear-gradient(
+        90deg,
+        var(--steam-brass) 0px,
+        var(--steam-brass) 20px,
+        transparent 20px,
+        transparent 24px,
+        var(--steam-brass-dark) 24px,
+        var(--steam-brass-dark) 28px,
+        transparent 28px,
+        transparent 32px
+      );
+    }
+
+    .steam-hero__frame {
+      max-width: 780px;
+      border: 3px double var(--steam-border-dark);
+      padding: 56px 52px;
+      background: rgba(255, 248, 231, 0.85);
+      position: relative;
+      animation: fadeIn 1.2s ease-out;
+      box-shadow: 0 8px 32px rgba(60, 36, 21, 0.15);
+    }
+
+    /* Corner ornaments */
+    .steam-hero__frame .corner {
+      position: absolute;
+      width: 28px;
+      height: 28px;
+      border-color: var(--steam-brass);
+      border-style: solid;
+    }
+
+    .steam-hero__frame .corner--tl { top: 8px; left: 8px; border-width: 3px 0 0 3px; }
+    .steam-hero__frame .corner--tr { top: 8px; right: 8px; border-width: 3px 3px 0 0; }
+    .steam-hero__frame .corner--bl { bottom: 8px; left: 8px; border-width: 0 0 3px 3px; }
+    .steam-hero__frame .corner--br { bottom: 8px; right: 8px; border-width: 0 3px 3px 0; }
+
+    /* Rivet dots at corners */
+    .steam-hero__frame .rivet {
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, var(--steam-gold), var(--steam-brass-dark) 60%, #705a20);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.15);
+    }
+
+    .steam-hero__frame .rivet--tl { top: 12px; left: 12px; }
+    .steam-hero__frame .rivet--tr { top: 12px; right: 12px; }
+    .steam-hero__frame .rivet--bl { bottom: 12px; left: 12px; }
+    .steam-hero__frame .rivet--br { bottom: 12px; right: 12px; }
+
+    .steam-hero__label {
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--steam-text-muted);
+      margin-bottom: 18px;
+    }
+
+    .steam-hero__title {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(2.2rem, 5.5vw, 4rem);
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--steam-brass);
+      text-shadow: 1px 1px 0 var(--steam-brass-dark), 2px 2px 6px rgba(60, 36, 21, 0.25);
+      margin-bottom: 8px;
+      animation: fadeInUp 1s ease-out 0.3s both;
+    }
+
+    .steam-hero__subtitle {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.3rem;
+      font-style: italic;
+      font-weight: 400;
+      color: var(--steam-copper);
+      letter-spacing: 0.04em;
+      margin-bottom: 24px;
+      animation: fadeInUp 1s ease-out 0.5s both;
+    }
+
+    .steam-hero__desc {
+      font-size: 1.1rem;
+      color: var(--steam-text-sepia);
+      font-style: italic;
+      max-width: 600px;
+      margin: 0 auto 28px;
+      animation: fadeInUp 1s ease-out 0.7s both;
+    }
+
+    .steam-hero__btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--steam-brass-surface);
+      color: var(--steam-bg-dark);
+      border: 2px solid var(--steam-brass-dark);
+      border-radius: 3px;
+      padding: 14px 40px;
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      font-size: 0.85rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-decoration: none;
+      cursor: pointer;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+      transition: all 0.25s ease;
+      animation: fadeInUp 1s ease-out 0.9s both;
+    }
+
+    .steam-hero__btn:hover {
+      background: linear-gradient(145deg, #e0c060 0%, #d4a843 50%, #b08830 100%);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+      color: var(--steam-bg-dark);
+      transform: translateY(-1px);
+    }
+
+    .steam-hero__btn:active {
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+      transform: translateY(1px);
+    }
+
+    /* ===== Decorative Divider ===== */
+    .steam-divider {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      margin: 0 auto;
+      max-width: 400px;
+      padding: 48px 0;
+    }
+
+    .steam-divider::before,
+    .steam-divider::after {
+      content: '';
+      flex: 1;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--steam-brass), transparent);
+    }
+
+    .steam-divider__gear {
+      width: 28px;
+      height: 28px;
+      border: 3px solid var(--steam-brass);
+      border-radius: 50%;
+      position: relative;
+      animation: gearSpin 10s linear infinite;
+    }
+
+    .steam-divider__gear::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--steam-brass);
+    }
+
+    /* Gear teeth around the divider gear */
+    .steam-divider__gear::after {
+      content: '';
+      position: absolute;
+      top: -6px;
+      left: -6px;
+      right: -6px;
+      bottom: -6px;
+      border: 3px dashed var(--steam-brass);
+      border-radius: 50%;
+      opacity: 0.5;
+    }
+
+    /* ===== Section: Introduction ===== */
+    .steam-section {
+      padding: 80px 40px;
+      position: relative;
+    }
+
+    .steam-section--parchment {
+      background: var(--steam-bg-parchment);
+    }
+
+    .steam-section--cream {
+      background: var(--steam-parchment);
+    }
+
+    .steam-section--dark {
+      background: var(--steam-leather);
+      color: var(--steam-text-light);
+      border-top: 3px solid var(--steam-brass-dark);
+      border-bottom: 3px solid var(--steam-brass-dark);
+    }
+
+    .steam-section--dark h2,
+    .steam-section--dark h3 {
+      color: var(--steam-gold);
+    }
+
+    .steam-section--dark p {
+      color: var(--steam-border-light);
+    }
+
+    .steam-section--mahogany {
+      background: linear-gradient(145deg, #4e1e0e, #3c2415, #4e1e0e);
+      color: var(--steam-text-light);
+      border-top: 3px solid var(--steam-brass-dark);
+    }
+
+    .steam-container {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .section-heading {
+      text-align: center;
+      margin-bottom: 52px;
+    }
+
+    .section-heading h2 {
+      font-size: clamp(1.6rem, 3vw, 2.2rem);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 12px;
+    }
+
+    .section-heading .heading-rule {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .section-heading .heading-rule::before,
+    .section-heading .heading-rule::after {
+      content: '';
+      width: 60px;
+      height: 2px;
+      background: var(--steam-brass);
+    }
+
+    .section-heading .heading-rule .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--steam-brass);
+    }
+
+    .section-heading p {
+      font-style: italic;
+      color: var(--steam-text-muted);
+      font-size: 1.05rem;
+      max-width: 650px;
+      margin: 0 auto;
+    }
+
+    /* ===== Intro / About Block ===== */
+    .intro-block {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: center;
+    }
+
+    .intro-text p {
+      margin-bottom: 18px;
+      font-size: 1.05rem;
+    }
+
+    .intro-text p:first-child::first-letter {
+      font-family: 'UnifrakturMaguntia', cursive;
+      font-size: 3.5rem;
+      float: left;
+      line-height: 0.8;
+      margin-right: 8px;
+      color: var(--steam-brass);
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+    }
+
+    .intro-illustration {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .clockwork-display {
+      width: 280px;
+      height: 280px;
+      border-radius: 50%;
+      border: 6px solid var(--steam-brass);
+      background: radial-gradient(circle, var(--steam-bg-cream) 60%, var(--steam-bg-parchment));
+      position: relative;
+      box-shadow: 0 4px 20px rgba(60, 36, 21, 0.2), inset 0 0 30px rgba(60, 36, 21, 0.08);
+    }
+
+    .clockwork-display::before {
+      content: '';
+      position: absolute;
+      top: 8px; left: 8px; right: 8px; bottom: 8px;
+      border-radius: 50%;
+      border: 2px solid var(--steam-border-light);
+    }
+
+    /* Inner gear */
+    .clock-gear-inner {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 80px;
+      height: 80px;
+      border: 4px solid var(--steam-brass);
+      border-radius: 50%;
+      animation: gearSpin 6s linear infinite;
+    }
+
+    .clock-gear-inner::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 40% 40%, var(--steam-gold), var(--steam-brass-dark));
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    .clock-gear-inner::after {
+      content: '';
+      position: absolute;
+      top: -8px; left: -8px; right: -8px; bottom: -8px;
+      border-radius: 50%;
+      border: 3px dashed var(--steam-brass);
+      opacity: 0.6;
+      animation: gearSpinReverse 6s linear infinite;
+    }
+
+    /* Clock hands */
+    .clock-hand {
+      position: absolute;
+      bottom: 50%;
+      left: 50%;
+      transform-origin: bottom center;
+      background: var(--steam-text-dark);
+      border-radius: 2px;
+    }
+
+    .clock-hand--hour {
+      width: 4px;
+      height: 60px;
+      margin-left: -2px;
+      animation: gearSpin 43200s linear infinite;
+    }
+
+    .clock-hand--minute {
+      width: 3px;
+      height: 85px;
+      margin-left: -1.5px;
+      background: var(--steam-brass-dark);
+      animation: gearSpin 3600s linear infinite;
+    }
+
+    .clock-hand--second {
+      width: 1.5px;
+      height: 95px;
+      margin-left: -0.75px;
+      background: var(--steam-rust);
+      animation: gearSpin 60s linear infinite;
+    }
+
+    /* Clock markers */
+    .clock-marker {
+      position: absolute;
+      width: 3px;
+      height: 14px;
+      background: var(--steam-brass-dark);
+      top: 18px;
+      left: 50%;
+      margin-left: -1.5px;
+      transform-origin: 1.5px 122px;
+    }
+
+    .clock-marker:nth-child(1) { transform: rotate(0deg); }
+    .clock-marker:nth-child(2) { transform: rotate(30deg); }
+    .clock-marker:nth-child(3) { transform: rotate(60deg); }
+    .clock-marker:nth-child(4) { transform: rotate(90deg); }
+    .clock-marker:nth-child(5) { transform: rotate(120deg); }
+    .clock-marker:nth-child(6) { transform: rotate(150deg); }
+    .clock-marker:nth-child(7) { transform: rotate(180deg); }
+    .clock-marker:nth-child(8) { transform: rotate(210deg); }
+    .clock-marker:nth-child(9) { transform: rotate(240deg); }
+    .clock-marker:nth-child(10) { transform: rotate(270deg); }
+    .clock-marker:nth-child(11) { transform: rotate(300deg); }
+    .clock-marker:nth-child(12) { transform: rotate(330deg); }
+
+    /* Outer decorative gear */
+    .clock-outer-gear {
+      position: absolute;
+      top: -20px;
+      left: -20px;
+      right: -20px;
+      bottom: -20px;
+      border-radius: 50%;
+      border: 3px solid rgba(200, 168, 78, 0.25);
+      animation: gearSpinReverse 20s linear infinite;
+    }
+
+    .clock-outer-gear::before {
+      content: '';
+      position: absolute;
+      top: -4px; left: -4px; right: -4px; bottom: -4px;
+      border-radius: 50%;
+      border: 2px dashed rgba(200, 168, 78, 0.15);
+    }
+
+    /* ===== Design Traits / Features ===== */
+    .traits-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 28px;
+    }
+
+    .trait-card {
+      background: var(--steam-bg-cream);
+      border: 2px solid var(--steam-border-dark);
+      border-radius: 2px;
+      padding: 32px 28px;
+      position: relative;
+      box-shadow: 0 3px 10px rgba(60, 36, 21, 0.12);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .trait-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 24px rgba(60, 36, 21, 0.2);
+    }
+
+    /* Rivets */
+    .trait-card::before,
+    .trait-card::after {
+      content: '';
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, var(--steam-gold) 20%, var(--steam-brass-dark) 70%);
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+    }
+
+    .trait-card::before { top: 10px; left: 10px; }
+    .trait-card::after { top: 10px; right: 10px; }
+
+    .trait-card__icon {
+      font-size: 1.8rem;
+      margin-bottom: 12px;
+      display: inline-block;
+    }
+
+    .trait-card h3 {
+      font-family: 'Cinzel', serif;
+      font-size: 1rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--steam-copper);
+      margin-bottom: 10px;
+    }
+
+    .trait-card p {
+      color: var(--steam-text-muted);
+      font-size: 0.95rem;
+      line-height: 1.7;
+    }
+
+    /* Bottom rivets via extra element */
+    .trait-card .bottom-rivets {
+      position: absolute;
+      bottom: 10px;
+      left: 10px;
+      right: 10px;
+    }
+
+    .trait-card .bottom-rivets::before,
+    .trait-card .bottom-rivets::after {
+      content: '';
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, var(--steam-gold) 20%, var(--steam-brass-dark) 70%);
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+    }
+
+    .trait-card .bottom-rivets::before { left: 0; }
+    .trait-card .bottom-rivets::after { right: 0; }
+
+    /* ===== Color Palette Section ===== */
+    .palette-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 20px;
+    }
+
+    .color-swatch {
+      text-align: center;
+      transition: transform 0.3s ease;
+    }
+
+    .color-swatch:hover {
+      transform: scale(1.05);
+    }
+
+    .color-swatch__preview {
+      width: 100%;
+      height: 80px;
+      border: 2px solid var(--steam-border-dark);
+      border-radius: 2px;
+      margin-bottom: 10px;
+      position: relative;
+      box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.15), 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Small rivet on swatch */
+    .color-swatch__preview::after {
+      content: '';
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, rgba(255,255,255,0.3), rgba(0,0,0,0.2));
+    }
+
+    .color-swatch__name {
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--steam-text-sepia);
+      margin-bottom: 2px;
+    }
+
+    .color-swatch__hex {
+      font-family: 'Special Elite', 'Courier New', monospace;
+      font-size: 0.8rem;
+      color: var(--steam-text-muted);
+    }
+
+    /* ===== Typography Showcase ===== */
+    .type-showcase {
+      display: grid;
+      gap: 36px;
+    }
+
+    .type-specimen {
+      background: var(--steam-bg-cream);
+      border: 2px solid var(--steam-border-dark);
+      border-radius: 2px;
+      padding: 36px;
+      position: relative;
+      box-shadow: 0 2px 8px rgba(60, 36, 21, 0.1);
+    }
+
+    .type-specimen__label {
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      font-size: 0.68rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--steam-text-muted);
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--steam-border-light);
+    }
+
+    .type-specimen--display {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--steam-brass);
+      text-shadow: 1px 1px 0 var(--steam-brass-dark);
+      line-height: 1.1;
+    }
+
+    .type-specimen--heading {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.6rem, 3vw, 2.4rem);
+      font-weight: 700;
+      color: var(--steam-text-sepia);
+      line-height: 1.2;
+    }
+
+    .type-specimen--body {
+      font-family: 'Spectral', serif;
+      font-size: 1.1rem;
+      color: var(--steam-text-sepia);
+      line-height: 1.85;
+    }
+
+    .type-specimen--blackletter {
+      font-family: 'UnifrakturMaguntia', cursive;
+      font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+      color: var(--steam-copper);
+      line-height: 1.3;
+    }
+
+    .type-specimen--typewriter {
+      font-family: 'Special Elite', 'Courier New', monospace;
+      font-size: 1rem;
+      color: var(--steam-text-sepia);
+      line-height: 1.7;
+    }
+
+    .type-specimen--elegant {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.4rem, 2.5vw, 2rem);
+      font-style: italic;
+      color: var(--steam-sienna);
+      line-height: 1.4;
+    }
+
+    .type-specimen__meta {
+      font-family: 'Special Elite', monospace;
+      font-size: 0.75rem;
+      color: var(--steam-text-muted);
+      margin-top: 12px;
+    }
+
+    /* ===== Principles Section ===== */
+    .principles-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+    }
+
+    .principle {
+      display: flex;
+      gap: 16px;
+      padding: 20px;
+      background: rgba(255, 248, 231, 0.5);
+      border-left: 4px solid var(--steam-brass);
+      transition: background 0.3s;
+    }
+
+    .principle:hover {
+      background: rgba(255, 248, 231, 0.9);
+    }
+
+    .principle__number {
+      font-family: 'Cinzel', serif;
+      font-weight: 900;
+      font-size: 1.6rem;
+      color: var(--steam-brass);
+      flex-shrink: 0;
+      width: 40px;
+      text-align: center;
+    }
+
+    .principle__text h4 {
+      font-family: 'Cinzel', serif;
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--steam-text-sepia);
+      margin-bottom: 6px;
+    }
+
+    .principle__text p {
+      font-size: 0.95rem;
+      color: var(--steam-text-muted);
+    }
+
+    /* ===== Gauge Meters ===== */
+    .gauges-row {
+      display: flex;
+      justify-content: center;
+      gap: 48px;
+      flex-wrap: wrap;
+      padding: 20px 0;
+    }
+
+    .gauge {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .gauge__dial {
+      width: 120px;
+      height: 60px;
+      border: 3px solid var(--steam-brass);
+      border-radius: 120px 120px 0 0;
+      background: var(--steam-bg-parchment);
+      position: relative;
+      overflow: hidden;
+      box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.15);
+    }
+
+    .gauge__fill {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: linear-gradient(0deg, var(--steam-rust), var(--steam-copper), var(--steam-gold));
+      transition: height 1.5s ease;
+    }
+
+    .gauge__needle {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      width: 2px;
+      height: 50px;
+      background: var(--steam-iron);
+      margin-left: -1px;
+      transform-origin: bottom center;
+      animation: gaugeNeedle 4s ease-in-out infinite;
+      z-index: 2;
+    }
+
+    .gauge__needle::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: -3px;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, var(--steam-gold), var(--steam-brass-dark));
+    }
+
+    .gauge__label {
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--steam-text-muted);
+    }
+
+    .gauge__value {
+      font-family: 'Special Elite', monospace;
+      font-size: 0.85rem;
+      color: var(--steam-copper);
+    }
+
+    /* ===== Do's and Don'ts ===== */
+    .dos-donts {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 36px;
+    }
+
+    .dos-donts__col {
+      background: var(--steam-bg-cream);
+      border: 2px solid var(--steam-border-dark);
+      border-radius: 2px;
+      padding: 32px;
+      position: relative;
+    }
+
+    .dos-donts__col--do {
+      border-top: 4px solid var(--steam-brass);
+    }
+
+    .dos-donts__col--dont {
+      border-top: 4px solid var(--steam-rust);
+    }
+
+    .dos-donts__col h3 {
+      font-family: 'Cinzel', serif;
+      font-size: 1.1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 20px;
+    }
+
+    .dos-donts__col--do h3 { color: var(--steam-brass); }
+    .dos-donts__col--dont h3 { color: var(--steam-rust); }
+
+    .dos-donts__col ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .dos-donts__col li {
+      padding: 10px 0 10px 28px;
+      border-bottom: 1px solid var(--steam-border-light);
+      font-size: 0.93rem;
+      color: var(--steam-text-sepia);
+      position: relative;
+      line-height: 1.6;
+    }
+
+    .dos-donts__col li:last-child { border-bottom: none; }
+
+    .dos-donts__col--do li::before {
+      content: '\2699';
+      position: absolute;
+      left: 0;
+      color: var(--steam-brass);
+      font-size: 1.1rem;
+    }
+
+    .dos-donts__col--dont li::before {
+      content: '\2716';
+      position: absolute;
+      left: 0;
+      color: var(--steam-rust);
+      font-size: 0.85rem;
+      top: 12px;
+    }
+
+    /* ===== Related Aesthetics ===== */
+    .related-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 20px;
+    }
+
+    .related-card {
+      background: rgba(255, 248, 231, 0.1);
+      border: 1px solid rgba(200, 168, 78, 0.3);
+      border-radius: 2px;
+      padding: 24px;
+      transition: all 0.3s ease;
+    }
+
+    .related-card:hover {
+      background: rgba(255, 248, 231, 0.15);
+      border-color: var(--steam-gold);
+      box-shadow: 0 4px 16px rgba(200, 168, 78, 0.15);
+    }
+
+    .related-card h4 {
+      font-family: 'Cinzel', serif;
+      font-size: 0.9rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--steam-gold);
+      margin-bottom: 8px;
+    }
+
+    .related-card p {
+      font-size: 0.88rem;
+      line-height: 1.6;
+      color: var(--steam-border-light);
+    }
+
+    /* ===== Blockquote ===== */
+    .steam-blockquote {
+      max-width: 700px;
+      margin: 0 auto;
+      text-align: center;
+      padding: 48px;
+      border: 2px solid var(--steam-border-dark);
+      background: var(--steam-bg-cream);
+      position: relative;
+      box-shadow: 0 4px 12px rgba(60, 36, 21, 0.1);
+    }
+
+    .steam-blockquote::before {
+      content: '\201C';
+      font-family: 'Playfair Display', serif;
+      font-size: 5rem;
+      color: var(--steam-brass);
+      position: absolute;
+      top: -10px;
+      left: 20px;
+      line-height: 1;
+      opacity: 0.5;
+    }
+
+    .steam-blockquote p {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.3rem;
+      font-style: italic;
+      color: var(--steam-text-sepia);
+      line-height: 1.7;
+      margin-bottom: 16px;
+    }
+
+    .steam-blockquote cite {
+      font-family: 'Cinzel', serif;
+      font-size: 0.78rem;
+      font-style: normal;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--steam-text-muted);
+    }
+
+    /* ===== CSS Techniques Demo ===== */
+    .tech-demos {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 28px;
+    }
+
+    .tech-demo {
+      background: var(--steam-bg-cream);
+      border: 2px solid var(--steam-border-dark);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .tech-demo__header {
+      padding: 16px 20px;
+      background: linear-gradient(145deg, #4a3020, #3c2415);
+      border-bottom: 2px solid var(--steam-brass-dark);
+    }
+
+    .tech-demo__header h4 {
+      font-family: 'Cinzel', serif;
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--steam-gold);
+    }
+
+    .tech-demo__body {
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      min-height: 180px;
+      justify-content: center;
+    }
+
+    /* Demo: Brass Button */
+    .demo-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--steam-brass-surface);
+      color: var(--steam-bg-dark);
+      border: 2px solid var(--steam-brass-dark);
+      border-radius: 3px;
+      padding: 14px 36px;
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      font-size: 0.85rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      cursor: pointer;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+      transition: all 0.25s ease;
+    }
+
+    .demo-btn:hover {
+      background: linear-gradient(145deg, #e0c060 0%, #d4a843 50%, #b08830 100%);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+      transform: translateY(-1px);
+    }
+
+    .demo-btn:active {
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+      transform: translateY(1px);
+    }
+
+    .demo-btn--dark {
+      background: var(--steam-leather);
+      color: var(--steam-gold);
+      border-color: var(--steam-copper-dark);
+    }
+
+    .demo-btn--dark:hover {
+      background: linear-gradient(145deg, #5a3828 0%, #4a3020 50%, #5a3828 100%);
+    }
+
+    .demo-btn--outline {
+      background: transparent;
+      color: var(--steam-brass);
+      border: 2px solid var(--steam-brass);
+      box-shadow: none;
+    }
+
+    .demo-btn--outline:hover {
+      background: rgba(200, 168, 78, 0.1);
+    }
+
+    /* Demo: Animated Gear */
+    .demo-gear-cluster {
+      position: relative;
+      width: 120px;
+      height: 120px;
+    }
+
+    .demo-gear {
+      position: absolute;
+      border-radius: 50%;
+      border: 4px solid var(--steam-brass);
+    }
+
+    .demo-gear--large {
+      width: 80px;
+      height: 80px;
+      top: 0;
+      left: 0;
+      animation: gearSpin 4s linear infinite;
+    }
+
+    .demo-gear--small {
+      width: 55px;
+      height: 55px;
+      bottom: 0;
+      right: 0;
+      border-color: var(--steam-copper);
+      animation: gearSpinReverse 2.75s linear infinite;
+    }
+
+    .demo-gear::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 35%;
+      height: 35%;
+      border-radius: 50%;
+      background: radial-gradient(circle at 40% 40%, var(--steam-gold), var(--steam-brass-dark));
+    }
+
+    .demo-gear::after {
+      content: '';
+      position: absolute;
+      top: -6px; left: -6px; right: -6px; bottom: -6px;
+      border-radius: 50%;
+      border: 3px dashed var(--steam-brass);
+      opacity: 0.4;
+    }
+
+    .demo-gear--large::after { animation: gearSpinReverse 4s linear infinite; }
+    .demo-gear--small::after { animation: gearSpin 2.75s linear infinite; }
+
+    /* Demo: Pulsing Gauge */
+    .demo-gauge-animated {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      border: 4px solid var(--steam-brass);
+      background: var(--steam-bg-parchment);
+      position: relative;
+      box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.1);
+      animation: pulseGlow 3s ease-in-out infinite;
+    }
+
+    .demo-gauge-animated__needle {
+      position: absolute;
+      bottom: 50%;
+      left: 50%;
+      width: 2px;
+      height: 38px;
+      background: var(--steam-rust);
+      margin-left: -1px;
+      transform-origin: bottom center;
+      animation: tickTock 2s ease-in-out infinite;
+    }
+
+    .demo-gauge-animated__center {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: radial-gradient(circle, var(--steam-gold), var(--steam-brass-dark));
+      z-index: 2;
+    }
+
+    /* ===== CTA Section ===== */
+    .steam-cta {
+      text-align: center;
+      padding: 100px 40px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .steam-cta h2 {
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      color: var(--steam-gold);
+      text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 16px;
+    }
+
+    .steam-cta p {
+      font-style: italic;
+      color: var(--steam-border-light);
+      font-size: 1.1rem;
+      max-width: 600px;
+      margin: 0 auto 32px;
+    }
+
+    .steam-cta .btn-outline {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: transparent;
+      color: var(--steam-gold);
+      border: 2px solid var(--steam-gold);
+      border-radius: 3px;
+      padding: 14px 40px;
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      font-size: 0.85rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+
+    .steam-cta .btn-outline:hover {
+      background: rgba(200, 168, 78, 0.15);
+      box-shadow: 0 0 20px rgba(200, 168, 78, 0.2);
+      color: var(--steam-gold);
+    }
+
+    /* ===== Footer ===== */
+    .steam-footer {
+      background: linear-gradient(145deg, #4e1e0e, #3a1a0c, #4e1e0e);
+      padding: 48px 40px 32px;
+      border-top: 3px solid var(--steam-brass-dark);
+      position: relative;
+    }
+
+    .steam-footer::before {
+      content: '';
+      position: absolute;
+      top: 3px;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: repeating-linear-gradient(
+        90deg,
+        var(--steam-brass) 0px,
+        var(--steam-brass) 8px,
+        transparent 8px,
+        transparent 12px
+      );
+      opacity: 0.4;
+    }
+
+    .steam-footer__inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 40px;
+    }
+
+    .steam-footer h4 {
+      font-family: 'Cinzel', serif;
+      font-size: 0.82rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--steam-gold);
+      margin-bottom: 16px;
+    }
+
+    .steam-footer p,
+    .steam-footer li {
+      font-size: 0.9rem;
+      color: var(--steam-text-muted);
+      line-height: 1.7;
+    }
+
+    .steam-footer ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .steam-footer li { margin-bottom: 6px; }
+
+    .steam-footer a {
+      color: var(--steam-border-light);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .steam-footer a:hover { color: var(--steam-gold); }
+
+    .steam-footer__bottom {
+      max-width: 1100px;
+      margin: 32px auto 0;
+      padding-top: 20px;
+      border-top: 1px solid rgba(200, 168, 78, 0.2);
+      text-align: center;
+    }
+
+    .steam-footer__bottom p {
+      font-family: 'Special Elite', monospace;
+      font-size: 0.8rem;
+      color: var(--steam-text-muted);
+    }
+
+    /* ===== Layout Table ===== */
+    .layout-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 8px;
+    }
+
+    .layout-table th,
+    .layout-table td {
+      padding: 14px 18px;
+      text-align: left;
+      border-bottom: 1px solid var(--steam-border-light);
+      font-size: 0.92rem;
+    }
+
+    .layout-table th {
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--steam-text-muted);
+      background: rgba(244, 232, 193, 0.5);
+      border-bottom: 2px solid var(--steam-border-dark);
+    }
+
+    .layout-table td {
+      color: var(--steam-text-sepia);
+    }
+
+    .layout-table tr:hover td {
+      background: rgba(244, 232, 193, 0.3);
+    }
+
+    /* ===== SVG Gear ===== */
+    .svg-gear {
+      display: inline-block;
+    }
+
+    /* ===== Back to top button ===== */
+    .back-to-top {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: var(--steam-brass-surface);
+      border: 2px solid var(--steam-brass-dark);
+      color: var(--steam-bg-dark);
+      font-size: 1.4rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+      transition: all 0.3s ease;
+      opacity: 0;
+      pointer-events: none;
+      z-index: 100;
+    }
+
+    .back-to-top.visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .back-to-top:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+    }
+
+    /* ===== Responsive ===== */
+    @media (max-width: 900px) {
+      .intro-block {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+
+      .intro-illustration {
+        order: -1;
+      }
+
+      .dos-donts {
+        grid-template-columns: 1fr;
+      }
+
+      .steam-footer__inner {
+        grid-template-columns: 1fr;
+        gap: 32px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .steam-hero {
+        padding: 70px 20px 80px;
+      }
+
+      .steam-hero__frame {
+        padding: 36px 24px;
+      }
+
+      .steam-section {
+        padding: 60px 20px;
+      }
+
+      .steam-nav__inner {
+        padding: 14px 20px;
+      }
+
+      .steam-nav__links {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: linear-gradient(145deg, #4a3020, #3c2415);
+        flex-direction: column;
+        padding: 20px 40px;
+        gap: 16px;
+        border-bottom: 3px solid var(--steam-brass-dark);
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+      }
+
+      .steam-nav__links.open {
+        display: flex;
+      }
+
+      .nav-hamburger {
+        display: flex;
+      }
+
+      .hero-gear { display: none; }
+      .steam-particle { display: none; }
+
+      .palette-grid {
+        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+        gap: 12px;
+      }
+
+      .traits-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .related-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .gauges-row {
+        gap: 28px;
+      }
+
+      .clockwork-display {
+        width: 220px;
+        height: 220px;
+      }
+
+      .clock-marker {
+        transform-origin: 1.5px 93px;
+        height: 10px;
+        top: 16px;
+      }
+
+      .clock-hand--hour { height: 45px; }
+      .clock-hand--minute { height: 65px; }
+      .clock-hand--second { height: 75px; }
+    }
+
+    @media (max-width: 480px) {
+      .steam-hero__frame .corner { display: none; }
+
+      .steam-blockquote {
+        padding: 32px 20px;
+      }
+
+      .steam-blockquote::before {
+        font-size: 3rem;
+        top: 0;
+        left: 10px;
+      }
+
+      .principles-list {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== Navigation ===== -->
+  <nav class="steam-nav">
+    <div class="steam-nav__inner">
+      <a href="#" class="steam-nav__logo">
+        <svg class="nav-gear" width="22" height="22" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="50" cy="50" r="30" stroke="#d4a843" stroke-width="6" fill="none"/>
+          <circle cx="50" cy="50" r="12" fill="#d4a843"/>
+          <rect x="47" y="2" width="6" height="18" rx="2" fill="#d4a843"/>
+          <rect x="47" y="80" width="6" height="18" rx="2" fill="#d4a843"/>
+          <rect x="2" y="47" width="18" height="6" rx="2" fill="#d4a843"/>
+          <rect x="80" y="47" width="18" height="6" rx="2" fill="#d4a843"/>
+          <rect x="15" y="11" width="6" height="18" rx="2" fill="#d4a843" transform="rotate(45 18 20)"/>
+          <rect x="72" y="68" width="6" height="18" rx="2" fill="#d4a843" transform="rotate(45 75 77)"/>
+          <rect x="72" y="14" width="6" height="18" rx="2" fill="#d4a843" transform="rotate(-45 75 23)"/>
+          <rect x="15" y="71" width="6" height="18" rx="2" fill="#d4a843" transform="rotate(-45 18 80)"/>
+        </svg>
+        Steampunk
+      </a>
+      <ul class="steam-nav__links" id="navLinks">
+        <li><a href="#overview">Overview</a></li>
+        <li><a href="#traits">Traits</a></li>
+        <li><a href="#palette">Palette</a></li>
+        <li><a href="#typography">Typography</a></li>
+        <li><a href="#principles">Principles</a></li>
+        <li><a href="#techniques">Techniques</a></li>
+        <li><a href="#related">Related</a></li>
+      </ul>
+      <button class="nav-hamburger" id="hamburger" aria-label="Toggle navigation">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ===== Hero Section ===== -->
+  <section class="steam-hero" id="hero">
+    <!-- Decorative Background Gears -->
+    <div class="hero-gear hero-gear--1"></div>
+    <div class="hero-gear hero-gear--2"></div>
+    <div class="hero-gear hero-gear--3"></div>
+    <div class="hero-gear hero-gear--4"></div>
+
+    <!-- Steam Particles -->
+    <div class="steam-particle"></div>
+    <div class="steam-particle"></div>
+    <div class="steam-particle"></div>
+    <div class="steam-particle"></div>
+    <div class="steam-particle"></div>
+    <div class="steam-particle"></div>
+
+    <div class="steam-hero__frame">
+      <!-- Corner ornaments -->
+      <div class="corner corner--tl"></div>
+      <div class="corner corner--tr"></div>
+      <div class="corner corner--bl"></div>
+      <div class="corner corner--br"></div>
+
+      <!-- Rivets -->
+      <div class="rivet rivet--tl"></div>
+      <div class="rivet rivet--tr"></div>
+      <div class="rivet rivet--bl"></div>
+      <div class="rivet rivet--br"></div>
+
+      <p class="steam-hero__label">A Design Aesthetic Reference</p>
+      <h1 class="steam-hero__title">Steampunk</h1>
+      <p class="steam-hero__subtitle">Retro-Futuristic Victorian Engineering</p>
+      <p class="steam-hero__desc">
+        A world of copper pipes, leather straps, ornate clockwork gears, sepia-toned adventure, and baroque mechanical invention.
+      </p>
+      <a href="#overview" class="steam-hero__btn">Explore the Aesthetic</a>
+    </div>
+  </section>
+
+  <!-- ===== Divider ===== -->
+  <div class="steam-divider">
+    <div class="steam-divider__gear"></div>
+  </div>
+
+  <!-- ===== Overview Section ===== -->
+  <section class="steam-section steam-section--parchment" id="overview">
+    <div class="steam-container">
+      <div class="intro-block">
+        <div class="intro-text animate-on-scroll">
+          <p>Steampunk is a retro-futuristic aesthetic set in an alternate Victorian era where steam power, clockwork mechanisms, and brass engineering have advanced to fantastical levels. The visual language draws from 19th-century industrial design, the science fiction of Jules Verne and H.G. Wells, and the ornamental craftsmanship of the Victorian period.</p>
+          <p>In web design, Steampunk translates to warm sepia and copper color palettes, ornate serif typography, textured parchment backgrounds, brass UI elements, gear motifs, and a handcrafted quality that rejects the sterile precision of modern digital design. Every surface should suggest a physical material -- metal, leather, paper, or wood.</p>
+          <p>The overall mood should feel like an inventor's workshop: cluttered, warm, fascinating, and alive. It references real Victorian engineering and design: Brunel's bridges, Victorian railway posters, and patent office drawings.</p>
+        </div>
+        <div class="intro-illustration animate-on-scroll">
+          <div class="clockwork-display">
+            <div class="clock-outer-gear"></div>
+            <div class="clock-marker"></div>
+            <div class="clock-marker"></div>
+            <div class="clock-marker"></div>
+            <div class="clock-marker"></div>
+            <div class="clock-marker"></div>
+            <div class="clock-marker"></div>
+            <div class="clock-marker"></div>
+            <div class="clock-marker"></div>
+            <div class="clock-marker"></div>
+            <div class="clock-marker"></div>
+            <div class="clock-marker"></div>
+            <div class="clock-marker"></div>
+            <div class="clock-gear-inner"></div>
+            <div class="clock-hand clock-hand--hour"></div>
+            <div class="clock-hand clock-hand--minute"></div>
+            <div class="clock-hand clock-hand--second"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Divider ===== -->
+  <div class="steam-divider">
+    <div class="steam-divider__gear"></div>
+  </div>
+
+  <!-- ===== Visual Characteristics ===== -->
+  <section class="steam-section steam-section--cream" id="traits">
+    <div class="steam-container">
+      <div class="section-heading animate-on-scroll">
+        <h2>Visual Characteristics</h2>
+        <p>The core design traits that define the Steampunk aesthetic in web design</p>
+        <div class="heading-rule"><div class="dot"></div></div>
+      </div>
+
+      <div class="traits-grid">
+        <div class="trait-card animate-on-scroll">
+          <div class="trait-card__icon">
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="12" fill="#c8a84e" opacity="0.2"/><circle cx="16" cy="16" r="8" stroke="#c8a84e" stroke-width="2" fill="none"/><circle cx="16" cy="16" r="3" fill="#c8a84e"/></svg>
+          </div>
+          <h3>Warm Sepia Tones</h3>
+          <p>Everything is filtered through a warm, aged lens suggesting antique photographs and candlelit workshops. Amber candlelight, gas lamp glow, and warm vignettes at the edges.</p>
+          <div class="bottom-rivets"></div>
+        </div>
+
+        <div class="trait-card animate-on-scroll">
+          <div class="trait-card__icon">
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect x="4" y="8" width="24" height="16" rx="2" fill="#b87333" opacity="0.2" stroke="#b87333" stroke-width="2"/><circle cx="16" cy="16" r="4" fill="#b87333"/></svg>
+          </div>
+          <h3>Brass & Copper Metallics</h3>
+          <p>UI elements appear to be forged from polished metal with specular highlights and warm reflections. Bronze, brass, and copper surfaces give every element tangible weight.</p>
+          <div class="bottom-rivets"></div>
+        </div>
+
+        <div class="trait-card animate-on-scroll">
+          <div class="trait-card__icon">
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="10" stroke="#9a7b2f" stroke-width="2" fill="none"/><circle cx="16" cy="16" r="4" fill="#9a7b2f"/><rect x="14.5" y="1" width="3" height="6" rx="1" fill="#9a7b2f"/><rect x="14.5" y="25" width="3" height="6" rx="1" fill="#9a7b2f"/><rect x="1" y="14.5" width="6" height="3" rx="1" fill="#9a7b2f"/><rect x="25" y="14.5" width="6" height="3" rx="1" fill="#9a7b2f"/></svg>
+          </div>
+          <h3>Clockwork Gears & Cogs</h3>
+          <p>Interlocking gear shapes used as decorative elements, borders, and visual metaphors. The clockwork mechanism is the central symbol of the aesthetic.</p>
+          <div class="bottom-rivets"></div>
+        </div>
+
+        <div class="trait-card animate-on-scroll">
+          <div class="trait-card__icon">
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect x="4" y="4" width="24" height="24" rx="1" fill="#f4e8c1" stroke="#d4c5a0" stroke-width="2"/><line x1="8" y1="12" x2="24" y2="12" stroke="#d4c5a0" stroke-width="1"/><line x1="8" y1="17" x2="24" y2="17" stroke="#d4c5a0" stroke-width="1"/><line x1="8" y1="22" x2="20" y2="22" stroke="#d4c5a0" stroke-width="1"/></svg>
+          </div>
+          <h3>Parchment Textures</h3>
+          <p>Backgrounds evoke old manuscripts, patent drawings, and Victorian-era documents. Aged paper textures with warm cream and sepia tones throughout.</p>
+          <div class="bottom-rivets"></div>
+        </div>
+
+        <div class="trait-card animate-on-scroll">
+          <div class="trait-card__icon">
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect x="4" y="4" width="24" height="24" rx="1" fill="none" stroke="#8b5e3c" stroke-width="2"/><rect x="7" y="7" width="18" height="18" rx="1" fill="none" stroke="#8b5e3c" stroke-width="1" stroke-dasharray="3 2"/><path d="M4 4 L10 10 M28 4 L22 10 M4 28 L10 22 M28 28 L22 22" stroke="#8b5e3c" stroke-width="1.5"/></svg>
+          </div>
+          <h3>Ornate Borders & Filigree</h3>
+          <p>Decorative Victorian-style frames, corner ornaments, and flourishes. Unlike minimalist aesthetics, Steampunk values decorative detail and craftsmanship.</p>
+          <div class="bottom-rivets"></div>
+        </div>
+
+        <div class="trait-card animate-on-scroll">
+          <div class="trait-card__icon">
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect x="6" y="10" width="20" height="12" rx="6" fill="#4a3020" stroke="#8b5e3c" stroke-width="2"/><circle cx="10" cy="16" r="2" fill="#d4a843"/><circle cx="22" cy="16" r="2" fill="#d4a843"/><circle cx="16" cy="16" r="2" fill="#d4a843"/></svg>
+          </div>
+          <h3>Leather & Rivets</h3>
+          <p>Button and panel styling suggests stitched leather straps fastened with brass rivets. Exposed mechanical components as UI metaphors.</p>
+          <div class="bottom-rivets"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Divider ===== -->
+  <div class="steam-divider">
+    <div class="steam-divider__gear"></div>
+  </div>
+
+  <!-- ===== Color Palette ===== -->
+  <section class="steam-section steam-section--parchment" id="palette">
+    <div class="steam-container">
+      <div class="section-heading animate-on-scroll">
+        <h2>Victorian Workshop Palette</h2>
+        <p>A warm spectrum of brass, copper, sepia, and parchment tones</p>
+        <div class="heading-rule"><div class="dot"></div></div>
+      </div>
+
+      <div class="palette-grid animate-on-scroll">
+        <div class="color-swatch">
+          <div class="color-swatch__preview" style="background-color: #c8a84e;"></div>
+          <div class="color-swatch__name">Polished Brass</div>
+          <div class="color-swatch__hex">#C8A84E</div>
+        </div>
+        <div class="color-swatch">
+          <div class="color-swatch__preview" style="background-color: #9a7b2f;"></div>
+          <div class="color-swatch__name">Dark Brass</div>
+          <div class="color-swatch__hex">#9A7B2F</div>
+        </div>
+        <div class="color-swatch">
+          <div class="color-swatch__preview" style="background-color: #d4a843;"></div>
+          <div class="color-swatch__name">Antique Gold</div>
+          <div class="color-swatch__hex">#D4A843</div>
+        </div>
+        <div class="color-swatch">
+          <div class="color-swatch__preview" style="background-color: #b87333;"></div>
+          <div class="color-swatch__name">Copper Pipe</div>
+          <div class="color-swatch__hex">#B87333</div>
+        </div>
+        <div class="color-swatch">
+          <div class="color-swatch__preview" style="background-color: #8b5e3c;"></div>
+          <div class="color-swatch__name">Dark Copper</div>
+          <div class="color-swatch__hex">#8B5E3C</div>
+        </div>
+        <div class="color-swatch">
+          <div class="color-swatch__preview" style="background-color: #f4e8c1;"></div>
+          <div class="color-swatch__name">Aged Parchment</div>
+          <div class="color-swatch__hex">#F4E8C1</div>
+        </div>
+        <div class="color-swatch">
+          <div class="color-swatch__preview" style="background-color: #fff8e7;"></div>
+          <div class="color-swatch__name">Warm Cream</div>
+          <div class="color-swatch__hex">#FFF8E7</div>
+        </div>
+        <div class="color-swatch">
+          <div class="color-swatch__preview" style="background-color: #704214;"></div>
+          <div class="color-swatch__name">Sepia</div>
+          <div class="color-swatch__hex">#704214</div>
+        </div>
+        <div class="color-swatch">
+          <div class="color-swatch__preview" style="background-color: #3c2415;"></div>
+          <div class="color-swatch__name">Dark Leather</div>
+          <div class="color-swatch__hex">#3C2415</div>
+        </div>
+        <div class="color-swatch">
+          <div class="color-swatch__preview" style="background-color: #4e1e0e;"></div>
+          <div class="color-swatch__name">Rich Mahogany</div>
+          <div class="color-swatch__hex">#4E1E0E</div>
+        </div>
+        <div class="color-swatch">
+          <div class="color-swatch__preview" style="background-color: #a0522d;"></div>
+          <div class="color-swatch__name">Burnt Sienna</div>
+          <div class="color-swatch__hex">#A0522D</div>
+        </div>
+        <div class="color-swatch">
+          <div class="color-swatch__preview" style="background-color: #d4c5a0;"></div>
+          <div class="color-swatch__name">Parchment Shadow</div>
+          <div class="color-swatch__hex">#D4C5A0</div>
+        </div>
+        <div class="color-swatch">
+          <div class="color-swatch__preview" style="background-color: #6b6b6b;"></div>
+          <div class="color-swatch__name">Steel Gray</div>
+          <div class="color-swatch__hex">#6B6B6B</div>
+        </div>
+        <div class="color-swatch">
+          <div class="color-swatch__preview" style="background-color: #2c2c2c;"></div>
+          <div class="color-swatch__name">Iron Dark</div>
+          <div class="color-swatch__hex">#2C2C2C</div>
+        </div>
+        <div class="color-swatch">
+          <div class="color-swatch__preview" style="background-color: #8b3a1a;"></div>
+          <div class="color-swatch__name">Rust Red</div>
+          <div class="color-swatch__hex">#8B3A1A</div>
+        </div>
+        <div class="color-swatch">
+          <div class="color-swatch__preview" style="background-color: #43b3ae;"></div>
+          <div class="color-swatch__name">Verdigris</div>
+          <div class="color-swatch__hex">#43B3AE</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Divider ===== -->
+  <div class="steam-divider">
+    <div class="steam-divider__gear"></div>
+  </div>
+
+  <!-- ===== Typography Section ===== -->
+  <section class="steam-section steam-section--cream" id="typography">
+    <div class="steam-container">
+      <div class="section-heading animate-on-scroll">
+        <h2>Typography</h2>
+        <p>Ornate serifs, blackletter accents, and typewriter notes -- engraved, stamped, and letterpress-printed</p>
+        <div class="heading-rule"><div class="dot"></div></div>
+      </div>
+
+      <div class="type-showcase">
+        <div class="type-specimen animate-on-scroll">
+          <div class="type-specimen__label">Display / Hero -- Cinzel 900</div>
+          <div class="type-specimen--display">The Grand Apparatus</div>
+          <div class="type-specimen__meta">Cinzel -- Regal, Roman-inscribed capitals. Best for titles, headers, decorative text.</div>
+        </div>
+
+        <div class="type-specimen animate-on-scroll">
+          <div class="type-specimen__label">Heading -- Playfair Display 700</div>
+          <div class="type-specimen--heading">Precision Clockwork Engineering for the Discerning Inventor</div>
+          <div class="type-specimen__meta">Playfair Display -- High-contrast serif, elegant. Best for headlines and hero text.</div>
+        </div>
+
+        <div class="type-specimen animate-on-scroll">
+          <div class="type-specimen__label">Body Text -- Spectral 400</div>
+          <div class="type-specimen--body">Steampunk depicts a world of copper pipes, leather straps, ornate clockwork gears, sepia-toned adventure, and baroque mechanical invention. The visual language draws from 19th-century industrial design and the ornamental craftsmanship of the Victorian period. In web design, this translates to warm palettes, textured backgrounds, and a handcrafted quality that rejects sterile digital precision.</div>
+          <div class="type-specimen__meta">Spectral -- Refined transitional serif. Best for readable long-form content.</div>
+        </div>
+
+        <div class="type-specimen animate-on-scroll">
+          <div class="type-specimen__label">Decorative Accent -- UnifrakturMaguntia</div>
+          <div class="type-specimen--blackletter">Aetheric Machinations</div>
+          <div class="type-specimen__meta">UnifrakturMaguntia -- Blackletter / Fraktur. Best for decorative accents, drop caps, and logos.</div>
+        </div>
+
+        <div class="type-specimen animate-on-scroll">
+          <div class="type-specimen__label">Typewriter -- Special Elite</div>
+          <div class="type-specimen--typewriter">Field Report No. 47: The pneumatic relay station at coordinates 51.5074 N, 0.1278 W has been operating at 94.7% efficiency since the last maintenance cycle. Recommend inspection of the secondary steam valve. -- Chief Engineer, Aetheric Division</div>
+          <div class="type-specimen__meta">Special Elite -- Typewriter style. Best for technical notes, code, and labels.</div>
+        </div>
+
+        <div class="type-specimen animate-on-scroll">
+          <div class="type-specimen__label">Elegant Subheading -- Cormorant Garamond 600 Italic</div>
+          <div class="type-specimen--elegant">Every creation is forged by hand, tested by fire, and guaranteed for a lifetime of distinguished service to Queen and Country.</div>
+          <div class="type-specimen__meta">Cormorant Garamond -- High-contrast serif. Best for refined headlines and subheadings.</div>
+        </div>
+      </div>
+
+      <!-- Font Pairing Table -->
+      <div class="animate-on-scroll" style="margin-top: 52px;">
+        <h3 style="font-size: 1.2rem; text-transform: uppercase; letter-spacing: 0.06em; text-align: center; margin-bottom: 24px;">Recommended Font Pairings</h3>
+        <div style="overflow-x: auto;">
+          <table class="layout-table">
+            <thead>
+              <tr>
+                <th>Heading Font</th>
+                <th>Body Font</th>
+                <th>Character</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong style="font-family: 'Cinzel', serif;">Cinzel (700)</strong></td>
+                <td><span style="font-family: 'Spectral', serif;">Spectral (400)</span></td>
+                <td>Regal and refined, Victorian formality</td>
+              </tr>
+              <tr>
+                <td><strong style="font-family: 'Playfair Display', serif;">Playfair Display (700)</strong></td>
+                <td><span style="font-family: 'Spectral', serif;">Crimson Text (400)</span></td>
+                <td>Elegant contrast, bookish warmth</td>
+              </tr>
+              <tr>
+                <td><strong style="font-family: 'Cinzel', serif;">Cinzel (700)</strong></td>
+                <td><span style="font-family: 'Spectral', serif;">Libre Baskerville (400)</span></td>
+                <td>Classic, authoritative, engraved</td>
+              </tr>
+              <tr>
+                <td><strong style="font-family: 'Cormorant Garamond', serif;">Cormorant Garamond (600)</strong></td>
+                <td><span style="font-family: 'Spectral', serif;">Spectral (400)</span></td>
+                <td>Refined, delicate, literary</td>
+              </tr>
+              <tr>
+                <td><strong style="font-family: 'Playfair Display', serif;">Playfair Display (700)</strong></td>
+                <td><span style="font-family: 'Special Elite', monospace;">Special Elite (400)</span></td>
+                <td>Dramatic heading, typewriter body</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Gauges Interlude ===== -->
+  <section class="steam-section steam-section--dark">
+    <div class="steam-container">
+      <div class="section-heading animate-on-scroll">
+        <h2>System Diagnostics</h2>
+        <p style="color: var(--steam-border-light);">Steam-powered gauge instruments monitoring aesthetic parameters</p>
+        <div class="heading-rule"><div class="dot"></div></div>
+      </div>
+      <div class="gauges-row animate-on-scroll">
+        <div class="gauge">
+          <div class="gauge__dial">
+            <div class="gauge__fill" style="height: 85%;"></div>
+            <div class="gauge__needle"></div>
+          </div>
+          <div class="gauge__label">Warmth</div>
+          <div class="gauge__value" style="color: var(--steam-gold);">94.7%</div>
+        </div>
+        <div class="gauge">
+          <div class="gauge__dial">
+            <div class="gauge__fill" style="height: 92%;"></div>
+            <div class="gauge__needle" style="animation-delay: -1s;"></div>
+          </div>
+          <div class="gauge__label">Ornamentation</div>
+          <div class="gauge__value" style="color: var(--steam-gold);">97.2%</div>
+        </div>
+        <div class="gauge">
+          <div class="gauge__dial">
+            <div class="gauge__fill" style="height: 78%;"></div>
+            <div class="gauge__needle" style="animation-delay: -2s;"></div>
+          </div>
+          <div class="gauge__label">Materiality</div>
+          <div class="gauge__value" style="color: var(--steam-gold);">88.1%</div>
+        </div>
+        <div class="gauge">
+          <div class="gauge__dial">
+            <div class="gauge__fill" style="height: 70%;"></div>
+            <div class="gauge__needle" style="animation-delay: -0.5s;"></div>
+          </div>
+          <div class="gauge__label">Brass Content</div>
+          <div class="gauge__value" style="color: var(--steam-gold);">82.6%</div>
+        </div>
+        <div class="gauge">
+          <div class="gauge__dial">
+            <div class="gauge__fill" style="height: 60%;"></div>
+            <div class="gauge__needle" style="animation-delay: -3s;"></div>
+          </div>
+          <div class="gauge__label">Steam Pressure</div>
+          <div class="gauge__value" style="color: var(--steam-gold);">76.3%</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Design Principles ===== -->
+  <section class="steam-section steam-section--parchment" id="principles">
+    <div class="steam-container">
+      <div class="section-heading animate-on-scroll">
+        <h2>Design Principles</h2>
+        <p>The guiding philosophy behind every Steampunk interface</p>
+        <div class="heading-rule"><div class="dot"></div></div>
+      </div>
+
+      <div class="principles-list">
+        <div class="principle animate-on-scroll">
+          <div class="principle__number">I</div>
+          <div class="principle__text">
+            <h4>Embrace Ornamentation</h4>
+            <p>Unlike minimalist aesthetics, Steampunk values decorative detail and craftsmanship. Ornate framing elevates content.</p>
+          </div>
+        </div>
+        <div class="principle animate-on-scroll">
+          <div class="principle__number">II</div>
+          <div class="principle__text">
+            <h4>Handmade & Tangible</h4>
+            <p>Every element should feel mechanical and tangible -- never sterile or purely digital. Physical materiality is paramount.</p>
+          </div>
+        </div>
+        <div class="principle animate-on-scroll">
+          <div class="principle__number">III</div>
+          <div class="principle__text">
+            <h4>Warm Color Temperatures</h4>
+            <p>Use warm color temperatures throughout. Cool blues and stark whites are foreign to the Victorian workshop atmosphere.</p>
+          </div>
+        </div>
+        <div class="principle animate-on-scroll">
+          <div class="principle__number">IV</div>
+          <div class="principle__text">
+            <h4>Layered Materiality</h4>
+            <p>Create a sense of depth: metal over leather over parchment over wood. Each layer adds richness and authenticity.</p>
+          </div>
+        </div>
+        <div class="principle animate-on-scroll">
+          <div class="principle__number">V</div>
+          <div class="principle__text">
+            <h4>Victorian Instruments</h4>
+            <p>Functional elements should look like Victorian-era instruments: gauges, dials, switches, and levers.</p>
+          </div>
+        </div>
+        <div class="principle animate-on-scroll">
+          <div class="principle__number">VI</div>
+          <div class="principle__text">
+            <h4>Engraved Typography</h4>
+            <p>Typography should feel engraved, stamped, or printed on a letterpress -- never pixel-perfect or digitally clean.</p>
+          </div>
+        </div>
+        <div class="principle animate-on-scroll">
+          <div class="principle__number">VII</div>
+          <div class="principle__text">
+            <h4>Borders as Features</h4>
+            <p>Borders and frames are features, not obstacles. Ornate framing elevates content and adds Victorian grandeur.</p>
+          </div>
+        </div>
+        <div class="principle animate-on-scroll">
+          <div class="principle__number">VIII</div>
+          <div class="principle__text">
+            <h4>The Inventor's Workshop</h4>
+            <p>The overall mood should feel like an inventor's workshop: cluttered, warm, fascinating, and alive with possibility.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Blockquote ===== -->
+  <section class="steam-section steam-section--cream">
+    <div class="steam-container">
+      <div class="steam-blockquote animate-on-scroll">
+        <p>Anything one man can imagine, other men can make real. The machine does not isolate man from the great problems of nature but plunges him more deeply into them.</p>
+        <cite>-- Adapted from the works of Jules Verne</cite>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CSS Techniques ===== -->
+  <section class="steam-section steam-section--parchment" id="techniques">
+    <div class="steam-container">
+      <div class="section-heading animate-on-scroll">
+        <h2>CSS Techniques & Components</h2>
+        <p>Interactive demonstrations of Steampunk UI components and effects</p>
+        <div class="heading-rule"><div class="dot"></div></div>
+      </div>
+
+      <div class="tech-demos">
+        <div class="tech-demo animate-on-scroll">
+          <div class="tech-demo__header">
+            <h4>Brass Buttons</h4>
+          </div>
+          <div class="tech-demo__body">
+            <button class="demo-btn">Primary Brass</button>
+            <button class="demo-btn demo-btn--dark">Dark Leather</button>
+            <button class="demo-btn demo-btn--outline">Outline</button>
+          </div>
+        </div>
+
+        <div class="tech-demo animate-on-scroll">
+          <div class="tech-demo__header">
+            <h4>Animated Gears</h4>
+          </div>
+          <div class="tech-demo__body">
+            <div class="demo-gear-cluster">
+              <div class="demo-gear demo-gear--large"></div>
+              <div class="demo-gear demo-gear--small"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tech-demo animate-on-scroll">
+          <div class="tech-demo__header">
+            <h4>Pressure Gauge</h4>
+          </div>
+          <div class="tech-demo__body">
+            <div class="demo-gauge-animated">
+              <div class="demo-gauge-animated__needle"></div>
+              <div class="demo-gauge-animated__center"></div>
+            </div>
+            <span style="font-family: 'Special Elite', monospace; font-size: 0.8rem; color: var(--steam-text-muted);">AETHER PRESSURE -- NOMINAL</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Divider ===== -->
+  <div class="steam-divider">
+    <div class="steam-divider__gear"></div>
+  </div>
+
+  <!-- ===== Do's and Don'ts ===== -->
+  <section class="steam-section steam-section--cream">
+    <div class="steam-container">
+      <div class="section-heading animate-on-scroll">
+        <h2>Design Guidelines</h2>
+        <p>Essential do's and don'ts for authentic Steampunk web design</p>
+        <div class="heading-rule"><div class="dot"></div></div>
+      </div>
+
+      <div class="dos-donts animate-on-scroll">
+        <div class="dos-donts__col dos-donts__col--do">
+          <h3>Do</h3>
+          <ul>
+            <li>Use warm, sepia-toned color palettes -- brass, copper, amber, cream, dark brown</li>
+            <li>Apply ornate borders, corner decorations, and Victorian-style frames</li>
+            <li>Choose serif typefaces with character: Cinzel, Playfair Display, Spectral</li>
+            <li>Add tactile material textures: parchment, leather, metallic surfaces</li>
+            <li>Include clockwork gear motifs as decorative elements</li>
+            <li>Use box-shadow and gradients for metallic, three-dimensional surfaces</li>
+            <li>Reference real Victorian engineering: rivet patterns, gauges, blueprints</li>
+            <li>Make buttons feel like brass switches or leather-wrapped controls</li>
+          </ul>
+        </div>
+        <div class="dos-donts__col dos-donts__col--dont">
+          <h3>Don't</h3>
+          <ul>
+            <li>Use cool colors (blue, green, pure white) as primary palette colors</li>
+            <li>Apply flat, shadow-free styling -- Steampunk embraces material depth</li>
+            <li>Use sans-serif typefaces for headings -- they feel too modern</li>
+            <li>Strip away ornamentation -- Steampunk values decorative richness</li>
+            <li>Use neon or electric glow effects -- light sources are candles and gas lamps</li>
+            <li>Make layouts too clean and grid-perfect -- organic imperfection adds character</li>
+            <li>Forget the materiality -- every surface should suggest a physical material</li>
+            <li>Mix in modern digital UI patterns that break the period illusion</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Layout Principles ===== -->
+  <section class="steam-section steam-section--parchment">
+    <div class="steam-container">
+      <div class="section-heading animate-on-scroll">
+        <h2>Layout & Structure</h2>
+        <p>How to organize sections and content in the Steampunk web design paradigm</p>
+        <div class="heading-rule"><div class="dot"></div></div>
+      </div>
+
+      <div class="animate-on-scroll" style="overflow-x: auto;">
+        <table class="layout-table">
+          <thead>
+            <tr>
+              <th>Section</th>
+              <th>Treatment</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Navigation</strong></td>
+              <td>Dark leather-colored bar with brass-styled links, ornate logo, gear icon accents</td>
+            </tr>
+            <tr>
+              <td><strong>Hero</strong></td>
+              <td>Parchment background with large serif headline, decorative border frame, technical illustration</td>
+            </tr>
+            <tr>
+              <td><strong>Features</strong></td>
+              <td>Card grid with ornate borders, gear/cog icon accents, sepia-toned backgrounds</td>
+            </tr>
+            <tr>
+              <td><strong>Content Rows</strong></td>
+              <td>Alternating parchment and darker sections with illustrated technical diagrams</td>
+            </tr>
+            <tr>
+              <td><strong>Quotes</strong></td>
+              <td>Ornate quotation marks, italicized serif text, decorative border treatment</td>
+            </tr>
+            <tr>
+              <td><strong>CTA Section</strong></td>
+              <td>Dark leather background with brass-colored headline and metallic button</td>
+            </tr>
+            <tr>
+              <td><strong>Footer</strong></td>
+              <td>Dark mahogany background, ornate top border, organized link columns</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CTA Section ===== -->
+  <section class="steam-section steam-section--dark steam-cta" id="cta">
+    <h2 class="animate-on-scroll">Commission a Bespoke Interface</h2>
+    <p class="animate-on-scroll">Every element forged by hand, every pixel tested by fire. The Steampunk aesthetic awaits your next project.</p>
+    <a href="#hero" class="btn-outline animate-on-scroll">Return to the Workshop</a>
+  </section>
+
+  <!-- ===== Related Aesthetics ===== -->
+  <section class="steam-section steam-section--mahogany" id="related">
+    <div class="steam-container">
+      <div class="section-heading animate-on-scroll">
+        <h2 style="color: var(--steam-gold);">Related Aesthetics</h2>
+        <p style="color: var(--steam-border-light);">Design movements that share kinship with the Steampunk ethos</p>
+        <div class="heading-rule"><div class="dot"></div></div>
+      </div>
+
+      <div class="related-grid">
+        <div class="related-card animate-on-scroll">
+          <h4>Art Nouveau</h4>
+          <p>Contemporary of the Victorian era; shares organic ornamentation but favors flowing natural curves over mechanical geometry.</p>
+        </div>
+        <div class="related-card animate-on-scroll">
+          <h4>Art Deco</h4>
+          <p>Later successor (1920s-30s); shares the love of ornamentation and metallic materials but is more geometric and streamlined.</p>
+        </div>
+        <div class="related-card animate-on-scroll">
+          <h4>Arts and Crafts</h4>
+          <p>Parallel Victorian movement; shares the handmade ethos and rejection of industrial mass production.</p>
+        </div>
+        <div class="related-card animate-on-scroll">
+          <h4>Gothic</h4>
+          <p>Shares the Victorian architectural vocabulary; darker and more ecclesiastical than Steampunk's workshop warmth.</p>
+        </div>
+        <div class="related-card animate-on-scroll">
+          <h4>Baroque</h4>
+          <p>Shares the love of ornamentation and richness; Baroque is royal and religious, Steampunk is industrial and inventive.</p>
+        </div>
+        <div class="related-card animate-on-scroll">
+          <h4>Cyberpunk</h4>
+          <p>Fellow "-punk" aesthetic; both critique technology, but Steampunk looks to a Victorian past, Cyberpunk to a digital future.</p>
+        </div>
+        <div class="related-card animate-on-scroll">
+          <h4>Dieselpunk</h4>
+          <p>Direct sibling; shifts the era from Victorian steam to 1920s-40s diesel and Art Deco industrial.</p>
+        </div>
+        <div class="related-card animate-on-scroll">
+          <h4>Skeuomorphism</h4>
+          <p>Shares the desire for digital elements that feel physical; Steampunk applies this with Victorian materials.</p>
+        </div>
+        <div class="related-card animate-on-scroll">
+          <h4>Clockpunk</h4>
+          <p>Sub-aesthetic focused specifically on clockwork and Renaissance-era mechanics -- Steampunk's earlier cousin.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Footer ===== -->
+  <footer class="steam-footer">
+    <div class="steam-footer__inner">
+      <div>
+        <h4>About This Reference</h4>
+        <p>This page serves as a comprehensive design reference for the Steampunk aesthetic in web design. Every visual element on this page -- from the brass navigation bar to the parchment backgrounds, ornate borders, clockwork animations, and serif typography -- demonstrates the principles described within.</p>
+      </div>
+      <div>
+        <h4>Key Resources</h4>
+        <ul>
+          <li><a href="#">Victorian Typography</a></li>
+          <li><a href="#">Brass & Metal Effects</a></li>
+          <li><a href="#">Parchment Textures</a></li>
+          <li><a href="#">Clockwork Animations</a></li>
+          <li><a href="#">Ornate CSS Borders</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Sections</h4>
+        <ul>
+          <li><a href="#overview">Overview</a></li>
+          <li><a href="#traits">Visual Traits</a></li>
+          <li><a href="#palette">Color Palette</a></li>
+          <li><a href="#typography">Typography</a></li>
+          <li><a href="#principles">Principles</a></li>
+          <li><a href="#techniques">Techniques</a></li>
+          <li><a href="#related">Related</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="steam-footer__bottom">
+      <p>Steampunk Design Reference -- Forged with brass, ink, and steam-powered computation</p>
+    </div>
+  </footer>
+
+  <!-- Back to Top -->
+  <button class="back-to-top" id="backToTop" aria-label="Back to top">
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 3L3 12h4v5h6v-5h4L10 3z" fill="#3c2415"/></svg>
+  </button>
+
+  <!-- ===== JavaScript ===== -->
+  <script>
+    // Mobile navigation toggle
+    (function() {
+      var hamburger = document.getElementById('hamburger');
+      var navLinks = document.getElementById('navLinks');
+
+      if (hamburger && navLinks) {
+        hamburger.addEventListener('click', function() {
+          navLinks.classList.toggle('open');
+        });
+
+        // Close menu when a link is clicked
+        var links = navLinks.querySelectorAll('a');
+        for (var i = 0; i < links.length; i++) {
+          links[i].addEventListener('click', function() {
+            navLinks.classList.remove('open');
+          });
+        }
+      }
+    })();
+
+    // Scroll animations (Intersection Observer)
+    (function() {
+      var elements = document.querySelectorAll('.animate-on-scroll');
+
+      if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function(entries) {
+          entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('visible');
+              observer.unobserve(entry.target);
+            }
+          });
+        }, {
+          threshold: 0.1,
+          rootMargin: '0px 0px -40px 0px'
+        });
+
+        elements.forEach(function(el) {
+          observer.observe(el);
+        });
+      } else {
+        // Fallback: show all elements
+        elements.forEach(function(el) {
+          el.classList.add('visible');
+        });
+      }
+    })();
+
+    // Back to top button
+    (function() {
+      var btn = document.getElementById('backToTop');
+
+      window.addEventListener('scroll', function() {
+        if (window.scrollY > 600) {
+          btn.classList.add('visible');
+        } else {
+          btn.classList.remove('visible');
+        }
+      });
+
+      btn.addEventListener('click', function() {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    })();
+
+    // Update clock hands to show real time
+    (function() {
+      function updateClock() {
+        var now = new Date();
+        var hours = now.getHours() % 12;
+        var minutes = now.getMinutes();
+        var seconds = now.getSeconds();
+
+        var hourDeg = (hours * 30) + (minutes * 0.5);
+        var minuteDeg = minutes * 6;
+        var secondDeg = seconds * 6;
+
+        var hourHand = document.querySelector('.clock-hand--hour');
+        var minuteHand = document.querySelector('.clock-hand--minute');
+        var secondHand = document.querySelector('.clock-hand--second');
+
+        if (hourHand) {
+          hourHand.style.animation = 'none';
+          hourHand.style.transform = 'rotate(' + hourDeg + 'deg)';
+        }
+        if (minuteHand) {
+          minuteHand.style.animation = 'none';
+          minuteHand.style.transform = 'rotate(' + minuteDeg + 'deg)';
+        }
+        if (secondHand) {
+          secondHand.style.animation = 'none';
+          secondHand.style.transform = 'rotate(' + secondDeg + 'deg)';
+        }
+      }
+
+      updateClock();
+      setInterval(updateClock, 1000);
+    })();
+
+    // Add staggered animation delays to grid children
+    (function() {
+      var grids = document.querySelectorAll('.traits-grid, .palette-grid, .related-grid, .principles-list');
+      grids.forEach(function(grid) {
+        var children = grid.querySelectorAll('.animate-on-scroll');
+        children.forEach(function(child, index) {
+          child.style.transitionDelay = (index * 0.08) + 's';
+        });
+      });
+    })();
+  </script>
+</body>
+</html>

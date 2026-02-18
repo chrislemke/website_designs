@@ -1,0 +1,1907 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Space Age -- Design Aesthetic Reference</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Jost:wght@300;400;500;600&family=Rajdhani:wght@400;600;700&family=Space+Grotesk:wght@400;500;700&family=Audiowide&display=swap" rel="stylesheet">
+  <style>
+    /* ===== CSS CUSTOM PROPERTIES ===== */
+    :root {
+      /* Clean neutrals */
+      --space-white: #f7f7f7;
+      --space-cream: #fff8e7;
+      --space-silver: #c0c0c0;
+      --space-silver-light: #e8e8e8;
+      --space-silver-dark: #9e9e9e;
+      --space-gray: #78909c;
+
+      /* Bold accents */
+      --space-red: #e53935;
+      --space-blue: #1e88e5;
+      --space-orange: #ff8f00;
+      --space-yellow: #ffd600;
+      --space-turquoise: #00bcd4;
+      --space-green: #43a047;
+
+      /* Dark grounds */
+      --space-black: #0a0a1a;
+      --space-navy: #0d1b3e;
+      --space-dark: #0f2044;
+
+      /* Functional */
+      --space-bg-primary: var(--space-white);
+      --space-bg-dark: var(--space-black);
+      --space-bg-panel: var(--space-silver-light);
+      --space-text-primary: #1a1a2e;
+      --space-text-light: var(--space-white);
+      --space-text-muted: var(--space-gray);
+      --space-accent: var(--space-blue);
+      --space-accent-warm: var(--space-red);
+      --space-border: var(--space-silver);
+    }
+
+    /* ===== RESET ===== */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* ===== BASE TYPOGRAPHY ===== */
+    body {
+      background: var(--space-bg-primary);
+      color: var(--space-text-primary);
+      font-family: 'Jost', sans-serif;
+      font-weight: 400;
+      letter-spacing: 0.02em;
+      line-height: 1.7;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    h1, h2, h3, h4 {
+      font-family: 'Orbitron', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.10em;
+      font-weight: 700;
+      line-height: 1.2;
+    }
+
+    p {
+      max-width: 680px;
+    }
+
+    a {
+      color: var(--space-blue);
+      text-decoration: none;
+      border-bottom: 1px solid var(--space-silver);
+      transition: color 0.3s, border-color 0.3s;
+    }
+
+    a:hover {
+      color: var(--space-red);
+      border-bottom-color: var(--space-red);
+    }
+
+    /* ===== UTILITY CLASSES ===== */
+    .space-label {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.8em;
+      text-transform: uppercase;
+      letter-spacing: 0.25em;
+      color: var(--space-gray);
+      font-weight: 600;
+      display: block;
+      margin-bottom: 0.75rem;
+    }
+
+    .space-label--light {
+      color: var(--space-silver);
+    }
+
+    .space-divider {
+      width: 50%;
+      max-width: 300px;
+      margin: 2rem auto;
+      border: none;
+      height: 1px;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        var(--space-silver) 20%,
+        var(--space-silver) 80%,
+        transparent
+      );
+    }
+
+    .space-divider--light {
+      background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(192, 192, 192, 0.3) 20%,
+        rgba(192, 192, 192, 0.3) 80%,
+        transparent
+      );
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    .text-center { text-align: center; }
+    .mx-auto { margin-left: auto; margin-right: auto; }
+
+    /* ===== STARFIELD BACKGROUND ===== */
+    .starfield-layer {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    /* ===== HERO SECTION ===== */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 4rem 2rem;
+      background: var(--space-black);
+      overflow: hidden;
+    }
+
+    /* Cosmic gradient background */
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(
+        ellipse 80% 60% at 50% 40%,
+        rgba(13, 27, 62, 0.9) 0%,
+        rgba(10, 10, 26, 1) 70%
+      );
+      z-index: 0;
+    }
+
+    /* Star field */
+    .hero-stars {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      overflow: hidden;
+    }
+
+    .hero-stars span {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      background: white;
+      border-radius: 50%;
+      animation: twinkle var(--dur, 3s) ease-in-out infinite alternate;
+      animation-delay: var(--delay, 0s);
+    }
+
+    @keyframes twinkle {
+      0% { opacity: 0.2; transform: scale(0.8); }
+      100% { opacity: 1; transform: scale(1.2); }
+    }
+
+    /* Orbital rings */
+    .hero-orbit {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      border: 1.5px solid rgba(192, 192, 192, 0.12);
+      border-radius: 50%;
+      transform: translate(-50%, -50%) rotateX(72deg);
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .hero-orbit--1 {
+      width: 500px;
+      height: 500px;
+      animation: orbit-spin 20s linear infinite;
+    }
+
+    .hero-orbit--2 {
+      width: 700px;
+      height: 700px;
+      animation: orbit-spin 30s linear infinite reverse;
+      border-color: rgba(192, 192, 192, 0.07);
+    }
+
+    .hero-orbit--3 {
+      width: 400px;
+      height: 400px;
+      transform: translate(-50%, -50%) rotateX(72deg) rotateZ(45deg);
+      animation: orbit-spin 15s linear infinite;
+      border-color: rgba(192, 192, 192, 0.08);
+    }
+
+    /* Satellite dot */
+    .hero-satellite {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      background: var(--space-red);
+      border-radius: 50%;
+      box-shadow: 0 0 8px var(--space-red), 0 0 20px var(--space-red);
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    @keyframes orbit-spin {
+      to { transform: translate(-50%, -50%) rotateX(72deg) rotateZ(360deg); }
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-title {
+      font-size: clamp(3.2rem, 9vw, 8rem);
+      letter-spacing: 0.18em;
+      font-weight: 900;
+      line-height: 1;
+      margin-bottom: 0.25em;
+      background: linear-gradient(
+        180deg,
+        #ffffff 0%,
+        #d4d4d4 35%,
+        #9e9e9e 52%,
+        #c0c0c0 68%,
+        #ffffff 100%
+      );
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      filter: drop-shadow(0 2px 12px rgba(30, 136, 229, 0.15));
+    }
+
+    .hero-subtitle {
+      font-family: 'Jost', sans-serif;
+      font-weight: 300;
+      font-size: clamp(1rem, 2.5vw, 1.35rem);
+      color: var(--space-silver);
+      letter-spacing: 0.08em;
+      max-width: 600px;
+      margin: 0 auto;
+      line-height: 1.8;
+    }
+
+    .hero-era {
+      display: inline-flex;
+      align-items: center;
+      gap: 1rem;
+      margin-top: 2.5rem;
+      padding: 0.6rem 2rem;
+      border: 1px solid rgba(192, 192, 192, 0.25);
+      border-radius: 999px;
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 600;
+      font-size: 0.85rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--space-silver);
+    }
+
+    .hero-era .dot {
+      width: 6px;
+      height: 6px;
+      background: var(--space-turquoise);
+      border-radius: 50%;
+      box-shadow: 0 0 6px var(--space-turquoise);
+      animation: pulse-dot 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 0.6; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.4); }
+    }
+
+    .hero-scroll-hint {
+      position: absolute;
+      bottom: 2.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .hero-scroll-hint span {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--space-silver-dark);
+    }
+
+    .hero-scroll-hint .arrow {
+      width: 1px;
+      height: 30px;
+      background: linear-gradient(to bottom, var(--space-silver-dark), transparent);
+      position: relative;
+      animation: scroll-arrow 2s ease-in-out infinite;
+    }
+
+    @keyframes scroll-arrow {
+      0%, 100% { opacity: 0.4; transform: translateY(0); }
+      50% { opacity: 0.8; transform: translateY(6px); }
+    }
+
+    /* ===== SECTION STYLING ===== */
+    .section {
+      padding: 5rem 2rem;
+      position: relative;
+    }
+
+    .section--light {
+      background: var(--space-white);
+    }
+
+    .section--panel {
+      background: var(--space-silver-light);
+    }
+
+    .section--dark {
+      background: var(--space-black);
+      color: var(--space-text-light);
+    }
+
+    .section--dark .space-label {
+      color: var(--space-silver-dark);
+    }
+
+    .section--dark p {
+      color: rgba(247, 247, 247, 0.8);
+    }
+
+    .section--navy {
+      background: linear-gradient(160deg, #0a0a1a 0%, #0d1b3e 40%, #0f2044 70%, #0a0a1a 100%);
+      color: var(--space-text-light);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .section--navy .space-label {
+      color: var(--space-silver-dark);
+    }
+
+    .section--navy p {
+      color: rgba(247, 247, 247, 0.78);
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 3.5rem;
+    }
+
+    .section-header h2 {
+      font-size: clamp(1.6rem, 4vw, 2.4rem);
+      margin-bottom: 1rem;
+    }
+
+    .section-header p {
+      margin: 0 auto;
+      color: var(--space-text-muted);
+      font-size: 1.05rem;
+    }
+
+    .section--dark .section-header p,
+    .section--navy .section-header p {
+      color: rgba(247, 247, 247, 0.65);
+    }
+
+    /* ===== FIN DIVIDER ===== */
+    .fin-divider {
+      height: 60px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .fin-divider::before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 0;
+      border-left: 30px solid transparent;
+      border-right: 30px solid transparent;
+      border-bottom: 50px solid var(--space-silver);
+      opacity: 0.18;
+    }
+
+    .fin-divider::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 10%;
+      right: 10%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--space-silver) 20%, var(--space-silver) 80%, transparent);
+    }
+
+    .fin-divider--dark::before {
+      border-bottom-color: var(--space-silver-dark);
+      opacity: 0.12;
+    }
+
+    .fin-divider--dark::after {
+      background: linear-gradient(90deg, transparent, rgba(192, 192, 192, 0.2) 20%, rgba(192, 192, 192, 0.2) 80%, transparent);
+    }
+
+    /* ===== INTRO SECTION ===== */
+    .intro-text {
+      max-width: 780px;
+      margin: 0 auto;
+      text-align: center;
+      font-size: 1.12rem;
+      line-height: 1.85;
+      color: var(--space-text-primary);
+    }
+
+    .intro-text strong {
+      color: var(--space-blue);
+      font-weight: 500;
+    }
+
+    .keyword-strip {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.6rem;
+      margin-top: 2.5rem;
+    }
+
+    .keyword-strip span {
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 600;
+      font-size: 0.75rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      padding: 0.4rem 1.2rem;
+      border: 1px solid var(--space-silver);
+      border-radius: 999px;
+      color: var(--space-gray);
+      background: var(--space-white);
+      transition: all 0.3s;
+    }
+
+    .keyword-strip span:hover {
+      border-color: var(--space-blue);
+      color: var(--space-blue);
+      box-shadow: 0 0 12px rgba(30, 136, 229, 0.12);
+    }
+
+    /* ===== MOTIF GRID ===== */
+    .motif-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.5rem;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .motif-card {
+      background: var(--space-white);
+      border: 1px solid var(--space-silver);
+      border-radius: 16px;
+      padding: 2rem 1.8rem;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+      transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.35s;
+    }
+
+    .motif-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.09);
+    }
+
+    .motif-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--color-start, var(--space-red)), var(--color-end, var(--space-blue)));
+    }
+
+    .motif-card:nth-child(1) { --color-start: var(--space-red); --color-end: var(--space-orange); }
+    .motif-card:nth-child(2) { --color-start: var(--space-blue); --color-end: var(--space-turquoise); }
+    .motif-card:nth-child(3) { --color-start: var(--space-orange); --color-end: var(--space-yellow); }
+    .motif-card:nth-child(4) { --color-start: var(--space-turquoise); --color-end: var(--space-green); }
+    .motif-card:nth-child(5) { --color-start: var(--space-yellow); --color-end: var(--space-orange); }
+    .motif-card:nth-child(6) { --color-start: var(--space-red); --color-end: var(--space-blue); }
+    .motif-card:nth-child(7) { --color-start: var(--space-green); --color-end: var(--space-turquoise); }
+    .motif-card:nth-child(8) { --color-start: var(--space-blue); --color-end: var(--space-red); }
+    .motif-card:nth-child(9) { --color-start: var(--space-turquoise); --color-end: var(--space-blue); }
+    .motif-card:nth-child(10) { --color-start: var(--space-orange); --color-end: var(--space-red); }
+    .motif-card:nth-child(11) { --color-start: var(--space-yellow); --color-end: var(--space-green); }
+
+    .motif-icon {
+      font-size: 1.6rem;
+      margin-bottom: 0.8rem;
+      display: block;
+    }
+
+    .motif-card h4 {
+      font-family: 'Audiowide', sans-serif;
+      font-size: 0.85rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 0.6rem;
+      color: var(--space-text-primary);
+    }
+
+    .motif-card p {
+      font-size: 0.9rem;
+      line-height: 1.6;
+      color: var(--space-gray);
+    }
+
+    /* ===== DESIGN PRINCIPLES ===== */
+    .principles-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 2rem;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .principle-item {
+      text-align: center;
+      padding: 1.5rem;
+    }
+
+    .principle-ring {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      border: 2px solid rgba(192, 192, 192, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.2rem;
+      font-size: 1.5rem;
+      position: relative;
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+
+    .principle-item:hover .principle-ring {
+      border-color: var(--space-turquoise);
+      box-shadow: 0 0 20px rgba(0, 188, 212, 0.15);
+    }
+
+    .principle-item h4 {
+      font-family: 'Audiowide', sans-serif;
+      font-size: 0.8rem;
+      letter-spacing: 0.12em;
+      color: var(--space-white);
+      margin-bottom: 0.6rem;
+    }
+
+    .principle-item p {
+      font-size: 0.88rem;
+      line-height: 1.6;
+      color: rgba(247, 247, 247, 0.6);
+      margin: 0 auto;
+    }
+
+    /* ===== COLOR PALETTE ===== */
+    .palette-section {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .palette-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: center;
+      margin-bottom: 2rem;
+    }
+
+    .palette-row-label {
+      width: 100%;
+      text-align: center;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--space-gray);
+      font-weight: 600;
+      margin-bottom: 0.3rem;
+    }
+
+    .color-chip {
+      width: 110px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      transition: transform 0.25s;
+    }
+
+    .color-chip:hover {
+      transform: translateY(-4px);
+    }
+
+    .color-swatch {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      border: 3px solid var(--space-silver-light);
+      box-shadow:
+        inset 0 2px 6px rgba(0, 0, 0, 0.1),
+        0 4px 12px rgba(0, 0, 0, 0.08);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Glossy sheen on swatches */
+    .color-swatch::after {
+      content: '';
+      position: absolute;
+      top: 8%;
+      left: 18%;
+      width: 45%;
+      height: 20%;
+      background: rgba(255, 255, 255, 0.35);
+      border-radius: 50%;
+      filter: blur(3px);
+    }
+
+    .color-name {
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 600;
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--space-text-primary);
+      text-align: center;
+      line-height: 1.3;
+    }
+
+    .color-hex {
+      font-family: 'Space Grotesk', monospace;
+      font-size: 0.7rem;
+      color: var(--space-gray);
+    }
+
+    /* ===== TYPOGRAPHY SHOWCASE ===== */
+    .type-showcase {
+      max-width: 860px;
+      margin: 0 auto;
+    }
+
+    .type-specimen {
+      border: 1px solid rgba(192, 192, 192, 0.2);
+      border-radius: 16px;
+      padding: 2.5rem;
+      margin-bottom: 1.5rem;
+      background: rgba(13, 27, 62, 0.5);
+      backdrop-filter: blur(4px);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .type-specimen::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--space-silver-dark), transparent);
+      opacity: 0.5;
+    }
+
+    .type-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .type-meta .font-name {
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 700;
+      font-size: 0.8rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--space-turquoise);
+    }
+
+    .type-meta .font-usage {
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 400;
+      font-size: 0.72rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--space-silver-dark);
+    }
+
+    .type-sample-orbitron {
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 900;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--space-white);
+      line-height: 1.15;
+    }
+
+    .type-sample-audiowide {
+      font-family: 'Audiowide', sans-serif;
+      font-size: clamp(1.3rem, 3.5vw, 2rem);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--space-white);
+      line-height: 1.3;
+    }
+
+    .type-sample-jost {
+      font-family: 'Jost', sans-serif;
+      font-weight: 300;
+      font-size: clamp(1rem, 2vw, 1.2rem);
+      letter-spacing: 0.03em;
+      color: rgba(247, 247, 247, 0.85);
+      line-height: 1.8;
+    }
+
+    .type-sample-rajdhani {
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 600;
+      font-size: 0.85rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--space-silver);
+    }
+
+    .type-sample-space-grotesk {
+      font-family: 'Space Grotesk', monospace;
+      font-weight: 500;
+      font-size: clamp(1.6rem, 3vw, 2.2rem);
+      color: var(--space-blue);
+      letter-spacing: 0.04em;
+    }
+
+    /* ===== DESIGNERS SECTION ===== */
+    .designers-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.5rem;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .designer-card {
+      background: white;
+      border: 1px solid var(--space-silver);
+      border-radius: 16px;
+      padding: 2rem;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .designer-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    .designer-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--space-red), var(--space-blue), var(--space-turquoise));
+    }
+
+    .designer-card h4 {
+      font-family: 'Audiowide', sans-serif;
+      font-size: 0.82rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--space-text-primary);
+      margin-bottom: 0.6rem;
+    }
+
+    .designer-card p {
+      font-size: 0.9rem;
+      line-height: 1.6;
+      color: var(--space-gray);
+    }
+
+    /* ===== MATERIALS TABLE ===== */
+    .materials-table-wrap {
+      max-width: 860px;
+      margin: 0 auto;
+      overflow-x: auto;
+    }
+
+    .materials-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      border: 1px solid rgba(192, 192, 192, 0.2);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .materials-table thead th {
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 700;
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--space-turquoise);
+      background: rgba(13, 27, 62, 0.7);
+      padding: 1rem 1.5rem;
+      text-align: left;
+      border-bottom: 1px solid rgba(192, 192, 192, 0.15);
+    }
+
+    .materials-table tbody td {
+      padding: 0.85rem 1.5rem;
+      font-size: 0.92rem;
+      border-bottom: 1px solid rgba(192, 192, 192, 0.08);
+      color: rgba(247, 247, 247, 0.75);
+    }
+
+    .materials-table tbody td:first-child {
+      font-family: 'Jost', sans-serif;
+      font-weight: 500;
+      color: var(--space-white);
+    }
+
+    .materials-table tbody tr:last-child td {
+      border-bottom: none;
+    }
+
+    .materials-table tbody tr {
+      transition: background 0.2s;
+    }
+
+    .materials-table tbody tr:hover {
+      background: rgba(30, 136, 229, 0.06);
+    }
+
+    /* ===== RELATED AESTHETICS ===== */
+    .related-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1rem;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .related-chip {
+      border: 1px solid var(--space-silver);
+      border-radius: 12px;
+      padding: 1.2rem;
+      text-align: center;
+      transition: all 0.3s;
+      cursor: default;
+      background: var(--space-white);
+    }
+
+    .related-chip:hover {
+      border-color: var(--space-blue);
+      box-shadow: 0 4px 16px rgba(30, 136, 229, 0.1);
+      transform: translateY(-2px);
+    }
+
+    .related-chip h4 {
+      font-family: 'Audiowide', sans-serif;
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--space-text-primary);
+      margin-bottom: 0.4rem;
+    }
+
+    .related-chip p {
+      font-size: 0.78rem;
+      line-height: 1.5;
+      color: var(--space-gray);
+      margin: 0 auto;
+    }
+
+    /* ===== COLOR APPROACHES ===== */
+    .approaches-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1.5rem;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .approach-card {
+      border-radius: 16px;
+      padding: 2rem;
+      position: relative;
+      overflow: hidden;
+      min-height: 160px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .approach-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+    }
+
+    .approach-card h4 {
+      font-family: 'Audiowide', sans-serif;
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+
+    .approach-card p {
+      font-size: 0.85rem;
+      line-height: 1.5;
+      max-width: 100%;
+    }
+
+    .approach--chrome {
+      background: linear-gradient(180deg, #f5f5f5 0%, #d4d4d4 25%, #a8a8a8 50%, #c0c0c0 70%, #e8e8e8 100%);
+      border: 1px solid var(--space-silver);
+      color: var(--space-text-primary);
+    }
+
+    .approach--cosmic {
+      background: linear-gradient(160deg, #0a0a1a 0%, #0d1b3e 50%, #0f2044 100%);
+      border: 1px solid rgba(192, 192, 192, 0.15);
+      color: var(--space-white);
+    }
+    .approach--cosmic h4 { color: var(--space-turquoise); }
+    .approach--cosmic p { color: rgba(247, 247, 247, 0.7); }
+
+    .approach--retro {
+      background: var(--space-cream);
+      border: 2px solid var(--space-silver);
+      color: var(--space-text-primary);
+    }
+
+    .approach--pod {
+      background: linear-gradient(135deg, #e8f4f8 0%, #f7f7f7 50%, #e0f7fa 100%);
+      border: 1px solid var(--space-turquoise);
+      color: var(--space-text-primary);
+      border-radius: 60px;
+    }
+    .approach--pod h4 { color: #0097A7; }
+
+    .approach--mono {
+      background: var(--space-white);
+      border: 1px solid var(--space-silver);
+      color: var(--space-text-primary);
+    }
+    .approach--mono h4 { color: var(--space-red); }
+
+    /* ===== PORTHOLE SECTION ===== */
+    .porthole-row {
+      display: flex;
+      justify-content: center;
+      gap: 3rem;
+      flex-wrap: wrap;
+      margin-top: 2rem;
+    }
+
+    .porthole {
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      border: 10px solid var(--space-silver);
+      box-shadow:
+        inset 0 0 25px rgba(0, 0, 0, 0.15),
+        0 0 0 3px var(--space-silver-dark),
+        0 0 0 7px var(--space-silver-light),
+        0 6px 20px rgba(0, 0, 0, 0.15);
+      overflow: hidden;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      flex-direction: column;
+      padding: 1.5rem;
+    }
+
+    .porthole-bg-cosmic {
+      background: linear-gradient(160deg, #0a0a1a, #0d1b3e);
+    }
+
+    .porthole-bg-chrome {
+      background: linear-gradient(180deg, #f0f0f0 0%, #d4d4d4 20%, #a0a0a0 50%, #c0c0c0 70%, #e8e8e8 100%);
+    }
+
+    .porthole-bg-red {
+      background: radial-gradient(circle at 40% 40%, #ff6f61, #e53935, #c62828);
+    }
+
+    .porthole .porthole-data {
+      font-family: 'Space Grotesk', monospace;
+      font-size: 1.8rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+    }
+
+    .porthole .porthole-label {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      font-weight: 600;
+      margin-top: 0.3rem;
+    }
+
+    .porthole-bg-cosmic .porthole-data { color: var(--space-turquoise); }
+    .porthole-bg-cosmic .porthole-label { color: var(--space-silver-dark); }
+    .porthole-bg-chrome .porthole-data { color: var(--space-text-primary); }
+    .porthole-bg-chrome .porthole-label { color: var(--space-gray); }
+    .porthole-bg-red .porthole-data { color: white; }
+    .porthole-bg-red .porthole-label { color: rgba(255,255,255,0.7); }
+
+    /* Rivet dots on portholes */
+    .porthole::before {
+      content: '';
+      position: absolute;
+      inset: -14px;
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at 50% 3%, var(--space-silver-dark) 2.5px, transparent 2.5px),
+        radial-gradient(circle at 50% 97%, var(--space-silver-dark) 2.5px, transparent 2.5px),
+        radial-gradient(circle at 3% 50%, var(--space-silver-dark) 2.5px, transparent 2.5px),
+        radial-gradient(circle at 97% 50%, var(--space-silver-dark) 2.5px, transparent 2.5px);
+      pointer-events: none;
+    }
+
+    /* ===== STARBURST DECORATION ===== */
+    .starburst-deco {
+      position: absolute;
+      width: 200px;
+      height: 200px;
+      pointer-events: none;
+    }
+
+    .starburst-deco::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-conic-gradient(
+        var(--space-yellow) 0deg 3deg,
+        transparent 3deg 12deg
+      );
+      border-radius: 50%;
+      opacity: 0.06;
+      animation: starburst-pulse 5s ease-in-out infinite alternate;
+    }
+
+    @keyframes starburst-pulse {
+      from { transform: scale(0.92); opacity: 0.04; }
+      to { transform: scale(1.08); opacity: 0.08; }
+    }
+
+    /* ===== GEODESIC OVERLAY ===== */
+    .geodesic-overlay {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(60deg, rgba(192, 192, 192, 0.15) 1px, transparent 1px),
+        linear-gradient(-60deg, rgba(192, 192, 192, 0.15) 1px, transparent 1px),
+        linear-gradient(0deg, rgba(192, 192, 192, 0.15) 1px, transparent 1px);
+      background-size: 50px 87px;
+      opacity: 0.06;
+      pointer-events: none;
+    }
+
+    /* ===== FOOTER ===== */
+    .footer {
+      background: var(--space-black);
+      padding: 3rem 2rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .footer::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 10%;
+      right: 10%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(192, 192, 192, 0.2), transparent);
+    }
+
+    .footer p {
+      color: var(--space-silver-dark);
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      max-width: none;
+      margin: 0 auto;
+    }
+
+    .footer .footer-title {
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 700;
+      font-size: 0.9rem;
+      letter-spacing: 0.15em;
+      color: var(--space-silver);
+      margin-bottom: 0.5rem;
+    }
+
+    /* ===== ANIMATIONS ===== */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                  transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Staggered children */
+    .stagger-children > .fade-in:nth-child(1) { transition-delay: 0.05s; }
+    .stagger-children > .fade-in:nth-child(2) { transition-delay: 0.1s; }
+    .stagger-children > .fade-in:nth-child(3) { transition-delay: 0.15s; }
+    .stagger-children > .fade-in:nth-child(4) { transition-delay: 0.2s; }
+    .stagger-children > .fade-in:nth-child(5) { transition-delay: 0.25s; }
+    .stagger-children > .fade-in:nth-child(6) { transition-delay: 0.3s; }
+    .stagger-children > .fade-in:nth-child(7) { transition-delay: 0.35s; }
+    .stagger-children > .fade-in:nth-child(8) { transition-delay: 0.4s; }
+    .stagger-children > .fade-in:nth-child(9) { transition-delay: 0.45s; }
+    .stagger-children > .fade-in:nth-child(10) { transition-delay: 0.5s; }
+    .stagger-children > .fade-in:nth-child(11) { transition-delay: 0.55s; }
+    .stagger-children > .fade-in:nth-child(12) { transition-delay: 0.6s; }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 768px) {
+      .hero {
+        min-height: 85vh;
+        padding: 3rem 1.5rem;
+      }
+
+      .hero-orbit--1 { width: 300px; height: 300px; }
+      .hero-orbit--2 { width: 430px; height: 430px; }
+      .hero-orbit--3 { width: 240px; height: 240px; }
+
+      .section { padding: 3.5rem 1.5rem; }
+
+      .motif-grid,
+      .designers-grid,
+      .approaches-grid {
+        grid-template-columns: 1fr;
+        max-width: 420px;
+      }
+
+      .principles-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+      }
+
+      .porthole-row { gap: 1.5rem; }
+
+      .porthole {
+        width: 150px;
+        height: 150px;
+        border-width: 8px;
+      }
+
+      .porthole .porthole-data { font-size: 1.3rem; }
+
+      .related-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .color-chip { width: 90px; }
+      .color-swatch { width: 58px; height: 58px; }
+    }
+
+    @media (max-width: 480px) {
+      .principles-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .related-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .palette-row {
+        gap: 0.6rem;
+      }
+
+      .color-chip { width: 75px; }
+      .color-swatch { width: 48px; height: 48px; }
+
+      .hero-era {
+        font-size: 0.72rem;
+        padding: 0.5rem 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ==================== HERO ==================== -->
+  <section class="hero" aria-label="Space Age Design Aesthetic">
+    <!-- Stars -->
+    <div class="hero-stars" id="heroStars"></div>
+
+    <!-- Orbital rings -->
+    <div class="hero-orbit hero-orbit--1">
+      <div class="hero-satellite"></div>
+    </div>
+    <div class="hero-orbit hero-orbit--2"></div>
+    <div class="hero-orbit hero-orbit--3"></div>
+
+    <div class="hero-content">
+      <span class="space-label space-label--light">Design Aesthetic Reference</span>
+      <h1 class="hero-title">Space Age</h1>
+      <hr class="space-divider space-divider--light">
+      <p class="hero-subtitle">
+        A retrofuturistic design and cultural aesthetic driven by the Cold War Space Race
+        and a widespread fascination with space exploration and technological advancement.
+      </p>
+      <div class="hero-era">
+        <span class="dot"></span>
+        <span>Mid-1950s through early 1970s</span>
+      </div>
+    </div>
+
+    <div class="hero-scroll-hint">
+      <span>Explore</span>
+      <div class="arrow"></div>
+    </div>
+  </section>
+
+  <!-- ==================== INTRO ==================== -->
+  <section class="section section--light">
+    <div class="container">
+      <div class="fade-in">
+        <p class="intro-text">
+          The Space Age visual style conveys a sense of <strong>speed</strong>, <strong>technological progress</strong>, and a clean, <strong>optimistic future</strong>. It manifests across architecture (Googie), fashion (Courr&egrave;ges, Cardin, Rabanne), furniture (pod chairs, fiberglass shells), and graphic design -- unified by sleek geometric forms, glossy surfaces, and an unmistakable forward-looking confidence. Unlike the closely related Atomic Age, Space Age focuses specifically on <strong>spacecraft, orbital forms, and the material culture of space exploration</strong>.
+        </p>
+      </div>
+      <div class="keyword-strip fade-in">
+        <span>Optimism</span>
+        <span>Technological Progress</span>
+        <span>Utopianism</span>
+        <span>Scientific Advancement</span>
+        <span>Exploration</span>
+        <span>Future Orientation</span>
+        <span>Modernity</span>
+        <span>Convenience</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== DIVIDER ==================== -->
+  <div class="fin-divider"></div>
+
+  <!-- ==================== CORE MOTIFS ==================== -->
+  <section class="section section--panel">
+    <div class="container">
+      <div class="section-header fade-in">
+        <span class="space-label">Visual Language</span>
+        <h2>Core Motifs &amp; Patterns</h2>
+        <hr class="space-divider">
+        <p>The recurring visual elements that define the Space Age design vocabulary.</p>
+      </div>
+
+      <div class="motif-grid stagger-children">
+        <div class="motif-card fade-in">
+          <span class="motif-icon" aria-hidden="true">&#9650;</span>
+          <h4>Rockets &amp; Fins</h4>
+          <p>Sleek tapered rocket forms with stabilizer fins; tail fins on vehicles and architectural elements inspired by jet aircraft and spacecraft.</p>
+        </div>
+        <div class="motif-card fade-in">
+          <span class="motif-icon" aria-hidden="true">&#9737;</span>
+          <h4>Satellites &amp; Orbits</h4>
+          <p>Sputnik-like spheres with radiating antennae; elliptical orbital path lines as decorative motifs.</p>
+        </div>
+        <div class="motif-card fade-in">
+          <span class="motif-icon" aria-hidden="true">&#11044;</span>
+          <h4>Flying Saucers</h4>
+          <p>Disc and elliptical pod shapes appearing in architecture (Futuro House), furniture (Ball Chair), and lighting.</p>
+        </div>
+        <div class="motif-card fade-in">
+          <span class="motif-icon" aria-hidden="true">&#9790;</span>
+          <h4>Planets &amp; Stars</h4>
+          <p>Ringed planets, crescent moons, scattered star fields, and cosmic imagery throughout all media.</p>
+        </div>
+        <div class="motif-card fade-in">
+          <span class="motif-icon" aria-hidden="true">&#9883;</span>
+          <h4>Geodesic Domes</h4>
+          <p>Triangulated spherical structures referencing Buckminster Fuller's futuristic architecture.</p>
+        </div>
+        <div class="motif-card fade-in">
+          <span class="motif-icon" aria-hidden="true">&#9900;</span>
+          <h4>Capsules &amp; Pods</h4>
+          <p>Enclosed, egg-shaped or spherical forms suggesting space capsules and cockpit interiors.</p>
+        </div>
+        <div class="motif-card fade-in">
+          <span class="motif-icon" aria-hidden="true">&#10022;</span>
+          <h4>Starbursts</h4>
+          <p>Radiating spike patterns on clocks, signage, and decorative elements throughout the era.</p>
+        </div>
+        <div class="motif-card fade-in">
+          <span class="motif-icon" aria-hidden="true">&#9978;</span>
+          <h4>Astronaut Silhouettes</h4>
+          <p>Helmeted space-suited figures as iconic graphic elements across posters and packaging.</p>
+        </div>
+        <div class="motif-card fade-in">
+          <span class="motif-icon" aria-hidden="true">&#8986;</span>
+          <h4>Parabolas &amp; Arcs</h4>
+          <p>Sweeping curved trajectories suggesting launch paths and orbital mechanics.</p>
+        </div>
+        <div class="motif-card fade-in">
+          <span class="motif-icon" aria-hidden="true">&#9762;</span>
+          <h4>Atomic Symbols</h4>
+          <p>Stylized atom models used in a playful manner -- inherited from the Atomic Age with a space-exploration spin.</p>
+        </div>
+        <div class="motif-card fade-in">
+          <span class="motif-icon" aria-hidden="true">&#10170;</span>
+          <h4>Streamlined Silhouettes</h4>
+          <p>Aerodynamic, wind-tunnel-smooth contours on every surface, from furniture to signage.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== DIVIDER ==================== -->
+  <div class="fin-divider"></div>
+
+  <!-- ==================== DESIGN PRINCIPLES ==================== -->
+  <section class="section section--dark">
+    <div class="container">
+      <div class="section-header fade-in">
+        <span class="space-label">Philosophy</span>
+        <h2>Design Principles</h2>
+        <hr class="space-divider space-divider--light">
+        <p>The guiding ideas behind every Space Age composition.</p>
+      </div>
+
+      <div class="principles-grid stagger-children">
+        <div class="principle-item fade-in">
+          <div class="principle-ring">&#9788;</div>
+          <h4>Clean Optimistic Futurism</h4>
+          <p>Every element projects confidence in a bright technological future.</p>
+        </div>
+        <div class="principle-item fade-in">
+          <div class="principle-ring">&#9678;</div>
+          <h4>Geometric Precision</h4>
+          <p>Circles, ellipses, parabolas, and smooth curves dominate over irregular or organic forms.</p>
+        </div>
+        <div class="principle-item fade-in">
+          <div class="principle-ring">&#8854;</div>
+          <h4>Sleek Minimalism</h4>
+          <p>Surfaces are smooth, uncluttered, and polished; ornamentation is structural, not applied.</p>
+        </div>
+        <div class="principle-item fade-in">
+          <div class="principle-ring">&#10148;</div>
+          <h4>Speed &amp; Trajectory</h4>
+          <p>Compositions imply motion, launch, and forward momentum.</p>
+        </div>
+        <div class="principle-item fade-in">
+          <div class="principle-ring">&#9899;</div>
+          <h4>Pod-Like Enclosure</h4>
+          <p>Self-contained, cocoon-like spaces and forms suggesting spacecraft interiors.</p>
+        </div>
+        <div class="principle-item fade-in">
+          <div class="principle-ring">&#9733;</div>
+          <h4>New Material Celebration</h4>
+          <p>Visible use of plastic, fiberglass, chrome, and synthetic surfaces as deliberate aesthetic choices.</p>
+        </div>
+        <div class="principle-item fade-in">
+          <div class="principle-ring">&#10023;</div>
+          <h4>Glossy Reflectivity</h4>
+          <p>Surfaces catch and reflect light, suggesting advanced materials and precision engineering.</p>
+        </div>
+        <div class="principle-item fade-in">
+          <div class="principle-ring">&#9638;</div>
+          <h4>Modular &amp; Prefabricated</h4>
+          <p>Repeating units, standardized components, and snap-together aesthetics.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== PORTHOLE DATA DISPLAY ==================== -->
+  <section class="section section--light" style="position: relative; overflow: hidden;">
+    <div class="starburst-deco" style="top: -60px; right: -40px;"></div>
+    <div class="starburst-deco" style="bottom: -80px; left: -60px;"></div>
+    <div class="container">
+      <div class="section-header fade-in">
+        <span class="space-label">Instrument Panel</span>
+        <h2>Mission Data</h2>
+        <hr class="space-divider">
+        <p>Key parameters of the Space Age aesthetic, displayed through porthole windows.</p>
+      </div>
+
+      <div class="porthole-row fade-in">
+        <div class="porthole porthole-bg-cosmic">
+          <div class="porthole-data">1957</div>
+          <div class="porthole-label">Sputnik Launch</div>
+        </div>
+        <div class="porthole porthole-bg-chrome">
+          <div class="porthole-data">1969</div>
+          <div class="porthole-label">Moon Landing</div>
+        </div>
+        <div class="porthole porthole-bg-red">
+          <div class="porthole-data">13+</div>
+          <div class="porthole-label">Color Palette</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== DIVIDER ==================== -->
+  <div class="fin-divider"></div>
+
+  <!-- ==================== COLOR PALETTE ==================== -->
+  <section class="section section--panel">
+    <div class="container">
+      <div class="section-header fade-in">
+        <span class="space-label">Chromatic System</span>
+        <h2>Color Palette</h2>
+        <hr class="space-divider">
+        <p>White, silver, and chrome form the base. Bold accents inject optimism. Deep grounds evoke the cosmos.</p>
+      </div>
+
+      <div class="palette-section fade-in">
+        <!-- Dominant Neutrals -->
+        <div class="palette-row-label">Dominant Neutrals</div>
+        <div class="palette-row">
+          <div class="color-chip">
+            <div class="color-swatch" style="background: #f7f7f7;"></div>
+            <div class="color-name">Space White</div>
+            <div class="color-hex">#F7F7F7</div>
+          </div>
+          <div class="color-chip">
+            <div class="color-swatch" style="background: #c0c0c0;"></div>
+            <div class="color-name">Chrome Silver</div>
+            <div class="color-hex">#C0C0C0</div>
+          </div>
+          <div class="color-chip">
+            <div class="color-swatch" style="background: #e8e8e8;"></div>
+            <div class="color-name">Polished Aluminum</div>
+            <div class="color-hex">#E8E8E8</div>
+          </div>
+          <div class="color-chip">
+            <div class="color-swatch" style="background: #fff8e7;"></div>
+            <div class="color-name">Retro Cream</div>
+            <div class="color-hex">#FFF8E7</div>
+          </div>
+          <div class="color-chip">
+            <div class="color-swatch" style="background: #78909c;"></div>
+            <div class="color-name">Astronaut Gray</div>
+            <div class="color-hex">#78909C</div>
+          </div>
+        </div>
+
+        <!-- Primary Accents -->
+        <div class="palette-row-label">Primary Accents</div>
+        <div class="palette-row">
+          <div class="color-chip">
+            <div class="color-swatch" style="background: #e53935;"></div>
+            <div class="color-name">Rocket Red</div>
+            <div class="color-hex">#E53935</div>
+          </div>
+          <div class="color-chip">
+            <div class="color-swatch" style="background: #1e88e5;"></div>
+            <div class="color-name">Orbital Blue</div>
+            <div class="color-hex">#1E88E5</div>
+          </div>
+          <div class="color-chip">
+            <div class="color-swatch" style="background: #ff8f00;"></div>
+            <div class="color-name">Signal Orange</div>
+            <div class="color-hex">#FF8F00</div>
+          </div>
+        </div>
+
+        <!-- Secondary Accents -->
+        <div class="palette-row-label">Secondary Accents</div>
+        <div class="palette-row">
+          <div class="color-chip">
+            <div class="color-swatch" style="background: #ffd600;"></div>
+            <div class="color-name">Satellite Yellow</div>
+            <div class="color-hex">#FFD600</div>
+          </div>
+          <div class="color-chip">
+            <div class="color-swatch" style="background: #00bcd4;"></div>
+            <div class="color-name">Capsule Turquoise</div>
+            <div class="color-hex">#00BCD4</div>
+          </div>
+          <div class="color-chip">
+            <div class="color-swatch" style="background: #43a047;"></div>
+            <div class="color-name">Launchpad Green</div>
+            <div class="color-hex">#43A047</div>
+          </div>
+        </div>
+
+        <!-- Dark Grounds -->
+        <div class="palette-row-label">Dark Grounds</div>
+        <div class="palette-row">
+          <div class="color-chip">
+            <div class="color-swatch" style="background: #0a0a1a; border-color: var(--space-silver-dark);"></div>
+            <div class="color-name">Deep Space Black</div>
+            <div class="color-hex">#0A0A1A</div>
+          </div>
+          <div class="color-chip">
+            <div class="color-swatch" style="background: #0d1b3e; border-color: var(--space-silver-dark);"></div>
+            <div class="color-name">Midnight Navy</div>
+            <div class="color-hex">#0D1B3E</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== COLOR APPROACHES ==================== -->
+  <section class="section section--light">
+    <div class="container">
+      <div class="section-header fade-in">
+        <span class="space-label">Palette Strategies</span>
+        <h2>Color Approaches</h2>
+        <hr class="space-divider">
+        <p>Five distinct ways to deploy the Space Age color system.</p>
+      </div>
+
+      <div class="approaches-grid stagger-children">
+        <div class="approach-card approach--chrome fade-in">
+          <h4>Clean White &amp; Chrome</h4>
+          <p>Bright white/silver base with bold red, blue, and orange accents. The signature Space Age look -- think TWA Terminal interior.</p>
+        </div>
+        <div class="approach-card approach--cosmic fade-in">
+          <h4>Deep Space Cosmic</h4>
+          <p>Dark navy/black backgrounds with chrome elements and neon-bright accent colors against starfield.</p>
+        </div>
+        <div class="approach-card approach--retro fade-in">
+          <h4>Warm Retro-Futurism</h4>
+          <p>Cream/off-white backgrounds with chrome borders and saturated primary accents. Vintage poster feel.</p>
+        </div>
+        <div class="approach-card approach--pod fade-in">
+          <h4>Pod Interior</h4>
+          <p>Enclosed feeling with curved white panels, soft ambient lighting effects, and turquoise/blue accents.</p>
+        </div>
+        <div class="approach-card approach--mono fade-in">
+          <h4>Monochrome Chrome</h4>
+          <p>Predominantly silver/white/gray palette with a single vivid accent color for maximum futuristic impact.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== DIVIDER ==================== -->
+  <div class="fin-divider"></div>
+
+  <!-- ==================== TYPOGRAPHY ==================== -->
+  <section class="section section--navy">
+    <div class="geodesic-overlay"></div>
+    <div class="container" style="position: relative; z-index: 1;">
+      <div class="section-header fade-in">
+        <span class="space-label">Type System</span>
+        <h2>Typography</h2>
+        <hr class="space-divider space-divider--light">
+        <p>Geometric, clean, and forward-looking. Precise, engineered letterforms suggesting technical precision.</p>
+      </div>
+
+      <div class="type-showcase">
+        <div class="type-specimen fade-in">
+          <div class="type-meta">
+            <span class="font-name">Orbitron</span>
+            <span class="font-usage">Headlines / Display / Hero</span>
+          </div>
+          <div class="type-sample-orbitron">The Future is Now</div>
+        </div>
+
+        <div class="type-specimen fade-in">
+          <div class="type-meta">
+            <span class="font-name">Audiowide</span>
+            <span class="font-usage">Headlines / Navigation Labels</span>
+          </div>
+          <div class="type-sample-audiowide">Mission Control Center Online</div>
+        </div>
+
+        <div class="type-specimen fade-in">
+          <div class="type-meta">
+            <span class="font-name">Jost</span>
+            <span class="font-usage">Body Text / All-Purpose</span>
+          </div>
+          <div class="type-sample-jost">Space Age typography is geometric, clean, and forward-looking. Wide, extended proportions evoke expansiveness and the vastness of space. Uppercase-dominant headlines reference mission control displays, spacecraft labeling, and technical stencils.</div>
+        </div>
+
+        <div class="type-specimen fade-in">
+          <div class="type-meta">
+            <span class="font-name">Rajdhani</span>
+            <span class="font-usage">Labels / UI Elements</span>
+          </div>
+          <div class="type-sample-rajdhani">System status nominal -- all instruments active -- trajectory confirmed</div>
+        </div>
+
+        <div class="type-specimen fade-in">
+          <div class="type-meta">
+            <span class="font-name">Space Grotesk</span>
+            <span class="font-usage">Data / Code / Technical</span>
+          </div>
+          <div class="type-sample-space-grotesk">ALT: 408 km &bull; VEL: 7.66 km/s</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== DIVIDER ==================== -->
+  <div class="fin-divider fin-divider--dark" style="background: var(--space-black);"></div>
+
+  <!-- ==================== MATERIALS ==================== -->
+  <section class="section section--dark">
+    <div class="container">
+      <div class="section-header fade-in">
+        <span class="space-label">Surface Language</span>
+        <h2>Materials &amp; Textures</h2>
+        <hr class="space-divider space-divider--light">
+        <p>Physical Space Age materials translated into their web design equivalents.</p>
+      </div>
+
+      <div class="materials-table-wrap fade-in">
+        <table class="materials-table">
+          <thead>
+            <tr>
+              <th>Physical Material</th>
+              <th>Web Equivalent</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Polished chrome / steel</td>
+              <td>Multi-stop silver linear gradients with bright highlight bands</td>
+            </tr>
+            <tr>
+              <td>Fiberglass (molded furniture)</td>
+              <td>Smooth solid-color panels with generous border-radius and subtle gradient sheen overlay</td>
+            </tr>
+            <tr>
+              <td>Glossy white plastic</td>
+              <td>Clean white backgrounds with faint diagonal highlight gradient</td>
+            </tr>
+            <tr>
+              <td>Glass (architectural)</td>
+              <td>Semi-transparent panels with subtle backdrop-filter blur</td>
+            </tr>
+            <tr>
+              <td>Anodized aluminum</td>
+              <td>Tinted metallic gradients (blue-chrome, turquoise-chrome)</td>
+            </tr>
+            <tr>
+              <td>Plexiglass / Lucite</td>
+              <td>Semi-transparent overlays with border and subtle inner shadow</td>
+            </tr>
+            <tr>
+              <td>Neon tube signage</td>
+              <td>CSS text-shadow and box-shadow glow effects in vivid colors</td>
+            </tr>
+            <tr>
+              <td>Space suit material</td>
+              <td>Matte white/silver surfaces with subtle quilted or segmented pattern</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== DIVIDER ==================== -->
+  <div class="fin-divider"></div>
+
+  <!-- ==================== KEY DESIGNERS ==================== -->
+  <section class="section section--light">
+    <div class="container">
+      <div class="section-header fade-in">
+        <span class="space-label">Pioneers</span>
+        <h2>Key Designers &amp; Influences</h2>
+        <hr class="space-divider">
+        <p>The visionaries who shaped the Space Age aesthetic across disciplines.</p>
+      </div>
+
+      <div class="designers-grid stagger-children">
+        <div class="designer-card fade-in">
+          <h4>Eero Saarinen</h4>
+          <p>TWA Flight Center at JFK -- sweeping concrete curves, pod-like interiors; Tulip Table and Chair.</p>
+        </div>
+        <div class="designer-card fade-in">
+          <h4>Eero Aarnio</h4>
+          <p>Ball Chair (1963) -- iconic spherical pod seat embodying Space Age enclosure and futurism.</p>
+        </div>
+        <div class="designer-card fade-in">
+          <h4>Verner Panton</h4>
+          <p>Panton Chair -- revolutionary single-piece S-curved plastic chair that defined an era.</p>
+        </div>
+        <div class="designer-card fade-in">
+          <h4>Andr&eacute; Courr&egrave;ges</h4>
+          <p>"Moon Girl" fashion line -- go-go boots, A-line silhouettes, white/silver dominance, geometric cutouts.</p>
+        </div>
+        <div class="designer-card fade-in">
+          <h4>Pierre Cardin</h4>
+          <p>"Cosmos" collection (1967) -- geometric cutout dresses with matching helmets, theatrical futurism.</p>
+        </div>
+        <div class="designer-card fade-in">
+          <h4>Paco Rabanne</h4>
+          <p>Metal-disc chain-mail dresses and metallic ensembles; radical synthetic material fashion.</p>
+        </div>
+        <div class="designer-card fade-in">
+          <h4>Matti Suuronen</h4>
+          <p>Futuro House (1968) -- elliptical, UFO-shaped prefabricated plastic dwelling.</p>
+        </div>
+        <div class="designer-card fade-in">
+          <h4>Buckminster Fuller</h4>
+          <p>Geodesic dome structures -- lightweight triangulated spheres as futuristic architecture.</p>
+        </div>
+        <div class="designer-card fade-in">
+          <h4>Googie Architects</h4>
+          <p>Upswept roofs, parabolas, and starbursts in commercial architecture (Theme Building at LAX).</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== DIVIDER ==================== -->
+  <div class="fin-divider"></div>
+
+  <!-- ==================== RELATED AESTHETICS ==================== -->
+  <section class="section section--panel">
+    <div class="container">
+      <div class="section-header fade-in">
+        <span class="space-label">Constellation</span>
+        <h2>Related Aesthetics</h2>
+        <hr class="space-divider">
+        <p>The broader family of design movements connected to the Space Age vision.</p>
+      </div>
+
+      <div class="related-grid stagger-children">
+        <div class="related-chip fade-in">
+          <h4>Atomic Age</h4>
+          <p>Predecessor and sibling; nuclear/atomic motifs rather than space exploration.</p>
+        </div>
+        <div class="related-chip fade-in">
+          <h4>Raygun Gothic</h4>
+          <p>Retro-futuristic cousin combining Art Deco with rocket-era imagery.</p>
+        </div>
+        <div class="related-chip fade-in">
+          <h4>Mid-Century Modern</h4>
+          <p>Broader contemporary movement; Space Age is a more futuristic branch of MCM.</p>
+        </div>
+        <div class="related-chip fade-in">
+          <h4>Googie</h4>
+          <p>Architectural sub-style; exuberant commercial expression with upswept roofs and starbursts.</p>
+        </div>
+        <div class="related-chip fade-in">
+          <h4>Retrofuturism</h4>
+          <p>Parent category; Space Age is one of the defining retrofuturistic styles.</p>
+        </div>
+        <div class="related-chip fade-in">
+          <h4>Atompunk</h4>
+          <p>Speculative fiction that amplifies Space Age and Atomic Age visuals to extremes.</p>
+        </div>
+        <div class="related-chip fade-in">
+          <h4>Mod</h4>
+          <p>Contemporary fashion movement sharing clean geometric forms and youth-culture optimism.</p>
+        </div>
+        <div class="related-chip fade-in">
+          <h4>Pop Art</h4>
+          <p>Shares bold colors, graphic simplicity, and celebration of modern consumer culture.</p>
+        </div>
+        <div class="related-chip fade-in">
+          <h4>Cassette Futurism</h4>
+          <p>Successor retrofuturism; analog tech replacing chrome rockets in the 1970s-1980s.</p>
+        </div>
+        <div class="related-chip fade-in">
+          <h4>Y2K Futurism</h4>
+          <p>Later descendant; digital-era chrome, silver, and iridescent surfaces.</p>
+        </div>
+        <div class="related-chip fade-in">
+          <h4>Streamline Moderne</h4>
+          <p>Direct predecessor; aerodynamic curves and chrome surfaces launched into orbit.</p>
+        </div>
+        <div class="related-chip fade-in">
+          <h4>Rocketpunk</h4>
+          <p>Science fiction sub-genre focused on rocket technology and early space travel aesthetics.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== FOOTER ==================== -->
+  <footer class="footer">
+    <p class="footer-title">Space Age</p>
+    <p>Design Aesthetic Reference &bull; Retrofuturistic Visual Language &bull; Mid-1950s -- Early 1970s</p>
+  </footer>
+
+  <!-- ==================== JAVASCRIPT ==================== -->
+  <script>
+    // Generate random stars in the hero
+    (function generateStars() {
+      var container = document.getElementById('heroStars');
+      if (!container) return;
+      var count = 80;
+      var frag = document.createDocumentFragment();
+      for (var i = 0; i < count; i++) {
+        var star = document.createElement('span');
+        var x = Math.random() * 100;
+        var y = Math.random() * 100;
+        var size = Math.random() * 1.5 + 0.8;
+        var dur = Math.random() * 3 + 2;
+        var delay = Math.random() * 4;
+        star.style.left = x + '%';
+        star.style.top = y + '%';
+        star.style.width = size + 'px';
+        star.style.height = size + 'px';
+        star.style.setProperty('--dur', dur + 's');
+        star.style.setProperty('--delay', delay + 's');
+        frag.appendChild(star);
+      }
+      container.appendChild(frag);
+    })();
+
+    // Scroll-triggered fade-in with IntersectionObserver
+    (function initScrollAnimations() {
+      var targets = document.querySelectorAll('.fade-in');
+      if (!targets.length) return;
+
+      if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function(entries) {
+          entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('visible');
+              observer.unobserve(entry.target);
+            }
+          });
+        }, {
+          threshold: 0.12,
+          rootMargin: '0px 0px -40px 0px'
+        });
+
+        targets.forEach(function(el) {
+          observer.observe(el);
+        });
+      } else {
+        // Fallback: show everything
+        targets.forEach(function(el) {
+          el.classList.add('visible');
+        });
+      }
+    })();
+  </script>
+</body>
+</html>
