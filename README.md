@@ -182,15 +182,6 @@ Built with pure HTML5/CSS3, Google Fonts, and vanilla JS. No build tools or fram
 | Wes Anderson | [Guide](designs/Wes_Anderson.md) | [Preview](https://chrislemke.github.io/website_designs/examples/Wes_Anderson.html) |
 | Whimsigothic | [Guide](designs/Whimsigothic.md) | [Preview](https://chrislemke.github.io/website_designs/examples/Whimsigothic.html) |
 | Y2K Futurism | [Guide](designs/Y2K_Futurism.md) | [Preview](https://chrislemke.github.io/website_designs/examples/Y2K_Futurism.html) |
-
-## Live Previews
-
-All example pages are hosted via GitHub Pages at:
-
-**https://chrislemke.github.io/website_designs/**
-
-To enable GitHub Pages, go to your repo **Settings > Pages** and set the source to deploy from the `main` branch.
-
 ## License
 
 MIT
