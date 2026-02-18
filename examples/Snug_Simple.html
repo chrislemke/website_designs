@@ -1,0 +1,2148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Snug Simple -- A Design Aesthetic Showcase</title>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=Nunito:wght@400;500;600;700;800&family=Comfortaa:wght@400;600;700&family=Baloo+2:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    /* ============================================
+       CSS Custom Properties -- Snug Simple Palette
+       ============================================ */
+    :root {
+      /* Backgrounds */
+      --snug-bg-base: #FFF8F0;
+      --snug-bg-alt: #F5EDE3;
+      --snug-bg-card: #FFFFFF;
+      --snug-bg-tinted: #FFF0F0;
+      --snug-bg-sage: #EEF4E8;
+      --snug-bg-lavender: #F0ECF5;
+
+      /* Text */
+      --snug-text-primary: #3D3028;
+      --snug-text-secondary: #5C4A3A;
+      --snug-text-muted: #9B8A7A;
+      --snug-text-inverse: #FFFFFF;
+
+      /* Accents */
+      --snug-accent-sage: #B8C9A3;
+      --snug-accent-sage-dark: #8FAF78;
+      --snug-accent-blush: #E8B4B8;
+      --snug-accent-rose: #D4A0A8;
+      --snug-accent-lavender: #C5B8D9;
+      --snug-accent-sky: #B8D4E8;
+      --snug-accent-oat: #E8DCD0;
+      --snug-accent-peach: #F0D0B8;
+
+      /* Borders */
+      --snug-border-soft: #E8D8D0;
+      --snug-border-sage: #C8D8B8;
+      --snug-border-blush: #E8C8CC;
+      --snug-border-lavender: #D0C8E0;
+
+      /* Shadows */
+      --snug-shadow-warm: rgba(180, 160, 140, 0.15);
+      --snug-shadow-blush: rgba(212, 160, 168, 0.12);
+      --snug-shadow-sage: rgba(143, 175, 120, 0.12);
+
+      /* Functional */
+      --snug-radius-sm: 12px;
+      --snug-radius-md: 20px;
+      --snug-radius-lg: 28px;
+      --snug-radius-pill: 999px;
+    }
+
+    /* ============================================
+       Reset & Base
+       ============================================ */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--snug-bg-base);
+      color: var(--snug-text-primary);
+      font-family: 'Nunito', 'Quicksand', -apple-system, sans-serif;
+      font-size: 17px;
+      line-height: 1.8;
+      letter-spacing: 0.01em;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Subtle paper grain texture on body */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      opacity: 0.025;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+      background-repeat: repeat;
+      background-size: 256px 256px;
+      pointer-events: none;
+      z-index: 9999;
+      mix-blend-mode: multiply;
+    }
+
+    /* ============================================
+       Typography
+       ============================================ */
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'Quicksand', 'Comfortaa', sans-serif;
+      color: var(--snug-text-primary);
+      font-weight: 700;
+      letter-spacing: 0.01em;
+      line-height: 1.3;
+    }
+
+    h1 {
+      font-size: clamp(2.2rem, 5vw, 3.2rem);
+      font-weight: 800;
+      margin-bottom: 1rem;
+    }
+
+    h2 {
+      font-size: clamp(1.5rem, 3.5vw, 2.2rem);
+      font-weight: 700;
+      margin-bottom: 0.8rem;
+      color: var(--snug-accent-sage-dark);
+    }
+
+    h3 {
+      font-size: clamp(1.2rem, 2.5vw, 1.6rem);
+      font-weight: 600;
+      margin-bottom: 0.6rem;
+      color: var(--snug-accent-rose);
+    }
+
+    p {
+      margin-bottom: 1.2rem;
+      color: var(--snug-text-secondary);
+      line-height: 1.8;
+      max-width: 65ch;
+    }
+
+    a {
+      color: var(--snug-accent-sage-dark);
+      text-decoration: underline;
+      text-decoration-color: var(--snug-accent-sage);
+      text-underline-offset: 3px;
+      text-decoration-thickness: 2px;
+      transition: color 0.2s ease, text-decoration-color 0.2s ease;
+    }
+
+    a:hover {
+      color: var(--snug-accent-rose);
+      text-decoration-color: var(--snug-accent-rose);
+    }
+
+    :focus-visible {
+      outline: 3px solid var(--snug-accent-sage);
+      outline-offset: 3px;
+      border-radius: var(--snug-radius-sm);
+    }
+
+    .display-font {
+      font-family: 'Comfortaa', 'Quicksand', sans-serif;
+    }
+
+    .callout-font {
+      font-family: 'Baloo 2', 'Quicksand', sans-serif;
+    }
+
+    /* ============================================
+       Animations
+       ============================================ */
+    @keyframes snug-fade-in-up {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes snug-fade-in {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes snug-scale-in {
+      from {
+        opacity: 0;
+        transform: scale(0.95);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    @keyframes snug-float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-8px); }
+    }
+
+    @keyframes snug-pulse-soft {
+      0%, 100% { opacity: 0.6; }
+      50% { opacity: 1; }
+    }
+
+    @keyframes snug-wiggle {
+      0%, 100% { transform: rotate(0deg); }
+      25% { transform: rotate(2deg); }
+      75% { transform: rotate(-2deg); }
+    }
+
+    .animate-on-scroll {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    }
+
+    .animate-on-scroll.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+      .animate-on-scroll {
+        opacity: 1;
+        transform: none;
+      }
+    }
+
+    /* ============================================
+       Sticky Frosted Header
+       ============================================ */
+    .snug-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.8rem 2rem;
+      background: rgba(255, 248, 240, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--snug-border-soft);
+      box-shadow: 0 1px 8px var(--snug-shadow-warm);
+      animation: snug-fade-in 0.8s ease-out;
+    }
+
+    .snug-logo {
+      font-family: 'Comfortaa', 'Quicksand', sans-serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--snug-text-primary);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .snug-logo:hover {
+      color: var(--snug-accent-sage-dark);
+    }
+
+    .snug-logo-dot {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      background: var(--snug-accent-sage);
+      border-radius: 50%;
+      animation: snug-pulse-soft 3s ease-in-out infinite;
+    }
+
+    .snug-nav {
+      display: flex;
+      gap: 0.3rem;
+      list-style: none;
+    }
+
+    .snug-nav a {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.5rem 1.2rem;
+      border-radius: var(--snug-radius-pill);
+      font-family: 'Quicksand', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--snug-text-secondary);
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .snug-nav a:hover,
+    .snug-nav a.active {
+      background: var(--snug-accent-sage);
+      color: var(--snug-text-primary);
+    }
+
+    /* ============================================
+       Hero Section
+       ============================================ */
+    .snug-hero {
+      position: relative;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 5rem 2rem 4rem;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    /* Decorative floating shapes in hero */
+    .hero-shape {
+      position: absolute;
+      border-radius: 50%;
+      opacity: 0.25;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .hero-shape-1 {
+      width: 180px;
+      height: 180px;
+      background: var(--snug-accent-sage);
+      top: 10%;
+      left: -5%;
+      animation: snug-float 8s ease-in-out infinite;
+    }
+
+    .hero-shape-2 {
+      width: 120px;
+      height: 120px;
+      background: var(--snug-accent-blush);
+      top: 20%;
+      right: -2%;
+      animation: snug-float 6s ease-in-out infinite 1s;
+    }
+
+    .hero-shape-3 {
+      width: 80px;
+      height: 80px;
+      background: var(--snug-accent-lavender);
+      bottom: 15%;
+      left: 8%;
+      animation: snug-float 7s ease-in-out infinite 0.5s;
+    }
+
+    .hero-shape-4 {
+      width: 60px;
+      height: 60px;
+      background: var(--snug-accent-sky);
+      bottom: 25%;
+      right: 10%;
+      animation: snug-float 9s ease-in-out infinite 2s;
+    }
+
+    .snug-hero-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.4rem 1.2rem;
+      background: var(--snug-bg-sage);
+      border: 1px solid var(--snug-border-sage);
+      border-radius: var(--snug-radius-pill);
+      font-family: 'Quicksand', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--snug-accent-sage-dark);
+      margin-bottom: 2rem;
+      position: relative;
+      z-index: 1;
+      animation: snug-scale-in 0.6s ease-out 0.2s both;
+    }
+
+    .snug-hero-label .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--snug-accent-sage-dark);
+    }
+
+    .snug-hero h1 {
+      font-family: 'Comfortaa', 'Quicksand', sans-serif;
+      font-size: clamp(2.5rem, 6vw, 4rem);
+      font-weight: 700;
+      color: var(--snug-text-primary);
+      line-height: 1.2;
+      letter-spacing: -0.01em;
+      margin-bottom: 1.5rem;
+      position: relative;
+      z-index: 1;
+      animation: snug-fade-in-up 0.7s ease-out 0.3s both;
+    }
+
+    .snug-hero h1 .highlight-sage {
+      color: var(--snug-accent-sage-dark);
+      position: relative;
+    }
+
+    .snug-hero h1 .highlight-sage::after {
+      content: '';
+      position: absolute;
+      bottom: 2px;
+      left: -4px;
+      right: -4px;
+      height: 12px;
+      background: var(--snug-accent-sage);
+      opacity: 0.35;
+      border-radius: var(--snug-radius-pill);
+      z-index: -1;
+    }
+
+    .snug-hero > p {
+      font-size: 1.15rem;
+      color: var(--snug-text-secondary);
+      max-width: 600px;
+      margin: 0 auto 2.5rem;
+      line-height: 1.9;
+      position: relative;
+      z-index: 1;
+      animation: snug-fade-in-up 0.7s ease-out 0.5s both;
+    }
+
+    .snug-hero-actions {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      position: relative;
+      z-index: 1;
+      animation: snug-fade-in-up 0.7s ease-out 0.7s both;
+    }
+
+    /* ============================================
+       Buttons
+       ============================================ */
+    .snug-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.8rem 2rem;
+      border: 2px solid transparent;
+      border-radius: var(--snug-radius-pill);
+      font-family: 'Quicksand', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      letter-spacing: 0.02em;
+    }
+
+    .snug-button:active {
+      transform: scale(0.98);
+    }
+
+    .snug-button--primary {
+      background: var(--snug-accent-sage);
+      color: var(--snug-text-primary);
+    }
+
+    .snug-button--primary:hover {
+      background: var(--snug-accent-sage-dark);
+      color: var(--snug-text-inverse);
+      transform: scale(1.03);
+      box-shadow: 0 4px 16px var(--snug-shadow-sage);
+    }
+
+    .snug-button--outline {
+      background: transparent;
+      border-color: var(--snug-accent-blush);
+      color: var(--snug-accent-rose);
+    }
+
+    .snug-button--outline:hover {
+      background: var(--snug-accent-blush);
+      color: var(--snug-text-primary);
+      transform: scale(1.03);
+    }
+
+    .snug-button--blush {
+      background: var(--snug-accent-blush);
+      color: var(--snug-text-primary);
+    }
+
+    .snug-button--blush:hover {
+      background: var(--snug-accent-rose);
+      color: var(--snug-text-inverse);
+      box-shadow: 0 4px 16px var(--snug-shadow-blush);
+      transform: scale(1.03);
+    }
+
+    .snug-button--sm {
+      padding: 0.45rem 1.2rem;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    /* ============================================
+       Section Layouts
+       ============================================ */
+    .snug-section {
+      padding: 5rem 2rem;
+      position: relative;
+    }
+
+    .snug-section--cream { background: var(--snug-bg-base); }
+    .snug-section--oat { background: var(--snug-bg-alt); }
+    .snug-section--sage { background: var(--snug-bg-sage); }
+    .snug-section--blush { background: var(--snug-bg-tinted); }
+    .snug-section--lavender { background: var(--snug-bg-lavender); }
+
+    .snug-container {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .snug-container--narrow {
+      max-width: 750px;
+      margin: 0 auto;
+    }
+
+    .snug-section-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .snug-section-header h2 {
+      font-family: 'Quicksand', sans-serif;
+      font-size: clamp(1.6rem, 3.5vw, 2.2rem);
+      font-weight: 700;
+      color: var(--snug-text-primary);
+      margin-bottom: 0.6rem;
+    }
+
+    .snug-section-header p {
+      color: var(--snug-text-muted);
+      font-size: 1.05rem;
+      max-width: 520px;
+      margin: 0 auto;
+    }
+
+    /* Wave divider between sections */
+    .snug-wave {
+      width: 100%;
+      height: 50px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .snug-wave svg {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      height: 50px;
+    }
+
+    /* ============================================
+       Card Grid
+       ============================================ */
+    .snug-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.8rem;
+    }
+
+    .snug-grid--2 {
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    }
+
+    .snug-card {
+      background: var(--snug-bg-card);
+      border: 1px solid var(--snug-border-soft);
+      border-radius: var(--snug-radius-lg);
+      padding: 2rem 2.2rem;
+      box-shadow:
+        0 2px 8px var(--snug-shadow-warm),
+        0 1px 3px rgba(180, 160, 140, 0.08);
+      transition: all 0.3s ease;
+    }
+
+    .snug-card:hover {
+      transform: translateY(-4px);
+      box-shadow:
+        0 8px 24px var(--snug-shadow-warm),
+        0 2px 6px rgba(180, 160, 140, 0.1);
+    }
+
+    .snug-card--sage {
+      background: var(--snug-bg-sage);
+      border-color: var(--snug-border-sage);
+    }
+
+    .snug-card--blush {
+      background: var(--snug-bg-tinted);
+      border-color: var(--snug-border-blush);
+    }
+
+    .snug-card--lavender {
+      background: var(--snug-bg-lavender);
+      border-color: var(--snug-border-lavender);
+    }
+
+    .snug-card-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: var(--snug-radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+      margin-bottom: 1.2rem;
+      transition: transform 0.3s ease;
+    }
+
+    .snug-card:hover .snug-card-icon {
+      animation: snug-wiggle 0.5s ease;
+    }
+
+    .snug-card-icon--sage { background: var(--snug-bg-sage); }
+    .snug-card-icon--blush { background: var(--snug-bg-tinted); }
+    .snug-card-icon--lavender { background: var(--snug-bg-lavender); }
+    .snug-card-icon--sky { background: #EDF4F8; }
+    .snug-card-icon--oat { background: var(--snug-accent-oat); }
+
+    .snug-card h3 {
+      font-family: 'Quicksand', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--snug-text-primary);
+      margin-bottom: 0.6rem;
+    }
+
+    .snug-card p {
+      color: var(--snug-text-secondary);
+      font-size: 0.95rem;
+      line-height: 1.7;
+      margin-bottom: 0;
+    }
+
+    /* ============================================
+       Tags & Badges
+       ============================================ */
+    .snug-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 1.2rem;
+    }
+
+    .snug-tag {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.3rem 0.9rem;
+      border-radius: var(--snug-radius-pill);
+      font-family: 'Quicksand', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 600;
+      white-space: nowrap;
+      transition: transform 0.2s ease;
+    }
+
+    .snug-tag:hover {
+      transform: scale(1.05);
+    }
+
+    .snug-tag--sage {
+      background: var(--snug-bg-sage);
+      color: var(--snug-accent-sage-dark);
+    }
+
+    .snug-tag--blush {
+      background: var(--snug-bg-tinted);
+      color: var(--snug-accent-rose);
+    }
+
+    .snug-tag--lavender {
+      background: var(--snug-bg-lavender);
+      color: #7B6B9A;
+    }
+
+    .snug-tag--sky {
+      background: #EDF4F8;
+      color: #5A8AA8;
+    }
+
+    .snug-tag--oat {
+      background: var(--snug-accent-oat);
+      color: var(--snug-text-secondary);
+    }
+
+    /* ============================================
+       Callout Boxes
+       ============================================ */
+    .snug-callout-box {
+      background: var(--snug-bg-sage);
+      border-left: 5px solid var(--snug-accent-sage);
+      border-radius: 0 var(--snug-radius-md) var(--snug-radius-md) 0;
+      padding: 1.5rem 2rem;
+      margin: 1.5rem 0;
+    }
+
+    .snug-callout-box--blush {
+      background: var(--snug-bg-tinted);
+      border-left-color: var(--snug-accent-blush);
+    }
+
+    .snug-callout-box--lavender {
+      background: var(--snug-bg-lavender);
+      border-left-color: var(--snug-accent-lavender);
+    }
+
+    .snug-callout-box p {
+      margin-bottom: 0;
+      color: var(--snug-text-secondary);
+      font-weight: 500;
+    }
+
+    .snug-callout-rounded {
+      background: var(--snug-bg-card);
+      border: 2px solid var(--snug-accent-sage);
+      border-radius: var(--snug-radius-lg);
+      padding: 1.8rem 2rem;
+      margin: 2rem 0;
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+    }
+
+    .snug-callout-rounded .callout-icon {
+      flex-shrink: 0;
+      width: 48px;
+      height: 48px;
+      background: var(--snug-bg-sage);
+      border-radius: var(--snug-radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+    }
+
+    .snug-callout-rounded p {
+      margin-bottom: 0;
+    }
+
+    /* ============================================
+       Color Palette Display
+       ============================================ */
+    .palette-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 1rem;
+    }
+
+    .palette-swatch {
+      border-radius: var(--snug-radius-md);
+      overflow: hidden;
+      border: 1px solid var(--snug-border-soft);
+      box-shadow: 0 2px 8px var(--snug-shadow-warm);
+      transition: all 0.3s ease;
+      background: var(--snug-bg-card);
+    }
+
+    .palette-swatch:hover {
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 8px 20px var(--snug-shadow-warm);
+    }
+
+    .palette-swatch-color {
+      height: 80px;
+      width: 100%;
+    }
+
+    .palette-swatch-info {
+      padding: 0.8rem 1rem;
+    }
+
+    .palette-swatch-name {
+      font-family: 'Quicksand', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--snug-text-primary);
+      display: block;
+      margin-bottom: 0.15rem;
+    }
+
+    .palette-swatch-hex {
+      font-family: 'Quicksand', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: var(--snug-text-muted);
+    }
+
+    /* ============================================
+       Typography Showcase
+       ============================================ */
+    .type-showcase {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .type-sample {
+      background: var(--snug-bg-card);
+      border: 1px solid var(--snug-border-soft);
+      border-radius: var(--snug-radius-lg);
+      padding: 2rem 2.5rem;
+      box-shadow: 0 2px 8px var(--snug-shadow-warm);
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    .type-sample-label {
+      font-family: 'Quicksand', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--snug-text-muted);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .type-sample-text {
+      margin-bottom: 0;
+    }
+
+    /* ============================================
+       Feature Pills
+       ============================================ */
+    .snug-features {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: center;
+    }
+
+    .snug-feature-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.65rem 1.5rem;
+      background: var(--snug-bg-card);
+      border: 1px solid var(--snug-border-soft);
+      border-radius: var(--snug-radius-pill);
+      font-family: 'Quicksand', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--snug-text-secondary);
+      box-shadow: 0 1px 4px var(--snug-shadow-warm);
+      transition: all 0.25s ease;
+    }
+
+    .snug-feature-pill:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px var(--snug-shadow-warm);
+    }
+
+    .snug-feature-pill .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .dot--sage { background: var(--snug-accent-sage); }
+    .dot--blush { background: var(--snug-accent-blush); }
+    .dot--lavender { background: var(--snug-accent-lavender); }
+    .dot--sky { background: var(--snug-accent-sky); }
+    .dot--oat { background: var(--snug-accent-oat); }
+    .dot--rose { background: var(--snug-accent-rose); }
+    .dot--peach { background: var(--snug-accent-peach); }
+
+    /* ============================================
+       Material/Texture Metaphors
+       ============================================ */
+    .materials-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .material-card {
+      border-radius: var(--snug-radius-lg);
+      padding: 1.8rem;
+      border: 1px solid var(--snug-border-soft);
+      text-align: center;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .material-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 24px var(--snug-shadow-warm);
+    }
+
+    .material-card .material-emoji {
+      font-size: 2.2rem;
+      display: block;
+      margin-bottom: 0.8rem;
+    }
+
+    .material-card .material-name {
+      font-family: 'Quicksand', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--snug-text-primary);
+      display: block;
+      margin-bottom: 0.3rem;
+    }
+
+    .material-card .material-desc {
+      font-size: 0.85rem;
+      color: var(--snug-text-muted);
+      line-height: 1.6;
+      margin-bottom: 0;
+    }
+
+    /* Linen card texture */
+    .material-card--linen {
+      background: var(--snug-bg-base);
+      background-image: radial-gradient(
+        circle at 1px 1px,
+        var(--snug-text-muted) 0.5px,
+        transparent 0.5px
+      );
+      background-size: 16px 16px;
+    }
+
+    .material-card--ceramic {
+      background: var(--snug-bg-card);
+      box-shadow: 0 6px 20px var(--snug-shadow-warm), inset 0 -2px 4px rgba(180, 160, 140, 0.08);
+    }
+
+    .material-card--paper {
+      background: #FFFDF8;
+    }
+
+    .material-card--wood {
+      background: var(--snug-accent-oat);
+    }
+
+    .material-card--frosted {
+      background: rgba(255, 248, 240, 0.6);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+
+    .material-card--knit {
+      background: var(--snug-bg-alt);
+      background-image:
+        linear-gradient(var(--snug-border-soft) 1px, transparent 1px),
+        linear-gradient(90deg, var(--snug-border-soft) 1px, transparent 1px);
+      background-size: 12px 12px;
+    }
+
+    /* ============================================
+       Related Aesthetics
+       ============================================ */
+    .related-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.2rem;
+    }
+
+    .related-card {
+      background: var(--snug-bg-card);
+      border: 1px solid var(--snug-border-soft);
+      border-radius: var(--snug-radius-lg);
+      padding: 1.5rem 1.8rem;
+      box-shadow: 0 2px 8px var(--snug-shadow-warm);
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      transition: all 0.3s ease;
+    }
+
+    .related-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px var(--snug-shadow-warm);
+    }
+
+    .related-card-dot {
+      flex-shrink: 0;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      margin-top: 6px;
+    }
+
+    .related-card h4 {
+      font-family: 'Quicksand', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--snug-text-primary);
+      margin-bottom: 0.3rem;
+    }
+
+    .related-card p {
+      font-size: 0.88rem;
+      line-height: 1.6;
+      color: var(--snug-text-muted);
+      margin-bottom: 0;
+    }
+
+    /* ============================================
+       Code Block
+       ============================================ */
+    .snug-code-block {
+      background: #2D2520;
+      border-radius: var(--snug-radius-lg);
+      padding: 1.5rem 2rem;
+      overflow-x: auto;
+      margin: 1.5rem 0;
+      box-shadow: 0 4px 16px rgba(61, 48, 40, 0.2);
+    }
+
+    .snug-code-block code {
+      font-family: 'JetBrains Mono', 'Fira Code', 'SF Mono', monospace;
+      font-size: 0.85rem;
+      line-height: 1.7;
+      color: #E8DCD0;
+      white-space: pre;
+      display: block;
+    }
+
+    .snug-code-block .code-comment { color: #9B8A7A; }
+    .snug-code-block .code-prop { color: #B8C9A3; }
+    .snug-code-block .code-value { color: #E8B4B8; }
+    .snug-code-block .code-selector { color: #C5B8D9; }
+    .snug-code-block .code-unit { color: #B8D4E8; }
+
+    /* ============================================
+       Implementation Notes Section
+       ============================================ */
+    .impl-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .impl-list li {
+      background: var(--snug-bg-card);
+      border: 1px solid var(--snug-border-soft);
+      border-radius: var(--snug-radius-md);
+      padding: 1.2rem 1.5rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 0.8rem;
+      box-shadow: 0 1px 4px var(--snug-shadow-warm);
+      line-height: 1.7;
+      color: var(--snug-text-secondary);
+      font-size: 0.95rem;
+      transition: all 0.3s ease;
+    }
+
+    .impl-list li:hover {
+      transform: translateX(4px);
+      box-shadow: 0 2px 8px var(--snug-shadow-warm);
+    }
+
+    .impl-list li .impl-icon {
+      flex-shrink: 0;
+      width: 32px;
+      height: 32px;
+      border-radius: var(--snug-radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+      margin-top: 2px;
+    }
+
+    .impl-list li strong {
+      color: var(--snug-text-primary);
+      font-weight: 700;
+    }
+
+    /* ============================================
+       Interactive Demo Section
+       ============================================ */
+    .demo-input-group {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      align-items: flex-end;
+      margin-bottom: 1.5rem;
+    }
+
+    .demo-input-wrapper {
+      flex: 1;
+      min-width: 200px;
+    }
+
+    .demo-input-label {
+      display: block;
+      font-family: 'Quicksand', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--snug-text-muted);
+      letter-spacing: 0.02em;
+      margin-bottom: 0.5rem;
+    }
+
+    .snug-input {
+      width: 100%;
+      padding: 0.8rem 1.4rem;
+      background: var(--snug-bg-card);
+      border: 2px solid var(--snug-border-soft);
+      border-radius: var(--snug-radius-md);
+      font-family: 'Nunito', sans-serif;
+      font-size: 1rem;
+      color: var(--snug-text-primary);
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .snug-input::placeholder {
+      color: var(--snug-text-muted);
+      font-weight: 400;
+    }
+
+    .snug-input:focus {
+      outline: none;
+      border-color: var(--snug-accent-sage);
+      box-shadow: 0 0 0 4px rgba(184, 201, 163, 0.2);
+    }
+
+    .snug-textarea {
+      min-height: 100px;
+      resize: vertical;
+      border-radius: var(--snug-radius-lg);
+    }
+
+    /* ============================================
+       Frosted stat badges
+       ============================================ */
+    .stat-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.2rem;
+      justify-content: center;
+      margin-top: 2rem;
+    }
+
+    .stat-badge {
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid var(--snug-border-soft);
+      border-radius: var(--snug-radius-lg);
+      padding: 1.5rem 2rem;
+      text-align: center;
+      min-width: 150px;
+      transition: all 0.3s ease;
+    }
+
+    .stat-badge:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px var(--snug-shadow-warm);
+    }
+
+    .stat-badge-number {
+      font-family: 'Comfortaa', sans-serif;
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--snug-text-primary);
+      display: block;
+      line-height: 1.2;
+    }
+
+    .stat-badge-label {
+      font-family: 'Quicksand', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--snug-text-muted);
+      letter-spacing: 0.02em;
+    }
+
+    /* ============================================
+       Footer
+       ============================================ */
+    .snug-footer {
+      background: var(--snug-bg-alt);
+      padding: 3.5rem 2rem;
+      text-align: center;
+      border-top: 1px solid var(--snug-border-soft);
+    }
+
+    .snug-footer p {
+      color: var(--snug-text-muted);
+      font-size: 0.95rem;
+      max-width: 100%;
+      margin: 0 auto;
+    }
+
+    .snug-footer .footer-brand {
+      font-family: 'Comfortaa', sans-serif;
+      font-weight: 700;
+      color: var(--snug-text-primary);
+      font-size: 1.1rem;
+      display: block;
+      margin-bottom: 0.8rem;
+    }
+
+    .footer-pills {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-top: 1.5rem;
+    }
+
+    .footer-pills .snug-tag {
+      cursor: default;
+    }
+
+    /* ============================================
+       Responsive
+       ============================================ */
+    @media (max-width: 768px) {
+      .snug-hero {
+        padding: 3rem 1.5rem 2.5rem;
+      }
+
+      .snug-section {
+        padding: 3rem 1.5rem;
+      }
+
+      .snug-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .snug-grid--2 {
+        grid-template-columns: 1fr;
+      }
+
+      .snug-nav {
+        display: none;
+      }
+
+      .snug-hero-actions {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .palette-grid {
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+      }
+
+      .materials-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .related-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-shape {
+        display: none;
+      }
+
+      .stat-row {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .stat-badge {
+        width: 100%;
+        max-width: 200px;
+      }
+
+      .demo-input-group {
+        flex-direction: column;
+      }
+
+      .snug-callout-rounded {
+        flex-direction: column;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .materials-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .snug-features {
+        justify-content: flex-start;
+      }
+    }
+
+    /* ============================================
+       Scroll progress indicator
+       ============================================ */
+    .scroll-progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 0%;
+      height: 3px;
+      background: linear-gradient(90deg, var(--snug-accent-sage), var(--snug-accent-blush), var(--snug-accent-lavender));
+      border-radius: 0 var(--snug-radius-pill) var(--snug-radius-pill) 0;
+      z-index: 200;
+      transition: width 0.1s ease-out;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Scroll progress bar -->
+  <div class="scroll-progress" id="scrollProgress"></div>
+
+  <!-- ============================================
+       Header
+       ============================================ -->
+  <header class="snug-header">
+    <a href="#top" class="snug-logo">
+      <span class="snug-logo-dot"></span>
+      snug simple
+    </a>
+    <nav class="snug-nav">
+      <a href="#philosophy" class="active">Philosophy</a>
+      <a href="#palette">Palette</a>
+      <a href="#typography">Typography</a>
+      <a href="#elements">Elements</a>
+      <a href="#materials">Materials</a>
+    </nav>
+  </header>
+
+  <!-- ============================================
+       Hero
+       ============================================ -->
+  <section class="snug-hero" id="top">
+    <div class="hero-shape hero-shape-1"></div>
+    <div class="hero-shape hero-shape-2"></div>
+    <div class="hero-shape hero-shape-3"></div>
+    <div class="hero-shape hero-shape-4"></div>
+
+    <div class="snug-hero-label">
+      <span class="dot"></span>
+      Design Aesthetic Reference
+    </div>
+
+    <h1>Design that feels like a <span class="highlight-sage">warm blanket</span></h1>
+
+    <p>Snug Simple is a cozy, human-centered web design aesthetic that prioritizes warmth, approachability, and intentional simplicity. The anti-corporate antidote -- rounded everything, soft pastels, chunky typography, and generous spacing that says "slow down, be comfortable."</p>
+
+    <div class="snug-hero-actions">
+      <a href="#palette" class="snug-button snug-button--primary">Explore palette</a>
+      <a href="#elements" class="snug-button snug-button--outline">See elements</a>
+    </div>
+  </section>
+
+  <!-- ============================================
+       Philosophy / Visual Characteristics
+       ============================================ -->
+  <section class="snug-section snug-section--oat" id="philosophy">
+    <div class="snug-container">
+      <div class="snug-section-header animate-on-scroll">
+        <h2>Visual characteristics</h2>
+        <p>Born from Scandinavian hygge, indie web design, and the desire for digital spaces that feel like home.</p>
+      </div>
+
+      <div class="snug-grid">
+        <div class="snug-card animate-on-scroll">
+          <div class="snug-card-icon snug-card-icon--sage">&#9901;</div>
+          <h3>Pillow-like rounding</h3>
+          <p>Large border-radius everywhere -- cards, buttons, images, and containers all use generous rounding (16-32px), creating a soft, pillow-like feel across the entire interface.</p>
+          <div class="snug-tags">
+            <span class="snug-tag snug-tag--sage">border-radius: 28px</span>
+            <span class="snug-tag snug-tag--lavender">Soft edges</span>
+          </div>
+        </div>
+
+        <div class="snug-card animate-on-scroll">
+          <div class="snug-card-icon snug-card-icon--blush">&#127800;</div>
+          <h3>Muted pastel palette</h3>
+          <p>Sage greens, blush pinks, warm creams, soft lavenders, and dusty roses form the primary palette -- never saturated or harsh, always at 30-60% saturation.</p>
+          <div class="snug-tags">
+            <span class="snug-tag snug-tag--blush">Blush pink</span>
+            <span class="snug-tag snug-tag--sage">Sage green</span>
+            <span class="snug-tag snug-tag--lavender">Lavender</span>
+          </div>
+        </div>
+
+        <div class="snug-card animate-on-scroll">
+          <div class="snug-card-icon snug-card-icon--lavender">&#9998;</div>
+          <h3>Chunky bold type</h3>
+          <p>Rounded sans-serif typefaces at large sizes with heavy weights (600-800) convey warmth and friendliness without aggression. Every letterform feels like it is smiling.</p>
+          <div class="snug-tags">
+            <span class="snug-tag snug-tag--lavender">Quicksand</span>
+            <span class="snug-tag snug-tag--oat">Nunito</span>
+          </div>
+        </div>
+
+        <div class="snug-card animate-on-scroll">
+          <div class="snug-card-icon snug-card-icon--sky">&#127748;</div>
+          <h3>Generous breathing room</h3>
+          <p>Elements breathe with ample margins (2-4rem) and padding (1.5-3rem). Spacing is a feature, not waste -- the generous whitespace is what makes Snug Simple feel relaxed.</p>
+          <div class="snug-tags">
+            <span class="snug-tag snug-tag--sky">4-6rem gaps</span>
+            <span class="snug-tag snug-tag--sage">line-height: 1.8</span>
+          </div>
+        </div>
+
+        <div class="snug-card animate-on-scroll">
+          <div class="snug-card-icon snug-card-icon--oat">&#127774;</div>
+          <h3>Warm shadows</h3>
+          <p>Subtle box-shadows with warm color tints replace harsh drop shadows. Use rgba() shadows tinted with warm colors -- brown, rose, sage -- rather than neutral gray.</p>
+          <div class="snug-tags">
+            <span class="snug-tag snug-tag--oat">Tinted shadows</span>
+            <span class="snug-tag snug-tag--blush">Gentle depth</span>
+          </div>
+        </div>
+
+        <div class="snug-card animate-on-scroll">
+          <div class="snug-card-icon snug-card-icon--sage">&#127793;</div>
+          <h3>Intentional simplicity</h3>
+          <p>Simple single-column or two-column layouts -- content flows naturally without complex grid systems. Ornamentation limited to soft color blocks, gentle curves, and simple shapes.</p>
+          <div class="snug-tags">
+            <span class="snug-tag snug-tag--sage">Minimal</span>
+            <span class="snug-tag snug-tag--sky">Focused</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       Callout: Core Principle
+       ============================================ -->
+  <section class="snug-section snug-section--cream">
+    <div class="snug-container--narrow animate-on-scroll">
+      <div class="snug-callout-rounded">
+        <div class="callout-icon">&#127793;</div>
+        <div>
+          <h3 style="color: var(--snug-accent-sage-dark); margin-bottom: 0.4rem;">The core principle</h3>
+          <p style="font-weight: 500;">The core principle of Snug Simple is comfort through restraint. Every design decision should ask: "Does this make the user feel more at ease?" If an element creates visual tension, urgency, or complexity, it does not belong.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       Color Palette
+       ============================================ -->
+  <section class="snug-section snug-section--sage" id="palette">
+    <div class="snug-container">
+      <div class="snug-section-header animate-on-scroll">
+        <h2>Color palette</h2>
+        <p>Drawn from nature's softest moments -- morning light through linen curtains, spring wildflowers, oatmeal in a ceramic bowl.</p>
+      </div>
+
+      <div class="palette-grid animate-on-scroll">
+        <div class="palette-swatch">
+          <div class="palette-swatch-color" style="background: #FFF8F0;"></div>
+          <div class="palette-swatch-info">
+            <span class="palette-swatch-name">Warm Cream</span>
+            <span class="palette-swatch-hex">#FFF8F0</span>
+          </div>
+        </div>
+        <div class="palette-swatch">
+          <div class="palette-swatch-color" style="background: #F5EDE3;"></div>
+          <div class="palette-swatch-info">
+            <span class="palette-swatch-name">Soft Oat</span>
+            <span class="palette-swatch-hex">#F5EDE3</span>
+          </div>
+        </div>
+        <div class="palette-swatch">
+          <div class="palette-swatch-color" style="background: #FFF0F0;"></div>
+          <div class="palette-swatch-info">
+            <span class="palette-swatch-name">Blush Whisper</span>
+            <span class="palette-swatch-hex">#FFF0F0</span>
+          </div>
+        </div>
+        <div class="palette-swatch">
+          <div class="palette-swatch-color" style="background: #EEF4E8;"></div>
+          <div class="palette-swatch-info">
+            <span class="palette-swatch-name">Sage Mist</span>
+            <span class="palette-swatch-hex">#EEF4E8</span>
+          </div>
+        </div>
+        <div class="palette-swatch">
+          <div class="palette-swatch-color" style="background: #F0ECF5;"></div>
+          <div class="palette-swatch-info">
+            <span class="palette-swatch-name">Lavender Haze</span>
+            <span class="palette-swatch-hex">#F0ECF5</span>
+          </div>
+        </div>
+        <div class="palette-swatch">
+          <div class="palette-swatch-color" style="background: #B8C9A3;"></div>
+          <div class="palette-swatch-info">
+            <span class="palette-swatch-name">Sage Green</span>
+            <span class="palette-swatch-hex">#B8C9A3</span>
+          </div>
+        </div>
+        <div class="palette-swatch">
+          <div class="palette-swatch-color" style="background: #8FAF78;"></div>
+          <div class="palette-swatch-info">
+            <span class="palette-swatch-name">Deep Sage</span>
+            <span class="palette-swatch-hex">#8FAF78</span>
+          </div>
+        </div>
+        <div class="palette-swatch">
+          <div class="palette-swatch-color" style="background: #E8B4B8;"></div>
+          <div class="palette-swatch-info">
+            <span class="palette-swatch-name">Blush Pink</span>
+            <span class="palette-swatch-hex">#E8B4B8</span>
+          </div>
+        </div>
+        <div class="palette-swatch">
+          <div class="palette-swatch-color" style="background: #D4A0A8;"></div>
+          <div class="palette-swatch-info">
+            <span class="palette-swatch-name">Dusty Rose</span>
+            <span class="palette-swatch-hex">#D4A0A8</span>
+          </div>
+        </div>
+        <div class="palette-swatch">
+          <div class="palette-swatch-color" style="background: #C5B8D9;"></div>
+          <div class="palette-swatch-info">
+            <span class="palette-swatch-name">Soft Lavender</span>
+            <span class="palette-swatch-hex">#C5B8D9</span>
+          </div>
+        </div>
+        <div class="palette-swatch">
+          <div class="palette-swatch-color" style="background: #B8D4E8;"></div>
+          <div class="palette-swatch-info">
+            <span class="palette-swatch-name">Light Sky</span>
+            <span class="palette-swatch-hex">#B8D4E8</span>
+          </div>
+        </div>
+        <div class="palette-swatch">
+          <div class="palette-swatch-color" style="background: #E8DCD0;"></div>
+          <div class="palette-swatch-info">
+            <span class="palette-swatch-name">Warm Oat</span>
+            <span class="palette-swatch-hex">#E8DCD0</span>
+          </div>
+        </div>
+        <div class="palette-swatch">
+          <div class="palette-swatch-color" style="background: #F0D0B8;"></div>
+          <div class="palette-swatch-info">
+            <span class="palette-swatch-name">Soft Peach</span>
+            <span class="palette-swatch-hex">#F0D0B8</span>
+          </div>
+        </div>
+        <div class="palette-swatch">
+          <div class="palette-swatch-color" style="background: #3D3028;"></div>
+          <div class="palette-swatch-info">
+            <span class="palette-swatch-name">Espresso Brown</span>
+            <span class="palette-swatch-hex">#3D3028</span>
+          </div>
+        </div>
+        <div class="palette-swatch">
+          <div class="palette-swatch-color" style="background: #5C4A3A;"></div>
+          <div class="palette-swatch-info">
+            <span class="palette-swatch-name">Warm Umber</span>
+            <span class="palette-swatch-hex">#5C4A3A</span>
+          </div>
+        </div>
+        <div class="palette-swatch">
+          <div class="palette-swatch-color" style="background: #9B8A7A;"></div>
+          <div class="palette-swatch-info">
+            <span class="palette-swatch-name">Soft Clay</span>
+            <span class="palette-swatch-hex">#9B8A7A</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="animate-on-scroll" style="margin-top: 2.5rem;">
+        <div class="snug-callout-box">
+          <p>All colors kept at 30-60% saturation -- fully saturated colors are avoided. Everything should look as if viewed through a light linen curtain. Even neutrals lean warm (oat, cream, warm gray) rather than cool (blue-gray, silver).</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       Typography
+       ============================================ -->
+  <section class="snug-section snug-section--cream" id="typography">
+    <div class="snug-container">
+      <div class="snug-section-header animate-on-scroll">
+        <h2>Typography</h2>
+        <p>Every letterform should feel like it is smiling -- rounded, chunky, and confident.</p>
+      </div>
+
+      <div class="snug-grid--2" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 1.8rem;">
+        <div class="type-showcase animate-on-scroll">
+          <div class="type-sample">
+            <span class="type-sample-label">Display / Comfortaa 700</span>
+            <p class="type-sample-text display-font" style="font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 700; color: var(--snug-text-primary); line-height: 1.2; margin-bottom: 0;">Cozy digital spaces</p>
+          </div>
+
+          <div class="type-sample">
+            <span class="type-sample-label">Heading / Quicksand 700</span>
+            <p class="type-sample-text" style="font-family: 'Quicksand', sans-serif; font-size: 1.5rem; font-weight: 700; color: var(--snug-text-primary); line-height: 1.3; margin-bottom: 0;">A warmer kind of interface</p>
+          </div>
+
+          <div class="type-sample">
+            <span class="type-sample-label">Callout / Baloo 2, 600</span>
+            <p class="type-sample-text callout-font" style="font-size: 1.15rem; font-weight: 600; color: var(--snug-accent-sage-dark); letter-spacing: 0.02em; margin-bottom: 0;">Slow down and be comfortable</p>
+          </div>
+
+          <div class="type-sample">
+            <span class="type-sample-label">Body / Nunito 400</span>
+            <p class="type-sample-text" style="font-size: 1rem; font-weight: 400; line-height: 1.8; margin-bottom: 0;">Body text uses Nunito at 17-18px with generous line-height of 1.7 to 2.0, creating airy readable paragraphs. Warm brown text replaces pure black, maintaining softness even at full contrast.</p>
+          </div>
+        </div>
+
+        <div class="animate-on-scroll" style="display: flex; flex-direction: column; gap: 1.5rem;">
+          <div class="snug-card--sage" style="background: var(--snug-bg-sage); border: 1px solid var(--snug-border-sage); border-radius: var(--snug-radius-lg); padding: 2rem;">
+            <h3 style="color: var(--snug-accent-sage-dark); margin-bottom: 1rem;">Recommended fonts</h3>
+            <div style="display: flex; flex-direction: column; gap: 0.8rem;">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span style="font-family: 'Quicksand', sans-serif; font-weight: 700; font-size: 1.05rem;">Quicksand</span>
+                <span class="snug-tag snug-tag--sage">Headings</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span style="font-family: 'Nunito', sans-serif; font-weight: 600; font-size: 1.05rem;">Nunito</span>
+                <span class="snug-tag snug-tag--sage">Body text</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span style="font-family: 'Comfortaa', sans-serif; font-weight: 700; font-size: 1.05rem;">Comfortaa</span>
+                <span class="snug-tag snug-tag--lavender">Display</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span style="font-family: 'Baloo 2', sans-serif; font-weight: 600; font-size: 1.05rem;">Baloo 2</span>
+                <span class="snug-tag snug-tag--blush">Callouts</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="snug-card--blush" style="background: var(--snug-bg-tinted); border: 1px solid var(--snug-border-blush); border-radius: var(--snug-radius-lg); padding: 2rem;">
+            <h3 style="color: var(--snug-accent-rose); margin-bottom: 1rem;">Typography rules</h3>
+            <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.6rem;">
+              <li style="color: var(--snug-text-secondary); font-size: 0.93rem; display: flex; align-items: baseline; gap: 0.5rem;">
+                <span style="color: var(--snug-accent-rose); font-weight: 700;">&#8226;</span>
+                Rounded sans-serif typefaces only
+              </li>
+              <li style="color: var(--snug-text-secondary); font-size: 0.93rem; display: flex; align-items: baseline; gap: 0.5rem;">
+                <span style="color: var(--snug-accent-rose); font-weight: 700;">&#8226;</span>
+                Weights 500 minimum for body, 600-800 for headings
+              </li>
+              <li style="color: var(--snug-text-secondary); font-size: 0.93rem; display: flex; align-items: baseline; gap: 0.5rem;">
+                <span style="color: var(--snug-accent-rose); font-weight: 700;">&#8226;</span>
+                Body text at 17-18px, never cramped
+              </li>
+              <li style="color: var(--snug-text-secondary); font-size: 0.93rem; display: flex; align-items: baseline; gap: 0.5rem;">
+                <span style="color: var(--snug-accent-rose); font-weight: 700;">&#8226;</span>
+                Line-height 1.7-2.0 for comfortable reading
+              </li>
+              <li style="color: var(--snug-text-secondary); font-size: 0.93rem; display: flex; align-items: baseline; gap: 0.5rem;">
+                <span style="color: var(--snug-accent-rose); font-weight: 700;">&#8226;</span>
+                No uppercase headings -- sentence or title case only
+              </li>
+              <li style="color: var(--snug-text-secondary); font-size: 0.93rem; display: flex; align-items: baseline; gap: 0.5rem;">
+                <span style="color: var(--snug-accent-rose); font-weight: 700;">&#8226;</span>
+                Espresso brown text, never pure black
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       Design Elements
+       ============================================ -->
+  <section class="snug-section snug-section--lavender" id="elements">
+    <div class="snug-container">
+      <div class="snug-section-header animate-on-scroll">
+        <h2>Key design elements</h2>
+        <p>The building blocks that create the Snug Simple feeling -- cozy cards, friendly pills, and gentle interactions.</p>
+      </div>
+
+      <!-- Rounded Cards Demo -->
+      <div class="animate-on-scroll" style="margin-bottom: 3.5rem;">
+        <h3 style="text-align: center; margin-bottom: 1.5rem; color: var(--snug-accent-sage-dark);">Rounded cards</h3>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem;">
+          <div class="snug-card">
+            <h3 style="color: var(--snug-text-primary);">Default card</h3>
+            <p>White background, subtle warm shadow, generous 28px border-radius. The foundational building block.</p>
+          </div>
+          <div class="snug-card snug-card--sage">
+            <h3 style="color: var(--snug-accent-sage-dark);">Sage-tinted card</h3>
+            <p>Soft sage background wash for tips, highlights, and nature-themed content blocks.</p>
+          </div>
+          <div class="snug-card snug-card--blush">
+            <h3 style="color: var(--snug-accent-rose);">Blush-tinted card</h3>
+            <p>Gentle pink background for warmth, emphasis, and a subtle playful highlight.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pill Buttons Demo -->
+      <div class="animate-on-scroll" style="margin-bottom: 3.5rem;">
+        <h3 style="text-align: center; margin-bottom: 1.5rem; color: var(--snug-accent-sage-dark);">Pill buttons and tags</h3>
+        <div style="display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center; margin-bottom: 1.5rem;">
+          <button class="snug-button snug-button--primary">Primary sage</button>
+          <button class="snug-button snug-button--blush">Blush button</button>
+          <button class="snug-button snug-button--outline">Outlined pill</button>
+          <button class="snug-button snug-button--primary snug-button--sm">Small button</button>
+        </div>
+        <div style="display: flex; flex-wrap: wrap; gap: 0.6rem; justify-content: center;">
+          <span class="snug-tag snug-tag--sage">Sage tag</span>
+          <span class="snug-tag snug-tag--blush">Blush tag</span>
+          <span class="snug-tag snug-tag--lavender">Lavender tag</span>
+          <span class="snug-tag snug-tag--sky">Sky tag</span>
+          <span class="snug-tag snug-tag--oat">Oat tag</span>
+        </div>
+      </div>
+
+      <!-- Callout Boxes Demo -->
+      <div class="snug-container--narrow animate-on-scroll" style="margin-bottom: 3.5rem;">
+        <h3 style="text-align: center; margin-bottom: 1.5rem; color: var(--snug-accent-sage-dark);">Callout boxes</h3>
+        <div class="snug-callout-box">
+          <p>A sage callout with a pastel accent bar on the left -- perfect for tips, notes, and gentle nudges.</p>
+        </div>
+        <div class="snug-callout-box snug-callout-box--blush">
+          <p>A blush-tinted callout for highlights, important notes, and warm reminders.</p>
+        </div>
+        <div class="snug-callout-box snug-callout-box--lavender">
+          <p>A lavender callout adds calm emphasis -- ideal for secondary information or creative asides.</p>
+        </div>
+      </div>
+
+      <!-- Input Demo -->
+      <div class="snug-container--narrow animate-on-scroll" style="margin-bottom: 3.5rem;">
+        <h3 style="text-align: center; margin-bottom: 1.5rem; color: var(--snug-accent-sage-dark);">Friendly form inputs</h3>
+        <div class="snug-card" style="padding: 2.5rem;">
+          <div class="demo-input-group">
+            <div class="demo-input-wrapper">
+              <label class="demo-input-label">Your name</label>
+              <input type="text" class="snug-input" placeholder="Something cozy...">
+            </div>
+            <div class="demo-input-wrapper">
+              <label class="demo-input-label">Favorite season</label>
+              <input type="text" class="snug-input" placeholder="Autumn, perhaps?">
+            </div>
+          </div>
+          <div class="demo-input-wrapper" style="margin-bottom: 1.5rem;">
+            <label class="demo-input-label">A warm thought</label>
+            <textarea class="snug-input snug-textarea" placeholder="Tell us something that makes you feel at home..."></textarea>
+          </div>
+          <div style="display: flex; gap: 0.8rem; justify-content: flex-end; flex-wrap: wrap;">
+            <button class="snug-button snug-button--outline snug-button--sm">Cancel</button>
+            <button class="snug-button snug-button--primary snug-button--sm">Send warmth</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Feature Pills -->
+      <div class="animate-on-scroll">
+        <h3 style="text-align: center; margin-bottom: 1.5rem; color: var(--snug-accent-sage-dark);">Visual signature at a glance</h3>
+        <div class="snug-features">
+          <div class="snug-feature-pill"><span class="dot dot--sage"></span> Rounded everything</div>
+          <div class="snug-feature-pill"><span class="dot dot--blush"></span> Soft pastels</div>
+          <div class="snug-feature-pill"><span class="dot dot--lavender"></span> Chunky typography</div>
+          <div class="snug-feature-pill"><span class="dot dot--sky"></span> Generous spacing</div>
+          <div class="snug-feature-pill"><span class="dot dot--oat"></span> Warm shadows</div>
+          <div class="snug-feature-pill"><span class="dot dot--rose"></span> Gentle motion</div>
+          <div class="snug-feature-pill"><span class="dot dot--sage"></span> Pill-shaped CTAs</div>
+          <div class="snug-feature-pill"><span class="dot dot--peach"></span> Paper-like textures</div>
+          <div class="snug-feature-pill"><span class="dot dot--lavender"></span> Cozy card layout</div>
+          <div class="snug-feature-pill"><span class="dot dot--blush"></span> No pure black</div>
+          <div class="snug-feature-pill"><span class="dot dot--sky"></span> Frosted glass</div>
+          <div class="snug-feature-pill"><span class="dot dot--sage"></span> Warm neutrals</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       CSS Showcase
+       ============================================ -->
+  <section class="snug-section snug-section--cream">
+    <div class="snug-container--narrow">
+      <div class="snug-section-header animate-on-scroll">
+        <h2>A peek at the code</h2>
+        <p>The CSS behind the coziness -- custom properties, warm shadows, and rounded everything.</p>
+      </div>
+
+      <div class="animate-on-scroll">
+        <div class="snug-code-block">
+          <code><span class="code-comment">/* The fundamental Snug Simple building block */</span>
+<span class="code-selector">.snug-card</span> {
+  <span class="code-prop">background</span>: <span class="code-value">var(--snug-bg-card)</span>;
+  <span class="code-prop">border</span>: <span class="code-value">1px</span> solid <span class="code-value">var(--snug-border-soft)</span>;
+  <span class="code-prop">border-radius</span>: <span class="code-value">28px</span>;
+  <span class="code-prop">padding</span>: <span class="code-value">2rem</span> <span class="code-value">2.2rem</span>;
+  <span class="code-prop">box-shadow</span>:
+    <span class="code-value">0</span> <span class="code-value">2px</span> <span class="code-value">8px</span> <span class="code-value">rgba(180, 160, 140, 0.15)</span>,
+    <span class="code-value">0</span> <span class="code-value">1px</span> <span class="code-value">3px</span> <span class="code-value">rgba(180, 160, 140, 0.08)</span>;
+  <span class="code-prop">transition</span>: <span class="code-value">all 0.3s ease</span>;
+}
+
+<span class="code-comment">/* Pill button -- the friendliest CTA */</span>
+<span class="code-selector">.snug-button</span> {
+  <span class="code-prop">border-radius</span>: <span class="code-value">999px</span>;
+  <span class="code-prop">font-family</span>: <span class="code-value">'Quicksand'</span>, sans-serif;
+  <span class="code-prop">font-weight</span>: <span class="code-value">700</span>;
+  <span class="code-prop">padding</span>: <span class="code-value">0.8rem</span> <span class="code-value">2rem</span>;
+}</code>
+        </div>
+      </div>
+
+      <!-- Stats row -->
+      <div class="stat-row animate-on-scroll">
+        <div class="stat-badge">
+          <span class="stat-badge-number">28px</span>
+          <span class="stat-badge-label">Card radius</span>
+        </div>
+        <div class="stat-badge">
+          <span class="stat-badge-number">999px</span>
+          <span class="stat-badge-label">Pill radius</span>
+        </div>
+        <div class="stat-badge">
+          <span class="stat-badge-number">1.8</span>
+          <span class="stat-badge-label">Line height</span>
+        </div>
+        <div class="stat-badge">
+          <span class="stat-badge-number">0.3s</span>
+          <span class="stat-badge-label">Transition</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       Materials & Textures
+       ============================================ -->
+  <section class="snug-section snug-section--oat" id="materials">
+    <div class="snug-container">
+      <div class="snug-section-header animate-on-scroll">
+        <h2>Materials and textures</h2>
+        <p>Physical metaphors translated to web -- every surface should feel tactile and warm.</p>
+      </div>
+
+      <div class="materials-grid animate-on-scroll">
+        <div class="material-card material-card--linen">
+          <span class="material-emoji">&#127890;</span>
+          <span class="material-name">Linen fabric</span>
+          <p class="material-desc">Subtle dot pattern at 3-5% opacity on warm cream</p>
+        </div>
+        <div class="material-card material-card--ceramic">
+          <span class="material-emoji">&#9749;</span>
+          <span class="material-name">Ceramic mug</span>
+          <p class="material-desc">Large border-radius with warm shadow underneath</p>
+        </div>
+        <div class="material-card material-card--paper">
+          <span class="material-emoji">&#128220;</span>
+          <span class="material-name">Handmade paper</span>
+          <p class="material-desc">Off-white backgrounds with SVG noise at 2-4% opacity</p>
+        </div>
+        <div class="material-card material-card--wood">
+          <span class="material-emoji">&#127795;</span>
+          <span class="material-name">Wooden table</span>
+          <p class="material-desc">Warm oat and tan accent colors for secondary surfaces</p>
+        </div>
+        <div class="material-card material-card--knit">
+          <span class="material-emoji">&#129507;</span>
+          <span class="material-name">Knitted blanket</span>
+          <p class="material-desc">Soft repeating grid at low opacity with warm palette</p>
+        </div>
+        <div class="material-card material-card--frosted">
+          <span class="material-emoji">&#127863;</span>
+          <span class="material-name">Frosted glass</span>
+          <p class="material-desc">backdrop-filter: blur() with warm semi-transparency</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       Layout Principles
+       ============================================ -->
+  <section class="snug-section snug-section--blush">
+    <div class="snug-container--narrow">
+      <div class="snug-section-header animate-on-scroll">
+        <h2>Layout principles</h2>
+        <p>Complexity is the enemy of coziness -- grid systems are kept minimal, content flows naturally.</p>
+      </div>
+
+      <ul class="impl-list animate-on-scroll">
+        <li>
+          <div class="impl-icon" style="background: var(--snug-bg-sage);">&#9638;</div>
+          <div><strong>Single or two-column layouts</strong> -- content flows naturally without complex grid systems or overwhelming density.</div>
+        </li>
+        <li>
+          <div class="impl-icon" style="background: var(--snug-bg-lavender);">&#9723;</div>
+          <div><strong>Centered containers</strong> at 1000-1200px max-width, never edge-to-edge. Text paragraphs never exceed 65ch.</div>
+        </li>
+        <li>
+          <div class="impl-icon" style="background: var(--snug-bg-tinted);">&#9650;</div>
+          <div><strong>Card-based organization</strong> -- information grouped into discrete, rounded, softly contained blocks like sticky notes.</div>
+        </li>
+        <li>
+          <div class="impl-icon" style="background: var(--snug-bg-sage);">&#9632;</div>
+          <div><strong>No hard dividers</strong> -- sections separated by whitespace and alternating pastel background colors rather than lines.</div>
+        </li>
+        <li>
+          <div class="impl-icon" style="background: var(--snug-accent-oat);">&#9681;</div>
+          <div><strong>Frosted glass navigation</strong> -- if navigation is fixed, it uses a soft frosted-glass effect with pastel tint and backdrop-filter.</div>
+        </li>
+        <li>
+          <div class="impl-icon" style="background: var(--snug-bg-lavender);">&#9673;</div>
+          <div><strong>Gentle scroll animations</strong> -- fade-in and slight upward float on reveal, never bounce or snap. Transitions 0.2-0.4s easing.</div>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============================================
+       Related Aesthetics
+       ============================================ -->
+  <section class="snug-section snug-section--cream">
+    <div class="snug-container">
+      <div class="snug-section-header animate-on-scroll">
+        <h2>Related aesthetics</h2>
+        <p>Design cousins and siblings -- how Snug Simple relates to other cozy visual languages.</p>
+      </div>
+
+      <div class="related-grid animate-on-scroll">
+        <div class="related-card">
+          <span class="related-card-dot" style="background: var(--snug-accent-blush);"></span>
+          <div>
+            <h4>Cutecore</h4>
+            <p>Shares rounded forms and pastels; pushes further into kawaii with brighter pinks, while Snug Simple stays muted and restrained.</p>
+          </div>
+        </div>
+        <div class="related-card">
+          <span class="related-card-dot" style="background: var(--snug-accent-lavender);"></span>
+          <div>
+            <h4>Danish Pastel</h4>
+            <p>Close sibling with soft pastels and rounded forms; draws more from Scandinavian interior design with checkered patterns and arched shapes.</p>
+          </div>
+        </div>
+        <div class="related-card">
+          <span class="related-card-dot" style="background: var(--snug-accent-sage);"></span>
+          <div>
+            <h4>Cottagecore</h4>
+            <p>Overlapping warmth and comfort; more specifically rural and nature-themed with floral patterns, while Snug Simple is more abstract.</p>
+          </div>
+        </div>
+        <div class="related-card">
+          <span class="related-card-dot" style="background: var(--snug-accent-rose);"></span>
+          <div>
+            <h4>Coquette</h4>
+            <p>Shares softness and pastel pinks but leans romantic with bows and ribbons; Snug Simple is gender-neutral and minimal.</p>
+          </div>
+        </div>
+        <div class="related-card">
+          <span class="related-card-dot" style="background: var(--snug-accent-sky);"></span>
+          <div>
+            <h4>Claymorphism</h4>
+            <p>Shares rounded containers and soft shadows; uses more dramatic inner shadows and inflated 3D effects, while Snug Simple stays flat.</p>
+          </div>
+        </div>
+        <div class="related-card">
+          <span class="related-card-dot" style="background: var(--snug-accent-peach);"></span>
+          <div>
+            <h4>Dopamine Design</h4>
+            <p>Both prioritize friendliness; Dopamine uses saturated bold colors and energy, while Snug Simple deliberately mutes everything for calm.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       Implementation Notes
+       ============================================ -->
+  <section class="snug-section snug-section--sage">
+    <div class="snug-container--narrow">
+      <div class="snug-section-header animate-on-scroll">
+        <h2>Implementation notes</h2>
+        <p>The practical details that keep the coziness consistent and intentional.</p>
+      </div>
+
+      <ul class="impl-list animate-on-scroll">
+        <li>
+          <div class="impl-icon" style="background: var(--snug-bg-tinted);">&#9888;</div>
+          <div><strong>Border-radius is non-negotiable.</strong> Sharp corners immediately break the aesthetic. Minimum 12px on everything, 20-28px on cards, 999px on buttons and tags.</div>
+        </li>
+        <li>
+          <div class="impl-icon" style="background: var(--snug-accent-oat);">&#9898;</div>
+          <div><strong>Avoid pure black and pure white.</strong> Use warm off-black (#3D3028) for text and warm off-white (#FFF8F0) for backgrounds. Pure extremes create harshness.</div>
+        </li>
+        <li>
+          <div class="impl-icon" style="background: var(--snug-bg-sage);">&#9999;</div>
+          <div><strong>Typography weight matters enormously.</strong> Thin or light weights feel cold and corporate. Use 500 minimum for body, 600-800 for headings. Type should feel chunky.</div>
+        </li>
+        <li>
+          <div class="impl-icon" style="background: var(--snug-bg-lavender);">&#9634;</div>
+          <div><strong>Spacing is a feature, not waste.</strong> Resist the impulse to tighten margins. The generous whitespace is what makes it feel relaxed. If the page feels "empty," it is working.</div>
+        </li>
+        <li>
+          <div class="impl-icon" style="background: var(--snug-bg-tinted);">&#127912;</div>
+          <div><strong>Pastel saturation must stay low.</strong> Colors should feel dusty, muted, and grown-up. If a color looks like it belongs on a birthday cake, desaturate by 20-30%.</div>
+        </li>
+        <li>
+          <div class="impl-icon" style="background: var(--snug-accent-oat);">&#9889;</div>
+          <div><strong>Interaction design should be gentle.</strong> No snappy, aggressive animations. Transitions use 0.2-0.4s easing. Hover effects are subtle lifts or soft color shifts.</div>
+        </li>
+        <li>
+          <div class="impl-icon" style="background: var(--snug-bg-sage);">&#9855;</div>
+          <div><strong>Accessibility matters.</strong> Espresso brown (#3D3028) on warm cream (#FFF8F0) achieves approximately 9:1 contrast ratio -- excellent for WCAG AA compliance.</div>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============================================
+       Closing Callout
+       ============================================ -->
+  <section class="snug-section snug-section--cream">
+    <div class="snug-container--narrow animate-on-scroll" style="text-align: center;">
+      <div style="font-size: 3rem; margin-bottom: 1rem;">&#127793;</div>
+      <h2 style="color: var(--snug-text-primary); margin-bottom: 1rem;">Design as a warm blanket</h2>
+      <p style="margin: 0 auto 2rem; font-size: 1.1rem; max-width: 550px;">
+        Snug Simple treats every pixel as an opportunity to make the user feel at home. The visual language is deliberately friendly -- never shouting, never demanding, just quietly present and comforting.
+      </p>
+      <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+        <a href="#top" class="snug-button snug-button--primary">Back to top</a>
+        <a href="#philosophy" class="snug-button snug-button--outline">Read again</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       Footer
+       ============================================ -->
+  <footer class="snug-footer">
+    <span class="footer-brand">snug simple</span>
+    <p>A cozy, human-centered web design aesthetic. Made with warmth and care.</p>
+    <div class="footer-pills">
+      <span class="snug-tag snug-tag--sage">Hygge-inspired</span>
+      <span class="snug-tag snug-tag--blush">Pastel palette</span>
+      <span class="snug-tag snug-tag--lavender">Rounded forms</span>
+      <span class="snug-tag snug-tag--sky">Chunky type</span>
+      <span class="snug-tag snug-tag--oat">Warm neutrals</span>
+    </div>
+  </footer>
+
+  <!-- ============================================
+       JavaScript: Scroll Animations & Progress
+       ============================================ -->
+  <script>
+    // Scroll progress indicator
+    function updateScrollProgress() {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+      document.getElementById('scrollProgress').style.width = progress + '%';
+    }
+
+    // Intersection Observer for scroll-triggered animations
+    function setupScrollAnimations() {
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      if (prefersReducedMotion) {
+        // Make everything visible immediately
+        document.querySelectorAll('.animate-on-scroll').forEach(function(el) {
+          el.classList.add('visible');
+        });
+        return;
+      }
+
+      var observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+
+            // Stagger children if they have stagger data attribute
+            var children = entry.target.querySelectorAll('.snug-card, .palette-swatch, .material-card, .related-card, .impl-list li, .snug-feature-pill');
+            children.forEach(function(child, index) {
+              child.style.transitionDelay = (index * 0.06) + 's';
+              child.style.opacity = '0';
+              child.style.transform = 'translateY(12px)';
+              requestAnimationFrame(function() {
+                requestAnimationFrame(function() {
+                  child.style.transition = 'opacity 0.5s ease-out, transform 0.5s ease-out';
+                  child.style.opacity = '1';
+                  child.style.transform = 'translateY(0)';
+                });
+              });
+            });
+
+            observer.unobserve(entry.target);
+          }
+        });
+      }, {
+        threshold: 0.1,
+        rootMargin: '0px 0px -40px 0px'
+      });
+
+      document.querySelectorAll('.animate-on-scroll').forEach(function(el) {
+        observer.observe(el);
+      });
+    }
+
+    // Smooth scroll for anchor links
+    document.addEventListener('click', function(e) {
+      var link = e.target.closest('a[href^="#"]');
+      if (link) {
+        e.preventDefault();
+        var target = document.querySelector(link.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }
+    });
+
+    // Active nav state on scroll
+    function updateActiveNav() {
+      var sections = document.querySelectorAll('section[id]');
+      var navLinks = document.querySelectorAll('.snug-nav a');
+      var scrollPos = window.scrollY + 120;
+
+      sections.forEach(function(section) {
+        var top = section.offsetTop;
+        var height = section.offsetHeight;
+        var id = section.getAttribute('id');
+
+        if (scrollPos >= top && scrollPos < top + height) {
+          navLinks.forEach(function(link) {
+            link.classList.remove('active');
+            if (link.getAttribute('href') === '#' + id) {
+              link.classList.add('active');
+            }
+          });
+        }
+      });
+    }
+
+    // Initialize
+    window.addEventListener('scroll', function() {
+      updateScrollProgress();
+      updateActiveNav();
+    }, { passive: true });
+
+    window.addEventListener('DOMContentLoaded', function() {
+      setupScrollAnimations();
+      updateScrollProgress();
+    });
+  </script>
+
+</body>
+</html>

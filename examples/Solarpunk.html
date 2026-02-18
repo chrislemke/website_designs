@@ -1,0 +1,2235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Solarpunk -- A Design Aesthetic</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,700;9..144,900&family=Nunito:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <style>
+    /* ========================================
+       CSS CUSTOM PROPERTIES
+       ======================================== */
+    :root {
+      /* Warm accents */
+      --solar-gold: #f0a830;
+      --solar-amber: #d4922a;
+      --solar-orange: #e8762b;
+      --solar-terracotta: #c67a4b;
+
+      /* Greens */
+      --solar-green: #3a8c3f;
+      --solar-sage: #6b9e6b;
+      --solar-canopy: #1e5631;
+      --solar-leaf: #8bc34a;
+
+      /* Cool accent */
+      --solar-sky: #5dade2;
+
+      /* Backgrounds */
+      --solar-bg-cream: #fff9ed;
+      --solar-bg-linen: #f5ecd7;
+      --solar-bg-glass: #e8f0e0;
+      --solar-bg-dark: #3e2f23;
+
+      /* Text */
+      --solar-text-dark: #3e2f23;
+      --solar-text-brown: #5c4033;
+      --solar-text-muted: #8a7e72;
+      --solar-text-light: #fff9ed;
+
+      /* Gradients */
+      --solar-gradient-sunrise: linear-gradient(135deg, #f0a830 0%, #e8762b 30%, #c67a4b 60%, #3a8c3f 100%);
+      --solar-gradient-canopy: linear-gradient(180deg, #e8f0e0 0%, #6b9e6b 50%, #1e5631 100%);
+      --solar-gradient-glass: linear-gradient(135deg, rgba(232, 240, 224, 0.8), rgba(255, 249, 237, 0.6));
+    }
+
+    /* ========================================
+       RESET & BASE
+       ======================================== */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--solar-bg-cream);
+      color: var(--solar-text-brown);
+      font-family: 'Nunito', sans-serif;
+      font-weight: 400;
+      font-size: 1rem;
+      line-height: 1.8;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'Fraunces', serif;
+      font-weight: 700;
+      color: var(--solar-text-dark);
+      line-height: 1.2;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    /* ========================================
+       UTILITY CLASSES
+       ======================================== */
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 40px;
+    }
+
+    .section-label {
+      font-family: 'Nunito', sans-serif;
+      font-weight: 700;
+      font-size: 0.75rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--solar-sage);
+      display: inline-block;
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-family: 'Fraunces', serif;
+      font-weight: 900;
+      font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+      color: var(--solar-canopy);
+      margin-bottom: 16px;
+      line-height: 1.15;
+    }
+
+    .section-subtitle {
+      font-size: 1.05rem;
+      color: var(--solar-text-muted);
+      max-width: 600px;
+      line-height: 1.7;
+    }
+
+    /* ========================================
+       ANIMATIONS
+       ======================================== */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes gentlePulse {
+      0%, 100% { opacity: 0.6; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.05); }
+    }
+
+    @keyframes sunRotate {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes sway {
+      0%, 100% { transform: rotate(-2deg); }
+      50% { transform: rotate(2deg); }
+    }
+
+    @keyframes growUp {
+      from {
+        transform: scaleY(0);
+        transform-origin: bottom;
+      }
+      to {
+        transform: scaleY(1);
+        transform-origin: bottom;
+      }
+    }
+
+    @keyframes shimmer {
+      0% { background-position: -200% center; }
+      100% { background-position: 200% center; }
+    }
+
+    @keyframes floatSlow {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-8px); }
+    }
+
+    @keyframes leafDrift {
+      0% { transform: translate(0, 0) rotate(0deg); opacity: 1; }
+      100% { transform: translate(60px, 120px) rotate(45deg); opacity: 0; }
+    }
+
+    .animate-on-scroll {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .animate-on-scroll.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ========================================
+       NAVIGATION
+       ======================================== */
+    .nav-wrapper {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      background: rgba(255, 249, 237, 0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(107, 158, 107, 0.12);
+      transition: box-shadow 0.3s ease;
+    }
+
+    .nav-wrapper.scrolled {
+      box-shadow: 0 4px 24px rgba(62, 47, 35, 0.06);
+    }
+
+    .solar-nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 16px 40px;
+    }
+
+    .solar-nav__logo {
+      font-family: 'Fraunces', serif;
+      font-weight: 900;
+      font-size: 1.3rem;
+      color: var(--solar-canopy);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .solar-nav__logo svg {
+      width: 28px;
+      height: 28px;
+    }
+
+    .solar-nav__links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+
+    .solar-nav__links a {
+      font-family: 'Nunito', sans-serif;
+      font-weight: 600;
+      font-size: 0.88rem;
+      color: var(--solar-text-muted);
+      transition: color 0.25s ease;
+      position: relative;
+    }
+
+    .solar-nav__links a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--solar-green);
+      border-radius: 2px;
+      transition: width 0.25s ease;
+    }
+
+    .solar-nav__links a:hover {
+      color: var(--solar-green);
+    }
+
+    .solar-nav__links a:hover::after {
+      width: 100%;
+    }
+
+    .nav-mobile-toggle {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+    }
+
+    /* ========================================
+       HERO SECTION
+       ======================================== */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+      padding-top: 80px;
+    }
+
+    .hero__bg {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    /* Sunlight gradient overlay */
+    .hero__bg::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 70% at 75% 20%, rgba(240, 168, 48, 0.18) 0%, transparent 70%),
+        radial-gradient(ellipse 60% 80% at 20% 80%, rgba(139, 195, 74, 0.1) 0%, transparent 60%),
+        linear-gradient(180deg, var(--solar-bg-cream) 0%, rgba(245, 236, 215, 0.6) 50%, var(--solar-bg-glass) 100%);
+      z-index: 1;
+    }
+
+    /* Animated sun rays */
+    .hero__sun {
+      position: absolute;
+      top: -80px;
+      right: -40px;
+      width: 500px;
+      height: 500px;
+      z-index: 0;
+    }
+
+    .hero__sun-core {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(240, 168, 48, 0.5) 0%, rgba(240, 168, 48, 0.1) 60%, transparent 70%);
+      animation: gentlePulse 4s ease-in-out infinite;
+    }
+
+    .hero__sun-rays {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 400px;
+      height: 400px;
+      animation: sunRotate 120s linear infinite;
+    }
+
+    .hero__content {
+      position: relative;
+      z-index: 2;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 60px 40px 100px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+
+    .hero__text {
+      animation: fadeInUp 1s ease 0.2s both;
+    }
+
+    .hero__overline {
+      font-family: 'Nunito', sans-serif;
+      font-weight: 700;
+      font-size: 0.7rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--solar-gold);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .hero__overline::before {
+      content: '';
+      display: inline-block;
+      width: 24px;
+      height: 2px;
+      background: var(--solar-gold);
+      border-radius: 2px;
+    }
+
+    .hero__title {
+      font-family: 'Fraunces', serif;
+      font-weight: 900;
+      font-size: clamp(2.8rem, 5.5vw, 4.2rem);
+      color: var(--solar-canopy);
+      line-height: 1.08;
+      margin-bottom: 24px;
+    }
+
+    .hero__title span {
+      color: var(--solar-gold);
+      position: relative;
+      display: inline-block;
+    }
+
+    .hero__title span::after {
+      content: '';
+      position: absolute;
+      bottom: 2px;
+      left: 0;
+      right: 0;
+      height: 6px;
+      background: rgba(240, 168, 48, 0.25);
+      border-radius: 3px;
+    }
+
+    .hero__desc {
+      font-size: 1.1rem;
+      color: var(--solar-text-muted);
+      line-height: 1.8;
+      margin-bottom: 36px;
+      max-width: 480px;
+    }
+
+    .hero__actions {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .hero__visual {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      animation: fadeIn 1.2s ease 0.6s both;
+    }
+
+    .hero__illustration {
+      position: relative;
+      width: 100%;
+      max-width: 440px;
+    }
+
+    /* ========================================
+       BUTTONS
+       ======================================== */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      border: none;
+      border-radius: 50px;
+      padding: 14px 32px;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 600;
+      font-size: 0.92rem;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      text-decoration: none;
+    }
+
+    .btn-primary {
+      background: var(--solar-green);
+      color: #ffffff;
+      box-shadow: 0 4px 16px rgba(58, 140, 63, 0.25);
+    }
+
+    .btn-primary:hover {
+      background: var(--solar-canopy);
+      box-shadow: 0 6px 24px rgba(30, 86, 49, 0.3);
+      transform: translateY(-2px);
+    }
+
+    .btn-gold {
+      background: var(--solar-gold);
+      color: var(--solar-text-dark);
+      box-shadow: 0 4px 16px rgba(240, 168, 48, 0.3);
+    }
+
+    .btn-gold:hover {
+      background: var(--solar-amber);
+      box-shadow: 0 6px 24px rgba(212, 146, 42, 0.35);
+      transform: translateY(-2px);
+    }
+
+    .btn-glass {
+      background: rgba(255, 249, 237, 0.6);
+      color: var(--solar-canopy);
+      border: 1px solid rgba(107, 158, 107, 0.3);
+      backdrop-filter: blur(6px);
+    }
+
+    .btn-glass:hover {
+      background: rgba(255, 249, 237, 0.9);
+      box-shadow: 0 4px 16px rgba(30, 86, 49, 0.08);
+      transform: translateY(-2px);
+    }
+
+    /* ========================================
+       WAVE DIVIDERS
+       ======================================== */
+    .wave {
+      width: 100%;
+      overflow: hidden;
+      line-height: 0;
+      position: relative;
+      z-index: 2;
+    }
+
+    .wave svg {
+      display: block;
+      width: 100%;
+      height: 70px;
+    }
+
+    .wave--flip {
+      transform: scaleY(-1);
+    }
+
+    /* ========================================
+       INTRO / ABOUT SECTION
+       ======================================== */
+    .intro {
+      background: var(--solar-bg-glass);
+      padding: 80px 0;
+      position: relative;
+    }
+
+    .intro__inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+
+    .intro__text .section-subtitle {
+      margin-bottom: 24px;
+    }
+
+    .intro__quote {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.4rem;
+      font-style: italic;
+      color: var(--solar-canopy);
+      line-height: 1.6;
+      padding: 28px 0 28px 24px;
+      border-left: 3px solid var(--solar-gold);
+      margin-top: 24px;
+    }
+
+    .intro__visual {
+      display: flex;
+      justify-content: center;
+    }
+
+    .intro__art-nouveau-frame {
+      position: relative;
+      background: var(--solar-gradient-glass);
+      border: 2px solid rgba(107, 158, 107, 0.25);
+      border-radius: 24px;
+      padding: 40px;
+      width: 100%;
+      max-width: 400px;
+      aspect-ratio: 3 / 4;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .intro__art-nouveau-frame::before {
+      content: '';
+      position: absolute;
+      inset: 8px;
+      border: 1px solid rgba(107, 158, 107, 0.15);
+      border-radius: 18px;
+      pointer-events: none;
+    }
+
+    /* ========================================
+       TRAITS / FEATURES SECTION
+       ======================================== */
+    .traits {
+      padding: 100px 0 80px;
+      background: var(--solar-bg-cream);
+      position: relative;
+    }
+
+    .traits__header {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+
+    .traits__header .section-subtitle {
+      margin: 0 auto;
+    }
+
+    .traits__grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+    }
+
+    .trait-card {
+      background: rgba(255, 249, 237, 0.75);
+      border: 1px solid rgba(107, 158, 107, 0.18);
+      border-radius: 20px;
+      padding: 36px 28px;
+      backdrop-filter: blur(8px);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .trait-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--solar-gold), var(--solar-green));
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .trait-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 16px 40px rgba(30, 86, 49, 0.08);
+    }
+
+    .trait-card:hover::before {
+      opacity: 1;
+    }
+
+    .trait-card__icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: var(--solar-bg-glass);
+      border: 1px solid rgba(107, 158, 107, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      margin-bottom: 20px;
+      transition: transform 0.3s ease;
+    }
+
+    .trait-card:hover .trait-card__icon {
+      transform: scale(1.1);
+    }
+
+    .trait-card h3 {
+      font-family: 'Fraunces', serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--solar-canopy);
+      margin-bottom: 10px;
+    }
+
+    .trait-card p {
+      font-size: 0.92rem;
+      color: var(--solar-text-muted);
+      line-height: 1.7;
+    }
+
+    /* ========================================
+       COLOR PALETTE SECTION
+       ======================================== */
+    .palette {
+      padding: 100px 0;
+      background: var(--solar-bg-linen);
+      position: relative;
+    }
+
+    .palette__header {
+      margin-bottom: 60px;
+    }
+
+    .palette__groups {
+      display: flex;
+      flex-direction: column;
+      gap: 48px;
+    }
+
+    .palette__group-label {
+      font-family: 'Nunito', sans-serif;
+      font-weight: 700;
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--solar-text-muted);
+      margin-bottom: 16px;
+    }
+
+    .palette__swatches {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .swatch {
+      width: 100px;
+      border-radius: 16px;
+      overflow: hidden;
+      background: rgba(255, 249, 237, 0.8);
+      border: 1px solid rgba(107, 158, 107, 0.12);
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+      cursor: default;
+    }
+
+    .swatch:hover {
+      transform: translateY(-4px) scale(1.02);
+      box-shadow: 0 8px 24px rgba(62, 47, 35, 0.08);
+    }
+
+    .swatch__color {
+      height: 72px;
+      width: 100%;
+      position: relative;
+    }
+
+    .swatch__info {
+      padding: 10px 10px 12px;
+    }
+
+    .swatch__name {
+      font-family: 'Nunito', sans-serif;
+      font-weight: 700;
+      font-size: 0.68rem;
+      color: var(--solar-text-dark);
+      display: block;
+      margin-bottom: 2px;
+      line-height: 1.3;
+    }
+
+    .swatch__hex {
+      font-family: 'Nunito', sans-serif;
+      font-weight: 500;
+      font-size: 0.62rem;
+      color: var(--solar-text-muted);
+      letter-spacing: 0.04em;
+    }
+
+    /* ========================================
+       TYPOGRAPHY SHOWCASE
+       ======================================== */
+    .typography {
+      padding: 100px 0;
+      background: var(--solar-bg-cream);
+    }
+
+    .typography__header {
+      margin-bottom: 60px;
+    }
+
+    .typo-showcase {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      margin-top: 48px;
+    }
+
+    .typo-panel {
+      background: rgba(255, 249, 237, 0.75);
+      border: 1px solid rgba(107, 158, 107, 0.15);
+      border-radius: 20px;
+      padding: 36px;
+      backdrop-filter: blur(6px);
+    }
+
+    .typo-panel__label {
+      font-family: 'Nunito', sans-serif;
+      font-weight: 700;
+      font-size: 0.65rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--solar-sage);
+      margin-bottom: 20px;
+      display: block;
+    }
+
+    .typo-panel__sample-heading {
+      font-family: 'Fraunces', serif;
+      font-weight: 900;
+      font-size: 2.4rem;
+      color: var(--solar-canopy);
+      line-height: 1.1;
+      margin-bottom: 8px;
+    }
+
+    .typo-panel__sample-sub {
+      font-family: 'Fraunces', serif;
+      font-weight: 500;
+      font-size: 1.2rem;
+      color: var(--solar-sage);
+      font-style: italic;
+      margin-bottom: 16px;
+    }
+
+    .typo-panel__sample-body {
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.95rem;
+      color: var(--solar-text-muted);
+      line-height: 1.8;
+    }
+
+    .typo-pairs {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .typo-pair {
+      padding: 20px;
+      background: rgba(232, 240, 224, 0.3);
+      border-radius: 12px;
+      border: 1px solid rgba(107, 158, 107, 0.1);
+    }
+
+    .typo-pair__heading {
+      font-family: 'Fraunces', serif;
+      font-weight: 700;
+      font-size: 1.2rem;
+      color: var(--solar-canopy);
+      margin-bottom: 4px;
+    }
+
+    .typo-pair__body {
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.88rem;
+      color: var(--solar-text-muted);
+    }
+
+    .typo-pair__meta {
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 600;
+      color: var(--solar-sage);
+      letter-spacing: 0.06em;
+      margin-top: 8px;
+      text-transform: uppercase;
+    }
+
+    /* ========================================
+       PRINCIPLES SECTION
+       ======================================== */
+    .principles {
+      padding: 100px 0;
+      background: var(--solar-bg-glass);
+      position: relative;
+    }
+
+    .principles__header {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+
+    .principles__header .section-subtitle {
+      margin: 0 auto;
+    }
+
+    .principles__list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      list-style: none;
+    }
+
+    .principle-item {
+      display: flex;
+      gap: 16px;
+      padding: 24px;
+      background: rgba(255, 249, 237, 0.65);
+      border-radius: 16px;
+      border: 1px solid rgba(107, 158, 107, 0.12);
+      backdrop-filter: blur(6px);
+      transition: transform 0.25s ease;
+    }
+
+    .principle-item:hover {
+      transform: translateX(4px);
+    }
+
+    .principle-item__number {
+      font-family: 'Fraunces', serif;
+      font-weight: 900;
+      font-size: 1.6rem;
+      color: var(--solar-gold);
+      line-height: 1;
+      flex-shrink: 0;
+      width: 36px;
+    }
+
+    .principle-item__text {
+      font-size: 0.92rem;
+      color: var(--solar-text-brown);
+      line-height: 1.6;
+    }
+
+    .principle-item__text strong {
+      color: var(--solar-canopy);
+    }
+
+    /* ========================================
+       DO'S AND DON'TS
+       ======================================== */
+    .guidelines {
+      padding: 100px 0;
+      background: var(--solar-bg-cream);
+    }
+
+    .guidelines__header {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+
+    .guidelines__header .section-subtitle {
+      margin: 0 auto;
+    }
+
+    .guidelines__columns {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+    }
+
+    .guidelines__col {
+      border-radius: 20px;
+      padding: 36px;
+    }
+
+    .guidelines__col--do {
+      background: rgba(232, 240, 224, 0.6);
+      border: 1px solid rgba(58, 140, 63, 0.2);
+    }
+
+    .guidelines__col--dont {
+      background: rgba(245, 236, 215, 0.6);
+      border: 1px solid rgba(198, 122, 75, 0.2);
+    }
+
+    .guidelines__col-title {
+      font-family: 'Fraunces', serif;
+      font-weight: 900;
+      font-size: 1.3rem;
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .guidelines__col--do .guidelines__col-title {
+      color: var(--solar-green);
+    }
+
+    .guidelines__col--dont .guidelines__col-title {
+      color: var(--solar-terracotta);
+    }
+
+    .guidelines__col-title svg {
+      width: 24px;
+      height: 24px;
+    }
+
+    .guidelines__list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .guidelines__list li {
+      font-size: 0.9rem;
+      color: var(--solar-text-brown);
+      line-height: 1.6;
+      padding-left: 24px;
+      position: relative;
+    }
+
+    .guidelines__col--do .guidelines__list li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 8px;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--solar-leaf);
+    }
+
+    .guidelines__col--dont .guidelines__list li::before {
+      content: '';
+      position: absolute;
+      left: 2px;
+      top: 8px;
+      width: 8px;
+      height: 8px;
+      border-radius: 2px;
+      background: var(--solar-terracotta);
+      transform: rotate(45deg);
+    }
+
+    /* ========================================
+       RELATED AESTHETICS
+       ======================================== */
+    .related {
+      padding: 100px 0;
+      background: var(--solar-bg-linen);
+    }
+
+    .related__header {
+      margin-bottom: 60px;
+    }
+
+    .related__grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+    }
+
+    .related-card {
+      background: rgba(255, 249, 237, 0.7);
+      border: 1px solid rgba(107, 158, 107, 0.15);
+      border-radius: 16px;
+      padding: 28px;
+      backdrop-filter: blur(6px);
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .related-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 30px rgba(30, 86, 49, 0.06);
+    }
+
+    .related-card__name {
+      font-family: 'Fraunces', serif;
+      font-weight: 700;
+      font-size: 1.05rem;
+      color: var(--solar-canopy);
+      margin-bottom: 8px;
+    }
+
+    .related-card__desc {
+      font-size: 0.88rem;
+      color: var(--solar-text-muted);
+      line-height: 1.65;
+    }
+
+    /* ========================================
+       METRICS SECTION
+       ======================================== */
+    .metrics {
+      padding: 80px 0;
+      background: var(--solar-bg-cream);
+    }
+
+    .metrics__grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+    }
+
+    .metric {
+      text-align: center;
+      padding: 32px 16px;
+      background: rgba(232, 240, 224, 0.4);
+      border-radius: 20px;
+      border: 1px solid rgba(107, 158, 107, 0.12);
+    }
+
+    .metric__number {
+      font-family: 'Fraunces', serif;
+      font-weight: 900;
+      font-size: clamp(2rem, 3.5vw, 3rem);
+      color: var(--solar-gold);
+      line-height: 1.1;
+      margin-bottom: 6px;
+    }
+
+    .metric__label {
+      font-family: 'Nunito', sans-serif;
+      font-weight: 600;
+      font-size: 0.78rem;
+      color: var(--solar-text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    /* ========================================
+       CTA SECTION
+       ======================================== */
+    .cta {
+      position: relative;
+      padding: 100px 0;
+      background: var(--solar-canopy);
+      overflow: hidden;
+    }
+
+    .cta::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 50% at 80% 30%, rgba(240, 168, 48, 0.12) 0%, transparent 60%),
+        radial-gradient(ellipse 40% 60% at 10% 70%, rgba(139, 195, 74, 0.08) 0%, transparent 50%);
+    }
+
+    .cta__inner {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .cta .section-label {
+      color: var(--solar-sage);
+    }
+
+    .cta .section-title {
+      color: var(--solar-gold);
+      margin-bottom: 20px;
+    }
+
+    .cta__desc {
+      font-size: 1.05rem;
+      color: rgba(255, 249, 237, 0.75);
+      line-height: 1.7;
+      margin-bottom: 36px;
+    }
+
+    /* ========================================
+       FOOTER
+       ======================================== */
+    .footer {
+      background: var(--solar-bg-dark);
+      padding: 48px 0 32px;
+    }
+
+    .footer__inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 24px;
+    }
+
+    .footer__brand {
+      font-family: 'Fraunces', serif;
+      font-weight: 900;
+      font-size: 1.15rem;
+      color: var(--solar-gold);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .footer__copy {
+      font-size: 0.82rem;
+      color: var(--solar-text-muted);
+    }
+
+    .footer__links {
+      display: flex;
+      gap: 24px;
+      list-style: none;
+    }
+
+    .footer__links a {
+      font-size: 0.82rem;
+      color: var(--solar-text-muted);
+      transition: color 0.25s ease;
+    }
+
+    .footer__links a:hover {
+      color: var(--solar-gold);
+    }
+
+    .footer__divider {
+      width: 100%;
+      height: 1px;
+      background: rgba(138, 126, 114, 0.2);
+      margin: 28px 0 20px;
+    }
+
+    .footer__bottom {
+      text-align: center;
+      font-size: 0.75rem;
+      color: var(--solar-text-muted);
+      opacity: 0.6;
+    }
+
+    /* ========================================
+       BOTANICAL DECORATION SVGs
+       ======================================== */
+    .botanical-corner {
+      position: absolute;
+      pointer-events: none;
+      opacity: 0.12;
+    }
+
+    .botanical-corner--tl {
+      top: 20px;
+      left: 20px;
+    }
+
+    .botanical-corner--br {
+      bottom: 20px;
+      right: 20px;
+      transform: rotate(180deg);
+    }
+
+    /* ========================================
+       STAINED GLASS DECORATION
+       ======================================== */
+    .stained-glass {
+      position: relative;
+      width: 100%;
+      max-width: 300px;
+      margin: 0 auto;
+    }
+
+    /* ========================================
+       RESPONSIVE DESIGN
+       ======================================== */
+    @media (max-width: 900px) {
+      .hero__content {
+        grid-template-columns: 1fr;
+        text-align: center;
+        padding: 40px 24px 80px;
+        gap: 40px;
+      }
+
+      .hero__desc {
+        max-width: 100%;
+      }
+
+      .hero__actions {
+        justify-content: center;
+      }
+
+      .hero__sun {
+        top: -60px;
+        right: -60px;
+        width: 300px;
+        height: 300px;
+      }
+
+      .intro__inner {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+
+      .intro__art-nouveau-frame {
+        max-width: 320px;
+        margin: 0 auto;
+      }
+
+      .typo-showcase {
+        grid-template-columns: 1fr;
+      }
+
+      .guidelines__columns {
+        grid-template-columns: 1fr;
+      }
+
+      .metrics__grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .container {
+        padding: 0 24px;
+      }
+
+      .solar-nav {
+        padding: 14px 24px;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .solar-nav__links {
+        display: none;
+      }
+
+      .nav-mobile-toggle {
+        display: flex;
+      }
+
+      .hero__title {
+        font-size: clamp(2rem, 8vw, 3rem);
+      }
+
+      .traits__grid {
+        grid-template-columns: 1fr;
+      }
+
+      .principles__list {
+        grid-template-columns: 1fr;
+      }
+
+      .related__grid {
+        grid-template-columns: 1fr;
+      }
+
+      .metrics__grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .swatch {
+        width: 80px;
+      }
+
+      .swatch__color {
+        height: 56px;
+      }
+
+      .palette__swatches {
+        gap: 8px;
+      }
+
+      .footer__inner {
+        flex-direction: column;
+        text-align: center;
+      }
+    }
+
+    /* ========================================
+       LOADING ANIMATION
+       ======================================== */
+    .page-loader {
+      position: fixed;
+      inset: 0;
+      background: var(--solar-bg-cream);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.6s ease, visibility 0.6s ease;
+    }
+
+    .page-loader.hidden {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .page-loader__leaf {
+      width: 48px;
+      height: 48px;
+      animation: sway 1.2s ease-in-out infinite;
+    }
+
+    /* Leaf floating particles */
+    .leaf-particle {
+      position: fixed;
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0;
+      animation: leafDrift 6s ease-in-out forwards;
+    }
+  </style>
+</head>
+<body>
+  <!-- Page Loader -->
+  <div class="page-loader" id="loader">
+    <svg class="page-loader__leaf" viewBox="0 0 48 48" fill="none">
+      <path d="M24 4C24 4 8 16 8 28C8 36.8 15.2 44 24 44C32.8 44 40 36.8 40 28C40 16 24 4 24 4Z" fill="#3a8c3f" opacity="0.8"/>
+      <path d="M24 10V40" stroke="#1e5631" stroke-width="1.5" stroke-linecap="round"/>
+      <path d="M24 18C20 16 16 18 14 22" stroke="#1e5631" stroke-width="1" stroke-linecap="round" fill="none"/>
+      <path d="M24 26C28 24 32 26 34 30" stroke="#1e5631" stroke-width="1" stroke-linecap="round" fill="none"/>
+    </svg>
+  </div>
+
+  <!-- Navigation -->
+  <header class="nav-wrapper" id="nav">
+    <nav class="solar-nav">
+      <a href="#" class="solar-nav__logo">
+        <svg viewBox="0 0 28 28" fill="none">
+          <circle cx="14" cy="14" r="6" fill="#f0a830"/>
+          <path d="M14 2V6M14 22V26M2 14H6M22 14H26M5.5 5.5L8.3 8.3M19.7 19.7L22.5 22.5M22.5 5.5L19.7 8.3M8.3 19.7L5.5 22.5" stroke="#f0a830" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M14 10C14 10 10 14 12 18C13 20 15 20 16 18C18 14 14 10 14 10Z" fill="#3a8c3f"/>
+        </svg>
+        Solarpunk
+      </a>
+      <ul class="solar-nav__links">
+        <li><a href="#traits">Traits</a></li>
+        <li><a href="#palette">Colors</a></li>
+        <li><a href="#typography">Typography</a></li>
+        <li><a href="#principles">Principles</a></li>
+        <li><a href="#guidelines">Guidelines</a></li>
+        <li><a href="#related">Related</a></li>
+      </ul>
+      <button class="nav-mobile-toggle" id="menuToggle" aria-label="Toggle menu">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#3e2f23" stroke-width="2" stroke-linecap="round">
+          <line x1="3" y1="6" x2="21" y2="6"/>
+          <line x1="3" y1="12" x2="21" y2="12"/>
+          <line x1="3" y1="18" x2="21" y2="18"/>
+        </svg>
+      </button>
+    </nav>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero__bg">
+      <div class="hero__sun">
+        <div class="hero__sun-core"></div>
+        <svg class="hero__sun-rays" viewBox="0 0 400 400" fill="none">
+          <g opacity="0.15">
+            <line x1="200" y1="40" x2="200" y2="100" stroke="#f0a830" stroke-width="2" stroke-linecap="round"/>
+            <line x1="200" y1="300" x2="200" y2="360" stroke="#f0a830" stroke-width="2" stroke-linecap="round"/>
+            <line x1="40" y1="200" x2="100" y2="200" stroke="#f0a830" stroke-width="2" stroke-linecap="round"/>
+            <line x1="300" y1="200" x2="360" y2="200" stroke="#f0a830" stroke-width="2" stroke-linecap="round"/>
+            <line x1="87" y1="87" x2="130" y2="130" stroke="#f0a830" stroke-width="2" stroke-linecap="round"/>
+            <line x1="270" y1="270" x2="313" y2="313" stroke="#f0a830" stroke-width="2" stroke-linecap="round"/>
+            <line x1="313" y1="87" x2="270" y2="130" stroke="#f0a830" stroke-width="2" stroke-linecap="round"/>
+            <line x1="130" y1="270" x2="87" y2="313" stroke="#f0a830" stroke-width="2" stroke-linecap="round"/>
+            <line x1="120" y1="52" x2="148" y2="108" stroke="#f0a830" stroke-width="1.5" stroke-linecap="round"/>
+            <line x1="280" y1="52" x2="252" y2="108" stroke="#f0a830" stroke-width="1.5" stroke-linecap="round"/>
+            <line x1="52" y1="120" x2="108" y2="148" stroke="#f0a830" stroke-width="1.5" stroke-linecap="round"/>
+            <line x1="348" y1="120" x2="292" y2="148" stroke="#f0a830" stroke-width="1.5" stroke-linecap="round"/>
+            <line x1="52" y1="280" x2="108" y2="252" stroke="#f0a830" stroke-width="1.5" stroke-linecap="round"/>
+            <line x1="348" y1="280" x2="292" y2="252" stroke="#f0a830" stroke-width="1.5" stroke-linecap="round"/>
+            <line x1="120" y1="348" x2="148" y2="292" stroke="#f0a830" stroke-width="1.5" stroke-linecap="round"/>
+            <line x1="280" y1="348" x2="252" y2="292" stroke="#f0a830" stroke-width="1.5" stroke-linecap="round"/>
+          </g>
+        </svg>
+      </div>
+    </div>
+
+    <div class="hero__content">
+      <div class="hero__text">
+        <div class="hero__overline">Design Aesthetic</div>
+        <h1 class="hero__title">Where Technology <span>Blooms</span></h1>
+        <p class="hero__desc">Solarpunk is a utopian green-futures aesthetic that envisions a world where technology and nature coexist in harmony. It blends Art Nouveau curves, living architecture, warm sunlight, and lush botanical technology into a vision of sustainable abundance.</p>
+        <div class="hero__actions">
+          <a href="#traits" class="btn btn-primary">Explore the Aesthetic</a>
+          <a href="#palette" class="btn btn-glass">View Palette</a>
+        </div>
+      </div>
+
+      <div class="hero__visual">
+        <div class="hero__illustration">
+          <!-- Living Architecture SVG Illustration -->
+          <svg viewBox="0 0 440 400" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%; filter: drop-shadow(0 8px 32px rgba(30,86,49,0.1));">
+            <!-- Sky background -->
+            <rect width="440" height="400" rx="24" fill="#e8f0e0" opacity="0.5"/>
+
+            <!-- Sun glow -->
+            <circle cx="350" cy="70" r="60" fill="#f0a830" opacity="0.12"/>
+            <circle cx="350" cy="70" r="40" fill="#f0a830" opacity="0.2"/>
+            <circle cx="350" cy="70" r="22" fill="#f0a830" opacity="0.4"/>
+
+            <!-- Clouds -->
+            <ellipse cx="100" cy="65" rx="40" ry="14" fill="#fff9ed" opacity="0.7"/>
+            <ellipse cx="130" cy="58" rx="28" ry="12" fill="#fff9ed" opacity="0.5"/>
+            <ellipse cx="260" cy="48" rx="35" ry="10" fill="#fff9ed" opacity="0.4"/>
+
+            <!-- Main building -->
+            <rect x="130" y="110" width="180" height="220" rx="8" fill="#f5ecd7" stroke="#6b9e6b" stroke-width="2"/>
+
+            <!-- Building inner detail arch -->
+            <path d="M170 110 Q220 85 270 110" stroke="#d4922a" stroke-width="1.5" fill="none" opacity="0.5"/>
+
+            <!-- Windows row 1 -->
+            <rect x="152" y="135" width="36" height="40" rx="18" fill="#5dade2" opacity="0.35" stroke="#6b9e6b" stroke-width="1"/>
+            <rect x="202" y="135" width="36" height="40" rx="18" fill="#5dade2" opacity="0.35" stroke="#6b9e6b" stroke-width="1"/>
+            <rect x="252" y="135" width="36" height="40" rx="18" fill="#5dade2" opacity="0.35" stroke="#6b9e6b" stroke-width="1"/>
+
+            <!-- Windows row 2 -->
+            <rect x="152" y="195" width="36" height="40" rx="18" fill="#5dade2" opacity="0.25" stroke="#6b9e6b" stroke-width="1"/>
+            <rect x="202" y="195" width="36" height="40" rx="18" fill="#5dade2" opacity="0.25" stroke="#6b9e6b" stroke-width="1"/>
+            <rect x="252" y="195" width="36" height="40" rx="18" fill="#5dade2" opacity="0.25" stroke="#6b9e6b" stroke-width="1"/>
+
+            <!-- Door -->
+            <rect x="195" y="280" width="50" height="50" rx="25" fill="#c67a4b" opacity="0.6" stroke="#5c4033" stroke-width="1"/>
+            <circle cx="232" cy="305" r="3" fill="#d4922a"/>
+
+            <!-- Solar panels on roof -->
+            <rect x="140" y="96" width="45" height="14" rx="3" fill="#5dade2" opacity="0.6" stroke="#3a8c3f" stroke-width="1"/>
+            <rect x="195" y="96" width="45" height="14" rx="3" fill="#5dade2" opacity="0.6" stroke="#3a8c3f" stroke-width="1"/>
+            <rect x="250" y="96" width="45" height="14" rx="3" fill="#5dade2" opacity="0.6" stroke="#3a8c3f" stroke-width="1"/>
+            <!-- Panel lines -->
+            <line x1="152" y1="96" x2="152" y2="110" stroke="#3a8c3f" stroke-width="0.5" opacity="0.5"/>
+            <line x1="162" y1="96" x2="162" y2="110" stroke="#3a8c3f" stroke-width="0.5" opacity="0.5"/>
+            <line x1="173" y1="96" x2="173" y2="110" stroke="#3a8c3f" stroke-width="0.5" opacity="0.5"/>
+            <line x1="207" y1="96" x2="207" y2="110" stroke="#3a8c3f" stroke-width="0.5" opacity="0.5"/>
+            <line x1="218" y1="96" x2="218" y2="110" stroke="#3a8c3f" stroke-width="0.5" opacity="0.5"/>
+            <line x1="228" y1="96" x2="228" y2="110" stroke="#3a8c3f" stroke-width="0.5" opacity="0.5"/>
+            <line x1="262" y1="96" x2="262" y2="110" stroke="#3a8c3f" stroke-width="0.5" opacity="0.5"/>
+            <line x1="273" y1="96" x2="273" y2="110" stroke="#3a8c3f" stroke-width="0.5" opacity="0.5"/>
+            <line x1="283" y1="96" x2="283" y2="110" stroke="#3a8c3f" stroke-width="0.5" opacity="0.5"/>
+
+            <!-- Climbing vines left -->
+            <path d="M130 330 Q125 290 132 250 Q126 210 134 170 Q128 140 135 120" stroke="#3a8c3f" stroke-width="2.5" fill="none" opacity="0.7"/>
+            <circle cx="132" cy="280" r="7" fill="#8bc34a" opacity="0.7"/>
+            <circle cx="134" cy="248" r="6" fill="#6b9e6b" opacity="0.7"/>
+            <circle cx="130" cy="215" r="5" fill="#8bc34a" opacity="0.6"/>
+            <circle cx="135" cy="180" r="7" fill="#3a8c3f" opacity="0.5"/>
+            <circle cx="132" cy="150" r="5" fill="#8bc34a" opacity="0.6"/>
+            <circle cx="128" cy="130" r="4" fill="#6b9e6b" opacity="0.5"/>
+
+            <!-- Climbing vines right -->
+            <path d="M310 330 Q315 295 308 260 Q314 225 306 190 Q312 160 308 130" stroke="#3a8c3f" stroke-width="2.5" fill="none" opacity="0.7"/>
+            <circle cx="308" cy="290" r="6" fill="#6b9e6b" opacity="0.7"/>
+            <circle cx="306" cy="255" r="7" fill="#8bc34a" opacity="0.6"/>
+            <circle cx="310" cy="220" r="5" fill="#3a8c3f" opacity="0.6"/>
+            <circle cx="306" cy="185" r="6" fill="#8bc34a" opacity="0.5"/>
+            <circle cx="310" cy="155" r="5" fill="#6b9e6b" opacity="0.5"/>
+
+            <!-- Rooftop garden -->
+            <ellipse cx="160" cy="95" rx="10" ry="12" fill="#3a8c3f" opacity="0.6"/>
+            <ellipse cx="145" cy="92" rx="8" ry="10" fill="#6b9e6b" opacity="0.5"/>
+            <ellipse cx="290" cy="93" rx="10" ry="13" fill="#3a8c3f" opacity="0.6"/>
+            <ellipse cx="305" cy="96" rx="8" ry="10" fill="#8bc34a" opacity="0.5"/>
+
+            <!-- Left tree -->
+            <rect x="55" y="300" width="8" height="35" rx="3" fill="#5c4033" opacity="0.5"/>
+            <circle cx="59" cy="275" r="28" fill="#3a8c3f" opacity="0.45"/>
+            <circle cx="48" cy="285" r="20" fill="#6b9e6b" opacity="0.4"/>
+            <circle cx="72" cy="282" r="18" fill="#8bc34a" opacity="0.35"/>
+
+            <!-- Right tree -->
+            <rect x="376" y="295" width="7" height="40" rx="3" fill="#5c4033" opacity="0.5"/>
+            <circle cx="380" cy="268" r="24" fill="#6b9e6b" opacity="0.45"/>
+            <circle cx="370" cy="278" r="18" fill="#3a8c3f" opacity="0.4"/>
+            <circle cx="392" cy="276" r="16" fill="#8bc34a" opacity="0.3"/>
+
+            <!-- Ground garden -->
+            <ellipse cx="220" cy="345" rx="200" ry="20" fill="#6b9e6b" opacity="0.2"/>
+            <ellipse cx="220" cy="348" rx="180" ry="12" fill="#8bc34a" opacity="0.12"/>
+
+            <!-- Small flowers -->
+            <circle cx="80" cy="338" r="4" fill="#f0a830" opacity="0.5"/>
+            <circle cx="95" cy="342" r="3" fill="#e8762b" opacity="0.4"/>
+            <circle cx="350" cy="340" r="4" fill="#f0a830" opacity="0.4"/>
+            <circle cx="365" cy="336" r="3" fill="#e8762b" opacity="0.5"/>
+            <circle cx="170" cy="345" r="3" fill="#f0a830" opacity="0.35"/>
+            <circle cx="270" cy="343" r="3" fill="#f0a830" opacity="0.35"/>
+
+            <!-- Wind turbine far bg -->
+            <line x1="400" y1="100" x2="400" y2="180" stroke="#8a7e72" stroke-width="1.5" opacity="0.25"/>
+            <path d="M400 100 L395 115 L405 115 Z" fill="#8a7e72" opacity="0.2"/>
+            <path d="M400 100 L410 108 L405 95 Z" fill="#8a7e72" opacity="0.2"/>
+            <path d="M400 100 L390 95 L393 108 Z" fill="#8a7e72" opacity="0.2"/>
+
+            <!-- Butterfly -->
+            <g opacity="0.5" style="animation: floatSlow 4s ease-in-out infinite;">
+              <ellipse cx="84" cy="180" rx="8" ry="5" fill="#f0a830" transform="rotate(-20, 84, 180)"/>
+              <ellipse cx="96" cy="180" rx="8" ry="5" fill="#e8762b" transform="rotate(20, 96, 180)"/>
+              <line x1="88" y1="175" x2="90" y2="185" stroke="#5c4033" stroke-width="0.8"/>
+            </g>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Wave: Hero -> Intro -->
+  <div class="wave">
+    <svg viewBox="0 0 1440 70" preserveAspectRatio="none">
+      <path d="M0,35 C180,70 360,0 540,35 C720,70 900,0 1080,35 C1260,70 1440,10 1440,35 L1440,70 L0,70 Z" fill="#e8f0e0"/>
+    </svg>
+  </div>
+
+  <!-- Intro Section -->
+  <section class="intro" id="about">
+    <div class="container">
+      <div class="intro__inner animate-on-scroll">
+        <div class="intro__text">
+          <span class="section-label">About the Aesthetic</span>
+          <h2 class="section-title">Earnestly Optimistic</h2>
+          <p class="section-subtitle">Unlike the dystopian warnings of Cyberpunk or the ironic nostalgia of Vaporwave, Solarpunk is earnestly optimistic -- it imagines communities powered by renewable energy, buildings wrapped in climbing plants, and technology that serves ecological well-being.</p>
+          <p class="section-subtitle" style="margin-top: 16px;">In web design, Solarpunk translates to warm sunlit color palettes, organic curves, botanical illustrations, glass-and-greenery textures, and a design language that feels simultaneously natural and futuristic.</p>
+          <blockquote class="intro__quote">
+            "Nature does not build in straight lines -- and neither does Solarpunk design."
+          </blockquote>
+        </div>
+        <div class="intro__visual">
+          <div class="intro__art-nouveau-frame">
+            <!-- Stained Glass / Art Nouveau Decorative SVG -->
+            <svg viewBox="0 0 280 360" fill="none" xmlns="http://www.w3.org/2000/svg" style="width: 100%;">
+              <!-- Art Nouveau Arch Frame -->
+              <path d="M40 340 V120 Q40 40 140 40 Q240 40 240 120 V340" stroke="#6b9e6b" stroke-width="2" fill="none"/>
+              <path d="M55 340 V128 Q55 58 140 58 Q225 58 225 128 V340" stroke="#d4922a" stroke-width="1" fill="none" opacity="0.5"/>
+
+              <!-- Central flower/sun motif -->
+              <circle cx="140" cy="120" r="35" fill="#f0a830" opacity="0.15"/>
+              <circle cx="140" cy="120" r="25" fill="#f0a830" opacity="0.2"/>
+              <circle cx="140" cy="120" r="14" fill="#f0a830" opacity="0.4"/>
+              <!-- Petals -->
+              <ellipse cx="140" cy="85" rx="8" ry="16" fill="#f0a830" opacity="0.2"/>
+              <ellipse cx="140" cy="155" rx="8" ry="16" fill="#f0a830" opacity="0.2"/>
+              <ellipse cx="105" cy="120" rx="16" ry="8" fill="#f0a830" opacity="0.2"/>
+              <ellipse cx="175" cy="120" rx="16" ry="8" fill="#f0a830" opacity="0.2"/>
+              <ellipse cx="115" cy="95" rx="12" ry="8" fill="#f0a830" opacity="0.15" transform="rotate(-45, 115, 95)"/>
+              <ellipse cx="165" cy="95" rx="12" ry="8" fill="#f0a830" opacity="0.15" transform="rotate(45, 165, 95)"/>
+              <ellipse cx="115" cy="145" rx="12" ry="8" fill="#f0a830" opacity="0.15" transform="rotate(45, 115, 145)"/>
+              <ellipse cx="165" cy="145" rx="12" ry="8" fill="#f0a830" opacity="0.15" transform="rotate(-45, 165, 145)"/>
+
+              <!-- Central stem -->
+              <path d="M140 155 Q140 200 138 260 Q137 300 140 340" stroke="#3a8c3f" stroke-width="2" fill="none"/>
+
+              <!-- Leaves along stem -->
+              <path d="M138 190 Q120 175 105 185 Q115 190 138 190Z" fill="#6b9e6b" opacity="0.5"/>
+              <path d="M138 190 Q120 200 110 195" stroke="#3a8c3f" stroke-width="0.7" fill="none" opacity="0.5"/>
+
+              <path d="M139 225 Q160 210 175 218 Q163 224 139 225Z" fill="#8bc34a" opacity="0.4"/>
+              <path d="M139 225 Q160 233 168 228" stroke="#3a8c3f" stroke-width="0.7" fill="none" opacity="0.5"/>
+
+              <path d="M138 260 Q115 248 100 258 Q115 262 138 260Z" fill="#3a8c3f" opacity="0.4"/>
+              <path d="M138 260 Q118 268 108 263" stroke="#1e5631" stroke-width="0.7" fill="none" opacity="0.5"/>
+
+              <path d="M139 290 Q165 278 178 290 Q162 294 139 290Z" fill="#6b9e6b" opacity="0.45"/>
+              <path d="M139 290 Q162 298 172 292" stroke="#3a8c3f" stroke-width="0.7" fill="none" opacity="0.5"/>
+
+              <!-- Stained glass color panels -->
+              <path d="M55 200 Q70 180 55 160" stroke="#5dade2" stroke-width="4" fill="none" opacity="0.2" stroke-linecap="round"/>
+              <path d="M225 200 Q210 180 225 160" stroke="#5dade2" stroke-width="4" fill="none" opacity="0.2" stroke-linecap="round"/>
+
+              <circle cx="70" cy="260" r="12" fill="#e8762b" opacity="0.12"/>
+              <circle cx="210" cy="260" r="12" fill="#e8762b" opacity="0.12"/>
+              <circle cx="80" cy="300" r="8" fill="#8bc34a" opacity="0.15"/>
+              <circle cx="200" cy="300" r="8" fill="#8bc34a" opacity="0.15"/>
+
+              <!-- Bottom decorative line -->
+              <path d="M60 335 Q100 320 140 335 Q180 320 220 335" stroke="#d4922a" stroke-width="1" fill="none" opacity="0.4"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Wave: Intro -> Traits -->
+  <div class="wave wave--flip">
+    <svg viewBox="0 0 1440 70" preserveAspectRatio="none">
+      <path d="M0,35 C180,70 360,0 540,35 C720,70 900,0 1080,35 C1260,70 1440,10 1440,35 L1440,70 L0,70 Z" fill="#e8f0e0"/>
+    </svg>
+  </div>
+
+  <!-- Visual Traits Section -->
+  <section class="traits" id="traits">
+    <div class="container">
+      <div class="traits__header animate-on-scroll">
+        <span class="section-label">Visual Characteristics</span>
+        <h2 class="section-title">Core Design Traits</h2>
+        <p class="section-subtitle">The visual language of Solarpunk draws from nature, Art Nouveau, and utopian visions of a sustainable future.</p>
+      </div>
+
+      <div class="traits__grid">
+        <div class="trait-card animate-on-scroll">
+          <div class="trait-card__icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="5" fill="#f0a830"/><path d="M12 2V5M12 19V22M2 12H5M19 12H22M4.9 4.9L7.1 7.1M16.9 16.9L19.1 19.1M19.1 4.9L16.9 7.1M7.1 16.9L4.9 19.1" stroke="#f0a830" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </div>
+          <h3>Warm Golden Sunlight</h3>
+          <p>Amber, honey, and golden yellow tones pervade, suggesting perpetual late-afternoon light cascading through greenhouse glass.</p>
+        </div>
+
+        <div class="trait-card animate-on-scroll">
+          <div class="trait-card__icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 3C12 3 6 9 6 14C6 17.3 8.7 20 12 20C15.3 20 18 17.3 18 14C18 9 12 3 12 3Z" fill="#3a8c3f"/><path d="M12 8V17" stroke="#1e5631" stroke-width="1.5" stroke-linecap="round"/><path d="M12 12L9 10" stroke="#1e5631" stroke-width="1" stroke-linecap="round"/><path d="M12 14L15 12.5" stroke="#1e5631" stroke-width="1" stroke-linecap="round"/></svg>
+          </div>
+          <h3>Lush Green Vegetation</h3>
+          <p>Rich emeralds, sage greens, and botanical motifs are omnipresent, reflecting living architecture that breathes and grows.</p>
+        </div>
+
+        <div class="trait-card animate-on-scroll">
+          <div class="trait-card__icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M4 20 Q8 4 12 12 Q16 20 20 4" stroke="#d4922a" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+          </div>
+          <h3>Art Nouveau Curves</h3>
+          <p>Flowing, organic lines inspired by Mucha and Gaudi replace rigid geometric grids with natural rhythm and grace.</p>
+        </div>
+
+        <div class="trait-card animate-on-scroll">
+          <div class="trait-card__icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="5" y="8" width="14" height="12" rx="2" stroke="#6b9e6b" stroke-width="1.5"/><path d="M5 8L12 4L19 8" stroke="#6b9e6b" stroke-width="1.5" fill="none"/><rect x="9" y="13" width="6" height="7" rx="3" fill="#5dade2" opacity="0.4"/><circle cx="8" cy="5" r="2" fill="#8bc34a" opacity="0.6"/><circle cx="16" cy="5" r="2" fill="#8bc34a" opacity="0.6"/></svg>
+          </div>
+          <h3>Living Architecture</h3>
+          <p>Buildings integrated with climbing vines, rooftop gardens, and solar panels -- structures that breathe alongside their inhabitants.</p>
+        </div>
+
+        <div class="trait-card animate-on-scroll">
+          <div class="trait-card__icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="4" fill="#e8f0e0" stroke="#6b9e6b" stroke-width="1.5" opacity="0.6"/><rect x="6" y="6" width="12" height="12" rx="3" fill="#fff9ed" stroke="#6b9e6b" stroke-width="0.5" opacity="0.4"/></svg>
+          </div>
+          <h3>Glass & Transparency</h3>
+          <p>Translucent panels, greenhouse structures, and light-filled spaces suggesting openness, sustainability, and nothing to hide.</p>
+        </div>
+
+        <div class="trait-card animate-on-scroll">
+          <div class="trait-card__icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" fill="none" stroke="#c67a4b" stroke-width="1.5"/><circle cx="12" cy="12" r="4" fill="#c67a4b" opacity="0.25"/><circle cx="8" cy="8" r="2" fill="#f0a830" opacity="0.3"/><circle cx="16" cy="10" r="2.5" fill="#3a8c3f" opacity="0.3"/><circle cx="10" cy="16" r="2" fill="#5dade2" opacity="0.3"/></svg>
+          </div>
+          <h3>Stained Glass & Mosaic</h3>
+          <p>Colorful translucent panels with organic leading patterns, bringing Art Nouveau craftsmanship into digital interfaces.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Wave: Traits -> Palette -->
+  <div class="wave">
+    <svg viewBox="0 0 1440 70" preserveAspectRatio="none">
+      <path d="M0,20 C240,70 480,0 720,40 C960,70 1200,10 1440,30 L1440,70 L0,70 Z" fill="#f5ecd7"/>
+    </svg>
+  </div>
+
+  <!-- Color Palette Section -->
+  <section class="palette" id="palette">
+    <div class="container">
+      <div class="palette__header animate-on-scroll">
+        <span class="section-label">Color System</span>
+        <h2 class="section-title">Sunlit Garden Palette</h2>
+        <p class="section-subtitle">A carefully curated spectrum of warm golds, living greens, and earth tones that evoke perpetual golden-hour light filtering through a botanical garden.</p>
+      </div>
+
+      <div class="palette__groups">
+        <div class="animate-on-scroll">
+          <div class="palette__group-label">Warm Accents</div>
+          <div class="palette__swatches">
+            <div class="swatch">
+              <div class="swatch__color" style="background: #f0a830;"></div>
+              <div class="swatch__info">
+                <span class="swatch__name">Sunbeam Gold</span>
+                <span class="swatch__hex">#F0A830</span>
+              </div>
+            </div>
+            <div class="swatch">
+              <div class="swatch__color" style="background: #d4922a;"></div>
+              <div class="swatch__info">
+                <span class="swatch__name">Honey Amber</span>
+                <span class="swatch__hex">#D4922A</span>
+              </div>
+            </div>
+            <div class="swatch">
+              <div class="swatch__color" style="background: #e8762b;"></div>
+              <div class="swatch__info">
+                <span class="swatch__name">Solar Orange</span>
+                <span class="swatch__hex">#E8762B</span>
+              </div>
+            </div>
+            <div class="swatch">
+              <div class="swatch__color" style="background: #c67a4b;"></div>
+              <div class="swatch__info">
+                <span class="swatch__name">Terracotta</span>
+                <span class="swatch__hex">#C67A4B</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="animate-on-scroll">
+          <div class="palette__group-label">Greens</div>
+          <div class="palette__swatches">
+            <div class="swatch">
+              <div class="swatch__color" style="background: #3a8c3f;"></div>
+              <div class="swatch__info">
+                <span class="swatch__name">Living Green</span>
+                <span class="swatch__hex">#3A8C3F</span>
+              </div>
+            </div>
+            <div class="swatch">
+              <div class="swatch__color" style="background: #6b9e6b;"></div>
+              <div class="swatch__info">
+                <span class="swatch__name">Sage</span>
+                <span class="swatch__hex">#6B9E6B</span>
+              </div>
+            </div>
+            <div class="swatch">
+              <div class="swatch__color" style="background: #1e5631;"></div>
+              <div class="swatch__info">
+                <span class="swatch__name">Deep Canopy</span>
+                <span class="swatch__hex">#1E5631</span>
+              </div>
+            </div>
+            <div class="swatch">
+              <div class="swatch__color" style="background: #8bc34a;"></div>
+              <div class="swatch__info">
+                <span class="swatch__name">Fresh Leaf</span>
+                <span class="swatch__hex">#8BC34A</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="animate-on-scroll">
+          <div class="palette__group-label">Backgrounds & Neutrals</div>
+          <div class="palette__swatches">
+            <div class="swatch">
+              <div class="swatch__color" style="background: #fff9ed;"></div>
+              <div class="swatch__info">
+                <span class="swatch__name">Warm Cream</span>
+                <span class="swatch__hex">#FFF9ED</span>
+              </div>
+            </div>
+            <div class="swatch">
+              <div class="swatch__color" style="background: #f5ecd7;"></div>
+              <div class="swatch__info">
+                <span class="swatch__name">Sunlit Linen</span>
+                <span class="swatch__hex">#F5ECD7</span>
+              </div>
+            </div>
+            <div class="swatch">
+              <div class="swatch__color" style="background: #e8f0e0;"></div>
+              <div class="swatch__info">
+                <span class="swatch__name">Greenhouse Glass</span>
+                <span class="swatch__hex">#E8F0E0</span>
+              </div>
+            </div>
+            <div class="swatch">
+              <div class="swatch__color" style="background: #5dade2;"></div>
+              <div class="swatch__info">
+                <span class="swatch__name">Sky Blue</span>
+                <span class="swatch__hex">#5DADE2</span>
+              </div>
+            </div>
+            <div class="swatch">
+              <div class="swatch__color" style="background: #3e2f23;"></div>
+              <div class="swatch__info">
+                <span class="swatch__name">Rich Earth</span>
+                <span class="swatch__hex">#3E2F23</span>
+              </div>
+            </div>
+            <div class="swatch">
+              <div class="swatch__color" style="background: #5c4033;"></div>
+              <div class="swatch__info">
+                <span class="swatch__name">Bark Brown</span>
+                <span class="swatch__hex">#5C4033</span>
+              </div>
+            </div>
+            <div class="swatch">
+              <div class="swatch__color" style="background: #8a7e72;"></div>
+              <div class="swatch__info">
+                <span class="swatch__name">Warm Gray</span>
+                <span class="swatch__hex">#8A7E72</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Gradient showcase -->
+        <div class="animate-on-scroll">
+          <div class="palette__group-label">Gradients</div>
+          <div style="display: flex; gap: 16px; flex-wrap: wrap;">
+            <div style="width: 200px; height: 72px; border-radius: 16px; background: linear-gradient(135deg, #f0a830 0%, #e8762b 30%, #c67a4b 60%, #3a8c3f 100%); box-shadow: 0 4px 16px rgba(30,86,49,0.08);"></div>
+            <div style="width: 200px; height: 72px; border-radius: 16px; background: linear-gradient(180deg, #e8f0e0 0%, #6b9e6b 50%, #1e5631 100%); box-shadow: 0 4px 16px rgba(30,86,49,0.08);"></div>
+            <div style="width: 200px; height: 72px; border-radius: 16px; background: linear-gradient(135deg, rgba(232, 240, 224, 0.9), rgba(255, 249, 237, 0.7)); border: 1px solid rgba(107,158,107,0.2); box-shadow: 0 4px 16px rgba(30,86,49,0.05);"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Wave: Palette -> Typography -->
+  <div class="wave wave--flip">
+    <svg viewBox="0 0 1440 70" preserveAspectRatio="none">
+      <path d="M0,25 C360,70 720,0 1080,50 C1260,60 1440,20 1440,35 L1440,70 L0,70 Z" fill="#f5ecd7"/>
+    </svg>
+  </div>
+
+  <!-- Typography Section -->
+  <section class="typography" id="typography">
+    <div class="container">
+      <div class="typography__header animate-on-scroll">
+        <span class="section-label">Type System</span>
+        <h2 class="section-title">Typography</h2>
+        <p class="section-subtitle">Organic and flowing typefaces that echo Art Nouveau curves and natural growth patterns. Warm, inviting, and generous with space.</p>
+      </div>
+
+      <div class="typo-showcase">
+        <div class="typo-panel animate-on-scroll">
+          <span class="typo-panel__label">Type Specimen</span>
+          <div class="typo-panel__sample-heading">Fraunces</div>
+          <div class="typo-panel__sample-sub">Soft serif, old-style warmth</div>
+          <p class="typo-panel__sample-body">
+            The primary display typeface for Solarpunk interfaces. Its soft, organic serifs and warm character echo the flowing curves of Art Nouveau. Used for headlines, display text, and warm editorial moments. Weights 500 through 900 recommended.
+          </p>
+          <div style="margin-top: 24px; font-family: 'Fraunces', serif; color: var(--solar-canopy);">
+            <div style="font-weight: 900; font-size: 2rem; line-height: 1.1;">Aa Bb Cc</div>
+            <div style="font-weight: 500; font-size: 1rem; color: var(--solar-text-muted); margin-top: 8px;">ABCDEFGHIJKLMNOPQRSTUVWXYZ</div>
+            <div style="font-weight: 500; font-size: 1rem; color: var(--solar-text-muted);">abcdefghijklmnopqrstuvwxyz</div>
+            <div style="font-weight: 500; font-size: 1rem; color: var(--solar-text-muted);">0123456789 &amp; @ #</div>
+          </div>
+        </div>
+
+        <div class="typo-panel animate-on-scroll">
+          <span class="typo-panel__label">Font Pairings</span>
+          <div class="typo-pairs">
+            <div class="typo-pair">
+              <div class="typo-pair__heading" style="font-family: 'Fraunces', serif; font-weight: 700;">Growing Futures Together</div>
+              <div class="typo-pair__body" style="font-family: 'Nunito', sans-serif;">Warm organic heading paired with friendly rounded body text for approachable, community-focused interfaces.</div>
+              <div class="typo-pair__meta">Fraunces 700 + Nunito 400</div>
+            </div>
+            <div class="typo-pair">
+              <div class="typo-pair__heading" style="font-family: 'Cormorant Garamond', serif; font-weight: 600; font-size: 1.3rem;">Sustainable Abundance</div>
+              <div class="typo-pair__body" style="font-family: 'Nunito', sans-serif;">Art Nouveau elegance with a soft geometric body for refined botanical interfaces and editorial layouts.</div>
+              <div class="typo-pair__meta">Cormorant Garamond 600 + Nunito 400</div>
+            </div>
+            <div class="typo-pair">
+              <div class="typo-pair__heading" style="font-family: 'Fraunces', serif; font-weight: 900; font-size: 1.35rem;">Blooming Innovation</div>
+              <div class="typo-pair__body" style="font-family: 'Nunito', sans-serif;">Bold display weight for hero sections with generous tracking and leading, capturing the boldness of solarpunk optimism.</div>
+              <div class="typo-pair__meta">Fraunces 900 + Nunito 500</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Wave: Typography -> Principles -->
+  <div class="wave">
+    <svg viewBox="0 0 1440 70" preserveAspectRatio="none">
+      <path d="M0,40 C360,70 720,10 1080,45 C1200,55 1360,20 1440,30 L1440,70 L0,70 Z" fill="#e8f0e0"/>
+    </svg>
+  </div>
+
+  <!-- Design Principles Section -->
+  <section class="principles" id="principles">
+    <div class="container">
+      <div class="principles__header animate-on-scroll">
+        <span class="section-label">Philosophy</span>
+        <h2 class="section-title">Design Principles</h2>
+        <p class="section-subtitle">The guiding philosophy behind every Solarpunk design decision -- where warmth meets intention and nature guides the hand.</p>
+      </div>
+
+      <ul class="principles__list">
+        <li class="principle-item animate-on-scroll">
+          <span class="principle-item__number">01</span>
+          <span class="principle-item__text"><strong>Design with genuine optimism</strong> -- Solarpunk is hopeful about the future, not ironic or dystopian</span>
+        </li>
+        <li class="principle-item animate-on-scroll">
+          <span class="principle-item__number">02</span>
+          <span class="principle-item__text"><strong>Blend organic and technological</strong> elements seamlessly -- technology should feel like it grew naturally</span>
+        </li>
+        <li class="principle-item animate-on-scroll">
+          <span class="principle-item__number">03</span>
+          <span class="principle-item__text"><strong>Use warm, sunlit color temperatures</strong> -- the dominant light source is always the sun</span>
+        </li>
+        <li class="principle-item animate-on-scroll">
+          <span class="principle-item__number">04</span>
+          <span class="principle-item__text"><strong>Embrace curves and flowing lines</strong> over rigid grids -- nature does not build in straight lines</span>
+        </li>
+        <li class="principle-item animate-on-scroll">
+          <span class="principle-item__number">05</span>
+          <span class="principle-item__text"><strong>Green is the primary color family</strong>, supported by warm golds and earth tones that anchor the palette</span>
+        </li>
+        <li class="principle-item animate-on-scroll">
+          <span class="principle-item__number">06</span>
+          <span class="principle-item__text"><strong>Transparency and lightness</strong> suggest openness, sustainability, and nothing to hide</span>
+        </li>
+        <li class="principle-item animate-on-scroll">
+          <span class="principle-item__number">07</span>
+          <span class="principle-item__text"><strong>Embrace elegant sufficiency</strong> -- every design choice should feel sustainable, avoiding excess</span>
+        </li>
+        <li class="principle-item animate-on-scroll">
+          <span class="principle-item__number">08</span>
+          <span class="principle-item__text"><strong>Reference Art Nouveau</strong> as the historical foundation, updating it with futuristic optimism</span>
+        </li>
+        <li class="principle-item animate-on-scroll">
+          <span class="principle-item__number">09</span>
+          <span class="principle-item__text"><strong>Community and collaboration</strong> are core values -- design should feel welcoming and inclusive</span>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Wave: Principles -> Guidelines -->
+  <div class="wave wave--flip">
+    <svg viewBox="0 0 1440 70" preserveAspectRatio="none">
+      <path d="M0,35 C240,70 480,10 720,40 C960,65 1200,5 1440,30 L1440,70 L0,70 Z" fill="#e8f0e0"/>
+    </svg>
+  </div>
+
+  <!-- Do's and Don'ts Section -->
+  <section class="guidelines" id="guidelines">
+    <div class="container">
+      <div class="guidelines__header animate-on-scroll">
+        <span class="section-label">Practical Guidance</span>
+        <h2 class="section-title">Design Do's and Don'ts</h2>
+        <p class="section-subtitle">Practical guidance for staying true to the Solarpunk vision while crafting interfaces and experiences.</p>
+      </div>
+
+      <div class="guidelines__columns animate-on-scroll">
+        <div class="guidelines__col guidelines__col--do">
+          <h3 class="guidelines__col-title">
+            <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" fill="#3a8c3f" opacity="0.15"/><path d="M8 12.5L11 15.5L16 9.5" stroke="#3a8c3f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Do
+          </h3>
+          <ul class="guidelines__list">
+            <li>Use warm, sunlit color palettes dominated by greens and golds</li>
+            <li>Apply organic curves and rounded shapes to cards, buttons, and section dividers</li>
+            <li>Include botanical motifs: leaves, vines, flowers, and plant patterns</li>
+            <li>Use Art Nouveau as a design reference for curves, borders, and ornamentation</li>
+            <li>Create glass-panel effects with backdrop-filter blur and translucent backgrounds</li>
+            <li>Design with genuine optimism and warmth -- this is a hopeful aesthetic</li>
+            <li>Reference sustainable technology: solar panels, wind energy, living architecture</li>
+            <li>Make typography feel warm and inviting with serif headings and rounded sans-serif body text</li>
+          </ul>
+        </div>
+
+        <div class="guidelines__col guidelines__col--dont">
+          <h3 class="guidelines__col-title">
+            <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" fill="#c67a4b" opacity="0.15"/><path d="M8 8L16 16M16 8L8 16" stroke="#c67a4b" stroke-width="2" stroke-linecap="round"/></svg>
+            Don't
+          </h3>
+          <ul class="guidelines__list">
+            <li>Use cold, clinical color palettes -- avoid sterile blues, grays, and stark whites</li>
+            <li>Apply rigid, mechanical grid layouts -- Solarpunk favors organic flow</li>
+            <li>Use dark, dystopian backgrounds -- the dominant mood is light, warm, and sunlit</li>
+            <li>Include industrial or corporate imagery suggesting exploitation or pollution</li>
+            <li>Use angular, harsh typefaces -- nothing should feel aggressive or mechanical</li>
+            <li>Over-decorate with flourishes to the point of visual clutter</li>
+            <li>Forget functionality -- Solarpunk values practical sustainability, not just decoration</li>
+            <li>Mix in neon or electric lighting effects -- the light source is the sun, not LEDs</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Metrics Section -->
+  <section class="metrics">
+    <div class="container">
+      <div class="metrics__grid animate-on-scroll">
+        <div class="metric">
+          <div class="metric__number">15</div>
+          <div class="metric__label">Core Colors</div>
+        </div>
+        <div class="metric">
+          <div class="metric__number">10</div>
+          <div class="metric__label">Recommended Fonts</div>
+        </div>
+        <div class="metric">
+          <div class="metric__number">5</div>
+          <div class="metric__label">Font Pairings</div>
+        </div>
+        <div class="metric">
+          <div class="metric__number">9</div>
+          <div class="metric__label">Related Aesthetics</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Wave: Metrics -> Related -->
+  <div class="wave">
+    <svg viewBox="0 0 1440 70" preserveAspectRatio="none">
+      <path d="M0,30 C360,65 720,5 1080,40 C1260,55 1440,20 1440,30 L1440,70 L0,70 Z" fill="#f5ecd7"/>
+    </svg>
+  </div>
+
+  <!-- Related Aesthetics Section -->
+  <section class="related" id="related">
+    <div class="container">
+      <div class="related__header animate-on-scroll">
+        <span class="section-label">Aesthetic Family</span>
+        <h2 class="section-title">Related Aesthetics</h2>
+        <p class="section-subtitle">Solarpunk exists within a rich ecosystem of related visual movements, each sharing elements of its hopeful, nature-positive vision.</p>
+      </div>
+
+      <div class="related__grid">
+        <div class="related-card animate-on-scroll">
+          <h3 class="related-card__name">Art Nouveau</h3>
+          <p class="related-card__desc">Primary historical influence. Solarpunk inherits its flowing organic curves, botanical motifs, and integration of art with function.</p>
+        </div>
+        <div class="related-card animate-on-scroll">
+          <h3 class="related-card__name">Cottagecore</h3>
+          <p class="related-card__desc">Shares the pastoral, nature-positive values. Cottagecore is nostalgic and rural; Solarpunk is futuristic and urban-green.</p>
+        </div>
+        <div class="related-card animate-on-scroll">
+          <h3 class="related-card__name">Cyberpunk</h3>
+          <p class="related-card__desc">Philosophical opposite. Both imagine technology-rich futures, but Cyberpunk is dystopian while Solarpunk is utopian.</p>
+        </div>
+        <div class="related-card animate-on-scroll">
+          <h3 class="related-card__name">Biophilic Design</h3>
+          <p class="related-card__desc">Architectural sibling. Both integrate living plants into built environments and prioritize human-nature connection.</p>
+        </div>
+        <div class="related-card animate-on-scroll">
+          <h3 class="related-card__name">Studio Ghibli</h3>
+          <p class="related-card__desc">Shares the warm, nature-harmonious, hopeful worldview. Ghibli's visual language is a direct aesthetic cousin.</p>
+        </div>
+        <div class="related-card animate-on-scroll">
+          <h3 class="related-card__name">Scandinavian Design</h3>
+          <p class="related-card__desc">Shares values of functionality, sustainability, and clean living. Scandinavian is minimalist; Solarpunk is more ornamental.</p>
+        </div>
+        <div class="related-card animate-on-scroll">
+          <h3 class="related-card__name">Lunarpunk</h3>
+          <p class="related-card__desc">Sister aesthetic. Applies Solarpunk values with a nocturnal, bioluminescent, and mystical twist.</p>
+        </div>
+        <div class="related-card animate-on-scroll">
+          <h3 class="related-card__name">Arts and Crafts</h3>
+          <p class="related-card__desc">Historical parallel. Both reject industrialism in favor of handmade quality and natural materials.</p>
+        </div>
+        <div class="related-card animate-on-scroll">
+          <h3 class="related-card__name">Goblincore</h3>
+          <p class="related-card__desc">Shares appreciation for nature but celebrates the messy, decomposing, mushroom-and-moss side rather than curated gardens.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Wave: Related -> CTA -->
+  <div class="wave wave--flip" style="margin-bottom: -1px;">
+    <svg viewBox="0 0 1440 70" preserveAspectRatio="none">
+      <path d="M0,30 C240,65 600,5 900,40 C1100,60 1300,15 1440,25 L1440,70 L0,70 Z" fill="#f5ecd7"/>
+    </svg>
+  </div>
+
+  <!-- CTA Section -->
+  <section class="cta">
+    <div class="container">
+      <div class="cta__inner animate-on-scroll">
+        <span class="section-label">Start Building</span>
+        <h2 class="section-title">Every seed planted is a vote for the future we want</h2>
+        <p class="cta__desc">Solarpunk design is more than an aesthetic -- it is an act of imagination, a refusal to accept that the future must be bleak. Start growing something beautiful.</p>
+        <a href="#" class="btn btn-gold">Explore the Full Spec</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__inner">
+        <div class="footer__brand">
+          <svg width="22" height="22" viewBox="0 0 28 28" fill="none">
+            <circle cx="14" cy="14" r="6" fill="#f0a830"/>
+            <path d="M14 2V6M14 22V26M2 14H6M22 14H26M5.5 5.5L8.3 8.3M19.7 19.7L22.5 22.5M22.5 5.5L19.7 8.3M8.3 19.7L5.5 22.5" stroke="#f0a830" stroke-width="1.5" stroke-linecap="round"/>
+            <path d="M14 10C14 10 10 14 12 18C13 20 15 20 16 18C18 14 14 10 14 10Z" fill="#3a8c3f"/>
+          </svg>
+          Solarpunk Design Reference
+        </div>
+        <ul class="footer__links">
+          <li><a href="#traits">Traits</a></li>
+          <li><a href="#palette">Colors</a></li>
+          <li><a href="#typography">Type</a></li>
+          <li><a href="#principles">Principles</a></li>
+        </ul>
+      </div>
+      <div class="footer__divider"></div>
+      <div class="footer__bottom">
+        A showcase of the Solarpunk design aesthetic -- built with warmth, optimism, and green energy.
+      </div>
+    </div>
+  </footer>
+
+  <!-- JavaScript -->
+  <script>
+    // Page loader
+    window.addEventListener('load', function() {
+      var loader = document.getElementById('loader');
+      setTimeout(function() {
+        loader.classList.add('hidden');
+      }, 600);
+    });
+
+    // Scroll-triggered animations
+    (function() {
+      var elements = document.querySelectorAll('.animate-on-scroll');
+      var observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            // Stagger children if they exist
+            var children = entry.target.querySelectorAll('.trait-card, .principle-item, .related-card, .swatch, .metric, .typo-pair');
+            if (children.length > 0) {
+              children.forEach(function(child, i) {
+                child.style.opacity = '0';
+                child.style.transform = 'translateY(20px)';
+                child.style.transition = 'opacity 0.5s ease ' + (i * 0.08) + 's, transform 0.5s ease ' + (i * 0.08) + 's';
+                setTimeout(function() {
+                  child.style.opacity = '1';
+                  child.style.transform = 'translateY(0)';
+                }, 50);
+              });
+            }
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, {
+        threshold: 0.15,
+        rootMargin: '0px 0px -40px 0px'
+      });
+
+      elements.forEach(function(el) {
+        observer.observe(el);
+      });
+    })();
+
+    // Navbar scroll effect
+    (function() {
+      var nav = document.getElementById('nav');
+      window.addEventListener('scroll', function() {
+        if (window.scrollY > 40) {
+          nav.classList.add('scrolled');
+        } else {
+          nav.classList.remove('scrolled');
+        }
+      });
+    })();
+
+    // Smooth scroll for nav links
+    document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
+      anchor.addEventListener('click', function(e) {
+        var targetId = this.getAttribute('href');
+        if (targetId === '#') return;
+        e.preventDefault();
+        var target = document.querySelector(targetId);
+        if (target) {
+          var offset = 80;
+          var top = target.getBoundingClientRect().top + window.pageYOffset - offset;
+          window.scrollTo({ top: top, behavior: 'smooth' });
+        }
+      });
+    });
+
+    // Occasional leaf particle effect (subtle)
+    (function() {
+      var leafColors = ['#3a8c3f', '#6b9e6b', '#8bc34a', '#f0a830'];
+      function spawnLeaf() {
+        var leaf = document.createElement('div');
+        leaf.className = 'leaf-particle';
+        leaf.innerHTML = '<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 1C8 1 2 5 2 9C2 12 4.7 14 8 14C11.3 14 14 12 14 9C14 5 8 1 8 1Z" fill="' + leafColors[Math.floor(Math.random() * leafColors.length)] + '" opacity="0.4"/></svg>';
+        leaf.style.left = (Math.random() * 100) + 'vw';
+        leaf.style.top = (Math.random() * 40) + 'vh';
+        leaf.style.animationDuration = (5 + Math.random() * 4) + 's';
+        document.body.appendChild(leaf);
+        setTimeout(function() {
+          if (leaf.parentNode) leaf.parentNode.removeChild(leaf);
+        }, 9000);
+      }
+      // Spawn a few leaves periodically
+      setInterval(spawnLeaf, 4000);
+      // Initial batch
+      setTimeout(spawnLeaf, 2000);
+      setTimeout(spawnLeaf, 3000);
+    })();
+  </script>
+</body>
+</html>
