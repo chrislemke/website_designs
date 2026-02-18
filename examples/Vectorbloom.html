@@ -1,0 +1,2364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vectorbloom -- Digital Botanical Fantasy</title>
+  <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;600;700&family=Dancing+Script:wght@400;700&family=Pacifico&family=Quicksand:wght@400;500;600;700&family=Rubik:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* ============================================================
+       VECTORBLOOM DESIGN SYSTEM -- CSS CUSTOM PROPERTIES
+       ============================================================ */
+    :root {
+      /* Signature pinks and magentas */
+      --vb-hot-pink: #ff2d8a;
+      --vb-magenta: #e91e8c;
+      --vb-fuchsia: #d946ef;
+      --vb-soft-pink: #f9a8d4;
+
+      /* Purples */
+      --vb-deep-purple: #7b2d8e;
+      --vb-royal-purple: #6b21a8;
+      --vb-lavender: #c084fc;
+      --vb-mauve: #dda0dd;
+
+      /* Blues and teals */
+      --vb-electric-blue: #00a3ff;
+      --vb-sky-blue: #38bdf8;
+      --vb-deep-teal: #0d9488;
+      --vb-cyan: #06b6d4;
+
+      /* Greens */
+      --vb-lime: #84cc16;
+      --vb-emerald: #10b981;
+
+      /* Warm accents */
+      --vb-yellow: #facc15;
+      --vb-coral: #ef4444;
+      --vb-orange: #f97316;
+
+      /* Backgrounds */
+      --vb-bg-light: #f5d6f5;
+      --vb-bg-pale: #fdf2f8;
+      --vb-bg-dark: #1e0a2e;
+      --vb-bg-deep: #0f0520;
+
+      /* Neutrals */
+      --vb-black: #0a0a12;
+      --vb-white: #ffffff;
+      --vb-off-white: #fff5f9;
+
+      /* Functional mappings */
+      --vb-bg-primary: var(--vb-bg-light);
+      --vb-bg-secondary: var(--vb-bg-pale);
+      --vb-text-primary: var(--vb-black);
+      --vb-text-on-dark: var(--vb-off-white);
+      --vb-accent: var(--vb-hot-pink);
+      --vb-accent-secondary: var(--vb-fuchsia);
+    }
+
+    /* ============================================================
+       RESET & BASE
+       ============================================================ */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      overflow-x: hidden;
+    }
+
+    body {
+      font-family: 'Rubik', sans-serif;
+      font-weight: 400;
+      letter-spacing: 0.01em;
+      line-height: 1.75;
+      color: var(--vb-text-primary);
+      background: var(--vb-bg-deep);
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3, h4 {
+      font-family: 'Quicksand', 'Comfortaa', sans-serif;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      line-height: 1.15;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+
+    /* ============================================================
+       KEYFRAME ANIMATIONS
+       ============================================================ */
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    @keyframes bloomPulse {
+      0%, 100% { transform: scale(1); opacity: 0.6; }
+      50% { transform: scale(1.15); opacity: 1; }
+    }
+
+    @keyframes floatUp {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      33% { transform: translateY(-18px) rotate(2deg); }
+      66% { transform: translateY(-8px) rotate(-1deg); }
+    }
+
+    @keyframes rotateKaleidoscope {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    @keyframes rotateCounterKaleidoscope {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(-360deg); }
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(40px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeInScale {
+      from { opacity: 0; transform: scale(0.85); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    @keyframes shimmer {
+      0% { background-position: -200% center; }
+      100% { background-position: 200% center; }
+    }
+
+    @keyframes petalDrift {
+      0% { transform: translateY(0) translateX(0) rotate(0deg); opacity: 0; }
+      10% { opacity: 1; }
+      90% { opacity: 1; }
+      100% { transform: translateY(100vh) translateX(100px) rotate(720deg); opacity: 0; }
+    }
+
+    @keyframes bloomExpand {
+      0% { transform: scale(0) rotate(0deg); opacity: 0; }
+      50% { opacity: 0.8; }
+      100% { transform: scale(1) rotate(180deg); opacity: 0; }
+    }
+
+    @keyframes vineGrow {
+      from { stroke-dashoffset: 1000; }
+      to { stroke-dashoffset: 0; }
+    }
+
+    @keyframes glowPulse {
+      0%, 100% { filter: drop-shadow(0 0 8px rgba(217, 70, 239, 0.4)); }
+      50% { filter: drop-shadow(0 0 20px rgba(255, 45, 138, 0.7)); }
+    }
+
+    /* ============================================================
+       NAVIGATION
+       ============================================================ */
+    .vb-nav-wrapper {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      background: rgba(15, 5, 32, 0.75);
+      border-bottom: 1px solid rgba(217, 70, 239, 0.15);
+      transition: background 0.3s ease;
+    }
+
+    .vb-nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 16px 40px;
+    }
+
+    .vb-nav-logo {
+      font-family: 'Comfortaa', sans-serif;
+      font-weight: 700;
+      font-size: 1.4rem;
+      background: linear-gradient(135deg, var(--vb-hot-pink), var(--vb-fuchsia), var(--vb-lavender));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: 0.06em;
+    }
+
+    .vb-nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+
+    .vb-nav-links a {
+      font-family: 'Rubik', sans-serif;
+      font-weight: 500;
+      font-size: 0.9rem;
+      color: var(--vb-mauve);
+      text-decoration: none;
+      transition: color 0.25s ease;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      position: relative;
+    }
+
+    .vb-nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--vb-hot-pink), var(--vb-fuchsia));
+      transition: width 0.3s ease;
+      border-radius: 2px;
+    }
+
+    .vb-nav-links a:hover {
+      color: var(--vb-hot-pink);
+    }
+
+    .vb-nav-links a:hover::after {
+      width: 100%;
+    }
+
+    .nav-mobile-toggle {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 4px;
+    }
+
+    .nav-mobile-toggle span {
+      width: 24px;
+      height: 2px;
+      background: var(--vb-soft-pink);
+      border-radius: 2px;
+      transition: all 0.3s ease;
+    }
+
+    /* ============================================================
+       HERO SECTION
+       ============================================================ */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      overflow: hidden;
+      padding: 120px 2rem 80px;
+    }
+
+    /* Animated gradient background */
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        135deg,
+        var(--vb-bg-deep) 0%,
+        #1a0830 15%,
+        #2d0a4e 30%,
+        #1a1050 50%,
+        #0a2040 70%,
+        #0a1830 85%,
+        var(--vb-bg-deep) 100%
+      );
+      background-size: 400% 400%;
+      animation: gradientShift 20s ease infinite;
+      z-index: 0;
+    }
+
+    /* Kaleidoscopic ornamental background */
+    .hero-kaleidoscope {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .hero-kaleidoscope .ring {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      border-radius: 50%;
+      border: 1px solid;
+      opacity: 0.12;
+    }
+
+    .hero-kaleidoscope .ring:nth-child(1) {
+      width: 500px; height: 500px;
+      margin: -250px 0 0 -250px;
+      border-color: var(--vb-fuchsia);
+      animation: rotateKaleidoscope 60s linear infinite;
+    }
+    .hero-kaleidoscope .ring:nth-child(2) {
+      width: 700px; height: 700px;
+      margin: -350px 0 0 -350px;
+      border-color: var(--vb-hot-pink);
+      animation: rotateCounterKaleidoscope 80s linear infinite;
+      opacity: 0.08;
+    }
+    .hero-kaleidoscope .ring:nth-child(3) {
+      width: 900px; height: 900px;
+      margin: -450px 0 0 -450px;
+      border-color: var(--vb-electric-blue);
+      animation: rotateKaleidoscope 100s linear infinite;
+      opacity: 0.06;
+    }
+    .hero-kaleidoscope .ring:nth-child(4) {
+      width: 1200px; height: 1200px;
+      margin: -600px 0 0 -600px;
+      border-color: var(--vb-lavender);
+      animation: rotateCounterKaleidoscope 120s linear infinite;
+      opacity: 0.04;
+    }
+
+    /* Radial blooms in hero */
+    .hero-bloom {
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .hero-bloom:nth-child(1) {
+      width: 400px; height: 400px;
+      top: 15%; left: 10%;
+      background: radial-gradient(circle, rgba(217, 70, 239, 0.15) 0%, transparent 70%);
+      animation: bloomPulse 8s ease-in-out infinite;
+    }
+    .hero-bloom:nth-child(2) {
+      width: 350px; height: 350px;
+      top: 60%; right: 5%;
+      background: radial-gradient(circle, rgba(255, 45, 138, 0.12) 0%, transparent 70%);
+      animation: bloomPulse 10s ease-in-out infinite 2s;
+    }
+    .hero-bloom:nth-child(3) {
+      width: 300px; height: 300px;
+      bottom: 10%; left: 20%;
+      background: radial-gradient(circle, rgba(0, 163, 255, 0.1) 0%, transparent 70%);
+      animation: bloomPulse 12s ease-in-out infinite 4s;
+    }
+    .hero-bloom:nth-child(4) {
+      width: 250px; height: 250px;
+      top: 30%; right: 25%;
+      background: radial-gradient(circle, rgba(16, 185, 129, 0.08) 0%, transparent 70%);
+      animation: bloomPulse 9s ease-in-out infinite 1s;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 10;
+      max-width: 900px;
+    }
+
+    .hero-label {
+      font-family: 'Rubik', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--vb-soft-pink);
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: fadeInUp 0.8s ease forwards 0.2s;
+    }
+
+    .hero-title {
+      font-family: 'Comfortaa', 'Quicksand', sans-serif;
+      font-size: clamp(3rem, 8vw, 7rem);
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      line-height: 1.05;
+      background: linear-gradient(
+        135deg,
+        var(--vb-hot-pink) 0%,
+        var(--vb-fuchsia) 25%,
+        var(--vb-lavender) 50%,
+        var(--vb-electric-blue) 75%,
+        var(--vb-emerald) 100%
+      );
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: fadeInScale 1s ease forwards 0.4s, shimmer 6s linear infinite 1.4s;
+      opacity: 0;
+    }
+
+    .hero-script {
+      font-family: 'Pacifico', cursive;
+      font-size: clamp(1.3rem, 3vw, 2rem);
+      color: var(--vb-magenta);
+      margin-top: 1rem;
+      opacity: 0;
+      animation: fadeInUp 0.8s ease forwards 0.8s;
+    }
+
+    .hero-description {
+      font-family: 'Rubik', sans-serif;
+      font-weight: 300;
+      font-size: clamp(1rem, 1.8vw, 1.2rem);
+      color: var(--vb-mauve);
+      max-width: 640px;
+      margin: 2rem auto 0;
+      line-height: 1.85;
+      opacity: 0;
+      animation: fadeInUp 0.8s ease forwards 1s;
+    }
+
+    .hero-cta {
+      margin-top: 2.5rem;
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      opacity: 0;
+      animation: fadeInUp 0.8s ease forwards 1.2s;
+    }
+
+    /* Floral SVG ornaments in hero */
+    .hero-ornament {
+      position: absolute;
+      z-index: 2;
+      pointer-events: none;
+      opacity: 0.15;
+    }
+
+    .hero-ornament--left {
+      left: -60px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 280px;
+      height: 600px;
+    }
+
+    .hero-ornament--right {
+      right: -60px;
+      top: 50%;
+      transform: translateY(-50%) scaleX(-1);
+      width: 280px;
+      height: 600px;
+    }
+
+    /* ============================================================
+       BUTTONS
+       ============================================================ */
+    .vb-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px 40px;
+      background: linear-gradient(135deg, var(--vb-hot-pink), var(--vb-fuchsia));
+      color: var(--vb-white);
+      border: none;
+      border-radius: 50px;
+      font-family: 'Quicksand', 'Rubik', sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      letter-spacing: 0.03em;
+      cursor: pointer;
+      transition: all 0.35s ease;
+      box-shadow: 0 4px 24px rgba(233, 30, 140, 0.35);
+      text-decoration: none;
+    }
+
+    .vb-button:hover {
+      background: linear-gradient(135deg, var(--vb-fuchsia), var(--vb-electric-blue));
+      transform: translateY(-3px);
+      box-shadow: 0 8px 36px rgba(217, 70, 239, 0.5);
+    }
+
+    .vb-button--outline {
+      background: transparent;
+      border: 2px solid rgba(217, 70, 239, 0.5);
+      color: var(--vb-lavender);
+      box-shadow: none;
+    }
+
+    .vb-button--outline:hover {
+      background: linear-gradient(135deg, var(--vb-hot-pink), var(--vb-fuchsia));
+      color: var(--vb-white);
+      border-color: transparent;
+      box-shadow: 0 8px 36px rgba(233, 30, 140, 0.35);
+    }
+
+    /* ============================================================
+       DIVIDERS & ORNAMENTS
+       ============================================================ */
+    .vb-flourish-divider {
+      display: block;
+      width: 100%;
+      max-width: 500px;
+      margin: 0 auto;
+      height: 60px;
+      opacity: 0.6;
+    }
+
+    .vb-gradient-line {
+      height: 3px;
+      width: 50%;
+      max-width: 300px;
+      margin: 2.5rem auto;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        var(--vb-hot-pink) 20%,
+        var(--vb-fuchsia) 50%,
+        var(--vb-electric-blue) 80%,
+        transparent
+      );
+      border-radius: 2px;
+      position: relative;
+    }
+
+    .vb-gradient-line::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(45deg);
+      width: 14px;
+      height: 14px;
+      background: radial-gradient(circle, var(--vb-fuchsia), var(--vb-hot-pink));
+      border-radius: 50% 0 50% 0;
+    }
+
+    /* ============================================================
+       SECTION: ABOUT (LIGHT)
+       ============================================================ */
+    .section-about {
+      position: relative;
+      padding: 100px 2rem;
+      background:
+        radial-gradient(ellipse at 25% 25%, rgba(217, 70, 239, 0.06) 0%, transparent 50%),
+        radial-gradient(ellipse at 75% 75%, rgba(255, 45, 138, 0.06) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 50%, rgba(0, 163, 255, 0.04) 0%, transparent 40%);
+      background-color: var(--vb-bg-pale);
+      overflow: hidden;
+    }
+
+    /* Filigree background tiles */
+    .section-about::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 80'%3E%3Cpath d='M40,0 C45,20 60,25 40,40 C20,25 35,20 40,0Z' fill='%23d946ef' opacity='0.035'/%3E%3Cpath d='M0,40 C20,35 25,20 40,40 C25,60 20,45 0,40Z' fill='%23e91e8c' opacity='0.025'/%3E%3C/svg%3E");
+      background-size: 80px 80px;
+      pointer-events: none;
+    }
+
+    .about-container {
+      max-width: 900px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+    }
+
+    .section-label {
+      font-family: 'Rubik', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--vb-magenta);
+      text-align: center;
+      display: block;
+      margin-bottom: 1rem;
+    }
+
+    .section-title {
+      font-family: 'Quicksand', 'Comfortaa', sans-serif;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 700;
+      text-align: center;
+      color: var(--vb-deep-purple);
+      margin-bottom: 1.5rem;
+      line-height: 1.1;
+    }
+
+    .section-title--gradient {
+      background: linear-gradient(135deg, var(--vb-hot-pink), var(--vb-deep-purple), var(--vb-electric-blue));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .about-text {
+      font-family: 'Rubik', sans-serif;
+      font-size: 1.1rem;
+      line-height: 1.9;
+      color: var(--vb-deep-purple);
+      text-align: center;
+      max-width: 720px;
+      margin: 0 auto 2rem;
+      opacity: 0.88;
+    }
+
+    .about-text strong {
+      color: var(--vb-magenta);
+      font-weight: 600;
+    }
+
+    .about-keywords {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 2rem;
+    }
+
+    .about-keyword {
+      padding: 8px 20px;
+      background: rgba(217, 70, 239, 0.08);
+      border: 1px solid rgba(217, 70, 239, 0.15);
+      border-radius: 50px;
+      font-family: 'Quicksand', sans-serif;
+      font-weight: 600;
+      font-size: 0.85rem;
+      color: var(--vb-deep-purple);
+      letter-spacing: 0.02em;
+      transition: all 0.3s ease;
+    }
+
+    .about-keyword:hover {
+      background: linear-gradient(135deg, var(--vb-hot-pink), var(--vb-fuchsia));
+      color: var(--vb-white);
+      border-color: transparent;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 16px rgba(233, 30, 140, 0.3);
+    }
+
+    /* ============================================================
+       SECTION: VISUAL CHARACTERISTICS (DARK)
+       ============================================================ */
+    .section-visuals {
+      position: relative;
+      padding: 100px 2rem;
+      background:
+        radial-gradient(circle at 50% 30%, rgba(217, 70, 239, 0.18) 0%, transparent 45%),
+        radial-gradient(circle at 20% 80%, rgba(255, 45, 138, 0.12) 0%, transparent 40%),
+        radial-gradient(circle at 80% 70%, rgba(0, 163, 255, 0.1) 0%, transparent 40%);
+      background-color: var(--vb-bg-dark);
+      overflow: hidden;
+    }
+
+    .visuals-container {
+      max-width: 1100px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+    }
+
+    .section-title--light {
+      color: var(--vb-off-white);
+    }
+
+    .section-title--light.section-title--gradient {
+      background: linear-gradient(135deg, var(--vb-hot-pink), var(--vb-fuchsia), var(--vb-lavender));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .motifs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+      margin-top: 3rem;
+    }
+
+    .motif-card {
+      background: rgba(30, 10, 46, 0.7);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(217, 70, 239, 0.15);
+      border-radius: 24px;
+      padding: 2.5rem 2rem;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.4s ease;
+    }
+
+    .motif-card::before {
+      content: '';
+      position: absolute;
+      top: -50px;
+      right: -50px;
+      width: 140px;
+      height: 140px;
+      background: radial-gradient(circle, rgba(217, 70, 239, 0.1), transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+      transition: all 0.4s ease;
+    }
+
+    .motif-card::after {
+      content: '';
+      position: absolute;
+      bottom: -40px;
+      left: -40px;
+      width: 110px;
+      height: 110px;
+      background: radial-gradient(circle, rgba(0, 163, 255, 0.07), transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .motif-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(217, 70, 239, 0.35);
+      box-shadow: 0 16px 50px rgba(217, 70, 239, 0.15);
+    }
+
+    .motif-card:hover::before {
+      transform: scale(1.5);
+      opacity: 0.8;
+    }
+
+    .motif-icon {
+      width: 56px;
+      height: 56px;
+      margin-bottom: 1.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      z-index: 2;
+    }
+
+    .motif-card h3 {
+      font-family: 'Quicksand', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--vb-soft-pink);
+      margin-bottom: 0.75rem;
+      position: relative;
+      z-index: 2;
+    }
+
+    .motif-card p {
+      font-family: 'Rubik', sans-serif;
+      font-size: 0.95rem;
+      line-height: 1.7;
+      color: var(--vb-mauve);
+      opacity: 0.85;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* ============================================================
+       SECTION: COLOR PALETTE
+       ============================================================ */
+    .section-palette {
+      position: relative;
+      padding: 100px 2rem;
+      background: linear-gradient(
+        180deg,
+        var(--vb-bg-pale) 0%,
+        #f0e0f8 50%,
+        var(--vb-bg-light) 100%
+      );
+      overflow: hidden;
+    }
+
+    .palette-container {
+      max-width: 1000px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+    }
+
+    .palette-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 16px;
+      margin-top: 3rem;
+    }
+
+    .palette-swatch {
+      aspect-ratio: 1;
+      border-radius: 20px;
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      transition: all 0.4s ease;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+    }
+
+    .palette-swatch:hover {
+      transform: translateY(-6px) scale(1.05);
+      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.15);
+      z-index: 5;
+    }
+
+    .palette-swatch .swatch-info {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 10px;
+      background: rgba(10, 10, 18, 0.7);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      transform: translateY(100%);
+      transition: transform 0.3s ease;
+    }
+
+    .palette-swatch:hover .swatch-info {
+      transform: translateY(0);
+    }
+
+    .swatch-info span {
+      display: block;
+      font-family: 'Rubik', sans-serif;
+      font-size: 0.7rem;
+      color: var(--vb-off-white);
+      letter-spacing: 0.02em;
+    }
+
+    .swatch-info .swatch-name {
+      font-weight: 600;
+      font-size: 0.75rem;
+    }
+
+    .swatch-info .swatch-hex {
+      font-weight: 400;
+      opacity: 0.7;
+      font-size: 0.65rem;
+      margin-top: 2px;
+    }
+
+    .palette-description {
+      text-align: center;
+      max-width: 680px;
+      margin: 2.5rem auto 0;
+      font-family: 'Rubik', sans-serif;
+      font-size: 1rem;
+      line-height: 1.8;
+      color: var(--vb-deep-purple);
+      opacity: 0.8;
+    }
+
+    .palette-gradient-bar {
+      margin-top: 3rem;
+      height: 8px;
+      border-radius: 4px;
+      background: linear-gradient(
+        90deg,
+        var(--vb-hot-pink),
+        var(--vb-magenta),
+        var(--vb-fuchsia),
+        var(--vb-deep-purple),
+        var(--vb-royal-purple),
+        var(--vb-lavender),
+        var(--vb-electric-blue),
+        var(--vb-sky-blue),
+        var(--vb-deep-teal),
+        var(--vb-emerald),
+        var(--vb-lime),
+        var(--vb-yellow),
+        var(--vb-orange),
+        var(--vb-coral)
+      );
+      box-shadow: 0 2px 20px rgba(217, 70, 239, 0.3);
+    }
+
+    /* ============================================================
+       SECTION: DESIGN PRINCIPLES
+       ============================================================ */
+    .section-principles {
+      position: relative;
+      padding: 100px 2rem;
+      background:
+        radial-gradient(circle at 30% 50%, rgba(217, 70, 239, 0.15) 0%, transparent 40%),
+        radial-gradient(circle at 70% 30%, rgba(0, 163, 255, 0.1) 0%, transparent 35%),
+        radial-gradient(circle at 50% 80%, rgba(255, 45, 138, 0.08) 0%, transparent 35%);
+      background-color: var(--vb-bg-deep);
+      overflow: hidden;
+    }
+
+    .principles-container {
+      max-width: 1000px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+    }
+
+    .principles-list {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0;
+      margin-top: 3rem;
+    }
+
+    .principle-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 2rem;
+      padding: 2.5rem 2rem;
+      position: relative;
+      border-bottom: 1px solid rgba(217, 70, 239, 0.1);
+      transition: all 0.3s ease;
+    }
+
+    .principle-item:last-child {
+      border-bottom: none;
+    }
+
+    .principle-item:hover {
+      background: rgba(217, 70, 239, 0.04);
+    }
+
+    .principle-number {
+      font-family: 'Comfortaa', sans-serif;
+      font-size: 2.5rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--vb-hot-pink), var(--vb-fuchsia));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1;
+      flex-shrink: 0;
+      width: 60px;
+    }
+
+    .principle-content h3 {
+      font-family: 'Quicksand', sans-serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--vb-soft-pink);
+      margin-bottom: 0.5rem;
+    }
+
+    .principle-content p {
+      font-family: 'Rubik', sans-serif;
+      font-size: 0.95rem;
+      line-height: 1.75;
+      color: var(--vb-mauve);
+      opacity: 0.85;
+    }
+
+    /* ============================================================
+       SECTION: TYPOGRAPHY SHOWCASE
+       ============================================================ */
+    .section-typography {
+      position: relative;
+      padding: 100px 2rem;
+      background-color: var(--vb-bg-pale);
+      background-image:
+        radial-gradient(ellipse at 20% 50%, rgba(217, 70, 239, 0.05) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 30%, rgba(0, 163, 255, 0.04) 0%, transparent 40%);
+      overflow: hidden;
+    }
+
+    .typography-container {
+      max-width: 900px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+    }
+
+    .type-showcase {
+      margin-top: 3rem;
+      display: flex;
+      flex-direction: column;
+      gap: 2.5rem;
+    }
+
+    .type-specimen {
+      background: var(--vb-white);
+      border-radius: 24px;
+      padding: 2.5rem;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 8px 30px rgba(123, 45, 142, 0.08);
+      border: 1px solid rgba(217, 70, 239, 0.08);
+    }
+
+    .type-specimen::before {
+      content: '';
+      position: absolute;
+      top: -40px;
+      right: -40px;
+      width: 120px;
+      height: 120px;
+      background: radial-gradient(circle, rgba(217, 70, 239, 0.08), transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .type-specimen-label {
+      font-family: 'Rubik', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--vb-magenta);
+      margin-bottom: 0.75rem;
+    }
+
+    .type-comfortaa {
+      font-family: 'Comfortaa', sans-serif;
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--vb-hot-pink), var(--vb-fuchsia), var(--vb-electric-blue));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1.2;
+    }
+
+    .type-quicksand {
+      font-family: 'Quicksand', sans-serif;
+      font-size: clamp(1.5rem, 3.5vw, 2.2rem);
+      font-weight: 700;
+      color: var(--vb-deep-purple);
+      line-height: 1.3;
+    }
+
+    .type-pacifico {
+      font-family: 'Pacifico', cursive;
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      color: var(--vb-magenta);
+      line-height: 1.3;
+    }
+
+    .type-rubik {
+      font-family: 'Rubik', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 400;
+      color: var(--vb-deep-purple);
+      line-height: 1.85;
+      opacity: 0.85;
+    }
+
+    .type-dancing {
+      font-family: 'Dancing Script', cursive;
+      font-size: clamp(1.5rem, 3vw, 2rem);
+      color: var(--vb-fuchsia);
+      line-height: 1.4;
+    }
+
+    .type-fredoka {
+      font-family: 'Fredoka', sans-serif;
+      font-size: clamp(1.5rem, 3.5vw, 2.4rem);
+      font-weight: 600;
+      color: var(--vb-deep-teal);
+      line-height: 1.3;
+    }
+
+    .type-meta {
+      font-family: 'Rubik', sans-serif;
+      font-size: 0.8rem;
+      color: var(--vb-lavender);
+      margin-top: 0.5rem;
+      font-style: italic;
+    }
+
+    /* ============================================================
+       SECTION: PRACTITIONERS & INFLUENCES
+       ============================================================ */
+    .section-influences {
+      position: relative;
+      padding: 100px 2rem;
+      background:
+        radial-gradient(circle at 50% 50%, rgba(217, 70, 239, 0.2) 0%, transparent 40%),
+        radial-gradient(circle at 20% 80%, rgba(255, 45, 138, 0.15) 0%, transparent 35%),
+        radial-gradient(circle at 80% 20%, rgba(0, 163, 255, 0.12) 0%, transparent 35%);
+      background-color: var(--vb-bg-dark);
+      overflow: hidden;
+    }
+
+    .influences-container {
+      max-width: 1000px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+    }
+
+    .influences-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+      margin-top: 3rem;
+    }
+
+    .influence-card {
+      background: rgba(30, 10, 46, 0.6);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(217, 70, 239, 0.12);
+      border-radius: 24px;
+      padding: 2rem;
+      transition: all 0.4s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .influence-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 24px;
+      background: linear-gradient(135deg, rgba(255, 45, 138, 0.05), transparent, rgba(0, 163, 255, 0.05));
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+
+    .influence-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(217, 70, 239, 0.3);
+      box-shadow: 0 12px 40px rgba(217, 70, 239, 0.12);
+    }
+
+    .influence-card:hover::before {
+      opacity: 1;
+    }
+
+    .influence-card h3 {
+      font-family: 'Quicksand', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--vb-soft-pink);
+      margin-bottom: 0.5rem;
+      position: relative;
+      z-index: 2;
+    }
+
+    .influence-card .influence-type {
+      font-family: 'Rubik', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--vb-fuchsia);
+      margin-bottom: 0.75rem;
+      position: relative;
+      z-index: 2;
+    }
+
+    .influence-card p {
+      font-family: 'Rubik', sans-serif;
+      font-size: 0.9rem;
+      line-height: 1.7;
+      color: var(--vb-mauve);
+      opacity: 0.85;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* ============================================================
+       SECTION: RELATED AESTHETICS
+       ============================================================ */
+    .section-related {
+      position: relative;
+      padding: 100px 2rem;
+      background-color: var(--vb-bg-light);
+      background-image:
+        radial-gradient(ellipse at 30% 40%, rgba(217, 70, 239, 0.06) 0%, transparent 50%),
+        radial-gradient(ellipse at 70% 60%, rgba(255, 45, 138, 0.05) 0%, transparent 50%);
+      overflow: hidden;
+    }
+
+    .section-related::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 80'%3E%3Cpath d='M40,0 C45,20 60,25 40,40 C20,25 35,20 40,0Z' fill='%23d946ef' opacity='0.03'/%3E%3Cpath d='M0,40 C20,35 25,20 40,40 C25,60 20,45 0,40Z' fill='%23e91e8c' opacity='0.02'/%3E%3C/svg%3E");
+      background-size: 80px 80px;
+      pointer-events: none;
+    }
+
+    .related-container {
+      max-width: 1000px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+    }
+
+    .related-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+      margin-top: 3rem;
+    }
+
+    .related-card {
+      background: var(--vb-white);
+      border-radius: 20px;
+      padding: 2rem;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 6px 24px rgba(123, 45, 142, 0.08);
+      border: 1px solid rgba(217, 70, 239, 0.08);
+      transition: all 0.35s ease;
+    }
+
+    .related-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--vb-hot-pink), var(--vb-fuchsia), var(--vb-electric-blue));
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .related-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(233, 30, 140, 0.12);
+    }
+
+    .related-card:hover::before {
+      opacity: 1;
+    }
+
+    .related-card h3 {
+      font-family: 'Quicksand', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--vb-deep-purple);
+      margin-bottom: 0.5rem;
+    }
+
+    .related-card p {
+      font-family: 'Rubik', sans-serif;
+      font-size: 0.85rem;
+      line-height: 1.65;
+      color: var(--vb-deep-purple);
+      opacity: 0.75;
+    }
+
+    /* ============================================================
+       SECTION: VIDEO GAMES
+       ============================================================ */
+    .section-games {
+      position: relative;
+      padding: 80px 2rem;
+      background:
+        radial-gradient(circle at 40% 50%, rgba(132, 204, 22, 0.06) 0%, transparent 40%),
+        radial-gradient(circle at 60% 30%, rgba(217, 70, 239, 0.08) 0%, transparent 35%);
+      background-color: var(--vb-bg-deep);
+      overflow: hidden;
+    }
+
+    .games-container {
+      max-width: 900px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+    }
+
+    .games-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      justify-content: center;
+      margin-top: 2.5rem;
+    }
+
+    .game-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 24px;
+      background: rgba(30, 10, 46, 0.6);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(217, 70, 239, 0.15);
+      border-radius: 50px;
+      font-family: 'Quicksand', sans-serif;
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: var(--vb-soft-pink);
+      transition: all 0.3s ease;
+    }
+
+    .game-tag:hover {
+      background: linear-gradient(135deg, rgba(233, 30, 140, 0.2), rgba(217, 70, 239, 0.2));
+      border-color: rgba(217, 70, 239, 0.4);
+      transform: translateY(-2px);
+    }
+
+    .game-tag .game-year {
+      font-family: 'Rubik', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 400;
+      color: var(--vb-lavender);
+      opacity: 0.7;
+    }
+
+    /* ============================================================
+       SECTION: MATERIALS (CSS TECHNIQUES)
+       ============================================================ */
+    .section-techniques {
+      position: relative;
+      padding: 100px 2rem;
+      background: linear-gradient(
+        180deg,
+        var(--vb-bg-light) 0%,
+        #f0d0f0 50%,
+        var(--vb-bg-pale) 100%
+      );
+      overflow: hidden;
+    }
+
+    .techniques-container {
+      max-width: 1000px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+    }
+
+    .techniques-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+      margin-top: 3rem;
+    }
+
+    .technique-card {
+      position: relative;
+      border-radius: 20px;
+      overflow: hidden;
+    }
+
+    .technique-card-inner {
+      background: var(--vb-white);
+      border-radius: 20px;
+      padding: 2rem;
+      position: relative;
+      z-index: 2;
+      box-shadow: 0 6px 24px rgba(123, 45, 142, 0.08);
+      transition: all 0.35s ease;
+      border: 1px solid rgba(217, 70, 239, 0.06);
+    }
+
+    .technique-card:hover .technique-card-inner {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 40px rgba(233, 30, 140, 0.12);
+    }
+
+    .technique-card .technique-physical {
+      font-family: 'Rubik', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--vb-magenta);
+      margin-bottom: 0.5rem;
+    }
+
+    .technique-card h3 {
+      font-family: 'Quicksand', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--vb-deep-purple);
+      margin-bottom: 0.5rem;
+    }
+
+    .technique-card p {
+      font-family: 'Rubik', sans-serif;
+      font-size: 0.85rem;
+      line-height: 1.65;
+      color: var(--vb-deep-purple);
+      opacity: 0.75;
+    }
+
+    /* ============================================================
+       FOOTER
+       ============================================================ */
+    .vb-footer {
+      position: relative;
+      padding: 80px 2rem 40px;
+      text-align: center;
+      background: linear-gradient(
+        135deg,
+        var(--vb-bg-deep) 0%,
+        #1a0830 50%,
+        var(--vb-bg-deep) 100%
+      );
+      overflow: hidden;
+    }
+
+    .vb-footer::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 50% 50%, rgba(217, 70, 239, 0.08) 0%, transparent 50%);
+      pointer-events: none;
+    }
+
+    .footer-content {
+      position: relative;
+      z-index: 2;
+    }
+
+    .footer-title {
+      font-family: 'Comfortaa', sans-serif;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--vb-hot-pink), var(--vb-fuchsia), var(--vb-lavender));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 1rem;
+    }
+
+    .footer-script {
+      font-family: 'Pacifico', cursive;
+      font-size: 1.3rem;
+      color: var(--vb-magenta);
+      margin-bottom: 2rem;
+    }
+
+    .footer-description {
+      font-family: 'Rubik', sans-serif;
+      font-size: 0.95rem;
+      line-height: 1.7;
+      color: var(--vb-mauve);
+      max-width: 500px;
+      margin: 0 auto 2rem;
+      opacity: 0.75;
+    }
+
+    .footer-line {
+      height: 2px;
+      width: 40%;
+      max-width: 200px;
+      margin: 2rem auto;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        var(--vb-hot-pink) 20%,
+        var(--vb-fuchsia) 50%,
+        var(--vb-electric-blue) 80%,
+        transparent
+      );
+      border-radius: 2px;
+    }
+
+    .footer-note {
+      font-family: 'Rubik', sans-serif;
+      font-size: 0.75rem;
+      color: var(--vb-mauve);
+      opacity: 0.4;
+      letter-spacing: 0.04em;
+    }
+
+    /* ============================================================
+       INTERACTIVE CANVAS (floating petals)
+       ============================================================ */
+    .floating-petals {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 9999;
+      overflow: hidden;
+    }
+
+    .petal {
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .petal svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    /* ============================================================
+       SCROLL REVEAL
+       ============================================================ */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+    .reveal-delay-5 { transition-delay: 0.5s; }
+    .reveal-delay-6 { transition-delay: 0.6s; }
+
+    /* ============================================================
+       RESPONSIVE DESIGN
+       ============================================================ */
+    @media (max-width: 768px) {
+      .vb-nav {
+        padding: 14px 20px;
+      }
+
+      .vb-nav-links {
+        display: none;
+      }
+
+      .vb-nav-links.active {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: rgba(15, 5, 32, 0.95);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        padding: 20px;
+        gap: 16px;
+        border-bottom: 1px solid rgba(217, 70, 239, 0.15);
+      }
+
+      .nav-mobile-toggle {
+        display: flex;
+      }
+
+      .hero {
+        padding: 100px 1.5rem 60px;
+        min-height: auto;
+      }
+
+      .hero-ornament { display: none; }
+
+      .motifs-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .palette-grid {
+        grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+        gap: 10px;
+      }
+
+      .principle-item {
+        flex-direction: column;
+        gap: 0.75rem;
+        padding: 2rem 1rem;
+      }
+
+      .principle-number {
+        width: auto;
+        font-size: 2rem;
+      }
+
+      .influences-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .related-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .techniques-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .type-specimen {
+        padding: 1.5rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .related-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .about-keywords {
+        gap: 8px;
+      }
+
+      .about-keyword {
+        font-size: 0.75rem;
+        padding: 6px 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================================
+       FLOATING PETALS LAYER
+       ============================================================ -->
+  <div class="floating-petals" id="petals-container" aria-hidden="true"></div>
+
+  <!-- ============================================================
+       NAVIGATION
+       ============================================================ -->
+  <header class="vb-nav-wrapper">
+    <nav class="vb-nav">
+      <a href="#" class="vb-nav-logo">Vectorbloom</a>
+      <ul class="vb-nav-links" id="navLinks">
+        <li><a href="#about">About</a></li>
+        <li><a href="#visuals">Visuals</a></li>
+        <li><a href="#palette">Palette</a></li>
+        <li><a href="#principles">Principles</a></li>
+        <li><a href="#typography">Type</a></li>
+        <li><a href="#influences">Influences</a></li>
+      </ul>
+      <div class="nav-mobile-toggle" id="navToggle" aria-label="Toggle navigation">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </nav>
+  </header>
+
+  <!-- ============================================================
+       HERO
+       ============================================================ -->
+  <section class="hero" id="hero">
+    <!-- Kaleidoscopic rings -->
+    <div class="hero-kaleidoscope" aria-hidden="true">
+      <div class="ring"></div>
+      <div class="ring"></div>
+      <div class="ring"></div>
+      <div class="ring"></div>
+    </div>
+
+    <!-- Radial bloom orbs -->
+    <div class="hero-bloom" aria-hidden="true"></div>
+    <div class="hero-bloom" aria-hidden="true"></div>
+    <div class="hero-bloom" aria-hidden="true"></div>
+    <div class="hero-bloom" aria-hidden="true"></div>
+
+    <!-- Floral vine ornaments -->
+    <div class="hero-ornament hero-ornament--left" aria-hidden="true">
+      <svg viewBox="0 0 280 600" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M140,600 C140,600 60,500 80,400 C100,300 200,350 180,250 C160,150 60,180 80,80 C100,-20 140,0 140,0"
+              stroke="url(#vine-grad-l)" stroke-width="1.5" fill="none" stroke-dasharray="8 6"
+              style="animation: vineGrow 4s ease forwards, glowPulse 4s ease-in-out infinite 4s;" stroke-dashoffset="1000"/>
+        <!-- Blooming flowers along the vine -->
+        <circle cx="80" cy="400" r="20" fill="none" stroke="#d946ef" stroke-width="0.8" opacity="0.3"/>
+        <circle cx="80" cy="400" r="12" fill="none" stroke="#ff2d8a" stroke-width="0.6" opacity="0.4"/>
+        <circle cx="80" cy="400" r="5" fill="#d946ef" opacity="0.25"/>
+        <circle cx="180" cy="250" r="18" fill="none" stroke="#00a3ff" stroke-width="0.8" opacity="0.3"/>
+        <circle cx="180" cy="250" r="10" fill="none" stroke="#d946ef" stroke-width="0.6" opacity="0.4"/>
+        <circle cx="180" cy="250" r="4" fill="#00a3ff" opacity="0.25"/>
+        <circle cx="80" cy="80" r="16" fill="none" stroke="#e91e8c" stroke-width="0.8" opacity="0.3"/>
+        <circle cx="80" cy="80" r="8" fill="none" stroke="#ff2d8a" stroke-width="0.6" opacity="0.4"/>
+        <circle cx="80" cy="80" r="3" fill="#e91e8c" opacity="0.3"/>
+        <!-- Petal shapes -->
+        <path d="M65,400 Q75,380 80,390 Q85,380 95,400 Q85,420 80,410 Q75,420 65,400Z" fill="#d946ef" opacity="0.12"/>
+        <path d="M165,250 Q175,230 180,240 Q185,230 195,250 Q185,270 180,260 Q175,270 165,250Z" fill="#00a3ff" opacity="0.1"/>
+        <!-- Curling tendrils -->
+        <path d="M80,350 C60,340 40,360 50,380" stroke="#d946ef" stroke-width="0.6" fill="none" opacity="0.2"/>
+        <path d="M180,200 C200,190 220,210 210,230" stroke="#00a3ff" stroke-width="0.6" fill="none" opacity="0.2"/>
+        <path d="M80,130 C60,120 40,140 50,160" stroke="#e91e8c" stroke-width="0.6" fill="none" opacity="0.2"/>
+        <defs>
+          <linearGradient id="vine-grad-l" x1="0" y1="1" x2="0" y2="0">
+            <stop offset="0%" stop-color="#d946ef"/>
+            <stop offset="50%" stop-color="#e91e8c"/>
+            <stop offset="100%" stop-color="#00a3ff"/>
+          </linearGradient>
+        </defs>
+      </svg>
+    </div>
+
+    <div class="hero-ornament hero-ornament--right" aria-hidden="true">
+      <svg viewBox="0 0 280 600" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M140,600 C140,600 60,500 80,400 C100,300 200,350 180,250 C160,150 60,180 80,80 C100,-20 140,0 140,0"
+              stroke="url(#vine-grad-r)" stroke-width="1.5" fill="none" stroke-dasharray="8 6"
+              style="animation: vineGrow 4s ease forwards 0.5s, glowPulse 4s ease-in-out infinite 4.5s;" stroke-dashoffset="1000"/>
+        <circle cx="80" cy="400" r="20" fill="none" stroke="#e91e8c" stroke-width="0.8" opacity="0.3"/>
+        <circle cx="80" cy="400" r="12" fill="none" stroke="#d946ef" stroke-width="0.6" opacity="0.4"/>
+        <circle cx="80" cy="400" r="5" fill="#e91e8c" opacity="0.25"/>
+        <circle cx="180" cy="250" r="18" fill="none" stroke="#d946ef" stroke-width="0.8" opacity="0.3"/>
+        <circle cx="180" cy="250" r="10" fill="none" stroke="#00a3ff" stroke-width="0.6" opacity="0.4"/>
+        <circle cx="180" cy="250" r="4" fill="#d946ef" opacity="0.25"/>
+        <circle cx="80" cy="80" r="16" fill="none" stroke="#00a3ff" stroke-width="0.8" opacity="0.3"/>
+        <circle cx="80" cy="80" r="8" fill="none" stroke="#d946ef" stroke-width="0.6" opacity="0.4"/>
+        <circle cx="80" cy="80" r="3" fill="#00a3ff" opacity="0.3"/>
+        <path d="M65,400 Q75,380 80,390 Q85,380 95,400 Q85,420 80,410 Q75,420 65,400Z" fill="#e91e8c" opacity="0.12"/>
+        <path d="M165,250 Q175,230 180,240 Q185,230 195,250 Q185,270 180,260 Q175,270 165,250Z" fill="#d946ef" opacity="0.1"/>
+        <path d="M80,350 C60,340 40,360 50,380" stroke="#e91e8c" stroke-width="0.6" fill="none" opacity="0.2"/>
+        <path d="M180,200 C200,190 220,210 210,230" stroke="#d946ef" stroke-width="0.6" fill="none" opacity="0.2"/>
+        <defs>
+          <linearGradient id="vine-grad-r" x1="0" y1="1" x2="0" y2="0">
+            <stop offset="0%" stop-color="#e91e8c"/>
+            <stop offset="50%" stop-color="#d946ef"/>
+            <stop offset="100%" stop-color="#00a3ff"/>
+          </linearGradient>
+        </defs>
+      </svg>
+    </div>
+
+    <!-- Hero Content -->
+    <div class="hero-content">
+      <div class="hero-label">A Digitally-Driven Decorative Aesthetic</div>
+      <h1 class="hero-title">Vectorbloom</h1>
+      <p class="hero-script">where vectors meet nature</p>
+      <p class="hero-description">
+        Maximalist floral ornament, psychedelic color, and digitally precise vector compositions
+        celebrating technological opulence, visual density, and botanical fantasy --
+        born from early-2000s vector graphic tools and their capacity for intricate image manipulation.
+      </p>
+      <div class="hero-cta">
+        <a href="#visuals" class="vb-button">Explore the Bloom</a>
+        <a href="#palette" class="vb-button vb-button--outline">View Palette</a>
+      </div>
+    </div>
+
+    <!-- Hero bottom SVG divider -->
+    <div style="position: absolute; bottom: -2px; left: 0; right: 0; z-index: 5;" aria-hidden="true">
+      <svg viewBox="0 0 1440 80" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" style="width:100%;height:80px;display:block;">
+        <path d="M0,80 C240,30 480,60 720,40 C960,20 1200,55 1440,30 L1440,80 Z" fill="#fdf2f8"/>
+      </svg>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       ABOUT SECTION
+       ============================================================ -->
+  <section class="section-about" id="about">
+    <div class="about-container">
+      <span class="section-label reveal">The Aesthetic</span>
+      <h2 class="section-title section-title--gradient reveal reveal-delay-1">Digital Botanical Fantasy</h2>
+      <div class="vb-gradient-line reveal reveal-delay-2"></div>
+      <p class="about-text reveal reveal-delay-2">
+        Vectorbloom is a digitally-driven decorative aesthetic from the <strong>early 2000s through the early 2010s</strong>,
+        born from the era's fascination with vector graphic tools and their capacity for intricate image manipulation.
+        It applies <strong>maximalist floral and organic patterns</strong>, <strong>psychedelic color</strong>, and
+        <strong>digitally precise vector ornament</strong> to flat surfaces -- walls, ceilings, furniture, packaging, and screens.
+      </p>
+      <p class="about-text reveal reveal-delay-3">
+        Drawing from <strong>1960s Psychedelia</strong>, <strong>1970s Supergraphic Ultramodern</strong> muralism,
+        and <strong>Art Nouveau's organic curves</strong>, Vectorbloom translates these influences into a distinctly digital idiom:
+        complex, layered, and seamlessly repeating compositions of flourishes, hybrid creatures, and blooming floral forms
+        rendered with the precision only vector tools can achieve.
+      </p>
+      <div class="about-keywords reveal reveal-delay-4">
+        <span class="about-keyword">Technological Opulence</span>
+        <span class="about-keyword">Visual Density</span>
+        <span class="about-keyword">Psychedelic Fantasy</span>
+        <span class="about-keyword">Digital Precision</span>
+        <span class="about-keyword">Maximalist Ornament</span>
+        <span class="about-keyword">Organic Forms</span>
+        <span class="about-keyword">Botanical Motifs</span>
+        <span class="about-keyword">Vector Flourishes</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       VISUAL CHARACTERISTICS
+       ============================================================ -->
+  <section class="section-visuals" id="visuals">
+    <div class="visuals-container">
+      <span class="section-label reveal" style="color: var(--vb-soft-pink);">Core Motifs & Patterns</span>
+      <h2 class="section-title section-title--light section-title--gradient reveal reveal-delay-1">Visual Characteristics</h2>
+      <div class="vb-gradient-line reveal reveal-delay-2"></div>
+
+      <div class="motifs-grid">
+        <!-- Card 1: Blooming Floral Forms -->
+        <div class="motif-card reveal reveal-delay-1">
+          <div class="motif-icon">
+            <svg width="56" height="56" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="28" cy="28" r="6" fill="#d946ef" opacity="0.8"/>
+              <path d="M28,8 Q34,18 28,22 Q22,18 28,8Z" fill="#ff2d8a" opacity="0.6"/>
+              <path d="M28,48 Q34,38 28,34 Q22,38 28,48Z" fill="#ff2d8a" opacity="0.6"/>
+              <path d="M8,28 Q18,22 22,28 Q18,34 8,28Z" fill="#e91e8c" opacity="0.6"/>
+              <path d="M48,28 Q38,22 34,28 Q38,34 48,28Z" fill="#e91e8c" opacity="0.6"/>
+              <path d="M14,14 Q22,18 22,24 Q18,22 14,14Z" fill="#d946ef" opacity="0.4"/>
+              <path d="M42,14 Q34,18 34,24 Q38,22 42,14Z" fill="#d946ef" opacity="0.4"/>
+              <path d="M14,42 Q22,38 22,32 Q18,34 14,42Z" fill="#d946ef" opacity="0.4"/>
+              <path d="M42,42 Q34,38 34,32 Q38,34 42,42Z" fill="#d946ef" opacity="0.4"/>
+            </svg>
+          </div>
+          <h3>Blooming Floral Forms</h3>
+          <p>Elaborate, digitally rendered flowers, petals, and botanical elements that appear to unfurl and expand across surfaces in perpetual bloom.</p>
+        </div>
+
+        <!-- Card 2: Flourishes & Scrollwork -->
+        <div class="motif-card reveal reveal-delay-2">
+          <div class="motif-icon">
+            <svg width="56" height="56" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M8,28 C8,16 20,8 28,20 C36,8 48,16 48,28 C48,40 36,48 28,36 C20,48 8,40 8,28Z" stroke="#e91e8c" stroke-width="1.5" fill="none" opacity="0.7"/>
+              <path d="M16,28 C16,22 22,16 28,24 C34,16 40,22 40,28 C40,34 34,40 28,32 C22,40 16,34 16,28Z" stroke="#d946ef" stroke-width="1" fill="none" opacity="0.5"/>
+              <circle cx="28" cy="28" r="3" fill="#ff2d8a" opacity="0.6"/>
+            </svg>
+          </div>
+          <h3>Flourishes & Scrollwork</h3>
+          <p>Sinuous vector curves, tendrils, and ornamental swirls inspired by Art Nouveau's distinctive whiplash lines, rendered with digital crispness.</p>
+        </div>
+
+        <!-- Card 3: Hybrid Creatures -->
+        <div class="motif-card reveal reveal-delay-3">
+          <div class="motif-icon">
+            <svg width="56" height="56" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M28,8 C38,8 46,16 46,28 C46,36 40,42 34,44 C30,46 26,46 22,44 C16,42 10,36 10,28 C10,16 18,8 28,8Z" stroke="#00a3ff" stroke-width="1.2" fill="none" opacity="0.6"/>
+              <path d="M18,24 Q24,16 28,24 Q32,16 38,24" stroke="#d946ef" stroke-width="1" fill="none" opacity="0.5"/>
+              <path d="M20,32 C24,38 32,38 36,32" stroke="#e91e8c" stroke-width="1" fill="none" opacity="0.5"/>
+              <circle cx="22" cy="24" r="2.5" fill="#d946ef" opacity="0.5"/>
+              <circle cx="34" cy="24" r="2.5" fill="#00a3ff" opacity="0.5"/>
+              <path d="M14,20 C10,16 12,10 18,12" stroke="#d946ef" stroke-width="0.8" fill="none" opacity="0.4"/>
+              <path d="M42,20 C46,16 44,10 38,12" stroke="#00a3ff" stroke-width="0.8" fill="none" opacity="0.4"/>
+            </svg>
+          </div>
+          <h3>Hybrid Creatures</h3>
+          <p>Abstract aquatic or fantastical organisms composed of organic and geometric elements, blending natural and digital forms into new life.</p>
+        </div>
+
+        <!-- Card 4: Multi-layered Imagery -->
+        <div class="motif-card reveal reveal-delay-4">
+          <div class="motif-icon">
+            <svg width="56" height="56" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="8" y="14" width="32" height="24" rx="4" stroke="#d946ef" stroke-width="1" fill="none" opacity="0.3"/>
+              <rect x="12" y="10" width="32" height="24" rx="4" stroke="#e91e8c" stroke-width="1" fill="none" opacity="0.4"/>
+              <rect x="16" y="18" width="32" height="24" rx="4" stroke="#00a3ff" stroke-width="1" fill="none" opacity="0.5"/>
+              <circle cx="32" cy="28" r="8" fill="none" stroke="#ff2d8a" stroke-width="1" opacity="0.4"/>
+              <circle cx="28" cy="30" r="6" fill="#d946ef" opacity="0.15"/>
+            </svg>
+          </div>
+          <h3>Multi-layered Imagery</h3>
+          <p>Dense, stacked compositions where elements overlap, interweave, and flow into one another -- creating rich visual depth on flat surfaces.</p>
+        </div>
+
+        <!-- Card 5: Kaleidoscopic Symmetry -->
+        <div class="motif-card reveal reveal-delay-5">
+          <div class="motif-icon">
+            <svg width="56" height="56" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="28" cy="28" r="22" stroke="#d946ef" stroke-width="0.6" fill="none" opacity="0.3"/>
+              <circle cx="28" cy="28" r="15" stroke="#e91e8c" stroke-width="0.8" fill="none" opacity="0.4"/>
+              <circle cx="28" cy="28" r="8" stroke="#ff2d8a" stroke-width="1" fill="none" opacity="0.5"/>
+              <line x1="28" y1="6" x2="28" y2="50" stroke="#d946ef" stroke-width="0.5" opacity="0.25"/>
+              <line x1="6" y1="28" x2="50" y2="28" stroke="#d946ef" stroke-width="0.5" opacity="0.25"/>
+              <line x1="12" y1="12" x2="44" y2="44" stroke="#e91e8c" stroke-width="0.5" opacity="0.2"/>
+              <line x1="44" y1="12" x2="12" y2="44" stroke="#e91e8c" stroke-width="0.5" opacity="0.2"/>
+              <circle cx="28" cy="28" r="3" fill="#ff2d8a" opacity="0.6"/>
+            </svg>
+          </div>
+          <h3>Symmetry & Mirroring</h3>
+          <p>Kaleidoscopic arrangements where motifs mirror and rotate to create complex radial or bilateral compositions of mesmerizing precision.</p>
+        </div>
+
+        <!-- Card 6: Vector Precision -->
+        <div class="motif-card reveal reveal-delay-6">
+          <div class="motif-icon">
+            <svg width="56" height="56" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M8,40 C8,40 18,12 28,28 C38,44 48,16 48,16" stroke="#e91e8c" stroke-width="1.5" fill="none" opacity="0.7"/>
+              <circle cx="8" cy="40" r="3" fill="#d946ef" opacity="0.5"/>
+              <circle cx="28" cy="28" r="3" fill="#ff2d8a" opacity="0.5"/>
+              <circle cx="48" cy="16" r="3" fill="#00a3ff" opacity="0.5"/>
+              <line x1="8" y1="40" x2="18" y2="12" stroke="#d946ef" stroke-width="0.5" stroke-dasharray="3 3" opacity="0.3"/>
+              <line x1="38" y1="44" x2="48" y2="16" stroke="#00a3ff" stroke-width="0.5" stroke-dasharray="3 3" opacity="0.3"/>
+              <circle cx="18" cy="12" r="2" fill="none" stroke="#d946ef" stroke-width="0.6" opacity="0.4"/>
+              <circle cx="38" cy="44" r="2" fill="none" stroke="#00a3ff" stroke-width="0.6" opacity="0.4"/>
+            </svg>
+          </div>
+          <h3>Vector-Precise Linework</h3>
+          <p>Clean, sharp Bezier curves with no hand-drawn imperfection -- the digital tool is embraced as part of the aesthetic identity itself.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       COLOR PALETTE
+       ============================================================ -->
+  <section class="section-palette" id="palette">
+    <div class="palette-container">
+      <span class="section-label reveal">Vivid & Saturated</span>
+      <h2 class="section-title section-title--gradient reveal reveal-delay-1">Color Palette</h2>
+      <div class="vb-gradient-line reveal reveal-delay-2"></div>
+
+      <div class="palette-grid reveal reveal-delay-3">
+        <div class="palette-swatch" style="background: linear-gradient(135deg, #ff2d8a, #e91e8c);">
+          <div class="swatch-info"><span class="swatch-name">Hot Pink</span><span class="swatch-hex">#FF2D8A</span></div>
+        </div>
+        <div class="palette-swatch" style="background: linear-gradient(135deg, #e91e8c, #d946ef);">
+          <div class="swatch-info"><span class="swatch-name">Magenta</span><span class="swatch-hex">#E91E8C</span></div>
+        </div>
+        <div class="palette-swatch" style="background: linear-gradient(135deg, #d946ef, #c084fc);">
+          <div class="swatch-info"><span class="swatch-name">Fuchsia</span><span class="swatch-hex">#D946EF</span></div>
+        </div>
+        <div class="palette-swatch" style="background: linear-gradient(135deg, #7b2d8e, #6b21a8);">
+          <div class="swatch-info"><span class="swatch-name">Deep Purple</span><span class="swatch-hex">#7B2D8E</span></div>
+        </div>
+        <div class="palette-swatch" style="background: linear-gradient(135deg, #c084fc, #dda0dd);">
+          <div class="swatch-info"><span class="swatch-name">Lavender</span><span class="swatch-hex">#C084FC</span></div>
+        </div>
+        <div class="palette-swatch" style="background: linear-gradient(135deg, #00a3ff, #38bdf8);">
+          <div class="swatch-info"><span class="swatch-name">Electric Blue</span><span class="swatch-hex">#00A3FF</span></div>
+        </div>
+        <div class="palette-swatch" style="background: linear-gradient(135deg, #0d9488, #0e7490);">
+          <div class="swatch-info"><span class="swatch-name">Deep Teal</span><span class="swatch-hex">#0D9488</span></div>
+        </div>
+        <div class="palette-swatch" style="background: linear-gradient(135deg, #10b981, #22c55e);">
+          <div class="swatch-info"><span class="swatch-name">Emerald</span><span class="swatch-hex">#10B981</span></div>
+        </div>
+        <div class="palette-swatch" style="background: linear-gradient(135deg, #84cc16, #a3e635);">
+          <div class="swatch-info"><span class="swatch-name">Lime</span><span class="swatch-hex">#84CC16</span></div>
+        </div>
+        <div class="palette-swatch" style="background: linear-gradient(135deg, #facc15, #f59e0b);">
+          <div class="swatch-info"><span class="swatch-name">Warm Yellow</span><span class="swatch-hex">#FACC15</span></div>
+        </div>
+        <div class="palette-swatch" style="background: linear-gradient(135deg, #f97316, #ef4444);">
+          <div class="swatch-info"><span class="swatch-name">Coral Red</span><span class="swatch-hex">#EF4444</span></div>
+        </div>
+        <div class="palette-swatch" style="background: linear-gradient(135deg, #1e0a2e, #0f0520);">
+          <div class="swatch-info"><span class="swatch-name">Deep Plum</span><span class="swatch-hex">#1E0A2E</span></div>
+        </div>
+      </div>
+
+      <div class="palette-gradient-bar reveal reveal-delay-4"></div>
+
+      <p class="palette-description reveal reveal-delay-4">
+        The <strong style="color:var(--vb-magenta);">pink-purple-blue axis</strong> dominates the Vectorbloom color story.
+        Colors are applied in <strong style="color:var(--vb-deep-purple);">bold gradients</strong> and flat fills, never muted or earthy.
+        Dramatic gradients within shapes -- hot pink flowing to purple to electric blue within a single form --
+        are a defining characteristic. Black provides contrast; greens and yellows serve as vivid accents.
+      </p>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       DESIGN PRINCIPLES
+       ============================================================ -->
+  <section class="section-principles" id="principles">
+    <div class="principles-container">
+      <span class="section-label reveal" style="color: var(--vb-soft-pink);">Guiding Philosophy</span>
+      <h2 class="section-title section-title--light section-title--gradient reveal reveal-delay-1">Design Principles</h2>
+      <div class="vb-gradient-line reveal reveal-delay-2"></div>
+
+      <div class="principles-list">
+        <div class="principle-item reveal reveal-delay-1">
+          <div class="principle-number">01</div>
+          <div class="principle-content">
+            <h3>Maximalism</h3>
+            <p>More is more. Every surface is an opportunity for intricate visual density. Embrace the ornate, the layered, the complex -- fill negative space with decorative filigree and blooming detail.</p>
+          </div>
+        </div>
+        <div class="principle-item reveal reveal-delay-2">
+          <div class="principle-number">02</div>
+          <div class="principle-content">
+            <h3>Flat Surface Application</h3>
+            <p>Designs are applied to flat planes -- walls, screens, furniture panels -- rather than sculpted in 3D. Occasional pseudo-3D effects add subtle depth, but the canvas remains fundamentally two-dimensional.</p>
+          </div>
+        </div>
+        <div class="principle-item reveal reveal-delay-3">
+          <div class="principle-number">03</div>
+          <div class="principle-content">
+            <h3>Dramatic Gradients on Flat Fills</h3>
+            <p>While fundamentally flat, colors transition through bold gradients within shapes, creating luminous, glowing effects that make forms appear to radiate light from within.</p>
+          </div>
+        </div>
+        <div class="principle-item reveal reveal-delay-4">
+          <div class="principle-number">04</div>
+          <div class="principle-content">
+            <h3>Digital Precision</h3>
+            <p>The cleanness and mathematical perfection of vector software is embraced, not hidden. Every curve is a precise Bezier, every line is crisp, every shape is flawless -- the tool is the medium.</p>
+          </div>
+        </div>
+        <div class="principle-item reveal reveal-delay-5">
+          <div class="principle-number">05</div>
+          <div class="principle-content">
+            <h3>Environmental Immersion</h3>
+            <p>Patterns are designed to envelop and transform entire spaces, not merely decorate isolated objects. A single graphic image can function as wall-to-ceiling lining, morphing seamlessly across surfaces.</p>
+          </div>
+        </div>
+        <div class="principle-item reveal reveal-delay-6">
+          <div class="principle-number">06</div>
+          <div class="principle-content">
+            <h3>Organic Forms Through Digital Means</h3>
+            <p>Natural, botanical, and biological shapes rendered with technological precision create the distinctive Vectorbloom tension -- nature's irregularity captured in the computer's perfect geometry.</p>
+          </div>
+        </div>
+        <div class="principle-item reveal">
+          <div class="principle-number">07</div>
+          <div class="principle-content">
+            <h3>Color as Atmosphere</h3>
+            <p>Saturated, vivid palettes create psychedelic mood and emotional intensity. Color is not decoration -- it is the atmosphere itself, transforming space into feeling.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       TYPOGRAPHY SHOWCASE
+       ============================================================ -->
+  <section class="section-typography" id="typography">
+    <div class="typography-container">
+      <span class="section-label reveal">Decorative Elegance Meets Digital Modernity</span>
+      <h2 class="section-title section-title--gradient reveal reveal-delay-1">Typography</h2>
+      <div class="vb-gradient-line reveal reveal-delay-2"></div>
+
+      <div class="type-showcase">
+        <div class="type-specimen reveal reveal-delay-1">
+          <div class="type-specimen-label">Display / Comfortaa</div>
+          <div class="type-comfortaa">Digital Blooms Unfurl</div>
+          <div class="type-meta">Rounded, futuristic geometric -- for hero titles and decorative headings</div>
+        </div>
+
+        <div class="type-specimen reveal reveal-delay-2">
+          <div class="type-specimen-label">Headline / Quicksand</div>
+          <div class="type-quicksand">Maximalist Vector Ornament Meets Psychedelic Botanical Fantasy</div>
+          <div class="type-meta">Rounded, soft geometric sans -- for headlines and feature titles</div>
+        </div>
+
+        <div class="type-specimen reveal reveal-delay-3">
+          <div class="type-specimen-label">Script Accent / Pacifico</div>
+          <div class="type-pacifico">where vectors meet nature</div>
+          <div class="type-meta">Flowing brush script -- for decorative accents and short display text</div>
+        </div>
+
+        <div class="type-specimen reveal reveal-delay-4">
+          <div class="type-specimen-label">Playful Display / Fredoka</div>
+          <div class="type-fredoka">Blooming Floral Fantasy</div>
+          <div class="type-meta">Rounded, playful sans-serif -- for friendly display headings and bold accents</div>
+        </div>
+
+        <div class="type-specimen reveal reveal-delay-5">
+          <div class="type-specimen-label">Body / Rubik</div>
+          <div class="type-rubik">Vectorbloom typography balances decorative elegance with digital modernity. Clean, rounded sans-serifs provide legibility that complements rather than competes with ornate visuals. Generous, open letter-spacing lets type breathe within dense visual environments. No harsh, angular, or industrial type -- typography should feel organic, fluid, and approachable.</div>
+          <div class="type-meta">Rounded geometric sans -- the aesthetic's signature body typeface</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       MATERIALS & CSS TECHNIQUES
+       ============================================================ -->
+  <section class="section-techniques" id="techniques">
+    <div class="techniques-container">
+      <span class="section-label reveal">Physical Origins, Digital Translations</span>
+      <h2 class="section-title section-title--gradient reveal reveal-delay-1">Materials & Techniques</h2>
+      <div class="vb-gradient-line reveal reveal-delay-2"></div>
+
+      <div class="techniques-grid">
+        <div class="technique-card reveal reveal-delay-1">
+          <div class="technique-card-inner">
+            <div class="technique-physical">Environmental Murals</div>
+            <h3>Full-Bleed SVG Patterns</h3>
+            <p>Wall-to-ceiling murals become full-bleed gradient backgrounds with layered SVG pattern overlays spanning the viewport.</p>
+          </div>
+        </div>
+        <div class="technique-card reveal reveal-delay-2">
+          <div class="technique-card-inner">
+            <div class="technique-physical">Laser-Cut Furniture</div>
+            <h3>SVG Clip-Paths & Masks</h3>
+            <p>Intricate plywood filigree translates to SVG clip-paths and mask patterns creating decorative border effects.</p>
+          </div>
+        </div>
+        <div class="technique-card reveal reveal-delay-3">
+          <div class="technique-card-inner">
+            <div class="technique-physical">Frosted Interiors</div>
+            <h3>Backdrop Blur Panels</h3>
+            <p>Yogurt-shop frosted glass becomes translucent overlay panels with backdrop-filter blur over vivid pattern backgrounds.</p>
+          </div>
+        </div>
+        <div class="technique-card reveal reveal-delay-4">
+          <div class="technique-card-inner">
+            <div class="technique-physical">Glass Light Fixtures</div>
+            <h3>Radial Glow & Bloom</h3>
+            <p>Translucent gradient shapes with soft radial glows and bloom shadows replicate the luminous quality of decorative glass.</p>
+          </div>
+        </div>
+        <div class="technique-card reveal reveal-delay-5">
+          <div class="technique-card-inner">
+            <div class="technique-physical">Magazine Graphics</div>
+            <h3>Gradient Typography</h3>
+            <p>Bold type with gradient fills, dense floral framing, and high color saturation -- print maximalism for the screen.</p>
+          </div>
+        </div>
+        <div class="technique-card reveal reveal-delay-6">
+          <div class="technique-card-inner">
+            <div class="technique-physical">Early Web Templates</div>
+            <h3>Tiled Patterns & Borders</h3>
+            <p>Angelfire-era aesthetics reborn: ornamental borders, tiled backgrounds, and decorative elements that recall the web's maximalist youth.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       INFLUENCES & PRACTITIONERS
+       ============================================================ -->
+  <section class="section-influences" id="influences">
+    <div class="influences-container">
+      <span class="section-label reveal" style="color: var(--vb-soft-pink);">Notable Practitioners</span>
+      <h2 class="section-title section-title--light section-title--gradient reveal reveal-delay-1">Influences & Origins</h2>
+      <div class="vb-gradient-line reveal reveal-delay-2"></div>
+
+      <div class="influences-grid">
+        <div class="influence-card reveal reveal-delay-1">
+          <div class="influence-type">Pioneer</div>
+          <h3>Katrin Olina</h3>
+          <p>Icelandic graphic artist who pioneered Vectorbloom in interior design -- created seamless, immersive vector environments where a single graphic image functions as wall-to-ceiling lining, morphing across surfaces. Notably the Cristal Bar, Hong Kong.</p>
+        </div>
+        <div class="influence-card reveal reveal-delay-2">
+          <div class="influence-type">Commercial Expression</div>
+          <h3>SNOG Frozen Yogurt</h3>
+          <p>Commercial interiors exemplifying "frozen yogurt futurism" -- dense vector patterns applied to retail environments, proving the aesthetic's commercial viability and mass appeal.</p>
+        </div>
+        <div class="influence-card reveal reveal-delay-3">
+          <div class="influence-type">Furniture Design</div>
+          <h3>Studio Bility</h3>
+          <p>The Inner Beauty Bench (2008) -- laser-cut plywood furniture with intricate vector floral patterns, demonstrating Vectorbloom's translation from screen to physical object.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       VIDEO GAME EXPRESSIONS
+       ============================================================ -->
+  <section class="section-games">
+    <div class="games-container">
+      <span class="section-label reveal" style="color: var(--vb-soft-pink);">Interactive Expressions</span>
+      <h2 class="section-title section-title--light section-title--gradient reveal reveal-delay-1">In Video Games</h2>
+      <div class="vb-gradient-line reveal reveal-delay-2"></div>
+
+      <div class="games-list reveal reveal-delay-3">
+        <div class="game-tag">Lumines <span class="game-year">2004</span></div>
+        <div class="game-tag">Feel the Magic: XY/XX <span class="game-year">2004</span></div>
+        <div class="game-tag">PixelJunk Eden <span class="game-year">2008</span></div>
+        <div class="game-tag">Child of Eden <span class="game-year">2011</span></div>
+        <div class="game-tag">Hohokum <span class="game-year">2014</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       RELATED AESTHETICS
+       ============================================================ -->
+  <section class="section-related" id="related">
+    <div class="related-container">
+      <span class="section-label reveal">Aesthetic Kinship</span>
+      <h2 class="section-title section-title--gradient reveal reveal-delay-1">Related Aesthetics</h2>
+      <div class="vb-gradient-line reveal reveal-delay-2"></div>
+
+      <div class="related-grid">
+        <div class="related-card reveal reveal-delay-1">
+          <h3>Art Nouveau</h3>
+          <p>Major visual ancestor -- organic curves, botanical motifs, and ornamental flourishes that Vectorbloom digitalizes.</p>
+        </div>
+        <div class="related-card reveal reveal-delay-2">
+          <h3>Psychedelia</h3>
+          <p>1960s influence -- saturated multicolor palette, flowing forms, and mind-expanding visual density.</p>
+        </div>
+        <div class="related-card reveal reveal-delay-3">
+          <h3>Supergraphic Ultramodern</h3>
+          <p>1970s influence -- large-scale, environment-transforming graphic application on architectural surfaces.</p>
+        </div>
+        <div class="related-card reveal reveal-delay-4">
+          <h3>Frutiger Aero</h3>
+          <p>Contemporary sibling sharing early-2000s digital optimism, but favoring glossy naturalism over flat ornamental density.</p>
+        </div>
+        <div class="related-card reveal reveal-delay-5">
+          <h3>Vectordelia</h3>
+          <p>Close sibling sharing the psychedelic vector toolkit -- but Vectorbloom emphasizes floral blooming and maximalist ornament.</p>
+        </div>
+        <div class="related-card reveal reveal-delay-6">
+          <h3>Superflat Pop</h3>
+          <p>Shares flat, digitally precise rendering and vivid color but draws from Japanese pop culture rather than botanical forms.</p>
+        </div>
+        <div class="related-card reveal">
+          <h3>McBling</h3>
+          <p>Period contemporary sharing the early-2000s maximalist, flashy sensibility in a pop-culture context.</p>
+        </div>
+        <div class="related-card reveal">
+          <h3>Neo-Vectorheart</h3>
+          <p>Sibling from the same lineage -- angular and monochromatic where Vectorbloom is organic and polychromatic.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       FOOTER
+       ============================================================ -->
+  <footer class="vb-footer">
+    <!-- Top SVG divider -->
+    <div style="position: absolute; top: -2px; left: 0; right: 0; z-index: 5;" aria-hidden="true">
+      <svg viewBox="0 0 1440 60" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" style="width:100%;height:60px;display:block;">
+        <path d="M0,0 C360,50 720,10 1080,40 C1260,55 1360,30 1440,0 L1440,60 L0,60 Z" fill="#0f0520"/>
+      </svg>
+    </div>
+
+    <div class="footer-content">
+      <!-- Large floral SVG ornament -->
+      <div style="margin: 0 auto 2rem; width: 120px; height: 120px; opacity: 0.3;" aria-hidden="true">
+        <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="60" cy="60" r="10" fill="#d946ef" opacity="0.6"/>
+          <path d="M60,20 Q70,40 60,50 Q50,40 60,20Z" fill="#ff2d8a" opacity="0.5"/>
+          <path d="M60,100 Q70,80 60,70 Q50,80 60,100Z" fill="#ff2d8a" opacity="0.5"/>
+          <path d="M20,60 Q40,50 50,60 Q40,70 20,60Z" fill="#e91e8c" opacity="0.5"/>
+          <path d="M100,60 Q80,50 70,60 Q80,70 100,60Z" fill="#e91e8c" opacity="0.5"/>
+          <path d="M32,32 Q48,42 50,52 Q42,48 32,32Z" fill="#d946ef" opacity="0.35"/>
+          <path d="M88,32 Q72,42 70,52 Q78,48 88,32Z" fill="#00a3ff" opacity="0.35"/>
+          <path d="M32,88 Q48,78 50,68 Q42,72 32,88Z" fill="#00a3ff" opacity="0.35"/>
+          <path d="M88,88 Q72,78 70,68 Q78,72 88,88Z" fill="#d946ef" opacity="0.35"/>
+          <circle cx="60" cy="60" r="30" stroke="#d946ef" stroke-width="0.5" fill="none" opacity="0.2"/>
+          <circle cx="60" cy="60" r="45" stroke="#e91e8c" stroke-width="0.3" fill="none" opacity="0.15"/>
+        </svg>
+      </div>
+
+      <h2 class="footer-title">Vectorbloom</h2>
+      <p class="footer-script">technological opulence in bloom</p>
+      <p class="footer-description">
+        A design reference celebrating the digitally-driven decorative aesthetic of the early 2000s through the early 2010s.
+      </p>
+      <div class="footer-line"></div>
+      <p class="footer-note">Design Reference -- Early 2000s to Early 2010s Aesthetic</p>
+    </div>
+  </footer>
+
+  <!-- ============================================================
+       JAVASCRIPT
+       ============================================================ -->
+  <script>
+    // === Scroll Reveal ===
+    (function() {
+      const reveals = document.querySelectorAll('.reveal');
+
+      function checkReveal() {
+        const windowHeight = window.innerHeight;
+        const triggerPoint = windowHeight * 0.88;
+
+        reveals.forEach(function(el) {
+          const top = el.getBoundingClientRect().top;
+          if (top < triggerPoint) {
+            el.classList.add('visible');
+          }
+        });
+      }
+
+      window.addEventListener('scroll', checkReveal, { passive: true });
+      window.addEventListener('resize', checkReveal, { passive: true });
+      // Initial check
+      checkReveal();
+    })();
+
+    // === Mobile Navigation Toggle ===
+    (function() {
+      const toggle = document.getElementById('navToggle');
+      const links = document.getElementById('navLinks');
+
+      if (toggle && links) {
+        toggle.addEventListener('click', function() {
+          links.classList.toggle('active');
+        });
+
+        // Close on link click
+        links.querySelectorAll('a').forEach(function(link) {
+          link.addEventListener('click', function() {
+            links.classList.remove('active');
+          });
+        });
+      }
+    })();
+
+    // === Floating Petals ===
+    (function() {
+      var container = document.getElementById('petals-container');
+      if (!container) return;
+
+      var petalColors = ['#ff2d8a', '#d946ef', '#e91e8c', '#c084fc', '#00a3ff', '#f9a8d4'];
+      var maxPetals = 15;
+      var petalCount = 0;
+
+      function createPetal() {
+        if (petalCount >= maxPetals) return;
+
+        var petal = document.createElement('div');
+        petal.className = 'petal';
+
+        var size = 8 + Math.random() * 16;
+        var startX = Math.random() * window.innerWidth;
+        var color = petalColors[Math.floor(Math.random() * petalColors.length)];
+        var duration = 8 + Math.random() * 12;
+        var delay = Math.random() * 2;
+
+        petal.style.width = size + 'px';
+        petal.style.height = size + 'px';
+        petal.style.left = startX + 'px';
+        petal.style.top = '-20px';
+        petal.style.animation = 'petalDrift ' + duration + 's ease-in ' + delay + 's forwards';
+
+        petal.innerHTML = '<svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">' +
+          '<path d="M10,0 Q14,6 10,10 Q6,6 10,0Z" fill="' + color + '" opacity="0.5"/>' +
+          '<path d="M10,20 Q14,14 10,10 Q6,14 10,20Z" fill="' + color + '" opacity="0.35"/>' +
+          '</svg>';
+
+        container.appendChild(petal);
+        petalCount++;
+
+        // Remove petal after animation
+        setTimeout(function() {
+          if (petal.parentNode) {
+            petal.parentNode.removeChild(petal);
+            petalCount--;
+          }
+        }, (duration + delay) * 1000);
+      }
+
+      // Spawn petals periodically
+      setInterval(createPetal, 2000);
+
+      // Initial burst
+      for (var i = 0; i < 5; i++) {
+        setTimeout(createPetal, i * 400);
+      }
+    })();
+
+    // === Smooth scroll for anchor links ===
+    document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
+      anchor.addEventListener('click', function(e) {
+        var target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          e.preventDefault();
+          var offset = 70;
+          var top = target.getBoundingClientRect().top + window.pageYOffset - offset;
+          window.scrollTo({ top: top, behavior: 'smooth' });
+        }
+      });
+    });
+
+    // === Navbar background intensification on scroll ===
+    (function() {
+      var nav = document.querySelector('.vb-nav-wrapper');
+      if (!nav) return;
+
+      window.addEventListener('scroll', function() {
+        if (window.scrollY > 100) {
+          nav.style.background = 'rgba(15, 5, 32, 0.92)';
+        } else {
+          nav.style.background = 'rgba(15, 5, 32, 0.75)';
+        }
+      }, { passive: true });
+    })();
+  </script>
+</body>
+</html>
