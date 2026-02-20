@@ -1,0 +1,2897 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Split Screen -- Design Aesthetic Reference</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+  <style>
+    /* ============================================
+       SPLIT SCREEN DESIGN SYSTEM
+       A self-documenting showcase of duality
+       ============================================ */
+
+    /* ---------- CSS Reset ---------- */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* ---------- Custom Properties ---------- */
+    :root {
+      /* Panel backgrounds */
+      --split-panel-dark: #1a1a2e;
+      --split-panel-light: #f5f0eb;
+      --split-black: #0d0d0d;
+      --split-white: #ffffff;
+
+      /* Accents */
+      --split-coral: #ff6b6b;
+      --split-electric: #4ecdc4;
+      --split-teal: #1b998b;
+      --split-amber: #f7b731;
+
+      /* Neutrals */
+      --split-graphite: #2d3436;
+      --split-mist: #dfe6e9;
+      --split-slate: #636e72;
+
+      /* Decorative */
+      --split-lavender: #a29bfe;
+      --split-crimson: #e74c3c;
+      --split-midnight: #0c2461;
+
+      /* Functional */
+      --split-divider: #ff6b6b;
+      --split-divider-width: 4px;
+      --split-transition-speed: 0.5s;
+      --split-panel-gap: 0px;
+
+      /* Gradients */
+      --split-gradient-dark: linear-gradient(135deg, #1a1a2e 0%, #0c2461 100%);
+      --split-gradient-warm: linear-gradient(135deg, #ff6b6b 0%, #f7b731 100%);
+      --split-gradient-cool: linear-gradient(135deg, #4ecdc4 0%, #a29bfe 100%);
+
+      /* Shadows */
+      --split-shadow-left: 4px 0 20px rgba(0, 0, 0, 0.15);
+      --split-shadow-right: -4px 0 20px rgba(0, 0, 0, 0.15);
+      --split-shadow-card: 0 8px 30px rgba(0, 0, 0, 0.12);
+    }
+
+    /* ---------- Base Styles ---------- */
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      font-size: 1rem;
+      line-height: 1.7;
+      color: var(--split-graphite);
+      background: var(--split-panel-light);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-weight: 400;
+      letter-spacing: 0.04em;
+      line-height: 1.05;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+    }
+
+    /* ---------- Utility Classes ---------- */
+    .label {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--split-coral);
+      display: inline-block;
+      margin-bottom: 16px;
+    }
+
+    .label--light {
+      color: var(--split-electric);
+    }
+
+    /* ---------- Navigation ---------- */
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 24px 48px;
+      z-index: 1000;
+      mix-blend-mode: difference;
+    }
+
+    .nav__logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.6rem;
+      color: var(--split-white);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .nav__links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+
+    .nav__links a {
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+      font-size: 0.8rem;
+      color: var(--split-white);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      position: relative;
+      transition: opacity 0.3s;
+    }
+
+    .nav__links a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--split-coral);
+      transition: width 0.3s ease;
+    }
+
+    .nav__links a:hover::after {
+      width: 100%;
+    }
+
+    .nav__links a:hover {
+      opacity: 0.9;
+    }
+
+
+    /* ============================================
+       SECTION 1: HERO -- FULL VIEWPORT SPLIT
+       ============================================ */
+
+    .hero {
+      display: flex;
+      min-height: 100vh;
+      width: 100%;
+    }
+
+    .hero__panel {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 80px 60px;
+      position: relative;
+      overflow: hidden;
+      transition: flex var(--split-transition-speed) ease;
+    }
+
+    .hero__panel--dark {
+      background: var(--split-panel-dark);
+    }
+
+    .hero__panel--visual {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      position: relative;
+    }
+
+    /* Floating geometric shapes on visual panel */
+    .hero__geo {
+      position: absolute;
+      border: 2px solid rgba(255, 255, 255, 0.15);
+      animation: heroFloat 8s ease-in-out infinite;
+    }
+
+    .hero__geo--circle-lg {
+      width: 280px;
+      height: 280px;
+      border-radius: 50%;
+      top: 8%;
+      left: 10%;
+      animation-duration: 7s;
+    }
+
+    .hero__geo--circle-sm {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      bottom: 15%;
+      left: 25%;
+      border-color: rgba(255, 255, 255, 0.1);
+      animation-duration: 9s;
+      animation-direction: reverse;
+    }
+
+    .hero__geo--square {
+      width: 140px;
+      height: 140px;
+      bottom: 20%;
+      right: 15%;
+      transform: rotate(45deg);
+      animation-duration: 10s;
+      animation-direction: reverse;
+    }
+
+    .hero__geo--diamond {
+      width: 60px;
+      height: 60px;
+      top: 30%;
+      right: 30%;
+      transform: rotate(45deg);
+      border-color: rgba(255, 255, 255, 0.25);
+      animation-duration: 5s;
+    }
+
+    .hero__geo--line {
+      width: 200px;
+      height: 0;
+      border: none;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      top: 55%;
+      left: 5%;
+      transform: rotate(-15deg);
+      animation: none;
+    }
+
+    .hero__geo--dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.3);
+      border: none;
+      top: 40%;
+      right: 20%;
+      animation-duration: 4s;
+    }
+
+    @keyframes heroFloat {
+      0%, 100% { transform: translateY(0px) rotate(var(--rotate, 0deg)); }
+      50% { transform: translateY(-25px) rotate(var(--rotate, 0deg)); }
+    }
+
+    .hero__geo--square,
+    .hero__geo--diamond {
+      --rotate: 45deg;
+    }
+
+    /* Central divider accent */
+    .hero::after {
+      content: '';
+      position: absolute;
+      top: 15%;
+      bottom: 15%;
+      left: 50%;
+      width: var(--split-divider-width);
+      background: var(--split-coral);
+      transform: translateX(-50%);
+      z-index: 10;
+      opacity: 0;
+      animation: dividerReveal 1s ease 0.8s forwards;
+    }
+
+    @keyframes dividerReveal {
+      from {
+        opacity: 0;
+        transform: translateX(-50%) scaleY(0);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(-50%) scaleY(1);
+      }
+    }
+
+    .hero__content {
+      max-width: 460px;
+      position: relative;
+      z-index: 2;
+      opacity: 0;
+      animation: slideInLeft 0.8s ease 0.3s forwards;
+    }
+
+    @keyframes slideInLeft {
+      from {
+        opacity: 0;
+        transform: translateX(-40px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    .hero__content h1 {
+      font-size: clamp(3.5rem, 6vw, 6rem);
+      color: var(--split-white);
+      margin-bottom: 24px;
+      line-height: 0.95;
+    }
+
+    .hero__content h1 span {
+      color: var(--split-coral);
+    }
+
+    .hero__content p {
+      font-size: 1.05rem;
+      line-height: 1.7;
+      color: rgba(255, 255, 255, 0.65);
+      margin-bottom: 36px;
+      max-width: 380px;
+    }
+
+    /* Visual panel large text watermark */
+    .hero__watermark {
+      position: absolute;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(6rem, 14vw, 14rem);
+      color: rgba(255, 255, 255, 0.06);
+      letter-spacing: 0.05em;
+      z-index: 1;
+      user-select: none;
+      opacity: 0;
+      animation: fadeIn 1.2s ease 0.6s forwards;
+    }
+
+    @keyframes fadeIn {
+      to { opacity: 1; }
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 16px 40px;
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      font-size: 0.8rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      border: 2px solid currentColor;
+      background: transparent;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: color var(--split-transition-speed), background var(--split-transition-speed), border-color var(--split-transition-speed);
+    }
+
+    .btn--on-dark {
+      color: var(--split-white);
+      border-color: var(--split-white);
+    }
+
+    .btn--on-dark:hover {
+      color: var(--split-panel-dark);
+      background: var(--split-white);
+    }
+
+    .btn--on-light {
+      color: var(--split-black);
+      border-color: var(--split-black);
+    }
+
+    .btn--on-light:hover {
+      color: var(--split-white);
+      background: var(--split-black);
+    }
+
+    .btn--accent {
+      color: var(--split-white);
+      background: var(--split-coral);
+      border-color: var(--split-coral);
+    }
+
+    .btn--accent:hover {
+      background: #e85555;
+      border-color: #e85555;
+    }
+
+    .btn--slide {
+      z-index: 1;
+    }
+
+    .btn--slide::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 0%;
+      height: 100%;
+      background: var(--split-coral);
+      transition: width var(--split-transition-speed) ease;
+      z-index: -1;
+    }
+
+    .btn--slide:hover::before {
+      width: 100%;
+    }
+
+    .btn--slide:hover {
+      color: var(--split-white);
+      border-color: var(--split-coral);
+    }
+
+    .btn__arrow {
+      transition: transform 0.3s ease;
+    }
+
+    .btn:hover .btn__arrow {
+      transform: translateX(4px);
+    }
+
+
+    /* ============================================
+       SECTION 2: TYPOGRAPHY SHOWCASE
+       ============================================ */
+
+    .typo-section {
+      display: flex;
+      min-height: 100vh;
+      width: 100%;
+      position: relative;
+    }
+
+    .typo-section__dark {
+      flex: 1;
+      background: var(--split-graphite);
+      padding: 100px 60px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .typo-section__light {
+      flex: 1;
+      background: var(--split-panel-light);
+      padding: 100px 60px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .typo-section__dark .label {
+      color: var(--split-electric);
+    }
+
+    .typo-heading-display {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(3rem, 5vw, 5rem);
+      line-height: 0.95;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      margin-bottom: 40px;
+    }
+
+    .typo-heading-display--white {
+      color: var(--split-white);
+    }
+
+    .typo-heading-display--dark {
+      color: var(--split-black);
+    }
+
+    .typo-specimen {
+      margin-bottom: 32px;
+    }
+
+    .typo-specimen__label {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+      opacity: 0.5;
+    }
+
+    .typo-specimen__label--light {
+      color: var(--split-white);
+    }
+
+    .typo-specimen__label--dark {
+      color: var(--split-slate);
+    }
+
+    .typo-specimen__sample--bebas {
+      font-family: 'Bebas Neue', sans-serif;
+      letter-spacing: 0.04em;
+      line-height: 1.1;
+    }
+
+    .typo-specimen__sample--inter {
+      font-family: 'Inter', sans-serif;
+      line-height: 1.6;
+    }
+
+    .typo-specimen__sample--playfair {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      line-height: 1.15;
+    }
+
+    .typo-specimen__sample--white {
+      color: var(--split-white);
+    }
+
+    .typo-specimen__sample--dark {
+      color: var(--split-black);
+    }
+
+    .typo-specimen__sample--muted-light {
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    .typo-specimen__sample--muted-dark {
+      color: var(--split-slate);
+    }
+
+    .typo-size-1 { font-size: clamp(2.5rem, 4vw, 4rem); }
+    .typo-size-2 { font-size: clamp(1.8rem, 3vw, 2.5rem); }
+    .typo-size-3 { font-size: clamp(1.2rem, 2vw, 1.5rem); }
+    .typo-size-body { font-size: 1rem; }
+    .typo-size-small { font-size: 0.85rem; }
+
+    /* Vertical accent stripe between panels */
+    .typo-section::after {
+      content: '';
+      position: absolute;
+      top: 10%;
+      bottom: 10%;
+      left: 50%;
+      width: 2px;
+      background: var(--split-coral);
+      transform: translateX(-50%);
+      z-index: 5;
+    }
+
+    /* Weight showcase row */
+    .weight-row {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+    }
+
+    .weight-item {
+      text-align: center;
+    }
+
+    .weight-item__glyph {
+      font-family: 'Inter', sans-serif;
+      font-size: 2rem;
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+
+    .weight-item__name {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.6rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      opacity: 0.4;
+    }
+
+
+    /* ============================================
+       SECTION 3: COLOR PALETTE
+       ============================================ */
+
+    .palette-section {
+      display: flex;
+      min-height: 100vh;
+      width: 100%;
+    }
+
+    .palette-dark-side {
+      flex: 1;
+      background: var(--split-panel-dark);
+      padding: 100px 48px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .palette-light-side {
+      flex: 1;
+      background: var(--split-white);
+      padding: 100px 48px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .palette-heading {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2rem, 3.5vw, 3.5rem);
+      margin-bottom: 40px;
+    }
+
+    .palette-heading--white { color: var(--split-white); }
+    .palette-heading--dark { color: var(--split-black); }
+
+    .palette-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+      max-width: 420px;
+    }
+
+    .palette-swatch {
+      position: relative;
+      aspect-ratio: 1.4;
+      border-radius: 4px;
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: default;
+    }
+
+    .palette-swatch:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+    }
+
+    .palette-swatch__info {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 10px 12px;
+      background: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(4px);
+    }
+
+    .palette-swatch__name {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--split-white);
+      display: block;
+    }
+
+    .palette-swatch__hex {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.6rem;
+      font-weight: 400;
+      color: rgba(255, 255, 255, 0.7);
+      letter-spacing: 0.02em;
+      display: block;
+      margin-top: 2px;
+    }
+
+    /* Light side swatches need different info bar */
+    .palette-swatch--light-info .palette-swatch__info {
+      background: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(4px);
+    }
+
+    .palette-swatch--light-info .palette-swatch__name {
+      color: var(--split-black);
+    }
+
+    .palette-swatch--light-info .palette-swatch__hex {
+      color: var(--split-slate);
+    }
+
+    /* Gradient showcase row */
+    .gradient-row {
+      display: flex;
+      gap: 12px;
+      margin-top: 32px;
+      max-width: 420px;
+    }
+
+    .gradient-pill {
+      flex: 1;
+      height: 48px;
+      border-radius: 4px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .gradient-pill__label {
+      position: absolute;
+      bottom: 4px;
+      left: 8px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.55rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--split-white);
+      opacity: 0.8;
+    }
+
+
+    /* ============================================
+       SECTION 4: HOVER-EXPAND PANELS
+       ============================================ */
+
+    .expand-section {
+      display: flex;
+      min-height: 80vh;
+      width: 100%;
+      overflow: hidden;
+    }
+
+    .expand-panel {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      transition: flex 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+
+    .expand-panel--coral {
+      background: var(--split-gradient-warm);
+    }
+
+    .expand-panel--teal {
+      background: var(--split-gradient-cool);
+    }
+
+    .expand-section:hover .expand-panel {
+      flex: 0.65;
+    }
+
+    .expand-section:hover .expand-panel:hover {
+      flex: 1.35;
+    }
+
+    .expand-panel::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0);
+      transition: background 0.6s ease;
+      z-index: 1;
+    }
+
+    .expand-section:hover .expand-panel::before {
+      background: rgba(0, 0, 0, 0.25);
+    }
+
+    .expand-section:hover .expand-panel:hover::before {
+      background: rgba(0, 0, 0, 0);
+    }
+
+    .expand-panel__content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      color: var(--split-white);
+      padding: 40px;
+      transition: transform 0.5s ease;
+    }
+
+    .expand-panel:hover .expand-panel__content {
+      transform: scale(1.03);
+    }
+
+    .expand-panel__content h2 {
+      font-size: clamp(2.5rem, 5vw, 4.5rem);
+      margin-bottom: 16px;
+      text-transform: uppercase;
+    }
+
+    .expand-panel__content p {
+      font-size: 0.95rem;
+      max-width: 320px;
+      margin: 0 auto 24px;
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity 0.5s 0.1s, transform 0.5s 0.1s;
+      line-height: 1.6;
+    }
+
+    .expand-panel:hover .expand-panel__content p {
+      opacity: 0.9;
+      transform: translateY(0);
+    }
+
+    .expand-panel__icon {
+      width: 48px;
+      height: 48px;
+      border: 2px solid rgba(255, 255, 255, 0.4);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto;
+      font-size: 1.2rem;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity 0.5s 0.2s, transform 0.5s 0.2s;
+    }
+
+    .expand-panel:hover .expand-panel__icon {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+
+    /* ============================================
+       SECTION 5: CARDS / COMPONENTS
+       ============================================ */
+
+    .cards-section {
+      padding: 120px 48px;
+      background: var(--split-mist);
+    }
+
+    .cards-section__header {
+      text-align: center;
+      margin-bottom: 80px;
+    }
+
+    .cards-section__header h2 {
+      font-size: clamp(2.5rem, 4vw, 4rem);
+      color: var(--split-black);
+      margin-bottom: 16px;
+    }
+
+    .cards-section__header p {
+      font-size: 1rem;
+      color: var(--split-slate);
+      max-width: 520px;
+      margin: 0 auto;
+    }
+
+    /* Split Card Stack */
+    .card-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .split-card {
+      display: flex;
+      min-height: 360px;
+      overflow: hidden;
+      box-shadow: var(--split-shadow-card);
+    }
+
+    .split-card:nth-child(even) {
+      flex-direction: row-reverse;
+    }
+
+    .split-card__visual {
+      flex: 1;
+      min-height: 300px;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .split-card__visual--dark {
+      background: var(--split-gradient-dark);
+    }
+
+    .split-card__visual--coral {
+      background: var(--split-gradient-warm);
+    }
+
+    .split-card__visual--cool {
+      background: var(--split-gradient-cool);
+    }
+
+    /* Card visual decorative elements */
+    .card-deco {
+      position: absolute;
+    }
+
+    .card-deco--circle {
+      width: 120px;
+      height: 120px;
+      border: 2px solid rgba(255, 255, 255, 0.12);
+      border-radius: 50%;
+    }
+
+    .card-deco--rect {
+      width: 80px;
+      height: 80px;
+      border: 2px solid rgba(255, 255, 255, 0.08);
+      transform: rotate(30deg);
+    }
+
+    .card-deco--dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.25);
+    }
+
+    .card-visual-label {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(3rem, 6vw, 5rem);
+      color: rgba(255, 255, 255, 0.1);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      user-select: none;
+      z-index: 1;
+    }
+
+    .split-card__body {
+      flex: 1;
+      padding: 56px 48px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .split-card__body--dark {
+      background: var(--split-panel-dark);
+      color: var(--split-white);
+    }
+
+    .split-card__body--light {
+      background: var(--split-white);
+      color: var(--split-black);
+    }
+
+    .split-card__body h3 {
+      font-size: clamp(1.8rem, 3vw, 2.4rem);
+      margin-bottom: 16px;
+    }
+
+    .split-card__body--dark h3 {
+      color: var(--split-white);
+    }
+
+    .split-card__body--light h3 {
+      color: var(--split-black);
+    }
+
+    .split-card__body p {
+      font-size: 0.95rem;
+      line-height: 1.7;
+      margin-bottom: 28px;
+    }
+
+    .split-card__body--dark p {
+      color: rgba(255, 255, 255, 0.65);
+    }
+
+    .split-card__body--light p {
+      color: var(--split-slate);
+    }
+
+    /* Card metadata row */
+    .card-meta {
+      display: flex;
+      gap: 24px;
+      margin-top: auto;
+      padding-top: 20px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .split-card__body--light .card-meta {
+      border-top-color: var(--split-mist);
+    }
+
+    .card-meta__item {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card-meta__value {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.6rem;
+      letter-spacing: 0.03em;
+      color: var(--split-coral);
+    }
+
+    .card-meta__label {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.6rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      opacity: 0.5;
+    }
+
+
+    /* ============================================
+       SECTION 6: DIAGONAL SPLIT
+       ============================================ */
+
+    .diagonal-section {
+      display: flex;
+      min-height: 80vh;
+      width: 100%;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .diagonal__left {
+      flex: 0 0 55%;
+      background: var(--split-midnight);
+      clip-path: polygon(0 0, 100% 0, 85% 100%, 0 100%);
+      display: flex;
+      align-items: center;
+      padding: 80px;
+      padding-right: 120px;
+      z-index: 2;
+    }
+
+    .diagonal__right {
+      flex: 0 0 55%;
+      margin-left: -10%;
+      background: var(--split-panel-light);
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding: 80px;
+      padding-left: 120px;
+    }
+
+    .diagonal-section::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 47%;
+      width: var(--split-divider-width);
+      background: var(--split-coral);
+      transform: skewX(-8deg);
+      z-index: 3;
+    }
+
+    .diagonal__content {
+      max-width: 420px;
+    }
+
+    .diagonal__content--light h2 {
+      font-size: clamp(2.5rem, 4vw, 3.5rem);
+      color: var(--split-white);
+      margin-bottom: 20px;
+    }
+
+    .diagonal__content--light p {
+      color: rgba(255, 255, 255, 0.65);
+      line-height: 1.7;
+      margin-bottom: 28px;
+    }
+
+    .diagonal__content--dark h2 {
+      font-size: clamp(2.5rem, 4vw, 3.5rem);
+      color: var(--split-black);
+      margin-bottom: 20px;
+    }
+
+    .diagonal__content--dark p {
+      color: var(--split-slate);
+      line-height: 1.7;
+      margin-bottom: 28px;
+    }
+
+    /* Stat list inside diagonal panel */
+    .stat-list {
+      display: flex;
+      gap: 40px;
+      margin-top: 32px;
+    }
+
+    .stat-list__item {
+      text-align: left;
+    }
+
+    .stat-list__value {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.5rem;
+      letter-spacing: 0.02em;
+      color: var(--split-coral);
+      line-height: 1;
+    }
+
+    .stat-list__label {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: rgba(255, 255, 255, 0.4);
+      margin-top: 4px;
+    }
+
+
+    /* ============================================
+       SECTION 7: BEFORE / AFTER COMPARISON
+       ============================================ */
+
+    .compare-section {
+      display: flex;
+      min-height: 70vh;
+      width: 100%;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .compare-panel {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 80px 48px;
+      position: relative;
+    }
+
+    .compare-panel--before {
+      background: var(--split-graphite);
+    }
+
+    .compare-panel--after {
+      background: var(--split-panel-dark);
+    }
+
+    .compare-panel__badge {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 6px 20px;
+      border-radius: 100px;
+      margin-bottom: 40px;
+    }
+
+    .compare-panel--before .compare-panel__badge {
+      background: rgba(255, 255, 255, 0.1);
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    .compare-panel--after .compare-panel__badge {
+      background: var(--split-coral);
+      color: var(--split-white);
+    }
+
+    /* Before/After mock UI cards */
+    .mock-ui {
+      width: 100%;
+      max-width: 360px;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    }
+
+    .mock-ui__titlebar {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 12px 16px;
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .mock-ui__dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    .mock-ui__dot--red { background: #ff5f57; }
+    .mock-ui__dot--yellow { background: #ffbd2e; }
+    .mock-ui__dot--green { background: #28c840; }
+
+    .mock-ui__body {
+      padding: 24px;
+    }
+
+    /* Before: cluttered layout */
+    .mock-before {
+      background: #3d3d3d;
+    }
+
+    .mock-before .mock-ui__body {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .mock-line {
+      height: 8px;
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .mock-line--w60 { width: 60%; }
+    .mock-line--w80 { width: 80%; }
+    .mock-line--w40 { width: 40%; }
+    .mock-line--w100 { width: 100%; }
+    .mock-line--thick { height: 24px; }
+    .mock-line--accent { background: rgba(255, 107, 107, 0.15); }
+
+    .mock-block {
+      display: flex;
+      gap: 8px;
+    }
+
+    .mock-block__item {
+      flex: 1;
+      height: 60px;
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    /* After: clean split layout */
+    .mock-after {
+      background: var(--split-panel-dark);
+    }
+
+    .mock-after .mock-ui__body {
+      display: flex;
+      gap: 0;
+      padding: 0;
+    }
+
+    .mock-split-left {
+      flex: 1;
+      background: var(--split-panel-dark);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      justify-content: center;
+    }
+
+    .mock-split-right {
+      flex: 1;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .mock-split-right__shape {
+      width: 48px;
+      height: 48px;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+    }
+
+    .mock-line--split { background: rgba(255, 255, 255, 0.15); }
+    .mock-line--split-accent { background: var(--split-coral); height: 12px; width: 50%; border-radius: 4px; }
+
+    /* Center VS divider */
+    .compare-vs {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: 56px;
+      height: 56px;
+      background: var(--split-coral);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.2rem;
+      color: var(--split-white);
+      letter-spacing: 0.05em;
+      z-index: 10;
+      box-shadow: 0 4px 20px rgba(255, 107, 107, 0.4);
+    }
+
+    /* Vertical line through compare section */
+    .compare-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 50%;
+      width: 2px;
+      background: var(--split-coral);
+      transform: translateX(-50%);
+      z-index: 5;
+    }
+
+
+    /* ============================================
+       SECTION 8: DUAL-PANEL NAVIGATION / FEATURES
+       ============================================ */
+
+    .dual-nav-section {
+      display: flex;
+      min-height: 100vh;
+      width: 100%;
+    }
+
+    .dual-nav__panel {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 100px 48px;
+      position: relative;
+      transition: background 0.4s ease;
+    }
+
+    .dual-nav__panel--dark {
+      background: var(--split-panel-dark);
+    }
+
+    .dual-nav__panel--light {
+      background: var(--split-panel-light);
+    }
+
+    .dual-nav__content {
+      max-width: 400px;
+      width: 100%;
+    }
+
+    .dual-nav__content h2 {
+      font-size: clamp(2rem, 3.5vw, 3rem);
+      margin-bottom: 40px;
+    }
+
+    .dual-nav__content--dark h2 {
+      color: var(--split-white);
+    }
+
+    .dual-nav__content--light h2 {
+      color: var(--split-black);
+    }
+
+    /* Feature list items */
+    .feature-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .feature-list__item {
+      padding: 20px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      transition: padding-left 0.3s ease;
+      cursor: default;
+    }
+
+    .dual-nav__content--light .feature-list__item {
+      border-bottom-color: var(--split-mist);
+    }
+
+    .feature-list__item:hover {
+      padding-left: 8px;
+    }
+
+    .feature-list__number {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.4rem;
+      color: var(--split-coral);
+      min-width: 32px;
+    }
+
+    .feature-list__text h4 {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .dual-nav__content--dark .feature-list__text h4 {
+      color: var(--split-white);
+    }
+
+    .dual-nav__content--light .feature-list__text h4 {
+      color: var(--split-black);
+    }
+
+    .feature-list__text p {
+      font-size: 0.8rem;
+      line-height: 1.5;
+    }
+
+    .dual-nav__content--dark .feature-list__text p {
+      color: rgba(255, 255, 255, 0.45);
+    }
+
+    .dual-nav__content--light .feature-list__text p {
+      color: var(--split-slate);
+    }
+
+    /* Circular progress items on the light side */
+    .progress-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+    }
+
+    .progress-item {
+      text-align: center;
+    }
+
+    .progress-ring {
+      width: 100px;
+      height: 100px;
+      margin: 0 auto 16px;
+      position: relative;
+    }
+
+    .progress-ring svg {
+      width: 100%;
+      height: 100%;
+      transform: rotate(-90deg);
+    }
+
+    .progress-ring__bg {
+      fill: none;
+      stroke: var(--split-mist);
+      stroke-width: 4;
+    }
+
+    .progress-ring__fill {
+      fill: none;
+      stroke: var(--split-coral);
+      stroke-width: 4;
+      stroke-linecap: round;
+      stroke-dasharray: 283;
+      transition: stroke-dashoffset 1.5s ease;
+    }
+
+    .progress-ring__value {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.5rem;
+      color: var(--split-black);
+      letter-spacing: 0.02em;
+    }
+
+    .progress-item__label {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--split-slate);
+    }
+
+
+    /* ============================================
+       SECTION 9: EFFECTS / SLIDING REVEAL
+       ============================================ */
+
+    .effects-section {
+      padding: 120px 48px;
+      background: var(--split-black);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .effects-section__header {
+      text-align: center;
+      margin-bottom: 80px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .effects-section__header h2 {
+      font-size: clamp(2.5rem, 5vw, 4.5rem);
+      color: var(--split-white);
+      margin-bottom: 16px;
+    }
+
+    .effects-section__header p {
+      color: rgba(255, 255, 255, 0.5);
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    /* Sliding reveal cards */
+    .reveal-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0;
+      max-width: 1100px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+    }
+
+    .reveal-card {
+      min-height: 380px;
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .reveal-card__bg {
+      position: absolute;
+      inset: 0;
+      transition: transform 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+
+    .reveal-card:hover .reveal-card__bg {
+      transform: scale(1.05);
+    }
+
+    .reveal-card__bg--gradient-1 {
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    }
+
+    .reveal-card__bg--gradient-2 {
+      background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+    }
+
+    .reveal-card__bg--gradient-3 {
+      background: linear-gradient(135deg, #4ecdc4 0%, #44bd9e 100%);
+    }
+
+    .reveal-card__bg--gradient-4 {
+      background: linear-gradient(135deg, #a29bfe 0%, #6c5ce7 100%);
+    }
+
+    .reveal-card__overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.4);
+      transition: background 0.4s ease;
+      z-index: 1;
+    }
+
+    .reveal-card:hover .reveal-card__overlay {
+      background: rgba(0, 0, 0, 0.15);
+    }
+
+    .reveal-card__content {
+      position: relative;
+      z-index: 2;
+      padding: 40px;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+    }
+
+    .reveal-card__content h3 {
+      font-size: clamp(1.5rem, 2.5vw, 2.2rem);
+      color: var(--split-white);
+      margin-bottom: 8px;
+      transform: translateY(10px);
+      transition: transform 0.4s ease;
+    }
+
+    .reveal-card:hover .reveal-card__content h3 {
+      transform: translateY(0);
+    }
+
+    .reveal-card__content p {
+      font-size: 0.85rem;
+      color: rgba(255, 255, 255, 0.7);
+      line-height: 1.6;
+      max-height: 0;
+      overflow: hidden;
+      opacity: 0;
+      transition: max-height 0.5s ease, opacity 0.4s ease 0.1s;
+    }
+
+    .reveal-card:hover .reveal-card__content p {
+      max-height: 120px;
+      opacity: 1;
+    }
+
+    .reveal-card__number {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 4rem;
+      color: rgba(255, 255, 255, 0.08);
+      position: absolute;
+      top: 24px;
+      right: 32px;
+      z-index: 2;
+    }
+
+    /* Background grid lines for effects section */
+    .effects-bg-grid {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      opacity: 0.03;
+    }
+
+    .effects-bg-grid__line--v {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 1px;
+      background: var(--split-white);
+    }
+
+    .effects-bg-grid__line--h {
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: var(--split-white);
+    }
+
+
+    /* ============================================
+       SECTION 10: ASYMMETRIC SPLIT CTA
+       ============================================ */
+
+    .asym-cta {
+      display: flex;
+      min-height: 50vh;
+      width: 100%;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .asym-cta__major {
+      flex: 0 0 60%;
+      background: var(--split-panel-dark);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 80px 60px;
+      position: relative;
+    }
+
+    .asym-cta__minor {
+      flex: 0 0 40%;
+      background: var(--split-coral);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 80px 48px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .asym-cta__major-content {
+      max-width: 480px;
+    }
+
+    .asym-cta__major-content h2 {
+      font-size: clamp(2.5rem, 5vw, 4.5rem);
+      color: var(--split-white);
+      margin-bottom: 20px;
+    }
+
+    .asym-cta__major-content p {
+      color: rgba(255, 255, 255, 0.6);
+      line-height: 1.7;
+      margin-bottom: 32px;
+      max-width: 400px;
+    }
+
+    .asym-cta__minor-content {
+      text-align: center;
+      color: var(--split-white);
+      position: relative;
+      z-index: 2;
+    }
+
+    .asym-cta__minor-content h3 {
+      font-size: clamp(1.5rem, 2.5vw, 2rem);
+      margin-bottom: 12px;
+    }
+
+    .asym-cta__minor-content p {
+      font-size: 0.9rem;
+      opacity: 0.85;
+      margin-bottom: 28px;
+      max-width: 280px;
+      line-height: 1.6;
+    }
+
+    /* Decorative circles in minor panel */
+    .asym-deco-circle {
+      position: absolute;
+      border-radius: 50%;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+    .asym-deco-circle--1 {
+      width: 200px;
+      height: 200px;
+      top: -40px;
+      right: -40px;
+    }
+
+    .asym-deco-circle--2 {
+      width: 140px;
+      height: 140px;
+      bottom: -30px;
+      left: -30px;
+    }
+
+    /* Vertical divider between asymmetric panels */
+    .asym-cta::after {
+      content: '';
+      position: absolute;
+      top: 20%;
+      bottom: 20%;
+      left: 60%;
+      width: 3px;
+      background: var(--split-white);
+      opacity: 0.2;
+      transform: translateX(-50%);
+      z-index: 5;
+    }
+
+
+    /* ============================================
+       FOOTER
+       ============================================ */
+
+    .footer {
+      display: flex;
+      min-height: 240px;
+    }
+
+    .footer__left {
+      flex: 1;
+      background: var(--split-panel-dark);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 60px 40px;
+      gap: 24px;
+    }
+
+    .footer__logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2rem;
+      color: var(--split-white);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .footer__tagline {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.8rem;
+      color: rgba(255, 255, 255, 0.35);
+      letter-spacing: 0.06em;
+    }
+
+    .footer__right {
+      flex: 1;
+      background: var(--split-black);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 60px 40px;
+      gap: 32px;
+    }
+
+    .footer__links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+
+    .footer__links a {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: rgba(255, 255, 255, 0.4);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      transition: color 0.3s;
+    }
+
+    .footer__links a:hover {
+      color: var(--split-coral);
+    }
+
+    .footer__copy {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.7rem;
+      color: rgba(255, 255, 255, 0.2);
+      letter-spacing: 0.04em;
+    }
+
+    /* Split gradient divider strip */
+    .footer-divider {
+      height: 4px;
+      background: linear-gradient(90deg,
+        var(--split-panel-dark) 0%,
+        var(--split-panel-dark) 50%,
+        var(--split-coral) 50%,
+        var(--split-coral) 100%
+      );
+    }
+
+
+    /* ============================================
+       SCROLL-REVEAL ANIMATIONS
+       ============================================ */
+
+    .reveal {
+      opacity: 0;
+      transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+
+    .reveal--left {
+      transform: translateX(-50px);
+    }
+
+    .reveal--right {
+      transform: translateX(50px);
+    }
+
+    .reveal--up {
+      transform: translateY(40px);
+    }
+
+    .reveal.is-visible {
+      opacity: 1;
+      transform: translate(0, 0);
+    }
+
+    /* Stagger delays for children */
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+
+
+    /* ============================================
+       RESPONSIVE DESIGN
+       ============================================ */
+
+    @media (max-width: 1024px) {
+      .hero__panel {
+        padding: 80px 40px;
+      }
+
+      .diagonal__left {
+        padding: 60px;
+        padding-right: 100px;
+      }
+
+      .diagonal__right {
+        padding: 60px;
+        padding-left: 100px;
+      }
+
+      .dual-nav__panel {
+        padding: 80px 40px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      /* Navigation */
+      .nav {
+        padding: 16px 24px;
+      }
+
+      .nav__links {
+        gap: 16px;
+      }
+
+      .nav__links a {
+        font-size: 0.7rem;
+      }
+
+      /* Hero */
+      .hero {
+        flex-direction: column;
+      }
+
+      .hero__panel {
+        min-height: 50vh;
+        padding: 80px 32px 60px;
+      }
+
+      .hero__panel--visual {
+        min-height: 40vh;
+      }
+
+      .hero::after {
+        display: none;
+      }
+
+      .hero__watermark {
+        font-size: 6rem;
+      }
+
+      /* Typography section */
+      .typo-section {
+        flex-direction: column;
+        min-height: auto;
+      }
+
+      .typo-section__dark,
+      .typo-section__light {
+        padding: 60px 32px;
+      }
+
+      .typo-section::after {
+        display: none;
+      }
+
+      /* Palette */
+      .palette-section {
+        flex-direction: column;
+        min-height: auto;
+      }
+
+      .palette-dark-side,
+      .palette-light-side {
+        padding: 60px 32px;
+      }
+
+      .palette-grid {
+        max-width: 100%;
+      }
+
+      /* Expand section */
+      .expand-section {
+        flex-direction: column;
+        min-height: auto;
+      }
+
+      .expand-panel {
+        min-height: 50vh;
+      }
+
+      .expand-section:hover .expand-panel,
+      .expand-section:hover .expand-panel:hover {
+        flex: 1;
+      }
+
+      .expand-panel__content p {
+        opacity: 0.85;
+        transform: translateY(0);
+      }
+
+      .expand-panel__icon {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* Cards */
+      .cards-section {
+        padding: 60px 24px;
+      }
+
+      .split-card,
+      .split-card:nth-child(even) {
+        flex-direction: column;
+      }
+
+      .split-card__visual {
+        min-height: 220px;
+      }
+
+      .split-card__body {
+        padding: 36px 28px;
+      }
+
+      /* Diagonal */
+      .diagonal-section {
+        flex-direction: column;
+        min-height: auto;
+      }
+
+      .diagonal__left,
+      .diagonal__right {
+        flex: none;
+        width: 100%;
+        min-height: 50vh;
+        clip-path: none;
+        margin: 0;
+        padding: 60px 32px;
+        justify-content: center;
+      }
+
+      .diagonal-section::after {
+        display: none;
+      }
+
+      .stat-list {
+        flex-wrap: wrap;
+        gap: 24px;
+      }
+
+      /* Before/After */
+      .compare-section {
+        flex-direction: column;
+        min-height: auto;
+      }
+
+      .compare-panel {
+        padding: 60px 32px;
+        min-height: 50vh;
+      }
+
+      .compare-vs {
+        top: auto;
+        bottom: -28px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 20;
+      }
+
+      .compare-panel--before .compare-vs {
+        display: flex;
+      }
+
+      .compare-section::before {
+        display: none;
+      }
+
+      /* Dual Nav */
+      .dual-nav-section {
+        flex-direction: column;
+        min-height: auto;
+      }
+
+      .dual-nav__panel {
+        padding: 60px 32px;
+        min-height: auto;
+      }
+
+      .progress-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 24px;
+      }
+
+      /* Effects */
+      .effects-section {
+        padding: 60px 24px;
+      }
+
+      .reveal-grid {
+        grid-template-columns: 1fr;
+      }
+
+      /* Asymmetric CTA */
+      .asym-cta {
+        flex-direction: column;
+      }
+
+      .asym-cta__major,
+      .asym-cta__minor {
+        flex: none;
+        width: 100%;
+        padding: 60px 32px;
+      }
+
+      .asym-cta::after {
+        display: none;
+      }
+
+      /* Footer */
+      .footer {
+        flex-direction: column;
+      }
+
+      .footer__left,
+      .footer__right {
+        padding: 40px 24px;
+      }
+
+      .footer__links {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 20px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .nav__links {
+        display: none;
+      }
+
+      .hero__content h1 {
+        font-size: 3rem;
+      }
+
+      .palette-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .gradient-row {
+        flex-direction: column;
+      }
+
+      .gradient-pill {
+        height: 36px;
+      }
+
+      .card-meta {
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .progress-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ========================================
+       NAVIGATION
+       ======================================== -->
+  <nav class="nav">
+    <a href="#" class="nav__logo">Divide</a>
+    <ul class="nav__links">
+      <li><a href="#typography">Type</a></li>
+      <li><a href="#palette">Color</a></li>
+      <li><a href="#components">Components</a></li>
+      <li><a href="#effects">Effects</a></li>
+    </ul>
+  </nav>
+
+
+  <!-- ========================================
+       SECTION 1: HERO -- FULL VIEWPORT SPLIT
+       Demonstrates: 50/50 vertical divide,
+       dark vs visual panel, bold typography,
+       central divider accent, floating geometry
+       ======================================== -->
+  <section class="hero">
+    <div class="hero__panel hero__panel--dark">
+      <div class="hero__content">
+        <span class="label">Design Aesthetic Reference</span>
+        <h1>Split<br><span>Screen</span></h1>
+        <p>Bold duality. Two panels in conversation. Light against dark, image against text, tension against resolution.</p>
+        <a href="#typography" class="btn btn--on-dark btn--slide">
+          Explore System
+          <span class="btn__arrow">&rarr;</span>
+        </a>
+      </div>
+    </div>
+    <div class="hero__panel hero__panel--visual">
+      <div class="hero__geo hero__geo--circle-lg"></div>
+      <div class="hero__geo hero__geo--circle-sm"></div>
+      <div class="hero__geo hero__geo--square"></div>
+      <div class="hero__geo hero__geo--diamond"></div>
+      <div class="hero__geo hero__geo--line"></div>
+      <div class="hero__geo hero__geo--dot"></div>
+      <span class="hero__watermark">SPLIT</span>
+    </div>
+  </section>
+
+
+  <!-- ========================================
+       SECTION 2: TYPOGRAPHY SHOWCASE
+       Demonstrates: color-inverted text across
+       panels, weight contrast, serif vs sans
+       pairing, vertical accent stripe
+       ======================================== -->
+  <section class="typo-section" id="typography">
+    <!-- Dark panel: light text specimens -->
+    <div class="typo-section__dark">
+      <span class="label label--light reveal reveal--left">Typography -- Dark Panel</span>
+
+      <div class="typo-specimen reveal reveal--left reveal-delay-1">
+        <div class="typo-specimen__label typo-specimen__label--light">Bebas Neue -- Display</div>
+        <div class="typo-heading-display typo-heading-display--white">
+          Two Halves,<br>One Story
+        </div>
+      </div>
+
+      <div class="typo-specimen reveal reveal--left reveal-delay-2">
+        <div class="typo-specimen__label typo-specimen__label--light">Playfair Display -- Editorial</div>
+        <div class="typo-specimen__sample typo-specimen__sample--playfair typo-specimen__sample--white typo-size-2">
+          Elegant Contrast
+        </div>
+      </div>
+
+      <div class="typo-specimen reveal reveal--left reveal-delay-3">
+        <div class="typo-specimen__label typo-specimen__label--light">Inter -- Body Text</div>
+        <div class="typo-specimen__sample typo-specimen__sample--inter typo-specimen__sample--muted-light typo-size-body">
+          The split layout speaks in dualities. Every design choice amplifies the tension between two opposing halves, creating a visual dialogue that draws the eye and holds attention.
+        </div>
+      </div>
+
+      <div class="typo-specimen reveal reveal--left reveal-delay-4">
+        <div class="typo-specimen__label typo-specimen__label--light">Weight Range -- Inter</div>
+        <div class="weight-row">
+          <div class="weight-item">
+            <div class="weight-item__glyph typo-specimen__sample--white" style="font-weight:300">Aa</div>
+            <div class="weight-item__name typo-specimen__sample--muted-light">Light</div>
+          </div>
+          <div class="weight-item">
+            <div class="weight-item__glyph typo-specimen__sample--white" style="font-weight:400">Aa</div>
+            <div class="weight-item__name typo-specimen__sample--muted-light">Regular</div>
+          </div>
+          <div class="weight-item">
+            <div class="weight-item__glyph typo-specimen__sample--white" style="font-weight:500">Aa</div>
+            <div class="weight-item__name typo-specimen__sample--muted-light">Medium</div>
+          </div>
+          <div class="weight-item">
+            <div class="weight-item__glyph typo-specimen__sample--white" style="font-weight:600">Aa</div>
+            <div class="weight-item__name typo-specimen__sample--muted-light">Semi</div>
+          </div>
+          <div class="weight-item">
+            <div class="weight-item__glyph typo-specimen__sample--white" style="font-weight:700">Aa</div>
+            <div class="weight-item__name typo-specimen__sample--muted-light">Bold</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Light panel: dark text specimens -->
+    <div class="typo-section__light">
+      <span class="label reveal reveal--right">Typography -- Light Panel</span>
+
+      <div class="typo-specimen reveal reveal--right reveal-delay-1">
+        <div class="typo-specimen__label typo-specimen__label--dark">Bebas Neue -- Display</div>
+        <div class="typo-heading-display typo-heading-display--dark">
+          Contrast Is<br>The Engine
+        </div>
+      </div>
+
+      <div class="typo-specimen reveal reveal--right reveal-delay-2">
+        <div class="typo-specimen__label typo-specimen__label--dark">Playfair Display -- Editorial</div>
+        <div class="typo-specimen__sample typo-specimen__sample--playfair typo-specimen__sample--dark typo-size-2">
+          Visual Tension
+        </div>
+      </div>
+
+      <div class="typo-specimen reveal reveal--right reveal-delay-3">
+        <div class="typo-specimen__label typo-specimen__label--dark">Inter -- Body Text</div>
+        <div class="typo-specimen__sample typo-specimen__sample--inter typo-specimen__sample--muted-dark typo-size-body">
+          With each panel occupying only half the viewport, text columns are naturally narrow. This demands careful typographic sizing and generous line height to maintain readability and rhythm.
+        </div>
+      </div>
+
+      <div class="typo-specimen reveal reveal--right reveal-delay-4">
+        <div class="typo-specimen__label typo-specimen__label--dark">Uppercase Label Style</div>
+        <div style="display:flex; flex-direction:column; gap:12px; margin-top:8px;">
+          <span class="label" style="margin-bottom:0; font-size:0.75rem;">Primary Label / Coral</span>
+          <span class="label label--light" style="margin-bottom:0; font-size:0.75rem; color:var(--split-teal);">Secondary Label / Teal</span>
+          <span style="font-family:'Inter',sans-serif; font-size:0.65rem; font-weight:600; letter-spacing:0.15em; text-transform:uppercase; color:var(--split-slate);">Tertiary Label / Slate</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ========================================
+       SECTION 3: COLOR PALETTE
+       Demonstrates: panel-inverted swatches,
+       dark side vs light side palette display
+       ======================================== -->
+  <section class="palette-section" id="palette">
+    <!-- Dark side: core dark palette -->
+    <div class="palette-dark-side">
+      <span class="label label--light reveal reveal--left">Dark Panel Colors</span>
+      <h2 class="palette-heading palette-heading--white reveal reveal--left reveal-delay-1">Core Palette</h2>
+
+      <div class="palette-grid reveal reveal--left reveal-delay-2">
+        <div class="palette-swatch" style="background:var(--split-panel-dark);">
+          <div class="palette-swatch__info">
+            <span class="palette-swatch__name">Panel Dark</span>
+            <span class="palette-swatch__hex">#1A1A2E</span>
+          </div>
+        </div>
+        <div class="palette-swatch" style="background:var(--split-midnight);">
+          <div class="palette-swatch__info">
+            <span class="palette-swatch__name">Midnight Blue</span>
+            <span class="palette-swatch__hex">#0C2461</span>
+          </div>
+        </div>
+        <div class="palette-swatch" style="background:var(--split-graphite);">
+          <div class="palette-swatch__info">
+            <span class="palette-swatch__name">Graphite</span>
+            <span class="palette-swatch__hex">#2D3436</span>
+          </div>
+        </div>
+        <div class="palette-swatch" style="background:var(--split-black);">
+          <div class="palette-swatch__info">
+            <span class="palette-swatch__name">Pure Black</span>
+            <span class="palette-swatch__hex">#0D0D0D</span>
+          </div>
+        </div>
+        <div class="palette-swatch" style="background:var(--split-coral);">
+          <div class="palette-swatch__info">
+            <span class="palette-swatch__name">Accent Coral</span>
+            <span class="palette-swatch__hex">#FF6B6B</span>
+          </div>
+        </div>
+        <div class="palette-swatch" style="background:var(--split-electric);">
+          <div class="palette-swatch__info">
+            <span class="palette-swatch__name">Electric</span>
+            <span class="palette-swatch__hex">#4ECDC4</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="gradient-row reveal reveal--left reveal-delay-3">
+        <div class="gradient-pill" style="background:var(--split-gradient-dark);">
+          <span class="gradient-pill__label">Dark</span>
+        </div>
+        <div class="gradient-pill" style="background:var(--split-gradient-warm);">
+          <span class="gradient-pill__label">Warm</span>
+        </div>
+        <div class="gradient-pill" style="background:var(--split-gradient-cool);">
+          <span class="gradient-pill__label">Cool</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Light side: accent + neutral palette -->
+    <div class="palette-light-side">
+      <span class="label reveal reveal--right">Light Panel Colors</span>
+      <h2 class="palette-heading palette-heading--dark reveal reveal--right reveal-delay-1">Accents &amp; Neutrals</h2>
+
+      <div class="palette-grid reveal reveal--right reveal-delay-2">
+        <div class="palette-swatch" style="background:var(--split-panel-light);">
+          <div class="palette-swatch__info">
+            <span class="palette-swatch__name">Panel Light</span>
+            <span class="palette-swatch__hex">#F5F0EB</span>
+          </div>
+        </div>
+        <div class="palette-swatch palette-swatch--light-info" style="background:var(--split-white); border:1px solid var(--split-mist);">
+          <div class="palette-swatch__info">
+            <span class="palette-swatch__name">Pure White</span>
+            <span class="palette-swatch__hex">#FFFFFF</span>
+          </div>
+        </div>
+        <div class="palette-swatch palette-swatch--light-info" style="background:var(--split-mist);">
+          <div class="palette-swatch__info">
+            <span class="palette-swatch__name">Mist Gray</span>
+            <span class="palette-swatch__hex">#DFE6E9</span>
+          </div>
+        </div>
+        <div class="palette-swatch" style="background:var(--split-slate);">
+          <div class="palette-swatch__info">
+            <span class="palette-swatch__name">Slate Text</span>
+            <span class="palette-swatch__hex">#636E72</span>
+          </div>
+        </div>
+        <div class="palette-swatch" style="background:var(--split-lavender);">
+          <div class="palette-swatch__info">
+            <span class="palette-swatch__name">Lavender</span>
+            <span class="palette-swatch__hex">#A29BFE</span>
+          </div>
+        </div>
+        <div class="palette-swatch" style="background:var(--split-amber);">
+          <div class="palette-swatch__info">
+            <span class="palette-swatch__name">Amber</span>
+            <span class="palette-swatch__hex">#F7B731</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="gradient-row reveal reveal--right reveal-delay-3">
+        <div class="gradient-pill" style="background:linear-gradient(135deg, #ff6b6b, #a29bfe);">
+          <span class="gradient-pill__label">Coral-Lav</span>
+        </div>
+        <div class="gradient-pill" style="background:linear-gradient(135deg, #f7b731, #ff6b6b);">
+          <span class="gradient-pill__label">Amber-Coral</span>
+        </div>
+        <div class="gradient-pill" style="background:linear-gradient(135deg, #1b998b, #4ecdc4);">
+          <span class="gradient-pill__label">Teal</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- Split gradient divider -->
+  <div class="footer-divider"></div>
+
+
+  <!-- ========================================
+       SECTION 4: HOVER-EXPAND PANELS
+       Demonstrates: interactive tug-of-war,
+       panels grow/shrink on hover, content
+       reveals on active panel
+       ======================================== -->
+  <section class="expand-section">
+    <div class="expand-panel expand-panel--coral">
+      <div class="expand-panel__content">
+        <h2>Create</h2>
+        <p>From concept to pixel-perfect execution, we craft digital experiences that command attention through deliberate contrast.</p>
+        <div class="expand-panel__icon">&rarr;</div>
+      </div>
+    </div>
+    <div class="expand-panel expand-panel--teal">
+      <div class="expand-panel__content">
+        <h2>Discover</h2>
+        <p>Research-driven strategy that uncovers the tension between what users expect and what they truly need.</p>
+        <div class="expand-panel__icon">&rarr;</div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ========================================
+       SECTION 5: CARDS / COMPONENTS
+       Demonstrates: split card layout,
+       alternating image-text pairing, metadata,
+       dark vs light card bodies
+       ======================================== -->
+  <section class="cards-section" id="components">
+    <div class="cards-section__header">
+      <span class="label reveal reveal--up">Components</span>
+      <h2 class="reveal reveal--up reveal-delay-1">Split Card Stack</h2>
+      <p class="reveal reveal--up reveal-delay-2">Alternating image-text cards that maintain the split aesthetic. Each card reverses its panel order for visual rhythm.</p>
+    </div>
+
+    <div class="card-stack">
+      <!-- Card 1 -->
+      <div class="split-card reveal reveal--up">
+        <div class="split-card__visual split-card__visual--dark">
+          <div class="card-deco card-deco--circle" style="top:15%;left:20%;"></div>
+          <div class="card-deco card-deco--rect" style="bottom:20%;right:15%;"></div>
+          <div class="card-deco card-deco--dot" style="top:40%;right:35%;"></div>
+          <span class="card-visual-label">Brand</span>
+        </div>
+        <div class="split-card__body split-card__body--light">
+          <span class="label">Case Study 01</span>
+          <h3>Identity &amp; Contrast</h3>
+          <p>A complete brand identity system built on the principle of duality. Every element exists in tension with its opposite, creating a visual language that is both cohesive and dynamic.</p>
+          <div class="card-meta">
+            <div class="card-meta__item">
+              <span class="card-meta__value">12</span>
+              <span class="card-meta__label">Weeks</span>
+            </div>
+            <div class="card-meta__item">
+              <span class="card-meta__value">48</span>
+              <span class="card-meta__label">Screens</span>
+            </div>
+            <div class="card-meta__item">
+              <span class="card-meta__value">3x</span>
+              <span class="card-meta__label">Engagement</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="split-card reveal reveal--up">
+        <div class="split-card__visual split-card__visual--coral">
+          <div class="card-deco card-deco--circle" style="top:25%;right:20%;width:90px;height:90px;"></div>
+          <div class="card-deco card-deco--dot" style="bottom:30%;left:25%;width:10px;height:10px;"></div>
+          <span class="card-visual-label">Web</span>
+        </div>
+        <div class="split-card__body split-card__body--dark">
+          <span class="label label--light">Case Study 02</span>
+          <h3>Immersive Experience</h3>
+          <p>A full-viewport storytelling platform that uses scroll-triggered split reveals to guide users through a narrative. Each section presents a new duality.</p>
+          <div class="card-meta">
+            <div class="card-meta__item">
+              <span class="card-meta__value">8</span>
+              <span class="card-meta__label">Sections</span>
+            </div>
+            <div class="card-meta__item">
+              <span class="card-meta__value">2.4m</span>
+              <span class="card-meta__label">Views</span>
+            </div>
+            <div class="card-meta__item">
+              <span class="card-meta__value">94%</span>
+              <span class="card-meta__label">Scroll Depth</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="split-card reveal reveal--up">
+        <div class="split-card__visual split-card__visual--cool">
+          <div class="card-deco card-deco--rect" style="top:15%;left:30%;width:60px;height:60px;transform:rotate(15deg);"></div>
+          <div class="card-deco card-deco--circle" style="bottom:25%;right:25%;width:100px;height:100px;"></div>
+          <span class="card-visual-label">App</span>
+        </div>
+        <div class="split-card__body split-card__body--light">
+          <span class="label">Case Study 03</span>
+          <h3>Dual-Mode Interface</h3>
+          <p>A mobile application that lets users toggle between two contrasting display modes. The split metaphor extends from layout to interaction pattern.</p>
+          <div class="card-meta">
+            <div class="card-meta__item">
+              <span class="card-meta__value">200k</span>
+              <span class="card-meta__label">Users</span>
+            </div>
+            <div class="card-meta__item">
+              <span class="card-meta__value">4.8</span>
+              <span class="card-meta__label">Rating</span>
+            </div>
+            <div class="card-meta__item">
+              <span class="card-meta__value">62%</span>
+              <span class="card-meta__label">Retention</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ========================================
+       SECTION 6: DIAGONAL SPLIT
+       Demonstrates: clip-path angled divider,
+       skewed accent stripe, overlapping panels,
+       stat counters
+       ======================================== -->
+  <section class="diagonal-section">
+    <div class="diagonal__left">
+      <div class="diagonal__content diagonal__content--light reveal reveal--left">
+        <span class="label label--light">Diagonal Division</span>
+        <h2>Angled Energy</h2>
+        <p>Replace the straight vertical cut with a diagonal slash. CSS clip-path creates dynamic angular separations that add movement and visual energy to the split.</p>
+        <div class="stat-list">
+          <div class="stat-list__item">
+            <div class="stat-list__value">50/50</div>
+            <div class="stat-list__label">Panel Ratio</div>
+          </div>
+          <div class="stat-list__item">
+            <div class="stat-list__value">8&deg;</div>
+            <div class="stat-list__label">Skew Angle</div>
+          </div>
+          <div class="stat-list__item">
+            <div class="stat-list__value">100vh</div>
+            <div class="stat-list__label">Height</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="diagonal__right">
+      <div class="diagonal__content diagonal__content--dark reveal reveal--right">
+        <span class="label">Layout Principles</span>
+        <h2>Structure &amp; Balance</h2>
+        <p>Even with angled dividers, visual weight remains considered. The clip-path polygon creates overlap between panels, and the skewed accent stripe reinforces the dynamic axis.</p>
+        <a href="#" class="btn btn--on-light">View Technique</a>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ========================================
+       SECTION 7: BEFORE / AFTER COMPARISON
+       Demonstrates: comparison layout,
+       VS indicator, mock UI cards showing
+       traditional vs split layout
+       ======================================== -->
+  <section class="compare-section">
+    <div class="compare-panel compare-panel--before">
+      <span class="compare-panel__badge">Before</span>
+      <div class="mock-ui mock-before reveal reveal--left">
+        <div class="mock-ui__titlebar">
+          <div class="mock-ui__dot mock-ui__dot--red"></div>
+          <div class="mock-ui__dot mock-ui__dot--yellow"></div>
+          <div class="mock-ui__dot mock-ui__dot--green"></div>
+        </div>
+        <div class="mock-ui__body">
+          <div class="mock-line mock-line--w60 mock-line--thick"></div>
+          <div class="mock-line mock-line--w100"></div>
+          <div class="mock-line mock-line--w80"></div>
+          <div class="mock-line mock-line--w100"></div>
+          <div class="mock-line mock-line--w40"></div>
+          <div class="mock-block">
+            <div class="mock-block__item"></div>
+            <div class="mock-block__item"></div>
+            <div class="mock-block__item"></div>
+          </div>
+          <div class="mock-line mock-line--w80"></div>
+          <div class="mock-line mock-line--w60"></div>
+          <div class="mock-line mock-line--w100"></div>
+          <div class="mock-block">
+            <div class="mock-block__item"></div>
+            <div class="mock-block__item"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="compare-vs">VS</div>
+
+    <div class="compare-panel compare-panel--after">
+      <span class="compare-panel__badge">After</span>
+      <div class="mock-ui mock-after reveal reveal--right">
+        <div class="mock-ui__titlebar">
+          <div class="mock-ui__dot mock-ui__dot--red"></div>
+          <div class="mock-ui__dot mock-ui__dot--yellow"></div>
+          <div class="mock-ui__dot mock-ui__dot--green"></div>
+        </div>
+        <div class="mock-ui__body">
+          <div class="mock-split-left">
+            <div class="mock-line mock-line--split mock-line--w60 mock-line--thick"></div>
+            <div class="mock-line mock-line--split mock-line--w80"></div>
+            <div class="mock-line mock-line--split mock-line--w60"></div>
+            <div class="mock-line mock-line--split-accent"></div>
+          </div>
+          <div class="mock-split-right">
+            <div class="mock-split-right__shape"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ========================================
+       SECTION 8: DUAL-PANEL NAVIGATION
+       Demonstrates: split feature list,
+       progress indicators, numbered items,
+       dark vs light information architecture
+       ======================================== -->
+  <section class="dual-nav-section">
+    <div class="dual-nav__panel dual-nav__panel--dark">
+      <div class="dual-nav__content dual-nav__content--dark">
+        <span class="label label--light reveal reveal--left">Design Principles</span>
+        <h2 class="reveal reveal--left reveal-delay-1">The Rules of Division</h2>
+
+        <ul class="feature-list">
+          <li class="feature-list__item reveal reveal--left reveal-delay-1">
+            <span class="feature-list__number">01</span>
+            <div class="feature-list__text">
+              <h4>Embrace Duality</h4>
+              <p>The split is about two things in conversation</p>
+            </div>
+          </li>
+          <li class="feature-list__item reveal reveal--left reveal-delay-2">
+            <span class="feature-list__number">02</span>
+            <div class="feature-list__text">
+              <h4>Contrast Is the Engine</h4>
+              <p>Every choice amplifies the difference between halves</p>
+            </div>
+          </li>
+          <li class="feature-list__item reveal reveal--left reveal-delay-3">
+            <span class="feature-list__number">03</span>
+            <div class="feature-list__text">
+              <h4>Clear Panel Purpose</h4>
+              <p>One informs, the other entices. One shows, the other tells.</p>
+            </div>
+          </li>
+          <li class="feature-list__item reveal reveal--left reveal-delay-4">
+            <span class="feature-list__number">04</span>
+            <div class="feature-list__text">
+              <h4>Sacred Center Line</h4>
+              <p>The divider is the spine of the composition</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="dual-nav__panel dual-nav__panel--light">
+      <div class="dual-nav__content dual-nav__content--light">
+        <span class="label reveal reveal--right">Metrics</span>
+        <h2 class="reveal reveal--right reveal-delay-1">Layout Performance</h2>
+
+        <div class="progress-grid reveal reveal--right reveal-delay-2">
+          <div class="progress-item">
+            <div class="progress-ring">
+              <svg viewBox="0 0 100 100">
+                <circle class="progress-ring__bg" cx="50" cy="50" r="45"/>
+                <circle class="progress-ring__fill" cx="50" cy="50" r="45" style="stroke-dashoffset: 57;"/>
+              </svg>
+              <span class="progress-ring__value">80%</span>
+            </div>
+            <span class="progress-item__label">Engagement</span>
+          </div>
+          <div class="progress-item">
+            <div class="progress-ring">
+              <svg viewBox="0 0 100 100">
+                <circle class="progress-ring__bg" cx="50" cy="50" r="45"/>
+                <circle class="progress-ring__fill" cx="50" cy="50" r="45" style="stroke-dashoffset: 28; stroke: var(--split-electric);"/>
+              </svg>
+              <span class="progress-ring__value">90%</span>
+            </div>
+            <span class="progress-item__label">Readability</span>
+          </div>
+          <div class="progress-item">
+            <div class="progress-ring">
+              <svg viewBox="0 0 100 100">
+                <circle class="progress-ring__bg" cx="50" cy="50" r="45"/>
+                <circle class="progress-ring__fill" cx="50" cy="50" r="45" style="stroke-dashoffset: 85; stroke: var(--split-amber);"/>
+              </svg>
+              <span class="progress-ring__value">70%</span>
+            </div>
+            <span class="progress-item__label">Conversion</span>
+          </div>
+          <div class="progress-item">
+            <div class="progress-ring">
+              <svg viewBox="0 0 100 100">
+                <circle class="progress-ring__bg" cx="50" cy="50" r="45"/>
+                <circle class="progress-ring__fill" cx="50" cy="50" r="45" style="stroke-dashoffset: 14; stroke: var(--split-lavender);"/>
+              </svg>
+              <span class="progress-ring__value">95%</span>
+            </div>
+            <span class="progress-item__label">Responsive</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ========================================
+       SECTION 9: EFFECTS & SLIDING REVEALS
+       Demonstrates: reveal-on-hover cards,
+       background scaling, content emergence,
+       grid-based split layout
+       ======================================== -->
+  <section class="effects-section" id="effects">
+    <!-- Subtle background grid -->
+    <div class="effects-bg-grid">
+      <div class="effects-bg-grid__line--v" style="left:25%;"></div>
+      <div class="effects-bg-grid__line--v" style="left:50%;"></div>
+      <div class="effects-bg-grid__line--v" style="left:75%;"></div>
+      <div class="effects-bg-grid__line--h" style="top:33%;"></div>
+      <div class="effects-bg-grid__line--h" style="top:66%;"></div>
+    </div>
+
+    <div class="effects-section__header">
+      <span class="label reveal reveal--up">Effects &amp; Interactions</span>
+      <h2 class="reveal reveal--up reveal-delay-1">Sliding Reveals</h2>
+      <p class="reveal reveal--up reveal-delay-2">Hover to reveal content. The split grid uses interactive overlays that reward exploration with hidden detail.</p>
+    </div>
+
+    <div class="reveal-grid">
+      <div class="reveal-card reveal reveal--up reveal-delay-1">
+        <div class="reveal-card__bg reveal-card__bg--gradient-1"></div>
+        <div class="reveal-card__overlay"></div>
+        <span class="reveal-card__number">01</span>
+        <div class="reveal-card__content">
+          <h3>Hover Expand</h3>
+          <p>Panels grow on hover while siblings shrink, creating a tug-of-war interaction that embodies the split metaphor.</p>
+        </div>
+      </div>
+
+      <div class="reveal-card reveal reveal--up reveal-delay-2">
+        <div class="reveal-card__bg reveal-card__bg--gradient-2"></div>
+        <div class="reveal-card__overlay"></div>
+        <span class="reveal-card__number">02</span>
+        <div class="reveal-card__content">
+          <h3>Diagonal Clip</h3>
+          <p>CSS clip-path polygons create angled boundaries between panels, replacing static vertical lines with dynamic energy.</p>
+        </div>
+      </div>
+
+      <div class="reveal-card reveal reveal--up reveal-delay-3">
+        <div class="reveal-card__bg reveal-card__bg--gradient-3"></div>
+        <div class="reveal-card__overlay"></div>
+        <span class="reveal-card__number">03</span>
+        <div class="reveal-card__content">
+          <h3>Parallax Depth</h3>
+          <p>Left and right panels scroll at different rates, adding dimensional depth to the horizontal split.</p>
+        </div>
+      </div>
+
+      <div class="reveal-card reveal reveal--up reveal-delay-4">
+        <div class="reveal-card__bg reveal-card__bg--gradient-4"></div>
+        <div class="reveal-card__overlay"></div>
+        <span class="reveal-card__number">04</span>
+        <div class="reveal-card__content">
+          <h3>Sticky Scroll</h3>
+          <p>One panel remains fixed while the other scrolls through content blocks, creating a guided storytelling effect.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ========================================
+       SECTION 10: ASYMMETRIC SPLIT CTA
+       Demonstrates: 60/40 asymmetric division,
+       strong CTA, decorative geometry,
+       offset divider
+       ======================================== -->
+  <section class="asym-cta">
+    <div class="asym-cta__major">
+      <div class="asym-cta__major-content reveal reveal--left">
+        <span class="label label--light">Get Started</span>
+        <h2>Ready to Divide?</h2>
+        <p>The split layout is more than a technique. It is a design philosophy built on the belief that contrast creates clarity and duality drives engagement.</p>
+        <a href="#" class="btn btn--on-dark">Start Building</a>
+      </div>
+    </div>
+    <div class="asym-cta__minor">
+      <div class="asym-deco-circle asym-deco-circle--1"></div>
+      <div class="asym-deco-circle asym-deco-circle--2"></div>
+      <div class="asym-cta__minor-content reveal reveal--right">
+        <h3>Two Panels. One Vision.</h3>
+        <p>Every great design emerges from the tension between opposing forces.</p>
+        <a href="#" class="btn btn--on-dark" style="border-color:var(--split-white);">View Examples</a>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ========================================
+       FOOTER
+       ======================================== -->
+  <div class="footer-divider"></div>
+
+  <footer class="footer">
+    <div class="footer__left">
+      <span class="footer__logo">Divide</span>
+      <span class="footer__tagline">Split Screen Design System</span>
+    </div>
+    <div class="footer__right">
+      <ul class="footer__links">
+        <li><a href="#typography">Typography</a></li>
+        <li><a href="#palette">Palette</a></li>
+        <li><a href="#components">Components</a></li>
+        <li><a href="#effects">Effects</a></li>
+      </ul>
+      <span class="footer__copy">Design Aesthetic Reference &mdash; Split Screen</span>
+    </div>
+  </footer>
+
+
+  <!-- ========================================
+       JAVASCRIPT: Intersection Observer
+       for scroll-triggered reveal animations
+       ======================================== -->
+  <script>
+    (function() {
+      // Scroll-reveal observer
+      const revealElements = document.querySelectorAll('.reveal');
+
+      const observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+          }
+        });
+      }, {
+        threshold: 0.15,
+        rootMargin: '0px 0px -40px 0px'
+      });
+
+      revealElements.forEach(function(el) {
+        observer.observe(el);
+      });
+
+      // Animate progress rings when visible
+      const progressSection = document.querySelector('.progress-grid');
+      if (progressSection) {
+        const progressObserver = new IntersectionObserver(function(entries) {
+          entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('is-visible');
+            }
+          });
+        }, { threshold: 0.3 });
+
+        progressObserver.observe(progressSection);
+      }
+    })();
+  </script>
+</body>
+</html>
