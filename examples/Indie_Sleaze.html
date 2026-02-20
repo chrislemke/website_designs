@@ -1,0 +1,2241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Indie Sleaze -- Design Aesthetic Reference</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow+Condensed:wght@300;400;600&family=Bebas+Neue&family=Permanent+Marker&family=Special+Elite&family=Rock+Salt&family=Oswald:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    /* ============================================================
+       CSS CUSTOM PROPERTIES
+       ============================================================ */
+    :root {
+      /* Dark foundations */
+      --sleaze-black: #0a0a0a;
+      --sleaze-charcoal: #1c1c1c;
+      --sleaze-smoke: #2e2e2e;
+
+      /* Light / flash tones */
+      --sleaze-flash: #f5f0eb;
+      --sleaze-cream: #f0e6d3;
+
+      /* Neon accents */
+      --sleaze-pink: #ff2d87;
+      --sleaze-yellow: #ffe714;
+      --sleaze-green: #39ff14;
+      --sleaze-purple: #8b2fc9;
+
+      /* Supporting tones */
+      --sleaze-gold: #c9a84c;
+      --sleaze-red: #cc1100;
+      --sleaze-ash: #8a8a8a;
+      --sleaze-blue: #1a3a5c;
+      --sleaze-silver: #c0c0c0;
+
+      /* Functional tokens */
+      --sleaze-bg: var(--sleaze-black);
+      --sleaze-surface: var(--sleaze-charcoal);
+      --sleaze-text: var(--sleaze-flash);
+      --sleaze-text-muted: var(--sleaze-ash);
+      --sleaze-accent: var(--sleaze-pink);
+      --sleaze-accent-alt: var(--sleaze-yellow);
+      --sleaze-link: var(--sleaze-pink);
+      --sleaze-link-hover: var(--sleaze-yellow);
+      --sleaze-border: var(--sleaze-smoke);
+
+      /* Glow effects */
+      --glow-pink: 0 0 20px rgba(255, 45, 135, 0.6);
+      --glow-yellow: 0 0 20px rgba(255, 231, 20, 0.5);
+      --glow-green: 0 0 20px rgba(57, 255, 20, 0.5);
+      --glow-purple: 0 0 20px rgba(139, 47, 201, 0.5);
+
+      /* Film grain SVG */
+      --grain: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.07'/%3E%3C/svg%3E");
+
+      /* Layout */
+      --max-w: 1200px;
+      --section-pad: clamp(3rem, 6vw, 6rem);
+    }
+
+    /* ============================================================
+       RESET
+       ============================================================ */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    /* ============================================================
+       FILM GRAIN -- GLOBAL OVERLAY
+       ============================================================ */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: var(--grain);
+      pointer-events: none;
+      z-index: 9999;
+      mix-blend-mode: overlay;
+      opacity: 0.55;
+    }
+
+    /* Animated grain for extra grit */
+    @keyframes grain-shift {
+      0%, 100% { transform: translate(0, 0); }
+      10% { transform: translate(-2%, -3%); }
+      30% { transform: translate(3%, 2%); }
+      50% { transform: translate(-1%, 3%); }
+      70% { transform: translate(2%, -2%); }
+      90% { transform: translate(-3%, 1%); }
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: -50%;
+      background: var(--grain);
+      pointer-events: none;
+      z-index: 9998;
+      mix-blend-mode: overlay;
+      opacity: 0.2;
+      animation: grain-shift 0.5s steps(4) infinite;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      body::before { animation: none; }
+    }
+
+    /* ============================================================
+       BASE STYLES
+       ============================================================ */
+    body {
+      font-family: 'Barlow Condensed', 'Arial Narrow', Helvetica, sans-serif;
+      font-weight: 400;
+      font-size: 17px;
+      line-height: 1.6;
+      color: var(--sleaze-text);
+      background-color: var(--sleaze-bg);
+      overflow-x: hidden;
+      letter-spacing: 0.01em;
+    }
+
+    /* ============================================================
+       TYPOGRAPHY
+       ============================================================ */
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'Bebas Neue', 'Anton', 'Impact', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      line-height: 0.95;
+      color: var(--sleaze-flash);
+    }
+
+    h1 { font-size: clamp(3.5rem, 10vw, 9rem); letter-spacing: -0.02em; }
+    h2 { font-size: clamp(2rem, 6vw, 5rem); }
+    h3 { font-size: clamp(1.5rem, 3.5vw, 2.5rem); }
+    h4 { font-size: clamp(1.2rem, 2vw, 1.6rem); }
+
+    a {
+      color: var(--sleaze-link);
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      transition: color 0.15s ease, border-color 0.15s ease, text-shadow 0.15s ease;
+    }
+
+    a:hover {
+      color: var(--sleaze-link-hover);
+      border-bottom-color: var(--sleaze-link-hover);
+      text-shadow: var(--glow-yellow);
+    }
+
+    p {
+      margin-bottom: 1em;
+    }
+
+    .annotation {
+      font-family: 'Permanent Marker', cursive;
+      color: var(--sleaze-pink);
+      transform: rotate(-2deg);
+      display: inline-block;
+    }
+
+    .typewriter {
+      font-family: 'Special Elite', 'Courier New', monospace;
+      letter-spacing: 0.03em;
+    }
+
+    /* ============================================================
+       VHS SCANLINE OVERLAY UTILITY
+       ============================================================ */
+    .scanlines {
+      position: relative;
+    }
+
+    .scanlines::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0, 0, 0, 0.08) 2px,
+        rgba(0, 0, 0, 0.08) 4px
+      );
+      pointer-events: none;
+      z-index: 5;
+    }
+
+    /* ============================================================
+       NAVIGATION -- DIVE BAR MENU BOARD
+       ============================================================ */
+    .nav {
+      background-color: var(--sleaze-black);
+      border-bottom: 1px solid var(--sleaze-smoke);
+      padding: 0 2rem;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+    }
+
+    .nav-logo {
+      font-family: 'Permanent Marker', cursive;
+      font-size: 1.4rem;
+      color: var(--sleaze-pink);
+      text-shadow: var(--glow-pink);
+      margin-right: auto;
+      padding: 0.7rem 0;
+      text-decoration: none;
+    }
+
+    .nav-logo:hover {
+      color: var(--sleaze-pink);
+    }
+
+    .nav ul {
+      list-style: none;
+      display: flex;
+      gap: 0;
+    }
+
+    .nav a {
+      display: block;
+      padding: 0.9rem 1rem;
+      color: var(--sleaze-ash);
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 0.95rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      border-bottom: 2px solid transparent;
+      transition: color 0.15s ease, border-color 0.15s ease;
+    }
+
+    .nav a:hover {
+      color: var(--sleaze-pink);
+      border-bottom-color: var(--sleaze-pink);
+      text-shadow: var(--glow-pink);
+    }
+
+    /* ============================================================
+       SECTION UTILITY
+       ============================================================ */
+    .section {
+      padding: var(--section-pad) 2.5rem;
+      position: relative;
+      max-width: var(--max-w);
+      margin: 0 auto;
+    }
+
+    .section-full {
+      padding: var(--section-pad) 2.5rem;
+      position: relative;
+    }
+
+    .section-title {
+      margin-bottom: 0.5rem;
+    }
+
+    .section-title .accent {
+      color: var(--sleaze-pink);
+    }
+
+    .section-title .accent-y {
+      color: var(--sleaze-yellow);
+      text-shadow: var(--glow-yellow);
+    }
+
+    .section-title .accent-g {
+      color: var(--sleaze-green);
+      text-shadow: var(--glow-green);
+    }
+
+    .section-lead {
+      color: var(--sleaze-ash);
+      max-width: 60ch;
+      margin-bottom: 2.5rem;
+      font-weight: 300;
+      font-size: 1.05rem;
+    }
+
+    .section-divider {
+      width: 60px;
+      height: 2px;
+      background: var(--sleaze-pink);
+      box-shadow: var(--glow-pink);
+      margin: 0 auto;
+    }
+
+    /* ============================================================
+       HERO -- LAST NITE WAS WILD
+       ============================================================ */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 5rem 2.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      top: -30%;
+      right: -15%;
+      width: 700px;
+      height: 700px;
+      background: radial-gradient(circle, rgba(255, 45, 135, 0.14) 0%, transparent 65%);
+      pointer-events: none;
+    }
+
+    .hero-glow-2 {
+      position: absolute;
+      bottom: -20%;
+      left: -10%;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(255, 231, 20, 0.06) 0%, transparent 65%);
+      pointer-events: none;
+    }
+
+    .hero-glow-3 {
+      position: absolute;
+      top: 20%;
+      left: 50%;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(139, 47, 201, 0.08) 0%, transparent 65%);
+      pointer-events: none;
+    }
+
+    .hero > * {
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero h1 {
+      font-family: 'Anton', sans-serif;
+      font-size: clamp(4.5rem, 14vw, 15rem);
+      line-height: 0.87;
+      color: var(--sleaze-flash);
+      max-width: 900px;
+    }
+
+    .hero h1 .neon {
+      color: var(--sleaze-pink);
+      text-shadow: var(--glow-pink);
+    }
+
+    .hero h1 .neon-y {
+      color: var(--sleaze-yellow);
+      text-shadow: var(--glow-yellow);
+    }
+
+    .hero-subtitle {
+      font-family: 'Permanent Marker', cursive;
+      font-size: clamp(1rem, 2.5vw, 1.6rem);
+      color: var(--sleaze-yellow);
+      margin-top: 1.2rem;
+      transform: rotate(-2deg);
+      display: inline-block;
+    }
+
+    .hero-desc {
+      font-size: clamp(1rem, 1.8vw, 1.25rem);
+      font-weight: 300;
+      color: var(--sleaze-ash);
+      max-width: 50ch;
+      margin-top: 1.5rem;
+    }
+
+    .btn-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    /* Floating stickers on hero */
+    .hero-sticker {
+      position: absolute;
+      z-index: 3;
+      font-family: 'Permanent Marker', cursive;
+      font-size: 0.75rem;
+      padding: 0.35rem 0.65rem;
+      white-space: nowrap;
+      pointer-events: none;
+    }
+
+    .hero-sticker--1 {
+      top: 12%;
+      right: 8%;
+      background: var(--sleaze-yellow);
+      color: var(--sleaze-black);
+      transform: rotate(12deg);
+      box-shadow: 2px 2px 0 rgba(0,0,0,0.3);
+    }
+
+    .hero-sticker--2 {
+      bottom: 18%;
+      right: 15%;
+      background: var(--sleaze-pink);
+      color: var(--sleaze-flash);
+      transform: rotate(-8deg);
+      box-shadow: 2px 2px 0 rgba(0,0,0,0.3);
+    }
+
+    .hero-sticker--3 {
+      top: 30%;
+      right: 3%;
+      border: 2px solid var(--sleaze-pink);
+      border-radius: 50%;
+      width: 65px;
+      height: 65px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--sleaze-pink);
+      transform: rotate(-15deg);
+      padding: 0;
+      background: transparent;
+    }
+
+    /* Neon flicker animation */
+    @keyframes neon-flicker {
+      0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+        text-shadow: 0 0 10px rgba(255, 45, 135, 0.6),
+                     0 0 20px rgba(255, 45, 135, 0.4),
+                     0 0 40px rgba(255, 45, 135, 0.2);
+        opacity: 1;
+      }
+      20%, 24%, 55% {
+        text-shadow: none;
+        opacity: 0.85;
+      }
+    }
+
+    .neon-flicker {
+      animation: neon-flicker 3s ease-in-out infinite;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .neon-flicker { animation: none; }
+    }
+
+    /* ============================================================
+       BUTTONS -- NEON GLOW CTAs
+       ============================================================ */
+    .btn {
+      display: inline-block;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      padding: 0.8rem 2rem;
+      border: 2px solid var(--sleaze-pink);
+      color: var(--sleaze-pink);
+      background: transparent;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      position: relative;
+    }
+
+    .btn:hover {
+      background: var(--sleaze-pink);
+      color: var(--sleaze-black);
+      box-shadow: var(--glow-pink);
+      text-shadow: none;
+      border-bottom-color: var(--sleaze-pink);
+    }
+
+    .btn--solid {
+      background: var(--sleaze-pink);
+      color: var(--sleaze-black);
+    }
+
+    .btn--solid:hover {
+      background: var(--sleaze-flash);
+      border-color: var(--sleaze-flash);
+      box-shadow: 0 0 30px rgba(255, 45, 135, 0.3);
+    }
+
+    .btn--yellow {
+      border-color: var(--sleaze-yellow);
+      color: var(--sleaze-yellow);
+    }
+
+    .btn--yellow:hover {
+      background: var(--sleaze-yellow);
+      color: var(--sleaze-black);
+      box-shadow: var(--glow-yellow);
+      border-bottom-color: var(--sleaze-yellow);
+    }
+
+    .btn--green {
+      border-color: var(--sleaze-green);
+      color: var(--sleaze-green);
+    }
+
+    .btn--green:hover {
+      background: var(--sleaze-green);
+      color: var(--sleaze-black);
+      box-shadow: var(--glow-green);
+      border-bottom-color: var(--sleaze-green);
+    }
+
+    .btn--purple {
+      border-color: var(--sleaze-purple);
+      color: var(--sleaze-purple);
+    }
+
+    .btn--purple:hover {
+      background: var(--sleaze-purple);
+      color: var(--sleaze-flash);
+      box-shadow: var(--glow-purple);
+      border-bottom-color: var(--sleaze-purple);
+    }
+
+    .btn--sm {
+      font-size: 0.85rem;
+      padding: 0.5rem 1.2rem;
+      letter-spacing: 0.1em;
+    }
+
+    /* ============================================================
+       TYPOGRAPHY SHOWCASE
+       ============================================================ */
+    .typo-showcase {
+      background: var(--sleaze-charcoal);
+      border: 1px solid var(--sleaze-smoke);
+      padding: 3rem 2.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .typo-showcase::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--grain);
+      pointer-events: none;
+      opacity: 0.15;
+      mix-blend-mode: overlay;
+    }
+
+    .typo-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2.5rem;
+      margin-top: 2rem;
+    }
+
+    .typo-item {
+      border-left: 3px solid var(--sleaze-smoke);
+      padding-left: 1.5rem;
+    }
+
+    .typo-item:hover {
+      border-left-color: var(--sleaze-pink);
+    }
+
+    .typo-label {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--sleaze-pink);
+      margin-bottom: 0.5rem;
+    }
+
+    .typo-sample-anton {
+      font-family: 'Anton', sans-serif;
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      text-transform: uppercase;
+      line-height: 0.95;
+      color: var(--sleaze-flash);
+    }
+
+    .typo-sample-bebas {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      line-height: 0.95;
+      color: var(--sleaze-flash);
+    }
+
+    .typo-sample-marker {
+      font-family: 'Permanent Marker', cursive;
+      font-size: clamp(1.5rem, 3vw, 2.2rem);
+      color: var(--sleaze-yellow);
+      transform: rotate(-1.5deg);
+      display: inline-block;
+    }
+
+    .typo-sample-barlow {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 300;
+      line-height: 1.6;
+      color: var(--sleaze-ash);
+    }
+
+    .typo-sample-elite {
+      font-family: 'Special Elite', monospace;
+      font-size: 1rem;
+      line-height: 1.7;
+      color: var(--sleaze-cream);
+    }
+
+    .typo-sample-rock {
+      font-family: 'Rock Salt', cursive;
+      font-size: clamp(0.9rem, 1.5vw, 1.2rem);
+      color: var(--sleaze-green);
+      line-height: 2;
+    }
+
+    .typo-sample-oswald {
+      font-family: 'Oswald', sans-serif;
+      font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--sleaze-flash);
+    }
+
+    .typo-meta {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.75rem;
+      color: var(--sleaze-smoke);
+      margin-top: 0.5rem;
+      letter-spacing: 0.05em;
+    }
+
+    /* ============================================================
+       COLOR PALETTE
+       ============================================================ */
+    .palette-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .swatch {
+      text-align: center;
+      transition: transform 0.2s ease;
+    }
+
+    .swatch:hover {
+      transform: scale(1.05);
+    }
+
+    .swatch-color {
+      width: 100%;
+      aspect-ratio: 1;
+      border: 1px solid var(--sleaze-smoke);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .swatch-color::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--grain);
+      opacity: 0.15;
+      pointer-events: none;
+      mix-blend-mode: overlay;
+    }
+
+    .swatch-glow .swatch-color {
+      box-shadow: inset 0 0 30px rgba(255,255,255,0.05);
+    }
+
+    .swatch-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--sleaze-flash);
+      margin-top: 0.6rem;
+    }
+
+    .swatch-hex {
+      font-family: 'Special Elite', monospace;
+      font-size: 0.7rem;
+      color: var(--sleaze-ash);
+      margin-top: 0.15rem;
+    }
+
+    /* ============================================================
+       PHOTO GRID -- FLASH PHOTOGRAPHY CARDS
+       ============================================================ */
+    .photo-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .photo-card {
+      background: var(--sleaze-charcoal);
+      border: 1px solid var(--sleaze-smoke);
+      overflow: hidden;
+      position: relative;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .photo-card::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--grain);
+      pointer-events: none;
+      opacity: 0.15;
+      mix-blend-mode: overlay;
+    }
+
+    .photo-card:nth-child(odd) { transform: rotate(-1.5deg); }
+    .photo-card:nth-child(even) { transform: rotate(1deg); }
+    .photo-card:nth-child(3n) { transform: rotate(2deg); }
+
+    .photo-card:hover {
+      transform: rotate(0deg) scale(1.03);
+      box-shadow: var(--glow-pink);
+      z-index: 2;
+    }
+
+    .img-placeholder {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Permanent Marker', cursive;
+      font-size: 2.5rem;
+      color: var(--sleaze-smoke);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .img-placeholder::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, transparent 50%, rgba(0, 0, 0, 0.15) 100%);
+      pointer-events: none;
+    }
+
+    .img-placeholder--1 {
+      background: linear-gradient(135deg, #1a1a2e 0%, var(--sleaze-smoke) 40%, #0f0f0f 100%);
+    }
+
+    .img-placeholder--2 {
+      background: linear-gradient(145deg, #2d1832 0%, var(--sleaze-charcoal) 50%, #1a0a1e 100%);
+    }
+
+    .img-placeholder--3 {
+      background: linear-gradient(120deg, #0f1a2e 0%, var(--sleaze-smoke) 60%, #1a1c2e 100%);
+    }
+
+    .img-placeholder--4 {
+      background: linear-gradient(160deg, #2e1a0f 0%, var(--sleaze-charcoal) 45%, #0f0a05 100%);
+    }
+
+    .img-placeholder--5 {
+      background: linear-gradient(130deg, #1a2e1a 0%, var(--sleaze-smoke) 55%, #0a1a0a 100%);
+    }
+
+    .img-placeholder--6 {
+      background: linear-gradient(140deg, #2e2e0f 0%, var(--sleaze-charcoal) 50%, #1a1a05 100%);
+    }
+
+    /* Flash burst effect inside placeholder */
+    .img-placeholder .flash-burst {
+      position: absolute;
+      width: 120px;
+      height: 120px;
+      background: radial-gradient(circle, rgba(255,255,255,0.25) 0%, rgba(255,255,255,0.08) 30%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .card-body {
+      padding: 1rem 1.2rem;
+    }
+
+    .card-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.25rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--sleaze-flash);
+    }
+
+    .card-meta {
+      font-size: 0.8rem;
+      color: var(--sleaze-ash);
+      margin-top: 0.25rem;
+    }
+
+    .tag {
+      display: inline-block;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      border: 1px solid var(--sleaze-pink);
+      color: var(--sleaze-pink);
+      padding: 0.15rem 0.5rem;
+      margin-top: 0.5rem;
+      margin-right: 0.3rem;
+      transition: all 0.15s ease;
+    }
+
+    .tag:hover {
+      background: var(--sleaze-pink);
+      color: var(--sleaze-black);
+    }
+
+    .tag--yellow {
+      border-color: var(--sleaze-yellow);
+      color: var(--sleaze-yellow);
+    }
+
+    .tag--yellow:hover {
+      background: var(--sleaze-yellow);
+      color: var(--sleaze-black);
+    }
+
+    .tag--green {
+      border-color: var(--sleaze-green);
+      color: var(--sleaze-green);
+    }
+
+    .tag--green:hover {
+      background: var(--sleaze-green);
+      color: var(--sleaze-black);
+    }
+
+    /* ============================================================
+       PULL QUOTE -- ZINE ANNOTATION
+       ============================================================ */
+    .pullquote {
+      font-family: 'Permanent Marker', cursive;
+      font-size: clamp(1.5rem, 3.5vw, 2.5rem);
+      color: var(--sleaze-yellow);
+      line-height: 1.35;
+      padding: 3rem;
+      border-left: 4px solid var(--sleaze-pink);
+      background: var(--sleaze-charcoal);
+      transform: rotate(-1deg);
+      position: relative;
+    }
+
+    .pullquote::before {
+      content: '\201C';
+      font-size: 5rem;
+      color: var(--sleaze-pink);
+      position: absolute;
+      top: 0;
+      left: 0.5rem;
+      line-height: 1;
+      opacity: 0.4;
+    }
+
+    .pullquote::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--grain);
+      pointer-events: none;
+      opacity: 0.12;
+      mix-blend-mode: overlay;
+    }
+
+    .pullquote cite {
+      display: block;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-style: normal;
+      font-size: 0.85rem;
+      color: var(--sleaze-ash);
+      margin-top: 1rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    /* ============================================================
+       EVENT LINEUP -- GIG POSTER
+       ============================================================ */
+    .lineup {
+      text-align: center;
+      padding: 4rem 2rem;
+      background: var(--sleaze-charcoal);
+      border: 1px solid var(--sleaze-smoke);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .lineup::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--grain);
+      opacity: 0.1;
+      pointer-events: none;
+    }
+
+    .lineup > * { position: relative; z-index: 1; }
+
+    .lineup .date {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1rem;
+      color: var(--sleaze-yellow);
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      text-shadow: var(--glow-yellow);
+    }
+
+    .lineup .headliner {
+      font-family: 'Anton', sans-serif;
+      font-size: clamp(3rem, 9vw, 7rem);
+      color: var(--sleaze-flash);
+      text-transform: uppercase;
+      line-height: 0.95;
+      margin: 0.5rem 0;
+    }
+
+    .lineup .support {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(1.3rem, 3.5vw, 2.2rem);
+      color: var(--sleaze-pink);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .lineup .openers {
+      font-size: 0.95rem;
+      color: var(--sleaze-ash);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      margin-top: 0.5rem;
+    }
+
+    .lineup .venue {
+      font-family: 'Special Elite', monospace;
+      font-size: 0.85rem;
+      color: var(--sleaze-gold);
+      margin-top: 1.5rem;
+      letter-spacing: 0.08em;
+    }
+
+    .lineup-divider {
+      width: 60px;
+      height: 2px;
+      background: var(--sleaze-pink);
+      margin: 2.5rem auto;
+      box-shadow: var(--glow-pink);
+    }
+
+    /* ============================================================
+       STICKER BADGES
+       ============================================================ */
+    .sticker {
+      display: inline-block;
+      font-family: 'Permanent Marker', cursive;
+      font-size: 0.8rem;
+      padding: 0.35rem 0.7rem;
+      background: var(--sleaze-yellow);
+      color: var(--sleaze-black);
+      transform: rotate(3deg);
+      box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.3);
+      white-space: nowrap;
+    }
+
+    .sticker--pink {
+      background: var(--sleaze-pink);
+      color: var(--sleaze-flash);
+      transform: rotate(-2deg);
+    }
+
+    .sticker--green {
+      background: var(--sleaze-green);
+      color: var(--sleaze-black);
+      transform: rotate(4deg);
+    }
+
+    .sticker--stamp {
+      font-family: 'Bebas Neue', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      border: 2px solid var(--sleaze-pink);
+      border-radius: 50%;
+      width: 65px;
+      height: 65px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: transparent;
+      color: var(--sleaze-pink);
+      transform: rotate(-15deg);
+      padding: 0;
+      font-size: 0.7rem;
+    }
+
+    .sticker--gold {
+      background: var(--sleaze-gold);
+      color: var(--sleaze-black);
+      transform: rotate(-5deg);
+    }
+
+    /* ============================================================
+       EFFECTS SHOWCASE
+       ============================================================ */
+    .effects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+
+    .effect-card {
+      background: var(--sleaze-charcoal);
+      border: 1px solid var(--sleaze-smoke);
+      padding: 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .effect-card::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--grain);
+      pointer-events: none;
+      opacity: 0.1;
+      mix-blend-mode: overlay;
+    }
+
+    .effect-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--sleaze-pink);
+      margin-bottom: 1rem;
+    }
+
+    .effect-demo {
+      min-height: 120px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Neon glow text effect */
+    .neon-text {
+      font-family: 'Anton', sans-serif;
+      font-size: 3rem;
+      text-transform: uppercase;
+      color: var(--sleaze-pink);
+      text-shadow:
+        0 0 7px rgba(255, 45, 135, 0.8),
+        0 0 20px rgba(255, 45, 135, 0.5),
+        0 0 42px rgba(255, 45, 135, 0.3),
+        0 0 82px rgba(255, 45, 135, 0.15);
+    }
+
+    /* Flash overexposure effect */
+    .flash-demo {
+      width: 100%;
+      height: 120px;
+      background: linear-gradient(135deg, #2a1a2e 0%, var(--sleaze-smoke) 50%, #1a1a2e 100%);
+      position: relative;
+      filter: contrast(1.2) brightness(1.1) saturate(0.85);
+    }
+
+    .flash-demo::before {
+      content: '';
+      position: absolute;
+      top: 15%;
+      left: 25%;
+      width: 180px;
+      height: 180px;
+      background: radial-gradient(circle, rgba(255,255,255,0.35) 0%, rgba(255,255,255,0.1) 30%, transparent 60%);
+      border-radius: 50%;
+    }
+
+    .flash-demo::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, transparent 50%, rgba(0, 0, 0, 0.1) 100%);
+      pointer-events: none;
+    }
+
+    /* Halftone effect */
+    .halftone-demo {
+      width: 100%;
+      height: 120px;
+      background:
+        radial-gradient(circle, var(--sleaze-pink) 1.5px, transparent 1.5px);
+      background-size: 8px 8px;
+      opacity: 0.7;
+    }
+
+    /* VHS effect */
+    .vhs-demo {
+      width: 100%;
+      height: 120px;
+      background: var(--sleaze-smoke);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .vhs-demo::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0, 0, 0, 0.12) 2px,
+        rgba(0, 0, 0, 0.12) 4px
+      );
+    }
+
+    .vhs-demo::after {
+      content: '';
+      position: absolute;
+      top: 40%;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: rgba(255, 45, 135, 0.3);
+      box-shadow: 0 0 20px rgba(255, 45, 135, 0.2);
+    }
+
+    .vhs-demo .vhs-text {
+      position: absolute;
+      top: 10px;
+      right: 12px;
+      font-family: 'Special Elite', monospace;
+      font-size: 0.65rem;
+      color: var(--sleaze-red);
+      letter-spacing: 0.1em;
+    }
+
+    .vhs-demo .vhs-text-2 {
+      position: absolute;
+      bottom: 10px;
+      left: 12px;
+      font-family: 'Special Elite', monospace;
+      font-size: 0.6rem;
+      color: var(--sleaze-flash);
+      opacity: 0.6;
+    }
+
+    /* Polaroid border effect */
+    .polaroid-demo {
+      background: var(--sleaze-cream);
+      padding: 12px 12px 40px 12px;
+      transform: rotate(-2deg);
+      box-shadow: 3px 3px 12px rgba(0, 0, 0, 0.5);
+      display: inline-block;
+    }
+
+    .polaroid-inner {
+      width: 160px;
+      height: 110px;
+      background: linear-gradient(135deg, #2a2a3a 0%, #1a1a2a 100%);
+      filter: contrast(1.15) brightness(1.05) saturate(0.9);
+      position: relative;
+    }
+
+    .polaroid-inner::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, transparent 50%, rgba(0, 0, 0, 0.1) 100%);
+    }
+
+    .polaroid-caption {
+      font-family: 'Permanent Marker', cursive;
+      font-size: 0.7rem;
+      color: var(--sleaze-charcoal);
+      text-align: center;
+      margin-top: 8px;
+    }
+
+    /* Glitch text effect */
+    @keyframes glitch-1 {
+      0%, 100% { clip-path: inset(0 0 92% 0); transform: translate(-2px, 0); }
+      25% { clip-path: inset(30% 0 50% 0); transform: translate(2px, 0); }
+      50% { clip-path: inset(70% 0 10% 0); transform: translate(-1px, 0); }
+      75% { clip-path: inset(10% 0 80% 0); transform: translate(1px, 0); }
+    }
+
+    @keyframes glitch-2 {
+      0%, 100% { clip-path: inset(85% 0 0 0); transform: translate(2px, 0); }
+      25% { clip-path: inset(45% 0 35% 0); transform: translate(-2px, 0); }
+      50% { clip-path: inset(5% 0 85% 0); transform: translate(1px, 0); }
+      75% { clip-path: inset(60% 0 20% 0); transform: translate(-1px, 0); }
+    }
+
+    .glitch-text {
+      font-family: 'Anton', sans-serif;
+      font-size: 2.8rem;
+      text-transform: uppercase;
+      color: var(--sleaze-flash);
+      position: relative;
+      display: inline-block;
+    }
+
+    .glitch-text::before,
+    .glitch-text::after {
+      content: attr(data-text);
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .glitch-text::before {
+      color: var(--sleaze-pink);
+      animation: glitch-1 2s infinite linear alternate;
+    }
+
+    .glitch-text::after {
+      color: var(--sleaze-green);
+      animation: glitch-2 2.5s infinite linear alternate;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .glitch-text::before,
+      .glitch-text::after { animation: none; clip-path: none; opacity: 0; }
+    }
+
+    /* ============================================================
+       COMPONENT SHOWCASE -- FORM ELEMENTS
+       ============================================================ */
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-label {
+      display: block;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--sleaze-ash);
+      margin-bottom: 0.4rem;
+    }
+
+    .form-input {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1rem;
+      padding: 0.75rem 1rem;
+      background: var(--sleaze-charcoal);
+      border: 2px solid var(--sleaze-smoke);
+      color: var(--sleaze-flash);
+      outline: none;
+      width: 100%;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .form-input::placeholder {
+      color: var(--sleaze-ash);
+    }
+
+    .form-input:focus {
+      border-color: var(--sleaze-pink);
+      box-shadow: 0 0 10px rgba(255, 45, 135, 0.2);
+    }
+
+    .form-textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    /* ============================================================
+       NEWSLETTER / SUBSCRIBE
+       ============================================================ */
+    .newsletter {
+      padding: 4rem 2.5rem;
+      text-align: center;
+      border-top: 1px solid var(--sleaze-smoke);
+    }
+
+    .newsletter h2 {
+      font-family: 'Permanent Marker', cursive;
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      color: var(--sleaze-pink);
+      text-shadow: var(--glow-pink);
+      transform: rotate(-1.5deg);
+      display: inline-block;
+      margin-bottom: 0.5rem;
+    }
+
+    .newsletter p {
+      color: var(--sleaze-ash);
+      margin-bottom: 1.5rem;
+      font-weight: 300;
+    }
+
+    .newsletter-form {
+      display: flex;
+      gap: 0;
+      max-width: 450px;
+      margin: 0 auto;
+    }
+
+    .newsletter-form input {
+      flex: 1;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1rem;
+      padding: 0.75rem 1rem;
+      background: var(--sleaze-charcoal);
+      border: 2px solid var(--sleaze-smoke);
+      border-right: none;
+      color: var(--sleaze-flash);
+      outline: none;
+    }
+
+    .newsletter-form input::placeholder {
+      color: var(--sleaze-ash);
+    }
+
+    .newsletter-form input:focus {
+      border-color: var(--sleaze-pink);
+    }
+
+    .newsletter-form button {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 0.75rem 1.5rem;
+      background: var(--sleaze-pink);
+      color: var(--sleaze-black);
+      border: 2px solid var(--sleaze-pink);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .newsletter-form button:hover {
+      background: var(--sleaze-flash);
+      border-color: var(--sleaze-flash);
+    }
+
+    /* ============================================================
+       FOOTER -- THE AFTERPARTY
+       ============================================================ */
+    .footer {
+      padding: 3rem 2.5rem;
+      border-top: 1px solid var(--sleaze-smoke);
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2rem;
+      max-width: var(--max-w);
+      margin: 0 auto;
+    }
+
+    .footer h4 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 0.9rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--sleaze-flash);
+      margin-bottom: 0.75rem;
+    }
+
+    .footer ul {
+      list-style: none;
+    }
+
+    .footer li {
+      padding: 0.2rem 0;
+    }
+
+    .footer a {
+      color: var(--sleaze-ash);
+      font-size: 0.9rem;
+      border-bottom: none;
+    }
+
+    .footer a:hover {
+      color: var(--sleaze-pink);
+      border-bottom: none;
+    }
+
+    .footer-bottom {
+      padding: 1.5rem 2.5rem;
+      border-top: 1px solid var(--sleaze-smoke);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .footer-bottom p {
+      font-size: 0.8rem;
+      color: var(--sleaze-ash);
+      margin: 0;
+    }
+
+    .footer-bottom .logo-text {
+      font-family: 'Permanent Marker', cursive;
+      color: var(--sleaze-pink);
+      text-shadow: var(--glow-pink);
+      font-size: 1.1rem;
+    }
+
+    /* ============================================================
+       BADGE ROW -- SCROLLING MARQUEE
+       ============================================================ */
+    @keyframes marquee-scroll {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+
+    .marquee-strip {
+      overflow: hidden;
+      white-space: nowrap;
+      border-top: 1px solid var(--sleaze-smoke);
+      border-bottom: 1px solid var(--sleaze-smoke);
+      padding: 0.8rem 0;
+      position: relative;
+    }
+
+    .marquee-inner {
+      display: inline-block;
+      animation: marquee-scroll 25s linear infinite;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .marquee-inner { animation: none; }
+    }
+
+    .marquee-item {
+      display: inline-block;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--sleaze-ash);
+      padding: 0 2rem;
+    }
+
+    .marquee-item .dot {
+      color: var(--sleaze-pink);
+      margin-right: 0.5rem;
+    }
+
+    /* ============================================================
+       RESPONSIVE
+       ============================================================ */
+    @media (max-width: 900px) {
+      .typo-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .effects-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .nav {
+        padding: 0 1.2rem;
+      }
+
+      .nav-logo {
+        font-size: 1.2rem;
+      }
+
+      .nav a {
+        padding: 0.7rem 0.6rem;
+        font-size: 0.8rem;
+        letter-spacing: 0.08em;
+      }
+
+      .hero {
+        padding: 3rem 1.5rem;
+        min-height: 85vh;
+      }
+
+      .hero-sticker {
+        display: none;
+      }
+
+      .section,
+      .section-full {
+        padding: 3.5rem 1.5rem;
+      }
+
+      .pullquote {
+        padding: 2rem 1.5rem;
+        font-size: 1.3rem;
+        transform: none;
+      }
+
+      .lineup {
+        padding: 3rem 1.5rem;
+      }
+
+      .photo-card:nth-child(odd),
+      .photo-card:nth-child(even),
+      .photo-card:nth-child(3n) {
+        transform: none;
+      }
+
+      .photo-card:hover {
+        transform: scale(1.01);
+      }
+
+      .photo-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .palette-grid {
+        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+      }
+
+      .newsletter {
+        padding: 3rem 1.5rem;
+      }
+
+      .newsletter-form {
+        flex-direction: column;
+      }
+
+      .newsletter-form input {
+        border-right: 2px solid var(--sleaze-smoke);
+        border-bottom: none;
+      }
+
+      .footer {
+        padding: 2rem 1.5rem;
+      }
+
+      .footer-bottom {
+        padding: 1.5rem;
+        flex-direction: column;
+        text-align: center;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .nav ul {
+        flex-wrap: wrap;
+      }
+
+      .btn-row {
+        flex-direction: column;
+      }
+
+      .btn-row .btn {
+        text-align: center;
+      }
+
+      .hero h1 {
+        font-size: clamp(3.5rem, 16vw, 6rem);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================================
+       NAVIGATION -- DIVE BAR MENU BOARD
+       ============================================================ -->
+  <nav class="nav">
+    <a href="#top" class="nav-logo neon-flicker">NITE CRAWL</a>
+    <ul>
+      <li><a href="#typography">Type</a></li>
+      <li><a href="#palette">Color</a></li>
+      <li><a href="#gallery">Photos</a></li>
+      <li><a href="#events">Shows</a></li>
+      <li><a href="#effects">FX</a></li>
+      <li><a href="#components">UI</a></li>
+    </ul>
+  </nav>
+
+  <!-- ============================================================
+       HERO -- FLASH-LIT CHAOS
+       ============================================================ -->
+  <section class="hero scanlines" id="top">
+    <div class="hero-glow-2"></div>
+    <div class="hero-glow-3"></div>
+
+    <span class="hero-sticker hero-sticker--1">GUEST LIST</span>
+    <span class="hero-sticker hero-sticker--2">NO PHOTOS</span>
+    <span class="hero-sticker hero-sticker--3">21+</span>
+
+    <h1>
+      INDIE<br>
+      <span class="neon">SLEAZE</span>
+    </h1>
+    <span class="hero-subtitle">Brooklyn, NY &mdash; 2006&ndash;2012</span>
+    <p class="hero-desc">
+      Flash photography grain. Neon nightlife. American Apparel after midnight.
+      Disposable cameras and MySpace profiles. The raw, hedonistic visual language
+      of the underground party scene.
+    </p>
+    <div class="btn-row">
+      <a href="#gallery" class="btn btn--solid">View the Roll</a>
+      <a href="#events" class="btn btn--yellow">Upcoming Shows</a>
+      <a href="#effects" class="btn btn--green">Explore FX</a>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SCROLLING MARQUEE STRIP
+       ============================================================ -->
+  <div class="marquee-strip">
+    <div class="marquee-inner">
+      <span class="marquee-item"><span class="dot">&bull;</span>Williamsburg</span>
+      <span class="marquee-item"><span class="dot">&bull;</span>Shoreditch</span>
+      <span class="marquee-item"><span class="dot">&bull;</span>Lower East Side</span>
+      <span class="marquee-item"><span class="dot">&bull;</span>Silver Lake</span>
+      <span class="marquee-item"><span class="dot">&bull;</span>Bushwick</span>
+      <span class="marquee-item"><span class="dot">&bull;</span>Dalston</span>
+      <span class="marquee-item"><span class="dot">&bull;</span>The Cobrasnake</span>
+      <span class="marquee-item"><span class="dot">&bull;</span>Misshapes</span>
+      <span class="marquee-item"><span class="dot">&bull;</span>Last Nites</span>
+      <span class="marquee-item"><span class="dot">&bull;</span>American Apparel</span>
+      <span class="marquee-item"><span class="dot">&bull;</span>Disposable Cameras</span>
+      <span class="marquee-item"><span class="dot">&bull;</span>MySpace</span>
+      <!-- Duplicate for seamless loop -->
+      <span class="marquee-item"><span class="dot">&bull;</span>Williamsburg</span>
+      <span class="marquee-item"><span class="dot">&bull;</span>Shoreditch</span>
+      <span class="marquee-item"><span class="dot">&bull;</span>Lower East Side</span>
+      <span class="marquee-item"><span class="dot">&bull;</span>Silver Lake</span>
+      <span class="marquee-item"><span class="dot">&bull;</span>Bushwick</span>
+      <span class="marquee-item"><span class="dot">&bull;</span>Dalston</span>
+      <span class="marquee-item"><span class="dot">&bull;</span>The Cobrasnake</span>
+      <span class="marquee-item"><span class="dot">&bull;</span>Misshapes</span>
+      <span class="marquee-item"><span class="dot">&bull;</span>Last Nites</span>
+      <span class="marquee-item"><span class="dot">&bull;</span>American Apparel</span>
+      <span class="marquee-item"><span class="dot">&bull;</span>Disposable Cameras</span>
+      <span class="marquee-item"><span class="dot">&bull;</span>MySpace</span>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       TYPOGRAPHY SHOWCASE
+       ============================================================ -->
+  <section class="section" id="typography">
+    <h2 class="section-title">TYPE<span class="accent">FACE</span> SHOWCASE</h2>
+    <p class="section-lead">
+      Typography that oscillates between blocky party-flyer display lettering and the
+      condensed sans-serifs of MySpace band pages. Designed at 2 AM with a Sharpie and a photocopier.
+    </p>
+
+    <div class="typo-showcase">
+      <div class="typo-grid">
+        <div class="typo-item">
+          <div class="typo-label">Anton / Display</div>
+          <div class="typo-sample-anton">LAST NITE</div>
+          <div class="typo-meta">Anton &mdash; Ultra-condensed display sans &mdash; Hero text, event names</div>
+        </div>
+
+        <div class="typo-item">
+          <div class="typo-label">Bebas Neue / Headings</div>
+          <div class="typo-sample-bebas">DANCE FLOOR CONFESSIONAL</div>
+          <div class="typo-meta">Bebas Neue &mdash; Condensed all-caps sans &mdash; Headlines, navigation</div>
+        </div>
+
+        <div class="typo-item">
+          <div class="typo-label">Permanent Marker / Annotations</div>
+          <div class="typo-sample-marker">you had to be there</div>
+          <div class="typo-meta">Permanent Marker &mdash; Hand-drawn marker script &mdash; Callouts, zine text</div>
+        </div>
+
+        <div class="typo-item">
+          <div class="typo-label">Barlow Condensed / Body</div>
+          <div class="typo-sample-barlow">
+            The flash catches everything wrong. Smudged eyeliner, cheap beer,
+            someone's hand blurred mid-gesture. The best photos happen when
+            nobody is posing and the camera is just another guest at the party.
+          </div>
+          <div class="typo-meta">Barlow Condensed Light &mdash; Narrow humanist sans &mdash; Body text, descriptions</div>
+        </div>
+
+        <div class="typo-item">
+          <div class="typo-label">Special Elite / Editorial</div>
+          <div class="typo-sample-elite">
+            Shot on a Canon PowerShot A540. No retouching. No cropping.
+            Just the flash and whatever happens next.
+          </div>
+          <div class="typo-meta">Special Elite &mdash; Typewriter slab &mdash; Captions, editorial body text</div>
+        </div>
+
+        <div class="typo-item">
+          <div class="typo-label">Rock Salt / Scrawl</div>
+          <div class="typo-sample-rock">meet me at the bar</div>
+          <div class="typo-meta">Rock Salt &mdash; Rough handwriting &mdash; Sticker text, scrawled notes</div>
+        </div>
+
+        <div class="typo-item">
+          <div class="typo-label">Oswald / UI Labels</div>
+          <div class="typo-sample-oswald">Doors Open 10PM / $12 Cover</div>
+          <div class="typo-meta">Oswald Bold &mdash; Condensed gothic sans &mdash; Navigation, compact labels</div>
+        </div>
+
+        <div class="typo-item">
+          <div class="typo-label">Mixed / Zine Pairing</div>
+          <div style="margin-bottom: 0.3rem;">
+            <span style="font-family: 'Anton', sans-serif; font-size: 2rem; text-transform: uppercase; color: var(--sleaze-flash);">WAREHOUSE</span>
+            <span style="font-family: 'Permanent Marker', cursive; font-size: 1.2rem; color: var(--sleaze-yellow); transform: rotate(-3deg); display: inline-block; margin-left: 0.5rem;">party!</span>
+          </div>
+          <div style="font-family: 'Barlow Condensed', sans-serif; font-weight: 300; color: var(--sleaze-ash); font-size: 0.95rem;">
+            The tension between order and chaos is central to the aesthetic.
+            Mix a clean condensed sans for structure with a hand-drawn font for personality.
+          </div>
+          <div class="typo-meta">Anton + Permanent Marker + Barlow Condensed &mdash; Classic pairing</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       COLOR PALETTE
+       ============================================================ -->
+  <section class="section" id="palette">
+    <h2 class="section-title">COLOR <span class="accent">PALETTE</span></h2>
+    <p class="section-lead">
+      Built around the contrast between dark nightclub environments and the neon,
+      flash-lit highlights that punctuate them. Blacks and deep grays form the foundation;
+      hot pinks, electric yellows, and acid greens provide the charged energy.
+    </p>
+
+    <h3 style="font-size: 1.2rem; letter-spacing: 0.15em; margin-bottom: 1rem;">
+      <span style="color: var(--sleaze-pink);">//</span> Dark Foundations
+    </h3>
+    <div class="palette-grid" style="margin-bottom: 2.5rem;">
+      <div class="swatch">
+        <div class="swatch-color" style="background-color: var(--sleaze-black);"></div>
+        <div class="swatch-name">Blackout</div>
+        <div class="swatch-hex">#0A0A0A</div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background-color: var(--sleaze-charcoal);"></div>
+        <div class="swatch-name">Charcoal Venue</div>
+        <div class="swatch-hex">#1C1C1C</div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background-color: var(--sleaze-smoke);"></div>
+        <div class="swatch-name">Smoke Machine</div>
+        <div class="swatch-hex">#2E2E2E</div>
+      </div>
+    </div>
+
+    <h3 style="font-size: 1.2rem; letter-spacing: 0.15em; margin-bottom: 1rem;">
+      <span style="color: var(--sleaze-yellow);">//</span> Flash & Light
+    </h3>
+    <div class="palette-grid" style="margin-bottom: 2.5rem;">
+      <div class="swatch">
+        <div class="swatch-color" style="background-color: var(--sleaze-flash);"></div>
+        <div class="swatch-name">Flash White</div>
+        <div class="swatch-hex">#F5F0EB</div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background-color: var(--sleaze-cream);"></div>
+        <div class="swatch-name">Polaroid Cream</div>
+        <div class="swatch-hex">#F0E6D3</div>
+      </div>
+    </div>
+
+    <h3 style="font-size: 1.2rem; letter-spacing: 0.15em; margin-bottom: 1rem;">
+      <span style="color: var(--sleaze-green);">//</span> Neon Accents
+    </h3>
+    <div class="palette-grid" style="margin-bottom: 2.5rem;">
+      <div class="swatch swatch-glow">
+        <div class="swatch-color" style="background-color: var(--sleaze-pink); box-shadow: var(--glow-pink);"></div>
+        <div class="swatch-name">Hot Neon Pink</div>
+        <div class="swatch-hex">#FF2D87</div>
+      </div>
+      <div class="swatch swatch-glow">
+        <div class="swatch-color" style="background-color: var(--sleaze-yellow); box-shadow: var(--glow-yellow);"></div>
+        <div class="swatch-name">Electric Yellow</div>
+        <div class="swatch-hex">#FFE714</div>
+      </div>
+      <div class="swatch swatch-glow">
+        <div class="swatch-color" style="background-color: var(--sleaze-green); box-shadow: var(--glow-green);"></div>
+        <div class="swatch-name">Acid Green</div>
+        <div class="swatch-hex">#39FF14</div>
+      </div>
+      <div class="swatch swatch-glow">
+        <div class="swatch-color" style="background-color: var(--sleaze-purple); box-shadow: var(--glow-purple);"></div>
+        <div class="swatch-name">Bruise Purple</div>
+        <div class="swatch-hex">#8B2FC9</div>
+      </div>
+    </div>
+
+    <h3 style="font-size: 1.2rem; letter-spacing: 0.15em; margin-bottom: 1rem;">
+      <span style="color: var(--sleaze-gold);">//</span> Supporting Tones
+    </h3>
+    <div class="palette-grid">
+      <div class="swatch">
+        <div class="swatch-color" style="background-color: var(--sleaze-gold);"></div>
+        <div class="swatch-name">Cheap Beer Gold</div>
+        <div class="swatch-hex">#C9A84C</div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background-color: var(--sleaze-red);"></div>
+        <div class="swatch-name">Red Eye</div>
+        <div class="swatch-hex">#CC1100</div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background-color: var(--sleaze-ash);"></div>
+        <div class="swatch-name">Cigarette Ash</div>
+        <div class="swatch-hex">#8A8A8A</div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background-color: var(--sleaze-blue);"></div>
+        <div class="swatch-name">Dive Bar Blue</div>
+        <div class="swatch-hex">#1A3A5C</div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background-color: var(--sleaze-silver);"></div>
+        <div class="swatch-name">Silver Lame</div>
+        <div class="swatch-hex">#C0C0C0</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       PHOTO GALLERY -- FLASH PHOTOGRAPHY CARDS
+       ============================================================ -->
+  <section class="section" id="gallery">
+    <h2 class="section-title">THE <span class="accent">ROLL</span></h2>
+    <p class="section-lead">
+      36 exposures. One disposable camera. No second takes.
+      Every frame from last weekend's crawl through Bushwick.
+    </p>
+
+    <div class="photo-grid">
+      <div class="photo-card">
+        <div class="img-placeholder img-placeholder--1">
+          <div class="flash-burst" style="top: 20%; left: 30%;"></div>
+          01
+        </div>
+        <div class="card-body">
+          <div class="card-title">Glasslands Gallery</div>
+          <div class="card-meta">Kent Ave, Williamsburg &mdash; 11:47 PM</div>
+          <span class="tag">Flash</span>
+          <span class="tag">Crowd</span>
+        </div>
+      </div>
+
+      <div class="photo-card">
+        <div class="img-placeholder img-placeholder--2">
+          <div class="flash-burst" style="top: 15%; right: 20%;"></div>
+          02
+        </div>
+        <div class="card-body">
+          <div class="card-title">Bathroom Line Confessional</div>
+          <div class="card-meta">Death By Audio &mdash; 12:30 AM</div>
+          <span class="tag">Candid</span>
+          <span class="tag tag--yellow">Portrait</span>
+        </div>
+      </div>
+
+      <div class="photo-card">
+        <div class="img-placeholder img-placeholder--3">
+          <div class="flash-burst" style="top: 40%; left: 50%;"></div>
+          03
+        </div>
+        <div class="card-body">
+          <div class="card-title">DJ Booth Smoke Machine</div>
+          <div class="card-meta">285 Kent &mdash; 1:15 AM</div>
+          <span class="tag tag--green">Electro</span>
+          <span class="tag">Haze</span>
+        </div>
+      </div>
+
+      <div class="photo-card">
+        <div class="img-placeholder img-placeholder--4">
+          <div class="flash-burst" style="bottom: 30%; right: 25%;"></div>
+          04
+        </div>
+        <div class="card-body">
+          <div class="card-title">Sidewalk Cigarette Break</div>
+          <div class="card-meta">Grand St, Williamsburg &mdash; 2:03 AM</div>
+          <span class="tag">Street</span>
+          <span class="tag tag--yellow">2 AM</span>
+        </div>
+      </div>
+
+      <div class="photo-card">
+        <div class="img-placeholder img-placeholder--5">
+          <div class="flash-burst" style="top: 25%; left: 40%;"></div>
+          05
+        </div>
+        <div class="card-body">
+          <div class="card-title">Sequin Jacket Mosh Pit</div>
+          <div class="card-meta">Market Hotel, Bushwick &mdash; 1:45 AM</div>
+          <span class="tag">Messy</span>
+          <span class="tag tag--green">Live</span>
+        </div>
+      </div>
+
+      <div class="photo-card">
+        <div class="img-placeholder img-placeholder--6">
+          <div class="flash-burst" style="top: 10%; left: 15%;"></div>
+          06
+        </div>
+        <div class="card-body">
+          <div class="card-title">Rooftop Dawn Survivors</div>
+          <div class="card-meta">Somewhere in Bushwick &mdash; 5:20 AM</div>
+          <span class="tag tag--yellow">Golden Hour</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       PULL QUOTE
+       ============================================================ -->
+  <div class="section" style="padding-top: 1rem; padding-bottom: 1rem;">
+    <blockquote class="pullquote">
+      The best photos happen when nobody is posing and the flash is the only light source.
+      <cite>Shot on a Canon PowerShot A540, 2009</cite>
+    </blockquote>
+  </div>
+
+  <!-- ============================================================
+       EVENTS / LINEUP -- GIG POSTER
+       ============================================================ -->
+  <section class="section" id="events">
+    <h2 class="section-title">COMING <span class="accent-y">UP</span></h2>
+    <p class="section-lead">
+      Our picks for the shows worth losing sleep over this month.
+      Get there early. Leave when they kick you out.
+    </p>
+
+    <div class="lineup">
+      <div class="date">Friday &mdash; Feb 21</div>
+      <div class="headliner">Crystal Castles</div>
+      <div class="support">Health &bull; Salem</div>
+      <div class="openers">DJ sets by Frankie Chan + Mishka</div>
+      <div class="venue">Market Hotel &mdash; 1140 Myrtle Ave, Brooklyn &mdash; Doors 9PM &mdash; $12</div>
+    </div>
+
+    <div class="lineup-divider"></div>
+
+    <div class="lineup">
+      <div class="date">Saturday &mdash; Feb 22</div>
+      <div class="headliner">CSS</div>
+      <div class="support">Matt &amp; Kim &bull; Sleigh Bells</div>
+      <div class="openers">Hosted by Misshapes</div>
+      <div class="venue">Glasslands Gallery &mdash; 289 Kent Ave, Brooklyn &mdash; Doors 10PM &mdash; $15</div>
+    </div>
+
+    <div class="lineup-divider"></div>
+
+    <div class="lineup">
+      <div class="date">Thursday &mdash; Feb 27</div>
+      <div class="headliner">MGMT</div>
+      <div class="support">Yeasayer &bull; Neon Indian</div>
+      <div class="openers">Afterparty TBA</div>
+      <div class="venue">Music Hall of Williamsburg &mdash; 66 N 6th St, Brooklyn &mdash; Doors 8PM &mdash; $18</div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       EFFECTS & DETAILS SHOWCASE
+       ============================================================ -->
+  <section class="section" id="effects">
+    <h2 class="section-title">EFFECTS <span class="accent-g">&amp;</span> DETAILS</h2>
+    <p class="section-lead">
+      Analog decay, neon glow, VHS artifacts, and flash overexposure.
+      The textures that separate Indie Sleaze from generic dark-mode UI.
+    </p>
+
+    <div class="effects-grid">
+      <!-- Neon Glow -->
+      <div class="effect-card">
+        <div class="effect-title">Neon Glow Text</div>
+        <div class="effect-demo">
+          <span class="neon-text neon-flicker">OPEN</span>
+        </div>
+        <p style="font-size: 0.8rem; color: var(--sleaze-ash); margin-top: 1rem; position: relative; z-index: 1;">
+          Multi-layered text-shadow with decreasing opacity simulates neon tube glow.
+          Flicker animation adds dive-bar authenticity.
+        </p>
+      </div>
+
+      <!-- Flash Overexposure -->
+      <div class="effect-card">
+        <div class="effect-title">Flash Overexposure</div>
+        <div class="effect-demo">
+          <div class="flash-demo"></div>
+        </div>
+        <p style="font-size: 0.8rem; color: var(--sleaze-ash); margin-top: 1rem; position: relative; z-index: 1;">
+          Radial gradient hotspot + contrast/brightness filter mimics
+          the harsh direct flash of point-and-shoot cameras.
+        </p>
+      </div>
+
+      <!-- Glitch Text -->
+      <div class="effect-card">
+        <div class="effect-title">Glitch / Distortion</div>
+        <div class="effect-demo">
+          <span class="glitch-text" data-text="SLEAZE">SLEAZE</span>
+        </div>
+        <p style="font-size: 0.8rem; color: var(--sleaze-ash); margin-top: 1rem; position: relative; z-index: 1;">
+          Pseudo-elements with clip-path animation create RGB channel splitting.
+          Evokes corrupted digital files and VHS tracking errors.
+        </p>
+      </div>
+
+      <!-- Halftone Dots -->
+      <div class="effect-card">
+        <div class="effect-title">Halftone Dots</div>
+        <div class="effect-demo">
+          <div class="halftone-demo"></div>
+        </div>
+        <p style="font-size: 0.8rem; color: var(--sleaze-ash); margin-top: 1rem; position: relative; z-index: 1;">
+          CSS radial-gradient pattern creates a halftone screen effect
+          reminiscent of photocopied zines and cheap print.
+        </p>
+      </div>
+
+      <!-- VHS Scanlines -->
+      <div class="effect-card">
+        <div class="effect-title">VHS Scanlines</div>
+        <div class="effect-demo">
+          <div class="vhs-demo">
+            <span class="vhs-text">REC &bull;</span>
+            <span class="vhs-text-2">00:02:47:16</span>
+          </div>
+        </div>
+        <p style="font-size: 0.8rem; color: var(--sleaze-ash); margin-top: 1rem; position: relative; z-index: 1;">
+          Repeating linear gradient creates horizontal scan lines.
+          Color-shifted bar simulates VHS tracking glitch.
+        </p>
+      </div>
+
+      <!-- Polaroid Frame -->
+      <div class="effect-card">
+        <div class="effect-title">Polaroid Frame</div>
+        <div class="effect-demo">
+          <div class="polaroid-demo">
+            <div class="polaroid-inner"></div>
+            <div class="polaroid-caption">bushwick 2am</div>
+          </div>
+        </div>
+        <p style="font-size: 0.8rem; color: var(--sleaze-ash); margin-top: 1rem; position: relative; z-index: 1;">
+          Cream border with asymmetric bottom padding. Slight rotation and
+          drop shadow. Caption in marker font for that scrawled-on feel.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       COMPONENTS -- UI ELEMENTS
+       ============================================================ -->
+  <section class="section" id="components">
+    <h2 class="section-title">UI <span class="accent">COMPONENTS</span></h2>
+    <p class="section-lead">
+      Buttons, badges, form elements, and stickers. The building blocks of the aesthetic,
+      designed to feel like they were assembled from whatever materials were available.
+    </p>
+
+    <!-- Buttons -->
+    <div style="margin-bottom: 3rem;">
+      <h3 style="font-size: 1rem; letter-spacing: 0.15em; color: var(--sleaze-pink); margin-bottom: 1.2rem;">
+        Neon Glow Buttons
+      </h3>
+      <div style="display: flex; flex-wrap: wrap; gap: 1rem; align-items: center;">
+        <a href="#" class="btn" onclick="return false">Pink Outline</a>
+        <a href="#" class="btn btn--solid" onclick="return false">Pink Solid</a>
+        <a href="#" class="btn btn--yellow" onclick="return false">Yellow Outline</a>
+        <a href="#" class="btn btn--green" onclick="return false">Acid Green</a>
+        <a href="#" class="btn btn--purple" onclick="return false">Bruise Purple</a>
+        <a href="#" class="btn btn--sm" onclick="return false">Small CTA</a>
+      </div>
+    </div>
+
+    <!-- Stickers & Badges -->
+    <div style="margin-bottom: 3rem;">
+      <h3 style="font-size: 1rem; letter-spacing: 0.15em; color: var(--sleaze-pink); margin-bottom: 1.2rem;">
+        Sticker Badges &amp; Stamps
+      </h3>
+      <div style="display: flex; flex-wrap: wrap; gap: 1rem; align-items: center;">
+        <span class="sticker">GUEST LIST</span>
+        <span class="sticker sticker--pink">VIP ONLY</span>
+        <span class="sticker sticker--green">ALL AGES</span>
+        <span class="sticker sticker--gold">SOLD OUT</span>
+        <span class="sticker sticker--stamp">21+</span>
+        <span class="sticker sticker--stamp" style="border-color: var(--sleaze-yellow); color: var(--sleaze-yellow); transform: rotate(8deg);">XOXO</span>
+        <span class="sticker" style="transform: rotate(-6deg);">EST. 2007</span>
+        <span class="sticker sticker--pink" style="transform: rotate(5deg);">NO FLASH</span>
+      </div>
+    </div>
+
+    <!-- Tags -->
+    <div style="margin-bottom: 3rem;">
+      <h3 style="font-size: 1rem; letter-spacing: 0.15em; color: var(--sleaze-pink); margin-bottom: 1.2rem;">
+        Tags &amp; Labels
+      </h3>
+      <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center;">
+        <span class="tag">Nightlife</span>
+        <span class="tag">Flash</span>
+        <span class="tag tag--yellow">Electro</span>
+        <span class="tag tag--green">Live</span>
+        <span class="tag">Portrait</span>
+        <span class="tag tag--yellow">Candid</span>
+        <span class="tag">Street</span>
+        <span class="tag tag--green">DJ Set</span>
+        <span class="tag">Basement</span>
+        <span class="tag tag--yellow">Rooftop</span>
+        <span class="tag">Warehouse</span>
+      </div>
+    </div>
+
+    <!-- Form Elements -->
+    <div style="max-width: 500px;">
+      <h3 style="font-size: 1rem; letter-spacing: 0.15em; color: var(--sleaze-pink); margin-bottom: 1.2rem;">
+        Form Elements
+      </h3>
+      <div class="form-group">
+        <label class="form-label">Your Name</label>
+        <input type="text" class="form-input" placeholder="Who are you tonight?">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Email</label>
+        <input type="email" class="form-input" placeholder="your@email.com">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Tell Us Something</label>
+        <textarea class="form-input form-textarea" placeholder="What happened last night..."></textarea>
+      </div>
+      <a href="#" class="btn btn--solid" onclick="return false" style="margin-top: 0.5rem;">Submit</a>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SECOND PULL QUOTE
+       ============================================================ -->
+  <div class="section" style="padding-top: 1rem; padding-bottom: 1rem;">
+    <blockquote class="pullquote" style="transform: rotate(0.5deg); border-left-color: var(--sleaze-yellow);">
+      If it looks comfortable, it's not sleazy enough.
+      <cite>Design Principle &mdash; Indie Sleaze Handbook</cite>
+    </blockquote>
+  </div>
+
+  <!-- ============================================================
+       NEWSLETTER
+       ============================================================ -->
+  <section class="newsletter" id="subscribe">
+    <h2>Get on the List</h2>
+    <p>Weekly dispatches from the underground. Delivered Thursdays at midnight.</p>
+    <form class="newsletter-form" onsubmit="return false;">
+      <input type="email" placeholder="your@email.com" aria-label="Email address">
+      <button type="submit">Subscribe</button>
+    </form>
+  </section>
+
+  <!-- ============================================================
+       FOOTER -- THE AFTERPARTY
+       ============================================================ -->
+  <footer class="footer">
+    <div>
+      <h4>Navigate</h4>
+      <ul>
+        <li><a href="#typography">Typography</a></li>
+        <li><a href="#palette">Color Palette</a></li>
+        <li><a href="#gallery">Photo Roll</a></li>
+        <li><a href="#events">Upcoming Shows</a></li>
+        <li><a href="#effects">Effects</a></li>
+        <li><a href="#components">Components</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Archive</h4>
+      <ul>
+        <li><a href="#">2007 &mdash; Genesis</a></li>
+        <li><a href="#">2008 &mdash; The Rise</a></li>
+        <li><a href="#">2009 &mdash; Peak Sleaze</a></li>
+        <li><a href="#">2010 &mdash; The Plateau</a></li>
+        <li><a href="#">2011 &mdash; Last Call</a></li>
+        <li><a href="#">2012 &mdash; The Hangover</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Connect</h4>
+      <ul>
+        <li><a href="#">Tumblr</a></li>
+        <li><a href="#">Flickr</a></li>
+        <li><a href="#">Last.fm</a></li>
+        <li><a href="#">MySpace</a></li>
+        <li><a href="#">RSS Feed</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Legal</h4>
+      <ul>
+        <li><a href="#">Privacy Policy</a></li>
+        <li><a href="#">Photo Credits</a></li>
+        <li><a href="#">Contact</a></li>
+        <li><a href="#">Colophon</a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <div class="footer-bottom">
+    <span class="logo-text neon-flicker">NITE CRAWL</span>
+    <p>No rights reserved. Steal this website. &copy; 2007&ndash;forever.</p>
+    <p style="font-family: 'Special Elite', monospace; font-size: 0.7rem; color: var(--sleaze-smoke);">
+      Built with a disposable camera and a dream.
+    </p>
+  </div>
+
+</body>
+</html>
