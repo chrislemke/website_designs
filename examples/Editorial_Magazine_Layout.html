@@ -1,0 +1,2489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Editorial Magazine Layout -- Design Aesthetic Reference</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;0,900;1,400;1,700;1,900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=Source+Sans+3:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&display=swap" rel="stylesheet">
+  <style>
+    /* ============================================================
+       CSS CUSTOM PROPERTIES
+       ============================================================ */
+    :root {
+      /* Text hierarchy */
+      --ed-ink: #1a1a1a;
+      --ed-charcoal: #2c2c2c;
+      --ed-body: #3d3d3d;
+      --ed-gray: #6b6b6b;
+      --ed-silver: #9a9a9a;
+
+      /* Borders and rules */
+      --ed-rule: #d4d4d4;
+      --ed-rule-dark: #b0b0b0;
+
+      /* Backgrounds */
+      --ed-bg-stone: #e8e4df;
+      --ed-bg-paper: #f5f3f0;
+      --ed-bg-white: #ffffff;
+
+      /* Accent colors */
+      --ed-red: #c41e2a;
+      --ed-navy: #1b2a4a;
+      --ed-gold: #b8860b;
+      --ed-sage: #7a8b6f;
+      --ed-burgundy: #6b1d2a;
+
+      /* Functional */
+      --ed-link: #1b2a4a;
+      --ed-link-hover: #c41e2a;
+      --ed-selection-bg: rgba(196, 30, 42, 0.12);
+      --ed-selection-text: #1a1a1a;
+
+      /* Spacing scale */
+      --ed-space-xs: 4px;
+      --ed-space-sm: 8px;
+      --ed-space-md: 16px;
+      --ed-space-lg: 32px;
+      --ed-space-xl: 64px;
+      --ed-space-2xl: 96px;
+      --ed-space-3xl: 128px;
+
+      /* Content widths */
+      --ed-width-narrow: 640px;
+      --ed-width-article: 780px;
+      --ed-width-wide: 1200px;
+      --ed-width-full: 1440px;
+
+      /* Typography */
+      --font-display: 'Playfair Display', 'Georgia', serif;
+      --font-accent: 'Cormorant Garamond', 'Georgia', serif;
+      --font-body: 'Source Sans 3', 'Helvetica Neue', sans-serif;
+
+      /* Animation */
+      --ease-editorial: cubic-bezier(0.25, 0.1, 0.25, 1);
+      --ease-dramatic: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* ============================================================
+       RESET & BASE
+       ============================================================ */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      font-size: 16px;
+    }
+
+    body {
+      background: var(--ed-bg-paper);
+      color: var(--ed-body);
+      font-family: var(--font-body);
+      font-weight: 400;
+      font-size: 1.0625rem;
+      line-height: 1.75;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overflow-x: hidden;
+    }
+
+    ::selection {
+      background: var(--ed-selection-bg);
+      color: var(--ed-selection-text);
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+      height: auto;
+    }
+
+    a {
+      color: var(--ed-link);
+      text-decoration: none;
+      transition: color 0.25s var(--ease-editorial);
+    }
+
+    a:hover {
+      color: var(--ed-link-hover);
+    }
+
+    /* ============================================================
+       TYPOGRAPHY BASE
+       ============================================================ */
+    h1, h2, h3, h4, h5, h6 {
+      font-family: var(--font-display);
+      font-weight: 700;
+      color: var(--ed-ink);
+      line-height: 1.1;
+      letter-spacing: -0.015em;
+    }
+
+    /* ============================================================
+       UTILITY CLASSES
+       ============================================================ */
+    .ed-container {
+      max-width: var(--ed-width-wide);
+      margin: 0 auto;
+      padding-left: 2.5rem;
+      padding-right: 2.5rem;
+    }
+
+    .ed-container--narrow {
+      max-width: var(--ed-width-article);
+    }
+
+    .ed-container--full {
+      max-width: var(--ed-width-full);
+    }
+
+    /* ============================================================
+       NAVIGATION
+       ============================================================ */
+    .masthead {
+      max-width: var(--ed-width-wide);
+      margin: 0 auto;
+      padding: 1.75rem 2.5rem 0;
+      text-align: center;
+    }
+
+    .masthead__date {
+      font-family: var(--font-body);
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--ed-silver);
+      margin-bottom: 0.75rem;
+      display: block;
+    }
+
+    .masthead__title {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 4vw, 3.25rem);
+      font-weight: 900;
+      color: var(--ed-ink);
+      letter-spacing: -0.02em;
+      line-height: 1;
+      margin-bottom: 0.25rem;
+    }
+
+    .masthead__subtitle {
+      font-family: var(--font-accent);
+      font-size: 1rem;
+      font-style: italic;
+      font-weight: 300;
+      color: var(--ed-gray);
+      letter-spacing: 0.02em;
+    }
+
+    .nav-rule {
+      border: none;
+      height: 1px;
+      background: var(--ed-rule);
+      max-width: var(--ed-width-wide);
+      margin: 1rem auto 0;
+    }
+
+    .nav-rule--heavy {
+      height: 3px;
+      background: var(--ed-ink);
+      margin-top: 0.75rem;
+    }
+
+    .nav {
+      display: flex;
+      justify-content: center;
+      gap: 2.5rem;
+      max-width: var(--ed-width-wide);
+      margin: 0 auto;
+      padding: 1rem 2.5rem;
+      list-style: none;
+      border-bottom: 1px solid var(--ed-rule);
+    }
+
+    .nav a {
+      font-family: var(--font-body);
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--ed-gray);
+      position: relative;
+      padding-bottom: 2px;
+    }
+
+    .nav a::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 100%;
+      height: 1px;
+      background: var(--ed-ink);
+      transform: scaleX(0);
+      transform-origin: center;
+      transition: transform 0.3s var(--ease-editorial);
+    }
+
+    .nav a:hover {
+      color: var(--ed-ink);
+    }
+
+    .nav a:hover::after {
+      transform: scaleX(1);
+    }
+
+    /* ============================================================
+       HERO SECTION
+       ============================================================ */
+    .hero {
+      max-width: var(--ed-width-wide);
+      margin: 0 auto;
+      padding: var(--ed-space-3xl) 2.5rem var(--ed-space-xl);
+      text-align: center;
+      position: relative;
+    }
+
+    .hero__kicker {
+      font-family: var(--font-body);
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--ed-red);
+      margin-bottom: 2rem;
+      display: inline-block;
+      position: relative;
+      animation: fadeInDown 0.8s var(--ease-dramatic) both;
+    }
+
+    .hero__kicker::before,
+    .hero__kicker::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      width: 40px;
+      height: 1px;
+      background: var(--ed-red);
+      opacity: 0.4;
+    }
+
+    .hero__kicker::before {
+      right: calc(100% + 12px);
+    }
+
+    .hero__kicker::after {
+      left: calc(100% + 12px);
+    }
+
+    .hero__headline {
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: clamp(3rem, 7vw, 6rem);
+      line-height: 0.95;
+      letter-spacing: -0.03em;
+      color: var(--ed-ink);
+      max-width: 950px;
+      margin: 0 auto 2rem;
+      animation: fadeInUp 0.9s var(--ease-dramatic) 0.1s both;
+    }
+
+    .hero__headline em {
+      font-style: italic;
+      color: var(--ed-burgundy);
+    }
+
+    .hero__deck {
+      font-family: var(--font-accent);
+      font-size: clamp(1.15rem, 1.8vw, 1.5rem);
+      font-weight: 300;
+      line-height: 1.6;
+      color: var(--ed-gray);
+      max-width: 620px;
+      margin: 0 auto 2rem;
+      animation: fadeInUp 0.9s var(--ease-dramatic) 0.2s both;
+    }
+
+    .hero__meta {
+      font-family: var(--font-body);
+      font-size: 0.78rem;
+      color: var(--ed-silver);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      animation: fadeInUp 0.9s var(--ease-dramatic) 0.3s both;
+    }
+
+    .hero__meta strong {
+      color: var(--ed-charcoal);
+      font-weight: 600;
+    }
+
+    .hero__divider {
+      width: 60px;
+      height: 1px;
+      background: var(--ed-rule-dark);
+      margin: 2.5rem auto 0;
+      animation: scaleIn 0.6s var(--ease-dramatic) 0.5s both;
+    }
+
+    /* ============================================================
+       FULL-BLEED HERO IMAGE
+       ============================================================ */
+    .hero-image {
+      width: 100%;
+      position: relative;
+      overflow: hidden;
+      animation: fadeIn 1s var(--ease-dramatic) 0.4s both;
+    }
+
+    .hero-image__frame {
+      max-width: var(--ed-width-wide);
+      margin: 0 auto;
+      padding: 0 2.5rem;
+    }
+
+    .hero-image__img {
+      width: 100%;
+      height: 500px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .hero-image figcaption {
+      max-width: var(--ed-width-wide);
+      margin: 0 auto;
+      padding: 0.75rem 2.5rem 0;
+      font-family: var(--font-body);
+      font-size: 0.78rem;
+      font-style: italic;
+      color: var(--ed-gray);
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .hero-image figcaption .credit {
+      font-style: normal;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      font-size: 0.68rem;
+      color: var(--ed-silver);
+    }
+
+    /* ============================================================
+       SECTION HEADERS
+       ============================================================ */
+    .section-header {
+      max-width: var(--ed-width-wide);
+      margin: 0 auto;
+      padding: var(--ed-space-2xl) 2.5rem var(--ed-space-lg);
+    }
+
+    .section-header__rule {
+      width: 100%;
+      height: 3px;
+      background: var(--ed-ink);
+      margin-bottom: var(--ed-space-md);
+    }
+
+    .section-header__label {
+      font-family: var(--font-body);
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--ed-ink);
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+
+    .section-header__title {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 3.5vw, 3rem);
+      font-weight: 700;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      color: var(--ed-ink);
+      max-width: 700px;
+    }
+
+    .section-header__description {
+      font-family: var(--font-accent);
+      font-size: 1.15rem;
+      font-weight: 300;
+      line-height: 1.6;
+      color: var(--ed-gray);
+      max-width: 560px;
+      margin-top: 0.75rem;
+    }
+
+    /* ============================================================
+       TYPOGRAPHY SHOWCASE
+       ============================================================ */
+    .type-showcase {
+      max-width: var(--ed-width-wide);
+      margin: 0 auto;
+      padding: 0 2.5rem var(--ed-space-2xl);
+    }
+
+    .type-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+    }
+
+    .type-specimen {
+      position: relative;
+    }
+
+    .type-specimen__label {
+      font-family: var(--font-body);
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--ed-red);
+      margin-bottom: 1rem;
+      display: block;
+    }
+
+    /* Display specimens */
+    .type-display {
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: clamp(3rem, 5vw, 4.5rem);
+      line-height: 1.0;
+      letter-spacing: -0.03em;
+      color: var(--ed-ink);
+      margin-bottom: 1.5rem;
+    }
+
+    .type-display--italic {
+      font-style: italic;
+      font-weight: 400;
+      font-size: clamp(2.5rem, 4.5vw, 4rem);
+      color: var(--ed-charcoal);
+    }
+
+    .type-accent-display {
+      font-family: var(--font-accent);
+      font-weight: 300;
+      font-size: clamp(2.5rem, 4vw, 3.5rem);
+      line-height: 1.1;
+      letter-spacing: 0.01em;
+      color: var(--ed-charcoal);
+      margin-bottom: 1.5rem;
+    }
+
+    .type-accent-display--semibold {
+      font-weight: 600;
+    }
+
+    .type-body-sample {
+      font-family: var(--font-body);
+      font-size: 1.0625rem;
+      line-height: 1.75;
+      color: var(--ed-body);
+      max-width: 520px;
+    }
+
+    .type-body-sample--large {
+      font-size: 1.25rem;
+      line-height: 1.65;
+      color: var(--ed-charcoal);
+    }
+
+    /* Scale demonstration */
+    .type-scale {
+      padding: var(--ed-space-lg) 0;
+      border-top: 1px solid var(--ed-rule);
+    }
+
+    .type-scale-item {
+      display: flex;
+      align-items: baseline;
+      gap: 1.5rem;
+      padding: 0.75rem 0;
+      border-bottom: 1px solid var(--ed-rule);
+    }
+
+    .type-scale-item__size {
+      font-family: var(--font-body);
+      font-size: 0.68rem;
+      font-weight: 400;
+      letter-spacing: 0.06em;
+      color: var(--ed-silver);
+      min-width: 80px;
+      flex-shrink: 0;
+    }
+
+    .type-scale-item__sample {
+      font-family: var(--font-display);
+      color: var(--ed-ink);
+      line-height: 1.1;
+      letter-spacing: -0.015em;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* Hierarchy demo */
+    .type-hierarchy {
+      padding: var(--ed-space-xl) 0;
+    }
+
+    .type-hierarchy__kicker {
+      font-family: var(--font-body);
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--ed-red);
+      margin-bottom: 0.75rem;
+      display: block;
+    }
+
+    .type-hierarchy__headline {
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: clamp(2rem, 4vw, 3.25rem);
+      line-height: 1.05;
+      letter-spacing: -0.025em;
+      color: var(--ed-ink);
+      margin-bottom: 1rem;
+    }
+
+    .type-hierarchy__deck {
+      font-family: var(--font-accent);
+      font-size: 1.25rem;
+      font-weight: 300;
+      line-height: 1.55;
+      color: var(--ed-gray);
+      margin-bottom: 1rem;
+      max-width: 540px;
+    }
+
+    .type-hierarchy__byline {
+      font-family: var(--font-body);
+      font-size: 0.8rem;
+      color: var(--ed-silver);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 2rem;
+    }
+
+    .type-hierarchy__byline strong {
+      color: var(--ed-charcoal);
+      font-weight: 600;
+    }
+
+    .type-hierarchy__body {
+      font-family: var(--font-body);
+      font-size: 1.0625rem;
+      line-height: 1.75;
+      color: var(--ed-body);
+      max-width: 600px;
+    }
+
+    .type-hierarchy__caption {
+      font-family: var(--font-body);
+      font-size: 0.78rem;
+      font-style: italic;
+      line-height: 1.5;
+      color: var(--ed-gray);
+      margin-top: 1.5rem;
+    }
+
+    /* ============================================================
+       COLOR PALETTE
+       ============================================================ */
+    .palette-section {
+      max-width: var(--ed-width-wide);
+      margin: 0 auto;
+      padding: 0 2.5rem var(--ed-space-2xl);
+    }
+
+    .palette-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .palette-swatch {
+      position: relative;
+    }
+
+    .palette-swatch__color {
+      width: 100%;
+      height: 100px;
+      border: 1px solid var(--ed-rule);
+      position: relative;
+      transition: transform 0.3s var(--ease-editorial), box-shadow 0.3s var(--ease-editorial);
+    }
+
+    .palette-swatch:hover .palette-swatch__color {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    }
+
+    .palette-swatch__info {
+      padding-top: 0.75rem;
+    }
+
+    .palette-swatch__name {
+      font-family: var(--font-body);
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--ed-ink);
+      display: block;
+      margin-bottom: 0.15rem;
+    }
+
+    .palette-swatch__hex {
+      font-family: var(--font-body);
+      font-size: 0.72rem;
+      color: var(--ed-silver);
+      letter-spacing: 0.04em;
+      display: block;
+      margin-bottom: 0.15rem;
+    }
+
+    .palette-swatch__role {
+      font-family: var(--font-body);
+      font-size: 0.68rem;
+      font-style: italic;
+      color: var(--ed-gray);
+      line-height: 1.4;
+    }
+
+    /* Palette groupings */
+    .palette-group {
+      margin-bottom: 2.5rem;
+    }
+
+    .palette-group__title {
+      font-family: var(--font-body);
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--ed-ink);
+      border-bottom: 2px solid var(--ed-ink);
+      padding-bottom: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    /* ============================================================
+       DROP CAP & EDITORIAL BODY
+       ============================================================ */
+    .article-section {
+      max-width: var(--ed-width-wide);
+      margin: 0 auto;
+      padding: 0 2.5rem var(--ed-space-2xl);
+    }
+
+    .article-layout {
+      display: grid;
+      grid-template-columns: 1fr minmax(0, 680px) 280px;
+      gap: 3rem;
+    }
+
+    .article-layout__margin-left {
+      /* Intentional empty space */
+    }
+
+    .article-body p {
+      margin-bottom: 1.5rem;
+      font-family: var(--font-body);
+      font-size: 1.0625rem;
+      line-height: 1.75;
+      color: var(--ed-body);
+    }
+
+    .article-body h2 {
+      font-family: var(--font-display);
+      font-size: 1.75rem;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      margin-top: 3rem;
+      margin-bottom: 1.25rem;
+    }
+
+    /* Drop cap styles */
+    .dropcap::first-letter {
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: 4.5em;
+      float: left;
+      line-height: 0.78;
+      margin-right: 0.08em;
+      margin-top: 0.06em;
+      color: var(--ed-red);
+    }
+
+    .dropcap--ink::first-letter {
+      color: var(--ed-ink);
+    }
+
+    .dropcap--block::first-letter {
+      font-size: 3.5em;
+      line-height: 1;
+      margin-right: 0.15em;
+      padding: 0.05em 0.18em;
+      background: var(--ed-ink);
+      color: var(--ed-bg-white);
+    }
+
+    .dropcap--navy::first-letter {
+      color: var(--ed-navy);
+    }
+
+    /* Drop cap showcase grid */
+    .dropcap-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      max-width: var(--ed-width-wide);
+      margin: 0 auto;
+      padding: 0 2.5rem var(--ed-space-xl);
+    }
+
+    .dropcap-example {
+      padding: 2rem;
+      background: var(--ed-bg-white);
+      border: 1px solid var(--ed-rule);
+      position: relative;
+    }
+
+    .dropcap-example__label {
+      position: absolute;
+      top: -0.5em;
+      left: 1.5rem;
+      font-family: var(--font-body);
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--ed-silver);
+      background: var(--ed-bg-paper);
+      padding: 0 0.5rem;
+    }
+
+    .dropcap-example p {
+      font-family: var(--font-body);
+      font-size: 1rem;
+      line-height: 1.7;
+      color: var(--ed-body);
+    }
+
+    /* ============================================================
+       PULL QUOTES
+       ============================================================ */
+    .pull-quote {
+      margin: 2.5rem 0;
+      padding: 2rem 0;
+      border-top: 2px solid var(--ed-ink);
+      border-bottom: 1px solid var(--ed-rule);
+    }
+
+    .pull-quote blockquote {
+      font-family: var(--font-display);
+      font-size: 1.75rem;
+      font-style: italic;
+      font-weight: 400;
+      line-height: 1.35;
+      color: var(--ed-charcoal);
+      margin: 0 0 0.75rem;
+    }
+
+    .pull-quote cite {
+      font-family: var(--font-body);
+      font-size: 0.75rem;
+      font-style: normal;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ed-silver);
+    }
+
+    /* Large centered pull quote with decorative marks */
+    .pull-quote--large {
+      text-align: center;
+      max-width: 750px;
+      margin: var(--ed-space-2xl) auto;
+      border-top: none;
+      border-bottom: none;
+      position: relative;
+      padding: var(--ed-space-xl) 2.5rem;
+    }
+
+    .pull-quote--large::before {
+      content: '\201C';
+      font-family: var(--font-display);
+      font-size: 8rem;
+      color: var(--ed-red);
+      position: absolute;
+      top: -0.35em;
+      left: 50%;
+      transform: translateX(-50%);
+      line-height: 1;
+      opacity: 0.2;
+    }
+
+    .pull-quote--large blockquote {
+      font-family: var(--font-accent);
+      font-size: clamp(1.5rem, 2.5vw, 2.25rem);
+      font-weight: 300;
+      line-height: 1.4;
+      color: var(--ed-charcoal);
+    }
+
+    .pull-quote--large cite {
+      display: block;
+      margin-top: 1.25rem;
+    }
+
+    /* Margin pull quote */
+    .pull-quote--margin {
+      border-top: none;
+      border-bottom: none;
+      border-left: 2px solid var(--ed-burgundy);
+      padding: 0 0 0 var(--ed-space-lg);
+      margin: 1.5rem 0;
+    }
+
+    .pull-quote--margin blockquote {
+      font-family: var(--font-accent);
+      font-size: 1.35rem;
+      font-weight: 400;
+    }
+
+    /* ============================================================
+       EDITORIAL CARDS / ARTICLE GRID
+       ============================================================ */
+    .cards-section {
+      max-width: var(--ed-width-wide);
+      margin: 0 auto;
+      padding: 0 2.5rem var(--ed-space-2xl);
+    }
+
+    /* Featured story grid */
+    .feature-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 2.5rem;
+      margin-bottom: 3rem;
+    }
+
+    .feature-card {
+      position: relative;
+    }
+
+    .feature-card__image-wrap {
+      width: 100%;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .feature-card__image {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.6s var(--ease-editorial);
+    }
+
+    .feature-card:hover .feature-card__image {
+      transform: scale(1.03);
+    }
+
+    .feature-card__content {
+      padding: 1.5rem 0 0;
+    }
+
+    .feature-card__category {
+      font-family: var(--font-body);
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--ed-red);
+      display: block;
+      margin-bottom: 0.6rem;
+    }
+
+    .feature-card__title {
+      font-family: var(--font-display);
+      font-size: clamp(1.5rem, 2.5vw, 2.25rem);
+      font-weight: 700;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      color: var(--ed-ink);
+      margin-bottom: 0.75rem;
+    }
+
+    .feature-card__title a {
+      color: inherit;
+      transition: color 0.25s var(--ease-editorial);
+    }
+
+    .feature-card__title a:hover {
+      color: var(--ed-burgundy);
+    }
+
+    .feature-card__excerpt {
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      line-height: 1.6;
+      color: var(--ed-gray);
+      margin-bottom: 1rem;
+      max-width: 480px;
+    }
+
+    .feature-card__meta {
+      font-family: var(--font-body);
+      font-size: 0.72rem;
+      color: var(--ed-silver);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .feature-card__meta strong {
+      color: var(--ed-charcoal);
+      font-weight: 600;
+    }
+
+    /* Secondary card stack */
+    .card-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .card-stack-item {
+      padding: 1.5rem 0;
+      border-bottom: 1px solid var(--ed-rule);
+    }
+
+    .card-stack-item:first-child {
+      padding-top: 0;
+    }
+
+    .card-stack-item:last-child {
+      border-bottom: none;
+    }
+
+    .card-stack-item__category {
+      font-family: var(--font-body);
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--ed-red);
+      display: block;
+      margin-bottom: 0.4rem;
+    }
+
+    .card-stack-item__title {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      font-weight: 700;
+      line-height: 1.2;
+      letter-spacing: -0.01em;
+      color: var(--ed-ink);
+      margin-bottom: 0.4rem;
+    }
+
+    .card-stack-item__title a {
+      color: inherit;
+    }
+
+    .card-stack-item__title a:hover {
+      color: var(--ed-burgundy);
+    }
+
+    .card-stack-item__excerpt {
+      font-family: var(--font-body);
+      font-size: 0.88rem;
+      line-height: 1.55;
+      color: var(--ed-gray);
+      margin-bottom: 0.5rem;
+    }
+
+    .card-stack-item__meta {
+      font-family: var(--font-body);
+      font-size: 0.7rem;
+      color: var(--ed-silver);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    /* Three-column article grid */
+    .article-grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+    }
+
+    .grid-card {
+      position: relative;
+    }
+
+    .grid-card__image-wrap {
+      width: 100%;
+      overflow: hidden;
+      margin-bottom: 1rem;
+    }
+
+    .grid-card__image {
+      width: 100%;
+      aspect-ratio: 3 / 2;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.5s var(--ease-editorial);
+    }
+
+    .grid-card:hover .grid-card__image {
+      transform: scale(1.04);
+    }
+
+    .grid-card__category {
+      font-family: var(--font-body);
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--ed-red);
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+
+    .grid-card__title {
+      font-family: var(--font-display);
+      font-size: 1.35rem;
+      font-weight: 700;
+      line-height: 1.2;
+      letter-spacing: -0.01em;
+      color: var(--ed-ink);
+      margin-bottom: 0.5rem;
+    }
+
+    .grid-card__title a {
+      color: inherit;
+    }
+
+    .grid-card__title a:hover {
+      color: var(--ed-burgundy);
+    }
+
+    .grid-card__excerpt {
+      font-family: var(--font-body);
+      font-size: 0.9rem;
+      line-height: 1.55;
+      color: var(--ed-gray);
+      margin-bottom: 0.75rem;
+    }
+
+    .grid-card__meta {
+      font-family: var(--font-body);
+      font-size: 0.7rem;
+      color: var(--ed-silver);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    /* ============================================================
+       EDITORIAL BUTTONS
+       ============================================================ */
+    .buttons-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.25rem;
+      align-items: center;
+    }
+
+    .ed-button {
+      display: inline-block;
+      font-family: var(--font-body);
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--ed-ink);
+      background: transparent;
+      border: 1.5px solid var(--ed-ink);
+      padding: 12px 32px;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background 0.3s var(--ease-editorial), color 0.3s var(--ease-editorial), border-color 0.3s var(--ease-editorial);
+    }
+
+    .ed-button:hover {
+      background: var(--ed-ink);
+      color: var(--ed-bg-white);
+    }
+
+    .ed-button--filled {
+      background: var(--ed-ink);
+      color: var(--ed-bg-white);
+      border-color: var(--ed-ink);
+    }
+
+    .ed-button--filled:hover {
+      background: var(--ed-charcoal);
+      border-color: var(--ed-charcoal);
+      color: var(--ed-bg-white);
+    }
+
+    .ed-button--accent {
+      color: var(--ed-red);
+      border-color: var(--ed-red);
+    }
+
+    .ed-button--accent:hover {
+      background: var(--ed-red);
+      color: var(--ed-bg-white);
+    }
+
+    .ed-button--text {
+      border: none;
+      padding: 0;
+      font-size: 0.78rem;
+      letter-spacing: 0.1em;
+      color: var(--ed-ink);
+      position: relative;
+      background: transparent;
+    }
+
+    .ed-button--text::after {
+      content: '';
+      position: absolute;
+      bottom: -3px;
+      left: 0;
+      width: 100%;
+      height: 1px;
+      background: var(--ed-ink);
+      transform: scaleX(0);
+      transform-origin: right;
+      transition: transform 0.35s var(--ease-editorial);
+    }
+
+    .ed-button--text:hover {
+      color: var(--ed-ink);
+      background: transparent;
+    }
+
+    .ed-button--text:hover::after {
+      transform: scaleX(1);
+      transform-origin: left;
+    }
+
+    .ed-button--navy {
+      color: var(--ed-navy);
+      border-color: var(--ed-navy);
+    }
+
+    .ed-button--navy:hover {
+      background: var(--ed-navy);
+      color: var(--ed-bg-white);
+    }
+
+    /* ============================================================
+       EFFECTS & DETAILS SECTION
+       ============================================================ */
+
+    /* Section divider types */
+    .dividers-showcase {
+      max-width: var(--ed-width-wide);
+      margin: 0 auto;
+      padding: 0 2.5rem var(--ed-space-xl);
+    }
+
+    .divider-demo {
+      margin-bottom: 2.5rem;
+    }
+
+    .divider-demo__label {
+      font-family: var(--font-body);
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--ed-silver);
+      margin-bottom: 1rem;
+      display: block;
+    }
+
+    .ed-rule-line {
+      border: none;
+      height: 1px;
+      background: var(--ed-rule);
+    }
+
+    .ed-rule-line--heavy {
+      height: 3px;
+      background: var(--ed-ink);
+    }
+
+    .ed-rule-line--double {
+      height: 0;
+      border: none;
+      border-top: 3px solid var(--ed-ink);
+      border-bottom: 1px solid var(--ed-ink);
+      padding-top: 3px;
+    }
+
+    .ed-rule-line--red {
+      height: 2px;
+      background: var(--ed-red);
+    }
+
+    .ed-rule-line--gold {
+      height: 1px;
+      background: var(--ed-gold);
+    }
+
+    .ed-asterism {
+      text-align: center;
+      font-size: 1.25rem;
+      letter-spacing: 0.5em;
+      color: var(--ed-silver);
+    }
+
+    /* Folio line */
+    .folio-line {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.75rem 0;
+      border-top: 1px solid var(--ed-rule);
+      border-bottom: 1px solid var(--ed-rule);
+      max-width: var(--ed-width-wide);
+      margin: var(--ed-space-lg) auto var(--ed-space-xl);
+      padding-left: 2.5rem;
+      padding-right: 2.5rem;
+    }
+
+    .folio-line__left,
+    .folio-line__right {
+      font-family: var(--font-body);
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ed-silver);
+    }
+
+    .folio-line__center {
+      font-family: var(--font-body);
+      font-size: 0.72rem;
+      font-weight: 400;
+      color: var(--ed-rule-dark);
+    }
+
+    /* Image treatments */
+    .image-treatments {
+      max-width: var(--ed-width-wide);
+      margin: 0 auto;
+      padding: 0 2.5rem var(--ed-space-xl);
+    }
+
+    .image-duo {
+      display: grid;
+      grid-template-columns: 3fr 2fr;
+      gap: var(--ed-space-md);
+    }
+
+    .image-duo__item {
+      overflow: hidden;
+      position: relative;
+    }
+
+    .image-duo__item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.6s var(--ease-editorial);
+    }
+
+    .image-duo__item:hover img {
+      transform: scale(1.03);
+    }
+
+    .image-duo figcaption {
+      font-family: var(--font-body);
+      font-size: 0.78rem;
+      font-style: italic;
+      color: var(--ed-gray);
+      margin-top: 0.75rem;
+      grid-column: 1 / -1;
+    }
+
+    /* Scroll-reveal animation */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.7s var(--ease-dramatic), transform 0.7s var(--ease-dramatic);
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Hover line animation for inline links */
+    .article-body a {
+      color: var(--ed-navy);
+      text-decoration: none;
+      background-image: linear-gradient(var(--ed-navy), var(--ed-navy));
+      background-size: 0% 1px;
+      background-position: 0 100%;
+      background-repeat: no-repeat;
+      transition: background-size 0.35s var(--ease-editorial), color 0.25s var(--ease-editorial);
+    }
+
+    .article-body a:hover {
+      background-size: 100% 1px;
+      color: var(--ed-red);
+    }
+
+    /* Multi-column text */
+    .multicol-text {
+      column-count: 2;
+      column-gap: 2.5rem;
+      column-rule: 1px solid var(--ed-rule);
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      line-height: 1.7;
+      color: var(--ed-body);
+    }
+
+    .multicol-text p {
+      margin-bottom: 1rem;
+    }
+
+    /* ============================================================
+       SUBSCRIBE / CTA
+       ============================================================ */
+    .subscribe-section {
+      background: var(--ed-bg-stone);
+    }
+
+    .subscribe-inner {
+      max-width: var(--ed-width-wide);
+      margin: 0 auto;
+      padding: var(--ed-space-2xl) 2.5rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    .subscribe-content__kicker {
+      font-family: var(--font-body);
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--ed-red);
+      margin-bottom: 1rem;
+      display: block;
+    }
+
+    .subscribe-content__title {
+      font-family: var(--font-display);
+      font-size: clamp(1.75rem, 3vw, 2.5rem);
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      color: var(--ed-ink);
+      margin-bottom: 1rem;
+    }
+
+    .subscribe-content__text {
+      font-family: var(--font-accent);
+      font-size: 1.1rem;
+      font-weight: 300;
+      line-height: 1.6;
+      color: var(--ed-gray);
+    }
+
+    .subscribe-form-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .subscribe-form {
+      display: flex;
+      gap: 0;
+    }
+
+    .subscribe-form input {
+      flex: 1;
+      font-family: var(--font-body);
+      font-size: 0.9rem;
+      padding: 14px 18px;
+      border: 1.5px solid var(--ed-rule);
+      border-right: none;
+      background: var(--ed-bg-white);
+      color: var(--ed-body);
+      outline: none;
+      transition: border-color 0.25s var(--ease-editorial);
+    }
+
+    .subscribe-form input::placeholder {
+      color: var(--ed-silver);
+    }
+
+    .subscribe-form input:focus {
+      border-color: var(--ed-ink);
+    }
+
+    .subscribe-form button {
+      font-family: var(--font-body);
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      background: var(--ed-ink);
+      color: var(--ed-bg-white);
+      border: 1.5px solid var(--ed-ink);
+      padding: 14px 28px;
+      cursor: pointer;
+      transition: background 0.3s var(--ease-editorial), color 0.3s var(--ease-editorial);
+      white-space: nowrap;
+    }
+
+    .subscribe-form button:hover {
+      background: var(--ed-bg-white);
+      color: var(--ed-ink);
+    }
+
+    .subscribe-note {
+      font-family: var(--font-body);
+      font-size: 0.72rem;
+      color: var(--ed-silver);
+      font-style: italic;
+    }
+
+    /* ============================================================
+       FOOTER
+       ============================================================ */
+    .site-footer {
+      max-width: var(--ed-width-wide);
+      margin: 0 auto;
+      padding: 2.5rem 2.5rem;
+      border-top: 1px solid var(--ed-rule);
+    }
+
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer-brand {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--ed-ink);
+      letter-spacing: -0.02em;
+    }
+
+    .footer-nav {
+      display: flex;
+      gap: 2rem;
+    }
+
+    .footer-nav a {
+      font-family: var(--font-body);
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ed-silver);
+    }
+
+    .footer-nav a:hover {
+      color: var(--ed-ink);
+    }
+
+    .footer-copy {
+      font-family: var(--font-body);
+      font-size: 0.72rem;
+      color: var(--ed-silver);
+      letter-spacing: 0.04em;
+      margin-top: 1.5rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--ed-rule);
+    }
+
+    /* ============================================================
+       SIDEBAR (for article layout)
+       ============================================================ */
+    .sidebar {
+      padding-top: 0.25rem;
+    }
+
+    .sidebar-section {
+      margin-bottom: 2.5rem;
+    }
+
+    .sidebar-section__heading {
+      font-family: var(--font-body);
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--ed-ink);
+      border-bottom: 2px solid var(--ed-ink);
+      padding-bottom: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .sidebar-item {
+      margin-bottom: 1.25rem;
+      padding-bottom: 1.25rem;
+      border-bottom: 1px solid var(--ed-rule);
+    }
+
+    .sidebar-item:last-child {
+      border-bottom: none;
+    }
+
+    .sidebar-item__number {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      font-weight: 900;
+      color: var(--ed-rule);
+      line-height: 1;
+      margin-bottom: 0.35rem;
+      display: block;
+    }
+
+    .sidebar-item__title {
+      font-family: var(--font-display);
+      font-size: 1rem;
+      font-weight: 700;
+      line-height: 1.3;
+      color: var(--ed-ink);
+      margin-bottom: 0.25rem;
+    }
+
+    .sidebar-item__title a {
+      color: inherit;
+    }
+
+    .sidebar-item__title a:hover {
+      color: var(--ed-burgundy);
+    }
+
+    .sidebar-item__meta {
+      font-family: var(--font-body);
+      font-size: 0.7rem;
+      color: var(--ed-silver);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    /* ============================================================
+       SVG PLACEHOLDER IMAGES
+       ============================================================ */
+    .placeholder-img {
+      background: var(--ed-bg-stone);
+      display: block;
+    }
+
+    /* ============================================================
+       ANIMATIONS
+       ============================================================ */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-12px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes scaleIn {
+      from {
+        opacity: 0;
+        transform: scaleX(0);
+      }
+      to {
+        opacity: 1;
+        transform: scaleX(1);
+      }
+    }
+
+    @keyframes slideRule {
+      from {
+        transform: scaleX(0);
+        transform-origin: left;
+      }
+      to {
+        transform: scaleX(1);
+        transform-origin: left;
+      }
+    }
+
+    /* ============================================================
+       RESPONSIVE
+       ============================================================ */
+    @media (max-width: 1024px) {
+      .article-layout {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+
+      .article-layout__margin-left {
+        display: none;
+      }
+
+      .sidebar {
+        border-top: 1px solid var(--ed-rule);
+        padding-top: 2rem;
+      }
+
+      .feature-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .article-grid-3 {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .type-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .subscribe-inner {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+
+      .image-duo {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .masthead {
+        padding: 1.25rem 1.5rem 0;
+      }
+
+      .nav {
+        gap: 1.25rem;
+        padding: 0.75rem 1.5rem;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .hero {
+        padding: var(--ed-space-xl) 1.5rem var(--ed-space-lg);
+      }
+
+      .hero__kicker::before,
+      .hero__kicker::after {
+        display: none;
+      }
+
+      .hero-image__frame {
+        padding: 0 1.5rem;
+      }
+
+      .hero-image__img {
+        height: 300px;
+      }
+
+      .hero-image figcaption {
+        padding: 0.75rem 1.5rem 0;
+        flex-direction: column;
+        gap: 0.25rem;
+      }
+
+      .section-header {
+        padding: var(--ed-space-xl) 1.5rem var(--ed-space-lg);
+      }
+
+      .type-showcase,
+      .palette-section,
+      .article-section,
+      .cards-section,
+      .dividers-showcase,
+      .image-treatments {
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+      }
+
+      .dropcap-grid {
+        grid-template-columns: 1fr;
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+      }
+
+      .article-grid-3 {
+        grid-template-columns: 1fr;
+      }
+
+      .multicol-text {
+        column-count: 1;
+      }
+
+      .subscribe-inner {
+        padding: var(--ed-space-xl) 1.5rem;
+      }
+
+      .subscribe-form {
+        flex-direction: column;
+      }
+
+      .subscribe-form input {
+        border-right: 1.5px solid var(--ed-rule);
+      }
+
+      .image-duo {
+        grid-template-columns: 1fr;
+      }
+
+      .footer-inner {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+      }
+
+      .footer-nav {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 1.25rem;
+      }
+
+      .footer-copy {
+        text-align: center;
+      }
+
+      .folio-line {
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+      }
+
+      .site-footer {
+        padding: 2rem 1.5rem;
+      }
+
+      .buttons-row {
+        justify-content: center;
+      }
+
+      .palette-grid {
+        grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+      }
+
+      .pull-quote--large {
+        padding: var(--ed-space-lg) 1rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      html {
+        font-size: 15px;
+      }
+
+      .palette-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    /* ============================================================
+       PRINT STYLES
+       ============================================================ */
+    @media print {
+      body {
+        background: white;
+        color: black;
+      }
+
+      .nav, .subscribe-section {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================================
+       MASTHEAD & NAVIGATION
+       ============================================================ -->
+  <header class="masthead">
+    <span class="masthead__date">Design Aesthetic Reference</span>
+    <h1 class="masthead__title">The Editorial</h1>
+    <p class="masthead__subtitle">A study in magazine layout, typographic hierarchy, and the art of the page</p>
+  </header>
+  <hr class="nav-rule nav-rule--heavy">
+  <nav class="nav" role="navigation">
+    <a href="#hero">Hero</a>
+    <a href="#typography">Typography</a>
+    <a href="#palette">Palette</a>
+    <a href="#components">Components</a>
+    <a href="#cards">Cards</a>
+    <a href="#effects">Effects</a>
+  </nav>
+
+  <!-- ============================================================
+       HERO SECTION
+       ============================================================ -->
+  <section id="hero" class="hero">
+    <span class="hero__kicker">Longform Feature</span>
+    <h2 class="hero__headline">The Quiet Power of<br><em>Editorial Design</em></h2>
+    <p class="hero__deck">How centuries of print craft, asymmetric grids, and commanding typography create pages that whisper with authority rather than shout for attention.</p>
+    <p class="hero__meta">By <strong>Eleanor Voss</strong> &mdash; February 20, 2026 &mdash; 14 min read</p>
+    <div class="hero__divider"></div>
+  </section>
+
+  <!-- Full-bleed hero image -->
+  <figure class="hero-image">
+    <div class="hero-image__frame">
+      <svg class="hero-image__img placeholder-img" viewBox="0 0 1200 500" xmlns="http://www.w3.org/2000/svg">
+        <rect fill="#e8e4df" width="1200" height="500"/>
+        <!-- Magazine spread abstraction -->
+        <rect fill="#f5f3f0" x="60" y="40" width="520" height="420" rx="1"/>
+        <rect fill="#d4d4d4" x="90" y="70" width="200" height="260"/>
+        <rect fill="#c41e2a" x="90" y="70" width="200" height="4"/>
+        <rect fill="#1a1a1a" x="320" y="80" width="230" height="16" rx="1"/>
+        <rect fill="#1a1a1a" x="320" y="106" width="190" height="16" rx="1"/>
+        <rect fill="#6b6b6b" x="320" y="140" width="230" height="8" rx="1"/>
+        <rect fill="#6b6b6b" x="320" y="156" width="210" height="8" rx="1"/>
+        <rect fill="#6b6b6b" x="320" y="172" width="225" height="8" rx="1"/>
+        <rect fill="#6b6b6b" x="320" y="188" width="180" height="8" rx="1"/>
+        <rect fill="#9a9a9a" x="320" y="220" width="140" height="6" rx="1"/>
+        <rect fill="#6b6b6b" x="320" y="250" width="230" height="8" rx="1"/>
+        <rect fill="#6b6b6b" x="320" y="266" width="215" height="8" rx="1"/>
+        <rect fill="#6b6b6b" x="320" y="282" width="228" height="8" rx="1"/>
+        <rect fill="#6b6b6b" x="320" y="298" width="195" height="8" rx="1"/>
+        <rect fill="#6b6b6b" x="320" y="314" width="222" height="8" rx="1"/>
+        <rect fill="#c41e2a" x="90" y="355" width="10" height="10"/>
+        <rect fill="#1a1a1a" x="110" y="355" width="160" height="10" rx="1"/>
+        <rect fill="#6b6b6b" x="90" y="378" width="200" height="7" rx="1"/>
+        <rect fill="#6b6b6b" x="90" y="392" width="185" height="7" rx="1"/>
+        <rect fill="#6b6b6b" x="90" y="406" width="195" height="7" rx="1"/>
+        <rect fill="#6b6b6b" x="90" y="420" width="150" height="7" rx="1"/>
+        <!-- Right page -->
+        <rect fill="#f5f3f0" x="620" y="40" width="520" height="420" rx="1"/>
+        <rect fill="#d4d4d4" x="650" y="70" width="460" height="280"/>
+        <rect fill="#1a1a1a" x="650" y="380" width="280" height="14" rx="1"/>
+        <rect fill="#1a1a1a" x="650" y="402" width="240" height="14" rx="1"/>
+        <rect fill="#9a9a9a" x="650" y="432" width="180" height="8" rx="1"/>
+        <!-- Spine line -->
+        <line x1="600" y1="40" x2="600" y2="460" stroke="#d4d4d4" stroke-width="1"/>
+      </svg>
+    </div>
+    <figcaption>
+      <span>An editorial double-page spread showing the interplay of asymmetric columns, image placement, and typographic hierarchy</span>
+      <span class="credit">Illustration / The Editorial</span>
+    </figcaption>
+  </figure>
+
+  <!-- ============================================================
+       TYPOGRAPHY SHOWCASE
+       ============================================================ -->
+  <div class="section-header" id="typography">
+    <div class="section-header__rule"></div>
+    <span class="section-header__label">Section I</span>
+    <h2 class="section-header__title">Typography &amp; Hierarchy</h2>
+    <p class="section-header__description">The voice of editorial design is its typography: commanding serifs for display, clean sans-serifs for body, and a rigorous hierarchy of at least six distinct levels.</p>
+  </div>
+
+  <div class="type-showcase">
+    <!-- Type specimens -->
+    <div class="type-grid">
+      <div class="type-specimen">
+        <span class="type-specimen__label">Display Typeface &mdash; Playfair Display</span>
+        <div class="type-display">Elegant Authority</div>
+        <div class="type-display type-display--italic">Italic Grace</div>
+        <p class="type-body-sample">Playfair Display is a high-contrast serif with dramatic thick-thin stroke variation, carrying the weight of centuries of print tradition. Its optical sizing makes it ideal for commanding headlines and display text at large scales.</p>
+      </div>
+      <div class="type-specimen">
+        <span class="type-specimen__label">Accent Typeface &mdash; Cormorant Garamond</span>
+        <div class="type-accent-display">Refined Garamond</div>
+        <div class="type-accent-display type-accent-display--semibold">Semibold Warmth</div>
+        <p class="type-body-sample">Cormorant Garamond offers a refined interpretation of the classic Garamond, perfect for pull quotes, decks, and elegant display text. Its lighter weights bring a literary, almost calligraphic quality.</p>
+      </div>
+    </div>
+
+    <!-- Type scale -->
+    <div class="type-scale reveal">
+      <span class="type-specimen__label">Typographic Scale</span>
+      <div class="type-scale-item">
+        <span class="type-scale-item__size">96px / 6rem</span>
+        <span class="type-scale-item__sample" style="font-size: 3rem; font-weight: 900;">Display</span>
+      </div>
+      <div class="type-scale-item">
+        <span class="type-scale-item__size">72px / 4.5rem</span>
+        <span class="type-scale-item__sample" style="font-size: 2.5rem; font-weight: 900;">Feature</span>
+      </div>
+      <div class="type-scale-item">
+        <span class="type-scale-item__size">48px / 3rem</span>
+        <span class="type-scale-item__sample" style="font-size: 2rem; font-weight: 700;">Headline</span>
+      </div>
+      <div class="type-scale-item">
+        <span class="type-scale-item__size">32px / 2rem</span>
+        <span class="type-scale-item__sample" style="font-size: 1.5rem; font-weight: 700;">Section Head</span>
+      </div>
+      <div class="type-scale-item">
+        <span class="type-scale-item__size">24px / 1.5rem</span>
+        <span class="type-scale-item__sample" style="font-size: 1.25rem; font-weight: 700;">Subheading</span>
+      </div>
+      <div class="type-scale-item">
+        <span class="type-scale-item__size">17px / 1.06rem</span>
+        <span class="type-scale-item__sample" style="font-size: 1.06rem; font-weight: 400; font-family: var(--font-body); letter-spacing: 0;">Body text at optimal reading size</span>
+      </div>
+      <div class="type-scale-item">
+        <span class="type-scale-item__size">12px / 0.75rem</span>
+        <span class="type-scale-item__sample" style="font-size: 0.75rem; font-weight: 600; font-family: var(--font-body); letter-spacing: 0.14em; text-transform: uppercase;">Section Label</span>
+      </div>
+    </div>
+
+    <!-- Full hierarchy demo -->
+    <div class="type-hierarchy reveal">
+      <span class="type-specimen__label">Complete Typographic Hierarchy</span>
+      <span class="type-hierarchy__kicker">Design Criticism</span>
+      <h3 class="type-hierarchy__headline">The Architecture of the Printed Page</h3>
+      <p class="type-hierarchy__deck">Every great editorial layout begins with an invisible framework that guides the reader's eye from element to element with deliberate, unhurried precision.</p>
+      <p class="type-hierarchy__byline">By <strong>Marcus Webb</strong> &mdash; February 18, 2026</p>
+      <p class="type-hierarchy__body">The grid is the skeleton of editorial design. Not the rigid, equal-column grids that dominate contemporary web frameworks, but asymmetric structures where columns of unequal width create dynamic tension. Content floats within these invisible architectures, guided by rules that are felt rather than seen.</p>
+      <p class="type-hierarchy__caption">Fig. 1 &mdash; Demonstrating the six-level typographic hierarchy: kicker, headline, deck, byline, body, and caption.</p>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       COLOR PALETTE
+       ============================================================ -->
+  <div class="section-header" id="palette">
+    <div class="section-header__rule"></div>
+    <span class="section-header__label">Section II</span>
+    <h2 class="section-header__title">Color Palette</h2>
+    <p class="section-header__description">Editorial design treats color like a spice: neutral foundations with selective accent colors used sparingly and with purpose.</p>
+  </div>
+
+  <div class="palette-section">
+    <!-- Text colors -->
+    <div class="palette-group reveal">
+      <h3 class="palette-group__title">Text &amp; Hierarchy</h3>
+      <div class="palette-grid">
+        <div class="palette-swatch">
+          <div class="palette-swatch__color" style="background: #1a1a1a;"></div>
+          <div class="palette-swatch__info">
+            <span class="palette-swatch__name">Ink Black</span>
+            <span class="palette-swatch__hex">#1A1A1A</span>
+            <span class="palette-swatch__role">Headlines, display text</span>
+          </div>
+        </div>
+        <div class="palette-swatch">
+          <div class="palette-swatch__color" style="background: #2c2c2c;"></div>
+          <div class="palette-swatch__info">
+            <span class="palette-swatch__name">Deep Charcoal</span>
+            <span class="palette-swatch__hex">#2C2C2C</span>
+            <span class="palette-swatch__role">Secondary headings</span>
+          </div>
+        </div>
+        <div class="palette-swatch">
+          <div class="palette-swatch__color" style="background: #3d3d3d;"></div>
+          <div class="palette-swatch__info">
+            <span class="palette-swatch__name">Body Text</span>
+            <span class="palette-swatch__hex">#3D3D3D</span>
+            <span class="palette-swatch__role">Article body copy</span>
+          </div>
+        </div>
+        <div class="palette-swatch">
+          <div class="palette-swatch__color" style="background: #6b6b6b;"></div>
+          <div class="palette-swatch__info">
+            <span class="palette-swatch__name">Warm Gray</span>
+            <span class="palette-swatch__hex">#6B6B6B</span>
+            <span class="palette-swatch__role">Bylines, captions</span>
+          </div>
+        </div>
+        <div class="palette-swatch">
+          <div class="palette-swatch__color" style="background: #9a9a9a;"></div>
+          <div class="palette-swatch__info">
+            <span class="palette-swatch__name">Silver</span>
+            <span class="palette-swatch__hex">#9A9A9A</span>
+            <span class="palette-swatch__role">Metadata, timestamps</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Surface colors -->
+    <div class="palette-group reveal">
+      <h3 class="palette-group__title">Surfaces &amp; Rules</h3>
+      <div class="palette-grid">
+        <div class="palette-swatch">
+          <div class="palette-swatch__color" style="background: #d4d4d4;"></div>
+          <div class="palette-swatch__info">
+            <span class="palette-swatch__name">Light Gray</span>
+            <span class="palette-swatch__hex">#D4D4D4</span>
+            <span class="palette-swatch__role">Borders, hairline rules</span>
+          </div>
+        </div>
+        <div class="palette-swatch">
+          <div class="palette-swatch__color" style="background: #e8e4df;"></div>
+          <div class="palette-swatch__info">
+            <span class="palette-swatch__name">Pale Stone</span>
+            <span class="palette-swatch__hex">#E8E4DF</span>
+            <span class="palette-swatch__role">Subtle backgrounds</span>
+          </div>
+        </div>
+        <div class="palette-swatch">
+          <div class="palette-swatch__color" style="background: #f5f3f0;"></div>
+          <div class="palette-swatch__info">
+            <span class="palette-swatch__name">Off-White</span>
+            <span class="palette-swatch__hex">#F5F3F0</span>
+            <span class="palette-swatch__role">Primary background</span>
+          </div>
+        </div>
+        <div class="palette-swatch">
+          <div class="palette-swatch__color" style="background: #ffffff; border: 1px solid #e8e4df;"></div>
+          <div class="palette-swatch__info">
+            <span class="palette-swatch__name">Pure White</span>
+            <span class="palette-swatch__hex">#FFFFFF</span>
+            <span class="palette-swatch__role">Card surfaces</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Accent colors -->
+    <div class="palette-group reveal">
+      <h3 class="palette-group__title">Accent Colors</h3>
+      <div class="palette-grid">
+        <div class="palette-swatch">
+          <div class="palette-swatch__color" style="background: #c41e2a;"></div>
+          <div class="palette-swatch__info">
+            <span class="palette-swatch__name">Editorial Red</span>
+            <span class="palette-swatch__hex">#C41E2A</span>
+            <span class="palette-swatch__role">Drop caps, section labels</span>
+          </div>
+        </div>
+        <div class="palette-swatch">
+          <div class="palette-swatch__color" style="background: #6b1d2a;"></div>
+          <div class="palette-swatch__info">
+            <span class="palette-swatch__name">Rich Burgundy</span>
+            <span class="palette-swatch__hex">#6B1D2A</span>
+            <span class="palette-swatch__role">Pull quote marks</span>
+          </div>
+        </div>
+        <div class="palette-swatch">
+          <div class="palette-swatch__color" style="background: #1b2a4a;"></div>
+          <div class="palette-swatch__info">
+            <span class="palette-swatch__name">Deep Navy</span>
+            <span class="palette-swatch__hex">#1B2A4A</span>
+            <span class="palette-swatch__role">Links, category markers</span>
+          </div>
+        </div>
+        <div class="palette-swatch">
+          <div class="palette-swatch__color" style="background: #b8860b;"></div>
+          <div class="palette-swatch__info">
+            <span class="palette-swatch__name">Warm Gold</span>
+            <span class="palette-swatch__hex">#B8860B</span>
+            <span class="palette-swatch__role">Decorative accents</span>
+          </div>
+        </div>
+        <div class="palette-swatch">
+          <div class="palette-swatch__color" style="background: #7a8b6f;"></div>
+          <div class="palette-swatch__info">
+            <span class="palette-swatch__name">Muted Sage</span>
+            <span class="palette-swatch__hex">#7A8B6F</span>
+            <span class="palette-swatch__role">Tags, soft highlights</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       COMPONENTS: DROP CAPS, PULL QUOTES, BUTTONS
+       ============================================================ -->
+  <div class="section-header" id="components">
+    <div class="section-header__rule"></div>
+    <span class="section-header__label">Section III</span>
+    <h2 class="section-header__title">Components &amp; Details</h2>
+    <p class="section-header__description">Drop caps, pull quotes, editorial buttons, and ruled dividers: the building blocks that give magazine layouts their distinctive character.</p>
+  </div>
+
+  <!-- Drop cap showcase -->
+  <div class="dropcap-grid">
+    <div class="dropcap-example reveal">
+      <span class="dropcap-example__label">Red Accent Drop Cap</span>
+      <p class="dropcap">There is a particular quality to a well-designed magazine page that transcends mere information delivery. It is the feeling of space orchestrated with intention, of typography that commands the eye with quiet authority, of images placed not to fill gaps but to punctuate a rhythm.</p>
+    </div>
+    <div class="dropcap-example reveal">
+      <span class="dropcap-example__label">Ink Black Drop Cap</span>
+      <p class="dropcap dropcap--ink">Art directors have long understood that the opening of an article is a moment of visual drama. The drop cap signals: this is where the narrative begins. It is a threshold between the preparatory material above and the substance below.</p>
+    </div>
+    <div class="dropcap-example reveal">
+      <span class="dropcap-example__label">Block Drop Cap</span>
+      <p class="dropcap dropcap--block">Brodovitch treated the double-page spread as a single canvas. His grids were felt, not seen. Content floated within invisible structures that guided the eye along deliberate paths, creating a reading experience that felt both composed and effortless.</p>
+    </div>
+    <div class="dropcap-example reveal">
+      <span class="dropcap-example__label">Navy Drop Cap</span>
+      <p class="dropcap dropcap--navy">Each typographic level serves a specific purpose in the reading architecture. The section label orients. The headline arrests. The deck contextualizes. The byline establishes authority. The body delivers substance.</p>
+    </div>
+  </div>
+
+  <!-- Pull quote showcase -->
+  <div class="pull-quote--large reveal">
+    <blockquote>The page is a field upon which the designer composes a symphony of text, image, and space. The silence between the notes matters as much as the notes themselves.</blockquote>
+    <cite>Alexey Brodovitch, Art Director, Harper's Bazaar</cite>
+  </div>
+
+  <!-- Article with pull quote and sidebar -->
+  <div class="article-section reveal">
+    <div class="article-layout">
+      <div class="article-layout__margin-left"></div>
+      <article class="article-body">
+        <p class="dropcap">Editorial design breathes. Unlike the rigid uniformity of template-driven websites, the editorial tradition uses negative space as a structural element, lets oversized serif headlines anchor the visual rhythm, and balances text and imagery with the precision of a gallery curator.</p>
+
+        <p>The resurgence of editorial principles in digital design is not accidental. As the web matured through phases of skeuomorphism, flat design, and component-driven systems, something essential was lost: the art of the page. Websites became grids of identical cards, each piece indistinguishable from the next.</p>
+
+        <div class="pull-quote">
+          <blockquote>Restraint is the governing philosophy: every element must earn its place on the page. Color should be used like a spice, not a main ingredient.</blockquote>
+          <cite>From the editorial design principles</cite>
+        </div>
+
+        <p>The editorial tradition offers an alternative vocabulary, one where hierarchy is earned through scale, where whitespace is a structural member rather than leftover margin, and where every spread tells a story before a single word is read. This is not nostalgia for print but rather a recognition that centuries of typographic craft contain wisdom that digital design abandoned too quickly.</p>
+
+        <h2>The Margin Pull Quote</h2>
+
+        <div class="pull-quote--margin">
+          <blockquote>Unused columns are not wasted space. They are the design.</blockquote>
+          <cite>On asymmetric grids</cite>
+        </div>
+
+        <p>At the foundation of every great editorial layout is a grid, but not the rigid, equal-column grids that dominate contemporary web frameworks. The editorial grid is asymmetric by nature, creating dynamic tension and guiding the reader through intentional visual pathways rather than mechanical repetition.</p>
+
+        <p>In CSS terms, this translates to grid systems with unequal column widths. A typical editorial article might use a three-column layout where the center column holds the main text and the flanking columns serve as space for margin notes, pull quotes, or simply intentional emptiness.</p>
+      </article>
+
+      <!-- Sidebar with numbered items -->
+      <aside class="sidebar">
+        <div class="sidebar-section">
+          <h3 class="sidebar-section__heading">Most Read</h3>
+          <div class="sidebar-item">
+            <span class="sidebar-item__number">01</span>
+            <h4 class="sidebar-item__title"><a href="#">The Return of the Serif</a></h4>
+            <p class="sidebar-item__meta">Culture &mdash; Feb 12, 2026</p>
+          </div>
+          <div class="sidebar-item">
+            <span class="sidebar-item__number">02</span>
+            <h4 class="sidebar-item__title"><a href="#">Grid Systems and the Digital Canvas</a></h4>
+            <p class="sidebar-item__meta">Design &mdash; Feb 8, 2026</p>
+          </div>
+          <div class="sidebar-item">
+            <span class="sidebar-item__number">03</span>
+            <h4 class="sidebar-item__title"><a href="#">Why Whitespace Matters More Than Ever</a></h4>
+            <p class="sidebar-item__meta">Opinion &mdash; Jan 29, 2026</p>
+          </div>
+          <div class="sidebar-item">
+            <span class="sidebar-item__number">04</span>
+            <h4 class="sidebar-item__title"><a href="#">Brodovitch and the Modern Web</a></h4>
+            <p class="sidebar-item__meta">Design &mdash; Jan 15, 2026</p>
+          </div>
+          <div class="sidebar-item">
+            <span class="sidebar-item__number">05</span>
+            <h4 class="sidebar-item__title"><a href="#">Against the Feed: Slower Reading</a></h4>
+            <p class="sidebar-item__meta">Opinion &mdash; Jan 8, 2026</p>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <!-- Buttons showcase -->
+  <div class="section-header">
+    <div class="section-header__rule"></div>
+    <span class="section-header__label">Editorial Buttons</span>
+  </div>
+
+  <div class="cards-section reveal">
+    <div class="buttons-row" style="margin-bottom: 1.5rem;">
+      <a href="#" class="ed-button">Read More</a>
+      <a href="#" class="ed-button--filled ed-button">Subscribe Now</a>
+      <a href="#" class="ed-button--accent ed-button">Featured</a>
+      <a href="#" class="ed-button--navy ed-button">Archive</a>
+    </div>
+    <div class="buttons-row">
+      <a href="#" class="ed-button--text ed-button">Continue Reading</a>
+      <a href="#" class="ed-button--text ed-button" style="color: var(--ed-red); --ed-ink: var(--ed-red);">View Collection</a>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       CARDS / ARTICLE GRID SECTION
+       ============================================================ -->
+  <div class="section-header" id="cards">
+    <div class="section-header__rule"></div>
+    <span class="section-header__label">Section IV</span>
+    <h2 class="section-header__title">Article Cards &amp; Grids</h2>
+    <p class="section-header__description">Mixed-size article grids create visual hierarchy through scale: one commanding feature alongside smaller supporting stories.</p>
+  </div>
+
+  <div class="cards-section">
+    <!-- Feature + stack layout -->
+    <div class="feature-grid reveal">
+      <div class="feature-card">
+        <div class="feature-card__image-wrap">
+          <svg class="feature-card__image placeholder-img" viewBox="0 0 600 450" xmlns="http://www.w3.org/2000/svg">
+            <rect fill="#e8e4df" width="600" height="450"/>
+            <rect fill="#d4d4d4" x="40" y="40" width="520" height="370" rx="1"/>
+            <rect fill="#c41e2a" x="40" y="40" width="520" height="3"/>
+            <text x="300" y="230" text-anchor="middle" font-family="Georgia" font-size="16" fill="#9a9a9a">Feature Photography</text>
+            <text x="300" y="255" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#b0b0b0">600 x 450</text>
+          </svg>
+        </div>
+        <div class="feature-card__content">
+          <span class="feature-card__category">Architecture</span>
+          <h3 class="feature-card__title"><a href="#">The Spaces Between: How Negative Space Shapes Our Experience of Built Environments</a></h3>
+          <p class="feature-card__excerpt">Contemporary architects are rediscovering the power of emptiness in an age of maximalist construction, drawing on centuries of Japanese spatial philosophy.</p>
+          <p class="feature-card__meta">By <strong>M. Ishikawa</strong> &mdash; Feb 14, 2026 &mdash; 18 min read</p>
+        </div>
+      </div>
+      <div class="card-stack">
+        <div class="card-stack-item">
+          <span class="card-stack-item__category">Typography</span>
+          <h3 class="card-stack-item__title"><a href="#">Variable Fonts and the Future of Digital Type</a></h3>
+          <p class="card-stack-item__excerpt">A single font file containing an entire design space. The implications for editorial design are profound and largely unexplored.</p>
+          <p class="card-stack-item__meta">By <strong>R. Chen</strong> &mdash; Feb 10, 2026</p>
+        </div>
+        <div class="card-stack-item">
+          <span class="card-stack-item__category">Culture</span>
+          <h3 class="card-stack-item__title"><a href="#">The Quiet Rebellion of Restrained Design</a></h3>
+          <p class="card-stack-item__excerpt">In an attention economy built on volume, subtlety becomes a radical act of design resistance.</p>
+          <p class="card-stack-item__meta">By <strong>A. Park</strong> &mdash; Feb 6, 2026</p>
+        </div>
+        <div class="card-stack-item">
+          <span class="card-stack-item__category">Opinion</span>
+          <h3 class="card-stack-item__title"><a href="#">Against the Feed: A Case for Slower Reading</a></h3>
+          <p class="card-stack-item__excerpt">The infinite scroll trained us to consume. Editorial design might teach us to absorb once more.</p>
+          <p class="card-stack-item__meta">By <strong>J. Andersson</strong> &mdash; Feb 2, 2026</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Three-column grid -->
+    <div class="article-grid-3 reveal">
+      <article class="grid-card">
+        <div class="grid-card__image-wrap">
+          <svg class="grid-card__image placeholder-img" viewBox="0 0 400 267" xmlns="http://www.w3.org/2000/svg">
+            <rect fill="#e8e4df" width="400" height="267"/>
+            <rect fill="#d4d4d4" x="30" y="30" width="340" height="207" rx="1"/>
+            <text x="200" y="138" text-anchor="middle" font-family="Georgia" font-size="13" fill="#9a9a9a">Photograph</text>
+          </svg>
+        </div>
+        <span class="grid-card__category">Design History</span>
+        <h3 class="grid-card__title"><a href="#">Brodovitch's Legacy: From Print to Pixel</a></h3>
+        <p class="grid-card__excerpt">How the legendary Harper's Bazaar art director continues to influence digital design seventy years later.</p>
+        <p class="grid-card__meta">By <strong>L. Torres</strong> &mdash; Jan 28, 2026</p>
+      </article>
+      <article class="grid-card">
+        <div class="grid-card__image-wrap">
+          <svg class="grid-card__image placeholder-img" viewBox="0 0 400 267" xmlns="http://www.w3.org/2000/svg">
+            <rect fill="#e8e4df" width="400" height="267"/>
+            <rect fill="#d4d4d4" x="30" y="30" width="340" height="207" rx="1"/>
+            <text x="200" y="138" text-anchor="middle" font-family="Georgia" font-size="13" fill="#9a9a9a">Photograph</text>
+          </svg>
+        </div>
+        <span class="grid-card__category">Technology</span>
+        <h3 class="grid-card__title"><a href="#">CSS Grid and the Return of the Asymmetric Layout</a></h3>
+        <p class="grid-card__excerpt">Modern CSS finally gives designers the tools to recreate the sophisticated layouts of print editorial tradition.</p>
+        <p class="grid-card__meta">By <strong>S. Nakamura</strong> &mdash; Jan 22, 2026</p>
+      </article>
+      <article class="grid-card">
+        <div class="grid-card__image-wrap">
+          <svg class="grid-card__image placeholder-img" viewBox="0 0 400 267" xmlns="http://www.w3.org/2000/svg">
+            <rect fill="#e8e4df" width="400" height="267"/>
+            <rect fill="#d4d4d4" x="30" y="30" width="340" height="207" rx="1"/>
+            <text x="200" y="138" text-anchor="middle" font-family="Georgia" font-size="13" fill="#9a9a9a">Photograph</text>
+          </svg>
+        </div>
+        <span class="grid-card__category">Craft</span>
+        <h3 class="grid-card__title"><a href="#">The Drop Cap: A Small Detail with Centuries of Meaning</a></h3>
+        <p class="grid-card__excerpt">From illuminated manuscripts to digital magazines, the oversized initial letter remains the most enduring typographic tradition.</p>
+        <p class="grid-card__meta">By <strong>E. Voss</strong> &mdash; Jan 18, 2026</p>
+      </article>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       EFFECTS & DETAILS SECTION
+       ============================================================ -->
+  <div class="section-header" id="effects">
+    <div class="section-header__rule"></div>
+    <span class="section-header__label">Section V</span>
+    <h2 class="section-header__title">Effects &amp; Details</h2>
+    <p class="section-header__description">Ruled lines, section dividers, folio lines, multi-column text, and image treatments: the subtle details that distinguish editorial craft.</p>
+  </div>
+
+  <!-- Dividers showcase -->
+  <div class="dividers-showcase reveal">
+    <div class="divider-demo">
+      <span class="divider-demo__label">Hairline Rule</span>
+      <hr class="ed-rule-line">
+    </div>
+    <div class="divider-demo">
+      <span class="divider-demo__label">Heavy Rule</span>
+      <hr class="ed-rule-line ed-rule-line--heavy">
+    </div>
+    <div class="divider-demo">
+      <span class="divider-demo__label">Double Rule</span>
+      <hr class="ed-rule-line ed-rule-line--double">
+    </div>
+    <div class="divider-demo">
+      <span class="divider-demo__label">Red Accent Rule</span>
+      <hr class="ed-rule-line ed-rule-line--red">
+    </div>
+    <div class="divider-demo">
+      <span class="divider-demo__label">Gold Rule</span>
+      <hr class="ed-rule-line ed-rule-line--gold">
+    </div>
+    <div class="divider-demo">
+      <span class="divider-demo__label">Asterism</span>
+      <div class="ed-asterism">* * *</div>
+    </div>
+  </div>
+
+  <!-- Folio line -->
+  <div class="folio-line reveal">
+    <span class="folio-line__left">The Editorial</span>
+    <span class="folio-line__center">&mdash; 42 &mdash;</span>
+    <span class="folio-line__right">February 2026</span>
+  </div>
+
+  <!-- Multi-column text -->
+  <div class="cards-section reveal">
+    <div style="border-top: 2px solid var(--ed-ink); padding-top: var(--ed-space-md); margin-bottom: var(--ed-space-lg);">
+      <span style="font-family: var(--font-body); font-size: 0.7rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ed-ink);">Multi-Column Text</span>
+    </div>
+    <div class="multicol-text">
+      <p>The multi-column layout is a direct inheritance from print tradition, where text flows across two or more columns to maintain an optimal reading measure of fifty to seventy characters per line. In digital editorial design, CSS columns recreate this effect while remaining responsive to screen width changes.</p>
+      <p>Column rules, the thin vertical lines separating adjacent columns, serve as subtle organizational guides. They reference the column dividers of traditional newspaper layouts and provide visual structure without demanding attention. The rule should be lighter than the text, functioning as architectural detail rather than decorative element.</p>
+      <p>On smaller screens, multi-column layouts collapse gracefully to a single column while maintaining generous side padding. The goal is always readability: the column structure exists to serve the text, never to impose a format that compromises the reading experience.</p>
+    </div>
+  </div>
+
+  <!-- Image treatments -->
+  <div class="image-treatments reveal">
+    <div style="border-top: 2px solid var(--ed-ink); padding-top: var(--ed-space-md); margin-bottom: var(--ed-space-lg);">
+      <span style="font-family: var(--font-body); font-size: 0.7rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ed-ink);">Image Duo Treatment</span>
+    </div>
+    <figure class="image-duo">
+      <div class="image-duo__item">
+        <svg class="placeholder-img" viewBox="0 0 600 400" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;">
+          <rect fill="#e8e4df" width="600" height="400"/>
+          <rect fill="#d4d4d4" x="30" y="30" width="540" height="340" rx="1"/>
+          <rect fill="#1a1a1a" x="30" y="30" width="540" height="3"/>
+          <text x="300" y="200" text-anchor="middle" font-family="Georgia" font-size="15" fill="#9a9a9a">Primary Image</text>
+          <text x="300" y="222" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#b0b0b0">3:2 ratio, dominant</text>
+        </svg>
+      </div>
+      <div class="image-duo__item">
+        <svg class="placeholder-img" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;">
+          <rect fill="#e8e4df" width="400" height="400"/>
+          <rect fill="#d4d4d4" x="25" y="25" width="350" height="350" rx="1"/>
+          <text x="200" y="200" text-anchor="middle" font-family="Georgia" font-size="14" fill="#9a9a9a">Secondary Image</text>
+          <text x="200" y="222" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#b0b0b0">Complementary, narrower</text>
+        </svg>
+      </div>
+      <figcaption>Asymmetric image pairing: the dominant image at 3fr width, the secondary at 2fr, creating a natural visual hierarchy within the composition.</figcaption>
+    </figure>
+  </div>
+
+  <!-- ============================================================
+       SUBSCRIBE CTA
+       ============================================================ -->
+  <section class="subscribe-section">
+    <div class="subscribe-inner">
+      <div class="subscribe-content">
+        <span class="subscribe-content__kicker">Newsletter</span>
+        <h2 class="subscribe-content__title">Stay Considered</h2>
+        <p class="subscribe-content__text">A weekly letter on design, typography, and the craft of thoughtful communication. No noise, no excess, just substance.</p>
+      </div>
+      <div class="subscribe-form-wrap">
+        <form class="subscribe-form" onsubmit="return false;">
+          <input type="email" placeholder="Your email address" aria-label="Email address">
+          <button type="submit">Subscribe</button>
+        </form>
+        <p class="subscribe-note">Delivered every Thursday. Unsubscribe anytime.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       FOOTER
+       ============================================================ -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <span class="footer-brand">The Editorial</span>
+      <nav class="footer-nav">
+        <a href="#">About</a>
+        <a href="#">Archive</a>
+        <a href="#">Contributors</a>
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+        <a href="#">RSS</a>
+      </nav>
+    </div>
+    <p class="footer-copy">&copy; 2026 The Editorial. A design aesthetic reference for the Editorial Magazine Layout style. All rights reserved.</p>
+  </footer>
+
+  <!-- ============================================================
+       SCROLL REVEAL SCRIPT
+       ============================================================ -->
+  <script>
+    // Scroll-reveal animation
+    (function() {
+      const reveals = document.querySelectorAll('.reveal');
+
+      function checkReveal() {
+        const windowHeight = window.innerHeight;
+        const revealPoint = 80;
+
+        reveals.forEach(function(el) {
+          const top = el.getBoundingClientRect().top;
+          if (top < windowHeight - revealPoint) {
+            el.classList.add('visible');
+          }
+        });
+      }
+
+      window.addEventListener('scroll', checkReveal, { passive: true });
+      window.addEventListener('load', checkReveal);
+      checkReveal();
+    })();
+  </script>
+
+</body>
+</html>
