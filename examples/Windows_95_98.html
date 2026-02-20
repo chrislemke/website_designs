@@ -1,0 +1,2232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Windows 95/98 -- Design Aesthetic Reference</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Pixelify+Sans:wght@400;700&family=VT323&display=swap" rel="stylesheet">
+<style>
+/* ================================================================
+   CSS RESET
+   ================================================================ */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ================================================================
+   CSS CUSTOM PROPERTIES
+   ================================================================ */
+:root {
+  /* Surface colors */
+  --win98-desktop: #008080;
+  --win98-surface: #C0C0C0;
+  --win98-window-bg: #FFFFFF;
+  --win98-tooltip-bg: #FFFFE1;
+
+  /* Border system (raised) */
+  --win98-border-lightest: #FFFFFF;
+  --win98-border-light: #DFDFDF;
+  --win98-border-dark: #808080;
+  --win98-border-darkest: #000000;
+
+  /* Title bar */
+  --win98-titlebar-active: #000080;
+  --win98-titlebar-active-end: #1084D0;
+  --win98-titlebar-inactive: #808080;
+  --win98-titlebar-inactive-end: #B5B5B5;
+  --win98-titlebar-text: #FFFFFF;
+
+  /* Text */
+  --win98-text: #000000;
+  --win98-text-disabled: #808080;
+  --win98-text-link: #0000FF;
+  --win98-text-visited: #800080;
+
+  /* Selection */
+  --win98-selection-bg: #000080;
+  --win98-selection-text: #FFFFFF;
+
+  /* Accent */
+  --win98-teal: #008080;
+  --win98-navy: #000080;
+
+  /* Additional system colors */
+  --win98-error-red: #FF0000;
+  --win98-warning-yellow: #FFFF00;
+  --win98-success-green: #008000;
+}
+
+/* ================================================================
+   BASE STYLES
+   ================================================================ */
+html {
+  height: 100%;
+  overflow-x: hidden;
+}
+
+body {
+  font-family: 'IBM Plex Sans', 'Tahoma', 'MS Sans Serif', sans-serif;
+  font-size: 12px;
+  line-height: 1.4;
+  color: var(--win98-text);
+  background: var(--win98-desktop);
+  min-height: 100%;
+  padding-bottom: 36px;
+  -webkit-font-smoothing: none;
+  -moz-osx-font-smoothing: grayscale;
+  image-rendering: pixelated;
+}
+
+/* ================================================================
+   TYPOGRAPHY
+   ================================================================ */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'VT323', 'Pixelify Sans', monospace;
+  font-weight: 400;
+  color: var(--win98-text);
+  line-height: 1.2;
+  letter-spacing: 0.02em;
+}
+
+h1 { font-size: 32px; }
+h2 { font-size: 26px; }
+h3 { font-size: 20px; }
+h4 { font-size: 16px; }
+
+a {
+  color: var(--win98-text-link);
+  text-decoration: underline;
+}
+
+a:visited { color: var(--win98-text-visited); }
+
+a:hover {
+  color: var(--win98-text-link);
+  text-decoration: underline;
+}
+
+.pixel-text { font-family: 'VT323', monospace; }
+.pixel-sans { font-family: 'Pixelify Sans', 'IBM Plex Sans', sans-serif; }
+.mono-text { font-family: 'IBM Plex Mono', 'Courier New', monospace; }
+
+/* ================================================================
+   UTILITY: RAISED & SUNKEN SURFACES
+   ================================================================ */
+.raised {
+  box-shadow:
+    inset -1px -1px 0 var(--win98-border-darkest),
+    inset 1px 1px 0 var(--win98-border-lightest),
+    inset -2px -2px 0 var(--win98-border-dark),
+    inset 2px 2px 0 var(--win98-border-light);
+}
+
+.sunken {
+  box-shadow:
+    inset -1px -1px 0 var(--win98-border-lightest),
+    inset 1px 1px 0 var(--win98-border-darkest),
+    inset -2px -2px 0 var(--win98-border-light),
+    inset 2px 2px 0 var(--win98-border-dark);
+}
+
+/* ================================================================
+   WINDOW COMPONENT
+   ================================================================ */
+.window {
+  background: var(--win98-surface);
+  box-shadow:
+    inset -1px -1px 0 var(--win98-border-darkest),
+    inset 1px 1px 0 var(--win98-border-lightest),
+    inset -2px -2px 0 var(--win98-border-dark),
+    inset 2px 2px 0 var(--win98-border-light);
+  padding: 3px;
+}
+
+.title-bar {
+  background: linear-gradient(to right, var(--win98-titlebar-active), var(--win98-titlebar-active-end));
+  color: var(--win98-titlebar-text);
+  font-family: 'Pixelify Sans', 'IBM Plex Sans', sans-serif;
+  font-weight: 700;
+  font-size: 12px;
+  padding: 3px 4px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  user-select: none;
+  margin-bottom: 2px;
+  gap: 4px;
+}
+
+.title-bar.inactive {
+  background: linear-gradient(to right, var(--win98-titlebar-inactive), var(--win98-titlebar-inactive-end));
+}
+
+.title-bar-text {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  letter-spacing: 0.5px;
+  flex: 1;
+}
+
+.title-bar-icon {
+  width: 16px;
+  height: 16px;
+  font-size: 14px;
+  line-height: 16px;
+  flex-shrink: 0;
+}
+
+.title-bar-controls {
+  display: flex;
+  gap: 2px;
+  flex-shrink: 0;
+}
+
+.title-bar-controls button {
+  width: 16px;
+  height: 14px;
+  min-width: 16px;
+  background: var(--win98-surface);
+  border: none;
+  box-shadow:
+    inset -1px -1px 0 var(--win98-border-darkest),
+    inset 1px 1px 0 var(--win98-border-lightest),
+    inset -2px -2px 0 var(--win98-border-dark),
+    inset 2px 2px 0 var(--win98-border-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  font-size: 9px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: bold;
+  line-height: 1;
+  cursor: pointer;
+  color: var(--win98-text);
+}
+
+.title-bar-controls button:active {
+  box-shadow:
+    inset -1px -1px 0 var(--win98-border-lightest),
+    inset 1px 1px 0 var(--win98-border-darkest),
+    inset -2px -2px 0 var(--win98-border-light),
+    inset 2px 2px 0 var(--win98-border-dark);
+}
+
+.window-body {
+  padding: 8px;
+}
+
+/* ================================================================
+   MENU BAR
+   ================================================================ */
+.menu-bar {
+  display: flex;
+  padding: 1px 0;
+  margin-bottom: 2px;
+  background: var(--win98-surface);
+}
+
+.menu-bar span {
+  padding: 2px 8px;
+  cursor: pointer;
+  font-size: 12px;
+  font-family: 'IBM Plex Sans', 'Tahoma', sans-serif;
+}
+
+.menu-bar span:hover {
+  box-shadow:
+    inset -1px -1px 0 var(--win98-border-darkest),
+    inset 1px 1px 0 var(--win98-border-lightest);
+}
+
+.menu-bar span:active,
+.menu-bar span.open {
+  box-shadow:
+    inset -1px -1px 0 var(--win98-border-lightest),
+    inset 1px 1px 0 var(--win98-border-darkest);
+}
+
+/* Underlined keyboard shortcut letters */
+.menu-bar span u {
+  text-decoration: underline;
+}
+
+/* ================================================================
+   TOOLBAR
+   ================================================================ */
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 2px;
+  margin-bottom: 2px;
+  flex-wrap: wrap;
+}
+
+.toolbar-btn {
+  width: 24px;
+  height: 22px;
+  min-width: 24px;
+  min-height: 22px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  background: var(--win98-surface);
+  border: none;
+  cursor: pointer;
+  box-shadow: none;
+}
+
+.toolbar-btn:hover {
+  box-shadow:
+    inset -1px -1px 0 var(--win98-border-darkest),
+    inset 1px 1px 0 var(--win98-border-lightest);
+}
+
+.toolbar-btn:active {
+  box-shadow:
+    inset -1px -1px 0 var(--win98-border-lightest),
+    inset 1px 1px 0 var(--win98-border-darkest);
+}
+
+.toolbar-separator {
+  width: 2px;
+  height: 20px;
+  margin: 0 2px;
+  border-left: 1px solid var(--win98-border-dark);
+  border-right: 1px solid var(--win98-border-lightest);
+}
+
+/* ================================================================
+   BUTTONS
+   ================================================================ */
+button, .btn {
+  background: var(--win98-surface);
+  color: var(--win98-text);
+  border: none;
+  font-family: 'IBM Plex Sans', 'Tahoma', sans-serif;
+  font-size: 12px;
+  padding: 4px 16px;
+  min-width: 75px;
+  min-height: 23px;
+  cursor: pointer;
+  box-shadow:
+    inset -1px -1px 0 var(--win98-border-darkest),
+    inset 1px 1px 0 var(--win98-border-lightest),
+    inset -2px -2px 0 var(--win98-border-dark),
+    inset 2px 2px 0 var(--win98-border-light);
+  position: relative;
+}
+
+button:active, .btn:active {
+  box-shadow:
+    inset -1px -1px 0 var(--win98-border-lightest),
+    inset 1px 1px 0 var(--win98-border-darkest),
+    inset -2px -2px 0 var(--win98-border-light),
+    inset 2px 2px 0 var(--win98-border-dark);
+  padding: 5px 15px 3px 17px;
+}
+
+button.default-btn {
+  outline: 2px solid var(--win98-border-darkest);
+  outline-offset: -4px;
+}
+
+button:disabled {
+  color: var(--win98-border-dark);
+  text-shadow: 1px 1px 0 var(--win98-border-lightest);
+  cursor: default;
+}
+
+button:disabled:active {
+  box-shadow:
+    inset -1px -1px 0 var(--win98-border-darkest),
+    inset 1px 1px 0 var(--win98-border-lightest),
+    inset -2px -2px 0 var(--win98-border-dark),
+    inset 2px 2px 0 var(--win98-border-light);
+  padding: 4px 16px;
+}
+
+/* ================================================================
+   FORM INPUTS
+   ================================================================ */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="url"],
+textarea,
+select {
+  background: var(--win98-window-bg);
+  color: var(--win98-text);
+  font-family: 'IBM Plex Sans', 'Tahoma', sans-serif;
+  font-size: 12px;
+  padding: 3px 4px;
+  border: none;
+  box-shadow:
+    inset -1px -1px 0 var(--win98-border-lightest),
+    inset 1px 1px 0 var(--win98-border-darkest),
+    inset -2px -2px 0 var(--win98-border-light),
+    inset 2px 2px 0 var(--win98-border-dark);
+  outline: none;
+}
+
+textarea {
+  resize: vertical;
+  font-family: 'IBM Plex Mono', 'Courier New', monospace;
+}
+
+input[type="checkbox"],
+input[type="radio"] {
+  accent-color: var(--win98-navy);
+  cursor: pointer;
+}
+
+/* ================================================================
+   TABS
+   ================================================================ */
+.tabs {
+  display: flex;
+  padding: 0 4px;
+  position: relative;
+  bottom: -2px;
+  z-index: 1;
+}
+
+.tab {
+  background: var(--win98-surface);
+  border-top: 2px solid var(--win98-border-lightest);
+  border-left: 2px solid var(--win98-border-lightest);
+  border-right: 2px solid var(--win98-border-darkest);
+  border-bottom: none;
+  padding: 4px 14px;
+  font-size: 12px;
+  font-family: 'IBM Plex Sans', 'Tahoma', sans-serif;
+  cursor: pointer;
+  position: relative;
+  margin-right: 2px;
+  box-shadow: none;
+  min-width: auto;
+  min-height: auto;
+  color: var(--win98-text);
+}
+
+.tab:active {
+  padding: 4px 14px;
+  box-shadow: none;
+}
+
+.tab.active {
+  padding-bottom: 6px;
+  margin-bottom: -2px;
+  z-index: 2;
+}
+
+.tab-content {
+  background: var(--win98-surface);
+  border: 2px solid;
+  border-color: var(--win98-border-lightest) var(--win98-border-darkest) var(--win98-border-darkest) var(--win98-border-lightest);
+  box-shadow:
+    inset 1px 1px 0 var(--win98-border-light),
+    inset -1px -1px 0 var(--win98-border-dark);
+  padding: 12px;
+  position: relative;
+}
+
+/* ================================================================
+   PROGRESS BAR
+   ================================================================ */
+.progress-track {
+  width: 100%;
+  height: 18px;
+  background: var(--win98-window-bg);
+  box-shadow:
+    inset -1px -1px 0 var(--win98-border-lightest),
+    inset 1px 1px 0 var(--win98-border-darkest),
+    inset -2px -2px 0 var(--win98-border-light),
+    inset 2px 2px 0 var(--win98-border-dark);
+  padding: 2px;
+}
+
+.progress-fill {
+  height: 100%;
+  background: repeating-linear-gradient(
+    to right,
+    var(--win98-selection-bg) 0px,
+    var(--win98-selection-bg) 8px,
+    transparent 8px,
+    transparent 10px
+  );
+}
+
+/* Animated progress bar */
+@keyframes progress-blocks {
+  0% { width: 0%; }
+  100% { width: 100%; }
+}
+
+.progress-fill.animated {
+  animation: progress-blocks 4s ease-in-out infinite;
+}
+
+/* ================================================================
+   STATUS BAR
+   ================================================================ */
+.status-bar {
+  display: flex;
+  gap: 2px;
+  margin-top: 2px;
+}
+
+.status-bar-field {
+  box-shadow:
+    inset -1px -1px 0 var(--win98-border-lightest),
+    inset 1px 1px 0 var(--win98-border-dark);
+  padding: 2px 6px;
+  font-size: 11px;
+  flex: 1;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/* ================================================================
+   GROUP BOX / FIELDSET
+   ================================================================ */
+fieldset {
+  border: none;
+  padding: 12px 8px 8px;
+  margin: 8px 0;
+  box-shadow:
+    inset 0 0 0 1px var(--win98-border-dark),
+    inset 0 0 0 2px var(--win98-border-lightest);
+}
+
+fieldset legend {
+  font-size: 12px;
+  padding: 0 4px;
+  background: var(--win98-surface);
+  font-family: 'IBM Plex Sans', 'Tahoma', sans-serif;
+}
+
+/* ================================================================
+   TREE VIEW
+   ================================================================ */
+.tree-view {
+  background: var(--win98-window-bg);
+  box-shadow:
+    inset -1px -1px 0 var(--win98-border-lightest),
+    inset 1px 1px 0 var(--win98-border-darkest),
+    inset -2px -2px 0 var(--win98-border-light),
+    inset 2px 2px 0 var(--win98-border-dark);
+  padding: 4px;
+  font-size: 12px;
+  overflow: auto;
+}
+
+.tree-view ul {
+  list-style: none;
+  padding-left: 16px;
+}
+
+.tree-view > ul { padding-left: 4px; }
+
+.tree-view li {
+  padding: 1px 4px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.tree-view li:hover {
+  background: var(--win98-selection-bg);
+  color: var(--win98-selection-text);
+}
+
+.tree-view li.selected {
+  background: var(--win98-selection-bg);
+  color: var(--win98-selection-text);
+}
+
+/* ================================================================
+   LIST VIEW
+   ================================================================ */
+.list-view {
+  background: var(--win98-window-bg);
+  box-shadow:
+    inset -1px -1px 0 var(--win98-border-lightest),
+    inset 1px 1px 0 var(--win98-border-darkest),
+    inset -2px -2px 0 var(--win98-border-light),
+    inset 2px 2px 0 var(--win98-border-dark);
+}
+
+.list-view-header {
+  display: flex;
+  border-bottom: 1px solid var(--win98-border-dark);
+}
+
+.list-view-header span {
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 500;
+  background: var(--win98-surface);
+  box-shadow:
+    inset -1px -1px 0 var(--win98-border-darkest),
+    inset 1px 1px 0 var(--win98-border-lightest);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.list-view-row {
+  display: flex;
+  padding: 1px 0;
+  font-size: 12px;
+}
+
+.list-view-row:hover {
+  background: var(--win98-selection-bg);
+  color: var(--win98-selection-text);
+}
+
+.list-view-row span {
+  padding: 1px 8px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.col-name { width: 40%; }
+.col-size { width: 15%; text-align: right; }
+.col-type { width: 25%; }
+.col-modified { width: 20%; }
+
+/* ================================================================
+   SEPARATOR (HR)
+   ================================================================ */
+hr {
+  border: none;
+  border-top: 1px solid var(--win98-border-dark);
+  border-bottom: 1px solid var(--win98-border-lightest);
+  margin: 8px 0;
+}
+
+/* ================================================================
+   DIALOG BOX
+   ================================================================ */
+.dialog-content {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  margin-bottom: 16px;
+}
+
+.dialog-icon {
+  font-size: 32px;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.dialog-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+}
+
+/* ================================================================
+   TOOLTIP
+   ================================================================ */
+.tooltip {
+  background: var(--win98-tooltip-bg);
+  color: var(--win98-text);
+  border: 1px solid var(--win98-border-darkest);
+  padding: 2px 6px;
+  font-size: 11px;
+  font-family: 'IBM Plex Sans', 'Tahoma', sans-serif;
+  position: absolute;
+  white-space: nowrap;
+  z-index: 10000;
+  pointer-events: none;
+  box-shadow: 2px 2px 0 rgba(0,0,0,0.15);
+}
+
+/* ================================================================
+   SCROLLBAR STYLING
+   ================================================================ */
+::-webkit-scrollbar {
+  width: 16px;
+  height: 16px;
+}
+
+::-webkit-scrollbar-track {
+  background: repeating-conic-gradient(var(--win98-surface) 0% 25%, var(--win98-border-light) 0% 50%) 50% / 2px 2px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--win98-surface);
+  box-shadow:
+    inset -1px -1px 0 var(--win98-border-darkest),
+    inset 1px 1px 0 var(--win98-border-lightest),
+    inset -2px -2px 0 var(--win98-border-dark),
+    inset 2px 2px 0 var(--win98-border-light);
+}
+
+::-webkit-scrollbar-button {
+  background: var(--win98-surface);
+  box-shadow:
+    inset -1px -1px 0 var(--win98-border-darkest),
+    inset 1px 1px 0 var(--win98-border-lightest),
+    inset -2px -2px 0 var(--win98-border-dark),
+    inset 2px 2px 0 var(--win98-border-light);
+  display: block;
+  height: 16px;
+  width: 16px;
+}
+
+::-webkit-scrollbar-corner {
+  background: var(--win98-surface);
+}
+
+/* ================================================================
+   DESKTOP & ICONS
+   ================================================================ */
+.desktop {
+  min-height: 100vh;
+  padding: 12px;
+  padding-bottom: 48px;
+  position: relative;
+}
+
+.desktop-icons {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  z-index: 0;
+}
+
+.desktop-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 70px;
+  padding: 4px;
+  cursor: pointer;
+  text-align: center;
+  border: 1px solid transparent;
+}
+
+.desktop-icon:hover {
+  border: 1px dotted var(--win98-border-lightest);
+}
+
+.desktop-icon .icon {
+  width: 32px;
+  height: 32px;
+  font-size: 28px;
+  line-height: 32px;
+  text-align: center;
+}
+
+.desktop-icon .icon-label {
+  font-size: 11px;
+  color: white;
+  text-shadow: 1px 1px 1px black;
+  margin-top: 2px;
+  word-wrap: break-word;
+  max-width: 68px;
+  font-family: 'IBM Plex Sans', 'Tahoma', sans-serif;
+}
+
+.desktop-icon.selected .icon-label {
+  background: var(--win98-selection-bg);
+  color: var(--win98-selection-text);
+}
+
+/* ================================================================
+   TASKBAR
+   ================================================================ */
+.taskbar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 32px;
+  background: var(--win98-surface);
+  border-top: 2px solid var(--win98-border-lightest);
+  display: flex;
+  align-items: center;
+  padding: 2px 4px;
+  z-index: 9999;
+  gap: 4px;
+}
+
+.start-btn {
+  font-weight: bold;
+  font-size: 12px;
+  padding: 2px 8px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  min-width: auto;
+  height: 24px;
+}
+
+.start-logo {
+  width: 16px;
+  height: 16px;
+  display: inline-block;
+  position: relative;
+  overflow: hidden;
+}
+
+/* CSS-only Windows flag logo */
+.start-logo::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 7px;
+  height: 7px;
+  background: #FF0000;
+  box-shadow:
+    9px 0 0 #00FF00,
+    0 9px 0 #0000FF,
+    9px 9px 0 #FFFF00;
+}
+
+.taskbar-windows {
+  display: flex;
+  flex: 1;
+  gap: 2px;
+  overflow: hidden;
+}
+
+.taskbar-window-btn {
+  font-size: 11px;
+  padding: 2px 8px;
+  height: 22px;
+  min-width: 100px;
+  max-width: 160px;
+  text-align: left;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-height: auto;
+  font-family: 'IBM Plex Sans', 'Tahoma', sans-serif;
+}
+
+.taskbar-window-btn.active-window {
+  box-shadow:
+    inset -1px -1px 0 var(--win98-border-lightest),
+    inset 1px 1px 0 var(--win98-border-darkest),
+    inset -2px -2px 0 var(--win98-border-light),
+    inset 2px 2px 0 var(--win98-border-dark);
+  font-weight: bold;
+}
+
+.systray {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 1px 8px;
+  font-size: 11px;
+  box-shadow:
+    inset -1px -1px 0 var(--win98-border-lightest),
+    inset 1px 1px 0 var(--win98-border-dark);
+  height: 22px;
+  font-family: 'IBM Plex Sans', 'Tahoma', sans-serif;
+}
+
+/* ================================================================
+   START MENU
+   ================================================================ */
+.start-menu {
+  position: fixed;
+  bottom: 32px;
+  left: 2px;
+  width: 220px;
+  background: var(--win98-surface);
+  box-shadow:
+    inset -1px -1px 0 var(--win98-border-darkest),
+    inset 1px 1px 0 var(--win98-border-lightest),
+    inset -2px -2px 0 var(--win98-border-dark),
+    inset 2px 2px 0 var(--win98-border-light);
+  padding: 3px;
+  z-index: 10000;
+  display: none;
+}
+
+.start-menu.open {
+  display: block;
+}
+
+.start-menu-sidebar {
+  position: absolute;
+  left: 3px;
+  top: 3px;
+  bottom: 3px;
+  width: 24px;
+  background: linear-gradient(to top, var(--win98-titlebar-active), var(--win98-titlebar-active-end));
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: 6px;
+}
+
+.start-menu-sidebar span {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  color: var(--win98-titlebar-text);
+  font-family: 'Pixelify Sans', 'IBM Plex Sans', sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  letter-spacing: 2px;
+}
+
+.start-menu-items {
+  margin-left: 27px;
+  padding: 2px;
+}
+
+.start-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 8px;
+  cursor: pointer;
+  font-size: 12px;
+  font-family: 'IBM Plex Sans', 'Tahoma', sans-serif;
+  white-space: nowrap;
+}
+
+.start-menu-item:hover {
+  background: var(--win98-selection-bg);
+  color: var(--win98-selection-text);
+}
+
+.start-menu-item .item-icon {
+  font-size: 16px;
+  width: 20px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.start-menu-item.has-submenu::after {
+  content: '\25B6';
+  margin-left: auto;
+  font-size: 8px;
+}
+
+.start-menu-separator {
+  height: 1px;
+  background: var(--win98-border-dark);
+  border-bottom: 1px solid var(--win98-border-lightest);
+  margin: 3px 2px;
+}
+
+.start-menu-item.disabled {
+  color: var(--win98-border-dark);
+  text-shadow: 1px 1px 0 var(--win98-border-lightest);
+  cursor: default;
+}
+
+.start-menu-item.disabled:hover {
+  background: transparent;
+  color: var(--win98-border-dark);
+}
+
+/* ================================================================
+   LAYOUT
+   ================================================================ */
+.windows-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding: 12px;
+  padding-left: 100px;
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+.window-sm { width: 340px; }
+.window-md { width: 480px; }
+.window-lg { width: 100%; max-width: 720px; }
+.window-full { width: 100%; }
+
+/* ================================================================
+   COLOR PALETTE DISPLAY
+   ================================================================ */
+.color-swatch-row {
+  display: flex;
+  gap: 2px;
+  margin-bottom: 4px;
+}
+
+.color-swatch {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.color-swatch .swatch {
+  width: 48px;
+  height: 32px;
+  border: 1px solid var(--win98-border-darkest);
+}
+
+.color-swatch .swatch-label {
+  font-size: 9px;
+  font-family: 'IBM Plex Mono', monospace;
+  text-align: center;
+  max-width: 52px;
+  word-wrap: break-word;
+  line-height: 1.2;
+}
+
+/* ================================================================
+   BSOD EFFECT
+   ================================================================ */
+@keyframes bsod-blink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+
+.bsod-cursor {
+  display: inline-block;
+  width: 8px;
+  height: 14px;
+  background: var(--win98-border-light);
+  animation: bsod-blink 1s step-end infinite;
+  vertical-align: middle;
+  margin-left: 2px;
+}
+
+/* ================================================================
+   CURSOR ANIMATION (hourglass)
+   ================================================================ */
+@keyframes hourglass-spin {
+  0% { transform: rotate(0deg); }
+  25% { transform: rotate(0deg); }
+  50% { transform: rotate(180deg); }
+  75% { transform: rotate(180deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.hourglass {
+  display: inline-block;
+  animation: hourglass-spin 2s ease-in-out infinite;
+  font-size: 18px;
+}
+
+/* ================================================================
+   MARQUEE / TICKER
+   ================================================================ */
+@keyframes ticker-scroll {
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
+}
+
+.ticker-text {
+  display: inline-block;
+  animation: ticker-scroll 15s linear infinite;
+  white-space: nowrap;
+}
+
+/* ================================================================
+   CRT SCANLINE OVERLAY (subtle)
+   ================================================================ */
+.crt-overlay {
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0px,
+    transparent 2px,
+    rgba(0, 0, 0, 0.03) 2px,
+    rgba(0, 0, 0, 0.03) 4px
+  );
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+}
+
+/* ================================================================
+   PIXELATED ICON CONSTRUCTION (CSS only)
+   ================================================================ */
+.pixel-icon-computer {
+  width: 32px;
+  height: 32px;
+  position: relative;
+  display: inline-block;
+}
+
+.pixel-icon-computer::before {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 3px;
+  width: 26px;
+  height: 18px;
+  background: var(--win98-teal);
+  border: 2px solid var(--win98-border-dark);
+  box-shadow: inset 0 0 0 1px var(--win98-border-darkest);
+}
+
+.pixel-icon-computer::after {
+  content: '';
+  position: absolute;
+  bottom: 2px;
+  left: 8px;
+  width: 16px;
+  height: 6px;
+  background: var(--win98-surface);
+  border: 1px solid var(--win98-border-dark);
+}
+
+/* ================================================================
+   RESPONSIVE DESIGN
+   ================================================================ */
+@media (max-width: 900px) {
+  .windows-container {
+    padding-left: 12px;
+    gap: 12px;
+  }
+
+  .desktop-icons {
+    position: relative;
+    top: auto;
+    left: auto;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-bottom: 8px;
+    padding: 8px;
+  }
+
+  .window-sm,
+  .window-md,
+  .window-lg {
+    width: 100%;
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 600px) {
+  body { font-size: 11px; }
+  h1 { font-size: 24px; }
+  h2 { font-size: 20px; }
+  h3 { font-size: 16px; }
+
+  .taskbar-windows {
+    display: none;
+  }
+
+  .menu-bar {
+    flex-wrap: wrap;
+  }
+
+  .list-view-header,
+  .list-view-row {
+    font-size: 10px;
+  }
+
+  .col-type,
+  .col-modified {
+    display: none;
+  }
+
+  .col-name { width: 70%; }
+  .col-size { width: 30%; }
+
+  .start-menu { width: 200px; }
+
+  .toolbar { overflow-x: auto; flex-wrap: nowrap; }
+}
+
+@media (max-width: 400px) {
+  .windows-container {
+    padding: 4px;
+    gap: 8px;
+  }
+
+  .tabs {
+    flex-wrap: wrap;
+    gap: 2px;
+  }
+
+  .tab {
+    font-size: 10px;
+    padding: 3px 8px;
+  }
+
+  .dialog-content {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- CRT SCANLINE OVERLAY -->
+<div class="crt-overlay"></div>
+
+<!-- ============================================================
+     DESKTOP AREA
+     ============================================================ -->
+<div class="desktop">
+
+  <!-- DESKTOP ICONS -->
+  <div class="desktop-icons">
+    <div class="desktop-icon selected">
+      <div class="icon">&#128187;</div>
+      <span class="icon-label">My Computer</span>
+    </div>
+    <div class="desktop-icon">
+      <div class="icon">&#128193;</div>
+      <span class="icon-label">My Documents</span>
+    </div>
+    <div class="desktop-icon">
+      <div class="icon">&#127760;</div>
+      <span class="icon-label">Internet Explorer</span>
+    </div>
+    <div class="desktop-icon">
+      <div class="icon">&#128225;</div>
+      <span class="icon-label">Network Neighborhood</span>
+    </div>
+    <div class="desktop-icon">
+      <div class="icon">&#9851;</div>
+      <span class="icon-label">Recycle Bin</span>
+    </div>
+    <div class="desktop-icon">
+      <div class="icon">&#128190;</div>
+      <span class="icon-label">Setup</span>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       WINDOWS CONTAINER
+       ============================================================ -->
+  <div class="windows-container">
+
+    <!-- ========================================================
+         SECTION 1: HERO -- Welcome Window
+         ======================================================== -->
+    <div class="window window-full" style="max-width: 780px;">
+      <div class="title-bar">
+        <span class="title-bar-icon">&#128187;</span>
+        <span class="title-bar-text">Welcome to Windows 98 -- Design Aesthetic Reference</span>
+        <div class="title-bar-controls">
+          <button aria-label="Minimize">_</button>
+          <button aria-label="Maximize">&#9633;</button>
+          <button aria-label="Close">X</button>
+        </div>
+      </div>
+      <div class="menu-bar">
+        <span><u>F</u>ile</span>
+        <span><u>E</u>dit</span>
+        <span><u>V</u>iew</span>
+        <span><u>H</u>elp</span>
+      </div>
+      <div class="toolbar">
+        <button class="toolbar-btn" title="Back">&#9664;</button>
+        <button class="toolbar-btn" title="Forward">&#9654;</button>
+        <button class="toolbar-btn" title="Stop">&#10006;</button>
+        <button class="toolbar-btn" title="Refresh">&#8635;</button>
+        <button class="toolbar-btn" title="Home">&#127968;</button>
+        <div class="toolbar-separator"></div>
+        <button class="toolbar-btn" title="Search">&#128269;</button>
+        <button class="toolbar-btn" title="Favorites">&#11088;</button>
+        <button class="toolbar-btn" title="Print">&#128424;</button>
+      </div>
+      <div class="window-body">
+
+        <!-- Hero Header Area -->
+        <div class="sunken" style="background: var(--win98-navy); padding: 20px 24px; margin-bottom: 12px;">
+          <h1 class="pixel-text" style="color: var(--win98-titlebar-text); font-size: 36px; margin-bottom: 6px;">Windows 95/98</h1>
+          <p class="pixel-sans" style="color: var(--win98-border-light); font-size: 14px; margin-bottom: 12px; font-weight: 700;">
+            Design Aesthetic Reference Guide
+          </p>
+          <p style="color: #B0C4FF; font-size: 12px; line-height: 1.6;">
+            The classic Microsoft operating system GUI aesthetic: grey beveled panels,
+            teal desktop backgrounds, pixel-precise borders, and an entire design language
+            built from the four-tone border system that made computing accessible to
+            millions. Every raised button and sunken input field communicates function
+            through depth simulation on flat screens.
+          </p>
+        </div>
+
+        <!-- Ticker bar -->
+        <div class="sunken" style="background: var(--win98-window-bg); padding: 2px 4px; margin-bottom: 12px; overflow: hidden; height: 20px;">
+          <span class="ticker-text mono-text" style="font-size: 11px; color: var(--win98-navy);">
+            &#9733; Welcome to Windows 98! &nbsp;&nbsp; &#9733; Faster, more reliable, and better connected &nbsp;&nbsp; &#9733; Explore the classic design system that defined an era of personal computing &nbsp;&nbsp; &#9733; Now with USB support!
+          </span>
+        </div>
+
+        <!-- System Info Tabs -->
+        <div class="tabs">
+          <div class="tab active">General</div>
+          <div class="tab">Features</div>
+          <div class="tab">About</div>
+        </div>
+        <div class="tab-content">
+          <fieldset>
+            <legend>System Information</legend>
+            <div style="display: grid; grid-template-columns: auto 1fr; gap: 4px 12px; font-size: 12px;">
+              <strong>Operating System:</strong> <span>Microsoft Windows 98 Second Edition</span>
+              <strong>Version:</strong> <span class="mono-text">4.10.2222 A</span>
+              <strong>Registered to:</strong> <span>Design Reference User</span>
+              <strong>Product Key:</strong> <span class="mono-text">W98SE-RETRO-AESTH-GUIDE</span>
+              <strong>Processor:</strong> <span>Intel Pentium II 350 MHz</span>
+              <strong>Memory:</strong> <span>64.0 MB RAM</span>
+              <strong>Display:</strong> <span>800 x 600, 16-bit Color (65536 colors)</span>
+              <strong>Hard Disk:</strong> <span>4.3 GB (2.1 GB free)</span>
+            </div>
+          </fieldset>
+        </div>
+
+      </div>
+      <div class="status-bar">
+        <div class="status-bar-field">&#128994; Ready</div>
+        <div class="status-bar-field" style="flex: 0 0 140px;">&#128187; My Computer</div>
+        <div class="status-bar-field" style="flex: 0 0 100px;">Internet</div>
+      </div>
+    </div>
+
+    <!-- ========================================================
+         SECTION 2: TYPOGRAPHY SHOWCASE
+         ======================================================== -->
+    <div class="window window-md">
+      <div class="title-bar">
+        <span class="title-bar-icon">&#128196;</span>
+        <span class="title-bar-text">Typography Showcase - Notepad</span>
+        <div class="title-bar-controls">
+          <button>_</button>
+          <button>&#9633;</button>
+          <button>X</button>
+        </div>
+      </div>
+      <div class="menu-bar">
+        <span><u>F</u>ile</span>
+        <span><u>E</u>dit</span>
+        <span>F<u>o</u>rmat</span>
+        <span><u>H</u>elp</span>
+      </div>
+      <div class="window-body" style="padding: 4px;">
+        <div class="sunken" style="background: var(--win98-window-bg); padding: 12px; min-height: 240px;">
+
+          <h1 class="pixel-text" style="margin-bottom: 8px;">H1 -- VT323 Display</h1>
+          <h2 class="pixel-text" style="margin-bottom: 8px;">H2 -- VT323 Heading</h2>
+          <h3 class="pixel-text" style="margin-bottom: 8px;">H3 -- VT323 Subheading</h3>
+          <h4 class="pixel-sans" style="font-weight: 700; margin-bottom: 12px;">H4 -- Pixelify Sans Bold</h4>
+
+          <hr>
+
+          <p style="margin: 8px 0; font-size: 12px; line-height: 1.6;">
+            <strong>Body text (IBM Plex Sans 12px):</strong> The Windows 95/98 aesthetic uses
+            a clean, compact sans-serif for maximum readability on low-resolution CRT monitors.
+            Text is rendered without anti-aliasing for crisp pixel edges.
+          </p>
+
+          <p class="pixel-sans" style="margin: 8px 0; font-size: 12px; line-height: 1.6;">
+            <strong>UI Label text (Pixelify Sans):</strong> Used for menu items, button labels,
+            tab names, and other interface controls that need to feel native to the OS.
+          </p>
+
+          <p class="mono-text" style="margin: 8px 0; font-size: 13px; line-height: 1.5; background: var(--win98-surface); padding: 8px; border: 1px solid var(--win98-border-dark);">
+            <strong>Monospace (IBM Plex Mono):</strong><br>
+            C:\WINDOWS> dir /p<br>
+            Volume in drive C is WIN98<br>
+            Directory of C:\WINDOWS<br>
+            SYSTEM &lt;DIR&gt; 06-25-98<br>
+            COMMAND .COM 93,890 06-25-98<br>
+            WIN .COM 24,518 06-25-98
+          </p>
+
+          <p style="margin-top: 8px; font-size: 12px;">
+            <a href="#">Hyperlink text (blue, underlined)</a> |
+            <a href="#" style="color: var(--win98-text-visited);">Visited link (purple)</a> |
+            <span style="color: var(--win98-text-disabled); text-shadow: 1px 1px 0 var(--win98-border-lightest);">Disabled text</span>
+          </p>
+
+        </div>
+      </div>
+      <div class="status-bar">
+        <div class="status-bar-field">Ln 1, Col 1</div>
+        <div class="status-bar-field" style="flex: 0 0 80px;">UTF-8</div>
+      </div>
+    </div>
+
+    <!-- ========================================================
+         SECTION 3: COLOR PALETTE -- Display Properties
+         ======================================================== -->
+    <div class="window window-md">
+      <div class="title-bar">
+        <span class="title-bar-icon">&#127912;</span>
+        <span class="title-bar-text">Display Properties -- Color Palette</span>
+        <div class="title-bar-controls">
+          <button>X</button>
+        </div>
+      </div>
+      <div class="window-body">
+        <div class="tabs">
+          <div class="tab">Background</div>
+          <div class="tab">Screen Saver</div>
+          <div class="tab active">Appearance</div>
+          <div class="tab">Settings</div>
+        </div>
+        <div class="tab-content">
+
+          <!-- Preview mini-window -->
+          <div class="sunken" style="background: var(--win98-desktop); padding: 12px; margin-bottom: 10px; min-height: 80px; display: flex; align-items: center; justify-content: center;">
+            <div class="window" style="width: 180px;">
+              <div class="title-bar" style="font-size: 10px; padding: 2px 3px;">
+                <span class="title-bar-text">Active Window</span>
+                <div class="title-bar-controls">
+                  <button style="width: 12px; height: 10px; font-size: 7px;" aria-label="Close">X</button>
+                </div>
+              </div>
+              <div class="window-body" style="padding: 4px; font-size: 10px;">
+                Window Text
+              </div>
+            </div>
+          </div>
+
+          <!-- Color Swatches -->
+          <fieldset style="margin-top: 4px;">
+            <legend>System Colors</legend>
+
+            <div class="color-swatch-row" style="flex-wrap: wrap; gap: 6px;">
+              <div class="color-swatch">
+                <div class="swatch" style="background: #008080;"></div>
+                <span class="swatch-label">Desktop<br>#008080</span>
+              </div>
+              <div class="color-swatch">
+                <div class="swatch" style="background: #C0C0C0;"></div>
+                <span class="swatch-label">Surface<br>#C0C0C0</span>
+              </div>
+              <div class="color-swatch">
+                <div class="swatch" style="background: #FFFFFF;"></div>
+                <span class="swatch-label">Highlight<br>#FFFFFF</span>
+              </div>
+              <div class="color-swatch">
+                <div class="swatch" style="background: #DFDFDF;"></div>
+                <span class="swatch-label">Light<br>#DFDFDF</span>
+              </div>
+              <div class="color-swatch">
+                <div class="swatch" style="background: #808080;"></div>
+                <span class="swatch-label">Shadow<br>#808080</span>
+              </div>
+              <div class="color-swatch">
+                <div class="swatch" style="background: #000000;"></div>
+                <span class="swatch-label">Dark<br>#000000</span>
+              </div>
+              <div class="color-swatch">
+                <div class="swatch" style="background: #000080;"></div>
+                <span class="swatch-label">Navy<br>#000080</span>
+              </div>
+              <div class="color-swatch">
+                <div class="swatch" style="background: #1084D0;"></div>
+                <span class="swatch-label">Title End<br>#1084D0</span>
+              </div>
+            </div>
+
+            <hr style="margin: 6px 0;">
+
+            <div class="color-swatch-row" style="flex-wrap: wrap; gap: 6px;">
+              <div class="color-swatch">
+                <div class="swatch" style="background: #FFFFFF; border: 1px solid #000;"></div>
+                <span class="swatch-label">Window<br>#FFFFFF</span>
+              </div>
+              <div class="color-swatch">
+                <div class="swatch" style="background: #FFFFE1; border: 1px solid #000;"></div>
+                <span class="swatch-label">Tooltip<br>#FFFFE1</span>
+              </div>
+              <div class="color-swatch">
+                <div class="swatch" style="background: #0000FF;"></div>
+                <span class="swatch-label">Link<br>#0000FF</span>
+              </div>
+              <div class="color-swatch">
+                <div class="swatch" style="background: #800080;"></div>
+                <span class="swatch-label">Visited<br>#800080</span>
+              </div>
+              <div class="color-swatch">
+                <div class="swatch" style="background: #FF0000;"></div>
+                <span class="swatch-label">Error<br>#FF0000</span>
+              </div>
+              <div class="color-swatch">
+                <div class="swatch" style="background: #008000;"></div>
+                <span class="swatch-label">Success<br>#008000</span>
+              </div>
+              <div class="color-swatch">
+                <div class="swatch" style="background: #FFFF00;"></div>
+                <span class="swatch-label">Warning<br>#FFFF00</span>
+              </div>
+            </div>
+          </fieldset>
+
+          <div style="display: flex; gap: 8px; align-items: center; margin-top: 8px;">
+            <label style="font-size: 12px;">Scheme:</label>
+            <select style="flex: 1;">
+              <option>Windows Standard</option>
+              <option>High Contrast Black</option>
+              <option>Desert</option>
+              <option>Eggplant</option>
+              <option>Maple</option>
+              <option>Marine</option>
+              <option>Slate</option>
+              <option>Teal (High Color)</option>
+            </select>
+          </div>
+        </div>
+
+        <div style="display: flex; justify-content: flex-end; gap: 6px; margin-top: 12px;">
+          <button class="default-btn">OK</button>
+          <button>Cancel</button>
+          <button>Apply</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========================================================
+         SECTION 4: CARDS / COMPONENTS -- File Explorer
+         ======================================================== -->
+    <div class="window window-full" style="max-width: 780px;">
+      <div class="title-bar">
+        <span class="title-bar-icon">&#128193;</span>
+        <span class="title-bar-text">C:\Design_Components -- Exploring</span>
+        <div class="title-bar-controls">
+          <button>_</button>
+          <button>&#9633;</button>
+          <button>X</button>
+        </div>
+      </div>
+      <div class="menu-bar">
+        <span><u>F</u>ile</span>
+        <span><u>E</u>dit</span>
+        <span><u>V</u>iew</span>
+        <span>F<u>a</u>vorites</span>
+        <span><u>T</u>ools</span>
+        <span><u>H</u>elp</span>
+      </div>
+      <div class="toolbar">
+        <button class="toolbar-btn" title="Back">&#9664;</button>
+        <button class="toolbar-btn" title="Forward">&#9654;</button>
+        <button class="toolbar-btn" title="Up">&#11014;</button>
+        <div class="toolbar-separator"></div>
+        <button class="toolbar-btn" title="Cut">&#9988;</button>
+        <button class="toolbar-btn" title="Copy">&#128203;</button>
+        <button class="toolbar-btn" title="Paste">&#128195;</button>
+        <div class="toolbar-separator"></div>
+        <button class="toolbar-btn" title="Undo">&#8617;</button>
+        <button class="toolbar-btn" title="Delete">&#128465;</button>
+        <div class="toolbar-separator"></div>
+        <button class="toolbar-btn" title="Views">&#9776;</button>
+      </div>
+      <div class="window-body" style="padding: 4px;">
+
+        <!-- Address bar -->
+        <div style="display: flex; align-items: center; gap: 4px; margin-bottom: 4px;">
+          <span style="font-size: 12px; font-family: 'IBM Plex Sans', sans-serif;">Address</span>
+          <input type="text" value="C:\Design_Components" style="flex: 1;" readonly>
+          <button style="min-width: auto; padding: 2px 12px; min-height: 20px;">Go</button>
+        </div>
+
+        <div style="display: flex; gap: 0; min-height: 280px;">
+
+          <!-- Tree View Sidebar -->
+          <div class="tree-view" style="width: 180px; flex-shrink: 0; overflow-y: auto;">
+            <ul>
+              <li>&#128421; Desktop
+                <ul>
+                  <li>&#128187; My Computer
+                    <ul>
+                      <li>&#128190; 3.5" Floppy (A:)</li>
+                      <li>&#128191; Local Disk (C:)</li>
+                      <li>&#128191; Data (D:)</li>
+                      <li>&#128191; CD-ROM (E:)</li>
+                    </ul>
+                  </li>
+                  <li class="selected">&#128193; Design_Components</li>
+                  <li>&#128193; My Documents</li>
+                  <li>&#127760; Network</li>
+                  <li>&#9851; Recycle Bin</li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+
+          <!-- File List View -->
+          <div class="list-view" style="flex: 1;">
+            <div class="list-view-header">
+              <span class="col-name">Name</span>
+              <span class="col-size">Size</span>
+              <span class="col-type">Type</span>
+              <span class="col-modified">Modified</span>
+            </div>
+            <div class="list-view-row">
+              <span class="col-name">&#128193; Buttons</span>
+              <span class="col-size"></span>
+              <span class="col-type">File Folder</span>
+              <span class="col-modified">03/15/1998</span>
+            </div>
+            <div class="list-view-row">
+              <span class="col-name">&#128193; Dialogs</span>
+              <span class="col-size"></span>
+              <span class="col-type">File Folder</span>
+              <span class="col-modified">06/25/1998</span>
+            </div>
+            <div class="list-view-row">
+              <span class="col-name">&#128193; Menus</span>
+              <span class="col-size"></span>
+              <span class="col-type">File Folder</span>
+              <span class="col-modified">06/25/1998</span>
+            </div>
+            <div class="list-view-row">
+              <span class="col-name">&#128193; Progress Bars</span>
+              <span class="col-size"></span>
+              <span class="col-type">File Folder</span>
+              <span class="col-modified">09/11/1998</span>
+            </div>
+            <div class="list-view-row">
+              <span class="col-name">&#128196; border-system.css</span>
+              <span class="col-size">3 KB</span>
+              <span class="col-type">CSS File</span>
+              <span class="col-modified">11/23/1998</span>
+            </div>
+            <div class="list-view-row">
+              <span class="col-name">&#128196; colors.ini</span>
+              <span class="col-size">1 KB</span>
+              <span class="col-type">Configuration</span>
+              <span class="col-modified">06/25/1998</span>
+            </div>
+            <div class="list-view-row">
+              <span class="col-name">&#128196; layout.html</span>
+              <span class="col-size">8 KB</span>
+              <span class="col-type">HTML Document</span>
+              <span class="col-modified">01/08/1999</span>
+            </div>
+            <div class="list-view-row">
+              <span class="col-name">&#128196; typography.doc</span>
+              <span class="col-size">12 KB</span>
+              <span class="col-type">Word Document</span>
+              <span class="col-modified">04/17/1999</span>
+            </div>
+            <div class="list-view-row">
+              <span class="col-name">&#127912; wallpaper.bmp</span>
+              <span class="col-size">1.4 MB</span>
+              <span class="col-type">Bitmap Image</span>
+              <span class="col-modified">08/30/1998</span>
+            </div>
+            <div class="list-view-row">
+              <span class="col-name">&#128196; README.txt</span>
+              <span class="col-size">2 KB</span>
+              <span class="col-type">Text Document</span>
+              <span class="col-modified">09/12/1998</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="status-bar">
+        <div class="status-bar-field">10 object(s)</div>
+        <div class="status-bar-field" style="flex: 0 0 100px;">1.42 MB</div>
+        <div class="status-bar-field" style="flex: 0 0 140px;">&#128187; My Computer</div>
+      </div>
+    </div>
+
+    <!-- ========================================================
+         SECTION 5: UI COMPONENTS -- Buttons & Forms
+         ======================================================== -->
+    <div class="window window-sm">
+      <div class="title-bar">
+        <span class="title-bar-icon">&#128295;</span>
+        <span class="title-bar-text">Component Showcase</span>
+        <div class="title-bar-controls">
+          <button>X</button>
+        </div>
+      </div>
+      <div class="window-body">
+        <fieldset>
+          <legend>Button States</legend>
+          <div style="display: flex; flex-wrap: wrap; gap: 6px; align-items: center;">
+            <button class="default-btn">Default</button>
+            <button>Normal</button>
+            <button disabled>Disabled</button>
+            <button style="min-width: auto; padding: 4px 8px;">Small</button>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Form Controls</legend>
+          <div style="display: grid; grid-template-columns: 70px 1fr; gap: 6px 8px; align-items: center;">
+            <label style="font-size: 12px; text-align: right;">Name:</label>
+            <input type="text" value="Windows User" style="width: 100%;">
+            <label style="font-size: 12px; text-align: right;">Email:</label>
+            <input type="email" value="user@win98.local" style="width: 100%;">
+            <label style="font-size: 12px; text-align: right;">Theme:</label>
+            <select style="width: 100%;">
+              <option>Windows Standard</option>
+              <option>High Contrast</option>
+              <option>Desert</option>
+              <option>Eggplant</option>
+            </select>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Connection Speed</legend>
+          <div style="display: flex; flex-direction: column; gap: 4px; font-size: 12px;">
+            <label><input type="radio" name="speed" checked> 14.4 Kbps Modem</label>
+            <label><input type="radio" name="speed"> 28.8 Kbps Modem</label>
+            <label><input type="radio" name="speed"> 56 Kbps Modem</label>
+            <label><input type="radio" name="speed"> ISDN (128 Kbps)</label>
+            <label><input type="radio" name="speed" disabled> T1 (1.5 Mbps)</label>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Options</legend>
+          <div style="display: flex; flex-direction: column; gap: 4px; font-size: 12px;">
+            <label><input type="checkbox" checked> Show desktop icons</label>
+            <label><input type="checkbox" checked> Show taskbar clock</label>
+            <label><input type="checkbox"> Enable Active Desktop</label>
+            <label><input type="checkbox" disabled> Use large icons</label>
+          </div>
+        </fieldset>
+
+        <div style="display: flex; justify-content: flex-end; gap: 6px; margin-top: 8px;">
+          <button class="default-btn">OK</button>
+          <button>Cancel</button>
+          <button>Apply</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========================================================
+         SECTION 5b: DIALOG BOXES
+         ======================================================== -->
+    <div class="window window-sm">
+      <div class="title-bar">
+        <span class="title-bar-icon">&#9432;</span>
+        <span class="title-bar-text">Windows</span>
+        <div class="title-bar-controls">
+          <button>X</button>
+        </div>
+      </div>
+      <div class="window-body">
+        <div class="dialog-content">
+          <div class="dialog-icon">&#9432;</div>
+          <div>
+            <p style="font-size: 12px; line-height: 1.5;">
+              This design system faithfully recreates the Windows 95/98
+              visual language using only HTML and CSS. Every beveled border,
+              grey panel, and pixel-precise detail uses the authentic four-tone
+              shadow technique.
+            </p>
+          </div>
+        </div>
+        <div class="dialog-buttons">
+          <button class="default-btn">OK</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Warning dialog -->
+    <div class="window window-sm">
+      <div class="title-bar">
+        <span class="title-bar-icon">&#9888;</span>
+        <span class="title-bar-text">Warning</span>
+        <div class="title-bar-controls">
+          <button>X</button>
+        </div>
+      </div>
+      <div class="window-body">
+        <div class="dialog-content">
+          <div class="dialog-icon" style="color: #CC8800;">&#9888;</div>
+          <div>
+            <p style="font-size: 12px; line-height: 1.5;">
+              This program has performed an illegal operation and will be shut down.
+              If the problem persists, contact the program vendor.
+            </p>
+          </div>
+        </div>
+        <div class="dialog-buttons">
+          <button class="default-btn">Close</button>
+          <button>Details >></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Error dialog -->
+    <div class="window window-sm">
+      <div class="title-bar">
+        <span class="title-bar-icon">&#10060;</span>
+        <span class="title-bar-text">Error</span>
+        <div class="title-bar-controls">
+          <button>X</button>
+        </div>
+      </div>
+      <div class="window-body">
+        <div class="dialog-content">
+          <div class="dialog-icon" style="color: var(--win98-error-red);">&#10060;</div>
+          <div>
+            <p style="font-size: 12px; line-height: 1.5;">
+              Windows cannot find 'modern_design.exe'. Make sure you typed
+              the name correctly, and then try again.
+            </p>
+          </div>
+        </div>
+        <div class="dialog-buttons">
+          <button class="default-btn">OK</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Question dialog -->
+    <div class="window window-sm">
+      <div class="title-bar">
+        <span class="title-bar-icon">&#10067;</span>
+        <span class="title-bar-text">Confirm</span>
+        <div class="title-bar-controls">
+          <button>X</button>
+        </div>
+      </div>
+      <div class="window-body">
+        <div class="dialog-content">
+          <div class="dialog-icon" style="color: var(--win98-navy);">&#10067;</div>
+          <div>
+            <p style="font-size: 12px; line-height: 1.5;">
+              Are you sure you want to continue exploring the Windows 95/98
+              design aesthetic? This may induce extreme nostalgia.
+            </p>
+          </div>
+        </div>
+        <div class="dialog-buttons">
+          <button class="default-btn">Yes</button>
+          <button>No</button>
+          <button>Cancel</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========================================================
+         SECTION 6: EFFECTS & DETAILS
+         ======================================================== -->
+
+    <!-- Download Progress -->
+    <div class="window window-sm">
+      <div class="title-bar">
+        <span class="title-bar-icon">&#128190;</span>
+        <span class="title-bar-text">Downloading...</span>
+        <div class="title-bar-controls">
+          <button>X</button>
+        </div>
+      </div>
+      <div class="window-body">
+        <p style="font-size: 12px; margin-bottom: 8px;">Downloading file from the Internet...</p>
+
+        <div style="display: flex; gap: 8px; align-items: center; margin-bottom: 10px; font-size: 20px;">
+          <span>&#128196;</span>
+          <span style="font-size: 12px; letter-spacing: 4px;">&#10132;&#10132;&#10132;</span>
+          <span>&#128187;</span>
+        </div>
+
+        <div class="progress-track" style="margin-bottom: 8px;">
+          <div class="progress-fill animated"></div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: auto 1fr; gap: 2px 12px; font-size: 11px; margin-bottom: 10px;">
+          <span>Saving:</span>
+          <span class="mono-text">design_reference.zip from ftp.aesthetic.net</span>
+          <span>Estimated time:</span>
+          <span>47 min 23 sec (28.8 Kbps)</span>
+          <span>Downloaded:</span>
+          <span>342 KB of 502 KB</span>
+        </div>
+
+        <div style="display: flex; justify-content: flex-end;">
+          <button>Cancel</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Installing Progress -->
+    <div class="window window-sm">
+      <div class="title-bar">
+        <span class="title-bar-icon">&#128295;</span>
+        <span class="title-bar-text">Setup -- Installing Components</span>
+        <div class="title-bar-controls">
+          <button>X</button>
+        </div>
+      </div>
+      <div class="window-body">
+        <p style="font-size: 12px; margin-bottom: 4px;">
+          <span class="hourglass">&#9203;</span>
+          Installing design components. Please wait...
+        </p>
+        <p class="mono-text" style="font-size: 11px; margin-bottom: 8px; color: var(--win98-text-disabled);">
+          C:\WINDOWS\SYSTEM\bevel32.dll
+        </p>
+
+        <div style="margin-bottom: 6px;">
+          <span style="font-size: 11px;">Overall progress:</span>
+          <div class="progress-track" style="margin-top: 2px;">
+            <div class="progress-fill" style="width: 72%;"></div>
+          </div>
+        </div>
+
+        <div style="margin-bottom: 8px;">
+          <span style="font-size: 11px;">Current file:</span>
+          <div class="progress-track" style="margin-top: 2px;">
+            <div class="progress-fill" style="width: 45%;"></div>
+          </div>
+        </div>
+
+        <div style="display: flex; justify-content: flex-end;">
+          <button>Cancel</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Notepad Window -->
+    <div class="window window-md">
+      <div class="title-bar">
+        <span class="title-bar-icon">&#128196;</span>
+        <span class="title-bar-text">design_notes.txt - Notepad</span>
+        <div class="title-bar-controls">
+          <button>_</button>
+          <button>&#9633;</button>
+          <button>X</button>
+        </div>
+      </div>
+      <div class="menu-bar">
+        <span><u>F</u>ile</span>
+        <span><u>E</u>dit</span>
+        <span><u>S</u>earch</span>
+        <span><u>H</u>elp</span>
+      </div>
+      <div class="window-body" style="padding: 0;">
+        <textarea rows="12" style="width: 100%; border: none; box-shadow: none; padding: 4px; font-size: 13px; resize: vertical;">WINDOWS 95/98 DESIGN SYSTEM
+============================
+
+KEY PRINCIPLES:
+- Four-tone border system for 3D depth
+- Raised surfaces = clickable/interactive
+- Sunken surfaces = input/display areas
+- No rounded corners anywhere, ever
+- No gradients except on title bars
+- Pixel-perfect alignment to grid
+- System colors only, no custom hues
+
+BORDER ORDER (raised):
+  Top/Left outer:  #FFFFFF (lightest)
+  Top/Left inner:  #DFDFDF (light)
+  Bot/Right inner: #808080 (dark)
+  Bot/Right outer: #000000 (darkest)
+
+BORDER ORDER (sunken / pressed):
+  Top/Left outer:  #000000 (darkest)
+  Top/Left inner:  #808080 (dark)
+  Bot/Right inner: #DFDFDF (light)
+  Bot/Right outer: #FFFFFF (lightest)
+
+The beauty is in the constraint.</textarea>
+      </div>
+    </div>
+
+    <!-- Internet Connection Wizard -->
+    <div class="window window-sm">
+      <div class="title-bar">
+        <span class="title-bar-icon">&#127760;</span>
+        <span class="title-bar-text">Internet Connection Wizard</span>
+        <div class="title-bar-controls">
+          <button>X</button>
+        </div>
+      </div>
+      <div class="window-body">
+        <div style="display: flex; gap: 12px; margin-bottom: 12px;">
+          <div style="font-size: 40px; line-height: 1;">&#127760;</div>
+          <div>
+            <h3 class="pixel-text" style="margin-bottom: 4px;">Welcome to the Internet!</h3>
+            <p style="font-size: 12px; line-height: 1.5;">
+              The Internet Connection Wizard helps you connect your computer to the
+              Internet. You can use this wizard to set up a new account or use your
+              existing account.
+            </p>
+          </div>
+        </div>
+
+        <fieldset>
+          <legend>Choose your connection method</legend>
+          <div style="display: flex; flex-direction: column; gap: 6px; font-size: 12px;">
+            <label><input type="radio" name="conn" checked> I want to sign up for a new Internet account</label>
+            <label><input type="radio" name="conn"> I want to set up my Internet connection manually</label>
+            <label><input type="radio" name="conn"> I already have an account through my LAN</label>
+          </div>
+        </fieldset>
+
+        <hr>
+
+        <div style="display: flex; justify-content: flex-end; gap: 6px;">
+          <button disabled>&lt; Back</button>
+          <button class="default-btn">Next &gt;</button>
+          <button>Cancel</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- BSOD Reference -->
+    <div class="window window-md">
+      <div class="title-bar inactive">
+        <span class="title-bar-icon">&#128187;</span>
+        <span class="title-bar-text">system_effects.txt - Notepad [Inactive Window]</span>
+        <div class="title-bar-controls">
+          <button>_</button>
+          <button>&#9633;</button>
+          <button>X</button>
+        </div>
+      </div>
+      <div class="window-body" style="padding: 0;">
+
+        <!-- Mini BSOD Display -->
+        <div style="background: var(--win98-navy); padding: 20px; color: var(--win98-border-light); font-family: 'IBM Plex Mono', 'Courier New', monospace; font-size: 12px; line-height: 1.6; text-align: center; min-height: 160px; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+          <p style="background: var(--win98-border-light); color: var(--win98-navy); padding: 0 8px; margin-bottom: 16px; font-weight: bold;">Windows</p>
+          <p>A fatal exception 0E has occurred at 0028:C0034B03</p>
+          <p>in VXD DESIGN(01) + 00001A4F. The current</p>
+          <p>application will be terminated.</p>
+          <br>
+          <p>*  Press any key to terminate the current application.</p>
+          <p>*  Press CTRL+ALT+DEL to restart your computer.</p>
+          <p style="margin-top: 12px;">Press any key to continue <span class="bsod-cursor"></span></p>
+        </div>
+
+      </div>
+      <div class="status-bar">
+        <div class="status-bar-field" style="color: var(--win98-text-disabled);">Blue Screen of Death (BSOD) -- classic error display</div>
+      </div>
+    </div>
+
+    <!-- Tooltip & Border System Reference -->
+    <div class="window window-md">
+      <div class="title-bar">
+        <span class="title-bar-icon">&#128218;</span>
+        <span class="title-bar-text">Border System Reference</span>
+        <div class="title-bar-controls">
+          <button>_</button>
+          <button>&#9633;</button>
+          <button>X</button>
+        </div>
+      </div>
+      <div class="window-body">
+
+        <fieldset>
+          <legend>Raised Surface (Buttons, Windows)</legend>
+          <div style="display: flex; gap: 12px; align-items: center;">
+            <div class="raised" style="width: 80px; height: 50px; background: var(--win98-surface);"></div>
+            <div style="font-size: 11px; line-height: 1.6;" class="mono-text">
+              TL outer: #FFFFFF<br>
+              TL inner: #DFDFDF<br>
+              BR inner: #808080<br>
+              BR outer: #000000
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Sunken Surface (Inputs, Status bars)</legend>
+          <div style="display: flex; gap: 12px; align-items: center;">
+            <div class="sunken" style="width: 80px; height: 50px; background: var(--win98-window-bg);"></div>
+            <div style="font-size: 11px; line-height: 1.6;" class="mono-text">
+              TL outer: #000000<br>
+              TL inner: #808080<br>
+              BR inner: #DFDFDF<br>
+              BR outer: #FFFFFF
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Interactive Comparison</legend>
+          <div style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center;">
+            <div style="text-align: center;">
+              <div class="raised" style="width: 64px; height: 32px; background: var(--win98-surface); display: flex; align-items: center; justify-content: center; font-size: 11px; cursor: pointer;">Button</div>
+              <span style="font-size: 10px; display: block; margin-top: 2px;">Raised</span>
+            </div>
+            <div style="text-align: center;">
+              <div class="sunken" style="width: 64px; height: 32px; background: var(--win98-surface); display: flex; align-items: center; justify-content: center; font-size: 11px; cursor: pointer;">Active</div>
+              <span style="font-size: 10px; display: block; margin-top: 2px;">Sunken</span>
+            </div>
+            <div style="text-align: center;">
+              <div class="sunken" style="width: 64px; height: 32px; background: var(--win98-window-bg); display: flex; align-items: center; justify-content: center; font-size: 11px;">Input</div>
+              <span style="font-size: 10px; display: block; margin-top: 2px;">Input</span>
+            </div>
+            <div style="text-align: center;">
+              <div style="width: 64px; height: 32px; background: var(--win98-surface); display: flex; align-items: center; justify-content: center; font-size: 11px; border: 1px solid var(--win98-border-dark);">Flat</div>
+              <span style="font-size: 10px; display: block; margin-top: 2px;">Flat</span>
+            </div>
+          </div>
+        </fieldset>
+
+        <!-- Tooltip demo -->
+        <fieldset>
+          <legend>Tooltip</legend>
+          <div style="position: relative; padding: 8px;">
+            <div style="display: inline-block;">
+              <button style="min-width: auto; padding: 4px 12px;">Hover me (demo)</button>
+              <div class="tooltip" style="position: relative; display: inline-block; margin-left: 8px; top: auto; left: auto;">
+                This is a system tooltip
+              </div>
+            </div>
+          </div>
+        </fieldset>
+
+      </div>
+    </div>
+
+    <!-- Shut Down Dialog -->
+    <div class="window" style="width: 320px;">
+      <div class="title-bar">
+        <span class="title-bar-icon">&#128187;</span>
+        <span class="title-bar-text">Shut Down Windows</span>
+        <div class="title-bar-controls">
+          <button>X</button>
+        </div>
+      </div>
+      <div class="window-body">
+        <div style="display: flex; gap: 16px; margin-bottom: 16px;">
+          <div style="font-size: 32px; line-height: 1;">&#128187;</div>
+          <div>
+            <p style="font-size: 12px; margin-bottom: 8px;">What do you want the computer to do?</p>
+            <div style="display: flex; flex-direction: column; gap: 6px; font-size: 12px;">
+              <label><input type="radio" name="shutdown" checked> Shut down</label>
+              <label><input type="radio" name="shutdown"> Restart</label>
+              <label><input type="radio" name="shutdown"> Restart in MS-DOS mode</label>
+            </div>
+          </div>
+        </div>
+        <div class="dialog-buttons">
+          <button class="default-btn">OK</button>
+          <button>Cancel</button>
+          <button>Help</button>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /windows-container -->
+
+</div><!-- /desktop -->
+
+<!-- ============================================================
+     START MENU
+     ============================================================ -->
+<div class="start-menu" id="startMenu">
+  <div class="start-menu-sidebar">
+    <span>Windows<strong>98</strong></span>
+  </div>
+  <div class="start-menu-items">
+    <div class="start-menu-item has-submenu">
+      <span class="item-icon">&#128193;</span>
+      <span>Programs</span>
+    </div>
+    <div class="start-menu-item has-submenu">
+      <span class="item-icon">&#128196;</span>
+      <span>Documents</span>
+    </div>
+    <div class="start-menu-item has-submenu">
+      <span class="item-icon">&#128295;</span>
+      <span>Settings</span>
+    </div>
+    <div class="start-menu-item has-submenu">
+      <span class="item-icon">&#128269;</span>
+      <span>Find</span>
+    </div>
+    <div class="start-menu-item">
+      <span class="item-icon">&#10067;</span>
+      <span>Help</span>
+    </div>
+    <div class="start-menu-item">
+      <span class="item-icon">&#9654;</span>
+      <span>Run...</span>
+    </div>
+    <div class="start-menu-separator"></div>
+    <div class="start-menu-item">
+      <span class="item-icon">&#128187;</span>
+      <span>Shut Down...</span>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     TASKBAR
+     ============================================================ -->
+<div class="taskbar">
+  <button class="start-btn raised" id="startBtn" onclick="document.getElementById('startMenu').classList.toggle('open')">
+    <span class="start-logo"></span>
+    <strong>Start</strong>
+  </button>
+
+  <div class="taskbar-windows">
+    <button class="taskbar-window-btn active-window">&#128187; Welcome to Win98</button>
+    <button class="taskbar-window-btn raised">&#128193; C:\Design_Components</button>
+    <button class="taskbar-window-btn raised">&#128196; Notepad</button>
+    <button class="taskbar-window-btn raised">&#127912; Display Properties</button>
+  </div>
+
+  <div class="systray">
+    <span>&#128264;</span>
+    <span>&#128247;</span>
+    <span id="taskbarClock">3:14 PM</span>
+  </div>
+</div>
+
+<!-- ============================================================
+     MINIMAL INTERACTIVITY SCRIPT
+     ============================================================ -->
+<script>
+// Update taskbar clock
+function updateClock() {
+  const now = new Date();
+  let h = now.getHours();
+  const m = now.getMinutes().toString().padStart(2, '0');
+  const ampm = h >= 12 ? 'PM' : 'AM';
+  h = h % 12 || 12;
+  document.getElementById('taskbarClock').textContent = h + ':' + m + ' ' + ampm;
+}
+updateClock();
+setInterval(updateClock, 30000);
+
+// Close start menu when clicking elsewhere
+document.addEventListener('click', function(e) {
+  const startMenu = document.getElementById('startMenu');
+  const startBtn = document.getElementById('startBtn');
+  if (!startMenu.contains(e.target) && !startBtn.contains(e.target)) {
+    startMenu.classList.remove('open');
+  }
+});
+
+// Tab switching
+document.querySelectorAll('.tabs').forEach(function(tabGroup) {
+  tabGroup.querySelectorAll('.tab').forEach(function(tab) {
+    tab.addEventListener('click', function() {
+      tabGroup.querySelectorAll('.tab').forEach(function(t) {
+        t.classList.remove('active');
+      });
+      this.classList.add('active');
+    });
+  });
+});
+</script>
+
+</body>
+</html>
