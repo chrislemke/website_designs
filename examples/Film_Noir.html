@@ -1,0 +1,2578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Film Noir -- Design Aesthetic Reference</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,700;0,6..96,900;1,6..96,400;1,6..96,900&family=Cinzel:wght@400;700;900&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Oswald:wght@400;500;700&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,900&family=Special+Elite&display=swap" rel="stylesheet">
+  <style>
+    /* ===========================
+       CSS RESET
+       =========================== */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* ===========================
+       CUSTOM PROPERTIES
+       =========================== */
+    :root {
+      /* Core noir blacks */
+      --noir-black-void: #0a0a0a;
+      --noir-black-surface: #1a1a1a;
+      --noir-black-shadow: #2a2a2a;
+      --noir-gray-dark: #3d3d3d;
+
+      /* Gray scale -- the smoke and silver */
+      --noir-gray-smoke: #6b6b6b;
+      --noir-gray-silver: #9a9a9a;
+      --noir-gray-light: #c8c8c8;
+
+      /* Light tones */
+      --noir-white-near: #e8e8e8;
+      --noir-white-cream: #f5f5f0;
+
+      /* Accent -- neon and danger */
+      --noir-amber: #d4a847;
+      --noir-amber-dark: #c19a3e;
+      --noir-amber-glow: rgba(212, 168, 71, 0.5);
+      --noir-crimson: #8b1a1a;
+      --noir-sienna: #a0522d;
+      --noir-midnight: #1c2833;
+
+      /* Functional tokens */
+      --noir-bg: var(--noir-black-void);
+      --noir-bg-elevated: var(--noir-black-surface);
+      --noir-text-primary: var(--noir-white-near);
+      --noir-text-secondary: var(--noir-gray-light);
+      --noir-text-muted: var(--noir-gray-smoke);
+      --noir-border: var(--noir-gray-dark);
+      --noir-accent: var(--noir-amber);
+      --noir-accent-hover: var(--noir-amber-dark);
+      --noir-danger: var(--noir-crimson);
+
+      /* Gradients */
+      --noir-gradient-shadow: linear-gradient(180deg, transparent 0%, var(--noir-black-void) 100%);
+      --noir-gradient-spotlight: radial-gradient(ellipse at 30% 20%, rgba(212, 168, 71, 0.08) 0%, transparent 60%);
+      --noir-gradient-vignette: radial-gradient(ellipse at center, transparent 40%, var(--noir-black-void) 100%);
+
+      /* Overlays */
+      --noir-overlay-dark: rgba(10, 10, 10, 0.85);
+      --noir-overlay-smoke: rgba(10, 10, 10, 0.4);
+    }
+
+    /* ===========================
+       BASE STYLES
+       =========================== */
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Libre Baskerville', Georgia, 'Times New Roman', serif;
+      font-size: 17px;
+      line-height: 1.75;
+      color: var(--noir-text-primary);
+      background-color: var(--noir-bg);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overflow-x: hidden;
+    }
+
+    /* ===========================
+       GLOBAL FILM GRAIN OVERLAY
+       =========================== */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0.035;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size: 256px 256px;
+      animation: grain 0.5s steps(4) infinite;
+    }
+
+    @keyframes grain {
+      0%   { transform: translate(0, 0); }
+      25%  { transform: translate(-4%, -3%); }
+      50%  { transform: translate(3%, 1%); }
+      75%  { transform: translate(-1%, 4%); }
+      100% { transform: translate(2%, -2%); }
+    }
+
+    /* ===========================
+       TYPOGRAPHY BASE
+       =========================== */
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-weight: 900;
+      line-height: 1.1;
+      color: var(--noir-white-cream);
+      letter-spacing: 0.02em;
+      text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.6);
+    }
+
+    a {
+      color: var(--noir-accent);
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      transition: color 0.3s ease, border-color 0.3s ease;
+    }
+
+    a:hover {
+      color: var(--noir-white-cream);
+      border-bottom-color: var(--noir-accent);
+    }
+
+    /* ===========================
+       NAVIGATION
+       =========================== */
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 3rem;
+      background: rgba(10, 10, 10, 0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(61, 61, 61, 0.4);
+    }
+
+    .nav .logo {
+      font-family: 'Playfair Display', serif;
+      font-weight: 900;
+      font-size: 1.2rem;
+      color: var(--noir-white-cream);
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      text-decoration: none;
+      border-bottom: none;
+    }
+
+    .nav .logo span {
+      color: var(--noir-amber);
+    }
+
+    .nav ul {
+      list-style: none;
+      display: flex;
+      gap: 0.25rem;
+    }
+
+    .nav a {
+      display: block;
+      font-family: 'Oswald', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      padding: 0.5rem 1rem;
+      color: var(--noir-gray-silver);
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      transition: color 0.3s ease, border-color 0.3s ease;
+    }
+
+    .nav a:hover {
+      color: var(--noir-amber);
+      border-bottom-color: var(--noir-amber);
+    }
+
+    /* ===========================
+       HERO SECTION
+       =========================== */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 8rem 4rem 6rem;
+      overflow: hidden;
+      background-color: var(--noir-black-void);
+    }
+
+    /* Spotlight -- warm light from upper left */
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(
+        ellipse at 20% 35%,
+        rgba(212, 168, 71, 0.07) 0%,
+        transparent 55%
+      );
+      pointer-events: none;
+    }
+
+    /* Vignette -- dark edges */
+    .hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(
+        ellipse at center,
+        transparent 25%,
+        rgba(10, 10, 10, 0.75) 100%
+      );
+      pointer-events: none;
+    }
+
+    /* Venetian blind overlay */
+    .hero-blinds {
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        180deg,
+        transparent 0px,
+        transparent 20px,
+        rgba(0, 0, 0, 0.35) 20px,
+        rgba(0, 0, 0, 0.35) 32px
+      );
+      transform: rotate(-4deg) scale(1.3);
+      pointer-events: none;
+      z-index: 1;
+      animation: blinds-drift 10s ease-in-out infinite alternate;
+    }
+
+    @keyframes blinds-drift {
+      0%   { transform: rotate(-4deg) scale(1.3) translateY(0); }
+      100% { transform: rotate(-2.5deg) scale(1.3) translateY(8px); }
+    }
+
+    /* Smoke layers on hero */
+    .hero-smoke {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .hero-smoke::before,
+    .hero-smoke::after {
+      content: '';
+      position: absolute;
+      width: 200%;
+      height: 200%;
+      top: -50%;
+      left: -50%;
+      pointer-events: none;
+      opacity: 0.1;
+    }
+
+    .hero-smoke::before {
+      background:
+        radial-gradient(ellipse at 20% 50%, rgba(200, 200, 200, 0.3) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 30%, rgba(200, 200, 200, 0.2) 0%, transparent 40%),
+        radial-gradient(ellipse at 50% 80%, rgba(200, 200, 200, 0.15) 0%, transparent 45%);
+      animation: smoke-drift-1 20s ease-in-out infinite alternate;
+    }
+
+    .hero-smoke::after {
+      background:
+        radial-gradient(ellipse at 70% 60%, rgba(200, 200, 200, 0.25) 0%, transparent 45%),
+        radial-gradient(ellipse at 30% 20%, rgba(200, 200, 200, 0.2) 0%, transparent 50%);
+      animation: smoke-drift-2 25s ease-in-out infinite alternate;
+    }
+
+    @keyframes smoke-drift-1 {
+      0%   { transform: translate(0, 0) rotate(0deg); }
+      100% { transform: translate(5%, -3%) rotate(2deg); }
+    }
+
+    @keyframes smoke-drift-2 {
+      0%   { transform: translate(0, 0) rotate(0deg); }
+      100% { transform: translate(-4%, 2%) rotate(-1.5deg); }
+    }
+
+    .hero .content {
+      position: relative;
+      z-index: 2;
+      max-width: 800px;
+    }
+
+    .hero .tagline {
+      font-family: 'Oswald', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.35em;
+      color: var(--noir-gray-smoke);
+      margin-bottom: 1.5rem;
+      animation: fadeInUp 1s ease 0.2s both;
+    }
+
+    .hero .tagline::before {
+      content: '';
+      display: inline-block;
+      width: 40px;
+      height: 1px;
+      background: var(--noir-amber);
+      vertical-align: middle;
+      margin-right: 1rem;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.8rem, 7vw, 6rem);
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      line-height: 1.02;
+      color: var(--noir-white-cream);
+      text-shadow: 0 0 60px rgba(212, 168, 71, 0.1);
+      animation: fadeInUp 1s ease 0.4s both;
+    }
+
+    .hero h1 em {
+      font-style: italic;
+      color: var(--noir-amber);
+      text-shadow: 0 0 30px rgba(212, 168, 71, 0.25);
+    }
+
+    .hero .subtitle {
+      font-family: 'Special Elite', 'Courier New', monospace;
+      font-size: 0.95rem;
+      letter-spacing: 0.05em;
+      color: var(--noir-gray-silver);
+      margin-top: 1rem;
+      animation: fadeInUp 1s ease 0.6s both;
+    }
+
+    .hero .description {
+      font-size: 1.05rem;
+      line-height: 1.85;
+      color: var(--noir-gray-light);
+      max-width: 55ch;
+      margin-top: 1.5rem;
+      animation: fadeInUp 1s ease 0.8s both;
+    }
+
+    .hero .btn-row {
+      display: flex;
+      gap: 1rem;
+      margin-top: 2.5rem;
+      flex-wrap: wrap;
+      animation: fadeInUp 1s ease 1s both;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(25px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Scroll indicator */
+    .scroll-indicator {
+      position: absolute;
+      bottom: 2.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      animation: fadeInUp 1s ease 1.4s both;
+    }
+
+    .scroll-indicator span {
+      font-family: 'Oswald', sans-serif;
+      font-size: 0.6rem;
+      text-transform: uppercase;
+      letter-spacing: 0.3em;
+      color: var(--noir-gray-smoke);
+    }
+
+    .scroll-indicator .line {
+      width: 1px;
+      height: 40px;
+      background: linear-gradient(180deg, var(--noir-amber), transparent);
+      animation: scroll-pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes scroll-pulse {
+      0%, 100% { opacity: 0.3; transform: scaleY(0.6); }
+      50%      { opacity: 1; transform: scaleY(1); }
+    }
+
+    /* ===========================
+       BUTTONS
+       =========================== */
+    .btn {
+      display: inline-block;
+      font-family: 'Oswald', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      padding: 0.85rem 2.2rem;
+      border: 1px solid var(--noir-amber);
+      background: transparent;
+      color: var(--noir-amber);
+      cursor: pointer;
+      text-decoration: none;
+      position: relative;
+      overflow: hidden;
+      transition: color 0.3s ease;
+      border-bottom: 1px solid var(--noir-amber);
+    }
+
+    .btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: var(--noir-amber);
+      transition: left 0.3s ease;
+      z-index: -1;
+    }
+
+    .btn:hover {
+      color: var(--noir-black-void);
+      border-bottom-color: var(--noir-amber);
+    }
+
+    .btn:hover::before {
+      left: 0;
+    }
+
+    .btn:active {
+      transform: scale(0.98);
+    }
+
+    .btn--ghost {
+      border-color: var(--noir-gray-dark);
+      color: var(--noir-gray-light);
+      border-bottom-color: var(--noir-gray-dark);
+    }
+
+    .btn--ghost::before {
+      background: var(--noir-gray-dark);
+    }
+
+    .btn--ghost:hover {
+      color: var(--noir-white-cream);
+      border-bottom-color: var(--noir-gray-dark);
+    }
+
+    .btn--danger {
+      border-color: var(--noir-crimson);
+      color: var(--noir-crimson);
+      border-bottom-color: var(--noir-crimson);
+    }
+
+    .btn--danger::before {
+      background: var(--noir-crimson);
+    }
+
+    .btn--danger:hover {
+      color: var(--noir-white-cream);
+      border-bottom-color: var(--noir-crimson);
+    }
+
+    .btn--small {
+      font-size: 0.7rem;
+      padding: 0.6rem 1.5rem;
+      letter-spacing: 0.15em;
+    }
+
+    /* ===========================
+       SECTION FRAMEWORK
+       =========================== */
+    .section {
+      position: relative;
+      padding: 7rem 4rem;
+      border-top: 1px solid var(--noir-border);
+    }
+
+    .section-label {
+      font-family: 'Oswald', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.3em;
+      color: var(--noir-amber);
+      margin-bottom: 1rem;
+    }
+
+    .section-label::before {
+      content: '';
+      display: inline-block;
+      width: 20px;
+      height: 1px;
+      background: var(--noir-amber);
+      vertical-align: middle;
+      margin-right: 0.75rem;
+    }
+
+    .section h2 {
+      font-size: clamp(2rem, 4.5vw, 3.5rem);
+      font-weight: 900;
+      color: var(--noir-white-cream);
+      letter-spacing: 0.03em;
+      margin-bottom: 1.5rem;
+      text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+    }
+
+    .section .lead {
+      font-size: 1.05rem;
+      color: var(--noir-gray-light);
+      max-width: 60ch;
+      line-height: 1.85;
+    }
+
+    .section-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    /* ===========================
+       DIVIDER
+       =========================== */
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      padding: 2rem 4rem;
+    }
+
+    .divider::before,
+    .divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--noir-gray-dark), transparent);
+    }
+
+    .divider .diamond {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem;
+      color: var(--noir-amber);
+      font-style: italic;
+      opacity: 0.6;
+    }
+
+    /* ===========================
+       TYPOGRAPHY SHOWCASE
+       =========================== */
+    .type-showcase {
+      background: var(--noir-black-surface);
+    }
+
+    /* Spotlight effect on typography section */
+    .type-showcase::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(
+        ellipse at 70% 20%,
+        rgba(212, 168, 71, 0.04) 0%,
+        transparent 50%
+      );
+      pointer-events: none;
+    }
+
+    .type-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      margin-top: 3rem;
+    }
+
+    .type-specimen {
+      padding: 2.5rem;
+      border: 1px solid var(--noir-border);
+      background: var(--noir-black-void);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .type-specimen::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 80px;
+      background: linear-gradient(transparent, rgba(10, 10, 10, 0.5));
+      pointer-events: none;
+    }
+
+    .type-specimen .font-name {
+      font-family: 'Oswald', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--noir-amber);
+      margin-bottom: 0.5rem;
+    }
+
+    .type-specimen .font-meta {
+      font-family: 'Oswald', sans-serif;
+      font-size: 0.6rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--noir-gray-smoke);
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--noir-border);
+    }
+
+    .type-specimen.specimen-playfair .sample {
+      font-family: 'Playfair Display', serif;
+      font-weight: 900;
+      font-size: 3.5rem;
+      line-height: 1.05;
+      color: var(--noir-white-cream);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .type-specimen.specimen-bodoni .sample {
+      font-family: 'Bodoni Moda', serif;
+      font-weight: 900;
+      font-size: 3.2rem;
+      line-height: 1.1;
+      color: var(--noir-white-cream);
+      font-style: italic;
+    }
+
+    .type-specimen.specimen-cinzel .sample {
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      font-size: 2.2rem;
+      line-height: 1.2;
+      color: var(--noir-white-cream);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+
+    .type-specimen.specimen-special .sample {
+      font-family: 'Special Elite', 'Courier New', monospace;
+      font-size: 1.2rem;
+      line-height: 1.8;
+      color: var(--noir-gray-light);
+      letter-spacing: 0.03em;
+    }
+
+    .type-specimen.specimen-baskerville .sample {
+      font-family: 'Libre Baskerville', serif;
+      font-size: 1.15rem;
+      line-height: 1.85;
+      color: var(--noir-gray-light);
+      font-style: italic;
+    }
+
+    .type-specimen.specimen-oswald .sample {
+      font-family: 'Oswald', sans-serif;
+      font-weight: 700;
+      font-size: 1.8rem;
+      line-height: 1.3;
+      color: var(--noir-white-near);
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+    }
+
+    /* Full-width type specimen */
+    .type-hero-display {
+      margin-top: 3rem;
+      padding: 4rem 3rem;
+      border: 1px solid var(--noir-border);
+      background: var(--noir-black-void);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .type-hero-display::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--noir-gradient-vignette);
+      pointer-events: none;
+    }
+
+    .type-hero-display .display-text {
+      font-family: 'Playfair Display', serif;
+      font-weight: 900;
+      font-size: clamp(3rem, 8vw, 7rem);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--noir-white-cream);
+      line-height: 1;
+      position: relative;
+      z-index: 1;
+      text-shadow: 0 0 80px rgba(212, 168, 71, 0.08);
+    }
+
+    .type-hero-display .display-text em {
+      font-style: italic;
+      color: var(--noir-amber);
+      display: block;
+      font-size: 0.5em;
+      letter-spacing: 0.25em;
+      margin-top: 0.3em;
+      text-shadow: 0 0 40px rgba(212, 168, 71, 0.2);
+    }
+
+    /* Scale showcase */
+    .type-scale {
+      margin-top: 3rem;
+    }
+
+    .type-scale-item {
+      display: flex;
+      align-items: baseline;
+      gap: 2rem;
+      padding: 1.25rem 0;
+      border-bottom: 1px solid rgba(61, 61, 61, 0.3);
+    }
+
+    .type-scale-item .scale-label {
+      font-family: 'Oswald', sans-serif;
+      font-size: 0.6rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--noir-gray-smoke);
+      min-width: 80px;
+      flex-shrink: 0;
+    }
+
+    .type-scale-item .scale-size {
+      font-family: 'Special Elite', monospace;
+      font-size: 0.7rem;
+      color: var(--noir-amber);
+      opacity: 0.7;
+      min-width: 60px;
+      flex-shrink: 0;
+    }
+
+    .type-scale-item.scale-h1 .scale-text {
+      font-family: 'Playfair Display', serif;
+      font-weight: 900;
+      font-size: 3rem;
+      color: var(--noir-white-cream);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      line-height: 1.1;
+    }
+
+    .type-scale-item.scale-h2 .scale-text {
+      font-family: 'Playfair Display', serif;
+      font-weight: 900;
+      font-size: 2.25rem;
+      color: var(--noir-white-cream);
+      line-height: 1.15;
+    }
+
+    .type-scale-item.scale-h3 .scale-text {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: 1.6rem;
+      color: var(--noir-white-cream);
+      line-height: 1.2;
+    }
+
+    .type-scale-item.scale-body .scale-text {
+      font-family: 'Libre Baskerville', serif;
+      font-size: 1rem;
+      color: var(--noir-gray-light);
+      line-height: 1.75;
+    }
+
+    .type-scale-item.scale-small .scale-text {
+      font-family: 'Oswald', sans-serif;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--noir-gray-smoke);
+    }
+
+    .type-scale-item.scale-caption .scale-text {
+      font-family: 'Special Elite', monospace;
+      font-size: 0.85rem;
+      color: var(--noir-gray-silver);
+      letter-spacing: 0.05em;
+    }
+
+    /* ===========================
+       COLOR PALETTE SECTION
+       =========================== */
+    .palette-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 1.25rem;
+      margin-top: 3rem;
+    }
+
+    .swatch {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--noir-border);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .swatch:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    .swatch .swatch-color {
+      height: 100px;
+      position: relative;
+    }
+
+    .swatch .swatch-color::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 30px;
+      background: linear-gradient(transparent, rgba(0, 0, 0, 0.2));
+    }
+
+    .swatch .swatch-info {
+      padding: 0.85rem 1rem;
+      background: var(--noir-black-surface);
+    }
+
+    .swatch .swatch-name {
+      font-family: 'Oswald', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--noir-white-near);
+      margin-bottom: 0.25rem;
+    }
+
+    .swatch .swatch-hex {
+      font-family: 'Special Elite', monospace;
+      font-size: 0.72rem;
+      color: var(--noir-gray-smoke);
+    }
+
+    .swatch .swatch-role {
+      font-family: 'Oswald', sans-serif;
+      font-size: 0.55rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--noir-gray-smoke);
+      margin-top: 0.4rem;
+      opacity: 0.7;
+    }
+
+    /* Accent swatches with glow */
+    .swatch.swatch--accent:hover {
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5), 0 0 15px rgba(212, 168, 71, 0.15);
+    }
+
+    .swatch.swatch--crimson:hover {
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5), 0 0 15px rgba(139, 26, 26, 0.2);
+    }
+
+    /* ===========================
+       CARDS / COMPONENTS SECTION
+       =========================== */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+
+    .card {
+      background: var(--noir-bg-elevated);
+      border: 1px solid var(--noir-border);
+      padding: 2rem;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 4px 25px rgba(0, 0, 0, 0.4);
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--noir-amber), transparent);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6), 0 0 20px rgba(212, 168, 71, 0.04);
+    }
+
+    .card:hover::before {
+      opacity: 1;
+    }
+
+    .card .card-number {
+      font-family: 'Playfair Display', serif;
+      font-size: 3rem;
+      font-weight: 900;
+      color: var(--noir-gray-dark);
+      line-height: 1;
+      margin-bottom: 1rem;
+    }
+
+    .card h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: var(--noir-white-cream);
+      margin-bottom: 0.75rem;
+      line-height: 1.3;
+    }
+
+    .card p {
+      color: var(--noir-gray-light);
+      font-size: 0.92rem;
+      line-height: 1.7;
+    }
+
+    .card .meta {
+      font-family: 'Oswald', sans-serif;
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--noir-gray-smoke);
+      margin-top: 1.5rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--noir-border);
+    }
+
+    /* Card with venetian blinds */
+    .card.card--blinds::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        180deg,
+        transparent 0px,
+        transparent 14px,
+        rgba(0, 0, 0, 0.15) 14px,
+        rgba(0, 0, 0, 0.15) 22px
+      );
+      transform: rotate(-5deg) scale(1.3);
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+
+    .card.card--blinds:hover::after {
+      opacity: 1;
+    }
+
+    /* Evidence tag card variant */
+    .card.card--evidence {
+      border-left: 3px solid var(--noir-amber);
+      background: linear-gradient(135deg, var(--noir-bg-elevated) 0%, rgba(26, 26, 26, 0.7) 100%);
+    }
+
+    .card.card--evidence .evidence-label {
+      font-family: 'Special Elite', monospace;
+      font-size: 0.75rem;
+      color: var(--noir-amber);
+      margin-bottom: 0.5rem;
+      letter-spacing: 0.08em;
+    }
+
+    /* Confidential stamp card */
+    .card.card--classified::after {
+      content: 'CLASSIFIED';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(-25deg);
+      font-family: 'Oswald', sans-serif;
+      font-size: 3rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--noir-crimson);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      pointer-events: none;
+      z-index: 2;
+      text-shadow: 0 0 20px rgba(139, 26, 26, 0.3);
+    }
+
+    .card.card--classified:hover::after {
+      opacity: 0.15;
+    }
+
+    /* ===========================
+       COMPONENT SHOWCASE
+       =========================== */
+    .component-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-top: 2rem;
+      align-items: center;
+    }
+
+    .component-group {
+      margin-top: 3rem;
+    }
+
+    .component-group-title {
+      font-family: 'Oswald', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--noir-gray-smoke);
+      margin-bottom: 1.5rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid var(--noir-border);
+    }
+
+    /* Badge / Tag */
+    .badge {
+      display: inline-block;
+      font-family: 'Oswald', sans-serif;
+      font-size: 0.6rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      padding: 0.35rem 0.85rem;
+      border: 1px solid var(--noir-border);
+      color: var(--noir-gray-silver);
+      transition: all 0.3s ease;
+    }
+
+    .badge:hover {
+      border-color: var(--noir-amber);
+      color: var(--noir-amber);
+    }
+
+    .badge--amber {
+      border-color: var(--noir-amber);
+      color: var(--noir-amber);
+      background: rgba(212, 168, 71, 0.08);
+    }
+
+    .badge--crimson {
+      border-color: var(--noir-crimson);
+      color: #c44;
+      background: rgba(139, 26, 26, 0.1);
+    }
+
+    .badge--active {
+      border-color: var(--noir-gray-light);
+      color: var(--noir-white-near);
+      background: rgba(200, 200, 200, 0.08);
+    }
+
+    /* Input field */
+    .noir-input {
+      font-family: 'Libre Baskerville', serif;
+      font-size: 0.9rem;
+      padding: 0.75rem 1.25rem;
+      background: var(--noir-black-void);
+      border: 1px solid var(--noir-border);
+      color: var(--noir-text-primary);
+      outline: none;
+      width: 100%;
+      max-width: 400px;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .noir-input::placeholder {
+      color: var(--noir-gray-smoke);
+      font-style: italic;
+    }
+
+    .noir-input:focus {
+      border-color: var(--noir-amber);
+      box-shadow: 0 0 0 1px rgba(212, 168, 71, 0.2), 0 0 20px rgba(212, 168, 71, 0.05);
+    }
+
+    /* Noir separator line */
+    .noir-separator {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--noir-border), transparent);
+      margin: 2rem 0;
+    }
+
+    /* ===========================
+       QUOTE / TESTIMONY BLOCK
+       =========================== */
+    .quote-block {
+      position: relative;
+      padding: 3rem 4rem;
+      max-width: 700px;
+      margin: 3rem auto;
+    }
+
+    .quote-block::before {
+      content: '\201C';
+      font-family: 'Playfair Display', serif;
+      font-size: 8rem;
+      color: var(--noir-amber);
+      opacity: 0.15;
+      position: absolute;
+      top: -1rem;
+      left: 1rem;
+      line-height: 1;
+    }
+
+    .quote-block blockquote {
+      font-family: 'Libre Baskerville', serif;
+      font-style: italic;
+      font-size: 1.25rem;
+      line-height: 1.9;
+      color: var(--noir-gray-light);
+      border: none;
+    }
+
+    .quote-block cite {
+      display: block;
+      font-family: 'Oswald', sans-serif;
+      font-style: normal;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--noir-gray-smoke);
+      margin-top: 1.5rem;
+    }
+
+    .quote-block cite strong {
+      color: var(--noir-amber);
+      font-weight: 500;
+    }
+
+    /* ===========================
+       EFFECTS / DETAILS SECTION
+       =========================== */
+    .effects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+
+    .effect-demo {
+      position: relative;
+      height: 280px;
+      overflow: hidden;
+      border: 1px solid var(--noir-border);
+      background: var(--noir-black-void);
+    }
+
+    .effect-demo .effect-label {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 1.25rem;
+      background: linear-gradient(transparent, rgba(10, 10, 10, 0.95));
+      z-index: 10;
+    }
+
+    .effect-demo .effect-label h4 {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: var(--noir-white-cream);
+      margin-bottom: 0.25rem;
+    }
+
+    .effect-demo .effect-label p {
+      font-family: 'Oswald', sans-serif;
+      font-size: 0.6rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--noir-gray-smoke);
+    }
+
+    /* Venetian blind demo */
+    .effect-blinds {
+      background:
+        linear-gradient(135deg, rgba(212, 168, 71, 0.08) 0%, transparent 50%),
+        var(--noir-black-void);
+    }
+
+    .effect-blinds .blinds-layer {
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        180deg,
+        transparent 0px,
+        transparent 18px,
+        rgba(0, 0, 0, 0.45) 18px,
+        rgba(0, 0, 0, 0.45) 30px
+      );
+      transform: rotate(-5deg) scale(1.3);
+      animation: blinds-drift 10s ease-in-out infinite alternate;
+    }
+
+    .effect-blinds .silhouette {
+      position: absolute;
+      right: 30px;
+      top: 20px;
+      width: 120px;
+      height: 200px;
+      background: radial-gradient(ellipse at center, rgba(20, 20, 20, 0.95) 30%, transparent 70%);
+      border-radius: 50% 50% 40% 40%;
+    }
+
+    .effect-blinds .light-shaft {
+      position: absolute;
+      top: 0;
+      left: 20%;
+      width: 40%;
+      height: 100%;
+      background: linear-gradient(180deg, rgba(212, 168, 71, 0.04) 0%, transparent 80%);
+      transform: skewX(-10deg);
+    }
+
+    /* Smoke demo */
+    .effect-smoke {
+      background: var(--noir-black-void);
+    }
+
+    .effect-smoke .smoke-layer-1,
+    .effect-smoke .smoke-layer-2,
+    .effect-smoke .smoke-layer-3 {
+      position: absolute;
+      inset: -50%;
+      width: 200%;
+      height: 200%;
+      pointer-events: none;
+    }
+
+    .effect-smoke .smoke-layer-1 {
+      background:
+        radial-gradient(ellipse at 30% 40%, rgba(200, 200, 200, 0.25) 0%, transparent 50%),
+        radial-gradient(ellipse at 70% 60%, rgba(200, 200, 200, 0.15) 0%, transparent 45%);
+      opacity: 0.15;
+      animation: smoke-drift-1 15s ease-in-out infinite alternate;
+    }
+
+    .effect-smoke .smoke-layer-2 {
+      background:
+        radial-gradient(ellipse at 60% 30%, rgba(200, 200, 200, 0.2) 0%, transparent 40%),
+        radial-gradient(ellipse at 20% 70%, rgba(200, 200, 200, 0.18) 0%, transparent 50%);
+      opacity: 0.12;
+      animation: smoke-drift-2 20s ease-in-out infinite alternate;
+    }
+
+    .effect-smoke .smoke-layer-3 {
+      background:
+        radial-gradient(ellipse at 50% 50%, rgba(212, 168, 71, 0.08) 0%, transparent 60%);
+      opacity: 0.2;
+      animation: smoke-drift-1 25s ease-in-out infinite alternate-reverse;
+    }
+
+    /* Spotlight demo */
+    .effect-spotlight {
+      background: var(--noir-black-void);
+    }
+
+    .effect-spotlight .spotlight-cone {
+      position: absolute;
+      top: -20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 4px;
+      height: 4px;
+      background: rgba(245, 245, 240, 0.9);
+      border-radius: 50%;
+      box-shadow:
+        0 0 10px rgba(245, 245, 240, 0.5),
+        0 0 40px rgba(212, 168, 71, 0.3),
+        0 0 80px rgba(212, 168, 71, 0.15);
+    }
+
+    .effect-spotlight .spotlight-beam {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 0;
+      border-left: 80px solid transparent;
+      border-right: 80px solid transparent;
+      border-top: 250px solid rgba(212, 168, 71, 0.04);
+      filter: blur(10px);
+    }
+
+    .effect-spotlight .spotlight-pool {
+      position: absolute;
+      bottom: 60px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 180px;
+      height: 40px;
+      background: radial-gradient(ellipse, rgba(212, 168, 71, 0.08) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+
+    .effect-spotlight .spotlight-text {
+      position: absolute;
+      bottom: 68px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: 'Playfair Display', serif;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--noir-white-cream);
+      white-space: nowrap;
+      text-shadow: 0 0 20px rgba(212, 168, 71, 0.3);
+    }
+
+    /* Rain demo */
+    .effect-rain {
+      background: linear-gradient(180deg, #0d0d10 0%, #0a0a0a 100%);
+    }
+
+    .effect-rain .rain-layer-1,
+    .effect-rain .rain-layer-2 {
+      position: absolute;
+      top: -100%;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      pointer-events: none;
+    }
+
+    .effect-rain .rain-layer-1 {
+      background: repeating-linear-gradient(
+        100deg,
+        transparent,
+        transparent 97%,
+        rgba(200, 200, 220, 0.08) 97%,
+        rgba(200, 200, 220, 0.08) 97.5%,
+        transparent 97.5%
+      );
+      background-size: 30px 100%;
+      animation: rain-fall 0.8s linear infinite;
+    }
+
+    .effect-rain .rain-layer-2 {
+      background: repeating-linear-gradient(
+        97deg,
+        transparent,
+        transparent 98%,
+        rgba(200, 200, 220, 0.06) 98%,
+        rgba(200, 200, 220, 0.06) 98.3%,
+        transparent 98.3%
+      );
+      background-size: 50px 100%;
+      animation: rain-fall 1.1s linear infinite;
+    }
+
+    @keyframes rain-fall {
+      0%   { transform: translateY(0); }
+      100% { transform: translateY(50%); }
+    }
+
+    .effect-rain .rain-glow {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 60px;
+      background: linear-gradient(transparent, rgba(212, 168, 71, 0.03));
+    }
+
+    .effect-rain .rain-reflection {
+      position: absolute;
+      bottom: 5px;
+      left: 20%;
+      right: 20%;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, rgba(200, 200, 220, 0.06), transparent);
+    }
+
+    /* Vignette demo */
+    .effect-vignette {
+      background: linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%);
+    }
+
+    .effect-vignette .vignette-layer {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at center, transparent 20%, rgba(10, 10, 10, 0.85) 100%);
+    }
+
+    .effect-vignette .vignette-content {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      z-index: 1;
+    }
+
+    .effect-vignette .vignette-content span {
+      font-family: 'Cinzel', serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--noir-white-cream);
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      text-shadow: 0 0 30px rgba(212, 168, 71, 0.15);
+    }
+
+    /* Film grain demo */
+    .effect-grain {
+      background: #151515;
+    }
+
+    .effect-grain .grain-layer {
+      position: absolute;
+      inset: -50%;
+      width: 200%;
+      height: 200%;
+      pointer-events: none;
+      opacity: 0.12;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size: 256px 256px;
+      animation: grain 0.5s steps(4) infinite;
+    }
+
+    .effect-grain .grain-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-family: 'Bodoni Moda', serif;
+      font-weight: 900;
+      font-size: 2.5rem;
+      font-style: italic;
+      color: var(--noir-white-cream);
+      text-shadow: 0 0 40px rgba(0, 0, 0, 0.8);
+      z-index: 1;
+      white-space: nowrap;
+    }
+
+    /* ===========================
+       ART DECO ORNAMENTS
+       =========================== */
+    .deco-border {
+      margin-top: 3rem;
+      padding: 3rem;
+      border: 1px solid var(--noir-border);
+      position: relative;
+      background: var(--noir-bg-elevated);
+    }
+
+    .deco-border::before,
+    .deco-border::after {
+      content: '';
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      border: 2px solid var(--noir-amber);
+      opacity: 0.4;
+    }
+
+    .deco-border::before {
+      top: 10px;
+      left: 10px;
+      border-right: none;
+      border-bottom: none;
+    }
+
+    .deco-border::after {
+      bottom: 10px;
+      right: 10px;
+      border-left: none;
+      border-top: none;
+    }
+
+    .deco-border .inner-corners::before,
+    .deco-border .inner-corners::after {
+      content: '';
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      border: 2px solid var(--noir-amber);
+      opacity: 0.4;
+    }
+
+    .deco-border .inner-corners::before {
+      top: 10px;
+      right: 10px;
+      border-left: none;
+      border-bottom: none;
+    }
+
+    .deco-border .inner-corners::after {
+      bottom: 10px;
+      left: 10px;
+      border-right: none;
+      border-top: none;
+    }
+
+    .deco-border .deco-content {
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .deco-border .deco-content h3 {
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      font-size: 1.6rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--noir-white-cream);
+      margin-bottom: 0.5rem;
+    }
+
+    .deco-border .deco-content p {
+      font-family: 'Libre Baskerville', serif;
+      font-style: italic;
+      font-size: 0.95rem;
+      color: var(--noir-gray-light);
+      max-width: 45ch;
+      margin: 0 auto;
+      line-height: 1.8;
+    }
+
+    .deco-line {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      margin: 1.5rem 0;
+    }
+
+    .deco-line span {
+      display: block;
+      height: 1px;
+      width: 60px;
+      background: var(--noir-amber);
+      opacity: 0.4;
+    }
+
+    .deco-line .deco-diamond {
+      width: 8px;
+      height: 8px;
+      border: 1px solid var(--noir-amber);
+      transform: rotate(45deg);
+      opacity: 0.5;
+    }
+
+    /* ===========================
+       NEON SIGN EFFECT
+       =========================== */
+    .neon-sign {
+      margin-top: 3rem;
+      padding: 4rem 2rem;
+      text-align: center;
+      background: var(--noir-black-void);
+      border: 1px solid var(--noir-border);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .neon-sign::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at center 40%, rgba(212, 168, 71, 0.06) 0%, transparent 50%);
+    }
+
+    .neon-text {
+      font-family: 'Bodoni Moda', serif;
+      font-weight: 400;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-style: italic;
+      color: var(--noir-amber);
+      text-shadow:
+        0 0 7px rgba(212, 168, 71, 0.5),
+        0 0 20px rgba(212, 168, 71, 0.3),
+        0 0 40px rgba(212, 168, 71, 0.15),
+        0 0 80px rgba(212, 168, 71, 0.08);
+      animation: neon-flicker 4s ease-in-out infinite;
+      position: relative;
+      z-index: 1;
+    }
+
+    @keyframes neon-flicker {
+      0%, 100% { opacity: 1; }
+      92%      { opacity: 1; }
+      93%      { opacity: 0.7; }
+      94%      { opacity: 1; }
+      96%      { opacity: 0.8; }
+      97%      { opacity: 1; }
+    }
+
+    .neon-subtitle {
+      font-family: 'Oswald', sans-serif;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.4em;
+      color: var(--noir-gray-smoke);
+      margin-top: 1rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ===========================
+       TYPEWRITER EFFECT
+       =========================== */
+    .typewriter-block {
+      margin-top: 3rem;
+      padding: 2.5rem;
+      background: var(--noir-black-void);
+      border: 1px solid var(--noir-border);
+      border-left: 3px solid var(--noir-amber);
+      position: relative;
+    }
+
+    .typewriter-block::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(212, 168, 71, 0.02) 0%, transparent 50%);
+      pointer-events: none;
+    }
+
+    .typewriter-block .tw-header {
+      font-family: 'Oswald', sans-serif;
+      font-size: 0.6rem;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--noir-gray-smoke);
+      margin-bottom: 1rem;
+    }
+
+    .typewriter-block .tw-text {
+      font-family: 'Special Elite', 'Courier New', monospace;
+      font-size: 0.95rem;
+      line-height: 2;
+      color: var(--noir-gray-light);
+      letter-spacing: 0.03em;
+    }
+
+    .typewriter-block .tw-text .redacted {
+      background: var(--noir-white-near);
+      color: var(--noir-white-near);
+      padding: 0 0.5rem;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .typewriter-block .tw-text .redacted:hover {
+      background: transparent;
+      color: var(--noir-crimson);
+    }
+
+    .typewriter-block .tw-stamp {
+      font-family: 'Oswald', sans-serif;
+      font-size: 1.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--noir-crimson);
+      opacity: 0.25;
+      position: absolute;
+      top: 50%;
+      right: 2rem;
+      transform: translateY(-50%) rotate(-15deg);
+    }
+
+    /* ===========================
+       CTA SECTION
+       =========================== */
+    .cta-section {
+      position: relative;
+      padding: 7rem 4rem;
+      text-align: center;
+      overflow: hidden;
+      background: var(--noir-bg-elevated);
+    }
+
+    .cta-section::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(
+        ellipse at 50% 40%,
+        rgba(212, 168, 71, 0.06) 0%,
+        transparent 60%
+      );
+      pointer-events: none;
+    }
+
+    .cta-section::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--noir-gradient-vignette);
+      pointer-events: none;
+    }
+
+    .cta-section .cta-inner {
+      position: relative;
+      z-index: 1;
+    }
+
+    .cta-section h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 5vw, 4rem);
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--noir-white-cream);
+      margin-bottom: 1rem;
+    }
+
+    .cta-section h2 em {
+      font-style: italic;
+      color: var(--noir-amber);
+    }
+
+    .cta-section p {
+      font-size: 1.05rem;
+      color: var(--noir-gray-light);
+      max-width: 50ch;
+      margin: 0 auto 2.5rem;
+      line-height: 1.85;
+    }
+
+    /* ===========================
+       FOOTER
+       =========================== */
+    .footer {
+      padding: 3rem 4rem;
+      border-top: 1px solid var(--noir-border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .footer p {
+      font-family: 'Oswald', sans-serif;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--noir-gray-smoke);
+    }
+
+    .footer .footer-links {
+      display: flex;
+      gap: 2rem;
+    }
+
+    .footer a {
+      color: var(--noir-gray-silver);
+      text-decoration: none;
+      font-family: 'Oswald', sans-serif;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      transition: color 0.3s ease;
+      border-bottom: none;
+    }
+
+    .footer a:hover {
+      color: var(--noir-amber);
+    }
+
+    .footer .footer-deco {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .footer .footer-deco span {
+      display: block;
+      height: 1px;
+      width: 40px;
+      background: var(--noir-gray-dark);
+    }
+
+    .footer .footer-deco .fd-diamond {
+      width: 6px;
+      height: 6px;
+      border: 1px solid var(--noir-amber);
+      transform: rotate(45deg);
+      opacity: 0.4;
+    }
+
+    /* ===========================
+       RESPONSIVE
+       =========================== */
+    @media (max-width: 1024px) {
+      .type-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .nav {
+        padding: 0.75rem 1.5rem;
+      }
+
+      .nav ul {
+        display: none;
+      }
+
+      .hero {
+        padding: 7rem 2rem 4rem;
+      }
+
+      .section {
+        padding: 5rem 2rem;
+      }
+
+      .card-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .effects-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .palette-grid {
+        grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+      }
+
+      .quote-block {
+        padding: 2rem 1.5rem;
+      }
+
+      .divider {
+        padding: 0 2rem;
+      }
+
+      .cta-section {
+        padding: 5rem 2rem;
+      }
+
+      .footer {
+        padding: 2rem;
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .hero-blinds {
+        opacity: 0.5;
+      }
+
+      .type-hero-display {
+        padding: 3rem 1.5rem;
+      }
+
+      .deco-border {
+        padding: 2.5rem 1.5rem;
+      }
+
+      .neon-sign {
+        padding: 3rem 1.5rem;
+      }
+
+      .typewriter-block {
+        padding: 2rem 1.5rem;
+      }
+
+      .typewriter-block .tw-stamp {
+        font-size: 1.2rem;
+        right: 1rem;
+      }
+
+      .type-scale-item {
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+
+      .type-scale-item .scale-label,
+      .type-scale-item .scale-size {
+        min-width: auto;
+      }
+
+      .component-row {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero h1 {
+        font-size: 2.2rem;
+      }
+
+      .section h2 {
+        font-size: 1.8rem;
+      }
+
+      .palette-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .swatch .swatch-color {
+        height: 70px;
+      }
+
+      .effect-demo {
+        height: 220px;
+      }
+    }
+
+    /* ===========================
+       SCROLL ANIMATIONS
+       =========================== */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Stagger delays for grid children */
+    .stagger > *:nth-child(1) { transition-delay: 0s; }
+    .stagger > *:nth-child(2) { transition-delay: 0.1s; }
+    .stagger > *:nth-child(3) { transition-delay: 0.2s; }
+    .stagger > *:nth-child(4) { transition-delay: 0.3s; }
+    .stagger > *:nth-child(5) { transition-delay: 0.4s; }
+    .stagger > *:nth-child(6) { transition-delay: 0.5s; }
+    .stagger > *:nth-child(7) { transition-delay: 0.6s; }
+    .stagger > *:nth-child(8) { transition-delay: 0.7s; }
+    .stagger > *:nth-child(9) { transition-delay: 0.8s; }
+    .stagger > *:nth-child(10) { transition-delay: 0.9s; }
+    .stagger > *:nth-child(11) { transition-delay: 1.0s; }
+    .stagger > *:nth-child(12) { transition-delay: 1.1s; }
+    .stagger > *:nth-child(13) { transition-delay: 1.2s; }
+    .stagger > *:nth-child(14) { transition-delay: 1.3s; }
+
+    /* ===========================
+       INTERACTIVE SPOTLIGHT
+       =========================== */
+    .interactive-spotlight {
+      position: relative;
+    }
+
+    .interactive-spotlight .spotlight-follow {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+      background: radial-gradient(
+        ellipse 350px 350px at var(--mouse-x, 50%) var(--mouse-y, 50%),
+        rgba(245, 245, 240, 0.04) 0%,
+        rgba(212, 168, 71, 0.02) 30%,
+        transparent 70%
+      );
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .interactive-spotlight:hover .spotlight-follow {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ========== NAVIGATION ========== -->
+  <nav class="nav">
+    <a href="#" class="logo">Film <span>Noir</span></a>
+    <ul>
+      <li><a href="#typography">Typography</a></li>
+      <li><a href="#palette">Palette</a></li>
+      <li><a href="#components">Components</a></li>
+      <li><a href="#effects">Effects</a></li>
+      <li><a href="#details">Details</a></li>
+    </ul>
+  </nav>
+
+  <!-- ========== HERO ========== -->
+  <section class="hero">
+    <div class="hero-blinds"></div>
+    <div class="hero-smoke"></div>
+    <div class="content">
+      <p class="tagline">Design Aesthetic Reference</p>
+      <h1>Shadows<br>Don't <em>Lie</em></h1>
+      <p class="subtitle">Case File: Film Noir -- Est. 1940s</p>
+      <p class="description">
+        High-contrast chiaroscuro. Venetian blind light. Rain-slicked streets and
+        cigarette smoke curling through the dark. This is the visual language of
+        moral ambiguity, fatalism, and dangerous beauty.
+      </p>
+      <div class="btn-row">
+        <a href="#typography" class="btn">Enter the Shadows</a>
+        <a href="#palette" class="btn btn--ghost">View the Evidence</a>
+      </div>
+    </div>
+    <div class="scroll-indicator">
+      <span>Scroll</span>
+      <div class="line"></div>
+    </div>
+  </section>
+
+  <!-- ========== TYPOGRAPHY SHOWCASE ========== -->
+  <section class="section type-showcase interactive-spotlight" id="typography">
+    <div class="spotlight-follow"></div>
+    <p class="section-label">Typography</p>
+    <h2>The Weight of Words</h2>
+    <p class="lead">
+      Film Noir typography channels the drama of 1940s movie title cards -- bold
+      serifs that carry weight and danger, typewriter text from detective reports,
+      and elegant display faces that evoke Art Deco sophistication.
+    </p>
+
+    <!-- Hero Display -->
+    <div class="type-hero-display reveal">
+      <div class="display-text">
+        Dangerous
+        <em>& Beautiful</em>
+      </div>
+    </div>
+
+    <!-- Type specimens grid -->
+    <div class="type-grid reveal stagger">
+      <div class="type-specimen specimen-playfair">
+        <div class="font-name">Playfair Display</div>
+        <div class="font-meta">Primary Headline -- 900 Weight</div>
+        <div class="sample">Every shadow tells a story.</div>
+      </div>
+
+      <div class="type-specimen specimen-bodoni">
+        <div class="font-name">Bodoni Moda</div>
+        <div class="font-meta">Display Italic -- 900 Weight</div>
+        <div class="sample">Night Falls Softly</div>
+      </div>
+
+      <div class="type-specimen specimen-cinzel">
+        <div class="font-name">Cinzel</div>
+        <div class="font-meta">Art Deco Headings -- 700 Weight</div>
+        <div class="sample">The Third Man</div>
+      </div>
+
+      <div class="type-specimen specimen-special">
+        <div class="font-name">Special Elite</div>
+        <div class="font-meta">Typewriter Accent -- 400 Weight</div>
+        <div class="sample">The suspect was last seen at the corner of Fifth and Main. Rain. Always rain. The kind that washes evidence into storm drains.</div>
+      </div>
+
+      <div class="type-specimen specimen-baskerville">
+        <div class="font-name">Libre Baskerville</div>
+        <div class="font-meta">Body Text -- 400 Italic</div>
+        <div class="sample">She walked into my office like trouble in a tailored dress. I should have known right then -- the good ones never need a private detective.</div>
+      </div>
+
+      <div class="type-specimen specimen-oswald">
+        <div class="font-name">Oswald</div>
+        <div class="font-meta">Labels &amp; Navigation -- 700 Weight</div>
+        <div class="sample">CLASSIFIED DOCUMENT<br>CASE FILE NO. 1247<br>STATUS: ACTIVE</div>
+      </div>
+    </div>
+
+    <!-- Type scale -->
+    <div class="type-scale reveal">
+      <div class="type-scale-item scale-h1">
+        <span class="scale-label">Heading 1</span>
+        <span class="scale-size">3rem</span>
+        <span class="scale-text">Dark City</span>
+      </div>
+      <div class="type-scale-item scale-h2">
+        <span class="scale-label">Heading 2</span>
+        <span class="scale-size">2.25rem</span>
+        <span class="scale-text">Night and the City</span>
+      </div>
+      <div class="type-scale-item scale-h3">
+        <span class="scale-label">Heading 3</span>
+        <span class="scale-size">1.6rem</span>
+        <span class="scale-text">The Big Sleep</span>
+      </div>
+      <div class="type-scale-item scale-body">
+        <span class="scale-label">Body</span>
+        <span class="scale-size">1rem</span>
+        <span class="scale-text">The rain fell like a confession nobody asked for.</span>
+      </div>
+      <div class="type-scale-item scale-small">
+        <span class="scale-label">Label</span>
+        <span class="scale-size">0.75rem</span>
+        <span class="scale-text">Case File -- Confidential -- Archive No. 7</span>
+      </div>
+      <div class="type-scale-item scale-caption">
+        <span class="scale-label">Caption</span>
+        <span class="scale-size">0.85rem</span>
+        <span class="scale-text">Exhibit A -- recovered from the scene</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider">
+    <span class="diamond">&diams;</span>
+  </div>
+
+  <!-- ========== COLOR PALETTE ========== -->
+  <section class="section" id="palette">
+    <p class="section-label">Color Palette</p>
+    <h2>Shades of Night</h2>
+    <p class="lead">
+      A foundation of deep blacks and luminous whites, punctuated sparingly by
+      warm amber and deep crimson -- the glow of neon signs, streetlights, and
+      the embers of a cigarette in the dark.
+    </p>
+
+    <div class="palette-grid reveal stagger">
+      <!-- Core blacks -->
+      <div class="swatch">
+        <div class="swatch-color" style="background-color: #0a0a0a;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Void Black</div>
+          <div class="swatch-hex">#0A0A0A</div>
+          <div class="swatch-role">Primary background</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background-color: #1a1a1a;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Surface Black</div>
+          <div class="swatch-hex">#1A1A1A</div>
+          <div class="swatch-role">Elevated panels</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background-color: #2a2a2a;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Shadow Gray</div>
+          <div class="swatch-hex">#2A2A2A</div>
+          <div class="swatch-role">Borders, dividers</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background-color: #3d3d3d;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Mid Shadow</div>
+          <div class="swatch-hex">#3D3D3D</div>
+          <div class="swatch-role">Inactive states</div>
+        </div>
+      </div>
+
+      <!-- Grays -->
+      <div class="swatch">
+        <div class="swatch-color" style="background-color: #6b6b6b;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Smoke Gray</div>
+          <div class="swatch-hex">#6B6B6B</div>
+          <div class="swatch-role">Muted text</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background-color: #9a9a9a;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Silver</div>
+          <div class="swatch-hex">#9A9A9A</div>
+          <div class="swatch-role">Tertiary text</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background-color: #c8c8c8;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Light Silver</div>
+          <div class="swatch-hex">#C8C8C8</div>
+          <div class="swatch-role">Body text</div>
+        </div>
+      </div>
+
+      <!-- Lights -->
+      <div class="swatch">
+        <div class="swatch-color" style="background-color: #e8e8e8;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Near White</div>
+          <div class="swatch-hex">#E8E8E8</div>
+          <div class="swatch-role">Primary text</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background-color: #f5f5f0;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Cream White</div>
+          <div class="swatch-hex">#F5F5F0</div>
+          <div class="swatch-role">Headlines</div>
+        </div>
+      </div>
+
+      <!-- Accents -->
+      <div class="swatch swatch--accent">
+        <div class="swatch-color" style="background-color: #d4a847;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Amber Gold</div>
+          <div class="swatch-hex">#D4A847</div>
+          <div class="swatch-role">Primary accent</div>
+        </div>
+      </div>
+      <div class="swatch swatch--accent">
+        <div class="swatch-color" style="background-color: #c19a3e;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Antique Gold</div>
+          <div class="swatch-hex">#C19A3E</div>
+          <div class="swatch-role">Hover states</div>
+        </div>
+      </div>
+      <div class="swatch swatch--crimson">
+        <div class="swatch-color" style="background-color: #8b1a1a;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Blood Crimson</div>
+          <div class="swatch-hex">#8B1A1A</div>
+          <div class="swatch-role">Danger, emphasis</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background-color: #a0522d;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Sienna</div>
+          <div class="swatch-hex">#A0522D</div>
+          <div class="swatch-role">Warm undertones</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background-color: #1c2833;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Midnight Blue</div>
+          <div class="swatch-hex">#1C2833</div>
+          <div class="swatch-role">Cool shadow</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider">
+    <span class="diamond">&diams;</span>
+  </div>
+
+  <!-- ========== CARDS / COMPONENTS ========== -->
+  <section class="section interactive-spotlight" id="components">
+    <div class="spotlight-follow"></div>
+    <p class="section-label">Components</p>
+    <h2>Case Files</h2>
+    <p class="lead">
+      Cards, buttons, inputs, and badges -- the building blocks of a noir interface.
+      Each component casts its own shadow, each surface holds its own secrets.
+    </p>
+
+    <!-- Case file cards -->
+    <div class="card-grid reveal stagger">
+      <div class="card card--blinds">
+        <div class="card-number">01</div>
+        <h3>The Vanishing Heiress</h3>
+        <p>A socialite disappears on the eve of her inheritance. The family says she ran. The evidence says otherwise. Three weeks. Two cities. One answer nobody wanted to hear.</p>
+        <div class="meta">Status: Closed &bull; Duration: 23 Days</div>
+      </div>
+
+      <div class="card card--evidence">
+        <div class="evidence-label">// Exhibit B</div>
+        <h3>Midnight at the Pier</h3>
+        <p>A shipping magnate's ledger tells two stories. The one in ink is for the tax man. The one in pencil is for us. Following the money always leads somewhere cold.</p>
+        <div class="meta">Status: Closed &bull; Duration: 41 Days</div>
+      </div>
+
+      <div class="card card--classified">
+        <div class="card-number">03</div>
+        <h3>The Gilded Frame</h3>
+        <p>An art dealer's reputation hangs on a single painting. So does someone's alibi. When provenance becomes evidence, every brushstroke is a potential witness.</p>
+        <div class="meta">Status: Active &bull; Duration: Ongoing</div>
+      </div>
+    </div>
+
+    <!-- Buttons -->
+    <div class="component-group reveal">
+      <div class="component-group-title">Buttons</div>
+      <div class="component-row">
+        <button class="btn">Primary Action</button>
+        <button class="btn btn--ghost">Ghost Action</button>
+        <button class="btn btn--danger">Danger Action</button>
+        <button class="btn btn--small">Small Button</button>
+      </div>
+    </div>
+
+    <!-- Badges -->
+    <div class="component-group reveal">
+      <div class="component-group-title">Badges &amp; Tags</div>
+      <div class="component-row">
+        <span class="badge">Default</span>
+        <span class="badge badge--amber">Active Case</span>
+        <span class="badge badge--crimson">Classified</span>
+        <span class="badge badge--active">In Progress</span>
+        <span class="badge">Archived</span>
+        <span class="badge badge--amber">Priority</span>
+      </div>
+    </div>
+
+    <!-- Input -->
+    <div class="component-group reveal">
+      <div class="component-group-title">Form Input</div>
+      <div class="component-row">
+        <input type="text" class="noir-input" placeholder="Enter case number or keyword...">
+      </div>
+    </div>
+
+    <!-- Quote -->
+    <div class="quote-block reveal">
+      <blockquote>
+        They found what the police had written off in forty-eight hours. I do not
+        know how they did it, and frankly, I do not want to know. What matters
+        is that the truth came out.
+      </blockquote>
+      <cite><strong>Margaret Caldwell</strong> &mdash; Client, Case No. 1247</cite>
+    </div>
+  </section>
+
+  <div class="divider">
+    <span class="diamond">&diams;</span>
+  </div>
+
+  <!-- ========== EFFECTS / DETAILS ========== -->
+  <section class="section" id="effects">
+    <p class="section-label">Effects &amp; Atmosphere</p>
+    <h2>Light Through Darkness</h2>
+    <p class="lead">
+      The signature visual effects of Film Noir -- venetian blinds, smoke, rain,
+      spotlights, grain, and vignettes. Each effect layers atmosphere and tension
+      onto the dark canvas.
+    </p>
+
+    <div class="effects-grid reveal stagger">
+      <!-- Venetian Blinds -->
+      <div class="effect-demo effect-blinds">
+        <div class="light-shaft"></div>
+        <div class="blinds-layer"></div>
+        <div class="effect-label">
+          <h4>Venetian Blinds</h4>
+          <p>Repeating gradient stripes with rotation</p>
+        </div>
+      </div>
+
+      <!-- Smoke -->
+      <div class="effect-demo effect-smoke">
+        <div class="smoke-layer-1"></div>
+        <div class="smoke-layer-2"></div>
+        <div class="smoke-layer-3"></div>
+        <div class="effect-label">
+          <h4>Smoke &amp; Fog</h4>
+          <p>Layered radial gradients with animation</p>
+        </div>
+      </div>
+
+      <!-- Spotlight -->
+      <div class="effect-demo effect-spotlight">
+        <div class="spotlight-cone"></div>
+        <div class="spotlight-beam"></div>
+        <div class="spotlight-pool"></div>
+        <div class="spotlight-text">Interrogation</div>
+        <div class="effect-label">
+          <h4>Spotlight Cone</h4>
+          <p>Radial gradient with focused illumination</p>
+        </div>
+      </div>
+
+      <!-- Rain -->
+      <div class="effect-demo effect-rain">
+        <div class="rain-layer-1"></div>
+        <div class="rain-layer-2"></div>
+        <div class="rain-glow"></div>
+        <div class="rain-reflection"></div>
+        <div class="effect-label">
+          <h4>Rain Streaks</h4>
+          <p>Animated diagonal repeating gradients</p>
+        </div>
+      </div>
+
+      <!-- Vignette -->
+      <div class="effect-demo effect-vignette">
+        <div class="vignette-layer"></div>
+        <div class="vignette-content">
+          <span>Vignette</span>
+        </div>
+        <div class="effect-label">
+          <h4>Vignette Frame</h4>
+          <p>Radial gradient darkening edges</p>
+        </div>
+      </div>
+
+      <!-- Film Grain -->
+      <div class="effect-demo effect-grain">
+        <div class="grain-layer"></div>
+        <div class="grain-text">35mm</div>
+        <div class="effect-label">
+          <h4>Film Grain</h4>
+          <p>SVG noise texture with step animation</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider">
+    <span class="diamond">&diams;</span>
+  </div>
+
+  <!-- ========== DECORATIVE DETAILS ========== -->
+  <section class="section" id="details">
+    <p class="section-label">Details &amp; Ornaments</p>
+    <h2>Period Atmosphere</h2>
+    <p class="lead">
+      Art Deco-influenced borders, neon sign typography, typewriter case files,
+      and redacted documents -- the ornamental details that anchor the aesthetic
+      in its 1940s origins.
+    </p>
+
+    <!-- Art Deco framed element -->
+    <div class="deco-border reveal">
+      <div class="inner-corners"></div>
+      <div class="deco-content">
+        <h3>Art Deco Frame</h3>
+        <div class="deco-line">
+          <span></span>
+          <div class="deco-diamond"></div>
+          <span></span>
+        </div>
+        <p>
+          Geometric corner borders and angular ornaments drawn from the Art Deco
+          period -- adding elegance and historical authenticity to noir compositions.
+        </p>
+      </div>
+    </div>
+
+    <!-- Neon sign effect -->
+    <div class="neon-sign reveal">
+      <div class="neon-text">The Blue Dahlia</div>
+      <div class="neon-subtitle">Cocktails &bull; Jazz &bull; Trouble</div>
+    </div>
+
+    <!-- Typewriter document -->
+    <div class="typewriter-block reveal">
+      <div class="tw-header">Field Report -- Agent M. Cross -- November 14, 1947</div>
+      <div class="tw-text">
+        Subject arrived at the Continental Hotel at 22:47. Met with
+        <span class="redacted">REDACTED</span> in the lobby bar. Exchanged what appeared to be
+        a manila envelope for a set of keys. Subject departed via the service entrance at 23:15.
+        Vehicle: dark sedan, license plate <span class="redacted">REDACTED</span>.
+        Recommend continued surveillance. Trust no one.
+      </div>
+      <div class="tw-stamp">Confidential</div>
+    </div>
+
+    <!-- Additional Art Deco divider showcase -->
+    <div class="deco-line reveal" style="margin-top: 4rem;">
+      <span></span>
+      <div class="deco-diamond"></div>
+      <span></span>
+      <div class="deco-diamond"></div>
+      <span></span>
+      <div class="deco-diamond"></div>
+      <span></span>
+    </div>
+  </section>
+
+  <div class="divider">
+    <span class="diamond">&diams;</span>
+  </div>
+
+  <!-- ========== CTA SECTION ========== -->
+  <section class="section cta-section">
+    <div class="cta-inner">
+      <p class="section-label">Contact</p>
+      <h2>Need <em>Answers</em>?</h2>
+      <p>
+        The first conversation is always in confidence.
+        The second one depends on what we find.
+      </p>
+      <div class="component-row" style="justify-content: center;">
+        <a href="#" class="btn">Begin Consultation</a>
+        <a href="#" class="btn btn--ghost">View Archive</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== FOOTER ========== -->
+  <footer class="footer">
+    <div class="footer-deco">
+      <span></span>
+      <div class="fd-diamond"></div>
+      <span></span>
+    </div>
+    <p>Film Noir -- Design Aesthetic Reference &bull; Shadows &amp; Light</p>
+    <div class="footer-links">
+      <a href="#typography">Typography</a>
+      <a href="#palette">Palette</a>
+      <a href="#components">Components</a>
+      <a href="#effects">Effects</a>
+    </div>
+  </footer>
+
+  <!-- ========== SCRIPTS ========== -->
+  <script>
+    // Scroll reveal animation
+    (function() {
+      var reveals = document.querySelectorAll('.reveal');
+
+      function checkReveal() {
+        var windowHeight = window.innerHeight;
+        reveals.forEach(function(el) {
+          var top = el.getBoundingClientRect().top;
+          var revealPoint = 120;
+          if (top < windowHeight - revealPoint) {
+            el.classList.add('visible');
+          }
+        });
+      }
+
+      window.addEventListener('scroll', checkReveal, { passive: true });
+      window.addEventListener('resize', checkReveal);
+      checkReveal();
+    })();
+
+    // Interactive spotlight follows mouse
+    (function() {
+      var spotlightSections = document.querySelectorAll('.interactive-spotlight');
+      spotlightSections.forEach(function(section) {
+        section.addEventListener('mousemove', function(e) {
+          var rect = section.getBoundingClientRect();
+          var x = ((e.clientX - rect.left) / rect.width) * 100;
+          var y = ((e.clientY - rect.top) / rect.height) * 100;
+          section.style.setProperty('--mouse-x', x + '%');
+          section.style.setProperty('--mouse-y', y + '%');
+        });
+      });
+    })();
+  </script>
+
+</body>
+</html>
