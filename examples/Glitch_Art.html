@@ -1,0 +1,2313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Glitch Art -- Design Aesthetic Reference</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&family=VT323&family=Major+Mono+Display&display=swap" rel="stylesheet">
+<style>
+/* ===== RESET ===== */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ===== CUSTOM PROPERTIES ===== */
+:root {
+  /* Backgrounds */
+  --glitch-void: #0d0d0d;
+  --glitch-screen-dark: #1a1a2e;
+  --glitch-static-gray: #2a2a2a;
+
+  /* RGB Channels */
+  --glitch-red: #ff0040;
+  --glitch-green: #00ff41;
+  --glitch-blue: #0080ff;
+
+  /* Neon Accents */
+  --glitch-cyan: #00ffff;
+  --glitch-magenta: #ff00ff;
+  --glitch-pink: #ff2e97;
+  --glitch-yellow: #f5f500;
+  --glitch-purple: #7b2fbe;
+  --glitch-orange: #ff6b2b;
+
+  /* Neutrals */
+  --glitch-white: #ffffff;
+  --glitch-text: #e0e0e0;
+  --glitch-muted: #444444;
+
+  /* Functional Tokens */
+  --glitch-bg: var(--glitch-void);
+  --glitch-surface: var(--glitch-screen-dark);
+  --glitch-border: var(--glitch-muted);
+  --glitch-accent: var(--glitch-cyan);
+  --glitch-accent-alt: var(--glitch-pink);
+  --glitch-link: var(--glitch-cyan);
+  --glitch-link-hover: var(--glitch-magenta);
+}
+
+/* ===== BASE TYPOGRAPHY ===== */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Share Tech Mono', 'Courier New', Courier, monospace;
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--glitch-text);
+  background-color: var(--glitch-bg);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Orbitron', 'Arial Black', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  line-height: 1.1;
+  color: var(--glitch-white);
+  margin: 0 0 0.5em 0;
+}
+
+h1 { font-size: clamp(2.5rem, 7vw, 6rem); font-weight: 900; }
+h2 { font-size: clamp(1.8rem, 4vw, 3rem); font-weight: 700; }
+h3 { font-size: clamp(1.2rem, 2.5vw, 1.8rem); font-weight: 700; }
+
+a {
+  color: var(--glitch-link);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+
+a:hover {
+  color: var(--glitch-link-hover);
+  border-bottom-color: var(--glitch-link-hover);
+}
+
+code, pre {
+  font-family: 'Share Tech Mono', 'Courier New', monospace;
+  background-color: var(--glitch-static-gray);
+  border: 1px solid var(--glitch-muted);
+  padding: 0.2em 0.5em;
+  color: var(--glitch-green);
+}
+
+pre {
+  padding: 1.25em;
+  overflow-x: auto;
+  white-space: pre;
+  border-left: 3px solid var(--glitch-cyan);
+}
+
+::selection {
+  background-color: var(--glitch-magenta);
+  color: var(--glitch-white);
+}
+
+/* ===== GLOBAL SCANLINE OVERLAY ===== */
+.scanline-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 10000;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent 0px,
+    transparent 2px,
+    rgba(0, 0, 0, 0.08) 2px,
+    rgba(0, 0, 0, 0.08) 4px
+  );
+}
+
+/* ===== GLOBAL NOISE TEXTURE ===== */
+.noise-overlay {
+  position: fixed;
+  inset: -50%;
+  width: 200%;
+  height: 200%;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation: noise-drift 0.5s steps(4) infinite;
+}
+
+@keyframes noise-drift {
+  0%   { transform: translate(0, 0); }
+  25%  { transform: translate(-3%, -3%); }
+  50%  { transform: translate(3%, 1%); }
+  75%  { transform: translate(-1%, 3%); }
+  100% { transform: translate(0, 0); }
+}
+
+/* ===== NAVIGATION ===== */
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 2rem;
+  background-color: rgba(13, 13, 13, 0.92);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--glitch-muted);
+}
+
+.nav::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    var(--glitch-cyan) 0%,
+    var(--glitch-magenta) 33%,
+    var(--glitch-green) 66%,
+    var(--glitch-cyan) 100%
+  );
+  background-size: 200% 100%;
+  animation: interference-scan 3s linear infinite;
+}
+
+@keyframes interference-scan {
+  0%   { background-position: 0% 0%; }
+  100% { background-position: 200% 0%; }
+}
+
+.nav-logo {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.25em;
+  color: var(--glitch-white);
+  text-decoration: none;
+  border: none;
+  position: relative;
+}
+
+.nav-logo:hover {
+  color: var(--glitch-cyan);
+  border: none;
+}
+
+.nav-logo .slash {
+  color: var(--glitch-pink);
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 0;
+}
+
+.nav-links a {
+  display: block;
+  padding: 0.5rem 1.2rem;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--glitch-text);
+  border: none;
+  position: relative;
+  transition: color 0.15s ease;
+}
+
+.nav-links a:hover {
+  color: var(--glitch-cyan);
+  border: none;
+  text-shadow:
+    2px 0 var(--glitch-red),
+    -2px 0 var(--glitch-blue);
+}
+
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 1px;
+  background-color: var(--glitch-cyan);
+  transition: width 0.2s ease, left 0.2s ease;
+}
+
+.nav-links a:hover::after {
+  width: 100%;
+  left: 0;
+}
+
+/* ===== HERO SECTION ===== */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 6rem 3rem 4rem;
+  overflow: hidden;
+}
+
+/* Vertical interference bands */
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background:
+    linear-gradient(90deg,
+      transparent 0%, transparent 15%,
+      rgba(0, 255, 255, 0.015) 15%, rgba(0, 255, 255, 0.015) 15.5%,
+      transparent 15.5%, transparent 45%,
+      rgba(255, 0, 64, 0.02) 45%, rgba(255, 0, 64, 0.02) 46%,
+      transparent 46%, transparent 72%,
+      rgba(0, 128, 255, 0.015) 72%, rgba(0, 128, 255, 0.015) 73%,
+      transparent 73%
+    );
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Scan line overlay */
+.hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent 0px,
+    transparent 2px,
+    rgba(0, 0, 0, 0.12) 2px,
+    rgba(0, 0, 0, 0.12) 4px
+  );
+  pointer-events: none;
+  z-index: 2;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 3;
+  max-width: 960px;
+}
+
+/* Decorative hex data block */
+.hero-data {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.65rem;
+  color: var(--glitch-muted);
+  letter-spacing: 0.15em;
+  margin-bottom: 2rem;
+  line-height: 1.5;
+  opacity: 0.6;
+}
+
+/* RGB Split Headline */
+.hero-title {
+  font-size: clamp(3rem, 10vw, 9rem);
+  font-weight: 900;
+  line-height: 0.9;
+  position: relative;
+  display: inline-block;
+  letter-spacing: 0.02em;
+}
+
+.hero-title::before,
+.hero-title::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.hero-title::before {
+  color: var(--glitch-red);
+  mix-blend-mode: screen;
+  animation: glitch-r 4s infinite;
+}
+
+.hero-title::after {
+  color: var(--glitch-blue);
+  mix-blend-mode: screen;
+  animation: glitch-b 4s infinite;
+}
+
+@keyframes glitch-r {
+  0%, 100% { transform: translate(-2px, 0); clip-path: inset(0 0 0 0); }
+  10%  { transform: translate(3px, 1px); clip-path: inset(20% 0 60% 0); }
+  15%  { transform: translate(-1px, 0); clip-path: inset(0 0 0 0); }
+  45%  { transform: translate(0, 0); clip-path: inset(0 0 0 0); }
+  50%  { transform: translate(5px, -1px); clip-path: inset(65% 0 10% 0); }
+  55%  { transform: translate(-2px, 1px); clip-path: inset(0 0 0 0); }
+  80%  { transform: translate(0, 0); clip-path: inset(0 0 0 0); }
+  85%  { transform: translate(-4px, 0); clip-path: inset(40% 0 30% 0); }
+  90%  { transform: translate(2px, 0); clip-path: inset(0 0 0 0); }
+}
+
+@keyframes glitch-b {
+  0%, 100% { transform: translate(2px, 0); clip-path: inset(0 0 0 0); }
+  10%  { transform: translate(-4px, -1px); clip-path: inset(50% 0 20% 0); }
+  15%  { transform: translate(1px, 0); clip-path: inset(0 0 0 0); }
+  45%  { transform: translate(0, 0); clip-path: inset(0 0 0 0); }
+  50%  { transform: translate(-3px, 1px); clip-path: inset(10% 0 70% 0); }
+  55%  { transform: translate(2px, -1px); clip-path: inset(0 0 0 0); }
+  80%  { transform: translate(0, 0); clip-path: inset(0 0 0 0); }
+  85%  { transform: translate(3px, 0); clip-path: inset(75% 0 5% 0); }
+  90%  { transform: translate(-1px, 0); clip-path: inset(0 0 0 0); }
+}
+
+.hero-subtitle {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: clamp(0.9rem, 1.5vw, 1.15rem);
+  color: var(--glitch-text);
+  max-width: 55ch;
+  margin-top: 2rem;
+  line-height: 1.8;
+}
+
+.hero-subtitle .hl {
+  color: var(--glitch-cyan);
+}
+
+.hero-subtitle .hl-pink {
+  color: var(--glitch-pink);
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 2.5rem;
+}
+
+/* Status line at bottom of hero */
+.hero-status {
+  position: absolute;
+  bottom: 2rem;
+  left: 3rem;
+  right: 3rem;
+  z-index: 3;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.7rem;
+  color: var(--glitch-muted);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.hero-status .blink {
+  animation: blink-cursor 1s step-end infinite;
+}
+
+@keyframes blink-cursor {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0; }
+}
+
+/* ===== BUTTONS ===== */
+.btn {
+  position: relative;
+  display: inline-block;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  padding: 0.9rem 2.2rem;
+  border: 1px solid var(--glitch-cyan);
+  background-color: transparent;
+  color: var(--glitch-cyan);
+  cursor: pointer;
+  text-decoration: none;
+  overflow: hidden;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(0, 255, 255, 0.1),
+    transparent
+  );
+  transition: left 0.4s ease;
+}
+
+.btn:hover {
+  background-color: var(--glitch-cyan);
+  color: var(--glitch-void);
+  border-color: var(--glitch-cyan);
+  animation: btn-glitch 0.3s ease;
+  box-shadow:
+    3px 0 0 var(--glitch-red),
+    -3px 0 0 var(--glitch-blue);
+}
+
+.btn:hover::before {
+  left: 100%;
+}
+
+@keyframes btn-glitch {
+  0%   { transform: translate(0); }
+  20%  { transform: translate(-3px, 2px); }
+  40%  { transform: translate(2px, -1px); }
+  60%  { transform: translate(-1px, 1px); }
+  80%  { transform: translate(1px, -2px); }
+  100% { transform: translate(0); }
+}
+
+.btn--alt {
+  border-color: var(--glitch-pink);
+  color: var(--glitch-pink);
+}
+
+.btn--alt:hover {
+  background-color: var(--glitch-pink);
+  color: var(--glitch-void);
+  border-color: var(--glitch-pink);
+  box-shadow:
+    3px 0 0 var(--glitch-magenta),
+    -3px 0 0 var(--glitch-blue);
+}
+
+.btn--ghost {
+  border-color: var(--glitch-muted);
+  color: var(--glitch-text);
+  font-family: 'Share Tech Mono', monospace;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  font-size: 0.8rem;
+}
+
+.btn--ghost:hover {
+  border-color: var(--glitch-green);
+  color: var(--glitch-green);
+  background: transparent;
+  box-shadow:
+    2px 0 0 var(--glitch-green),
+    -2px 0 0 var(--glitch-blue);
+}
+
+/* ===== SECTION BASE ===== */
+.section {
+  position: relative;
+  padding: 6rem 3rem;
+  border-top: 1px solid var(--glitch-muted);
+}
+
+.section-label {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.3em;
+  color: var(--glitch-muted);
+  margin-bottom: 0.75rem;
+  display: block;
+}
+
+.section-title {
+  color: var(--glitch-cyan);
+  margin-bottom: 1rem;
+}
+
+.section-intro {
+  max-width: 65ch;
+  margin-bottom: 3rem;
+  line-height: 1.8;
+  font-size: 0.95rem;
+}
+
+/* ===== CORRUPTED DIVIDER ===== */
+.divider {
+  position: relative;
+  height: 4px;
+  background: var(--glitch-muted);
+  overflow: hidden;
+}
+
+.divider::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    var(--glitch-cyan) 0%,
+    var(--glitch-pink) 20%,
+    var(--glitch-void) 28%,
+    var(--glitch-void) 42%,
+    var(--glitch-green) 48%,
+    var(--glitch-void) 55%,
+    var(--glitch-void) 68%,
+    var(--glitch-magenta) 75%,
+    var(--glitch-blue) 85%,
+    var(--glitch-cyan) 100%
+  );
+  animation: divider-scan 4s linear infinite;
+  background-size: 200% 100%;
+}
+
+@keyframes divider-scan {
+  0%   { background-position: 0% 0%; }
+  100% { background-position: 200% 0%; }
+}
+
+/* Glitched thick divider */
+.divider--thick {
+  height: 8px;
+  background: var(--glitch-static-gray);
+}
+
+.divider--thick::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--glitch-cyan) 0px,
+    var(--glitch-cyan) 2px,
+    transparent 2px,
+    transparent 12px,
+    var(--glitch-pink) 12px,
+    var(--glitch-pink) 14px,
+    transparent 14px,
+    transparent 30px
+  );
+  opacity: 0.5;
+  animation: h-shift 2s linear infinite;
+}
+
+@keyframes h-shift {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(30px); }
+}
+
+/* ===== TYPOGRAPHY SHOWCASE ===== */
+.type-showcase {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 3rem;
+}
+
+.type-specimen {
+  position: relative;
+  padding: 2.5rem;
+  background: var(--glitch-surface);
+  border: 1px solid var(--glitch-muted);
+  overflow: hidden;
+}
+
+.type-specimen::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent 0px,
+    transparent 2px,
+    rgba(0, 0, 0, 0.08) 2px,
+    rgba(0, 0, 0, 0.08) 4px
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+.type-specimen > * {
+  position: relative;
+  z-index: 2;
+}
+
+.type-meta {
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--glitch-muted);
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.type-meta .font-name {
+  color: var(--glitch-green);
+}
+
+.type-display-orbitron {
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 900;
+  font-size: clamp(2rem, 5vw, 4rem);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--glitch-white);
+  line-height: 1.1;
+  margin-bottom: 1rem;
+}
+
+.type-display-vt323 {
+  font-family: 'VT323', monospace;
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  color: var(--glitch-green);
+  line-height: 1.2;
+  margin-bottom: 1rem;
+}
+
+.type-display-major {
+  font-family: 'Major Mono Display', monospace;
+  font-size: clamp(1.5rem, 4vw, 3rem);
+  color: var(--glitch-white);
+  line-height: 1.2;
+  margin-bottom: 1rem;
+}
+
+.type-body-sample {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.9rem;
+  line-height: 1.8;
+  color: var(--glitch-text);
+  max-width: 60ch;
+}
+
+.type-alphabet {
+  font-size: 1.1rem;
+  letter-spacing: 0.15em;
+  color: var(--glitch-text);
+  margin-top: 1rem;
+  word-break: break-all;
+}
+
+.type-sizes {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.type-sizes span {
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--glitch-white);
+  white-space: nowrap;
+}
+
+/* ===== COLOR PALETTE ===== */
+.palette-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1px;
+  background: var(--glitch-muted);
+  border: 1px solid var(--glitch-muted);
+}
+
+.palette-swatch {
+  background: var(--glitch-surface);
+  overflow: hidden;
+  transition: transform 0.15s ease;
+}
+
+.palette-swatch:hover {
+  transform: translate(-1px, -1px);
+  box-shadow:
+    2px 0 0 var(--glitch-red),
+    -2px 0 0 var(--glitch-blue);
+}
+
+.swatch-color {
+  height: 100px;
+  position: relative;
+}
+
+.swatch-color::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent 0px,
+    transparent 3px,
+    rgba(0, 0, 0, 0.1) 3px,
+    rgba(0, 0, 0, 0.1) 6px
+  );
+  pointer-events: none;
+}
+
+.swatch-info {
+  padding: 0.75rem 1rem;
+}
+
+.swatch-name {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.6rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--glitch-white);
+  margin-bottom: 0.3rem;
+}
+
+.swatch-hex {
+  font-size: 0.72rem;
+  color: var(--glitch-muted);
+  letter-spacing: 0.08em;
+}
+
+.swatch-role {
+  font-size: 0.65rem;
+  color: var(--glitch-muted);
+  margin-top: 0.25rem;
+  line-height: 1.4;
+}
+
+/* ===== CARD GRID ===== */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1px;
+  background-color: var(--glitch-muted);
+  border: 1px solid var(--glitch-muted);
+}
+
+.card {
+  position: relative;
+  background-color: var(--glitch-surface);
+  padding: 2rem;
+  overflow: hidden;
+  transition: transform 0.15s ease;
+}
+
+/* Scan lines on cards */
+.card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent 0px,
+    transparent 2px,
+    rgba(0, 0, 0, 0.1) 2px,
+    rgba(0, 0, 0, 0.1) 4px
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+.card:hover {
+  transform: translate(-2px, -1px);
+  box-shadow:
+    3px 0 0 var(--glitch-red),
+    -3px 0 0 var(--glitch-blue);
+}
+
+.card-icon {
+  position: relative;
+  z-index: 2;
+  font-family: 'VT323', monospace;
+  font-size: 2rem;
+  margin-bottom: 0.75rem;
+  display: block;
+  line-height: 1;
+}
+
+.card h3 {
+  position: relative;
+  z-index: 2;
+  font-size: 0.95rem;
+  letter-spacing: 0.1em;
+  color: var(--glitch-cyan);
+  margin-bottom: 0.75rem;
+}
+
+.card p {
+  position: relative;
+  z-index: 2;
+  font-size: 0.85rem;
+  line-height: 1.7;
+  margin-bottom: 1rem;
+}
+
+.card .tags {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+}
+
+.tag {
+  display: inline-block;
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  padding: 0.2rem 0.5rem;
+  border: 1px solid var(--glitch-muted);
+  color: var(--glitch-green);
+}
+
+.tag--pink { color: var(--glitch-pink); border-color: rgba(255, 46, 151, 0.3); }
+.tag--cyan { color: var(--glitch-cyan); border-color: rgba(0, 255, 255, 0.3); }
+.tag--orange { color: var(--glitch-orange); border-color: rgba(255, 107, 43, 0.3); }
+
+/* ===== SIGNAL INTERFERENCE BANNER ===== */
+.interference {
+  position: relative;
+  padding: 3rem;
+  background-color: var(--glitch-screen-dark);
+  border-top: 1px solid var(--glitch-muted);
+  border-bottom: 1px solid var(--glitch-muted);
+  overflow: hidden;
+  text-align: center;
+}
+
+.interference::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 300%;
+  height: 100%;
+  background: repeating-linear-gradient(
+    90deg,
+    transparent 0px,
+    transparent 3px,
+    rgba(0, 255, 255, 0.03) 3px,
+    rgba(0, 255, 255, 0.03) 6px
+  );
+  animation: h-scan 2s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes h-scan {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(33.33%); }
+}
+
+/* Animated scan bar */
+.interference::after {
+  content: '';
+  position: absolute;
+  top: -30%;
+  left: 0;
+  width: 100%;
+  height: 30%;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(0, 255, 255, 0.04) 40%,
+    rgba(255, 0, 255, 0.02) 60%,
+    transparent 100%
+  );
+  pointer-events: none;
+  animation: scan-bar 5s linear infinite;
+}
+
+@keyframes scan-bar {
+  0%   { top: -30%; }
+  100% { top: 130%; }
+}
+
+.interference .display-text {
+  font-family: 'VT323', monospace;
+  font-size: clamp(1.5rem, 3vw, 2.5rem);
+  color: var(--glitch-green);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  position: relative;
+  z-index: 2;
+}
+
+/* ===== EFFECTS SHOWCASE ===== */
+.effects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 2rem;
+}
+
+.effect-demo {
+  position: relative;
+  background: var(--glitch-surface);
+  border: 1px solid var(--glitch-muted);
+  overflow: hidden;
+}
+
+.effect-preview {
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.effect-info {
+  padding: 1.5rem;
+  border-top: 1px solid var(--glitch-muted);
+}
+
+.effect-info h3 {
+  font-size: 0.85rem;
+  color: var(--glitch-cyan);
+  margin-bottom: 0.5rem;
+}
+
+.effect-info p {
+  font-size: 0.8rem;
+  line-height: 1.6;
+  color: var(--glitch-text);
+}
+
+/* Effect 1: RGB Split Text */
+.rgb-split-demo {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 2.5rem;
+  font-weight: 900;
+  color: var(--glitch-white);
+  text-transform: uppercase;
+  position: relative;
+}
+
+.rgb-split-demo::before,
+.rgb-split-demo::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.rgb-split-demo::before {
+  color: var(--glitch-red);
+  mix-blend-mode: screen;
+  animation: rgb-demo-r 2s infinite;
+}
+
+.rgb-split-demo::after {
+  color: var(--glitch-blue);
+  mix-blend-mode: screen;
+  animation: rgb-demo-b 2s infinite;
+}
+
+@keyframes rgb-demo-r {
+  0%, 100% { transform: translate(-3px, 0); }
+  25% { transform: translate(4px, 2px); clip-path: inset(30% 0 50% 0); }
+  50% { transform: translate(-2px, -1px); clip-path: inset(0 0 0 0); }
+  75% { transform: translate(5px, 0); clip-path: inset(60% 0 20% 0); }
+}
+
+@keyframes rgb-demo-b {
+  0%, 100% { transform: translate(3px, 0); }
+  25% { transform: translate(-5px, -2px); clip-path: inset(50% 0 30% 0); }
+  50% { transform: translate(2px, 1px); clip-path: inset(0 0 0 0); }
+  75% { transform: translate(-4px, 0); clip-path: inset(15% 0 65% 0); }
+}
+
+/* Effect 2: VHS Tracking */
+.vhs-tracking {
+  width: 100%;
+  height: 100%;
+  background: var(--glitch-void);
+  position: relative;
+}
+
+.vhs-tracking::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    repeating-linear-gradient(
+      0deg,
+      transparent 0px,
+      transparent 1px,
+      rgba(255, 255, 255, 0.02) 1px,
+      rgba(255, 255, 255, 0.02) 2px
+    );
+  pointer-events: none;
+}
+
+.vhs-bar {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  background: linear-gradient(
+    180deg,
+    transparent,
+    rgba(255, 255, 255, 0.08) 20%,
+    rgba(255, 255, 255, 0.15) 50%,
+    rgba(255, 255, 255, 0.08) 80%,
+    transparent
+  );
+  animation: vhs-roll 3s linear infinite;
+}
+
+.vhs-bar:nth-child(1) {
+  height: 30px;
+  animation-duration: 3s;
+}
+
+.vhs-bar:nth-child(2) {
+  height: 15px;
+  animation-duration: 4.5s;
+  animation-delay: -1.5s;
+  opacity: 0.6;
+}
+
+.vhs-bar:nth-child(3) {
+  height: 5px;
+  animation-duration: 2s;
+  animation-delay: -0.5s;
+  background: linear-gradient(
+    180deg,
+    transparent,
+    rgba(0, 255, 255, 0.2),
+    transparent
+  );
+}
+
+@keyframes vhs-roll {
+  0%   { top: -30px; }
+  100% { top: calc(100% + 30px); }
+}
+
+.vhs-text {
+  position: absolute;
+  bottom: 15px;
+  right: 15px;
+  font-family: 'VT323', monospace;
+  font-size: 1rem;
+  color: var(--glitch-white);
+  opacity: 0.7;
+  z-index: 2;
+}
+
+.vhs-text-left {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  font-family: 'VT323', monospace;
+  font-size: 0.85rem;
+  color: var(--glitch-red);
+  z-index: 2;
+  animation: blink-cursor 1s step-end infinite;
+}
+
+/* Effect 3: Pixel Displacement */
+.pixel-displacement {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  grid-template-rows: repeat(4, 1fr);
+  width: 80%;
+  height: 80%;
+  gap: 1px;
+}
+
+.pixel-block {
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.pixel-displacement:hover .pixel-block:nth-child(3) {
+  transform: translate(8px, -4px);
+}
+
+.pixel-displacement:hover .pixel-block:nth-child(7) {
+  transform: translate(-6px, 3px);
+}
+
+.pixel-displacement:hover .pixel-block:nth-child(12) {
+  transform: translate(4px, 6px);
+}
+
+.pixel-displacement:hover .pixel-block:nth-child(18) {
+  transform: translate(-8px, -2px);
+}
+
+.pixel-displacement:hover .pixel-block:nth-child(22) {
+  transform: translate(5px, 5px);
+  opacity: 0.5;
+}
+
+.pixel-displacement:hover .pixel-block:nth-child(28) {
+  transform: translate(-3px, -6px);
+}
+
+/* Effect 4: Screen Tear */
+.screen-tear {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  background: linear-gradient(180deg, var(--glitch-screen-dark), var(--glitch-void));
+  overflow: hidden;
+}
+
+.tear-line {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  pointer-events: none;
+}
+
+.tear-line:nth-child(1) {
+  top: 30%;
+  background: var(--glitch-cyan);
+  box-shadow: 0 0 8px var(--glitch-cyan);
+  animation: tear-slide-1 5s ease-in-out infinite;
+}
+
+.tear-line:nth-child(2) {
+  top: 55%;
+  background: var(--glitch-pink);
+  box-shadow: 0 0 6px var(--glitch-pink);
+  animation: tear-slide-2 7s ease-in-out infinite;
+  height: 2px;
+}
+
+.tear-line:nth-child(3) {
+  top: 78%;
+  background: var(--glitch-green);
+  box-shadow: 0 0 4px var(--glitch-green);
+  animation: tear-slide-3 4s ease-in-out infinite;
+  height: 1px;
+}
+
+.tear-segment {
+  position: absolute;
+  height: 25px;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+}
+
+.tear-segment:nth-child(4) {
+  top: 30%;
+  transform: translateX(12px);
+  background: rgba(0, 255, 255, 0.03);
+  animation: tear-offset 5s ease-in-out infinite;
+}
+
+.tear-segment:nth-child(5) {
+  top: 55%;
+  transform: translateX(-8px);
+  background: rgba(255, 46, 151, 0.03);
+  animation: tear-offset 7s ease-in-out infinite reverse;
+}
+
+@keyframes tear-slide-1 {
+  0%, 100% { transform: scaleX(0.3) translateX(-20%); opacity: 0; }
+  10%, 90% { opacity: 1; }
+  50%      { transform: scaleX(1) translateX(0); }
+}
+
+@keyframes tear-slide-2 {
+  0%, 100% { transform: scaleX(0.5) translateX(30%); opacity: 0; }
+  15%, 85% { opacity: 0.8; }
+  50%      { transform: scaleX(1) translateX(0); }
+}
+
+@keyframes tear-slide-3 {
+  0%, 100% { transform: scaleX(0.2) translateX(-40%); opacity: 0; }
+  20%, 80% { opacity: 0.6; }
+  50%      { transform: scaleX(0.8) translateX(10%); }
+}
+
+@keyframes tear-offset {
+  0%, 100% { transform: translateX(0); }
+  30%      { transform: translateX(12px); }
+  60%      { transform: translateX(-8px); }
+}
+
+.tear-label {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--glitch-muted);
+  z-index: 2;
+}
+
+/* ===== DATA TABLE ===== */
+.data-table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--glitch-muted);
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.82rem;
+}
+
+.data-table th,
+.data-table td {
+  border: 1px solid var(--glitch-muted);
+  padding: 0.75rem 1rem;
+  text-align: left;
+}
+
+.data-table th {
+  background-color: var(--glitch-screen-dark);
+  color: var(--glitch-cyan);
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  font-weight: 700;
+}
+
+.data-table tbody tr {
+  transition: background-color 0.15s ease;
+}
+
+.data-table tbody tr:hover {
+  background-color: rgba(0, 255, 255, 0.04);
+}
+
+.data-table tbody tr:hover td {
+  text-shadow: 1px 0 var(--glitch-red), -1px 0 var(--glitch-blue);
+}
+
+.data-table td:first-child {
+  color: var(--glitch-white);
+  font-weight: 400;
+}
+
+.status-ok { color: var(--glitch-green); }
+.status-warn { color: var(--glitch-yellow); }
+.status-error { color: var(--glitch-pink); }
+.status-critical { color: var(--glitch-red); animation: blink-cursor 1.5s step-end infinite; }
+
+/* ===== CORRUPTED CODE BLOCK ===== */
+.code-block {
+  position: relative;
+  background: var(--glitch-void);
+  border: 1px solid var(--glitch-muted);
+  border-left: 3px solid var(--glitch-cyan);
+  padding: 0;
+  overflow: hidden;
+}
+
+.code-block-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.6rem 1rem;
+  background: var(--glitch-screen-dark);
+  border-bottom: 1px solid var(--glitch-muted);
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--glitch-muted);
+}
+
+.code-block-header .lang {
+  color: var(--glitch-cyan);
+}
+
+.code-block pre {
+  padding: 1.25rem;
+  background: transparent;
+  border: none;
+  border-left: none;
+  font-size: 0.82rem;
+  line-height: 1.7;
+  color: var(--glitch-text);
+  overflow-x: auto;
+}
+
+.code-block pre .kw { color: var(--glitch-magenta); }
+.code-block pre .fn { color: var(--glitch-cyan); }
+.code-block pre .str { color: var(--glitch-green); }
+.code-block pre .num { color: var(--glitch-orange); }
+.code-block pre .cmt { color: var(--glitch-muted); }
+.code-block pre .prop { color: var(--glitch-pink); }
+
+/* ===== HEX DUMP DISPLAY ===== */
+.hex-dump {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.72rem;
+  line-height: 1.8;
+  color: var(--glitch-muted);
+  padding: 2rem;
+  background: var(--glitch-void);
+  border: 1px solid var(--glitch-muted);
+  overflow-x: auto;
+  white-space: pre;
+  position: relative;
+}
+
+.hex-dump .offset { color: var(--glitch-cyan); }
+.hex-dump .corrupted { color: var(--glitch-red); text-shadow: 0 0 4px var(--glitch-red); }
+.hex-dump .highlight { color: var(--glitch-green); }
+.hex-dump .ascii { color: var(--glitch-muted); opacity: 0.5; }
+
+/* ===== GLITCH TEXT VARIANTS ===== */
+.glitch-text-flicker {
+  animation: text-flicker 4s linear infinite;
+}
+
+@keyframes text-flicker {
+  0%, 100% { opacity: 1; }
+  4%       { opacity: 0.9; }
+  6%       { opacity: 0.3; }
+  8%       { opacity: 1; }
+  42%      { opacity: 1; }
+  43%      { opacity: 0.8; }
+  44%      { opacity: 0.2; }
+  45%      { opacity: 0.9; }
+  46%      { opacity: 1; }
+  87%      { opacity: 1; }
+  88%      { opacity: 0.4; }
+  89%      { opacity: 0.8; }
+  90%      { opacity: 1; }
+}
+
+/* ===== FORM ELEMENTS ===== */
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-label {
+  display: block;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--glitch-cyan);
+  margin-bottom: 0.5rem;
+}
+
+.form-input {
+  width: 100%;
+  max-width: 400px;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.88rem;
+  padding: 0.75rem 1rem;
+  background: var(--glitch-void);
+  border: 1px solid var(--glitch-muted);
+  color: var(--glitch-text);
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-input:focus {
+  border-color: var(--glitch-cyan);
+  box-shadow:
+    2px 0 0 var(--glitch-red),
+    -2px 0 0 var(--glitch-blue);
+}
+
+.form-input::placeholder {
+  color: var(--glitch-muted);
+}
+
+/* ===== TERMINAL OUTPUT ===== */
+.terminal {
+  background: var(--glitch-void);
+  border: 1px solid var(--glitch-muted);
+  padding: 1.5rem;
+  font-size: 0.8rem;
+  line-height: 1.9;
+  position: relative;
+  overflow: hidden;
+}
+
+.terminal::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent 0px,
+    transparent 2px,
+    rgba(0, 255, 65, 0.015) 2px,
+    rgba(0, 255, 65, 0.015) 4px
+  );
+  pointer-events: none;
+}
+
+.terminal .prompt {
+  color: var(--glitch-green);
+}
+
+.terminal .path {
+  color: var(--glitch-cyan);
+}
+
+.terminal .cmd {
+  color: var(--glitch-white);
+}
+
+.terminal .output {
+  color: var(--glitch-text);
+}
+
+.terminal .error {
+  color: var(--glitch-red);
+}
+
+.terminal .warn {
+  color: var(--glitch-yellow);
+}
+
+.terminal .cursor {
+  display: inline-block;
+  width: 8px;
+  height: 1em;
+  background: var(--glitch-green);
+  margin-left: 2px;
+  animation: blink-cursor 1s step-end infinite;
+  vertical-align: text-bottom;
+}
+
+/* ===== FOOTER ===== */
+.footer {
+  padding: 2.5rem 3rem;
+  border-top: 1px solid var(--glitch-muted);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.footer p {
+  font-size: 0.72rem;
+  color: var(--glitch-muted);
+}
+
+.footer-links {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.footer-links a {
+  color: var(--glitch-text);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border: none;
+}
+
+.footer-links a:hover {
+  color: var(--glitch-cyan);
+  text-shadow: 1px 0 var(--glitch-red), -1px 0 var(--glitch-blue);
+  border: none;
+}
+
+/* ===== UTILITY ===== */
+.mt-1 { margin-top: 1rem; }
+.mt-2 { margin-top: 2rem; }
+.mt-3 { margin-top: 3rem; }
+.mb-1 { margin-bottom: 1rem; }
+.mb-2 { margin-bottom: 2rem; }
+.text-cyan { color: var(--glitch-cyan); }
+.text-pink { color: var(--glitch-pink); }
+.text-green { color: var(--glitch-green); }
+.text-red { color: var(--glitch-red); }
+.text-yellow { color: var(--glitch-yellow); }
+.text-magenta { color: var(--glitch-magenta); }
+.text-orange { color: var(--glitch-orange); }
+.text-muted { color: var(--glitch-muted); }
+
+/* ===== REDUCED MOTION ===== */
+@media (prefers-reduced-motion: reduce) {
+  .hero-title::before,
+  .hero-title::after {
+    animation: none;
+    clip-path: inset(0 0 0 0);
+  }
+  .hero-title::before { transform: translate(-2px, 0); }
+  .hero-title::after { transform: translate(2px, 0); }
+
+  .rgb-split-demo::before,
+  .rgb-split-demo::after {
+    animation: none;
+  }
+  .rgb-split-demo::before { transform: translate(-3px, 0); }
+  .rgb-split-demo::after { transform: translate(3px, 0); }
+
+  .nav::after,
+  .divider::before,
+  .divider--thick::after,
+  .interference::before,
+  .interference::after { animation: none; }
+
+  .noise-overlay { animation: none; }
+  .btn:hover { animation: none; }
+  .glitch-text-flicker { animation: none; }
+  .vhs-bar { animation: none; display: none; }
+  .tear-line { animation: none; }
+  .tear-segment { animation: none; }
+  .hero-status .blink { animation: none; opacity: 1; }
+  .status-critical { animation: none; }
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 1024px) {
+  .effects-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .hero {
+    min-height: 90vh;
+    padding: 5rem 1.5rem 3rem;
+  }
+
+  .section {
+    padding: 4rem 1.5rem;
+  }
+
+  .nav {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 0.75rem 1.5rem;
+  }
+
+  .nav-links {
+    flex-wrap: wrap;
+    gap: 0;
+  }
+
+  .nav-links a {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.68rem;
+  }
+
+  .card-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .palette-grid {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  }
+
+  .effects-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-status {
+    left: 1.5rem;
+    right: 1.5rem;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.3rem;
+  }
+
+  .hero-data {
+    display: none;
+  }
+
+  .footer {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 2rem 1.5rem;
+  }
+
+  .interference {
+    padding: 2rem 1.5rem;
+  }
+
+  .type-sizes {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  /* Reduce animation intensity on mobile */
+  .noise-overlay {
+    opacity: 0.02;
+  }
+
+  .scanline-overlay {
+    opacity: 0.5;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero {
+    min-height: 85vh;
+  }
+
+  .palette-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .swatch-color {
+    height: 70px;
+  }
+
+  .btn {
+    padding: 0.7rem 1.5rem;
+    font-size: 0.68rem;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- GLOBAL OVERLAYS -->
+<div class="scanline-overlay" aria-hidden="true"></div>
+<div class="noise-overlay" aria-hidden="true"></div>
+
+<!-- ===== NAVIGATION ===== -->
+<nav class="nav">
+  <a href="#" class="nav-logo">GL<span class="slash">//</span>TCH</a>
+  <ul class="nav-links">
+    <li><a href="#typography">Type</a></li>
+    <li><a href="#palette">Palette</a></li>
+    <li><a href="#components">Components</a></li>
+    <li><a href="#effects">Effects</a></li>
+    <li><a href="#data">Data</a></li>
+  </ul>
+</nav>
+
+<!-- ===== HERO ===== -->
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-data" aria-hidden="true">0x47 0x4C 0x49 0x54 0x43 0x48 // SIGNAL_CORRUPT // FRAME_OFFSET: +3px,-1px // CODEC_ERR: 0xDEAD</div>
+    <h1 class="hero-title" data-text="Glitch Art">Glitch Art</h1>
+    <p class="hero-subtitle">
+      The beauty of <span class="hl">broken data</span>. We find aesthetics in
+      technological failure -- pixel corruption, signal interference,
+      and the hidden structures revealed when digital systems <span class="hl-pink">malfunction</span>.
+      This is not an error. This is the message.
+    </p>
+    <div class="hero-actions">
+      <a href="#effects" class="btn" data-text="Enter the Void">Enter the Void</a>
+      <a href="#components" class="btn btn--alt" data-text="View Components">View Components</a>
+      <a href="#data" class="btn btn--ghost">// corruption_index</a>
+    </div>
+  </div>
+  <div class="hero-status" aria-hidden="true">
+    <span>SIG:CORRUPT // FRAME_DROP: 12.7/s // CH_OFFSET: ACTIVE</span>
+    <span>REC <span class="blink" style="color: var(--glitch-red);">&#x25CF;</span> 00:47:33</span>
+  </div>
+</section>
+
+<!-- DIVIDER -->
+<div class="divider" aria-hidden="true"></div>
+
+<!-- ===== TYPOGRAPHY SHOWCASE ===== -->
+<section class="section" id="typography">
+  <span class="section-label">// 001 &mdash; Typography</span>
+  <h2 class="section-title">Typeface Specimens</h2>
+  <p class="section-intro">
+    Glitch Art typography favors monospaced, technical, and geometric typefaces
+    that reference code editors, terminal displays, and early computing.
+    Display text is a surface for corruption -- body text prioritizes legibility.
+  </p>
+
+  <div class="type-showcase">
+
+    <!-- Orbitron -->
+    <div class="type-specimen">
+      <div class="type-meta">
+        <span class="font-name">Orbitron &mdash; 900</span>
+        <span>Display / Headlines</span>
+      </div>
+      <div class="type-display-orbitron">
+        System Failure<br>Is the Message
+      </div>
+      <div class="type-sizes">
+        <span style="font-size: 0.75rem;">0.75rem</span>
+        <span style="font-size: 1rem;">1rem</span>
+        <span style="font-size: 1.5rem;">1.5rem</span>
+        <span style="font-size: 2rem;">2rem</span>
+        <span style="font-size: 3rem;">3rem</span>
+      </div>
+      <div class="type-alphabet" style="font-family: 'Orbitron', sans-serif; font-weight: 900;">
+        ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789
+      </div>
+    </div>
+
+    <!-- VT323 -->
+    <div class="type-specimen">
+      <div class="type-meta">
+        <span class="font-name">VT323 &mdash; 400</span>
+        <span>Terminal / Retro Display</span>
+      </div>
+      <div class="type-display-vt323">
+        > SIGNAL_LOST: Reconnecting to corrupted data stream...<br>
+        > WARNING: Frame buffer overflow detected at 0xFF00
+      </div>
+      <div class="type-alphabet" style="font-family: 'VT323', monospace;">
+        ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz 0123456789 !@#$%^&amp;*()
+      </div>
+    </div>
+
+    <!-- Major Mono Display -->
+    <div class="type-specimen">
+      <div class="type-meta">
+        <span class="font-name">Major Mono Display &mdash; 400</span>
+        <span>Abstract Headlines</span>
+      </div>
+      <div class="type-display-major">
+        data corruption<br>
+        is revelation
+      </div>
+      <div class="type-alphabet" style="font-family: 'Major Mono Display', monospace;">
+        abcdefghijklmnopqrstuvwxyz 0123456789
+      </div>
+    </div>
+
+    <!-- Share Tech Mono -->
+    <div class="type-specimen">
+      <div class="type-meta">
+        <span class="font-name">Share Tech Mono &mdash; 400</span>
+        <span>Body / Technical Content</span>
+      </div>
+      <p class="type-body-sample">
+        The glitch is not failure. It is the moment when a system reveals its true
+        nature -- the hidden substrate of pixels, compression blocks, and encoding
+        structures that normally remain invisible. When we datamosh a video stream
+        or bend the bytes of an image file, we are not destroying information. We
+        are liberating it from the tyranny of intended presentation.
+      </p>
+      <div class="type-alphabet">
+        ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz 0123456789 {}[]|&lt;&gt;/\
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- DIVIDER -->
+<div class="divider--thick divider" aria-hidden="true"></div>
+
+<!-- ===== COLOR PALETTE ===== -->
+<section class="section" id="palette">
+  <span class="section-label">// 002 &mdash; Color Palette</span>
+  <h2 class="section-title">Signal Channels</h2>
+  <p class="section-intro">
+    Drawn from the RGB color model itself -- the raw channels of digital displays --
+    combined with neon accents that evoke CRT phosphors, VHS artifacts, and corrupted data streams.
+    Deep black backgrounds maximize luminosity.
+  </p>
+
+  <div class="palette-grid">
+    <div class="palette-swatch">
+      <div class="swatch-color" style="background-color: #0d0d0d;"></div>
+      <div class="swatch-info">
+        <div class="swatch-name">Void Black</div>
+        <div class="swatch-hex">#0D0D0D</div>
+        <div class="swatch-role">Primary background</div>
+      </div>
+    </div>
+    <div class="palette-swatch">
+      <div class="swatch-color" style="background-color: #1a1a2e;"></div>
+      <div class="swatch-info">
+        <div class="swatch-name">Screen Dark</div>
+        <div class="swatch-hex">#1A1A2E</div>
+        <div class="swatch-role">Surface / panels</div>
+      </div>
+    </div>
+    <div class="palette-swatch">
+      <div class="swatch-color" style="background-color: #2a2a2a;"></div>
+      <div class="swatch-info">
+        <div class="swatch-name">Static Gray</div>
+        <div class="swatch-hex">#2A2A2A</div>
+        <div class="swatch-role">Noise texture base</div>
+      </div>
+    </div>
+    <div class="palette-swatch">
+      <div class="swatch-color" style="background-color: #ff0040;"></div>
+      <div class="swatch-info">
+        <div class="swatch-name">Channel Red</div>
+        <div class="swatch-hex">#FF0040</div>
+        <div class="swatch-role">RGB red channel</div>
+      </div>
+    </div>
+    <div class="palette-swatch">
+      <div class="swatch-color" style="background-color: #00ff41;"></div>
+      <div class="swatch-info">
+        <div class="swatch-name">Channel Green</div>
+        <div class="swatch-hex">#00FF41</div>
+        <div class="swatch-role">Terminal / matrix accent</div>
+      </div>
+    </div>
+    <div class="palette-swatch">
+      <div class="swatch-color" style="background-color: #0080ff;"></div>
+      <div class="swatch-info">
+        <div class="swatch-name">Channel Blue</div>
+        <div class="swatch-hex">#0080FF</div>
+        <div class="swatch-role">RGB blue channel</div>
+      </div>
+    </div>
+    <div class="palette-swatch">
+      <div class="swatch-color" style="background-color: #00ffff;"></div>
+      <div class="swatch-info">
+        <div class="swatch-name">Glitch Cyan</div>
+        <div class="swatch-hex">#00FFFF</div>
+        <div class="swatch-role">Primary accent / links</div>
+      </div>
+    </div>
+    <div class="palette-swatch">
+      <div class="swatch-color" style="background-color: #ff00ff;"></div>
+      <div class="swatch-info">
+        <div class="swatch-name">Glitch Magenta</div>
+        <div class="swatch-hex">#FF00FF</div>
+        <div class="swatch-role">Chromatic aberration</div>
+      </div>
+    </div>
+    <div class="palette-swatch">
+      <div class="swatch-color" style="background-color: #ff2e97;"></div>
+      <div class="swatch-info">
+        <div class="swatch-name">Corrupt Pink</div>
+        <div class="swatch-hex">#FF2E97</div>
+        <div class="swatch-role">Hot accent / alerts</div>
+      </div>
+    </div>
+    <div class="palette-swatch">
+      <div class="swatch-color" style="background-color: #f5f500;"></div>
+      <div class="swatch-info">
+        <div class="swatch-name">Signal Yellow</div>
+        <div class="swatch-hex">#F5F500</div>
+        <div class="swatch-role">Warning / hover states</div>
+      </div>
+    </div>
+    <div class="palette-swatch">
+      <div class="swatch-color" style="background-color: #7b2fbe;"></div>
+      <div class="swatch-info">
+        <div class="swatch-name">Artifact Purple</div>
+        <div class="swatch-hex">#7B2FBE</div>
+        <div class="swatch-role">Decorative gradients</div>
+      </div>
+    </div>
+    <div class="palette-swatch">
+      <div class="swatch-color" style="background-color: #ff6b2b;"></div>
+      <div class="swatch-info">
+        <div class="swatch-name">Codec Orange</div>
+        <div class="swatch-hex">#FF6B2B</div>
+        <div class="swatch-role">Compression artifacts</div>
+      </div>
+    </div>
+    <div class="palette-swatch">
+      <div class="swatch-color" style="background-color: #e0e0e0;"></div>
+      <div class="swatch-info">
+        <div class="swatch-name">Data White</div>
+        <div class="swatch-hex">#E0E0E0</div>
+        <div class="swatch-role">Body text</div>
+      </div>
+    </div>
+    <div class="palette-swatch">
+      <div class="swatch-color" style="background-color: #ffffff;"></div>
+      <div class="swatch-info">
+        <div class="swatch-name">Phosphor White</div>
+        <div class="swatch-hex">#FFFFFF</div>
+        <div class="swatch-role">Max-contrast headings</div>
+      </div>
+    </div>
+    <div class="palette-swatch">
+      <div class="swatch-color" style="background-color: #444444;"></div>
+      <div class="swatch-info">
+        <div class="swatch-name">Noise Mid</div>
+        <div class="swatch-hex">#444444</div>
+        <div class="swatch-role">Borders / disabled</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SIGNAL INTERFERENCE BANNER -->
+<div class="interference" aria-hidden="true">
+  <div class="display-text">&#x2588;&#x2588; Signal Acquired &mdash; Corruption Level: 87% &mdash; Channel Drift: Active &#x2588;&#x2588;</div>
+</div>
+
+<!-- ===== COMPONENTS ===== -->
+<section class="section" id="components">
+  <span class="section-label">// 003 &mdash; Components</span>
+  <h2 class="section-title">Corrupted Modules</h2>
+  <p class="section-intro">
+    Each component explores a different facet of digital disruption.
+    Cards feature scan line overlays, RGB split on hover, and corrupted-data borders.
+    Hover to corrupt.
+  </p>
+
+  <div class="card-grid">
+    <div class="card">
+      <span class="card-icon text-red" aria-hidden="true">&#x2588;&#x2580;&#x2584;</span>
+      <h3>Datamosh Engine</h3>
+      <p>A real-time video corruption tool that removes I-frames from compressed video streams, producing the flowing, painterly distortions of datamoshing.</p>
+      <div class="tags">
+        <span class="tag">Video</span>
+        <span class="tag tag--cyan">WebCodecs</span>
+        <span class="tag">Real-time</span>
+      </div>
+    </div>
+    <div class="card">
+      <span class="card-icon text-cyan" aria-hidden="true">&#x2593;&#x2591;&#x2593;</span>
+      <h3>Hex Painter</h3>
+      <p>Open any image file as raw hexadecimal data and paint directly into the byte stream. Watch the image reconstruct with each corrupted edit.</p>
+      <div class="tags">
+        <span class="tag tag--pink">Data Bending</span>
+        <span class="tag">Canvas</span>
+      </div>
+    </div>
+    <div class="card">
+      <span class="card-icon text-magenta" aria-hidden="true">&#x25C6;&#x25C7;&#x25C6;</span>
+      <h3>Channel Drift</h3>
+      <p>An interactive installation that separates red, green, and blue channels of a live webcam feed and maps each to independent mouse-controlled offsets.</p>
+      <div class="tags">
+        <span class="tag">RGB Split</span>
+        <span class="tag tag--cyan">WebGL</span>
+        <span class="tag tag--orange">Interactive</span>
+      </div>
+    </div>
+    <div class="card">
+      <span class="card-icon text-green" aria-hidden="true">&#x2261;&#x2248;&#x2261;</span>
+      <h3>Signal Decay</h3>
+      <p>Generative compositions simulating electromagnetic interference, scan line degradation, and VHS tracking errors using pure CSS and SVG filters.</p>
+      <div class="tags">
+        <span class="tag">Generative</span>
+        <span class="tag">CSS</span>
+        <span class="tag">SVG</span>
+      </div>
+    </div>
+    <div class="card">
+      <span class="card-icon text-orange" aria-hidden="true">&#x2590;&#x2588;&#x258C;</span>
+      <h3>Codec Autopsy</h3>
+      <p>A visual explainer that deconstructs JPEG, PNG, and WebP compression in real time, revealing the block artifacts and quantization tables hidden inside every image.</p>
+      <div class="tags">
+        <span class="tag tag--pink">Compression</span>
+        <span class="tag">Education</span>
+      </div>
+    </div>
+    <div class="card">
+      <span class="card-icon text-pink" aria-hidden="true">&#x2502;&#x2502;&#x2502;</span>
+      <h3>Pixel Sort Lab</h3>
+      <p>Upload an image and apply pixel sorting algorithms by brightness, hue, or saturation to create cascading, waterfall-like distortions of sorted pixel rows.</p>
+      <div class="tags">
+        <span class="tag">Pixel Sorting</span>
+        <span class="tag tag--cyan">WASM</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Button variants -->
+  <div class="mt-3">
+    <h3 class="mb-1" style="font-size: 0.85rem; color: var(--glitch-cyan); letter-spacing: 0.15em;">Button Variants</h3>
+    <div style="display: flex; flex-wrap: wrap; gap: 1rem; align-items: center;">
+      <a href="#" class="btn">Primary Action</a>
+      <a href="#" class="btn btn--alt">Alt Action</a>
+      <a href="#" class="btn btn--ghost">// ghost_cmd</a>
+      <button class="btn" disabled style="opacity: 0.3; cursor: not-allowed; pointer-events: none;">Disabled</button>
+    </div>
+  </div>
+
+  <!-- Form elements -->
+  <div class="mt-3">
+    <h3 class="mb-1" style="font-size: 0.85rem; color: var(--glitch-cyan); letter-spacing: 0.15em;">Form Elements</h3>
+    <div class="form-group">
+      <label class="form-label">Data Input</label>
+      <input type="text" class="form-input" placeholder="Enter corrupted data stream...">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Signal Address</label>
+      <input type="text" class="form-input" placeholder="0x00FF41 // channel endpoint">
+    </div>
+  </div>
+
+  <!-- Code block -->
+  <div class="mt-3">
+    <h3 class="mb-1" style="font-size: 0.85rem; color: var(--glitch-cyan); letter-spacing: 0.15em;">Code Block</h3>
+    <div class="code-block">
+      <div class="code-block-header">
+        <span class="lang">css</span>
+        <span>glitch-effect.css</span>
+      </div>
+      <pre><span class="cmt">/* RGB Split Text Effect */</span>
+<span class="kw">.rgb-split</span> {
+  <span class="prop">position</span>: relative;
+  <span class="prop">color</span>: <span class="str">var(--glitch-white)</span>;
+  <span class="prop">font-family</span>: <span class="str">'Orbitron'</span>, sans-serif;
+  <span class="prop">font-weight</span>: <span class="num">900</span>;
+}
+
+<span class="kw">.rgb-split</span><span class="fn">::before</span> {
+  <span class="prop">content</span>: <span class="fn">attr</span>(data-text);
+  <span class="prop">color</span>: <span class="str">var(--glitch-red)</span>;
+  <span class="prop">mix-blend-mode</span>: screen;
+  <span class="prop">animation</span>: <span class="fn">rgb-split-red</span> <span class="num">3s</span> infinite;
+}</pre>
+    </div>
+  </div>
+
+  <!-- Terminal -->
+  <div class="mt-3">
+    <h3 class="mb-1" style="font-size: 0.85rem; color: var(--glitch-cyan); letter-spacing: 0.15em;">Terminal Output</h3>
+    <div class="terminal">
+      <span class="prompt">glitch@void</span>:<span class="path">~/signal</span>$ <span class="cmd">./corrupt --mode=datamosh --intensity=0.87</span>
+<span class="output">[INFO] Loading source frame buffer... OK</span>
+<span class="output">[INFO] Removing I-frames from codec stream...</span>
+<span class="warn">[WARN] Frame 0x2F: quantization table overflow</span>
+<span class="error">[ERR!] Channel RED offset exceeds buffer bounds (+3px)</span>
+<span class="output">[INFO] Pixel sort pass: brightness ascending</span>
+<span class="output">[INFO] Applying scan line overlay (2px/4px cycle)</span>
+<span class="output">[INFO] Corruption complete. Output: corrupted_output.raw</span>
+<span class="prompt">glitch@void</span>:<span class="path">~/signal</span>$ <span class="cursor"></span>
+    </div>
+  </div>
+</section>
+
+<!-- DIVIDER -->
+<div class="divider" aria-hidden="true"></div>
+
+<!-- ===== EFFECTS SHOWCASE ===== -->
+<section class="section" id="effects">
+  <span class="section-label">// 004 &mdash; Effects</span>
+  <h2 class="section-title">Corruption Techniques</h2>
+  <p class="section-intro">
+    Core visual effects that define the Glitch Art aesthetic -- RGB channel splitting,
+    VHS tracking errors, pixel displacement, and screen tearing. Each effect
+    uses pure CSS with no external dependencies.
+  </p>
+
+  <div class="effects-grid">
+
+    <!-- Effect 1: RGB Channel Split -->
+    <div class="effect-demo">
+      <div class="effect-preview" style="background: var(--glitch-void);">
+        <span class="rgb-split-demo" data-text="SPLIT">SPLIT</span>
+      </div>
+      <div class="effect-info">
+        <h3>RGB Channel Split</h3>
+        <p>Chromatic aberration via offset pseudo-elements with mix-blend-mode: screen. Red and blue copies animate independently with clip-path masking.</p>
+      </div>
+    </div>
+
+    <!-- Effect 2: VHS Tracking -->
+    <div class="effect-demo">
+      <div class="effect-preview">
+        <div class="vhs-tracking">
+          <div class="vhs-bar"></div>
+          <div class="vhs-bar"></div>
+          <div class="vhs-bar"></div>
+          <span class="vhs-text-left" aria-hidden="true">REC</span>
+          <span class="vhs-text" aria-hidden="true">SP 00:47:33</span>
+        </div>
+      </div>
+      <div class="effect-info">
+        <h3>VHS Tracking</h3>
+        <p>Simulated VHS tracking error bars using gradient-filled elements with staggered vertical animations and faint horizontal scan lines.</p>
+      </div>
+    </div>
+
+    <!-- Effect 3: Pixel Displacement -->
+    <div class="effect-demo">
+      <div class="effect-preview" style="background: var(--glitch-void);">
+        <div class="pixel-displacement">
+          <div class="pixel-block" style="background: var(--glitch-cyan);"></div>
+          <div class="pixel-block" style="background: var(--glitch-cyan); opacity: 0.8;"></div>
+          <div class="pixel-block" style="background: var(--glitch-red);"></div>
+          <div class="pixel-block" style="background: var(--glitch-cyan); opacity: 0.6;"></div>
+          <div class="pixel-block" style="background: var(--glitch-screen-dark);"></div>
+          <div class="pixel-block" style="background: var(--glitch-cyan); opacity: 0.4;"></div>
+          <div class="pixel-block" style="background: var(--glitch-blue);"></div>
+          <div class="pixel-block" style="background: var(--glitch-cyan); opacity: 0.7;"></div>
+          <div class="pixel-block" style="background: var(--glitch-pink); opacity: 0.6;"></div>
+          <div class="pixel-block" style="background: var(--glitch-screen-dark);"></div>
+          <div class="pixel-block" style="background: var(--glitch-green); opacity: 0.5;"></div>
+          <div class="pixel-block" style="background: var(--glitch-magenta);"></div>
+          <div class="pixel-block" style="background: var(--glitch-cyan); opacity: 0.3;"></div>
+          <div class="pixel-block" style="background: var(--glitch-screen-dark);"></div>
+          <div class="pixel-block" style="background: var(--glitch-purple); opacity: 0.7;"></div>
+          <div class="pixel-block" style="background: var(--glitch-screen-dark);"></div>
+          <div class="pixel-block" style="background: var(--glitch-screen-dark);"></div>
+          <div class="pixel-block" style="background: var(--glitch-red); opacity: 0.4;"></div>
+          <div class="pixel-block" style="background: var(--glitch-screen-dark);"></div>
+          <div class="pixel-block" style="background: var(--glitch-green);"></div>
+          <div class="pixel-block" style="background: var(--glitch-cyan); opacity: 0.5;"></div>
+          <div class="pixel-block" style="background: var(--glitch-screen-dark);"></div>
+          <div class="pixel-block" style="background: var(--glitch-orange); opacity: 0.8;"></div>
+          <div class="pixel-block" style="background: var(--glitch-screen-dark);"></div>
+          <div class="pixel-block" style="background: var(--glitch-blue); opacity: 0.6;"></div>
+          <div class="pixel-block" style="background: var(--glitch-screen-dark);"></div>
+          <div class="pixel-block" style="background: var(--glitch-cyan); opacity: 0.4;"></div>
+          <div class="pixel-block" style="background: var(--glitch-pink);"></div>
+          <div class="pixel-block" style="background: var(--glitch-screen-dark);"></div>
+          <div class="pixel-block" style="background: var(--glitch-screen-dark);"></div>
+          <div class="pixel-block" style="background: var(--glitch-magenta); opacity: 0.3;"></div>
+          <div class="pixel-block" style="background: var(--glitch-yellow); opacity: 0.6;"></div>
+        </div>
+      </div>
+      <div class="effect-info">
+        <h3>Pixel Displacement</h3>
+        <p>Grid of colored blocks with CSS transform offsets on hover, simulating pixel corruption and block displacement from codec failure.</p>
+      </div>
+    </div>
+
+    <!-- Effect 4: Screen Tear -->
+    <div class="effect-demo">
+      <div class="effect-preview">
+        <div class="screen-tear">
+          <div class="tear-line"></div>
+          <div class="tear-line"></div>
+          <div class="tear-line"></div>
+          <div class="tear-segment"></div>
+          <div class="tear-segment"></div>
+          <span class="tear-label glitch-text-flicker">TEARING</span>
+        </div>
+      </div>
+      <div class="effect-info">
+        <h3>Screen Tear</h3>
+        <p>Horizontal tear lines with glowing color trails that simulate a display failing to synchronize its refresh rate, exposing frame boundaries.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- INTERFERENCE BANNER 2 -->
+<div class="interference" aria-hidden="true">
+  <div class="display-text" style="color: var(--glitch-pink);">&#x2588; WARNING: DATA INTEGRITY COMPROMISED &mdash; SECTOR 0x7F UNRECOVERABLE &#x2588;</div>
+</div>
+
+<!-- ===== DATA SECTION ===== -->
+<section class="section" id="data">
+  <span class="section-label">// 005 &mdash; Data</span>
+  <h2 class="section-title">Corruption Index</h2>
+  <p class="section-intro">
+    Measured distortion parameters across active signal channels.
+    Table rows feature RGB split on hover to reinforce the corruption aesthetic.
+  </p>
+
+  <div class="data-table-wrap">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Channel</th>
+          <th>Offset X/Y</th>
+          <th>Noise Floor</th>
+          <th>Artifact Rate</th>
+          <th>Blend Mode</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>RED</td>
+          <td>+3px / -1px</td>
+          <td>0.042</td>
+          <td>12.7/sec</td>
+          <td>screen</td>
+          <td class="status-error">CORRUPTED</td>
+        </tr>
+        <tr>
+          <td>GREEN</td>
+          <td>+0px / +2px</td>
+          <td>0.018</td>
+          <td>3.1/sec</td>
+          <td>screen</td>
+          <td class="status-ok">NOMINAL</td>
+        </tr>
+        <tr>
+          <td>BLUE</td>
+          <td>-2px / +1px</td>
+          <td>0.037</td>
+          <td>9.4/sec</td>
+          <td>screen</td>
+          <td class="status-warn">DEGRADED</td>
+        </tr>
+        <tr>
+          <td>ALPHA</td>
+          <td>+0px / +0px</td>
+          <td>0.003</td>
+          <td>0.2/sec</td>
+          <td>normal</td>
+          <td class="status-ok">NOMINAL</td>
+        </tr>
+        <tr>
+          <td>SYNC</td>
+          <td>+7px / -4px</td>
+          <td>0.089</td>
+          <td>24.1/sec</td>
+          <td>multiply</td>
+          <td class="status-critical">CRITICAL</td>
+        </tr>
+        <tr>
+          <td>LUMA</td>
+          <td>-1px / +3px</td>
+          <td>0.056</td>
+          <td>15.8/sec</td>
+          <td>overlay</td>
+          <td class="status-error">CORRUPTED</td>
+        </tr>
+        <tr>
+          <td>CHROMA</td>
+          <td>+4px / -2px</td>
+          <td>0.071</td>
+          <td>19.3/sec</td>
+          <td>screen</td>
+          <td class="status-warn">DEGRADED</td>
+        </tr>
+        <tr>
+          <td>SCANLINE</td>
+          <td>+0px / +0px</td>
+          <td>0.012</td>
+          <td>1.0/sec</td>
+          <td>darken</td>
+          <td class="status-ok">NOMINAL</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Hex dump -->
+  <div class="mt-3">
+    <h3 class="mb-1" style="font-size: 0.85rem; color: var(--glitch-cyan); letter-spacing: 0.15em;">Hex Dump &mdash; Corrupted Frame Buffer</h3>
+    <div class="hex-dump"><span class="offset">0000:0000</span>  47 4C 49 54 43 48 <span class="corrupted">FF 00</span>  41 52 54 00 53 49 47 4E  <span class="ascii">GLITCH..ART.SIGN</span>
+<span class="offset">0000:0010</span>  41 4C 5F 43 4F 52 <span class="corrupted">DE AD</span>  50 54 00 00 52 47 42 5F  <span class="ascii">AL_COR..PT..RGB_</span>
+<span class="offset">0000:0020</span>  53 50 4C 49 54 <span class="highlight">00 FF 41</span>  00 80 FF 00 FF FF <span class="corrupted">BE EF</span>  <span class="ascii">SPLIT.....&#x2591;&#x2591;&#x2591;&#x2591;..</span>
+<span class="offset">0000:0030</span>  <span class="corrupted">CA FE BA BE</span> 44 41 54 41  4D 4F 53 48 <span class="highlight">00 FF 00</span> FF  <span class="ascii">....DATAMOSH....</span>
+<span class="offset">0000:0040</span>  50 49 58 45 4C 00 <span class="corrupted">00 00</span>  53 4F 52 54 5F 4C 41 42  <span class="ascii">PIXEL...SORT_LAB</span>
+<span class="offset">0000:0050</span>  00 56 48 53 5F <span class="corrupted">FF FF FF</span>  54 52 41 43 4B 49 4E 47  <span class="ascii">.VHS_...TRACKING</span></div>
+  </div>
+</section>
+
+<!-- DIVIDER -->
+<div class="divider--thick divider" aria-hidden="true"></div>
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+  <p>&copy; 2026 GL//TCH &mdash; Error is the message. The glitch is not a bug.</p>
+  <nav class="footer-links">
+    <a href="#">Top</a>
+    <a href="#">Source</a>
+    <a href="#">Manifesto</a>
+    <a href="#">RSS</a>
+  </nav>
+</footer>
+
+</body>
+</html>
