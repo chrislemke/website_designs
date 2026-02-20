@@ -1,0 +1,2837 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dieselpunk -- Design Aesthetic Reference</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@400;500;600;700&family=Fjalla+One&family=Marcellus&family=Source+Sans+3:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Special+Elite&family=Roboto+Condensed:wght@300;400;700&display=swap" rel="stylesheet">
+  <style>
+    /* ========================================
+       DIESELPUNK -- DESIGN SYSTEM
+       Forged in Steel, Driven by Diesel
+       ======================================== */
+
+    :root {
+      /* Backgrounds */
+      --diesel-bg-dark: #1a1a1a;
+      --diesel-bg-panel: #2c2f33;
+      --diesel-bg-smoke: #3b3b3b;
+      --diesel-bg-oil: #1e1e24;
+      --diesel-bg-deep: #141416;
+
+      /* Metallics */
+      --diesel-brass: #c9a84c;
+      --diesel-brass-light: #ddb860;
+      --diesel-brass-dark: #9a7b2f;
+      --diesel-brass-deep: #7a5f1f;
+      --diesel-steel: #8a8d93;
+      --diesel-steel-light: #a0a0a8;
+      --diesel-gunmetal: #6b7280;
+
+      /* Accents */
+      --diesel-amber: #d4890e;
+      --diesel-amber-glow: #e89c20;
+      --diesel-rust: #8b3a1a;
+      --diesel-rust-light: #a84a24;
+      --diesel-red: #b8221e;
+      --diesel-red-light: #d83030;
+      --diesel-olive: #4b5320;
+      --diesel-olive-light: #5e6830;
+      --diesel-khaki: #8f7e4f;
+
+      /* Text */
+      --diesel-text-light: #e8e4da;
+      --diesel-text-parchment: #f0e6d0;
+      --diesel-text-muted: #6b7280;
+      --diesel-text-dim: #555860;
+      --diesel-text-dark: #1a1a1a;
+
+      /* Surfaces */
+      --diesel-brass-surface: linear-gradient(145deg, #d4a843 0%, #c9a84c 40%, #9a7b2f 80%);
+      --diesel-steel-surface: linear-gradient(145deg, #8a8d93 0%, #6b7280 50%, #8a8d93 100%);
+      --diesel-panel-surface: linear-gradient(180deg, #2c2f33 0%, #1e1e24 100%);
+      --diesel-dark-surface: linear-gradient(180deg, #1e1e24 0%, #141416 100%);
+
+      /* Borders */
+      --diesel-border-steel: #6b7280;
+      --diesel-border-brass: #9a7b2f;
+
+      /* Shadows */
+      --diesel-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+      --diesel-shadow-heavy: 0 8px 24px rgba(0, 0, 0, 0.6);
+      --diesel-shadow-inset: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+      --diesel-shadow-brass-glow: 0 0 20px rgba(201, 168, 76, 0.15);
+
+      /* Timing */
+      --diesel-transition: 0.25s ease;
+      --diesel-transition-slow: 0.5s ease;
+
+      /* Layout */
+      --diesel-max-width: 1200px;
+      --diesel-section-pad: 80px;
+      --diesel-section-pad-mobile: 48px;
+    }
+
+    /* ========================================
+       RESET & BASE
+       ======================================== */
+
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+      background: var(--diesel-bg-dark);
+      color: var(--diesel-text-light);
+      font-family: 'Source Sans 3', 'Segoe UI', sans-serif;
+      font-weight: 400;
+      font-size: 1rem;
+      line-height: 1.7;
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Subtle film-grain noise overlay across entire page */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    /* Warm vignette overlay */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(ellipse at center, transparent 50%, rgba(10, 8, 4, 0.4) 100%);
+      pointer-events: none;
+      z-index: 9998;
+    }
+
+    img { max-width: 100%; display: block; }
+    a { color: inherit; text-decoration: none; }
+
+    /* ========================================
+       TYPOGRAPHY BASE
+       ======================================== */
+
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'Bebas Neue', 'Oswald', 'Arial Narrow', sans-serif;
+      font-weight: 400;
+      color: var(--diesel-text-parchment);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      line-height: 1.1;
+    }
+
+    h1 { font-size: clamp(2.8rem, 7vw, 5.5rem); }
+    h2 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    h3 { font-size: clamp(1.2rem, 2.5vw, 1.5rem); }
+
+    p {
+      max-width: 70ch;
+      color: var(--diesel-text-light);
+    }
+
+    /* ========================================
+       UTILITY CLASSES
+       ======================================== */
+
+    .container {
+      width: 100%;
+      max-width: var(--diesel-max-width);
+      margin: 0 auto;
+      padding: 0 40px;
+    }
+
+    .section-label {
+      font-family: 'Oswald', sans-serif;
+      font-weight: 500;
+      font-size: 0.7rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--diesel-text-muted);
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .brass-text { color: var(--diesel-brass); }
+    .parchment-text { color: var(--diesel-text-parchment); }
+    .muted-text { color: var(--diesel-text-muted); }
+
+    /* ========================================
+       RIVET DECORATION MIXIN
+       ======================================== */
+
+    .riveted {
+      position: relative;
+    }
+
+    .riveted::before,
+    .riveted::after {
+      content: '';
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, #a0a0a8 0%, #6b7280 50%, #4a4a52 100%);
+      box-shadow:
+        inset 0 1px 1px rgba(255, 255, 255, 0.3),
+        0 1px 2px rgba(0, 0, 0, 0.5);
+      z-index: 5;
+    }
+
+    .riveted::before { top: 12px; left: 12px; }
+    .riveted::after { top: 12px; right: 12px; }
+
+    /* Bottom rivets on inner wrapper */
+    .rivet-bottom::before,
+    .rivet-bottom::after {
+      content: '';
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, #a0a0a8 0%, #6b7280 50%, #4a4a52 100%);
+      box-shadow:
+        inset 0 1px 1px rgba(255, 255, 255, 0.3),
+        0 1px 2px rgba(0, 0, 0, 0.5);
+      z-index: 5;
+    }
+
+    .rivet-bottom::before { bottom: 12px; left: 12px; }
+    .rivet-bottom::after { bottom: 12px; right: 12px; }
+
+    /* ========================================
+       RIVET STRIP DIVIDER
+       ======================================== */
+
+    .rivet-strip {
+      width: 100%;
+      height: 14px;
+      background:
+        radial-gradient(circle, var(--diesel-steel) 3px, transparent 3.5px) 20px center / 40px 14px repeat-x,
+        linear-gradient(180deg, var(--diesel-bg-smoke) 0%, var(--diesel-bg-panel) 100%);
+      border-top: 1px solid #555;
+      border-bottom: 1px solid #555;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* ========================================
+       ART DECO CHEVRON DIVIDER
+       ======================================== */
+
+    .deco-divider {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 36px 40px;
+      gap: 16px;
+    }
+
+    .deco-divider::before,
+    .deco-divider::after {
+      content: '';
+      flex: 1;
+      max-width: 220px;
+      height: 2px;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        var(--diesel-brass-dark),
+        var(--diesel-brass),
+        var(--diesel-brass-dark),
+        transparent
+      );
+    }
+
+    .deco-divider__ornament {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .deco-divider__chevron {
+      width: 14px;
+      height: 14px;
+      border-right: 2px solid var(--diesel-brass);
+      border-bottom: 2px solid var(--diesel-brass);
+      transform: rotate(-45deg);
+    }
+
+    .deco-divider__diamond {
+      width: 10px;
+      height: 10px;
+      background: var(--diesel-brass);
+      transform: rotate(45deg);
+    }
+
+    /* ========================================
+       NAVIGATION
+       ======================================== */
+
+    .nav-wrapper {
+      background: var(--diesel-panel-surface);
+      border-bottom: 3px solid var(--diesel-brass-dark);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .nav-wrapper::after {
+      content: '';
+      position: absolute;
+      bottom: -3px;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: repeating-linear-gradient(
+        90deg,
+        var(--diesel-brass-dark) 0px,
+        var(--diesel-brass-dark) 6px,
+        var(--diesel-brass) 6px,
+        var(--diesel-brass) 8px,
+        var(--diesel-brass-dark) 8px,
+        var(--diesel-brass-dark) 40px
+      );
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: var(--diesel-max-width);
+      margin: 0 auto;
+      padding: 0 40px;
+      height: 64px;
+    }
+
+    .nav__logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.6rem;
+      color: var(--diesel-brass);
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .nav__logo-gear {
+      display: inline-block;
+      width: 24px;
+      height: 24px;
+      border: 3px solid var(--diesel-brass);
+      border-radius: 50%;
+      position: relative;
+      animation: gearSpin 12s linear infinite;
+    }
+
+    .nav__logo-gear::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 6px;
+      height: 6px;
+      background: var(--diesel-brass);
+      border-radius: 50%;
+    }
+
+    .nav__logo-gear::after {
+      content: '';
+      position: absolute;
+      top: -5px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 4px;
+      height: 10px;
+      background: var(--diesel-brass);
+      box-shadow:
+        0 23px 0 var(--diesel-brass),
+        -11px 5px 0 var(--diesel-brass),
+        11px 5px 0 var(--diesel-brass),
+        -11px 18px 0 var(--diesel-brass),
+        11px 18px 0 var(--diesel-brass);
+      border-radius: 2px;
+    }
+
+    @keyframes gearSpin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    .nav__links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+
+    .nav__links a {
+      font-family: 'Oswald', sans-serif;
+      font-weight: 500;
+      font-size: 0.85rem;
+      color: var(--diesel-text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      transition: color var(--diesel-transition);
+      position: relative;
+    }
+
+    .nav__links a:hover {
+      color: var(--diesel-brass);
+    }
+
+    .nav__links a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--diesel-brass);
+      transition: width var(--diesel-transition);
+    }
+
+    .nav__links a:hover::after {
+      width: 100%;
+    }
+
+    /* ========================================
+       HERO SECTION
+       ======================================== */
+
+    .hero {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      min-height: 90vh;
+      padding: 120px 40px;
+      background: var(--diesel-bg-dark);
+      overflow: hidden;
+    }
+
+    /* Subtle radial gradient spotlight */
+    .hero__backdrop {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 50% 40%, rgba(201, 168, 76, 0.06) 0%, transparent 60%),
+        radial-gradient(ellipse at 50% 100%, rgba(139, 58, 26, 0.08) 0%, transparent 50%);
+      z-index: 1;
+    }
+
+    /* Art Deco sunburst */
+    .hero__sunburst {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 900px;
+      height: 900px;
+      background: repeating-conic-gradient(
+        from 0deg,
+        rgba(201, 168, 76, 0.035) 0deg 5deg,
+        transparent 5deg 10deg
+      );
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 1;
+      animation: sunburstPulse 8s ease-in-out infinite alternate;
+    }
+
+    @keyframes sunburstPulse {
+      0% { opacity: 0.7; transform: translate(-50%, -50%) scale(1); }
+      100% { opacity: 1; transform: translate(-50%, -50%) scale(1.05); }
+    }
+
+    /* Decorative horizontal steel beams */
+    .hero__beam {
+      position: absolute;
+      height: 4px;
+      background: linear-gradient(90deg, transparent, var(--diesel-gunmetal), var(--diesel-steel), var(--diesel-gunmetal), transparent);
+      z-index: 2;
+      opacity: 0.3;
+    }
+
+    .hero__beam--top {
+      top: 60px;
+      left: 0;
+      right: 0;
+    }
+
+    .hero__beam--bottom {
+      bottom: 60px;
+      left: 0;
+      right: 0;
+    }
+
+    .hero__content {
+      position: relative;
+      z-index: 3;
+      max-width: 850px;
+    }
+
+    .hero__badge {
+      display: inline-block;
+      font-family: 'Oswald', sans-serif;
+      font-weight: 600;
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--diesel-amber);
+      border: 1px solid var(--diesel-amber);
+      padding: 6px 20px;
+      margin-bottom: 28px;
+      position: relative;
+    }
+
+    .hero__badge::before,
+    .hero__badge::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 30px;
+      height: 1px;
+      background: var(--diesel-amber);
+    }
+
+    .hero__badge::before { right: 100%; margin-right: 8px; }
+    .hero__badge::after { left: 100%; margin-left: 8px; }
+
+    .hero__title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(3.5rem, 9vw, 7rem);
+      color: var(--diesel-brass);
+      text-shadow:
+        3px 3px 0 rgba(0, 0, 0, 0.5),
+        0 0 40px rgba(201, 168, 76, 0.12);
+      letter-spacing: 0.1em;
+      margin-bottom: 8px;
+      line-height: 0.95;
+    }
+
+    .hero__subtitle {
+      font-family: 'Marcellus', serif;
+      font-size: clamp(1rem, 2vw, 1.4rem);
+      color: var(--diesel-text-parchment);
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      margin-bottom: 28px;
+      opacity: 0.8;
+    }
+
+    .hero__description {
+      font-size: 1.1rem;
+      color: var(--diesel-text-muted);
+      max-width: 600px;
+      margin: 0 auto 40px;
+      line-height: 1.8;
+    }
+
+    .hero__actions {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    /* Art Deco corner frames on hero */
+    .hero__frame-corner {
+      position: absolute;
+      width: 80px;
+      height: 80px;
+      z-index: 2;
+      opacity: 0.4;
+    }
+
+    .hero__frame-corner--tl {
+      top: 40px;
+      left: 40px;
+      border-top: 3px solid var(--diesel-brass);
+      border-left: 3px solid var(--diesel-brass);
+    }
+
+    .hero__frame-corner--tr {
+      top: 40px;
+      right: 40px;
+      border-top: 3px solid var(--diesel-brass);
+      border-right: 3px solid var(--diesel-brass);
+    }
+
+    .hero__frame-corner--bl {
+      bottom: 40px;
+      left: 40px;
+      border-bottom: 3px solid var(--diesel-brass);
+      border-left: 3px solid var(--diesel-brass);
+    }
+
+    .hero__frame-corner--br {
+      bottom: 40px;
+      right: 40px;
+      border-bottom: 3px solid var(--diesel-brass);
+      border-right: 3px solid var(--diesel-brass);
+    }
+
+    /* ========================================
+       BUTTONS
+       ======================================== */
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 14px 40px;
+      font-family: 'Bebas Neue', 'Oswald', sans-serif;
+      font-size: 1.05rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      cursor: pointer;
+      border: none;
+      transition: all var(--diesel-transition);
+      position: relative;
+    }
+
+    .btn--brass {
+      background: var(--diesel-brass-surface);
+      color: var(--diesel-text-dark);
+      border: 2px solid var(--diesel-brass-dark);
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    }
+
+    .btn--brass:hover {
+      background: linear-gradient(145deg, #ddb860 0%, #d4b050 50%, #b08830 100%);
+      box-shadow: 0 5px 14px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+      transform: translateY(-2px);
+    }
+
+    .btn--brass:active {
+      box-shadow: inset 0 3px 8px rgba(0, 0, 0, 0.5);
+      transform: translateY(1px);
+    }
+
+    .btn--steel {
+      background: var(--diesel-steel-surface);
+      color: var(--diesel-text-light);
+      border: 2px solid var(--diesel-gunmetal);
+      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    }
+
+    .btn--steel:hover {
+      background: linear-gradient(145deg, #9a9da3 0%, #8a8d93 50%, #7a7d83 100%);
+      transform: translateY(-2px);
+      box-shadow: 0 5px 12px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+    }
+
+    .btn--danger {
+      background: linear-gradient(145deg, #c82820 0%, #b8221e 50%, #981a16 100%);
+      color: var(--diesel-text-parchment);
+      border: 2px solid #8b1a16;
+      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    }
+
+    .btn--danger:hover {
+      background: linear-gradient(145deg, #d83030 0%, #c82820 50%, #a81e1a 100%);
+      transform: translateY(-2px);
+    }
+
+    .btn--outline {
+      background: transparent;
+      color: var(--diesel-brass);
+      border: 2px solid var(--diesel-brass);
+      box-shadow: none;
+    }
+
+    .btn--outline:hover {
+      background: rgba(201, 168, 76, 0.1);
+      box-shadow: var(--diesel-shadow-brass-glow);
+    }
+
+    .btn--outline-light {
+      background: transparent;
+      color: var(--diesel-text-parchment);
+      border: 2px solid var(--diesel-text-parchment);
+      box-shadow: none;
+    }
+
+    .btn--outline-light:hover {
+      background: rgba(240, 230, 208, 0.1);
+      box-shadow: 0 0 14px rgba(240, 230, 208, 0.15);
+    }
+
+    .btn--sm {
+      padding: 8px 20px;
+      font-size: 0.85rem;
+      letter-spacing: 0.1em;
+    }
+
+    /* ========================================
+       TYPOGRAPHY SHOWCASE
+       ======================================== */
+
+    .typography {
+      padding: var(--diesel-section-pad) 0;
+      background: var(--diesel-dark-surface);
+    }
+
+    .typography__header {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+
+    .typography__grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+    }
+
+    .type-panel {
+      background: var(--diesel-panel-surface);
+      border: 2px solid var(--diesel-border-steel);
+      padding: 36px;
+      box-shadow: var(--diesel-shadow), var(--diesel-shadow-inset);
+    }
+
+    .type-panel__label {
+      font-family: 'Oswald', sans-serif;
+      font-weight: 500;
+      font-size: 0.65rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--diesel-text-muted);
+      margin-bottom: 16px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--diesel-bg-smoke);
+    }
+
+    .type-display {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(3rem, 6vw, 4.5rem);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--diesel-brass);
+      text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.4), 0 0 20px rgba(201, 168, 76, 0.1);
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+
+    .type-heading-demo h2 {
+      font-size: 2rem;
+      margin-bottom: 10px;
+      color: var(--diesel-text-parchment);
+    }
+
+    .type-heading-demo h3 {
+      font-family: 'Oswald', sans-serif;
+      font-weight: 700;
+      font-size: 1.3rem;
+      color: var(--diesel-brass);
+      margin-bottom: 10px;
+      letter-spacing: 0.08em;
+    }
+
+    .type-heading-demo h4 {
+      font-family: 'Fjalla One', sans-serif;
+      font-size: 1.1rem;
+      color: var(--diesel-text-light);
+      letter-spacing: 0.06em;
+      margin-bottom: 10px;
+    }
+
+    .type-heading-demo h5 {
+      font-family: 'Marcellus', serif;
+      font-size: 1rem;
+      color: var(--diesel-khaki);
+      letter-spacing: 0.15em;
+    }
+
+    .type-body-sample {
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 1rem;
+      line-height: 1.75;
+      color: var(--diesel-text-light);
+      margin-bottom: 16px;
+    }
+
+    .type-body-sample--small {
+      font-size: 0.9rem;
+      color: var(--diesel-text-muted);
+    }
+
+    .type-dispatch {
+      font-family: 'Special Elite', 'Courier New', monospace;
+      font-size: 0.95rem;
+      color: var(--diesel-text-parchment);
+      line-height: 1.7;
+      padding: 20px;
+      background: rgba(75, 83, 32, 0.1);
+      border-left: 3px solid var(--diesel-olive);
+    }
+
+    .type-stencil {
+      font-family: 'Oswald', sans-serif;
+      font-weight: 700;
+      font-size: 1.5rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--diesel-olive);
+      text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.3);
+    }
+
+    .type-condensed {
+      font-family: 'Roboto Condensed', sans-serif;
+      font-weight: 400;
+      font-size: 0.85rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--diesel-steel);
+    }
+
+    .type-label-row {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+    }
+
+    .type-label-tag {
+      font-family: 'Oswald', sans-serif;
+      font-weight: 500;
+      font-size: 0.65rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--diesel-text-dark);
+      background: var(--diesel-brass);
+      padding: 4px 12px;
+    }
+
+    .type-label-tag--steel {
+      background: var(--diesel-steel);
+    }
+
+    .type-label-tag--olive {
+      background: var(--diesel-olive);
+      color: var(--diesel-text-parchment);
+    }
+
+    .type-label-tag--rust {
+      background: var(--diesel-rust);
+      color: var(--diesel-text-parchment);
+    }
+
+    /* ========================================
+       COLOR PALETTE
+       ======================================== */
+
+    .palette {
+      padding: var(--diesel-section-pad) 0;
+      background: var(--diesel-bg-dark);
+    }
+
+    .palette__header {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+
+    .palette__grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 16px;
+    }
+
+    .swatch {
+      background: var(--diesel-panel-surface);
+      border: 1px solid var(--diesel-bg-smoke);
+      overflow: hidden;
+      transition: transform var(--diesel-transition), box-shadow var(--diesel-transition);
+    }
+
+    .swatch:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--diesel-shadow-heavy);
+    }
+
+    .swatch__color {
+      height: 80px;
+      position: relative;
+    }
+
+    .swatch__color::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 20px;
+      background: linear-gradient(transparent, rgba(0, 0, 0, 0.15));
+    }
+
+    .swatch__info {
+      padding: 12px 14px;
+    }
+
+    .swatch__name {
+      font-family: 'Oswald', sans-serif;
+      font-weight: 600;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--diesel-text-parchment);
+      margin-bottom: 2px;
+    }
+
+    .swatch__hex {
+      font-family: 'Roboto Condensed', monospace;
+      font-size: 0.7rem;
+      color: var(--diesel-text-muted);
+      letter-spacing: 0.04em;
+    }
+
+    .palette__group-title {
+      font-family: 'Oswald', sans-serif;
+      font-weight: 600;
+      font-size: 0.8rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--diesel-brass);
+      margin-top: 36px;
+      margin-bottom: 16px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--diesel-bg-smoke);
+    }
+
+    .palette__group-title:first-of-type {
+      margin-top: 0;
+    }
+
+    /* ========================================
+       CARDS / COMPONENTS
+       ======================================== */
+
+    .components {
+      padding: var(--diesel-section-pad) 0;
+      background: var(--diesel-panel-surface);
+    }
+
+    .components__header {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+
+    /* Feature Cards Grid */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+      margin-bottom: 60px;
+    }
+
+    .card {
+      background: var(--diesel-panel-surface);
+      border: 2px solid var(--diesel-border-steel);
+      padding: 32px;
+      box-shadow: var(--diesel-shadow), var(--diesel-shadow-inset);
+      transition: border-color var(--diesel-transition), box-shadow var(--diesel-transition);
+    }
+
+    .card:hover {
+      border-color: var(--diesel-brass-dark);
+      box-shadow: var(--diesel-shadow-heavy), var(--diesel-shadow-inset), var(--diesel-shadow-brass-glow);
+    }
+
+    .card__icon {
+      width: 48px;
+      height: 48px;
+      background: var(--diesel-bg-smoke);
+      border: 2px solid var(--diesel-border-steel);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      margin-bottom: 18px;
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    .card__title {
+      font-family: 'Oswald', sans-serif;
+      font-weight: 700;
+      font-size: 1.05rem;
+      color: var(--diesel-brass);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 10px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--diesel-bg-smoke);
+    }
+
+    .card__text {
+      font-size: 0.92rem;
+      color: var(--diesel-text-muted);
+      line-height: 1.7;
+    }
+
+    .card__footer {
+      margin-top: 18px;
+      padding-top: 12px;
+      border-top: 1px solid var(--diesel-bg-smoke);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .card__status {
+      font-family: 'Roboto Condensed', sans-serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .card__status--active {
+      color: var(--diesel-brass);
+    }
+
+    .card__status--warning {
+      color: var(--diesel-amber);
+    }
+
+    .card__status--danger {
+      color: var(--diesel-red);
+    }
+
+    /* ========================================
+       PROPAGANDA BANNER
+       ======================================== */
+
+    .propaganda {
+      background: linear-gradient(135deg, #b8221e 0%, #981a16 50%, #b8221e 100%);
+      padding: 64px 40px;
+      text-align: center;
+      position: relative;
+      border-top: 4px solid var(--diesel-brass-dark);
+      border-bottom: 4px solid var(--diesel-brass-dark);
+      overflow: hidden;
+    }
+
+    /* Diagonal stripe overlay */
+    .propaganda::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        -45deg,
+        transparent,
+        transparent 20px,
+        rgba(0, 0, 0, 0.06) 20px,
+        rgba(0, 0, 0, 0.06) 22px
+      );
+      pointer-events: none;
+    }
+
+    /* Star accents */
+    .propaganda::after {
+      content: '\2605  \2605  \2605';
+      position: absolute;
+      top: 16px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 0.9rem;
+      color: var(--diesel-brass);
+      letter-spacing: 0.3em;
+      opacity: 0.6;
+    }
+
+    .propaganda__content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .propaganda__title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.2rem, 6vw, 4rem);
+      color: var(--diesel-text-parchment);
+      letter-spacing: 0.12em;
+      text-shadow: 3px 3px 0 rgba(0, 0, 0, 0.3);
+      margin-bottom: 12px;
+      line-height: 1;
+    }
+
+    .propaganda__subtitle {
+      font-family: 'Oswald', sans-serif;
+      font-weight: 500;
+      font-size: 1.05rem;
+      color: rgba(240, 230, 208, 0.85);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 28px;
+    }
+
+    /* ========================================
+       DATA DASHBOARD / GAUGES
+       ======================================== */
+
+    .dashboard {
+      padding: var(--diesel-section-pad) 0;
+      background: var(--diesel-bg-dark);
+    }
+
+    .dashboard__header {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+
+    .dashboard__panel {
+      background: var(--diesel-panel-surface);
+      border: 2px solid var(--diesel-border-steel);
+      padding: 40px;
+      box-shadow: var(--diesel-shadow), var(--diesel-shadow-inset);
+    }
+
+    .dashboard__panel-title {
+      font-family: 'Oswald', sans-serif;
+      font-weight: 600;
+      font-size: 0.75rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--diesel-text-muted);
+      margin-bottom: 28px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--diesel-bg-smoke);
+      text-align: center;
+    }
+
+    .gauges {
+      display: flex;
+      justify-content: center;
+      gap: 48px;
+      flex-wrap: wrap;
+      margin-bottom: 40px;
+    }
+
+    .gauge {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .gauge__dial {
+      width: 110px;
+      height: 55px;
+      border: 3px solid var(--diesel-steel);
+      border-radius: 110px 110px 0 0;
+      background: radial-gradient(ellipse at bottom center, var(--diesel-bg-panel), var(--diesel-bg-dark));
+      position: relative;
+      overflow: hidden;
+      box-shadow: inset 0 -2px 8px rgba(0, 0, 0, 0.4), 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    .gauge__fill {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: linear-gradient(0deg, var(--diesel-rust) 0%, var(--diesel-amber) 50%, var(--diesel-brass) 100%);
+      transition: height 1s ease-out;
+    }
+
+    .gauge__dial::after {
+      content: '';
+      position: absolute;
+      top: 6px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80%;
+      height: 1px;
+      background: repeating-linear-gradient(
+        90deg,
+        var(--diesel-steel) 0px,
+        var(--diesel-steel) 1px,
+        transparent 1px,
+        transparent 10px
+      );
+      opacity: 0.5;
+    }
+
+    .gauge__label {
+      font-family: 'Oswald', sans-serif;
+      font-weight: 500;
+      font-size: 0.6rem;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--diesel-text-muted);
+    }
+
+    .gauge__value {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.4rem;
+      color: var(--diesel-brass);
+      line-height: 1;
+    }
+
+    /* Toggle switches */
+    .switches {
+      display: flex;
+      justify-content: center;
+      gap: 36px;
+      flex-wrap: wrap;
+      margin-bottom: 40px;
+    }
+
+    .toggle {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .toggle__switch {
+      width: 48px;
+      height: 24px;
+      background: var(--diesel-bg-smoke);
+      border: 2px solid var(--diesel-steel);
+      border-radius: 12px;
+      position: relative;
+      cursor: pointer;
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.4);
+      transition: all var(--diesel-transition);
+    }
+
+    .toggle__switch::after {
+      content: '';
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      width: 16px;
+      height: 16px;
+      background: radial-gradient(circle at 40% 40%, var(--diesel-steel-light), var(--diesel-gunmetal));
+      border-radius: 50%;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+      transition: all var(--diesel-transition);
+    }
+
+    .toggle__switch--on {
+      background: var(--diesel-brass-dark);
+      border-color: var(--diesel-brass);
+    }
+
+    .toggle__switch--on::after {
+      left: 26px;
+      background: radial-gradient(circle at 40% 40%, var(--diesel-brass-light), var(--diesel-brass-dark));
+    }
+
+    .toggle__label {
+      font-family: 'Roboto Condensed', sans-serif;
+      font-size: 0.6rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--diesel-text-muted);
+    }
+
+    /* Indicator lights */
+    .indicators {
+      display: flex;
+      justify-content: center;
+      gap: 32px;
+      flex-wrap: wrap;
+    }
+
+    .indicator {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .indicator__light {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      border: 2px solid var(--diesel-steel);
+      box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.3);
+    }
+
+    .indicator__light--green {
+      background: radial-gradient(circle at 40% 40%, #6abf4b, #3a7a28);
+      box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2), 0 0 8px rgba(106, 191, 75, 0.4);
+    }
+
+    .indicator__light--amber {
+      background: radial-gradient(circle at 40% 40%, var(--diesel-amber-glow), var(--diesel-amber));
+      box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2), 0 0 8px rgba(212, 137, 14, 0.4);
+      animation: amberPulse 2s ease-in-out infinite;
+    }
+
+    @keyframes amberPulse {
+      0%, 100% { box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2), 0 0 8px rgba(212, 137, 14, 0.3); }
+      50% { box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2), 0 0 14px rgba(212, 137, 14, 0.6); }
+    }
+
+    .indicator__light--red {
+      background: radial-gradient(circle at 40% 40%, var(--diesel-red-light), var(--diesel-red));
+      box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2), 0 0 8px rgba(184, 34, 30, 0.4);
+      animation: redAlert 1s ease-in-out infinite;
+    }
+
+    @keyframes redAlert {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    .indicator__light--off {
+      background: radial-gradient(circle at 40% 40%, #444, #2a2a2a);
+    }
+
+    .indicator__label {
+      font-family: 'Roboto Condensed', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--diesel-text-muted);
+    }
+
+    /* ========================================
+       EFFECTS / DETAILS SECTION
+       ======================================== */
+
+    .effects {
+      padding: var(--diesel-section-pad) 0;
+      background: var(--diesel-dark-surface);
+    }
+
+    .effects__header {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+
+    .effects__grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 28px;
+    }
+
+    /* Art Deco Frame showcase */
+    .deco-frame {
+      position: relative;
+      border: 2px solid var(--diesel-brass-dark);
+      padding: 40px;
+    }
+
+    .deco-frame::before {
+      content: '';
+      position: absolute;
+      inset: 7px;
+      border: 1px solid var(--diesel-brass-dark);
+      pointer-events: none;
+    }
+
+    .deco-frame::after {
+      content: '';
+      position: absolute;
+      top: -7px;
+      left: -7px;
+      right: -7px;
+      bottom: -7px;
+      border: none;
+      pointer-events: none;
+      background:
+        linear-gradient(var(--diesel-brass) 0%, var(--diesel-brass) 100%) 0 0 / 22px 3px no-repeat,
+        linear-gradient(var(--diesel-brass) 0%, var(--diesel-brass) 100%) 0 0 / 3px 22px no-repeat,
+        linear-gradient(var(--diesel-brass) 0%, var(--diesel-brass) 100%) 100% 0 / 22px 3px no-repeat,
+        linear-gradient(var(--diesel-brass) 0%, var(--diesel-brass) 100%) 100% 0 / 3px 22px no-repeat,
+        linear-gradient(var(--diesel-brass) 0%, var(--diesel-brass) 100%) 0 100% / 22px 3px no-repeat,
+        linear-gradient(var(--diesel-brass) 0%, var(--diesel-brass) 100%) 0 100% / 3px 22px no-repeat,
+        linear-gradient(var(--diesel-brass) 0%, var(--diesel-brass) 100%) 100% 100% / 22px 3px no-repeat,
+        linear-gradient(var(--diesel-brass) 0%, var(--diesel-brass) 100%) 100% 100% / 3px 22px no-repeat;
+    }
+
+    .deco-frame__title {
+      font-family: 'Marcellus', serif;
+      font-size: 1.2rem;
+      color: var(--diesel-brass);
+      text-align: center;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      margin-bottom: 16px;
+    }
+
+    .deco-frame__text {
+      text-align: center;
+      font-size: 0.92rem;
+      color: var(--diesel-text-muted);
+      line-height: 1.7;
+    }
+
+    /* Metal texture panel */
+    .metal-panel {
+      background:
+        repeating-linear-gradient(
+          0deg,
+          rgba(255, 255, 255, 0.02) 0px,
+          rgba(255, 255, 255, 0.02) 1px,
+          transparent 1px,
+          transparent 4px
+        ),
+        var(--diesel-panel-surface);
+      border: 2px solid var(--diesel-border-steel);
+      padding: 36px;
+      box-shadow: var(--diesel-shadow), var(--diesel-shadow-inset);
+    }
+
+    .metal-panel__title {
+      font-family: 'Oswald', sans-serif;
+      font-weight: 700;
+      font-size: 0.9rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--diesel-brass);
+      margin-bottom: 16px;
+    }
+
+    /* Pressure gauge (circular) */
+    .pressure-gauge {
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      border: 4px solid var(--diesel-steel);
+      background: radial-gradient(circle at 50% 50%, var(--diesel-bg-panel) 60%, var(--diesel-bg-smoke) 100%);
+      position: relative;
+      margin: 0 auto 16px;
+      box-shadow:
+        inset 0 0 20px rgba(0, 0, 0, 0.4),
+        0 4px 10px rgba(0, 0, 0, 0.5);
+    }
+
+    .pressure-gauge::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 8px;
+      height: 8px;
+      background: var(--diesel-brass);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 3;
+      box-shadow: 0 0 6px rgba(201, 168, 76, 0.4);
+    }
+
+    .pressure-gauge__needle {
+      position: absolute;
+      bottom: 50%;
+      left: 50%;
+      width: 3px;
+      height: 50px;
+      background: linear-gradient(to top, var(--diesel-red), var(--diesel-red-light));
+      transform-origin: bottom center;
+      transform: translateX(-50%) rotate(-30deg);
+      border-radius: 2px 2px 0 0;
+      z-index: 2;
+      animation: needleSweep 4s ease-in-out infinite alternate;
+    }
+
+    @keyframes needleSweep {
+      0% { transform: translateX(-50%) rotate(-40deg); }
+      30% { transform: translateX(-50%) rotate(-15deg); }
+      60% { transform: translateX(-50%) rotate(25deg); }
+      80% { transform: translateX(-50%) rotate(10deg); }
+      100% { transform: translateX(-50%) rotate(35deg); }
+    }
+
+    /* Tick marks around gauge */
+    .pressure-gauge__ticks {
+      position: absolute;
+      inset: 8px;
+      border-radius: 50%;
+    }
+
+    .pressure-gauge__tick {
+      position: absolute;
+      width: 2px;
+      height: 10px;
+      background: var(--diesel-steel);
+      top: 0;
+      left: 50%;
+      transform-origin: 50% 55px;
+    }
+
+    .pressure-gauge__tick:nth-child(1) { transform: translateX(-50%) rotate(-60deg); }
+    .pressure-gauge__tick:nth-child(2) { transform: translateX(-50%) rotate(-40deg); }
+    .pressure-gauge__tick:nth-child(3) { transform: translateX(-50%) rotate(-20deg); }
+    .pressure-gauge__tick:nth-child(4) { transform: translateX(-50%) rotate(0deg); }
+    .pressure-gauge__tick:nth-child(5) { transform: translateX(-50%) rotate(20deg); }
+    .pressure-gauge__tick:nth-child(6) { transform: translateX(-50%) rotate(40deg); }
+    .pressure-gauge__tick:nth-child(7) { transform: translateX(-50%) rotate(60deg); }
+
+    .pressure-gauge__reading {
+      position: absolute;
+      bottom: 18px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 0.9rem;
+      color: var(--diesel-brass);
+      letter-spacing: 0.1em;
+    }
+
+    /* Progress bar as industrial loading */
+    .progress-bar {
+      margin-top: 16px;
+    }
+
+    .progress-bar__track {
+      width: 100%;
+      height: 16px;
+      background: var(--diesel-bg-smoke);
+      border: 2px solid var(--diesel-border-steel);
+      position: relative;
+      overflow: hidden;
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.4);
+    }
+
+    .progress-bar__fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--diesel-rust), var(--diesel-amber), var(--diesel-brass));
+      position: relative;
+      transition: width 1.5s ease-out;
+    }
+
+    .progress-bar__fill::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        -45deg,
+        transparent,
+        transparent 4px,
+        rgba(255, 255, 255, 0.06) 4px,
+        rgba(255, 255, 255, 0.06) 8px
+      );
+    }
+
+    .progress-bar__label {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 6px;
+    }
+
+    .progress-bar__label span {
+      font-family: 'Roboto Condensed', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--diesel-text-muted);
+    }
+
+    .progress-bar__label .progress-bar__value {
+      color: var(--diesel-brass);
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 0.85rem;
+    }
+
+    /* Stamped / embossed text effect */
+    .stamped-text {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.2rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: transparent;
+      -webkit-text-stroke: 1px var(--diesel-steel);
+      text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.4), -1px -1px 0 rgba(255, 255, 255, 0.05);
+      text-align: center;
+    }
+
+    /* Oil drip animation */
+    .oil-drip-container {
+      height: 60px;
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(180deg, var(--diesel-bg-smoke), var(--diesel-bg-oil));
+      border: 1px solid var(--diesel-bg-smoke);
+      border-radius: 0 0 4px 4px;
+    }
+
+    .oil-drip {
+      position: absolute;
+      width: 4px;
+      height: 0;
+      background: linear-gradient(180deg, transparent, var(--diesel-bg-oil), #111);
+      border-radius: 0 0 4px 4px;
+      animation: drip 3s ease-in infinite;
+    }
+
+    .oil-drip:nth-child(1) { left: 20%; animation-delay: 0s; }
+    .oil-drip:nth-child(2) { left: 45%; animation-delay: 1.2s; }
+    .oil-drip:nth-child(3) { left: 70%; animation-delay: 0.6s; }
+    .oil-drip:nth-child(4) { left: 85%; animation-delay: 2.1s; }
+
+    @keyframes drip {
+      0% { top: 0; height: 0; opacity: 0; }
+      10% { opacity: 1; }
+      50% { height: 30px; }
+      100% { top: 100%; height: 15px; opacity: 0; }
+    }
+
+    /* Gear animation showcase */
+    .gear-showcase {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0;
+      padding: 30px 0;
+    }
+
+    .gear {
+      border-radius: 50%;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .gear::before {
+      content: '';
+      position: absolute;
+      border-radius: 50%;
+      border: 3px dashed var(--diesel-brass-dark);
+      inset: -4px;
+      animation: gearSpin 6s linear infinite;
+    }
+
+    .gear--large {
+      width: 80px;
+      height: 80px;
+      border: 4px solid var(--diesel-brass);
+      background: radial-gradient(circle, var(--diesel-bg-smoke) 30%, var(--diesel-bg-panel) 100%);
+    }
+
+    .gear--large::before {
+      animation-direction: normal;
+    }
+
+    .gear--large::after {
+      content: '';
+      width: 16px;
+      height: 16px;
+      background: var(--diesel-brass);
+      border-radius: 50%;
+      box-shadow: inset 0 2px 3px rgba(0, 0, 0, 0.3);
+    }
+
+    .gear--small {
+      width: 50px;
+      height: 50px;
+      border: 3px solid var(--diesel-brass-dark);
+      background: radial-gradient(circle, var(--diesel-bg-smoke) 30%, var(--diesel-bg-panel) 100%);
+      margin-left: -8px;
+    }
+
+    .gear--small::before {
+      animation-direction: reverse;
+      animation-duration: 4s;
+    }
+
+    .gear--small::after {
+      content: '';
+      width: 10px;
+      height: 10px;
+      background: var(--diesel-brass-dark);
+      border-radius: 50%;
+      box-shadow: inset 0 2px 3px rgba(0, 0, 0, 0.3);
+    }
+
+    /* ========================================
+       ART DECO BANNER SECTION
+       ======================================== */
+
+    .deco-banner {
+      padding: 60px 40px;
+      background: var(--diesel-bg-oil);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .deco-banner::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 600px;
+      height: 600px;
+      background: repeating-conic-gradient(
+        from 0deg,
+        rgba(154, 123, 47, 0.04) 0deg 3deg,
+        transparent 3deg 6deg
+      );
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .deco-banner__text {
+      font-family: 'Marcellus', serif;
+      font-size: clamp(1.2rem, 2.5vw, 1.6rem);
+      color: var(--diesel-khaki);
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ========================================
+       DISPATCH / FIELD REPORT
+       ======================================== */
+
+    .dispatch {
+      padding: var(--diesel-section-pad) 0;
+      background: var(--diesel-bg-dark);
+    }
+
+    .dispatch__content {
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .dispatch__paper {
+      background: linear-gradient(180deg, #f0e6d0 0%, #e8dcc4 50%, #ddd0b8 100%);
+      padding: 48px;
+      position: relative;
+      box-shadow: var(--diesel-shadow-heavy);
+    }
+
+    .dispatch__paper::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E");
+      pointer-events: none;
+    }
+
+    .dispatch__stamp {
+      position: absolute;
+      top: 24px;
+      right: 28px;
+      font-family: 'Oswald', sans-serif;
+      font-weight: 700;
+      font-size: 0.9rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--diesel-red);
+      border: 3px solid var(--diesel-red);
+      padding: 4px 14px;
+      transform: rotate(8deg);
+      opacity: 0.7;
+    }
+
+    .dispatch__heading {
+      font-family: 'Oswald', sans-serif;
+      font-weight: 700;
+      font-size: 1.1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--diesel-bg-dark);
+      margin-bottom: 4px;
+      border-bottom: 2px solid var(--diesel-bg-dark);
+      padding-bottom: 8px;
+    }
+
+    .dispatch__meta {
+      font-family: 'Roboto Condensed', sans-serif;
+      font-size: 0.75rem;
+      color: var(--diesel-gunmetal);
+      letter-spacing: 0.06em;
+      margin-bottom: 20px;
+    }
+
+    .dispatch__body {
+      font-family: 'Special Elite', 'Courier New', monospace;
+      font-size: 0.92rem;
+      color: #2a2a2a;
+      line-height: 1.8;
+    }
+
+    .dispatch__body p {
+      color: #2a2a2a;
+      margin-bottom: 14px;
+    }
+
+    .dispatch__body p:last-child {
+      margin-bottom: 0;
+    }
+
+    .dispatch__signature {
+      margin-top: 24px;
+      padding-top: 16px;
+      border-top: 1px solid rgba(0, 0, 0, 0.2);
+      font-family: 'Marcellus', serif;
+      font-size: 1rem;
+      color: var(--diesel-bg-dark);
+    }
+
+    /* ========================================
+       FOOTER
+       ======================================== */
+
+    .footer {
+      background: var(--diesel-bg-oil);
+      border-top: 4px solid var(--diesel-brass-dark);
+      padding: 48px 40px 32px;
+      position: relative;
+    }
+
+    .footer::before {
+      content: '';
+      position: absolute;
+      top: -4px;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: repeating-linear-gradient(
+        90deg,
+        var(--diesel-brass-dark) 0px,
+        var(--diesel-brass-dark) 6px,
+        var(--diesel-brass) 6px,
+        var(--diesel-brass) 8px,
+        var(--diesel-brass-dark) 8px,
+        var(--diesel-brass-dark) 40px
+      );
+    }
+
+    .footer__grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 40px;
+      max-width: var(--diesel-max-width);
+      margin: 0 auto;
+    }
+
+    .footer__brand {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.8rem;
+      color: var(--diesel-brass);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .footer__tagline {
+      font-size: 0.9rem;
+      color: var(--diesel-text-muted);
+      line-height: 1.6;
+      max-width: 280px;
+    }
+
+    .footer__col-title {
+      font-family: 'Oswald', sans-serif;
+      font-weight: 600;
+      font-size: 0.75rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--diesel-brass);
+      margin-bottom: 16px;
+    }
+
+    .footer__links {
+      list-style: none;
+    }
+
+    .footer__links li {
+      margin-bottom: 8px;
+    }
+
+    .footer__links a {
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 0.88rem;
+      color: var(--diesel-text-muted);
+      transition: color var(--diesel-transition);
+    }
+
+    .footer__links a:hover {
+      color: var(--diesel-brass);
+    }
+
+    .footer__bottom {
+      max-width: var(--diesel-max-width);
+      margin: 36px auto 0;
+      padding-top: 20px;
+      border-top: 1px solid var(--diesel-bg-smoke);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .footer__copyright {
+      font-family: 'Roboto Condensed', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 400;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--diesel-text-dim);
+    }
+
+    .footer__id {
+      font-family: 'Oswald', sans-serif;
+      font-weight: 500;
+      font-size: 0.65rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--diesel-text-dim);
+    }
+
+    /* ========================================
+       ANIMATIONS
+       ======================================== */
+
+    /* Fade-in on scroll (applied via class) */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeInUp 0.8s ease forwards;
+    }
+
+    @keyframes fadeInUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Brass shimmer text effect */
+    .brass-shimmer {
+      background: linear-gradient(
+        120deg,
+        var(--diesel-brass-dark) 0%,
+        var(--diesel-brass) 25%,
+        var(--diesel-brass-light) 50%,
+        var(--diesel-brass) 75%,
+        var(--diesel-brass-dark) 100%
+      );
+      background-size: 200% 100%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: brassShimmer 4s ease-in-out infinite;
+    }
+
+    @keyframes brassShimmer {
+      0% { background-position: 100% 50%; }
+      100% { background-position: -100% 50%; }
+    }
+
+    /* Furnace glow pulse */
+    .furnace-glow {
+      animation: furnaceGlow 3s ease-in-out infinite alternate;
+    }
+
+    @keyframes furnaceGlow {
+      0% { box-shadow: 0 0 10px rgba(212, 137, 14, 0.15), inset 0 0 10px rgba(139, 58, 26, 0.05); }
+      100% { box-shadow: 0 0 25px rgba(212, 137, 14, 0.3), inset 0 0 15px rgba(139, 58, 26, 0.1); }
+    }
+
+    /* ========================================
+       RESPONSIVE DESIGN
+       ======================================== */
+
+    @media (max-width: 1024px) {
+      .typography__grid {
+        grid-template-columns: 1fr;
+      }
+
+      .footer__grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 768px) {
+      :root {
+        --diesel-section-pad: 48px;
+      }
+
+      .container {
+        padding: 0 20px;
+      }
+
+      .nav {
+        padding: 0 20px;
+        height: 56px;
+      }
+
+      .nav__links {
+        gap: 16px;
+      }
+
+      .nav__links a {
+        font-size: 0.75rem;
+      }
+
+      .hero {
+        min-height: auto;
+        padding: 80px 20px;
+      }
+
+      .hero__frame-corner {
+        width: 40px;
+        height: 40px;
+      }
+
+      .hero__frame-corner--tl,
+      .hero__frame-corner--tr { top: 20px; }
+      .hero__frame-corner--bl,
+      .hero__frame-corner--br { bottom: 20px; }
+      .hero__frame-corner--tl,
+      .hero__frame-corner--bl { left: 20px; }
+      .hero__frame-corner--tr,
+      .hero__frame-corner--br { right: 20px; }
+
+      .hero__beam { display: none; }
+
+      .card-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .effects__grid {
+        grid-template-columns: 1fr;
+      }
+
+      .propaganda {
+        padding: 48px 20px;
+      }
+
+      .gauges {
+        gap: 28px;
+      }
+
+      .switches {
+        gap: 20px;
+      }
+
+      .indicators {
+        gap: 16px;
+      }
+
+      .dispatch__paper {
+        padding: 28px;
+      }
+
+      .deco-divider {
+        padding: 24px 20px;
+      }
+
+      .footer__grid {
+        grid-template-columns: 1fr;
+        gap: 28px;
+      }
+
+      .footer__bottom {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .palette__grid {
+        grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+        gap: 10px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .nav__links {
+        gap: 12px;
+      }
+
+      .nav__links a {
+        font-size: 0.68rem;
+        letter-spacing: 0.06em;
+      }
+
+      .hero__title {
+        font-size: clamp(2.5rem, 12vw, 4rem);
+      }
+
+      .hero__actions {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .btn {
+        width: 100%;
+        max-width: 280px;
+        justify-content: center;
+      }
+
+      .gear-showcase {
+        transform: scale(0.8);
+      }
+
+      .pressure-gauge {
+        width: 110px;
+        height: 110px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============================
+       NAVIGATION
+       ============================ -->
+  <div class="nav-wrapper">
+    <nav class="nav">
+      <a href="#" class="nav__logo">
+        <span class="nav__logo-gear"></span>
+        Iron Vanguard
+      </a>
+      <ul class="nav__links">
+        <li><a href="#hero">Hangar</a></li>
+        <li><a href="#typography">Arsenal</a></li>
+        <li><a href="#components">Command</a></li>
+        <li><a href="#dashboard">Dispatch</a></li>
+      </ul>
+    </nav>
+  </div>
+
+  <!-- ============================
+       HERO SECTION
+       ============================ -->
+  <section class="hero" id="hero">
+    <div class="hero__backdrop"></div>
+    <div class="hero__sunburst"></div>
+    <div class="hero__beam hero__beam--top"></div>
+    <div class="hero__beam hero__beam--bottom"></div>
+
+    <div class="hero__frame-corner hero__frame-corner--tl"></div>
+    <div class="hero__frame-corner hero__frame-corner--tr"></div>
+    <div class="hero__frame-corner hero__frame-corner--bl"></div>
+    <div class="hero__frame-corner hero__frame-corner--br"></div>
+
+    <div class="hero__content">
+      <div class="hero__badge">Established MCMXXXII</div>
+      <h1 class="hero__title brass-shimmer">Forge the Future</h1>
+      <p class="hero__subtitle">Heavy Diesel Engineering for the Modern Frontier</p>
+      <p class="hero__description">
+        Riveted steel, precision gears, and the thunder of turbocharged power. From
+        armored dreadnoughts to soaring zeppelins, every bolt is placed with purpose,
+        every piston drives progress forward.
+      </p>
+      <div class="hero__actions">
+        <a href="#components" class="btn btn--brass">Enter the Foundry</a>
+        <a href="#dashboard" class="btn btn--outline">View Operations</a>
+      </div>
+    </div>
+  </section>
+
+  <div class="rivet-strip"></div>
+
+  <!-- ============================
+       TYPOGRAPHY SHOWCASE
+       ============================ -->
+  <section class="typography" id="typography">
+    <div class="container">
+      <div class="typography__header">
+        <span class="section-label">Type Foundry -- Specimen Sheet</span>
+        <h2 class="brass-text">Typography</h2>
+      </div>
+
+      <div class="typography__grid">
+        <!-- Display & Headings Panel -->
+        <div class="type-panel riveted">
+          <div class="rivet-bottom">
+            <div class="type-panel__label">Display &amp; Heading Typefaces</div>
+            <div class="type-display">Dieselpunk</div>
+            <div class="type-heading-demo">
+              <h2>Bebas Neue -- Primary Display</h2>
+              <h3>Oswald -- Section Headings</h3>
+              <h4>Fjalla One -- Subsections</h4>
+              <h5>Marcellus -- Art Deco Accent</h5>
+            </div>
+            <div style="margin-top: 20px;">
+              <div class="type-stencil">Stenciled Military Marking</div>
+            </div>
+            <div style="margin-top: 12px;">
+              <div class="type-condensed">Roboto Condensed -- Dashboard Labels &amp; Data Readouts</div>
+            </div>
+            <div class="type-label-row">
+              <span class="type-label-tag">Brass Tag</span>
+              <span class="type-label-tag type-label-tag--steel">Steel Tag</span>
+              <span class="type-label-tag type-label-tag--olive">Olive Tag</span>
+              <span class="type-label-tag type-label-tag--rust">Rust Tag</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Body & Utility Panel -->
+        <div class="type-panel riveted">
+          <div class="rivet-bottom">
+            <div class="type-panel__label">Body Text &amp; Utility Faces</div>
+            <p class="type-body-sample">
+              Source Sans 3 serves as the primary body typeface, providing comfortable reading
+              across extended passages. Its utilitarian character complements the industrial
+              heading faces without competing for attention. Weight 400 for body, 600 for emphasis.
+            </p>
+            <p class="type-body-sample type-body-sample--small">
+              At smaller sizes, Source Sans 3 remains legible even against dark industrial
+              backgrounds. The slightly warm, humanist letterforms pair well with the mechanical
+              precision of the condensed display types above.
+            </p>
+            <div style="margin-top: 20px;">
+              <div class="type-dispatch">
+                FIELD DISPATCH -- 0400 HRS -- SECTOR 7-BRAVO<br><br>
+                Reconnaissance confirms heavy diesel activity at the eastern perimeter.
+                Three armored columns spotted moving northwest along the supply corridor.
+                Recommend immediate deployment of aerial surveillance units. Await further orders.
+                End transmission.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="deco-divider">
+    <div class="deco-divider__ornament">
+      <span class="deco-divider__chevron"></span>
+      <span class="deco-divider__diamond"></span>
+      <span class="deco-divider__chevron"></span>
+    </div>
+  </div>
+
+  <!-- ============================
+       COLOR PALETTE
+       ============================ -->
+  <section class="palette" id="palette">
+    <div class="container">
+      <div class="palette__header">
+        <span class="section-label">Industrial Command -- Color System</span>
+        <h2 class="brass-text">Color Palette</h2>
+      </div>
+
+      <div class="palette__group-title">Backgrounds &amp; Darks</div>
+      <div class="palette__grid">
+        <div class="swatch">
+          <div class="swatch__color" style="background: #1a1a1a;"></div>
+          <div class="swatch__info">
+            <div class="swatch__name">Furnace Black</div>
+            <div class="swatch__hex">#1A1A1A</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch__color" style="background: #2c2f33;"></div>
+          <div class="swatch__info">
+            <div class="swatch__name">Gunmetal</div>
+            <div class="swatch__hex">#2C2F33</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch__color" style="background: #3b3b3b;"></div>
+          <div class="swatch__info">
+            <div class="swatch__name">Diesel Smoke</div>
+            <div class="swatch__hex">#3B3B3B</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch__color" style="background: #1e1e24;"></div>
+          <div class="swatch__info">
+            <div class="swatch__name">Oil Slick</div>
+            <div class="swatch__hex">#1E1E24</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="palette__group-title">Metallics</div>
+      <div class="palette__grid">
+        <div class="swatch">
+          <div class="swatch__color" style="background: linear-gradient(145deg, #d4a843, #c9a84c, #9a7b2f);"></div>
+          <div class="swatch__info">
+            <div class="swatch__name">Polished Brass</div>
+            <div class="swatch__hex">#C9A84C</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch__color" style="background: linear-gradient(145deg, #b08830, #9a7b2f, #7a5f1f);"></div>
+          <div class="swatch__info">
+            <div class="swatch__name">Dark Brass</div>
+            <div class="swatch__hex">#9A7B2F</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch__color" style="background: linear-gradient(145deg, #a0a0a8, #8a8d93, #6b7280);"></div>
+          <div class="swatch__info">
+            <div class="swatch__name">Riveted Steel</div>
+            <div class="swatch__hex">#8A8D93</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch__color" style="background: #6b7280;"></div>
+          <div class="swatch__info">
+            <div class="swatch__name">Battleship Gray</div>
+            <div class="swatch__hex">#6B7280</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="palette__group-title">Accent Colors</div>
+      <div class="palette__grid">
+        <div class="swatch">
+          <div class="swatch__color" style="background: #d4890e;"></div>
+          <div class="swatch__info">
+            <div class="swatch__name">Amber Warning</div>
+            <div class="swatch__hex">#D4890E</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch__color" style="background: #8b3a1a;"></div>
+          <div class="swatch__info">
+            <div class="swatch__name">Rust Red</div>
+            <div class="swatch__hex">#8B3A1A</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch__color" style="background: #b8221e;"></div>
+          <div class="swatch__info">
+            <div class="swatch__name">Propaganda Red</div>
+            <div class="swatch__hex">#B8221E</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch__color" style="background: #4b5320;"></div>
+          <div class="swatch__info">
+            <div class="swatch__name">Olive Drab</div>
+            <div class="swatch__hex">#4B5320</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch__color" style="background: #8f7e4f;"></div>
+          <div class="swatch__info">
+            <div class="swatch__name">Army Khaki</div>
+            <div class="swatch__hex">#8F7E4F</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="palette__group-title">Text &amp; Light Surfaces</div>
+      <div class="palette__grid">
+        <div class="swatch">
+          <div class="swatch__color" style="background: #e8e4da;"></div>
+          <div class="swatch__info">
+            <div class="swatch__name">Cockpit White</div>
+            <div class="swatch__hex">#E8E4DA</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch__color" style="background: #f0e6d0;"></div>
+          <div class="swatch__info">
+            <div class="swatch__name">Parchment Cream</div>
+            <div class="swatch__hex">#F0E6D0</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="rivet-strip"></div>
+
+  <!-- ============================
+       CARDS & COMPONENTS
+       ============================ -->
+  <section class="components" id="components">
+    <div class="container">
+      <div class="components__header">
+        <span class="section-label">Strategic Capabilities -- All Theaters</span>
+        <h2 class="brass-text">Divisions &amp; Operations</h2>
+      </div>
+
+      <div class="card-grid">
+        <div class="card riveted">
+          <div class="rivet-bottom">
+            <div class="card__icon">&#9881;</div>
+            <div class="card__title">Armored Division</div>
+            <p class="card__text">
+              Heavy diesel-powered ground vehicles with reinforced plating and dual-turret
+              configurations. Built for sustained forward operations across hostile terrain.
+            </p>
+            <div class="card__footer">
+              <span class="card__status card__status--active">&#9679; Operational</span>
+              <a href="#" class="btn btn--sm btn--outline">Details</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="card riveted">
+          <div class="rivet-bottom">
+            <div class="card__icon">&#9992;</div>
+            <div class="card__title">Aerial Corps</div>
+            <p class="card__text">
+              Twin-engine propeller aircraft and rigid airships for reconnaissance and
+              strategic bombardment across contested airspace at high altitude.
+            </p>
+            <div class="card__footer">
+              <span class="card__status card__status--active">&#9679; Operational</span>
+              <a href="#" class="btn btn--sm btn--outline">Details</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="card riveted">
+          <div class="rivet-bottom">
+            <div class="card__icon">&#9878;</div>
+            <div class="card__title">Naval Dreadnoughts</div>
+            <p class="card__text">
+              Armored warships with steam-turbine propulsion and heavy-caliber gun batteries.
+              Command the seas with overwhelming firepower and iron resolve.
+            </p>
+            <div class="card__footer">
+              <span class="card__status card__status--warning">&#9679; Mobilizing</span>
+              <a href="#" class="btn btn--sm btn--outline">Details</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="card riveted">
+          <div class="rivet-bottom">
+            <div class="card__icon">&#9873;</div>
+            <div class="card__title">Intelligence Bureau</div>
+            <p class="card__text">
+              Codebreakers, field operatives, and radio intercept stations coordinating
+              covert operations behind enemy lines. Information is the sharpest weapon.
+            </p>
+            <div class="card__footer">
+              <span class="card__status card__status--active">&#9679; Active</span>
+              <a href="#" class="btn btn--sm btn--outline">Details</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="card riveted">
+          <div class="rivet-bottom">
+            <div class="card__icon">&#9883;</div>
+            <div class="card__title">Artillery Command</div>
+            <p class="card__text">
+              Long-range howitzers and railway guns capable of delivering devastating
+              barrages. Precision targeting through advanced rangefinder optics.
+            </p>
+            <div class="card__footer">
+              <span class="card__status card__status--danger">&#9679; On Alert</span>
+              <a href="#" class="btn btn--sm btn--outline">Details</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="card riveted">
+          <div class="rivet-bottom">
+            <div class="card__icon">&#9874;</div>
+            <div class="card__title">Supply &amp; Logistics</div>
+            <p class="card__text">
+              Rail networks, diesel convoys, and aerial supply drops keeping the war
+              machine running. An army marches on its fuel lines and ration stores.
+            </p>
+            <div class="card__footer">
+              <span class="card__status card__status--active">&#9679; Operational</span>
+              <a href="#" class="btn btn--sm btn--outline">Details</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Button Showcase -->
+      <div class="metal-panel riveted" style="text-align: center;">
+        <div class="rivet-bottom">
+          <div class="metal-panel__title" style="text-align: center;">Button Components</div>
+          <div style="display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; align-items: center;">
+            <a href="#" class="btn btn--brass">Brass Primary</a>
+            <a href="#" class="btn btn--steel">Steel Secondary</a>
+            <a href="#" class="btn btn--danger">Danger Alert</a>
+            <a href="#" class="btn btn--outline">Outline</a>
+            <a href="#" class="btn btn--sm btn--brass">Small Brass</a>
+            <a href="#" class="btn btn--sm btn--steel">Small Steel</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================
+       PROPAGANDA BANNER
+       ============================ -->
+  <section class="propaganda">
+    <div class="propaganda__content">
+      <h2 class="propaganda__title">The Iron Will Prevails</h2>
+      <p class="propaganda__subtitle">Your industry builds the future. Every rivet counts. Report to the foundry.</p>
+      <a href="#" class="btn btn--outline-light">Enlist Now</a>
+    </div>
+  </section>
+
+  <!-- ============================
+       DATA DASHBOARD
+       ============================ -->
+  <section class="dashboard" id="dashboard">
+    <div class="container">
+      <div class="dashboard__header">
+        <span class="section-label">Command Bridge -- Status Readout</span>
+        <h2 class="brass-text">Operational Readiness</h2>
+      </div>
+
+      <div class="dashboard__panel riveted furnace-glow">
+        <div class="rivet-bottom">
+          <div class="dashboard__panel-title">Primary Systems -- Real-Time Monitoring</div>
+
+          <!-- Gauges -->
+          <div class="gauges">
+            <div class="gauge">
+              <div class="gauge__dial"><div class="gauge__fill" style="height: 78%;"></div></div>
+              <div class="gauge__label">Engine Output</div>
+              <div class="gauge__value">78%</div>
+            </div>
+            <div class="gauge">
+              <div class="gauge__dial"><div class="gauge__fill" style="height: 92%;"></div></div>
+              <div class="gauge__label">Fuel Reserve</div>
+              <div class="gauge__value">92%</div>
+            </div>
+            <div class="gauge">
+              <div class="gauge__dial"><div class="gauge__fill" style="height: 64%;"></div></div>
+              <div class="gauge__label">Armor Integrity</div>
+              <div class="gauge__value">64%</div>
+            </div>
+            <div class="gauge">
+              <div class="gauge__dial"><div class="gauge__fill" style="height: 45%;"></div></div>
+              <div class="gauge__label">Munitions</div>
+              <div class="gauge__value">45%</div>
+            </div>
+            <div class="gauge">
+              <div class="gauge__dial"><div class="gauge__fill" style="height: 87%;"></div></div>
+              <div class="gauge__label">Hydraulics</div>
+              <div class="gauge__value">87%</div>
+            </div>
+          </div>
+
+          <!-- Toggle Switches -->
+          <div style="margin-bottom: 12px; text-align: center;">
+            <span class="section-label">System Switches</span>
+          </div>
+          <div class="switches">
+            <div class="toggle">
+              <div class="toggle__switch toggle__switch--on"></div>
+              <span class="toggle__label">Main Engine</span>
+            </div>
+            <div class="toggle">
+              <div class="toggle__switch toggle__switch--on"></div>
+              <span class="toggle__label">Navigation</span>
+            </div>
+            <div class="toggle">
+              <div class="toggle__switch"></div>
+              <span class="toggle__label">Weapons</span>
+            </div>
+            <div class="toggle">
+              <div class="toggle__switch toggle__switch--on"></div>
+              <span class="toggle__label">Comms</span>
+            </div>
+            <div class="toggle">
+              <div class="toggle__switch"></div>
+              <span class="toggle__label">Auxiliary</span>
+            </div>
+          </div>
+
+          <!-- Indicator Lights -->
+          <div style="margin-bottom: 12px; text-align: center;">
+            <span class="section-label">Status Indicators</span>
+          </div>
+          <div class="indicators">
+            <div class="indicator">
+              <div class="indicator__light indicator__light--green"></div>
+              <span class="indicator__label">Power Plant</span>
+            </div>
+            <div class="indicator">
+              <div class="indicator__light indicator__light--green"></div>
+              <span class="indicator__label">Fuel Lines</span>
+            </div>
+            <div class="indicator">
+              <div class="indicator__light indicator__light--amber"></div>
+              <span class="indicator__label">Hull Temp</span>
+            </div>
+            <div class="indicator">
+              <div class="indicator__light indicator__light--red"></div>
+              <span class="indicator__label">Port Flank</span>
+            </div>
+            <div class="indicator">
+              <div class="indicator__light indicator__light--green"></div>
+              <span class="indicator__label">Starboard</span>
+            </div>
+            <div class="indicator">
+              <div class="indicator__light indicator__light--off"></div>
+              <span class="indicator__label">Reserve</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="deco-divider">
+    <div class="deco-divider__ornament">
+      <span class="deco-divider__chevron"></span>
+      <span class="deco-divider__diamond"></span>
+      <span class="deco-divider__chevron"></span>
+    </div>
+  </div>
+
+  <!-- ============================
+       EFFECTS & DETAILS
+       ============================ -->
+  <section class="effects" id="effects">
+    <div class="container">
+      <div class="effects__header">
+        <span class="section-label">Visual Engineering -- Detail Work</span>
+        <h2 class="brass-text">Effects &amp; Details</h2>
+      </div>
+
+      <div class="effects__grid">
+        <!-- Art Deco Frame -->
+        <div class="deco-frame">
+          <div class="deco-frame__title">Art Deco Frame</div>
+          <div class="deco-frame__text">
+            Double-bordered frames with brass corner ornaments reference the geometric elegance
+            of Art Deco architecture. Every panel is a statement of structured beauty.
+          </div>
+        </div>
+
+        <!-- Pressure Gauge -->
+        <div class="metal-panel" style="text-align: center;">
+          <div class="metal-panel__title" style="text-align: center;">Pressure Gauge</div>
+          <div class="pressure-gauge">
+            <div class="pressure-gauge__ticks">
+              <div class="pressure-gauge__tick"></div>
+              <div class="pressure-gauge__tick"></div>
+              <div class="pressure-gauge__tick"></div>
+              <div class="pressure-gauge__tick"></div>
+              <div class="pressure-gauge__tick"></div>
+              <div class="pressure-gauge__tick"></div>
+              <div class="pressure-gauge__tick"></div>
+            </div>
+            <div class="pressure-gauge__needle"></div>
+            <div class="pressure-gauge__reading">PSI</div>
+          </div>
+          <div style="font-family: 'Roboto Condensed', sans-serif; font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--diesel-text-muted);">
+            Animated needle sweep with tick marks and brass center hub
+          </div>
+        </div>
+
+        <!-- Gear Animation -->
+        <div class="metal-panel" style="text-align: center;">
+          <div class="metal-panel__title" style="text-align: center;">Interlocking Gears</div>
+          <div class="gear-showcase">
+            <div class="gear gear--large"></div>
+            <div class="gear gear--small"></div>
+          </div>
+          <div style="font-family: 'Roboto Condensed', sans-serif; font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--diesel-text-muted);">
+            CSS-only rotating gear mechanism with dashed tooth borders
+          </div>
+        </div>
+
+        <!-- Progress Bars -->
+        <div class="metal-panel riveted">
+          <div class="rivet-bottom">
+            <div class="metal-panel__title">Industrial Progress Bars</div>
+            <div class="progress-bar">
+              <div class="progress-bar__track">
+                <div class="progress-bar__fill" style="width: 82%;"></div>
+              </div>
+              <div class="progress-bar__label">
+                <span>Production Output</span>
+                <span class="progress-bar__value">82%</span>
+              </div>
+            </div>
+            <div class="progress-bar" style="margin-top: 20px;">
+              <div class="progress-bar__track">
+                <div class="progress-bar__fill" style="width: 56%;"></div>
+              </div>
+              <div class="progress-bar__label">
+                <span>Resource Allocation</span>
+                <span class="progress-bar__value">56%</span>
+              </div>
+            </div>
+            <div class="progress-bar" style="margin-top: 20px;">
+              <div class="progress-bar__track">
+                <div class="progress-bar__fill" style="width: 94%;"></div>
+              </div>
+              <div class="progress-bar__label">
+                <span>Morale Index</span>
+                <span class="progress-bar__value">94%</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Stamped Text + Oil Drip -->
+        <div class="metal-panel">
+          <div class="metal-panel__title">Stamped &amp; Embossed Text</div>
+          <div class="stamped-text">Industrial Strength</div>
+          <div style="margin-top: 20px;">
+            <div class="metal-panel__title">Oil Drip Animation</div>
+            <div class="oil-drip-container">
+              <div class="oil-drip"></div>
+              <div class="oil-drip"></div>
+              <div class="oil-drip"></div>
+              <div class="oil-drip"></div>
+            </div>
+          </div>
+          <div style="margin-top: 12px; font-family: 'Roboto Condensed', sans-serif; font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--diesel-text-muted);">
+            CSS keyframe drip animation -- atmospheric detail
+          </div>
+        </div>
+
+        <!-- Brass Shimmer + Furnace Glow -->
+        <div class="metal-panel">
+          <div class="metal-panel__title">Animation Effects</div>
+          <div style="margin-bottom: 20px;">
+            <div style="font-family: 'Roboto Condensed', sans-serif; font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--diesel-text-muted); margin-bottom: 8px;">Brass Shimmer Text</div>
+            <div style="font-family: 'Bebas Neue', sans-serif; font-size: 2rem; letter-spacing: 0.1em; text-transform: uppercase;" class="brass-shimmer">Polished Brass</div>
+          </div>
+          <div>
+            <div style="font-family: 'Roboto Condensed', sans-serif; font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--diesel-text-muted); margin-bottom: 8px;">Furnace Glow Panel</div>
+            <div class="furnace-glow" style="padding: 20px; background: var(--diesel-panel-surface); border: 1px solid var(--diesel-border-steel); text-align: center;">
+              <div style="font-family: 'Oswald', sans-serif; font-weight: 600; font-size: 0.8rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--diesel-amber);">Furnace Active</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="rivet-strip"></div>
+
+  <!-- ============================
+       ART DECO BANNER
+       ============================ -->
+  <div class="deco-banner">
+    <div class="deco-banner__text">
+      Steel is the Sinew of Civilization
+    </div>
+  </div>
+
+  <!-- ============================
+       FIELD DISPATCH
+       ============================ -->
+  <section class="dispatch">
+    <div class="container">
+      <div style="text-align: center; margin-bottom: 48px;">
+        <span class="section-label">Communications Office -- Encrypted Channel</span>
+        <h2 class="brass-text">Field Dispatch</h2>
+      </div>
+
+      <div class="dispatch__content">
+        <div class="dispatch__paper">
+          <div class="dispatch__stamp">Classified</div>
+          <div class="dispatch__heading">Iron Vanguard -- Field Report No. 2847</div>
+          <div class="dispatch__meta">
+            Date: 14 November 1938 &nbsp;|&nbsp; Origin: Forward Command, Sector 7-Bravo &nbsp;|&nbsp; Priority: Urgent
+          </div>
+          <div class="dispatch__body">
+            <p>
+              Reconnaissance flights confirm significant diesel-powered activity along the
+              eastern perimeter. Three armored columns observed advancing northwest through
+              the river valley corridor at dawn. Estimated strength: two heavy tank companies
+              and one mechanized infantry battalion.
+            </p>
+            <p>
+              Aerial photography reveals construction of a new rail spur connecting the
+              industrial complex at Grid Reference 47-Echo to the main supply line. This
+              suggests a long-term buildup rather than a feinting maneuver. Request immediate
+              deployment of the 3rd Aerial Reconnaissance Wing for continuous surveillance.
+            </p>
+            <p>
+              All available reserves should be placed on standby. Recommend fortification
+              of forward positions and pre-registration of artillery on the identified
+              approach corridors. Await further orders from High Command.
+            </p>
+          </div>
+          <div class="dispatch__signature">
+            -- Colonel H. Ashworth, Field Intelligence Division
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="deco-divider">
+    <div class="deco-divider__ornament">
+      <span class="deco-divider__chevron"></span>
+      <span class="deco-divider__diamond"></span>
+      <span class="deco-divider__chevron"></span>
+    </div>
+  </div>
+
+  <!-- ============================
+       FOOTER
+       ============================ -->
+  <footer class="footer">
+    <div class="footer__grid">
+      <div>
+        <div class="footer__brand">Iron Vanguard</div>
+        <p class="footer__tagline">
+          Heavy diesel engineering for the modern frontier. Forged in steel,
+          driven by diesel, built to endure.
+        </p>
+      </div>
+      <div>
+        <div class="footer__col-title">Divisions</div>
+        <ul class="footer__links">
+          <li><a href="#">Armored Division</a></li>
+          <li><a href="#">Aerial Corps</a></li>
+          <li><a href="#">Naval Fleet</a></li>
+          <li><a href="#">Artillery</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer__col-title">Operations</div>
+        <ul class="footer__links">
+          <li><a href="#">Command Bridge</a></li>
+          <li><a href="#">Supply Lines</a></li>
+          <li><a href="#">Intelligence</a></li>
+          <li><a href="#">Communications</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer__col-title">Resources</div>
+        <ul class="footer__links">
+          <li><a href="#">Technical Manuals</a></li>
+          <li><a href="#">Field Reports</a></li>
+          <li><a href="#">Blueprints</a></li>
+          <li><a href="#">Archives</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <div class="footer__copyright">
+        Iron Vanguard Industrial Co. -- Est. 1932 -- Forged in Steel, Driven by Diesel
+      </div>
+      <div class="footer__id">
+        Dieselpunk Design Reference -- Ref. IV-DP-2847
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
