@@ -1,0 +1,2533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cubism -- Design Aesthetic Reference</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Josefin+Sans:wght@400;700&family=Source+Sans+3:wght@400;600&family=Barlow+Condensed:wght@400;600&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+  <style>
+    /* ============================================================
+       CSS CUSTOM PROPERTIES
+       ============================================================ */
+    :root {
+      /* Earth tones -- Analytical Cubism */
+      --cubism-umber: #6b5b4e;
+      --cubism-ochre: #c8a94e;
+      --cubism-sienna: #a0522d;
+      --cubism-warm-gray: #9c9486;
+      --cubism-charcoal: #2d2d2d;
+      --cubism-black: #1a1612;
+
+      /* Chromatic accents -- Synthetic Cubism */
+      --cubism-olive: #6b7b4e;
+      --cubism-blue: #5b7a8a;
+      --cubism-terracotta: #b85c3a;
+      --cubism-rose: #a0707a;
+      --cubism-violet: #7a6b8a;
+
+      /* Light surfaces */
+      --cubism-parchment: #f0e8d8;
+      --cubism-stone: #ede6d6;
+      --cubism-cream: #f5f0e1;
+
+      /* Dark surfaces */
+      --cubism-slate: #4a5568;
+
+      /* Functional tokens */
+      --cubism-bg-primary: var(--cubism-parchment);
+      --cubism-bg-secondary: var(--cubism-stone);
+      --cubism-bg-dark: var(--cubism-charcoal);
+      --cubism-text-primary: var(--cubism-charcoal);
+      --cubism-text-light: var(--cubism-cream);
+      --cubism-text-muted: var(--cubism-warm-gray);
+      --cubism-accent: var(--cubism-ochre);
+      --cubism-accent-warm: var(--cubism-terracotta);
+      --cubism-border: var(--cubism-black);
+      --cubism-border-light: var(--cubism-warm-gray);
+
+      /* Spacing */
+      --section-pad: clamp(3rem, 6vw, 6rem);
+      --content-max: 1100px;
+    }
+
+    /* ============================================================
+       RESET & BASE
+       ============================================================ */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--cubism-bg-primary);
+      color: var(--cubism-text-primary);
+      font-family: 'Source Sans 3', sans-serif;
+      font-weight: 400;
+      letter-spacing: 0.02em;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* ============================================================
+       TYPOGRAPHY BASE
+       ============================================================ */
+    h1, h2, h3, h4 {
+      font-family: 'Josefin Sans', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-weight: 700;
+      line-height: 1.1;
+      color: var(--cubism-charcoal);
+    }
+
+    h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(3.5rem, 10vw, 8rem);
+      letter-spacing: 0.12em;
+      line-height: 0.92;
+    }
+
+    h2 {
+      font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+      margin-bottom: 1.5rem;
+      letter-spacing: 0.08em;
+    }
+
+    h3 {
+      font-size: clamp(1rem, 2vw, 1.3rem);
+      margin-bottom: 0.75rem;
+      letter-spacing: 0.06em;
+    }
+
+    a {
+      color: var(--cubism-blue);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    a:hover {
+      color: var(--cubism-terracotta);
+    }
+
+    /* ============================================================
+       UTILITY CLASSES
+       ============================================================ */
+    .label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--cubism-text-muted);
+    }
+
+    .label--ochre { color: var(--cubism-ochre); }
+    .label--light { color: var(--cubism-cream); }
+
+    .section-inner {
+      max-width: var(--content-max);
+      margin: 0 auto;
+      padding: 0 2rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ============================================================
+       ANIMATIONS
+       ============================================================ */
+    @keyframes fragmentSlideIn {
+      from {
+        opacity: 0;
+        transform: translateY(30px) rotate(-3deg);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) rotate(0deg);
+      }
+    }
+
+    @keyframes planeShift {
+      0%, 100% { transform: rotate(var(--rot-start)); }
+      50% { transform: rotate(var(--rot-end)); }
+    }
+
+    @keyframes accentPulse {
+      0%, 100% { opacity: 0.6; }
+      50% { opacity: 1; }
+    }
+
+    @keyframes crosshatchDrift {
+      0% { background-position: 0 0, 0 0; }
+      100% { background-position: 18px 18px, -18px -18px; }
+    }
+
+    @keyframes facetReveal {
+      from {
+        clip-path: polygon(50% 50%, 50% 50%, 50% 50%, 50% 50%);
+        opacity: 0;
+      }
+      to {
+        clip-path: polygon(0% 4%, 4% 0%, 96% 0%, 100% 4%, 100% 96%, 96% 100%, 4% 100%, 0% 96%);
+        opacity: 1;
+      }
+    }
+
+    @keyframes skewFloat {
+      0%, 100% { transform: skewX(-20deg) translateX(0); }
+      50% { transform: skewX(-20deg) translateX(12px); }
+    }
+
+    /* ============================================================
+       NAVIGATION
+       ============================================================ */
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--cubism-charcoal);
+      padding: 0 40px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      overflow: hidden;
+    }
+
+    /* Fragmented color accent bar at bottom */
+    .nav::before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(
+        90deg,
+        var(--cubism-ochre) 0%, var(--cubism-ochre) 25%,
+        var(--cubism-terracotta) 25%, var(--cubism-terracotta) 45%,
+        var(--cubism-olive) 45%, var(--cubism-olive) 60%,
+        var(--cubism-blue) 60%, var(--cubism-blue) 75%,
+        var(--cubism-umber) 75%, var(--cubism-umber) 100%
+      );
+    }
+
+    /* Angled background shard */
+    .nav::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: -20px;
+      width: 200px;
+      height: 100%;
+      background: var(--cubism-slate);
+      transform: skewX(-12deg);
+      opacity: 0.3;
+    }
+
+    .nav__logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.8rem;
+      color: var(--cubism-ochre);
+      text-decoration: none;
+      letter-spacing: 0.1em;
+      padding: 18px 0;
+      position: relative;
+      z-index: 1;
+    }
+
+    .nav__logo:hover {
+      color: var(--cubism-cream);
+    }
+
+    .nav__links {
+      display: flex;
+      gap: 28px;
+      list-style: none;
+      position: relative;
+      z-index: 1;
+    }
+
+    .nav__links a {
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--cubism-cream);
+      text-decoration: none;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 18px 0;
+      position: relative;
+      transition: color 0.2s ease;
+    }
+
+    .nav__links a:hover {
+      color: var(--cubism-ochre);
+    }
+
+    .nav__links a::after {
+      content: '';
+      position: absolute;
+      bottom: 12px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--cubism-ochre);
+      transition: width 0.3s ease;
+    }
+
+    .nav__links a:hover::after {
+      width: 100%;
+    }
+
+    /* ============================================================
+       HERO SECTION
+       ============================================================ */
+    .hero {
+      background: var(--cubism-bg-dark);
+      color: var(--cubism-text-light);
+      padding: 100px 40px 130px;
+      position: relative;
+      overflow: hidden;
+      min-height: 85vh;
+      display: flex;
+      align-items: center;
+    }
+
+    /* Large tilted umber plane */
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -60px;
+      right: -100px;
+      width: 550px;
+      height: 650px;
+      background: var(--cubism-umber);
+      transform: rotate(15deg);
+      opacity: 0.14;
+    }
+
+    /* Ochre parallelogram */
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -120px;
+      left: 8%;
+      width: 420px;
+      height: 520px;
+      background: var(--cubism-ochre);
+      transform: rotate(-20deg);
+      opacity: 0.07;
+      clip-path: polygon(20% 0%, 100% 0%, 80% 100%, 0% 100%);
+    }
+
+    .hero__inner {
+      max-width: var(--content-max);
+      margin: 0 auto;
+      width: 100%;
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 3rem;
+      align-items: center;
+    }
+
+    .hero__text h1 {
+      color: var(--cubism-cream);
+      margin-bottom: 1.5rem;
+      animation: fragmentSlideIn 1s ease-out;
+    }
+
+    .hero__text h1 .accent {
+      color: var(--cubism-ochre);
+      display: block;
+    }
+
+    .hero__text h1 .line-break {
+      display: block;
+    }
+
+    .hero__subtitle {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1rem, 2vw, 1.3rem);
+      font-weight: 700;
+      font-style: italic;
+      color: var(--cubism-warm-gray);
+      margin-bottom: 1rem;
+      letter-spacing: 0.02em;
+      animation: fragmentSlideIn 1s ease-out 0.15s both;
+    }
+
+    .hero__desc {
+      font-size: 1.1rem;
+      color: var(--cubism-warm-gray);
+      max-width: 520px;
+      line-height: 1.75;
+      margin-bottom: 2.5rem;
+      animation: fragmentSlideIn 1s ease-out 0.3s both;
+    }
+
+    .hero__actions {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      animation: fragmentSlideIn 1s ease-out 0.45s both;
+    }
+
+    /* Geometric fragment composition beside hero */
+    .hero__fragments {
+      position: relative;
+      height: 420px;
+      animation: fragmentSlideIn 1.2s ease-out 0.3s both;
+    }
+
+    .hero__fragments .frag {
+      position: absolute;
+      border: 2px solid rgba(200, 169, 78, 0.3);
+      transition: transform 0.6s ease, opacity 0.4s ease;
+    }
+
+    .hero__fragments:hover .frag {
+      border-color: rgba(200, 169, 78, 0.5);
+    }
+
+    .frag--1 {
+      width: 140px; height: 190px;
+      top: 0; left: 50px;
+      background: rgba(107, 91, 78, 0.2);
+      --rot-start: 8deg; --rot-end: 10deg;
+      transform: rotate(8deg);
+      animation: planeShift 8s ease-in-out infinite;
+    }
+
+    .frag--2 {
+      width: 170px; height: 120px;
+      top: 70px; left: 140px;
+      background: rgba(200, 169, 78, 0.12);
+      --rot-start: -5deg; --rot-end: -3deg;
+      transform: rotate(-5deg);
+      animation: planeShift 10s ease-in-out infinite 1s;
+    }
+
+    .frag--3 {
+      width: 120px; height: 210px;
+      top: 90px; left: 10px;
+      background: rgba(91, 122, 138, 0.15);
+      --rot-start: 12deg; --rot-end: 14deg;
+      transform: rotate(12deg);
+      animation: planeShift 9s ease-in-out infinite 0.5s;
+    }
+
+    .frag--4 {
+      width: 100px; height: 100px;
+      top: 200px; left: 180px;
+      background: rgba(160, 112, 122, 0.18);
+      --rot-start: -3deg; --rot-end: -1deg;
+      transform: rotate(-3deg);
+      animation: planeShift 7s ease-in-out infinite 2s;
+    }
+
+    .frag--5 {
+      width: 80px; height: 140px;
+      top: 260px; left: 60px;
+      background: rgba(107, 123, 78, 0.15);
+      --rot-start: 6deg; --rot-end: 9deg;
+      transform: rotate(6deg);
+      animation: planeShift 11s ease-in-out infinite 1.5s;
+    }
+
+    .frag--6 {
+      width: 150px; height: 70px;
+      top: 320px; left: 130px;
+      background: rgba(122, 107, 138, 0.12);
+      --rot-start: -8deg; --rot-end: -5deg;
+      transform: rotate(-8deg);
+      animation: planeShift 8.5s ease-in-out infinite 0.8s;
+    }
+
+    /* Construction lines inside fragments */
+    .frag--1::before {
+      content: '';
+      position: absolute;
+      top: 30%;
+      left: -10%;
+      width: 120%;
+      height: 1px;
+      background: rgba(200, 169, 78, 0.2);
+      transform: rotate(-12deg);
+    }
+
+    .frag--3::before {
+      content: '';
+      position: absolute;
+      top: 20%;
+      left: 0;
+      width: 100%;
+      height: 1px;
+      background: rgba(200, 169, 78, 0.15);
+      transform: rotate(8deg);
+    }
+
+    .frag--3::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 40%;
+      width: 1px;
+      height: 100%;
+      background: rgba(200, 169, 78, 0.15);
+      transform: rotate(-5deg);
+    }
+
+    /* ============================================================
+       BUTTONS
+       ============================================================ */
+    .btn {
+      display: inline-block;
+      background: var(--cubism-charcoal);
+      color: var(--cubism-cream);
+      border: 2px solid var(--cubism-black);
+      border-radius: 0;
+      padding: 14px 36px;
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      text-decoration: none;
+      cursor: pointer;
+      position: relative;
+      clip-path: polygon(
+        0% 6%, 6% 0%, 100% 0%, 100% 100%, 94% 100%, 0% 100%
+      );
+      transition: background 0.2s ease, transform 0.2s ease;
+    }
+
+    .btn:hover {
+      background: var(--cubism-terracotta);
+      color: var(--cubism-cream);
+      transform: translateY(-2px);
+    }
+
+    .btn::after {
+      content: '';
+      position: absolute;
+      top: 4px;
+      left: 4px;
+      right: -4px;
+      bottom: -4px;
+      background: var(--cubism-ochre);
+      z-index: -1;
+      clip-path: polygon(
+        0% 6%, 6% 0%, 100% 0%, 100% 100%, 94% 100%, 0% 100%
+      );
+      transition: transform 0.2s ease;
+    }
+
+    .btn:hover::after {
+      transform: translate(2px, 2px);
+    }
+
+    .btn--accent {
+      background: var(--cubism-ochre);
+      color: var(--cubism-black);
+      border-color: var(--cubism-black);
+    }
+
+    .btn--accent:hover {
+      background: var(--cubism-sienna);
+      color: var(--cubism-cream);
+    }
+
+    .btn--outline {
+      background: transparent;
+      color: var(--cubism-cream);
+      border: 2px solid var(--cubism-cream);
+    }
+
+    .btn--outline::after {
+      background: var(--cubism-umber);
+    }
+
+    .btn--outline:hover {
+      background: var(--cubism-cream);
+      color: var(--cubism-charcoal);
+    }
+
+    /* ============================================================
+       ANGULAR DIVIDER
+       ============================================================ */
+    .divider {
+      width: 100%;
+      height: 80px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .divider::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to bottom right,
+        var(--cubism-charcoal) 48%,
+        var(--cubism-black) 48%,
+        var(--cubism-black) 50%,
+        var(--cubism-parchment) 50%
+      );
+    }
+
+    .divider::after {
+      content: '';
+      position: absolute;
+      top: 8px;
+      left: 38%;
+      width: 120px;
+      height: 60px;
+      background: var(--cubism-ochre);
+      opacity: 0.45;
+      transform: skewX(-20deg);
+      animation: skewFloat 6s ease-in-out infinite;
+    }
+
+    .divider--reverse::before {
+      background: linear-gradient(
+        to bottom left,
+        var(--cubism-parchment) 48%,
+        var(--cubism-black) 48%,
+        var(--cubism-black) 50%,
+        var(--cubism-charcoal) 50%
+      );
+    }
+
+    .divider--stone::before {
+      background: linear-gradient(
+        to bottom right,
+        var(--cubism-stone) 48%,
+        var(--cubism-umber) 48%,
+        var(--cubism-umber) 50%,
+        var(--cubism-parchment) 50%
+      );
+    }
+
+    .divider--stone::after {
+      background: var(--cubism-terracotta);
+    }
+
+    /* Zigzag band */
+    .zigzag {
+      width: 100%;
+      height: 26px;
+      background: var(--cubism-ochre);
+      clip-path: polygon(
+        0% 0%, 4% 100%, 8% 0%, 12% 100%, 16% 0%,
+        20% 100%, 24% 0%, 28% 100%, 32% 0%, 36% 100%,
+        40% 0%, 44% 100%, 48% 0%, 52% 100%, 56% 0%,
+        60% 100%, 64% 0%, 68% 100%, 72% 0%, 76% 100%,
+        80% 0%, 84% 100%, 88% 0%, 92% 100%, 96% 0%, 100% 100%
+      );
+    }
+
+    /* ============================================================
+       TYPOGRAPHY SHOWCASE
+       ============================================================ */
+    .typography {
+      padding: var(--section-pad) 0;
+      background: var(--cubism-parchment);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Crosshatch texture overlay */
+    .typography::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        repeating-linear-gradient(
+          45deg,
+          transparent,
+          transparent 10px,
+          rgba(42, 42, 42, 0.025) 10px,
+          rgba(42, 42, 42, 0.025) 11px
+        ),
+        repeating-linear-gradient(
+          -45deg,
+          transparent,
+          transparent 10px,
+          rgba(42, 42, 42, 0.025) 10px,
+          rgba(42, 42, 42, 0.025) 11px
+        );
+      pointer-events: none;
+      animation: crosshatchDrift 20s linear infinite;
+    }
+
+    .typography__header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .typography__header h2 {
+      position: relative;
+      display: inline-block;
+    }
+
+    .typography__header h2::after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      left: 50%;
+      transform: translateX(-50%) skewX(-15deg);
+      width: 60px;
+      height: 4px;
+      background: var(--cubism-ochre);
+    }
+
+    .type-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      margin-top: 2rem;
+    }
+
+    .type-specimen {
+      border: 2px solid var(--cubism-charcoal);
+      padding: 2.5rem;
+      position: relative;
+      background: var(--cubism-cream);
+      transform: rotate(-0.5deg);
+      transition: transform 0.3s ease;
+    }
+
+    .type-specimen:nth-child(even) {
+      transform: rotate(0.5deg);
+    }
+
+    .type-specimen:hover {
+      transform: rotate(0deg);
+    }
+
+    /* Corner chamfer accent */
+    .type-specimen::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 30px;
+      height: 30px;
+      background: linear-gradient(135deg, var(--cubism-ochre) 50%, transparent 50%);
+    }
+
+    .type-specimen__label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--cubism-warm-gray);
+      margin-bottom: 1rem;
+      padding-left: 2rem;
+    }
+
+    .type-specimen--display {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      letter-spacing: 0.12em;
+      line-height: 0.95;
+      color: var(--cubism-charcoal);
+    }
+
+    .type-specimen--heading {
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-weight: 700;
+      line-height: 1.2;
+      color: var(--cubism-charcoal);
+    }
+
+    .type-specimen--serif {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.3rem, 2.5vw, 1.8rem);
+      font-weight: 700;
+      font-style: italic;
+      letter-spacing: 0.02em;
+      line-height: 1.4;
+      color: var(--cubism-umber);
+    }
+
+    .type-specimen--body {
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 1rem;
+      line-height: 1.8;
+      color: var(--cubism-charcoal);
+    }
+
+    /* Fragmented text showcase */
+    .type-fragmented {
+      margin-top: 3rem;
+      position: relative;
+      padding: 3rem 0;
+      text-align: center;
+    }
+
+    .type-fragmented__word {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(3rem, 8vw, 7rem);
+      letter-spacing: 0.15em;
+      color: var(--cubism-charcoal);
+      display: inline-block;
+      position: relative;
+    }
+
+    .type-fragmented__word span {
+      display: inline-block;
+      transition: transform 0.4s ease, color 0.3s ease;
+    }
+
+    .type-fragmented__word span:nth-child(1) { transform: rotate(-3deg) translateY(-4px); }
+    .type-fragmented__word span:nth-child(2) { transform: rotate(2deg) translateY(6px); color: var(--cubism-terracotta); }
+    .type-fragmented__word span:nth-child(3) { transform: rotate(-1deg) translateY(-2px); }
+    .type-fragmented__word span:nth-child(4) { transform: rotate(4deg) translateY(8px); color: var(--cubism-blue); }
+    .type-fragmented__word span:nth-child(5) { transform: rotate(-2deg) translateY(-6px); }
+    .type-fragmented__word span:nth-child(6) { transform: rotate(1deg) translateY(3px); color: var(--cubism-ochre); }
+    .type-fragmented__word span:nth-child(7) { transform: rotate(-3deg) translateY(-5px); }
+    .type-fragmented__word span:nth-child(8) { transform: rotate(2deg) translateY(4px); }
+    .type-fragmented__word span:nth-child(9) { transform: rotate(-1deg) translateY(2px); color: var(--cubism-olive); }
+    .type-fragmented__word span:nth-child(10) { transform: rotate(3deg) translateY(-3px); }
+    .type-fragmented__word span:nth-child(11) { transform: rotate(0deg) translateY(5px); color: var(--cubism-rose); }
+
+    .type-fragmented__word:hover span {
+      transform: rotate(0deg) translateY(0);
+    }
+
+    .type-fragmented__caption {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--cubism-warm-gray);
+      margin-top: 1rem;
+    }
+
+    /* ============================================================
+       COLOR PALETTE
+       ============================================================ */
+    .palette {
+      background: var(--cubism-stone);
+      padding: var(--section-pad) 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Faceted triangular background */
+    .palette::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(60deg, var(--cubism-warm-gray) 25%, transparent 25.5%),
+        linear-gradient(-60deg, var(--cubism-warm-gray) 25%, transparent 25.5%),
+        linear-gradient(60deg, transparent 74.5%, var(--cubism-warm-gray) 75%),
+        linear-gradient(-60deg, transparent 74.5%, var(--cubism-warm-gray) 75%);
+      background-size: 50px 86px;
+      background-position: 0 0, 0 0, 25px 43px, 25px 43px;
+      opacity: 0.06;
+      pointer-events: none;
+    }
+
+    .palette__header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .palette__header h2::after {
+      content: '';
+      display: block;
+      width: 50px;
+      height: 4px;
+      background: var(--cubism-terracotta);
+      margin: 0.75rem auto 0;
+      transform: skewX(-15deg);
+    }
+
+    .palette__subtitle {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      color: var(--cubism-umber);
+      margin-top: 0.5rem;
+      font-size: 1.05rem;
+    }
+
+    /* Phase labels */
+    .palette__phase {
+      margin-top: 2.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .palette__phase h3 {
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 1rem;
+      letter-spacing: 0.1em;
+      color: var(--cubism-umber);
+      position: relative;
+      display: inline-block;
+    }
+
+    .palette__phase h3::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: var(--cubism-ochre);
+    }
+
+    /* Swatch grid */
+    .swatch-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1rem;
+    }
+
+    .swatch {
+      position: relative;
+      transform: rotate(-1deg);
+      transition: transform 0.3s ease;
+    }
+
+    .swatch:nth-child(even) {
+      transform: rotate(1deg);
+      margin-top: 0.5rem;
+    }
+
+    .swatch:hover {
+      transform: rotate(0deg) scale(1.05);
+      z-index: 5;
+    }
+
+    .swatch__color {
+      width: 100%;
+      aspect-ratio: 1;
+      border: 2px solid var(--cubism-black);
+      position: relative;
+      clip-path: polygon(
+        0% 4%, 4% 0%, 96% 0%, 100% 4%,
+        100% 96%, 96% 100%, 4% 100%, 0% 96%
+      );
+    }
+
+    /* Construction line inside swatch */
+    .swatch__color::before {
+      content: '';
+      position: absolute;
+      top: 20%;
+      left: -5%;
+      width: 110%;
+      height: 1px;
+      background: rgba(0, 0, 0, 0.15);
+      transform: rotate(-8deg);
+    }
+
+    .swatch__color::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 35%;
+      width: 1px;
+      height: 105%;
+      background: rgba(0, 0, 0, 0.1);
+      transform: rotate(5deg);
+    }
+
+    .swatch__name {
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-top: 0.6rem;
+      color: var(--cubism-charcoal);
+    }
+
+    .swatch__hex {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.7rem;
+      color: var(--cubism-warm-gray);
+      letter-spacing: 0.05em;
+    }
+
+    /* ============================================================
+       MULTI-PERSPECTIVE SECTION
+       ============================================================ */
+    .perspectives {
+      padding: var(--section-pad) 0;
+      background: var(--cubism-parchment);
+      position: relative;
+    }
+
+    .perspectives__header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .perspectives__header h2::after {
+      content: '';
+      display: block;
+      width: 50px;
+      height: 4px;
+      background: var(--cubism-ochre);
+      margin: 0.75rem auto 0;
+      transform: skewX(-15deg);
+    }
+
+    /* Fragmented panel composition */
+    .fragmented-panel {
+      position: relative;
+      min-height: 450px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .fragmented-panel__plane {
+      position: absolute;
+      padding: 2rem;
+      border: 2px solid var(--cubism-border);
+      transition: transform 0.4s ease, box-shadow 0.3s ease;
+    }
+
+    .fragmented-panel__plane:hover {
+      z-index: 10 !important;
+    }
+
+    .plane--a {
+      top: 0;
+      left: 0;
+      width: 55%;
+      background: var(--cubism-parchment);
+      transform: rotate(-2deg);
+      z-index: 3;
+    }
+
+    .plane--a:hover {
+      transform: rotate(-1deg) scale(1.02);
+    }
+
+    .plane--b {
+      top: 12%;
+      right: 0;
+      width: 50%;
+      background: var(--cubism-stone);
+      transform: rotate(3deg);
+      z-index: 2;
+      clip-path: polygon(8% 0%, 100% 0%, 100% 100%, 0% 92%);
+    }
+
+    .plane--b:hover {
+      transform: rotate(2deg) scale(1.02);
+    }
+
+    .plane--c {
+      bottom: 0;
+      left: 8%;
+      width: 48%;
+      background: var(--cubism-charcoal);
+      color: var(--cubism-cream);
+      transform: rotate(1deg);
+      z-index: 4;
+    }
+
+    .plane--c:hover {
+      transform: rotate(0deg) scale(1.02);
+    }
+
+    .plane__label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--cubism-warm-gray);
+      margin-bottom: 0.75rem;
+    }
+
+    .plane--c .plane__label {
+      color: var(--cubism-ochre);
+    }
+
+    .plane__title {
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 1.1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 0.5rem;
+    }
+
+    .plane--c .plane__title {
+      color: var(--cubism-cream);
+    }
+
+    .plane__text {
+      font-size: 0.9rem;
+      line-height: 1.6;
+      color: var(--cubism-umber);
+    }
+
+    .plane--c .plane__text {
+      color: var(--cubism-warm-gray);
+    }
+
+    /* Intersection line */
+    .fragmented-panel::after {
+      content: '';
+      position: absolute;
+      top: 22%;
+      left: 28%;
+      width: 55%;
+      height: 2px;
+      background: var(--cubism-ochre);
+      transform: rotate(-8deg);
+      z-index: 5;
+      opacity: 0.7;
+      animation: accentPulse 4s ease-in-out infinite;
+    }
+
+    /* ============================================================
+       CARDS SECTION
+       ============================================================ */
+    .cards {
+      background: var(--cubism-stone);
+      padding: var(--section-pad) 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cards::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(60deg, var(--cubism-warm-gray) 25%, transparent 25.5%),
+        linear-gradient(-60deg, var(--cubism-warm-gray) 25%, transparent 25.5%),
+        linear-gradient(60deg, transparent 74.5%, var(--cubism-warm-gray) 75%),
+        linear-gradient(-60deg, transparent 74.5%, var(--cubism-warm-gray) 75%);
+      background-size: 50px 86px;
+      background-position: 0 0, 0 0, 25px 43px, 25px 43px;
+      opacity: 0.06;
+      pointer-events: none;
+    }
+
+    .cards__header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .cards__header h2::after {
+      content: '';
+      display: block;
+      width: 50px;
+      height: 4px;
+      background: var(--cubism-ochre);
+      margin: 0.75rem auto 0;
+      transform: skewX(-15deg);
+    }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2.5rem;
+      max-width: var(--content-max);
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .card {
+      background: var(--cubism-parchment);
+      border: 2px solid var(--cubism-black);
+      padding: 2rem;
+      position: relative;
+      clip-path: polygon(
+        0% 4%, 4% 0%, 96% 0%, 100% 4%,
+        100% 96%, 96% 100%, 4% 100%, 0% 96%
+      );
+      transform: rotate(-1deg);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      animation: facetReveal 0.8s ease-out both;
+    }
+
+    .card:nth-child(1) { animation-delay: 0.1s; }
+    .card:nth-child(2) { animation-delay: 0.25s; }
+    .card:nth-child(3) { animation-delay: 0.4s; }
+    .card:nth-child(4) { animation-delay: 0.55s; }
+    .card:nth-child(5) { animation-delay: 0.7s; }
+    .card:nth-child(6) { animation-delay: 0.85s; }
+
+    .card:nth-child(even) {
+      transform: rotate(1deg);
+      margin-top: 1.5rem;
+    }
+
+    .card:hover {
+      transform: rotate(0deg) translateY(-6px);
+    }
+
+    /* Ochre accent stripe */
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 8%;
+      right: 8%;
+      height: 4px;
+      background: var(--cubism-ochre);
+    }
+
+    /* Corner triangle fragment */
+    .card::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(315deg, var(--cubism-umber) 50%, transparent 50%);
+      opacity: 0.5;
+    }
+
+    .card__number {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 3.2rem;
+      color: var(--cubism-stone);
+      line-height: 1;
+      margin-bottom: 0.5rem;
+      position: relative;
+    }
+
+    /* Accent color variations for card numbers */
+    .card:nth-child(1) .card__number { color: rgba(200, 169, 78, 0.2); }
+    .card:nth-child(2) .card__number { color: rgba(184, 92, 58, 0.2); }
+    .card:nth-child(3) .card__number { color: rgba(91, 122, 138, 0.2); }
+    .card:nth-child(4) .card__number { color: rgba(107, 123, 78, 0.2); }
+    .card:nth-child(5) .card__number { color: rgba(160, 112, 122, 0.2); }
+    .card:nth-child(6) .card__number { color: rgba(122, 107, 138, 0.2); }
+
+    .card h3 {
+      font-size: 1.05rem;
+    }
+
+    .card p {
+      font-size: 0.9rem;
+      color: var(--cubism-warm-gray);
+      line-height: 1.65;
+    }
+
+    /* Colored accent bar on each card (unique per child) */
+    .card:nth-child(1)::before { background: var(--cubism-ochre); }
+    .card:nth-child(2)::before { background: var(--cubism-terracotta); }
+    .card:nth-child(3)::before { background: var(--cubism-blue); }
+    .card:nth-child(4)::before { background: var(--cubism-olive); }
+    .card:nth-child(5)::before { background: var(--cubism-rose); }
+    .card:nth-child(6)::before { background: var(--cubism-violet); }
+
+    /* ============================================================
+       COLLAGE SECTION
+       ============================================================ */
+    .collage {
+      padding: var(--section-pad) 0;
+      background: var(--cubism-parchment);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Angular geometric background texture */
+    .collage::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(35deg, rgba(107, 91, 78, 0.04) 25%, transparent 25%),
+        linear-gradient(145deg, rgba(107, 91, 78, 0.04) 25%, transparent 25%),
+        linear-gradient(215deg, rgba(107, 91, 78, 0.04) 25%, transparent 25%),
+        linear-gradient(325deg, rgba(107, 91, 78, 0.04) 25%, transparent 25%);
+      background-size: 80px 80px;
+      pointer-events: none;
+    }
+
+    .collage__header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .collage__header h2::after {
+      content: '';
+      display: block;
+      width: 50px;
+      height: 4px;
+      background: var(--cubism-sienna);
+      margin: 0.75rem auto 0;
+      transform: skewX(-15deg);
+    }
+
+    .collage__grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: auto auto auto;
+      gap: 1.5rem;
+      max-width: var(--content-max);
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .collage__item {
+      position: relative;
+      border: 2px solid var(--cubism-border);
+      padding: 1.5rem;
+      background: var(--cubism-cream);
+      transition: transform 0.3s ease, z-index 0s;
+    }
+
+    .collage__item:nth-child(odd) {
+      transform: rotate(-2deg);
+    }
+
+    .collage__item:nth-child(even) {
+      transform: rotate(2deg);
+    }
+
+    .collage__item:hover {
+      transform: rotate(0deg) scale(1.04);
+      z-index: 10;
+    }
+
+    /* Torn paper edge clip */
+    .collage__item--torn {
+      clip-path: polygon(
+        2% 0%, 98% 3%, 100% 5%, 97% 97%,
+        95% 100%, 3% 98%, 0% 95%, 1% 2%
+      );
+    }
+
+    /* Span two columns */
+    .collage__item--wide {
+      grid-column: span 2;
+    }
+
+    /* Dark variant */
+    .collage__item--dark {
+      background: var(--cubism-charcoal);
+      color: var(--cubism-cream);
+    }
+
+    .collage__item--dark h3 {
+      color: var(--cubism-ochre);
+    }
+
+    .collage__item--dark p {
+      color: var(--cubism-warm-gray);
+    }
+
+    /* Accent border variant */
+    .collage__item--accent {
+      border-color: var(--cubism-ochre);
+      border-width: 3px;
+    }
+
+    .collage__item h3 {
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 0.95rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+
+    .collage__item p {
+      font-size: 0.85rem;
+      color: var(--cubism-umber);
+      line-height: 1.6;
+    }
+
+    /* Geometric shard decoration within collage items */
+    .collage__item .shard {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 50px;
+      height: 50px;
+      opacity: 0.3;
+    }
+
+    .shard--ochre {
+      background: linear-gradient(315deg, var(--cubism-ochre) 50%, transparent 50%);
+    }
+
+    .shard--terra {
+      background: linear-gradient(315deg, var(--cubism-terracotta) 50%, transparent 50%);
+    }
+
+    .shard--blue {
+      background: linear-gradient(315deg, var(--cubism-blue) 50%, transparent 50%);
+    }
+
+    .shard--olive {
+      background: linear-gradient(315deg, var(--cubism-olive) 50%, transparent 50%);
+    }
+
+    /* ============================================================
+       EFFECTS & DETAILS SECTION
+       ============================================================ */
+    .effects {
+      padding: var(--section-pad) 0;
+      background: var(--cubism-charcoal);
+      color: var(--cubism-cream);
+      position: relative;
+      overflow: hidden;
+      clip-path: polygon(0 3%, 100% 0, 100% 97%, 0 100%);
+    }
+
+    /* Subtle plane decorations */
+    .effects::before {
+      content: '';
+      position: absolute;
+      top: -30px;
+      right: 5%;
+      width: 300px;
+      height: 400px;
+      background: var(--cubism-umber);
+      transform: rotate(12deg);
+      opacity: 0.08;
+    }
+
+    .effects::after {
+      content: '';
+      position: absolute;
+      bottom: -50px;
+      left: 10%;
+      width: 250px;
+      height: 350px;
+      background: var(--cubism-ochre);
+      transform: rotate(-15deg);
+      opacity: 0.06;
+      clip-path: polygon(15% 0%, 100% 0%, 85% 100%, 0% 100%);
+    }
+
+    .effects__header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .effects__header h2 {
+      color: var(--cubism-cream);
+    }
+
+    .effects__header h2::after {
+      content: '';
+      display: block;
+      width: 50px;
+      height: 4px;
+      background: var(--cubism-ochre);
+      margin: 0.75rem auto 0;
+      transform: skewX(-15deg);
+    }
+
+    .effects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2.5rem;
+      max-width: var(--content-max);
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .effect-box {
+      border: 2px solid rgba(200, 169, 78, 0.3);
+      padding: 2rem;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.3s ease;
+    }
+
+    .effect-box:hover {
+      border-color: var(--cubism-ochre);
+    }
+
+    .effect-box__title {
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--cubism-ochre);
+      margin-bottom: 1rem;
+    }
+
+    .effect-box p {
+      font-size: 0.85rem;
+      color: var(--cubism-warm-gray);
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+    }
+
+    /* Effect demos */
+    .effect-demo {
+      position: relative;
+      min-height: 120px;
+      border: 1px solid rgba(200, 169, 78, 0.15);
+      overflow: hidden;
+    }
+
+    /* Clip-path chamfer demo */
+    .demo-clippath {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      padding: 12px;
+    }
+
+    .demo-clippath__shape {
+      height: 50px;
+      clip-path: polygon(
+        0% 4%, 4% 0%, 96% 0%, 100% 4%,
+        100% 96%, 96% 100%, 4% 100%, 0% 96%
+      );
+      transition: transform 0.3s ease;
+    }
+
+    .demo-clippath__shape:hover {
+      transform: scale(1.1);
+    }
+
+    .demo-clippath__shape:nth-child(1) { background: var(--cubism-ochre); }
+    .demo-clippath__shape:nth-child(2) { background: var(--cubism-terracotta); }
+    .demo-clippath__shape:nth-child(3) { background: var(--cubism-blue); }
+    .demo-clippath__shape:nth-child(4) { background: var(--cubism-olive); }
+
+    /* Rotation demo */
+    .demo-rotation {
+      display: flex;
+      gap: 12px;
+      padding: 20px;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .demo-rotation__card {
+      width: 60px;
+      height: 80px;
+      border: 2px solid var(--cubism-ochre);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.5rem;
+      color: var(--cubism-ochre);
+      transition: transform 0.4s ease;
+    }
+
+    .demo-rotation__card:nth-child(1) { transform: rotate(-4deg); background: rgba(200, 169, 78, 0.08); }
+    .demo-rotation__card:nth-child(2) { transform: rotate(2deg); background: rgba(184, 92, 58, 0.08); }
+    .demo-rotation__card:nth-child(3) { transform: rotate(-3deg); background: rgba(91, 122, 138, 0.08); }
+    .demo-rotation__card:nth-child(4) { transform: rotate(5deg); background: rgba(107, 123, 78, 0.08); }
+
+    .demo-rotation:hover .demo-rotation__card {
+      transform: rotate(0deg);
+    }
+
+    /* Overlap demo */
+    .demo-overlap {
+      position: relative;
+      height: 120px;
+      padding: 10px;
+    }
+
+    .demo-overlap__plane {
+      position: absolute;
+      width: 45%;
+      height: 70%;
+      border: 2px solid rgba(200, 169, 78, 0.4);
+      transition: transform 0.4s ease;
+    }
+
+    .demo-overlap__plane:nth-child(1) {
+      top: 10px;
+      left: 10px;
+      background: rgba(200, 169, 78, 0.12);
+      transform: rotate(-3deg);
+      z-index: 3;
+    }
+
+    .demo-overlap__plane:nth-child(2) {
+      top: 20px;
+      left: 30%;
+      background: rgba(184, 92, 58, 0.12);
+      transform: rotate(2deg);
+      z-index: 2;
+    }
+
+    .demo-overlap__plane:nth-child(3) {
+      top: 30px;
+      right: 10px;
+      background: rgba(91, 122, 138, 0.12);
+      transform: rotate(-1deg);
+      z-index: 1;
+    }
+
+    .demo-overlap:hover .demo-overlap__plane:nth-child(1) { transform: rotate(-1deg) translateX(-5px); }
+    .demo-overlap:hover .demo-overlap__plane:nth-child(2) { transform: rotate(0deg); }
+    .demo-overlap:hover .demo-overlap__plane:nth-child(3) { transform: rotate(1deg) translateX(5px); }
+
+    /* Construction lines demo */
+    .demo-construction {
+      position: relative;
+      height: 120px;
+    }
+
+    .demo-construction__line {
+      position: absolute;
+      height: 1px;
+      background: rgba(200, 169, 78, 0.4);
+    }
+
+    .demo-construction__line:nth-child(1) {
+      top: 20%;
+      left: 5%;
+      width: 90%;
+      transform: rotate(-5deg);
+    }
+
+    .demo-construction__line:nth-child(2) {
+      top: 45%;
+      left: 10%;
+      width: 80%;
+      transform: rotate(3deg);
+    }
+
+    .demo-construction__line:nth-child(3) {
+      top: 70%;
+      left: 0;
+      width: 95%;
+      transform: rotate(-8deg);
+    }
+
+    .demo-construction__line:nth-child(4) {
+      top: 10%;
+      left: 25%;
+      width: 1px;
+      height: 80%;
+      transform: rotate(6deg);
+    }
+
+    .demo-construction__line:nth-child(5) {
+      top: 5%;
+      left: 60%;
+      width: 1px;
+      height: 90%;
+      transform: rotate(-4deg);
+    }
+
+    .demo-construction__node {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      background: var(--cubism-ochre);
+      clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+    }
+
+    .demo-construction__node:nth-child(6) { top: 30%; left: 25%; }
+    .demo-construction__node:nth-child(7) { top: 50%; left: 60%; }
+    .demo-construction__node:nth-child(8) { top: 65%; left: 40%; }
+
+    /* ============================================================
+       MANIFESTO / QUOTE SECTION
+       ============================================================ */
+    .manifesto {
+      background: var(--cubism-bg-dark);
+      color: var(--cubism-text-light);
+      padding: calc(var(--section-pad) + 3rem) 2rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .manifesto::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -5%;
+      width: 40%;
+      height: 100%;
+      background: var(--cubism-umber);
+      transform: skewX(8deg);
+      opacity: 0.06;
+    }
+
+    .manifesto::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      right: -5%;
+      width: 35%;
+      height: 100%;
+      background: var(--cubism-ochre);
+      transform: skewX(-6deg);
+      opacity: 0.04;
+    }
+
+    .manifesto__inner {
+      max-width: 700px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .manifesto__quote {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.4rem, 3vw, 2.2rem);
+      font-weight: 700;
+      font-style: italic;
+      line-height: 1.5;
+      color: var(--cubism-cream);
+      margin-bottom: 1.5rem;
+      position: relative;
+    }
+
+    .manifesto__quote::before {
+      content: '\201C';
+      font-family: 'Playfair Display', serif;
+      font-size: 5rem;
+      color: var(--cubism-ochre);
+      position: absolute;
+      top: -2rem;
+      left: -1.5rem;
+      line-height: 1;
+      opacity: 0.5;
+    }
+
+    .manifesto__attribution {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--cubism-ochre);
+    }
+
+    .manifesto__desc {
+      font-size: 1rem;
+      color: var(--cubism-warm-gray);
+      margin-top: 2rem;
+      line-height: 1.7;
+      max-width: 550px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* ============================================================
+       BUTTON SHOWCASE
+       ============================================================ */
+    .btn-showcase {
+      padding: var(--section-pad) 0;
+      background: var(--cubism-parchment);
+    }
+
+    .btn-showcase__header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .btn-showcase__header h2::after {
+      content: '';
+      display: block;
+      width: 50px;
+      height: 4px;
+      background: var(--cubism-ochre);
+      margin: 0.75rem auto 0;
+      transform: skewX(-15deg);
+    }
+
+    .btn-showcase__row {
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 2rem;
+    }
+
+    .btn-showcase__label {
+      width: 100%;
+      text-align: center;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--cubism-warm-gray);
+      margin-bottom: -0.5rem;
+    }
+
+    /* Dark background row for outline buttons */
+    .btn-showcase__dark {
+      background: var(--cubism-charcoal);
+      padding: 2rem;
+      border: 2px solid var(--cubism-black);
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      max-width: 600px;
+      margin: 0 auto;
+      clip-path: polygon(
+        0% 4%, 4% 0%, 96% 0%, 100% 4%,
+        100% 96%, 96% 100%, 4% 100%, 0% 96%
+      );
+    }
+
+    /* ============================================================
+       FOOTER
+       ============================================================ */
+    .footer {
+      background: var(--cubism-black);
+      color: var(--cubism-warm-gray);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .footer::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(
+        90deg,
+        var(--cubism-terracotta) 0%, var(--cubism-terracotta) 30%,
+        var(--cubism-ochre) 30%, var(--cubism-ochre) 55%,
+        var(--cubism-olive) 55%, var(--cubism-olive) 70%,
+        var(--cubism-blue) 70%, var(--cubism-blue) 85%,
+        var(--cubism-violet) 85%, var(--cubism-violet) 100%
+      );
+    }
+
+    .footer__inner {
+      max-width: var(--content-max);
+      margin: 0 auto;
+      padding: 4rem 2rem 2rem;
+      display: grid;
+      grid-template-columns: 1.5fr 1fr 1fr;
+      gap: 3rem;
+    }
+
+    .footer__brand {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2rem;
+      color: var(--cubism-ochre);
+      letter-spacing: 0.1em;
+      margin-bottom: 1rem;
+    }
+
+    .footer__desc {
+      font-size: 0.9rem;
+      line-height: 1.6;
+      color: var(--cubism-warm-gray);
+    }
+
+    .footer__heading {
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--cubism-cream);
+      margin-bottom: 1rem;
+    }
+
+    .footer__links {
+      list-style: none;
+    }
+
+    .footer__links li {
+      margin-bottom: 0.5rem;
+    }
+
+    .footer__links a {
+      font-size: 0.85rem;
+      color: var(--cubism-warm-gray);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .footer__links a:hover {
+      color: var(--cubism-ochre);
+    }
+
+    .footer__bottom {
+      border-top: 1px solid rgba(156, 148, 134, 0.2);
+      margin-top: 2rem;
+      padding: 1.5rem 2rem;
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--cubism-warm-gray);
+      max-width: var(--content-max);
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* Geometric decoration in footer */
+    .footer__geo {
+      position: absolute;
+      bottom: 40px;
+      right: 40px;
+      width: 100px;
+      height: 100px;
+      opacity: 0.08;
+    }
+
+    .footer__geo::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border: 2px solid var(--cubism-ochre);
+      transform: rotate(15deg);
+    }
+
+    .footer__geo::after {
+      content: '';
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      right: 15px;
+      bottom: 15px;
+      border: 2px solid var(--cubism-terracotta);
+      transform: rotate(-10deg);
+    }
+
+    /* ============================================================
+       RESPONSIVE DESIGN
+       ============================================================ */
+    @media (max-width: 900px) {
+      .hero__inner {
+        grid-template-columns: 1fr;
+      }
+
+      .hero__fragments {
+        display: none;
+      }
+
+      .hero {
+        min-height: auto;
+        padding: 80px 24px 100px;
+      }
+
+      .type-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .fragmented-panel {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+        min-height: auto;
+      }
+
+      .fragmented-panel__plane {
+        position: relative !important;
+        top: auto !important;
+        left: auto !important;
+        right: auto !important;
+        bottom: auto !important;
+        width: 100% !important;
+        transform: none !important;
+        clip-path: none !important;
+      }
+
+      .fragmented-panel::after {
+        display: none;
+      }
+
+      .collage__grid {
+        grid-template-columns: 1fr;
+      }
+
+      .collage__item--wide {
+        grid-column: span 1;
+      }
+
+      .footer__inner {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .nav {
+        padding: 0 16px;
+      }
+
+      .nav__links {
+        gap: 14px;
+      }
+
+      .nav__links a {
+        font-size: 0.7rem;
+        letter-spacing: 0.05em;
+      }
+
+      h1 {
+        font-size: clamp(2.5rem, 10vw, 4rem);
+      }
+
+      .card-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .card:nth-child(even) {
+        margin-top: 0;
+      }
+
+      .effects-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .btn-showcase__dark {
+        margin: 0 1rem;
+      }
+
+      .swatch-grid {
+        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+        gap: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================================
+       NAVIGATION
+       ============================================================ -->
+  <nav class="nav">
+    <a href="#" class="nav__logo">Cubisme</a>
+    <ul class="nav__links">
+      <li><a href="#typography">Type</a></li>
+      <li><a href="#palette">Palette</a></li>
+      <li><a href="#perspectives">Planes</a></li>
+      <li><a href="#cards">Components</a></li>
+      <li><a href="#effects">Effects</a></li>
+    </ul>
+  </nav>
+
+  <!-- ============================================================
+       HERO
+       ============================================================ -->
+  <section class="hero">
+    <div class="hero__inner">
+      <div class="hero__text">
+        <h1>
+          <span class="line-break">Multiple</span>
+          <span class="accent">Perspectives</span>
+        </h1>
+        <p class="hero__subtitle">Analytical &amp; Synthetic Cubism, 1907 &#8211; 1914</p>
+        <p class="hero__desc">
+          Fragmented forms, geometric planes, and the deliberate rejection of single-point
+          perspective. A design language born from the most revolutionary art movement of the
+          twentieth century, pioneered by Picasso and Braque in the studios of Montmartre.
+        </p>
+        <div class="hero__actions">
+          <a href="#perspectives" class="btn btn--accent">Explore Fragments</a>
+          <a href="#palette" class="btn btn--outline">View Palette</a>
+        </div>
+      </div>
+      <div class="hero__fragments">
+        <div class="frag frag--1"></div>
+        <div class="frag frag--2"></div>
+        <div class="frag frag--3"></div>
+        <div class="frag frag--4"></div>
+        <div class="frag frag--5"></div>
+        <div class="frag frag--6"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Divider -->
+  <div class="divider"></div>
+
+  <!-- ============================================================
+       TYPOGRAPHY SHOWCASE
+       ============================================================ -->
+  <section class="typography" id="typography">
+    <div class="section-inner">
+      <div class="typography__header">
+        <span class="label">Typographic Specimens</span>
+        <h2>Geometric Letterforms</h2>
+      </div>
+
+      <div class="type-grid">
+        <div class="type-specimen">
+          <div class="type-specimen__label">Display / Bebas Neue</div>
+          <div class="type-specimen--display">Faceted<br>Planes</div>
+        </div>
+        <div class="type-specimen">
+          <div class="type-specimen__label">Heading / Josefin Sans</div>
+          <div class="type-specimen--heading">The Object Exists<br>From Every Angle</div>
+        </div>
+        <div class="type-specimen">
+          <div class="type-specimen__label">Accent Serif / Playfair Display</div>
+          <div class="type-specimen--serif">Reality is not a single snapshot from a fixed position</div>
+        </div>
+        <div class="type-specimen">
+          <div class="type-specimen__label">Body / Source Sans 3</div>
+          <div class="type-specimen--body">
+            Cubism dismantled the conventions of representation that had governed Western art
+            since the Renaissance. Objects are analyzed, broken apart, and reassembled as
+            geometric planes -- viewed from all angles at once rather than from a single
+            fixed perspective. This radical approach continues to influence design today.
+          </div>
+        </div>
+      </div>
+
+      <!-- Fragmented text demonstration -->
+      <div class="type-fragmented">
+        <div class="type-fragmented__word">
+          <span>F</span><span>R</span><span>A</span><span>G</span><span>M</span><span>E</span><span>N</span><span>T</span><span>A</span><span>T</span><span>I</span><span>O</span><span>N</span>
+        </div>
+        <div class="type-fragmented__caption">Hover to reassemble -- Typographic fragmentation as compositional element</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Zigzag band -->
+  <div class="zigzag"></div>
+
+  <!-- ============================================================
+       COLOR PALETTE
+       ============================================================ -->
+  <section class="palette" id="palette">
+    <div class="section-inner">
+      <div class="palette__header">
+        <span class="label">Chromatic System</span>
+        <h2>The Cubist Palette</h2>
+        <p class="palette__subtitle">From restrained monochromes to selective bold accents</p>
+      </div>
+
+      <!-- Analytical Cubism -->
+      <div class="palette__phase">
+        <h3>Analytical Phase</h3>
+      </div>
+      <div class="swatch-grid">
+        <div class="swatch">
+          <div class="swatch__color" style="background: #6b5b4e;"></div>
+          <div class="swatch__name">Raw Umber</div>
+          <div class="swatch__hex">#6B5B4E</div>
+        </div>
+        <div class="swatch">
+          <div class="swatch__color" style="background: #c8a94e;"></div>
+          <div class="swatch__name">Ochre Gold</div>
+          <div class="swatch__hex">#C8A94E</div>
+        </div>
+        <div class="swatch">
+          <div class="swatch__color" style="background: #a0522d;"></div>
+          <div class="swatch__name">Burnt Sienna</div>
+          <div class="swatch__hex">#A0522D</div>
+        </div>
+        <div class="swatch">
+          <div class="swatch__color" style="background: #9c9486;"></div>
+          <div class="swatch__name">Warm Gray</div>
+          <div class="swatch__hex">#9C9486</div>
+        </div>
+        <div class="swatch">
+          <div class="swatch__color" style="background: #2d2d2d;"></div>
+          <div class="swatch__name">Charcoal</div>
+          <div class="swatch__hex">#2D2D2D</div>
+        </div>
+        <div class="swatch">
+          <div class="swatch__color" style="background: #1a1612;"></div>
+          <div class="swatch__name">Deep Black</div>
+          <div class="swatch__hex">#1A1612</div>
+        </div>
+      </div>
+
+      <!-- Synthetic Cubism -->
+      <div class="palette__phase">
+        <h3>Synthetic Phase</h3>
+      </div>
+      <div class="swatch-grid">
+        <div class="swatch">
+          <div class="swatch__color" style="background: #b85c3a;"></div>
+          <div class="swatch__name">Terracotta</div>
+          <div class="swatch__hex">#B85C3A</div>
+        </div>
+        <div class="swatch">
+          <div class="swatch__color" style="background: #5b7a8a;"></div>
+          <div class="swatch__name">Dusty Blue</div>
+          <div class="swatch__hex">#5B7A8A</div>
+        </div>
+        <div class="swatch">
+          <div class="swatch__color" style="background: #6b7b4e;"></div>
+          <div class="swatch__name">Olive Drab</div>
+          <div class="swatch__hex">#6B7B4E</div>
+        </div>
+        <div class="swatch">
+          <div class="swatch__color" style="background: #a0707a;"></div>
+          <div class="swatch__name">Dusty Rose</div>
+          <div class="swatch__hex">#A0707A</div>
+        </div>
+        <div class="swatch">
+          <div class="swatch__color" style="background: #7a6b8a;"></div>
+          <div class="swatch__name">Muted Violet</div>
+          <div class="swatch__hex">#7A6B8A</div>
+        </div>
+        <div class="swatch">
+          <div class="swatch__color" style="background: #4a5568;"></div>
+          <div class="swatch__name">Slate</div>
+          <div class="swatch__hex">#4A5568</div>
+        </div>
+      </div>
+
+      <!-- Surface colors -->
+      <div class="palette__phase">
+        <h3>Surface Tones</h3>
+      </div>
+      <div class="swatch-grid">
+        <div class="swatch">
+          <div class="swatch__color" style="background: #f0e8d8;"></div>
+          <div class="swatch__name">Parchment</div>
+          <div class="swatch__hex">#F0E8D8</div>
+        </div>
+        <div class="swatch">
+          <div class="swatch__color" style="background: #ede6d6;"></div>
+          <div class="swatch__name">Stone White</div>
+          <div class="swatch__hex">#EDE6D6</div>
+        </div>
+        <div class="swatch">
+          <div class="swatch__color" style="background: #f5f0e1;"></div>
+          <div class="swatch__name">Cream</div>
+          <div class="swatch__hex">#F5F0E1</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Divider -->
+  <div class="divider divider--stone"></div>
+
+  <!-- ============================================================
+       MULTI-PERSPECTIVE SECTION
+       ============================================================ -->
+  <section class="perspectives" id="perspectives">
+    <div class="section-inner">
+      <div class="perspectives__header">
+        <span class="label">Overlapping Viewpoints</span>
+        <h2>Fragmented Planes</h2>
+      </div>
+
+      <div class="fragmented-panel">
+        <div class="fragmented-panel__plane plane--a">
+          <div class="plane__label">Perspective I -- Form</div>
+          <h3 class="plane__title">Geometric Deconstruction</h3>
+          <p class="plane__text">
+            Every object is reduced to its geometric essence. Circles, triangles, rectangles,
+            and irregular polygons replace organic forms. The subject exists not as a single
+            view but as an aggregate of all possible angles compressed onto the picture plane.
+          </p>
+        </div>
+        <div class="fragmented-panel__plane plane--b">
+          <div class="plane__label">Perspective II -- Space</div>
+          <h3 class="plane__title">Flattened Depth</h3>
+          <p class="plane__text">
+            Depth is not created through vanishing points or atmospheric perspective. Instead,
+            overlapping translucent and opaque planes create a compressed spatial field where
+            foreground and background interpenetrate.
+          </p>
+        </div>
+        <div class="fragmented-panel__plane plane--c">
+          <div class="plane__label">Perspective III -- Surface</div>
+          <h3 class="plane__title">Collage &amp; Mixed Media</h3>
+          <p class="plane__text">
+            Synthetic Cubism introduced papier coll&eacute;, pasting real-world materials
+            directly onto the canvas. In digital design, this becomes the mixing of
+            content types, textures, and layered media within a unified composition.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Zigzag band -->
+  <div class="zigzag"></div>
+
+  <!-- ============================================================
+       CARDS / COMPONENTS
+       ============================================================ -->
+  <section class="cards" id="cards">
+    <div class="section-inner">
+      <div class="cards__header">
+        <span class="label">Design Principles</span>
+        <h2>Geometric Components</h2>
+      </div>
+
+      <div class="card-grid">
+        <div class="card">
+          <div class="card__number">01</div>
+          <h3>Fragmentation</h3>
+          <p>
+            Break every element into its geometric components. Nothing remains whole;
+            everything is faceted, analyzed, and reassembled from multiple viewpoints.
+          </p>
+        </div>
+        <div class="card">
+          <div class="card__number">02</div>
+          <h3>Simultaneity</h3>
+          <p>
+            Present multiple perspectives at once. Overlapping panels reveal different
+            aspects of content simultaneously, rejecting the tyranny of a single viewpoint.
+          </p>
+        </div>
+        <div class="card">
+          <div class="card__number">03</div>
+          <h3>Flat Depth</h3>
+          <p>
+            Suggest spatial relationships through overlapping planes rather than vanishing
+            points. The picture plane remains shallow and compressed, never illusionistic.
+          </p>
+        </div>
+        <div class="card">
+          <div class="card__number">04</div>
+          <h3>Visible Structure</h3>
+          <p>
+            Construction lines, edges, and grid structures are design features, not flaws.
+            Let the skeleton of the composition remain visible as an active element.
+          </p>
+        </div>
+        <div class="card">
+          <div class="card__number">05</div>
+          <h3>Angular Tension</h3>
+          <p>
+            Apply slight rotations to panels and elements. Reject perfect axis alignment
+            in favor of dynamic angles that create visual energy and compositional tension.
+          </p>
+        </div>
+        <div class="card">
+          <div class="card__number">06</div>
+          <h3>Collage Thinking</h3>
+          <p>
+            Combine disparate elements, textures, and media within a unified composition.
+            Embrace the creative friction of mixed materials and layered content types.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Divider -->
+  <div class="divider divider--reverse"></div>
+
+  <!-- ============================================================
+       COLLAGE SECTION
+       ============================================================ -->
+  <section class="collage">
+    <div class="section-inner">
+      <div class="collage__header">
+        <span class="label">Papier Coll&eacute;</span>
+        <h2>Collage Compositions</h2>
+      </div>
+
+      <div class="collage__grid">
+        <div class="collage__item collage__item--wide collage__item--torn">
+          <h3>Analytical Cubism (1909-1912)</h3>
+          <p>
+            Dense geometric deconstruction in monochromatic earth tones. Forms are shattered
+            into small, interlocking facets that render the subject nearly abstract while
+            maintaining a connection to observable reality.
+          </p>
+          <div class="shard shard--ochre"></div>
+        </div>
+        <div class="collage__item collage__item--dark">
+          <h3>The Guitar</h3>
+          <p>
+            A recurring motif in Cubist work. The instrument's curves become angular planes;
+            its strings become geometric lines intersecting flat surfaces.
+          </p>
+          <div class="shard shard--terra"></div>
+        </div>
+        <div class="collage__item collage__item--accent">
+          <h3>Simultaneity</h3>
+          <p>
+            The front, side, and back of an object are depicted at once, compressed
+            into a single composition that transcends temporal viewing.
+          </p>
+          <div class="shard shard--blue"></div>
+        </div>
+        <div class="collage__item collage__item--torn">
+          <h3>Synthetic Cubism (1912-1914)</h3>
+          <p>
+            Bolder colors, larger shapes, and collage elements characterize the second
+            phase. Real-world materials enter the composition directly.
+          </p>
+          <div class="shard shard--olive"></div>
+        </div>
+        <div class="collage__item collage__item--wide collage__item--dark collage__item--torn">
+          <h3>From Canvas to Screen</h3>
+          <p>
+            In web design, Cubist principles translate to fragmented grids, overlapping
+            content panels, angular clip-paths, collage-like media arrangements, and
+            the deliberate exposure of structural elements as decorative features.
+          </p>
+          <div class="shard shard--ochre"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       EFFECTS & DETAILS
+       ============================================================ -->
+  <section class="effects" id="effects">
+    <div class="section-inner">
+      <div class="effects__header">
+        <span class="label label--ochre">CSS Techniques</span>
+        <h2>Visual Effects &amp; Details</h2>
+      </div>
+
+      <div class="effects-grid">
+        <div class="effect-box">
+          <h3 class="effect-box__title">Chamfered Clip-Paths</h3>
+          <p>Angular clip-path polygons replace rounded corners, creating the faceted geometry characteristic of Cubist forms.</p>
+          <div class="effect-demo demo-clippath">
+            <div class="demo-clippath__shape"></div>
+            <div class="demo-clippath__shape"></div>
+            <div class="demo-clippath__shape"></div>
+            <div class="demo-clippath__shape"></div>
+          </div>
+        </div>
+
+        <div class="effect-box">
+          <h3 class="effect-box__title">Angular Rotation</h3>
+          <p>Slight rotations on cards and panels break rigid alignment, creating dynamic compositional tension. Hover to realign.</p>
+          <div class="effect-demo demo-rotation">
+            <div class="demo-rotation__card">A</div>
+            <div class="demo-rotation__card">B</div>
+            <div class="demo-rotation__card">C</div>
+            <div class="demo-rotation__card">D</div>
+          </div>
+        </div>
+
+        <div class="effect-box">
+          <h3 class="effect-box__title">Overlapping Planes</h3>
+          <p>Translucent and opaque panels overlap to create compressed spatial depth without traditional perspective. Hover to shift.</p>
+          <div class="effect-demo demo-overlap">
+            <div class="demo-overlap__plane"></div>
+            <div class="demo-overlap__plane"></div>
+            <div class="demo-overlap__plane"></div>
+          </div>
+        </div>
+
+        <div class="effect-box">
+          <h3 class="effect-box__title">Construction Lines</h3>
+          <p>Structural grid lines and intersection nodes remain visible as compositional elements rather than being hidden.</p>
+          <div class="effect-demo demo-construction">
+            <div class="demo-construction__line"></div>
+            <div class="demo-construction__line"></div>
+            <div class="demo-construction__line"></div>
+            <div class="demo-construction__line"></div>
+            <div class="demo-construction__line"></div>
+            <div class="demo-construction__node"></div>
+            <div class="demo-construction__node"></div>
+            <div class="demo-construction__node"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       MANIFESTO
+       ============================================================ -->
+  <section class="manifesto">
+    <div class="manifesto__inner">
+      <p class="manifesto__quote">
+        The object has no fixed form. It is the sum of all possible views,
+        compressed into a unified composition of interlocking planes and angles.
+      </p>
+      <p class="manifesto__attribution">The Cubist Principle</p>
+      <p class="manifesto__desc">
+        In Cubism, reality is not captured from a single position at a single moment.
+        It is reconstructed as a geometric truth -- every facet, every angle, every
+        surface given equal presence in the final composition.
+      </p>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       BUTTON SHOWCASE
+       ============================================================ -->
+  <section class="btn-showcase">
+    <div class="section-inner">
+      <div class="btn-showcase__header">
+        <span class="label">Interactive Elements</span>
+        <h2>Button Components</h2>
+      </div>
+
+      <div class="btn-showcase__row">
+        <div class="btn-showcase__label">Primary Variants</div>
+        <a href="#" class="btn">Default Button</a>
+        <a href="#" class="btn btn--accent">Accent Button</a>
+      </div>
+
+      <div class="btn-showcase__dark">
+        <div class="btn-showcase__label" style="color: var(--cubism-warm-gray);">On Dark Surface</div>
+        <a href="#" class="btn btn--outline">Outline Button</a>
+        <a href="#" class="btn btn--accent">Accent Button</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Zigzag band -->
+  <div class="zigzag"></div>
+
+  <!-- ============================================================
+       FOOTER
+       ============================================================ -->
+  <footer class="footer">
+    <div class="footer__inner">
+      <div>
+        <div class="footer__brand">Cubisme</div>
+        <p class="footer__desc">
+          A design reference for the Cubist aesthetic. Fragmented forms, multiple
+          perspectives, geometric truth. Inspired by the revolutionary vision of
+          Picasso, Braque, Gris, and L&eacute;ger.
+        </p>
+      </div>
+      <div>
+        <h4 class="footer__heading">Movements</h4>
+        <ul class="footer__links">
+          <li><a href="#">Analytical Cubism</a></li>
+          <li><a href="#">Synthetic Cubism</a></li>
+          <li><a href="#">Czech Cubism</a></li>
+          <li><a href="#">Constructivism</a></li>
+          <li><a href="#">Futurism</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="footer__heading">Principles</h4>
+        <ul class="footer__links">
+          <li><a href="#">Fragmentation</a></li>
+          <li><a href="#">Simultaneity</a></li>
+          <li><a href="#">Geometric Form</a></li>
+          <li><a href="#">Collage</a></li>
+          <li><a href="#">Flat Depth</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      Cubism Design Aesthetic Reference &middot; Inspired by the art of Montmartre, 1907&#8211;1914
+    </div>
+    <div class="footer__geo"></div>
+  </footer>
+
+</body>
+</html>
