@@ -1,0 +1,2447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Parallax Design -- Design Aesthetic Reference</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    /* =============================================
+       CSS CUSTOM PROPERTIES
+       ============================================= */
+    :root {
+      /* Backgrounds */
+      --color-deep-space: #0B0E17;
+      --color-midnight-navy: #141B2D;
+      --color-charcoal-depth: #1E2538;
+      --color-slate-mist: #2A3247;
+
+      /* Text & Neutrals */
+      --color-steel-gray: #8892A8;
+      --color-silver-fog: #C5CDD9;
+      --color-cloud-white: #F0F2F5;
+
+      /* Accents */
+      --color-electric-blue: #3B82F6;
+      --color-cyan-glow: #06B6D4;
+      --color-warm-amber: #F59E0B;
+      --color-soft-violet: #8B5CF6;
+      --color-coral-pulse: #EF4444;
+
+      /* Functional Aliases */
+      --bg-primary: var(--color-deep-space);
+      --bg-secondary: var(--color-midnight-navy);
+      --bg-surface: var(--color-charcoal-depth);
+      --bg-elevated: var(--color-slate-mist);
+      --text-primary: var(--color-cloud-white);
+      --text-secondary: var(--color-silver-fog);
+      --text-muted: var(--color-steel-gray);
+      --accent-primary: var(--color-electric-blue);
+      --accent-secondary: var(--color-cyan-glow);
+      --accent-tertiary: var(--color-warm-amber);
+      --accent-violet: var(--color-soft-violet);
+      --accent-coral: var(--color-coral-pulse);
+
+      /* Spacing */
+      --space-xs: 0.5rem;
+      --space-sm: 1rem;
+      --space-md: 2rem;
+      --space-lg: 4rem;
+      --space-xl: 6rem;
+      --space-2xl: 8rem;
+
+      /* Perspective */
+      --perspective-depth: 8px;
+
+      /* Transitions */
+      --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+      --ease-out-smooth: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    /* =============================================
+       RESET & BASE
+       ============================================= */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-size: 1rem;
+      line-height: 1.7;
+      color: var(--text-primary);
+      background: var(--bg-primary);
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3, h4 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 700;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+    }
+
+    h1 { font-size: clamp(2.5rem, 6vw, 5rem); }
+    h2 { font-size: clamp(1.8rem, 4vw, 3rem); }
+    h3 { font-size: clamp(1.25rem, 2.5vw, 1.75rem); }
+
+    p {
+      font-size: clamp(1rem, 1.25vw, 1.125rem);
+      max-width: 65ch;
+      color: var(--text-secondary);
+    }
+
+    a {
+      color: var(--accent-primary);
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    a:hover {
+      color: var(--accent-secondary);
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.875em;
+      background: rgba(59, 130, 246, 0.1);
+      color: var(--accent-secondary);
+      padding: 0.15em 0.4em;
+      border-radius: 4px;
+    }
+
+    .label {
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent-primary);
+      display: block;
+      margin-bottom: var(--space-sm);
+    }
+
+    /* =============================================
+       NAVIGATION
+       ============================================= */
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.25rem 2.5rem;
+      background: transparent;
+      transition: background 0.4s ease, backdrop-filter 0.4s ease;
+    }
+
+    .nav.is-scrolled {
+      background: rgba(11, 14, 23, 0.88);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .nav-logo {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 700;
+      font-size: 1.3rem;
+      color: var(--text-primary);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .nav-logo-accent {
+      color: var(--accent-primary);
+    }
+
+    .nav-logo-layers {
+      display: inline-flex;
+      flex-direction: column;
+      gap: 2px;
+      margin-right: 0.25rem;
+    }
+
+    .nav-logo-layers span {
+      display: block;
+      height: 2px;
+      border-radius: 1px;
+    }
+
+    .nav-logo-layers span:nth-child(1) {
+      width: 16px;
+      background: var(--accent-primary);
+    }
+
+    .nav-logo-layers span:nth-child(2) {
+      width: 12px;
+      background: var(--accent-secondary);
+    }
+
+    .nav-logo-layers span:nth-child(3) {
+      width: 8px;
+      background: var(--accent-violet);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      font-weight: 500;
+      text-decoration: none;
+      transition: color 0.3s ease;
+      position: relative;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--accent-primary);
+      transition: width 0.3s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--text-primary);
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    /* =============================================
+       BUTTONS
+       ============================================= */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.875rem 2rem;
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: #fff;
+      background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      text-decoration: none;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(59, 130, 246, 0.35), 0 0 60px rgba(6, 182, 212, 0.15);
+      color: #fff;
+    }
+
+    .btn--outline {
+      background: transparent;
+      border: 2px solid var(--accent-primary);
+      color: var(--accent-primary);
+    }
+
+    .btn--outline:hover {
+      background: rgba(59, 130, 246, 0.1);
+      box-shadow: 0 0 30px rgba(59, 130, 246, 0.15);
+      color: var(--accent-primary);
+    }
+
+    .btn--sm {
+      padding: 0.625rem 1.5rem;
+      font-size: 0.85rem;
+      border-radius: 10px;
+    }
+
+    /* =============================================
+       HERO SECTION
+       ============================================= */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      overflow: hidden;
+      background: var(--bg-primary);
+    }
+
+    /* Multi-layer animated background */
+    .hero-layer {
+      position: absolute;
+      pointer-events: none;
+    }
+
+    .hero-layer--deep {
+      inset: -30%;
+      background:
+        radial-gradient(ellipse at 15% 50%, rgba(139, 92, 246, 0.18) 0%, transparent 50%),
+        radial-gradient(ellipse at 85% 30%, rgba(59, 130, 246, 0.14) 0%, transparent 45%);
+      animation: layer-drift-deep 25s ease-in-out infinite alternate;
+    }
+
+    .hero-layer--mid {
+      inset: -20%;
+      background:
+        radial-gradient(ellipse at 60% 40%, rgba(6, 182, 212, 0.12) 0%, transparent 40%),
+        radial-gradient(ellipse at 30% 70%, rgba(245, 158, 11, 0.06) 0%, transparent 35%);
+      animation: layer-drift-mid 18s ease-in-out infinite alternate-reverse;
+    }
+
+    .hero-layer--near {
+      inset: -10%;
+      background:
+        radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.05) 0%, transparent 30%);
+      animation: layer-drift-near 12s ease-in-out infinite alternate;
+    }
+
+    @keyframes layer-drift-deep {
+      0% { transform: translate(0, 0) scale(1); }
+      100% { transform: translate(40px, -30px) scale(1.06); }
+    }
+
+    @keyframes layer-drift-mid {
+      0% { transform: translate(0, 0) scale(1); }
+      100% { transform: translate(-25px, 20px) scale(1.04); }
+    }
+
+    @keyframes layer-drift-near {
+      0% { transform: translate(0, 0) scale(1); }
+      100% { transform: translate(15px, -10px) scale(1.02); }
+    }
+
+    /* Floating particles (decorative depth elements) */
+    .hero-particles {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .particle {
+      position: absolute;
+      border-radius: 50%;
+      opacity: 0;
+      animation: particle-float linear infinite;
+    }
+
+    .particle--1 {
+      width: 4px; height: 4px;
+      background: var(--accent-primary);
+      left: 10%; top: 80%;
+      animation-duration: 14s;
+      animation-delay: 0s;
+    }
+
+    .particle--2 {
+      width: 3px; height: 3px;
+      background: var(--accent-secondary);
+      left: 25%; top: 90%;
+      animation-duration: 18s;
+      animation-delay: 2s;
+    }
+
+    .particle--3 {
+      width: 5px; height: 5px;
+      background: var(--accent-violet);
+      left: 45%; top: 85%;
+      animation-duration: 16s;
+      animation-delay: 4s;
+    }
+
+    .particle--4 {
+      width: 3px; height: 3px;
+      background: var(--accent-primary);
+      left: 65%; top: 95%;
+      animation-duration: 20s;
+      animation-delay: 1s;
+    }
+
+    .particle--5 {
+      width: 4px; height: 4px;
+      background: var(--accent-secondary);
+      left: 80%; top: 88%;
+      animation-duration: 15s;
+      animation-delay: 3s;
+    }
+
+    .particle--6 {
+      width: 2px; height: 2px;
+      background: var(--accent-tertiary);
+      left: 55%; top: 92%;
+      animation-duration: 22s;
+      animation-delay: 5s;
+    }
+
+    @keyframes particle-float {
+      0% {
+        opacity: 0;
+        transform: translateY(0) scale(0);
+      }
+      10% {
+        opacity: 0.6;
+        transform: translateY(-10vh) scale(1);
+      }
+      90% {
+        opacity: 0.3;
+        transform: translateY(-85vh) scale(0.6);
+      }
+      100% {
+        opacity: 0;
+        transform: translateY(-100vh) scale(0);
+      }
+    }
+
+    /* Grid overlay for depth */
+    .hero-grid {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(59, 130, 246, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(59, 130, 246, 0.03) 1px, transparent 1px);
+      background-size: 60px 60px;
+      mask-image: radial-gradient(ellipse at 50% 50%, rgba(0,0,0,0.4) 0%, transparent 70%);
+      -webkit-mask-image: radial-gradient(ellipse at 50% 50%, rgba(0,0,0,0.4) 0%, transparent 70%);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 5;
+      max-width: 850px;
+      padding: var(--space-md);
+    }
+
+    .hero-label {
+      font-weight: 600;
+      font-size: 0.8rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent-primary);
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+    }
+
+    .hero-label::before,
+    .hero-label::after {
+      content: '';
+      width: 30px;
+      height: 1px;
+      background: var(--accent-primary);
+      opacity: 0.4;
+    }
+
+    .hero-title {
+      font-size: clamp(3rem, 7vw, 5.5rem);
+      margin-bottom: 1.5rem;
+      background: linear-gradient(135deg, var(--text-primary) 0%, var(--text-secondary) 60%, var(--accent-primary) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-subtitle {
+      font-size: clamp(1.05rem, 1.8vw, 1.25rem);
+      color: var(--text-secondary);
+      max-width: 580px;
+      margin: 0 auto 2.5rem;
+      line-height: 1.8;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .scroll-indicator {
+      position: absolute;
+      bottom: 2.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--text-muted);
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      animation: scroll-float 2.5s ease-in-out infinite;
+      z-index: 5;
+    }
+
+    .scroll-indicator-line {
+      width: 1px;
+      height: 40px;
+      background: linear-gradient(to bottom, var(--accent-primary), transparent);
+      animation: scroll-pulse 2.5s ease-in-out infinite;
+    }
+
+    @keyframes scroll-float {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(-8px); }
+    }
+
+    @keyframes scroll-pulse {
+      0%, 100% { opacity: 0.3; }
+      50% { opacity: 0.8; }
+    }
+
+    /* Fade transitions between sections */
+    .fade-edge {
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 180px;
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    .fade-edge--bottom {
+      bottom: 0;
+      background: linear-gradient(to top, var(--bg-secondary), transparent);
+    }
+
+    .fade-edge--top {
+      top: 0;
+      background: linear-gradient(to bottom, var(--bg-primary), transparent);
+    }
+
+    .fade-edge--top-navy {
+      top: 0;
+      background: linear-gradient(to bottom, var(--bg-secondary), transparent);
+    }
+
+    /* =============================================
+       SECTION BASE
+       ============================================= */
+    .section {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    .section--dark {
+      background: var(--bg-primary);
+    }
+
+    .section--navy {
+      background: var(--bg-secondary);
+    }
+
+    .section--auto-height {
+      min-height: auto;
+    }
+
+    .section-inner {
+      position: relative;
+      z-index: 5;
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: var(--space-xl) var(--space-md);
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: var(--space-lg);
+    }
+
+    .section-header p {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      max-width: 600px;
+      margin: var(--space-sm) auto 0;
+    }
+
+    /* =============================================
+       PARALLAX FIXED-BACKGROUND SECTIONS
+       (background-attachment: fixed for simple depth)
+       ============================================= */
+    .parallax-banner {
+      position: relative;
+      min-height: 60vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .parallax-banner-bg {
+      position: absolute;
+      inset: 0;
+      background-attachment: fixed;
+      background-position: center;
+      background-size: cover;
+      background-repeat: no-repeat;
+    }
+
+    .parallax-banner-bg--geometric {
+      background-image:
+        linear-gradient(135deg, rgba(11, 14, 23, 0.7) 0%, rgba(20, 27, 45, 0.5) 100%);
+      background-color: var(--bg-primary);
+    }
+
+    .parallax-banner-bg--geometric::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-attachment: fixed;
+      background-size: 100px 100px;
+      background-image:
+        linear-gradient(rgba(59, 130, 246, 0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(59, 130, 246, 0.06) 1px, transparent 1px);
+      opacity: 0.7;
+    }
+
+    .parallax-banner-bg--gradient {
+      background: linear-gradient(135deg, var(--color-deep-space) 0%, var(--color-charcoal-depth) 50%, var(--color-midnight-navy) 100%);
+      background-attachment: fixed;
+    }
+
+    .parallax-banner-bg--gradient::before {
+      content: '';
+      position: absolute;
+      inset: -50%;
+      background:
+        radial-gradient(circle at 30% 40%, rgba(59, 130, 246, 0.15) 0%, transparent 40%),
+        radial-gradient(circle at 70% 60%, rgba(139, 92, 246, 0.12) 0%, transparent 40%),
+        radial-gradient(circle at 50% 80%, rgba(6, 182, 212, 0.08) 0%, transparent 35%);
+      background-attachment: fixed;
+      animation: gradient-shift 30s ease-in-out infinite alternate;
+    }
+
+    @keyframes gradient-shift {
+      0% { transform: rotate(0deg) scale(1); }
+      100% { transform: rotate(5deg) scale(1.1); }
+    }
+
+    .parallax-banner-content {
+      position: relative;
+      z-index: 5;
+      max-width: 700px;
+      padding: var(--space-lg) var(--space-md);
+    }
+
+    .parallax-banner-content h2 {
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      margin-bottom: var(--space-sm);
+    }
+
+    .parallax-banner-content p {
+      margin: 0 auto;
+    }
+
+    /* =============================================
+       CSS PERSPECTIVE PARALLAX CONTAINER
+       (True 3D parallax with translateZ)
+       ============================================= */
+    .perspective-scene {
+      position: relative;
+      height: 100vh;
+      overflow: hidden;
+      perspective: var(--perspective-depth);
+      perspective-origin: 50% 50%;
+    }
+
+    .perspective-scene-scroll {
+      height: 100%;
+      overflow-y: auto;
+      overflow-x: hidden;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .perspective-group {
+      position: relative;
+      min-height: 100vh;
+      transform-style: preserve-3d;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .perspective-layer {
+      position: absolute;
+      inset: 0;
+    }
+
+    .perspective-layer--deep {
+      transform: translateZ(-8px) scale(2);
+      z-index: -2;
+    }
+
+    .perspective-layer--back {
+      transform: translateZ(-4px) scale(1.5);
+      z-index: -1;
+    }
+
+    .perspective-layer--base {
+      position: relative;
+      transform: translateZ(0);
+      z-index: 1;
+    }
+
+    /* =============================================
+       DEPTH SHOWCASE (Visual 3D demo)
+       ============================================= */
+    .depth-showcase {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      background: var(--bg-primary);
+    }
+
+    .depth-visual {
+      position: relative;
+      width: min(600px, 80vw);
+      height: min(400px, 55vw);
+      perspective: 800px;
+    }
+
+    .depth-plane {
+      position: absolute;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      font-weight: 500;
+      transition: transform 0.6s var(--ease-out-expo);
+      will-change: transform;
+    }
+
+    .depth-plane--bg {
+      inset: 0;
+      background: linear-gradient(135deg, rgba(139, 92, 246, 0.15), rgba(59, 130, 246, 0.1));
+      border: 1px solid rgba(139, 92, 246, 0.2);
+      color: var(--accent-violet);
+      transform: translateZ(-120px) scale(1.3);
+    }
+
+    .depth-plane--mid {
+      inset: 12% 10%;
+      background: linear-gradient(135deg, rgba(6, 182, 212, 0.15), rgba(59, 130, 246, 0.1));
+      border: 1px solid rgba(6, 182, 212, 0.25);
+      color: var(--accent-secondary);
+      transform: translateZ(-40px) scale(1.08);
+    }
+
+    .depth-plane--fg {
+      inset: 25% 22%;
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(6, 182, 212, 0.15));
+      border: 1px solid rgba(59, 130, 246, 0.3);
+      color: var(--accent-primary);
+      transform: translateZ(0px);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    }
+
+    .depth-visual:hover .depth-plane--bg {
+      transform: translateZ(-120px) scale(1.3) rotateY(-5deg) rotateX(3deg);
+    }
+
+    .depth-visual:hover .depth-plane--mid {
+      transform: translateZ(-40px) scale(1.08) rotateY(-3deg) rotateX(2deg);
+    }
+
+    .depth-visual:hover .depth-plane--fg {
+      transform: translateZ(20px) rotateY(-1deg) rotateX(1deg);
+    }
+
+    .depth-labels {
+      position: absolute;
+      right: -140px;
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      gap: 2.5rem;
+    }
+
+    .depth-label-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .depth-label-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+    }
+
+    /* =============================================
+       TYPOGRAPHY SHOWCASE
+       ============================================= */
+    .type-showcase {
+      display: grid;
+      gap: var(--space-lg);
+    }
+
+    .type-specimen {
+      padding: var(--space-lg);
+      background: var(--bg-surface);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .type-specimen::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.3), transparent);
+    }
+
+    .type-specimen-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: var(--space-md);
+    }
+
+    .type-display {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 700;
+      font-size: clamp(3rem, 6vw, 5rem);
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+      margin-bottom: var(--space-sm);
+    }
+
+    .type-display--gradient {
+      background: linear-gradient(135deg, var(--text-primary), var(--accent-primary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .type-heading {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 700;
+      font-size: clamp(1.5rem, 3vw, 2.25rem);
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+      margin-bottom: var(--space-xs);
+    }
+
+    .type-body {
+      font-family: 'Inter', sans-serif;
+      font-size: 1rem;
+      line-height: 1.8;
+      color: var(--text-secondary);
+      max-width: 60ch;
+    }
+
+    .type-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-md);
+    }
+
+    .type-sample {
+      padding: var(--space-md);
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.04);
+    }
+
+    .type-sample-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      color: var(--accent-secondary);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 0.75rem;
+      display: block;
+    }
+
+    .type-scale {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-sm);
+    }
+
+    .type-scale-item {
+      display: flex;
+      align-items: baseline;
+      gap: var(--space-sm);
+    }
+
+    .type-scale-size {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      min-width: 80px;
+      flex-shrink: 0;
+    }
+
+    /* =============================================
+       COLOR PALETTE
+       ============================================= */
+    .palette-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1.25rem;
+    }
+
+    .palette-card {
+      background: var(--bg-surface);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 16px;
+      overflow: hidden;
+      transition: transform 0.4s var(--ease-out-expo), box-shadow 0.4s var(--ease-out-expo);
+    }
+
+    .palette-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    .palette-swatch {
+      height: 100px;
+      position: relative;
+    }
+
+    .palette-swatch::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 30px;
+      background: linear-gradient(to top, var(--bg-surface), transparent);
+    }
+
+    .palette-info {
+      padding: 1rem 1.25rem 1.25rem;
+    }
+
+    .palette-name {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: var(--text-primary);
+      margin-bottom: 0.25rem;
+    }
+
+    .palette-hex {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .palette-role {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-top: 0.5rem;
+      line-height: 1.5;
+    }
+
+    /* =============================================
+       CARDS & COMPONENTS
+       ============================================= */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: var(--space-md);
+    }
+
+    .card {
+      background: var(--bg-surface);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 16px;
+      padding: var(--space-md);
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.4s var(--ease-out-expo), box-shadow 0.4s var(--ease-out-expo);
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.3), transparent);
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3), 0 0 60px rgba(59, 130, 246, 0.06);
+    }
+
+    .card-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .card-icon--blue {
+      background: rgba(59, 130, 246, 0.12);
+      color: var(--accent-primary);
+    }
+
+    .card-icon--cyan {
+      background: rgba(6, 182, 212, 0.12);
+      color: var(--accent-secondary);
+    }
+
+    .card-icon--violet {
+      background: rgba(139, 92, 246, 0.12);
+      color: var(--accent-violet);
+    }
+
+    .card-icon--amber {
+      background: rgba(245, 158, 11, 0.12);
+      color: var(--accent-tertiary);
+    }
+
+    .card-icon--coral {
+      background: rgba(239, 68, 68, 0.12);
+      color: var(--accent-coral);
+    }
+
+    .card h3 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.2rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .card p {
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+
+    .card-tag {
+      display: inline-block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      color: var(--accent-secondary);
+      background: rgba(6, 182, 212, 0.1);
+      padding: 0.25rem 0.6rem;
+      border-radius: 6px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-top: var(--space-sm);
+    }
+
+    /* Feature card with glow */
+    .card--glow {
+      border-color: rgba(59, 130, 246, 0.15);
+    }
+
+    .card--glow::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle at center, rgba(59, 130, 246, 0.04) 0%, transparent 50%);
+      pointer-events: none;
+      transition: opacity 0.4s ease;
+      opacity: 0;
+    }
+
+    .card--glow:hover::after {
+      opacity: 1;
+    }
+
+    /* =============================================
+       STATS ROW
+       ============================================= */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--space-md);
+      text-align: center;
+      padding: var(--space-lg) 0;
+    }
+
+    .stat {
+      padding: var(--space-md);
+    }
+
+    .stat-value {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(2.5rem, 5vw, 3.5rem);
+      font-weight: 700;
+      line-height: 1;
+      margin-bottom: 0.5rem;
+    }
+
+    .stat-value--blue { color: var(--accent-primary); }
+    .stat-value--cyan { color: var(--accent-secondary); }
+    .stat-value--violet { color: var(--accent-violet); }
+    .stat-value--amber { color: var(--accent-tertiary); }
+
+    .stat-label {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-weight: 500;
+    }
+
+    /* =============================================
+       EFFECTS & DETAILS SECTION
+       ============================================= */
+    .effects-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--space-md);
+    }
+
+    .effect-demo {
+      background: var(--bg-surface);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 20px;
+      padding: var(--space-md);
+      position: relative;
+      overflow: hidden;
+      min-height: 280px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .effect-demo::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(6, 182, 212, 0.3), transparent);
+    }
+
+    .effect-demo-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--accent-secondary);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: var(--space-sm);
+    }
+
+    .effect-demo h3 {
+      font-size: 1.1rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .effect-demo p {
+      font-size: 0.85rem;
+      margin-bottom: var(--space-sm);
+    }
+
+    .effect-demo-visual {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 140px;
+      position: relative;
+    }
+
+    /* Glassmorphism depth effect */
+    .glass-stack {
+      position: relative;
+      width: 200px;
+      height: 130px;
+    }
+
+    .glass-layer {
+      position: absolute;
+      border-radius: 12px;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      transition: transform 0.5s var(--ease-out-expo);
+    }
+
+    .glass-layer--back {
+      inset: 0;
+      background: rgba(139, 92, 246, 0.08);
+      border: 1px solid rgba(139, 92, 246, 0.15);
+    }
+
+    .glass-layer--mid {
+      inset: 10px 5px;
+      background: rgba(6, 182, 212, 0.1);
+      border: 1px solid rgba(6, 182, 212, 0.2);
+    }
+
+    .glass-layer--front {
+      inset: 20px 10px;
+      background: rgba(59, 130, 246, 0.12);
+      border: 1px solid rgba(59, 130, 246, 0.25);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    }
+
+    .glass-stack:hover .glass-layer--back {
+      transform: translate(-12px, -8px) rotate(-3deg);
+    }
+
+    .glass-stack:hover .glass-layer--mid {
+      transform: translate(0px, 0px);
+    }
+
+    .glass-stack:hover .glass-layer--front {
+      transform: translate(12px, 8px) rotate(3deg);
+    }
+
+    /* Scroll speed lines */
+    .speed-lines {
+      position: relative;
+      width: 200px;
+      height: 130px;
+      overflow: hidden;
+      border-radius: 12px;
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .speed-line {
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 2px;
+      border-radius: 1px;
+      animation: speed-scroll linear infinite;
+    }
+
+    .speed-line--slow {
+      background: rgba(139, 92, 246, 0.3);
+      animation-duration: 6s;
+    }
+
+    .speed-line--medium {
+      background: rgba(6, 182, 212, 0.4);
+      animation-duration: 3s;
+    }
+
+    .speed-line--fast {
+      background: rgba(59, 130, 246, 0.5);
+      animation-duration: 1.5s;
+    }
+
+    .speed-line:nth-child(1) { top: 15%; }
+    .speed-line:nth-child(2) { top: 30%; }
+    .speed-line:nth-child(3) { top: 45%; }
+    .speed-line:nth-child(4) { top: 60%; }
+    .speed-line:nth-child(5) { top: 75%; }
+    .speed-line:nth-child(6) { top: 90%; }
+
+    @keyframes speed-scroll {
+      0% { transform: translateX(-100%); opacity: 0; }
+      10% { opacity: 1; }
+      90% { opacity: 1; }
+      100% { transform: translateX(100%); opacity: 0; }
+    }
+
+    /* Glow pulse effect */
+    .glow-demo {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(59, 130, 246, 0.3) 0%, transparent 70%);
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .glow-demo::before {
+      content: '';
+      position: absolute;
+      inset: -20px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(59, 130, 246, 0.15) 0%, transparent 70%);
+      animation: glow-pulse 3s ease-in-out infinite;
+    }
+
+    .glow-demo::after {
+      content: '';
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+      box-shadow: 0 0 30px rgba(59, 130, 246, 0.5), 0 0 60px rgba(6, 182, 212, 0.2);
+    }
+
+    @keyframes glow-pulse {
+      0%, 100% { transform: scale(1); opacity: 0.6; }
+      50% { transform: scale(1.3); opacity: 1; }
+    }
+
+    /* Perspective tilt card */
+    .tilt-card {
+      width: 200px;
+      height: 130px;
+      background: linear-gradient(135deg, var(--bg-surface), var(--bg-elevated));
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      transition: transform 0.6s var(--ease-out-expo), box-shadow 0.6s var(--ease-out-expo);
+      transform: perspective(500px) rotateY(0deg) rotateX(0deg);
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .tilt-card::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), transparent 60%);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+
+    .tilt-card:hover {
+      transform: perspective(500px) rotateY(-8deg) rotateX(5deg) translateZ(10px);
+      box-shadow: 15px 15px 40px rgba(0, 0, 0, 0.3), 0 0 40px rgba(59, 130, 246, 0.08);
+    }
+
+    .tilt-card:hover::after {
+      opacity: 1;
+    }
+
+    /* =============================================
+       CODE BLOCK
+       ============================================= */
+    .code-block {
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 12px;
+      padding: 1.5rem;
+      overflow-x: auto;
+      position: relative;
+    }
+
+    .code-block::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(6, 182, 212, 0.3), transparent);
+    }
+
+    .code-block-header {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .code-block-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+    }
+
+    .code-block pre {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      line-height: 1.8;
+      color: var(--text-secondary);
+      white-space: pre;
+      margin: 0;
+    }
+
+    .code-block .keyword { color: var(--accent-violet); }
+    .code-block .property { color: var(--accent-secondary); }
+    .code-block .value { color: var(--accent-tertiary); }
+    .code-block .comment { color: var(--text-muted); font-style: italic; }
+    .code-block .selector { color: var(--accent-primary); }
+    .code-block .unit { color: var(--accent-coral); }
+
+    /* =============================================
+       TECHNIQUE SHOWCASE LAYOUT
+       ============================================= */
+    .technique-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-lg);
+      align-items: center;
+    }
+
+    .technique-row--reverse {
+      direction: rtl;
+    }
+
+    .technique-row--reverse > * {
+      direction: ltr;
+    }
+
+    .technique-text h3 {
+      font-size: 1.5rem;
+      margin-bottom: var(--space-sm);
+    }
+
+    .technique-text p {
+      margin-bottom: var(--space-sm);
+    }
+
+    /* =============================================
+       SCROLL-DRIVEN REVEAL ANIMATIONS
+       ============================================= */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.7s var(--ease-out-expo), transform 0.7s var(--ease-out-expo);
+    }
+
+    .reveal.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .reveal--up {
+      transform: translateY(60px);
+    }
+
+    .reveal--left {
+      transform: translateX(-40px);
+    }
+
+    .reveal--right {
+      transform: translateX(40px);
+    }
+
+    .reveal--left.is-visible,
+    .reveal--right.is-visible {
+      transform: translateX(0);
+    }
+
+    .reveal--scale {
+      transform: scale(0.9);
+    }
+
+    .reveal--scale.is-visible {
+      transform: scale(1);
+    }
+
+    .reveal-d1 { transition-delay: 0.1s; }
+    .reveal-d2 { transition-delay: 0.2s; }
+    .reveal-d3 { transition-delay: 0.3s; }
+    .reveal-d4 { transition-delay: 0.4s; }
+    .reveal-d5 { transition-delay: 0.5s; }
+
+    /* Modern scroll-driven animation (progressive enhancement) */
+    @supports (animation-timeline: view()) {
+      .scroll-animate {
+        animation: scroll-reveal-up linear both;
+        animation-timeline: view();
+        animation-range: entry 0% entry 35%;
+      }
+
+      @keyframes scroll-reveal-up {
+        from { opacity: 0; transform: translateY(60px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+
+      .scroll-animate--scale {
+        animation: scroll-reveal-scale linear both;
+        animation-timeline: view();
+        animation-range: entry 0% entry 40%;
+      }
+
+      @keyframes scroll-reveal-scale {
+        from { opacity: 0; transform: scale(0.85); }
+        to { opacity: 1; transform: scale(1); }
+      }
+    }
+
+    /* =============================================
+       SCROLL PROGRESS BAR
+       ============================================= */
+    .scroll-progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 0%;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary), var(--accent-violet));
+      z-index: 1001;
+      transition: width 0.1s linear;
+    }
+
+    /* =============================================
+       DIVIDER
+       ============================================= */
+    .divider {
+      width: 60px;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+      border-radius: 2px;
+      margin: 0 auto var(--space-md);
+    }
+
+    /* =============================================
+       FOOTER
+       ============================================= */
+    .footer {
+      background: var(--bg-secondary);
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      padding: var(--space-lg) var(--space-md);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .footer-glow {
+      position: absolute;
+      bottom: -50%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 400px;
+      height: 200px;
+      background: radial-gradient(ellipse, rgba(59, 130, 246, 0.06) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .footer-content {
+      position: relative;
+      z-index: 2;
+    }
+
+    .footer-logo {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 700;
+      font-size: 1.5rem;
+      color: var(--text-primary);
+      margin-bottom: var(--space-sm);
+    }
+
+    .footer-logo span {
+      color: var(--accent-primary);
+    }
+
+    .footer p {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      margin: 0 auto;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: var(--space-md);
+      justify-content: center;
+      margin-top: var(--space-md);
+      list-style: none;
+    }
+
+    .footer-links a {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      transition: color 0.3s ease;
+    }
+
+    .footer-links a:hover {
+      color: var(--accent-primary);
+    }
+
+    .footer-bottom {
+      margin-top: var(--space-md);
+      padding-top: var(--space-md);
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    /* =============================================
+       REDUCED MOTION
+       ============================================= */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+
+      .reveal {
+        opacity: 1;
+        transform: none;
+      }
+
+      .parallax-banner-bg {
+        background-attachment: scroll;
+      }
+
+      .depth-plane--bg { transform: none; }
+      .depth-plane--mid { transform: none; }
+      .depth-plane--fg { transform: none; }
+    }
+
+    /* =============================================
+       RESPONSIVE
+       ============================================= */
+    @media (max-width: 1024px) {
+      .technique-row {
+        grid-template-columns: 1fr;
+        gap: var(--space-md);
+      }
+
+      .technique-row--reverse {
+        direction: ltr;
+      }
+
+      .depth-labels {
+        display: none;
+      }
+
+      .effects-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .nav {
+        padding: 1rem 1.5rem;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .section-inner {
+        padding: var(--space-lg) 1.5rem;
+      }
+
+      .card-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .stats-row {
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--space-sm);
+      }
+
+      .palette-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--space-sm);
+      }
+
+      .type-row {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-title {
+        font-size: clamp(2.2rem, 8vw, 3.5rem);
+      }
+
+      .parallax-banner-bg {
+        background-attachment: scroll;
+      }
+
+      .depth-visual {
+        width: 85vw;
+        height: 55vw;
+      }
+
+      .btn {
+        padding: 0.75rem 1.5rem;
+        font-size: 0.9rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .palette-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .stats-row {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .hero-actions {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Scroll Progress Bar -->
+  <div class="scroll-progress" id="scrollProgress"></div>
+
+  <!-- ============================================= -->
+  <!-- NAVIGATION                                    -->
+  <!-- ============================================= -->
+  <nav class="nav" id="nav">
+    <a href="#" class="nav-logo">
+      <span class="nav-logo-layers">
+        <span></span>
+        <span></span>
+        <span></span>
+      </span>
+      Parallax<span class="nav-logo-accent">.</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#typography">Typography</a></li>
+      <li><a href="#palette">Palette</a></li>
+      <li><a href="#depth">Depth</a></li>
+      <li><a href="#components">Components</a></li>
+      <li><a href="#effects">Effects</a></li>
+    </ul>
+  </nav>
+
+  <!-- ============================================= -->
+  <!-- HERO SECTION                                  -->
+  <!-- ============================================= -->
+  <section class="hero" id="hero">
+    <!-- Multi-layer background (deep, mid, near) -->
+    <div class="hero-layer hero-layer--deep"></div>
+    <div class="hero-layer hero-layer--mid"></div>
+    <div class="hero-layer hero-layer--near"></div>
+    <div class="hero-grid"></div>
+
+    <!-- Floating particles -->
+    <div class="hero-particles">
+      <div class="particle particle--1"></div>
+      <div class="particle particle--2"></div>
+      <div class="particle particle--3"></div>
+      <div class="particle particle--4"></div>
+      <div class="particle particle--5"></div>
+      <div class="particle particle--6"></div>
+    </div>
+
+    <div class="hero-content">
+      <p class="hero-label">Immersive Web Experiences</p>
+      <h1 class="hero-title">Design in Layers,<br>Scroll with Depth</h1>
+      <p class="hero-subtitle">Parallax design transforms passive scrolling into a cinematic journey through layered space. Every element exists at a purposeful depth, creating visual hierarchy through spatial movement.</p>
+      <div class="hero-actions">
+        <a href="#depth" class="btn">Explore Depth</a>
+        <a href="#typography" class="btn btn--outline">View Specimens</a>
+      </div>
+    </div>
+
+    <div class="scroll-indicator">
+      <span>Scroll to explore</span>
+      <div class="scroll-indicator-line"></div>
+    </div>
+
+    <div class="fade-edge fade-edge--bottom"></div>
+  </section>
+
+  <!-- ============================================= -->
+  <!-- TYPOGRAPHY SHOWCASE                           -->
+  <!-- ============================================= -->
+  <section class="section section--navy" id="typography">
+    <div class="fade-edge fade-edge--top-navy"></div>
+    <div class="section-inner">
+      <div class="section-header reveal">
+        <span class="label">Typography</span>
+        <div class="divider"></div>
+        <h2>Bold Typographic Hierarchy</h2>
+        <p>Large, high-contrast headings anchor each section. Space Grotesk provides geometric authority for display text, while Inter ensures comfortable readability for body copy.</p>
+      </div>
+
+      <div class="type-showcase">
+        <!-- Display specimen -->
+        <div class="type-specimen reveal reveal-d1">
+          <div class="type-specimen-label">Display / Space Grotesk 700</div>
+          <div class="type-display type-display--gradient">Scroll-Driven<br>Immersion</div>
+          <p class="type-body" style="margin-top: 1.5rem;">Every parallax movement serves a narrative or functional goal. Motion is never decorative but always guides attention or reinforces the content hierarchy through purposeful depth.</p>
+        </div>
+
+        <!-- Type scale -->
+        <div class="type-specimen reveal reveal-d2">
+          <div class="type-specimen-label">Type Scale</div>
+          <div class="type-scale">
+            <div class="type-scale-item">
+              <span class="type-scale-size">5rem / 80px</span>
+              <span style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:2.5rem; letter-spacing:-0.03em; line-height:1;">Display</span>
+            </div>
+            <div class="type-scale-item">
+              <span class="type-scale-size">3rem / 48px</span>
+              <span style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:2rem; letter-spacing:-0.02em; line-height:1.1;">Heading 1</span>
+            </div>
+            <div class="type-scale-item">
+              <span class="type-scale-size">1.75rem / 28px</span>
+              <span style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:1.5rem; letter-spacing:-0.02em; line-height:1.15;">Heading 2</span>
+            </div>
+            <div class="type-scale-item">
+              <span class="type-scale-size">1.125rem / 18px</span>
+              <span style="font-family:'Inter',sans-serif; font-size:1.125rem; line-height:1.7; color:var(--text-secondary);">Body text with comfortable line-height</span>
+            </div>
+            <div class="type-scale-item">
+              <span class="type-scale-size">0.875rem / 14px</span>
+              <span style="font-family:'JetBrains Mono',monospace; font-size:0.875rem; color:var(--accent-secondary);">monospace: technical labels</span>
+            </div>
+            <div class="type-scale-item">
+              <span class="type-scale-size">0.75rem / 12px</span>
+              <span class="label" style="margin:0;">Overline / Label Text</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Font pairing samples -->
+        <div class="type-row">
+          <div class="type-sample reveal reveal-d3">
+            <span class="type-sample-label">Primary Pairing</span>
+            <h3 style="font-size:1.3rem; margin-bottom:0.5rem;">Space Grotesk + Inter</h3>
+            <p style="font-size:0.9rem; color:var(--text-secondary); line-height:1.7;">Modern, tech-forward with clean authority. Geometric precision in headings meets functional readability in body text for optimal hierarchy.</p>
+          </div>
+          <div class="type-sample reveal reveal-d4">
+            <span class="type-sample-label">Code / Technical</span>
+            <div class="code-block" style="margin:0;">
+              <pre style="font-size:0.75rem;"><span class="selector">.parallax-layer</span> {
+  <span class="property">transform</span>: <span class="value">translateZ</span>(<span class="unit">-4px</span>) <span class="value">scale</span>(<span class="unit">1.5</span>);
+  <span class="property">will-change</span>: <span class="value">transform</span>;
+}</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================= -->
+  <!-- PARALLAX BANNER (background-attachment: fixed) -->
+  <!-- ============================================= -->
+  <div class="parallax-banner">
+    <div class="parallax-banner-bg parallax-banner-bg--geometric"></div>
+    <div class="parallax-banner-content reveal">
+      <span class="label" style="text-align:center;">Background Attachment Fixed</span>
+      <h2>Content Flows,<br>Backgrounds Stay</h2>
+      <p style="margin:var(--space-sm) auto 0;">The simplest parallax technique pins a background in place while foreground content scrolls past, creating an effortless sense of depth between visual layers.</p>
+    </div>
+  </div>
+
+  <!-- ============================================= -->
+  <!-- COLOR PALETTE                                 -->
+  <!-- ============================================= -->
+  <section class="section section--dark" id="palette">
+    <div class="section-inner">
+      <div class="section-header reveal">
+        <span class="label">Color Palette</span>
+        <div class="divider"></div>
+        <h2>Deep Space Spectrum</h2>
+        <p>A cinematic palette built on dark foundations with luminous accents. Deep backgrounds create the canvas for spatial depth while electric accents guide attention.</p>
+      </div>
+
+      <div class="palette-grid">
+        <div class="palette-card reveal reveal-d1">
+          <div class="palette-swatch" style="background:#0B0E17;"></div>
+          <div class="palette-info">
+            <div class="palette-name">Deep Space</div>
+            <div class="palette-hex">#0B0E17</div>
+            <div class="palette-role">Primary dark background</div>
+          </div>
+        </div>
+        <div class="palette-card reveal reveal-d1">
+          <div class="palette-swatch" style="background:#141B2D;"></div>
+          <div class="palette-info">
+            <div class="palette-name">Midnight Navy</div>
+            <div class="palette-hex">#141B2D</div>
+            <div class="palette-role">Secondary background</div>
+          </div>
+        </div>
+        <div class="palette-card reveal reveal-d2">
+          <div class="palette-swatch" style="background:#1E2538;"></div>
+          <div class="palette-info">
+            <div class="palette-name">Charcoal Depth</div>
+            <div class="palette-hex">#1E2538</div>
+            <div class="palette-role">Card surfaces</div>
+          </div>
+        </div>
+        <div class="palette-card reveal reveal-d2">
+          <div class="palette-swatch" style="background:#2A3247;"></div>
+          <div class="palette-info">
+            <div class="palette-name">Slate Mist</div>
+            <div class="palette-hex">#2A3247</div>
+            <div class="palette-role">Elevated surfaces</div>
+          </div>
+        </div>
+        <div class="palette-card reveal reveal-d3">
+          <div class="palette-swatch" style="background:linear-gradient(135deg, #8892A8, #C5CDD9);"></div>
+          <div class="palette-info">
+            <div class="palette-name">Silver Fog</div>
+            <div class="palette-hex">#C5CDD9</div>
+            <div class="palette-role">Body text</div>
+          </div>
+        </div>
+        <div class="palette-card reveal reveal-d3">
+          <div class="palette-swatch" style="background:linear-gradient(135deg, #3B82F6, #06B6D4);"></div>
+          <div class="palette-info">
+            <div class="palette-name">Electric Blue</div>
+            <div class="palette-hex">#3B82F6</div>
+            <div class="palette-role">Primary accent</div>
+          </div>
+        </div>
+        <div class="palette-card reveal reveal-d4">
+          <div class="palette-swatch" style="background:linear-gradient(135deg, #06B6D4, #3B82F6);"></div>
+          <div class="palette-info">
+            <div class="palette-name">Cyan Glow</div>
+            <div class="palette-hex">#06B6D4</div>
+            <div class="palette-role">Secondary accent</div>
+          </div>
+        </div>
+        <div class="palette-card reveal reveal-d4">
+          <div class="palette-swatch" style="background:linear-gradient(135deg, #F59E0B, #EF4444);"></div>
+          <div class="palette-info">
+            <div class="palette-name">Warm Amber</div>
+            <div class="palette-hex">#F59E0B</div>
+            <div class="palette-role">Tertiary accent</div>
+          </div>
+        </div>
+        <div class="palette-card reveal reveal-d5">
+          <div class="palette-swatch" style="background:linear-gradient(135deg, #8B5CF6, #3B82F6);"></div>
+          <div class="palette-info">
+            <div class="palette-name">Soft Violet</div>
+            <div class="palette-hex">#8B5CF6</div>
+            <div class="palette-role">Decorative depth</div>
+          </div>
+        </div>
+        <div class="palette-card reveal reveal-d5">
+          <div class="palette-swatch" style="background:linear-gradient(135deg, #EF4444, #F59E0B);"></div>
+          <div class="palette-info">
+            <div class="palette-name">Coral Pulse</div>
+            <div class="palette-hex">#EF4444</div>
+            <div class="palette-role">Alert / Hover contrast</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================= -->
+  <!-- PARALLAX BANNER 2 (gradient depth)            -->
+  <!-- ============================================= -->
+  <div class="parallax-banner">
+    <div class="parallax-banner-bg parallax-banner-bg--gradient"></div>
+    <div class="parallax-banner-content reveal">
+      <span class="label" style="text-align:center; color:var(--accent-secondary);">Gradient Depth Layer</span>
+      <h2>Color Shifts<br>Through Space</h2>
+      <p style="margin:var(--space-sm) auto 0;">Radial gradient backgrounds pinned behind scrolling content create atmospheric color transitions that enhance the sensation of moving through dimensional space.</p>
+    </div>
+  </div>
+
+  <!-- ============================================= -->
+  <!-- DEPTH SHOWCASE (CSS Perspective)              -->
+  <!-- ============================================= -->
+  <section class="section section--navy" id="depth">
+    <div class="section-inner">
+      <div class="section-header reveal">
+        <span class="label" style="color:var(--accent-violet);">CSS Perspective</span>
+        <div class="divider"></div>
+        <h2>Layers at Different Z-Depths</h2>
+        <p>The foundation of CSS parallax: a perspective container with child elements translated along the Z-axis. Elements farther back move slower, creating natural depth.</p>
+      </div>
+
+      <div class="technique-row" style="margin-bottom:var(--space-xl);">
+        <div class="technique-text reveal reveal--left">
+          <h3>translateZ + scale</h3>
+          <p>Set <code>perspective: 8px</code> on the scroll container. Move layers back with <code>translateZ(-4px)</code> and compensate with <code>scale(1.5)</code> to maintain visual size.</p>
+          <p>The deeper the Z translation, the slower the scroll speed. This pure-CSS technique requires no JavaScript and leverages GPU-accelerated compositing.</p>
+          <div class="code-block" style="margin-top:var(--space-sm);">
+            <div class="code-block-header">
+              <div class="code-block-dot" style="background:var(--accent-coral);"></div>
+              <div class="code-block-dot" style="background:var(--accent-tertiary);"></div>
+              <div class="code-block-dot" style="background:#4ade80;"></div>
+            </div>
+            <pre><span class="comment">/* Perspective container */</span>
+<span class="selector">.container</span> {
+  <span class="property">perspective</span>: <span class="unit">8px</span>;
+  <span class="property">overflow-y</span>: <span class="value">auto</span>;
+}
+
+<span class="comment">/* Background layer (scrolls slow) */</span>
+<span class="selector">.layer--back</span> {
+  <span class="property">transform</span>: <span class="value">translateZ</span>(<span class="unit">-4px</span>) <span class="value">scale</span>(<span class="unit">1.5</span>);
+}
+
+<span class="comment">/* Foreground (scrolls normal) */</span>
+<span class="selector">.layer--base</span> {
+  <span class="property">transform</span>: <span class="value">translateZ</span>(<span class="unit">0</span>);
+}</pre>
+          </div>
+        </div>
+
+        <div class="reveal reveal--right" style="display:flex; justify-content:center;">
+          <div class="depth-visual" id="depthVisual">
+            <div class="depth-plane depth-plane--bg">
+              <span>translateZ(-120px)</span>
+            </div>
+            <div class="depth-plane depth-plane--mid">
+              <span>translateZ(-40px)</span>
+            </div>
+            <div class="depth-plane depth-plane--fg">
+              <span>translateZ(0)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stats -->
+      <div class="stats-row reveal">
+        <div class="stat">
+          <div class="stat-value stat-value--blue">60</div>
+          <div class="stat-label">FPS Target</div>
+        </div>
+        <div class="stat">
+          <div class="stat-value stat-value--cyan">2-3</div>
+          <div class="stat-label">Max Layers</div>
+        </div>
+        <div class="stat">
+          <div class="stat-value stat-value--violet">8px</div>
+          <div class="stat-label">Perspective</div>
+        </div>
+        <div class="stat">
+          <div class="stat-value stat-value--amber">0ms</div>
+          <div class="stat-label">JS Required</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================= -->
+  <!-- COMPONENTS / CARDS                            -->
+  <!-- ============================================= -->
+  <section class="section section--dark" id="components">
+    <div class="section-inner">
+      <div class="section-header reveal">
+        <span class="label">Components</span>
+        <div class="divider"></div>
+        <h2>Depth-Aware Interface</h2>
+        <p>Cards, buttons, and interactive elements designed to reinforce the layered spatial model through hover lifts, gradient glows, and subtle border highlights.</p>
+      </div>
+
+      <div class="card-grid">
+        <div class="card card--glow reveal reveal-d1">
+          <div class="card-icon card-icon--blue">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          </div>
+          <h3>Layered Depth</h3>
+          <p>Background, midground, and foreground elements move at independent scroll speeds, producing convincing three-dimensional spatial illusion.</p>
+          <span class="card-tag">Core Technique</span>
+        </div>
+
+        <div class="card card--glow reveal reveal-d2">
+          <div class="card-icon card-icon--cyan">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          </div>
+          <h3>Scroll Reveals</h3>
+          <p>Content animates into view as users scroll, using Intersection Observer for reliable, performant viewport-triggered transitions with eased timing.</p>
+          <span class="card-tag">Animation</span>
+        </div>
+
+        <div class="card card--glow reveal reveal-d3">
+          <div class="card-icon card-icon--violet">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+          </div>
+          <h3>Cinematic Pacing</h3>
+          <p>Full-viewport sections create a scene-by-scene rhythm, giving each content block room to breathe and make its narrative impact on the user.</p>
+          <span class="card-tag">Layout</span>
+        </div>
+
+        <div class="card card--glow reveal reveal-d1">
+          <div class="card-icon card-icon--amber">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          </div>
+          <h3>Performance First</h3>
+          <p>GPU-accelerated transforms via <code>translate3d</code> and <code>will-change</code> ensure buttery 60fps scrolling even with multiple moving parallax layers.</p>
+          <span class="card-tag">Performance</span>
+        </div>
+
+        <div class="card card--glow reveal reveal-d2">
+          <div class="card-icon card-icon--coral">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          </div>
+          <h3>Accessible Degradation</h3>
+          <p>The design remains fully functional when parallax is disabled. A <code>prefers-reduced-motion</code> media query provides a static fallback for all users.</p>
+          <span class="card-tag">A11y</span>
+        </div>
+
+        <div class="card card--glow reveal reveal-d3">
+          <div class="card-icon card-icon--blue">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+          </div>
+          <h3>Progressive Disclosure</h3>
+          <p>Information reveals gradually through the scroll journey, maintaining curiosity and encouraging users to continue exploring deeper into the layered page.</p>
+          <span class="card-tag">UX Pattern</span>
+        </div>
+      </div>
+
+      <!-- Button showcase -->
+      <div style="text-align:center; margin-top:var(--space-xl);" class="reveal">
+        <span class="label" style="text-align:center;">Button Variants</span>
+        <div style="display:flex; gap:1rem; justify-content:center; flex-wrap:wrap; margin-top:var(--space-sm);">
+          <a href="#" class="btn">Primary Action</a>
+          <a href="#" class="btn btn--outline">Outline</a>
+          <a href="#" class="btn btn--sm">Small</a>
+          <a href="#" class="btn btn--outline btn--sm">Small Outline</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================= -->
+  <!-- PARALLAX BANNER 3 (depth quote)               -->
+  <!-- ============================================= -->
+  <div class="parallax-banner" style="min-height:50vh;">
+    <div class="parallax-banner-bg parallax-banner-bg--geometric" style="opacity:0.7;"></div>
+    <div class="parallax-banner-content reveal">
+      <span class="label" style="text-align:center; color:var(--accent-tertiary);">Design Philosophy</span>
+      <h2 style="font-size:clamp(1.5rem, 3.5vw, 2.5rem); line-height:1.3;">Purposeful motion guides attention.<br>Strategic restraint amplifies depth.</h2>
+    </div>
+  </div>
+
+  <!-- ============================================= -->
+  <!-- EFFECTS & DETAILS                             -->
+  <!-- ============================================= -->
+  <section class="section section--navy" id="effects">
+    <div class="section-inner">
+      <div class="section-header reveal">
+        <span class="label" style="color:var(--accent-secondary);">Effects & Details</span>
+        <div class="divider"></div>
+        <h2>Depth Illusion Toolkit</h2>
+        <p>Visual effects and micro-interactions that reinforce the parallax aesthetic through layered motion, glowing accents, and perspective transforms.</p>
+      </div>
+
+      <div class="effects-grid">
+        <!-- Glass depth stacking -->
+        <div class="effect-demo reveal reveal-d1">
+          <div class="effect-demo-label">Layer Stacking</div>
+          <h3>Glass Depth Layers</h3>
+          <p>Translucent layers at staggered depths with backdrop-blur create dimensional separation. Hover to fan the stack.</p>
+          <div class="effect-demo-visual">
+            <div class="glass-stack">
+              <div class="glass-layer glass-layer--back"></div>
+              <div class="glass-layer glass-layer--mid"></div>
+              <div class="glass-layer glass-layer--front"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Scroll speed differential -->
+        <div class="effect-demo reveal reveal-d2">
+          <div class="effect-demo-label">Speed Differential</div>
+          <h3>Layer Velocity</h3>
+          <p>Background, midground, and foreground layers at three distinct scroll speeds create natural depth perception.</p>
+          <div class="effect-demo-visual">
+            <div class="speed-lines">
+              <div class="speed-line speed-line--slow" style="top:12%;"></div>
+              <div class="speed-line speed-line--slow" style="top:28%;"></div>
+              <div class="speed-line speed-line--medium" style="top:44%;"></div>
+              <div class="speed-line speed-line--medium" style="top:58%;"></div>
+              <div class="speed-line speed-line--fast" style="top:74%;"></div>
+              <div class="speed-line speed-line--fast" style="top:88%;"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Glow pulse -->
+        <div class="effect-demo reveal reveal-d3">
+          <div class="effect-demo-label">Accent Glow</div>
+          <h3>Luminous Depth Cue</h3>
+          <p>Radial glow effects with box-shadow create focal points that appear to emit light from within the layered space.</p>
+          <div class="effect-demo-visual">
+            <div class="glow-demo"></div>
+          </div>
+        </div>
+
+        <!-- Perspective tilt -->
+        <div class="effect-demo reveal reveal-d4">
+          <div class="effect-demo-label">Perspective Transform</div>
+          <h3>3D Tilt on Hover</h3>
+          <p>CSS perspective with rotateX/Y transforms simulate physical depth when interacting with interface elements. Hover the card.</p>
+          <div class="effect-demo-visual">
+            <div class="tilt-card" id="tiltCard">
+              <span>Hover for 3D tilt</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Scroll Reveal Technique -->
+      <div class="technique-row" style="margin-top:var(--space-xl);">
+        <div class="technique-text reveal reveal--left">
+          <span class="label">Scroll-Driven Animations</span>
+          <h3>Viewport-Triggered Reveals</h3>
+          <p>The Intersection Observer API detects when elements enter the viewport, adding a class that triggers CSS transitions. This provides reliable, performant scroll-triggered animations.</p>
+          <p>For modern browsers, the <code>animation-timeline: view()</code> API enables purely declarative scroll-linked animations without any JavaScript at all.</p>
+        </div>
+        <div class="reveal reveal--right">
+          <div class="code-block">
+            <div class="code-block-header">
+              <div class="code-block-dot" style="background:var(--accent-coral);"></div>
+              <div class="code-block-dot" style="background:var(--accent-tertiary);"></div>
+              <div class="code-block-dot" style="background:#4ade80;"></div>
+            </div>
+            <pre><span class="comment">/* Scroll-driven animation (CSS only) */</span>
+<span class="keyword">@supports</span> (<span class="property">animation-timeline</span>: <span class="value">view</span>()) {
+  <span class="selector">.scroll-reveal</span> {
+    <span class="property">animation</span>: <span class="value">reveal</span> linear both;
+    <span class="property">animation-timeline</span>: <span class="value">view</span>();
+    <span class="property">animation-range</span>: <span class="value">entry</span> <span class="unit">0%</span>
+                       <span class="value">entry</span> <span class="unit">40%</span>;
+  }
+
+  <span class="keyword">@keyframes</span> <span class="value">reveal</span> {
+    <span class="keyword">from</span> {
+      <span class="property">opacity</span>: <span class="unit">0</span>;
+      <span class="property">transform</span>: <span class="value">translateY</span>(<span class="unit">60px</span>);
+    }
+    <span class="keyword">to</span> {
+      <span class="property">opacity</span>: <span class="unit">1</span>;
+      <span class="property">transform</span>: <span class="value">translateY</span>(<span class="unit">0</span>);
+    }
+  }
+}</pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================= -->
+  <!-- DO'S AND DON'TS                               -->
+  <!-- ============================================= -->
+  <section class="section section--dark section--auto-height">
+    <div class="section-inner">
+      <div class="section-header reveal">
+        <span class="label" style="color:var(--accent-tertiary);">Best Practices</span>
+        <div class="divider"></div>
+        <h2>Design Guidelines</h2>
+      </div>
+
+      <div class="card-grid" style="grid-template-columns: 1fr 1fr;">
+        <div class="card reveal reveal-d1" style="border-color:rgba(59,130,246,0.15);">
+          <h3 style="color:var(--accent-primary); margin-bottom:1.25rem;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px; margin-right:0.5rem;"><polyline points="20 6 9 17 4 12"/></svg>
+            Do
+          </h3>
+          <ul style="list-style:none; display:flex; flex-direction:column; gap:0.75rem;">
+            <li style="font-size:0.9rem; color:var(--text-secondary); padding-left:1.25rem; position:relative;">
+              <span style="position:absolute; left:0; color:var(--accent-primary);">+</span>
+              Use GPU-accelerated transforms for 60fps scrolling
+            </li>
+            <li style="font-size:0.9rem; color:var(--text-secondary); padding-left:1.25rem; position:relative;">
+              <span style="position:absolute; left:0; color:var(--accent-primary);">+</span>
+              Provide static fallback for prefers-reduced-motion
+            </li>
+            <li style="font-size:0.9rem; color:var(--text-secondary); padding-left:1.25rem; position:relative;">
+              <span style="position:absolute; left:0; color:var(--accent-primary);">+</span>
+              Keep text on the foreground layer (translateZ 0)
+            </li>
+            <li style="font-size:0.9rem; color:var(--text-secondary); padding-left:1.25rem; position:relative;">
+              <span style="position:absolute; left:0; color:var(--accent-primary);">+</span>
+              Limit parallax to 2-3 layers per section
+            </li>
+            <li style="font-size:0.9rem; color:var(--text-secondary); padding-left:1.25rem; position:relative;">
+              <span style="position:absolute; left:0; color:var(--accent-primary);">+</span>
+              Maintain WCAG AA contrast through scrolling
+            </li>
+          </ul>
+        </div>
+
+        <div class="card reveal reveal-d2" style="border-color:rgba(239,68,68,0.15);">
+          <h3 style="color:var(--accent-coral); margin-bottom:1.25rem;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px; margin-right:0.5rem;"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            Don't
+          </h3>
+          <ul style="list-style:none; display:flex; flex-direction:column; gap:0.75rem;">
+            <li style="font-size:0.9rem; color:var(--text-secondary); padding-left:1.25rem; position:relative;">
+              <span style="position:absolute; left:0; color:var(--accent-coral);">-</span>
+              Hijack native scroll behavior with custom speeds
+            </li>
+            <li style="font-size:0.9rem; color:var(--text-secondary); padding-left:1.25rem; position:relative;">
+              <span style="position:absolute; left:0; color:var(--accent-coral);">-</span>
+              Rely solely on background-attachment: fixed
+            </li>
+            <li style="font-size:0.9rem; color:var(--text-secondary); padding-left:1.25rem; position:relative;">
+              <span style="position:absolute; left:0; color:var(--accent-coral);">-</span>
+              Apply parallax to every section of the page
+            </li>
+            <li style="font-size:0.9rem; color:var(--text-secondary); padding-left:1.25rem; position:relative;">
+              <span style="position:absolute; left:0; color:var(--accent-coral);">-</span>
+              Nest parallax containers inside each other
+            </li>
+            <li style="font-size:0.9rem; color:var(--text-secondary); padding-left:1.25rem; position:relative;">
+              <span style="position:absolute; left:0; color:var(--accent-coral);">-</span>
+              Lock critical content behind scroll animations
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================= -->
+  <!-- FOOTER                                        -->
+  <!-- ============================================= -->
+  <footer class="footer">
+    <div class="footer-glow"></div>
+    <div class="footer-content">
+      <div class="footer-logo">Parallax<span>.</span></div>
+      <p>Design Aesthetic Reference -- Layered depth, cinematic motion, and purposeful scroll-driven experiences.</p>
+      <ul class="footer-links">
+        <li><a href="#hero">Hero</a></li>
+        <li><a href="#typography">Typography</a></li>
+        <li><a href="#palette">Palette</a></li>
+        <li><a href="#depth">Depth</a></li>
+        <li><a href="#components">Components</a></li>
+        <li><a href="#effects">Effects</a></li>
+      </ul>
+      <div class="footer-bottom">
+        Parallax Design -- Design Aesthetic Reference
+      </div>
+    </div>
+  </footer>
+
+  <!-- ============================================= -->
+  <!-- SCRIPTS                                       -->
+  <!-- ============================================= -->
+  <script>
+    // ---- Scroll Reveal via Intersection Observer ----
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+        }
+      });
+    }, {
+      threshold: 0.12,
+      rootMargin: '0px 0px -60px 0px'
+    });
+
+    document.querySelectorAll('.reveal').forEach((el) => {
+      revealObserver.observe(el);
+    });
+
+    // ---- Nav background on scroll ----
+    const nav = document.getElementById('nav');
+    const scrollProgress = document.getElementById('scrollProgress');
+
+    window.addEventListener('scroll', () => {
+      // Nav state
+      nav.classList.toggle('is-scrolled', window.scrollY > 80);
+
+      // Scroll progress bar
+      const winHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      const scrolled = (window.scrollY / winHeight) * 100;
+      scrollProgress.style.width = scrolled + '%';
+    }, { passive: true });
+
+    // ---- Enhanced tilt card with mouse tracking ----
+    const tiltCard = document.getElementById('tiltCard');
+    if (tiltCard) {
+      tiltCard.addEventListener('mousemove', (e) => {
+        const rect = tiltCard.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        const rotateY = ((x - centerX) / centerX) * 12;
+        const rotateX = ((centerY - y) / centerY) * 12;
+
+        tiltCard.style.transform = `perspective(500px) rotateY(${rotateY}deg) rotateX(${rotateX}deg) translateZ(10px)`;
+        tiltCard.style.boxShadow = `${-rotateY}px ${rotateX}px 40px rgba(0,0,0,0.3), 0 0 40px rgba(59,130,246,0.08)`;
+      });
+
+      tiltCard.addEventListener('mouseleave', () => {
+        tiltCard.style.transform = 'perspective(500px) rotateY(0deg) rotateX(0deg) translateZ(0px)';
+        tiltCard.style.boxShadow = 'none';
+      });
+    }
+
+    // ---- Depth visual mouse tracking (parallax on hover) ----
+    const depthVisual = document.getElementById('depthVisual');
+    if (depthVisual) {
+      depthVisual.addEventListener('mousemove', (e) => {
+        const rect = depthVisual.getBoundingClientRect();
+        const x = (e.clientX - rect.left) / rect.width - 0.5;
+        const y = (e.clientY - rect.top) / rect.height - 0.5;
+
+        const bgPlane = depthVisual.querySelector('.depth-plane--bg');
+        const midPlane = depthVisual.querySelector('.depth-plane--mid');
+        const fgPlane = depthVisual.querySelector('.depth-plane--fg');
+
+        if (bgPlane) bgPlane.style.transform = `translateZ(-120px) scale(1.3) translate(${x * -30}px, ${y * -20}px)`;
+        if (midPlane) midPlane.style.transform = `translateZ(-40px) scale(1.08) translate(${x * -15}px, ${y * -10}px)`;
+        if (fgPlane) fgPlane.style.transform = `translateZ(0px) translate(${x * 8}px, ${y * 5}px)`;
+      });
+
+      depthVisual.addEventListener('mouseleave', () => {
+        const bgPlane = depthVisual.querySelector('.depth-plane--bg');
+        const midPlane = depthVisual.querySelector('.depth-plane--mid');
+        const fgPlane = depthVisual.querySelector('.depth-plane--fg');
+
+        if (bgPlane) bgPlane.style.transform = 'translateZ(-120px) scale(1.3)';
+        if (midPlane) midPlane.style.transform = 'translateZ(-40px) scale(1.08)';
+        if (fgPlane) fgPlane.style.transform = 'translateZ(0px)';
+      });
+    }
+  </script>
+</body>
+</html>
