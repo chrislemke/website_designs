@@ -1,0 +1,2383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Terminal CLI Aesthetic -- Design Aesthetic Reference</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&family=VT323&family=Space+Mono:wght@400;700&family=Share+Tech+Mono&family=IBM+Plex+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    /* ========================================
+       TERMINAL CLI AESTHETIC -- DESIGN SYSTEM
+       ======================================== */
+
+    :root {
+      /* Backgrounds */
+      --term-bg-primary: #0c0c0c;
+      --term-bg-secondary: #1a1a1a;
+      --term-bg-elevated: #2d2d2d;
+
+      /* Green phosphor theme */
+      --term-green: #00ff41;
+      --term-green-bright: #33ff33;
+      --term-green-dim: #0a6e0a;
+      --term-green-ultra-dim: #063d06;
+
+      /* Amber phosphor theme */
+      --term-amber: #ffb000;
+      --term-amber-bright: #ffcc00;
+      --term-amber-dim: #7a5500;
+
+      /* White phosphor theme */
+      --term-white: #cccccc;
+      --term-white-bright: #f0f0f0;
+      --term-white-dim: #666666;
+
+      /* ANSI-style accents */
+      --term-red: #ff3333;
+      --term-red-dim: #991f1f;
+      --term-cyan: #00cccc;
+      --term-blue: #5c5cff;
+      --term-magenta: #cc00cc;
+      --term-yellow: #cccc00;
+
+      /* Glow effects */
+      --term-glow-green: 0 0 5px rgba(0, 255, 65, 0.4), 0 0 20px rgba(0, 255, 65, 0.1);
+      --term-glow-green-strong: 0 0 8px rgba(0, 255, 65, 0.6), 0 0 30px rgba(0, 255, 65, 0.2), 0 0 60px rgba(0, 255, 65, 0.05);
+      --term-glow-amber: 0 0 5px rgba(255, 176, 0, 0.4), 0 0 20px rgba(255, 176, 0, 0.1);
+      --term-glow-white: 0 0 5px rgba(204, 204, 204, 0.3), 0 0 15px rgba(204, 204, 204, 0.08);
+      --term-glow-cyan: 0 0 5px rgba(0, 204, 204, 0.4), 0 0 15px rgba(0, 204, 204, 0.1);
+      --term-glow-red: 0 0 5px rgba(255, 51, 51, 0.4), 0 0 15px rgba(255, 51, 51, 0.1);
+
+      /* Borders */
+      --term-border: #2d2d2d;
+      --term-border-green: rgba(0, 255, 65, 0.25);
+
+      /* Scanline */
+      --term-scanline-color: rgba(0, 255, 65, 0.03);
+      --term-scanline-size: 2px;
+
+      /* Spacing */
+      --term-gap: 16px;
+      --term-padding: 24px;
+    }
+
+    /* ========================================
+       RESET & BASE
+       ======================================== */
+
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--term-bg-primary);
+      color: var(--term-green);
+      font-family: 'Fira Code', 'Courier New', monospace;
+      font-size: 15px;
+      line-height: 1.7;
+      min-height: 100vh;
+      position: relative;
+      -webkit-font-smoothing: none;
+      -moz-osx-font-smoothing: auto;
+    }
+
+    /* ========================================
+       CRT EFFECTS -- SCANLINES, VIGNETTE, FLICKER
+       ======================================== */
+
+    /* Scanlines overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0, 0, 0, 0.1) 2px,
+        rgba(0, 0, 0, 0.1) 4px
+      );
+      pointer-events: none;
+      z-index: 10000;
+    }
+
+    /* CRT vignette */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(
+        ellipse at center,
+        transparent 55%,
+        rgba(0, 0, 0, 0.45) 100%
+      );
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    /* Screen flicker */
+    @keyframes flicker {
+      0%   { opacity: 0.97; }
+      5%   { opacity: 0.95; }
+      10%  { opacity: 0.98; }
+      15%  { opacity: 0.96; }
+      20%  { opacity: 0.99; }
+      50%  { opacity: 0.975; }
+      80%  { opacity: 0.98; }
+      100% { opacity: 0.97; }
+    }
+
+    .crt-flicker {
+      animation: flicker 0.15s infinite;
+    }
+
+    /* ========================================
+       MATRIX RAIN BACKGROUND
+       ======================================== */
+
+    .matrix-rain {
+      position: fixed;
+      inset: 0;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.06;
+    }
+
+    .matrix-column {
+      position: absolute;
+      top: -100%;
+      font-family: 'VT323', monospace;
+      font-size: 16px;
+      line-height: 1;
+      color: var(--term-green);
+      writing-mode: vertical-rl;
+      text-orientation: upright;
+      animation: matrix-fall linear infinite;
+      white-space: nowrap;
+    }
+
+    @keyframes matrix-fall {
+      0%   { transform: translateY(-100%); }
+      100% { transform: translateY(calc(100vh + 100%)); }
+    }
+
+    .matrix-column:nth-child(1)  { left: 2%;  animation-duration: 12s; animation-delay: 0s; font-size: 14px; }
+    .matrix-column:nth-child(2)  { left: 7%;  animation-duration: 18s; animation-delay: -3s; font-size: 12px; }
+    .matrix-column:nth-child(3)  { left: 12%; animation-duration: 10s; animation-delay: -7s; font-size: 16px; }
+    .matrix-column:nth-child(4)  { left: 18%; animation-duration: 22s; animation-delay: -1s; font-size: 11px; }
+    .matrix-column:nth-child(5)  { left: 24%; animation-duration: 14s; animation-delay: -5s; font-size: 15px; }
+    .matrix-column:nth-child(6)  { left: 30%; animation-duration: 20s; animation-delay: -9s; font-size: 13px; }
+    .matrix-column:nth-child(7)  { left: 36%; animation-duration: 16s; animation-delay: -2s; font-size: 14px; }
+    .matrix-column:nth-child(8)  { left: 42%; animation-duration: 11s; animation-delay: -8s; font-size: 16px; }
+    .matrix-column:nth-child(9)  { left: 48%; animation-duration: 19s; animation-delay: -4s; font-size: 12px; }
+    .matrix-column:nth-child(10) { left: 54%; animation-duration: 13s; animation-delay: -6s; font-size: 15px; }
+    .matrix-column:nth-child(11) { left: 60%; animation-duration: 21s; animation-delay: -10s; font-size: 11px; }
+    .matrix-column:nth-child(12) { left: 66%; animation-duration: 15s; animation-delay: -3s; font-size: 14px; }
+    .matrix-column:nth-child(13) { left: 72%; animation-duration: 17s; animation-delay: -7s; font-size: 13px; }
+    .matrix-column:nth-child(14) { left: 78%; animation-duration: 12s; animation-delay: -1s; font-size: 16px; }
+    .matrix-column:nth-child(15) { left: 84%; animation-duration: 23s; animation-delay: -5s; font-size: 12px; }
+    .matrix-column:nth-child(16) { left: 90%; animation-duration: 14s; animation-delay: -9s; font-size: 15px; }
+    .matrix-column:nth-child(17) { left: 96%; animation-duration: 18s; animation-delay: -2s; font-size: 11px; }
+
+    /* ========================================
+       LAYOUT
+       ======================================== */
+
+    .page-wrapper {
+      position: relative;
+      z-index: 1;
+    }
+
+    .container {
+      max-width: 80ch;
+      margin: 0 auto;
+      padding: 0 var(--term-padding);
+    }
+
+    section {
+      padding: 48px 0;
+      border-bottom: 1px dashed var(--term-border);
+    }
+
+    /* ========================================
+       TYPOGRAPHY
+       ======================================== */
+
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'VT323', 'Fira Code', monospace;
+      font-weight: 400;
+      color: var(--term-green-bright);
+      text-shadow: var(--term-glow-green);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    h1 { font-size: 2.4rem; }
+    h2 { font-size: 1.6rem; }
+    h3 { font-size: 1.3rem; }
+
+    a {
+      color: var(--term-cyan);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      transition: color 0.15s, text-shadow 0.15s;
+    }
+
+    a:hover {
+      color: var(--term-green-bright);
+      text-shadow: var(--term-glow-green);
+    }
+
+    strong, b {
+      font-weight: 700;
+      color: var(--term-green-bright);
+      text-shadow: var(--term-glow-green);
+    }
+
+    code {
+      background: var(--term-bg-secondary);
+      padding: 2px 6px;
+      color: var(--term-amber);
+      font-family: inherit;
+      font-size: 0.9em;
+    }
+
+    /* ========================================
+       BLINKING CURSOR
+       ======================================== */
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50%      { opacity: 0; }
+    }
+
+    .cursor {
+      display: inline-block;
+      width: 0.6em;
+      height: 1.15em;
+      background: var(--term-green);
+      vertical-align: text-bottom;
+      animation: blink 1s step-end infinite;
+      box-shadow: 0 0 6px rgba(0, 255, 65, 0.5);
+    }
+
+    .cursor--amber {
+      background: var(--term-amber);
+      box-shadow: 0 0 6px rgba(255, 176, 0, 0.5);
+    }
+
+    /* ========================================
+       TYPEWRITER TEXT ANIMATION
+       ======================================== */
+
+    @keyframes typewriter {
+      from { width: 0; }
+      to   { width: 100%; }
+    }
+
+    @keyframes typewriter-cursor {
+      0%, 100% { border-color: var(--term-green); }
+      50%      { border-color: transparent; }
+    }
+
+    .typewriter {
+      display: inline-block;
+      overflow: hidden;
+      white-space: nowrap;
+      border-right: 2px solid var(--term-green);
+      animation:
+        typewriter 3s steps(40) 1s forwards,
+        typewriter-cursor 0.8s step-end infinite;
+      width: 0;
+    }
+
+    /* ========================================
+       PROMPT LINE
+       ======================================== */
+
+    .prompt-line {
+      font-size: 0.95rem;
+      margin-bottom: 4px;
+    }
+
+    .prompt-line .user { color: var(--term-cyan); }
+    .prompt-line .at   { color: var(--term-green-dim); }
+    .prompt-line .host { color: var(--term-magenta); }
+    .prompt-line .path { color: var(--term-cyan); }
+    .prompt-line .dollar { color: var(--term-white); }
+    .prompt-line .cmd  { color: var(--term-green-bright); text-shadow: var(--term-glow-green); }
+    .prompt-line .pipe { color: var(--term-white-dim); }
+    .prompt-line .flag { color: var(--term-amber); }
+    .prompt-line .arg  { color: var(--term-white); }
+
+    .prompt-prefix::before {
+      content: '$ ';
+      color: var(--term-green-dim);
+    }
+
+    /* ========================================
+       SECTION HEADINGS
+       ======================================== */
+
+    .section-heading {
+      font-family: 'VT323', monospace;
+      font-size: 1.5rem;
+      color: var(--term-green-bright);
+      text-shadow: var(--term-glow-green);
+      text-transform: uppercase;
+      margin-bottom: 24px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--term-green-dim);
+      letter-spacing: 0.08em;
+    }
+
+    .section-heading::before {
+      content: '## ';
+      color: var(--term-green-dim);
+    }
+
+    /* ========================================
+       NAVIGATION -- TERMINAL TITLE BAR
+       ======================================== */
+
+    .term-titlebar {
+      background: var(--term-bg-secondary);
+      border-bottom: 1px solid var(--term-border);
+      padding: 8px 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .term-titlebar .container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .titlebar-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .titlebar-dots {
+      display: flex;
+      gap: 6px;
+    }
+
+    .titlebar-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 0;
+      border: 1px solid;
+    }
+
+    .titlebar-dot--close  { border-color: var(--term-red); background: rgba(255, 51, 51, 0.3); }
+    .titlebar-dot--min    { border-color: var(--term-amber); background: rgba(255, 176, 0, 0.3); }
+    .titlebar-dot--max    { border-color: var(--term-green); background: rgba(0, 255, 65, 0.3); }
+
+    .titlebar-title {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.8rem;
+      color: var(--term-white-dim);
+      letter-spacing: 0.05em;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2px;
+      list-style: none;
+      flex-wrap: wrap;
+    }
+
+    .nav-links a {
+      color: var(--term-green-dim);
+      text-decoration: none;
+      padding: 3px 10px;
+      font-size: 0.85rem;
+      font-family: 'Fira Code', monospace;
+      transition: color 0.15s, background 0.15s;
+      display: inline-block;
+    }
+
+    .nav-links a::before { content: '['; }
+    .nav-links a::after  { content: ']'; }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: var(--term-bg-primary);
+      background: var(--term-green);
+      text-shadow: none;
+    }
+
+    .nav-links a:hover::before,
+    .nav-links a:hover::after,
+    .nav-links a.active::before,
+    .nav-links a.active::after {
+      color: var(--term-bg-primary);
+    }
+
+    /* ========================================
+       HERO / MOTD
+       ======================================== */
+
+    .hero {
+      padding: 56px 0 48px;
+      position: relative;
+    }
+
+    .ascii-art {
+      color: var(--term-green-bright);
+      text-shadow: var(--term-glow-green);
+      font-family: 'Fira Code', monospace;
+      font-size: clamp(0.38rem, 1.2vw, 0.72rem);
+      line-height: 1.15;
+      white-space: pre;
+      overflow-x: auto;
+      margin-bottom: 28px;
+      display: block;
+    }
+
+    .ascii-border {
+      color: var(--term-green-dim);
+      font-family: 'Fira Code', monospace;
+      font-size: 0.85rem;
+      white-space: pre;
+      overflow-x: auto;
+      margin: 16px 0;
+    }
+
+    .motd-box {
+      background: var(--term-bg-secondary);
+      border: 1px solid var(--term-border-green);
+      padding: 20px 24px;
+      margin: 20px 0;
+      position: relative;
+    }
+
+    .motd-box::before {
+      content: ' MESSAGE OF THE DAY ';
+      position: absolute;
+      top: -10px;
+      left: 16px;
+      background: var(--term-bg-primary);
+      padding: 0 8px;
+      color: var(--term-amber);
+      font-family: 'VT323', monospace;
+      font-size: 1rem;
+      letter-spacing: 0.1em;
+    }
+
+    .motd-box p {
+      color: var(--term-white);
+      font-size: 0.9rem;
+      line-height: 1.7;
+    }
+
+    .system-info {
+      color: var(--term-green-dim);
+      font-size: 0.85rem;
+      margin-top: 16px;
+      line-height: 1.8;
+    }
+
+    .system-info span {
+      color: var(--term-green);
+    }
+
+    /* ========================================
+       TYPOGRAPHY SHOWCASE
+       ======================================== */
+
+    .type-specimen {
+      margin-bottom: 32px;
+    }
+
+    .type-specimen-label {
+      color: var(--term-green-dim);
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      margin-bottom: 6px;
+    }
+
+    .type-specimen-label::before {
+      content: '// ';
+    }
+
+    .type-vt323 {
+      font-family: 'VT323', monospace;
+      font-size: 2.2rem;
+      color: var(--term-green-bright);
+      text-shadow: var(--term-glow-green-strong);
+      line-height: 1.3;
+    }
+
+    .type-space-mono {
+      font-family: 'Space Mono', monospace;
+      font-size: 1.4rem;
+      color: var(--term-green);
+      line-height: 1.4;
+    }
+
+    .type-fira {
+      font-family: 'Fira Code', monospace;
+      font-size: 1rem;
+      color: var(--term-green);
+      line-height: 1.7;
+    }
+
+    .type-share-tech {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 1.1rem;
+      color: var(--term-green);
+      line-height: 1.6;
+    }
+
+    .type-ibm-plex {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 1rem;
+      color: var(--term-green);
+      line-height: 1.7;
+    }
+
+    /* Hierarchy demo */
+    .hierarchy-demo {
+      background: var(--term-bg-secondary);
+      border: 1px solid var(--term-border);
+      padding: 24px;
+      margin-top: 24px;
+    }
+
+    .hierarchy-demo .h-bright {
+      color: var(--term-green-bright);
+      text-shadow: var(--term-glow-green);
+      font-weight: 700;
+    }
+
+    .hierarchy-demo .h-normal {
+      color: var(--term-green);
+    }
+
+    .hierarchy-demo .h-dim {
+      color: var(--term-green-dim);
+    }
+
+    .hierarchy-demo .h-comment {
+      color: var(--term-green-ultra-dim);
+      font-style: normal;
+    }
+
+    .hierarchy-demo .h-underline {
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      color: var(--term-cyan);
+    }
+
+    .hierarchy-demo .h-inverse {
+      background: var(--term-green);
+      color: var(--term-bg-primary);
+      padding: 0 4px;
+    }
+
+    /* ========================================
+       COLOR PALETTE
+       ======================================== */
+
+    .palette-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .color-swatch {
+      background: var(--term-bg-secondary);
+      border: 1px solid var(--term-border);
+      padding: 12px 16px;
+      font-size: 0.8rem;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .color-swatch:hover {
+      border-color: var(--term-green);
+    }
+
+    .swatch-preview {
+      height: 32px;
+      margin-bottom: 10px;
+      position: relative;
+    }
+
+    .swatch-name {
+      color: var(--term-white);
+      margin-bottom: 2px;
+    }
+
+    .swatch-hex {
+      color: var(--term-green-dim);
+      font-size: 0.75rem;
+    }
+
+    .swatch-role {
+      color: var(--term-white-dim);
+      font-size: 0.7rem;
+      margin-top: 4px;
+    }
+
+    /* Phosphor theme demos */
+    .phosphor-demos {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+      margin-top: 24px;
+    }
+
+    .phosphor-demo {
+      padding: 20px;
+      border: 1px solid;
+      position: relative;
+    }
+
+    .phosphor-demo--green {
+      border-color: var(--term-green-dim);
+      color: var(--term-green);
+    }
+
+    .phosphor-demo--green .phosphor-heading {
+      color: var(--term-green-bright);
+      text-shadow: var(--term-glow-green);
+    }
+
+    .phosphor-demo--amber {
+      border-color: var(--term-amber-dim);
+      color: var(--term-amber);
+    }
+
+    .phosphor-demo--amber .phosphor-heading {
+      color: var(--term-amber-bright);
+      text-shadow: var(--term-glow-amber);
+    }
+
+    .phosphor-demo--white {
+      border-color: var(--term-white-dim);
+      color: var(--term-white);
+    }
+
+    .phosphor-demo--white .phosphor-heading {
+      color: var(--term-white-bright);
+      text-shadow: var(--term-glow-white);
+    }
+
+    .phosphor-heading {
+      font-family: 'VT323', monospace;
+      font-size: 1.2rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 10px;
+    }
+
+    .phosphor-text {
+      font-size: 0.85rem;
+      line-height: 1.6;
+      opacity: 0.85;
+    }
+
+    .phosphor-label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      opacity: 0.5;
+      margin-top: 12px;
+    }
+
+    /* ========================================
+       CARDS / PANELS
+       ======================================== */
+
+    .panel-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: var(--term-gap);
+      margin-top: 20px;
+    }
+
+    .term-panel {
+      background: var(--term-bg-secondary);
+      border: 1px solid var(--term-border);
+      padding: 0;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .term-panel:hover {
+      border-color: var(--term-green);
+      box-shadow: 0 0 12px rgba(0, 255, 65, 0.08);
+    }
+
+    .panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 16px;
+      background: var(--term-bg-elevated);
+      border-bottom: 1px solid var(--term-border);
+      font-size: 0.8rem;
+    }
+
+    .panel-header .title {
+      color: var(--term-green-bright);
+      text-shadow: var(--term-glow-green);
+      font-family: 'Share Tech Mono', monospace;
+    }
+
+    .panel-header .meta {
+      color: var(--term-green-dim);
+      font-size: 0.75rem;
+    }
+
+    .panel-body {
+      padding: 16px;
+      font-size: 0.9rem;
+      line-height: 1.7;
+    }
+
+    .panel-body .comment {
+      color: var(--term-green-dim);
+    }
+
+    .panel-body .label {
+      color: var(--term-cyan);
+    }
+
+    .panel-body .value {
+      color: var(--term-green);
+    }
+
+    .panel-body .warning {
+      color: var(--term-amber);
+    }
+
+    .panel-body .error {
+      color: var(--term-red);
+    }
+
+    .panel-footer {
+      padding: 8px 16px;
+      border-top: 1px dashed var(--term-border);
+      font-size: 0.75rem;
+      color: var(--term-green-dim);
+    }
+
+    /* ========================================
+       TERMINAL BUTTONS
+       ======================================== */
+
+    .term-btn {
+      display: inline-block;
+      background: transparent;
+      color: var(--term-green);
+      border: 1px solid var(--term-green);
+      padding: 8px 20px;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.85rem;
+      cursor: pointer;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      transition: all 0.15s ease;
+      text-decoration: none;
+      margin-right: 8px;
+      margin-bottom: 8px;
+    }
+
+    .term-btn::before { content: '[ '; }
+    .term-btn::after  { content: ' ]'; }
+
+    .term-btn:hover {
+      background: var(--term-green);
+      color: var(--term-bg-primary);
+      box-shadow: var(--term-glow-green);
+      text-shadow: none;
+    }
+
+    .term-btn--amber {
+      color: var(--term-amber);
+      border-color: var(--term-amber);
+    }
+
+    .term-btn--amber:hover {
+      background: var(--term-amber);
+      color: var(--term-bg-primary);
+      box-shadow: var(--term-glow-amber);
+    }
+
+    .term-btn--cyan {
+      color: var(--term-cyan);
+      border-color: var(--term-cyan);
+    }
+
+    .term-btn--cyan:hover {
+      background: var(--term-cyan);
+      color: var(--term-bg-primary);
+      box-shadow: var(--term-glow-cyan);
+    }
+
+    .term-btn--danger {
+      color: var(--term-red);
+      border-color: var(--term-red);
+    }
+
+    .term-btn--danger:hover {
+      background: var(--term-red);
+      color: var(--term-bg-primary);
+      box-shadow: var(--term-glow-red);
+    }
+
+    .term-btn--filled {
+      background: var(--term-green);
+      color: var(--term-bg-primary);
+    }
+
+    .term-btn--filled:hover {
+      background: var(--term-green-bright);
+      box-shadow: var(--term-glow-green-strong);
+    }
+
+    /* ========================================
+       SYSTEM STATUS TABLE
+       ======================================== */
+
+    .stats-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+      margin-top: 16px;
+    }
+
+    .stats-table th {
+      text-align: left;
+      color: var(--term-cyan);
+      padding: 8px 12px;
+      border-bottom: 1px solid var(--term-green-dim);
+      font-weight: 400;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .stats-table td {
+      padding: 8px 12px;
+      color: var(--term-green);
+      border-bottom: 1px solid var(--term-border);
+    }
+
+    .stats-table tr:hover td {
+      background: rgba(0, 255, 65, 0.03);
+    }
+
+    .status-ok   { color: var(--term-green-bright); text-shadow: var(--term-glow-green); }
+    .status-warn { color: var(--term-amber); text-shadow: var(--term-glow-amber); }
+    .status-err  { color: var(--term-red); text-shadow: var(--term-glow-red); }
+
+    /* ========================================
+       PROGRESS BARS (ASCII)
+       ======================================== */
+
+    .progress-row {
+      display: flex;
+      align-items: center;
+      gap: 1ch;
+      font-size: 0.85rem;
+      margin-bottom: 8px;
+    }
+
+    .progress-label {
+      color: var(--term-white);
+      width: 14ch;
+      flex-shrink: 0;
+    }
+
+    .progress-bar-ascii {
+      color: var(--term-green);
+      white-space: nowrap;
+      text-shadow: 0 0 3px rgba(0, 255, 65, 0.2);
+    }
+
+    .progress-pct {
+      color: var(--term-green-bright);
+      width: 5ch;
+      text-align: right;
+      flex-shrink: 0;
+    }
+
+    /* Animated progress bar */
+    @keyframes progress-fill {
+      0%   { width: 0; }
+      100% { width: var(--progress-width, 50%); }
+    }
+
+    .progress-bar-visual {
+      height: 14px;
+      background: var(--term-bg-elevated);
+      border: 1px solid var(--term-green-dim);
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+      max-width: 30ch;
+    }
+
+    .progress-bar-visual .fill {
+      height: 100%;
+      background: var(--term-green);
+      box-shadow: var(--term-glow-green);
+      animation: progress-fill 2s ease-out forwards;
+    }
+
+    /* ========================================
+       LOG ENTRIES
+       ======================================== */
+
+    .log-section {
+      background: var(--term-bg-secondary);
+      border: 1px solid var(--term-border);
+      padding: 16px 20px;
+      margin-top: 16px;
+      max-height: 320px;
+      overflow-y: auto;
+      font-size: 0.82rem;
+    }
+
+    .log-section::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .log-section::-webkit-scrollbar-track {
+      background: var(--term-bg-primary);
+    }
+
+    .log-section::-webkit-scrollbar-thumb {
+      background: var(--term-green-dim);
+    }
+
+    .log-entry {
+      display: flex;
+      gap: 1.5ch;
+      padding: 3px 0;
+      line-height: 1.5;
+    }
+
+    .log-time  { color: var(--term-green-dim); white-space: nowrap; flex-shrink: 0; }
+    .log-info  { color: var(--term-cyan); white-space: nowrap; flex-shrink: 0; }
+    .log-warn  { color: var(--term-amber); white-space: nowrap; flex-shrink: 0; }
+    .log-error { color: var(--term-red); white-space: nowrap; flex-shrink: 0; }
+    .log-debug { color: var(--term-magenta); white-space: nowrap; flex-shrink: 0; }
+    .log-msg   { color: var(--term-green); }
+
+    /* ========================================
+       DIRECTORY LISTING
+       ======================================== */
+
+    .dir-listing {
+      list-style: none;
+      font-size: 0.88rem;
+      margin-top: 12px;
+    }
+
+    .dir-listing li {
+      padding: 3px 0;
+      display: flex;
+      gap: 0;
+    }
+
+    .dir-listing .perms { color: var(--term-green-dim); width: 12ch; flex-shrink: 0; }
+    .dir-listing .size  { color: var(--term-green-dim); width: 8ch; text-align: right; flex-shrink: 0; margin-right: 2ch; }
+    .dir-listing .dir   { color: var(--term-cyan); font-weight: 700; }
+    .dir-listing .exec  { color: var(--term-green-bright); text-shadow: var(--term-glow-green); }
+    .dir-listing .file  { color: var(--term-white); }
+    .dir-listing .link  { color: var(--term-magenta); }
+    .dir-listing .hidden { color: var(--term-green-dim); }
+
+    /* ========================================
+       COMMAND OUTPUT BLOCK
+       ======================================== */
+
+    .cmd-block {
+      background: var(--term-bg-secondary);
+      border-left: 2px solid var(--term-green-dim);
+      padding: 16px 20px;
+      margin: 16px 0;
+      font-size: 0.88rem;
+      line-height: 1.7;
+    }
+
+    .cmd-block .comment   { color: var(--term-green-dim); }
+    .cmd-block .output    { color: var(--term-white); }
+    .cmd-block .highlight { color: var(--term-green-bright); text-shadow: var(--term-glow-green); }
+    .cmd-block .keyword   { color: var(--term-cyan); }
+    .cmd-block .string    { color: var(--term-amber); }
+    .cmd-block .number    { color: var(--term-magenta); }
+
+    /* ========================================
+       TERMINAL INPUT
+       ======================================== */
+
+    .term-input {
+      display: flex;
+      align-items: center;
+      background: var(--term-bg-primary);
+      border: 1px solid var(--term-green-dim);
+      padding: 12px 16px;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.9rem;
+      margin-top: 16px;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .term-input:focus-within {
+      border-color: var(--term-green);
+      box-shadow: 0 0 8px rgba(0, 255, 65, 0.1);
+    }
+
+    .term-input__prompt {
+      color: var(--term-cyan);
+      white-space: nowrap;
+      margin-right: 8px;
+      flex-shrink: 0;
+    }
+
+    .term-input__field {
+      flex: 1;
+      background: transparent;
+      border: none;
+      outline: none;
+      color: var(--term-green);
+      font-family: inherit;
+      font-size: inherit;
+      caret-color: var(--term-green);
+    }
+
+    .term-input__field::placeholder {
+      color: var(--term-green-dim);
+    }
+
+    /* ========================================
+       FORM ELEMENTS
+       ======================================== */
+
+    .term-form {
+      margin-top: 20px;
+    }
+
+    .term-form .field {
+      margin-bottom: 16px;
+    }
+
+    .term-form label {
+      color: var(--term-cyan);
+      display: block;
+      margin-bottom: 6px;
+      font-size: 0.85rem;
+    }
+
+    .term-form label::before {
+      content: '> ';
+      color: var(--term-green-dim);
+    }
+
+    .term-form input,
+    .term-form textarea {
+      width: 100%;
+      max-width: 50ch;
+      background: var(--term-bg-secondary);
+      border: 1px solid var(--term-border);
+      color: var(--term-green);
+      font-family: 'Fira Code', monospace;
+      font-size: 0.88rem;
+      padding: 10px 14px;
+      outline: none;
+      caret-color: var(--term-green);
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .term-form input:focus,
+    .term-form textarea:focus {
+      border-color: var(--term-green);
+      box-shadow: 0 0 6px rgba(0, 255, 65, 0.12);
+    }
+
+    .term-form textarea {
+      height: 100px;
+      resize: vertical;
+    }
+
+    /* ========================================
+       GLITCH TEXT EFFECT
+       ======================================== */
+
+    @keyframes glitch-1 {
+      0%, 100% { clip-path: inset(0 0 95% 0); transform: translate(0); }
+      10%      { clip-path: inset(20% 0 60% 0); transform: translate(-2px, 1px); }
+      20%      { clip-path: inset(50% 0 30% 0); transform: translate(2px, -1px); }
+      30%      { clip-path: inset(70% 0 10% 0); transform: translate(-1px, 2px); }
+      40%      { clip-path: inset(10% 0 80% 0); transform: translate(1px, 0); }
+    }
+
+    @keyframes glitch-2 {
+      0%, 100% { clip-path: inset(95% 0 0 0); transform: translate(0); }
+      10%      { clip-path: inset(60% 0 20% 0); transform: translate(2px, -1px); }
+      20%      { clip-path: inset(30% 0 50% 0); transform: translate(-2px, 1px); }
+      30%      { clip-path: inset(10% 0 70% 0); transform: translate(1px, -2px); }
+      40%      { clip-path: inset(80% 0 10% 0); transform: translate(-1px, 0); }
+    }
+
+    .glitch-text {
+      position: relative;
+      display: inline-block;
+    }
+
+    .glitch-text::before,
+    .glitch-text::after {
+      content: attr(data-text);
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .glitch-text::before {
+      color: var(--term-cyan);
+      animation: glitch-1 3s infinite linear;
+      z-index: -1;
+    }
+
+    .glitch-text::after {
+      color: var(--term-red);
+      animation: glitch-2 3s infinite linear;
+      animation-delay: 0.1s;
+      z-index: -1;
+    }
+
+    /* ========================================
+       SCREEN BOOT SEQUENCE
+       ======================================== */
+
+    @keyframes screen-on {
+      0%   { transform: scaleY(0.005) scaleX(0.5); opacity: 0.5; filter: brightness(20); }
+      20%  { transform: scaleY(0.005) scaleX(1); opacity: 0.8; }
+      40%  { transform: scaleY(1) scaleX(1); opacity: 1; filter: brightness(1.5); }
+      60%  { filter: brightness(1); }
+      100% { transform: scaleY(1) scaleX(1); opacity: 1; filter: brightness(1); }
+    }
+
+    .screen-boot {
+      animation: screen-on 1.2s ease-out forwards;
+    }
+
+    /* ========================================
+       TEXT GLOW PULSE
+       ======================================== */
+
+    @keyframes glow-pulse {
+      0%, 100% { text-shadow: 0 0 5px rgba(0, 255, 65, 0.4), 0 0 20px rgba(0, 255, 65, 0.1); }
+      50%      { text-shadow: 0 0 10px rgba(0, 255, 65, 0.6), 0 0 40px rgba(0, 255, 65, 0.2), 0 0 60px rgba(0, 255, 65, 0.08); }
+    }
+
+    .glow-pulse {
+      animation: glow-pulse 3s ease-in-out infinite;
+    }
+
+    /* ========================================
+       HORIZONTAL LINE / DIVIDER
+       ======================================== */
+
+    .term-divider {
+      border: none;
+      border-top: 1px dashed var(--term-border);
+      margin: 24px 0;
+    }
+
+    .term-divider--bright {
+      border-color: var(--term-green-dim);
+    }
+
+    /* ========================================
+       FOOTER
+       ======================================== */
+
+    footer {
+      padding: 32px 0;
+      text-align: center;
+      color: var(--term-green-dim);
+      font-size: 0.78rem;
+      border-top: 1px solid var(--term-border);
+    }
+
+    footer .separator {
+      color: var(--term-border);
+      margin-bottom: 16px;
+      white-space: pre;
+      overflow-x: hidden;
+    }
+
+    footer .session-info {
+      color: var(--term-green-dim);
+      margin-top: 6px;
+    }
+
+    footer .close-msg {
+      color: var(--term-green);
+      margin-top: 12px;
+    }
+
+    /* ========================================
+       EFFECTS SHOWCASE
+       ======================================== */
+
+    .effect-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+      margin-top: 20px;
+    }
+
+    .effect-box {
+      background: var(--term-bg-secondary);
+      border: 1px solid var(--term-border);
+      padding: 20px;
+      min-height: 120px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .effect-box-label {
+      color: var(--term-green-dim);
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      margin-bottom: 12px;
+    }
+
+    .effect-box-label::before {
+      content: '/* ';
+    }
+
+    .effect-box-label::after {
+      content: ' */';
+    }
+
+    /* Scanline demo within a box */
+    .scanline-demo {
+      position: relative;
+    }
+
+    .scanline-demo::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0, 255, 65, 0.04) 2px,
+        rgba(0, 255, 65, 0.04) 4px
+      );
+      pointer-events: none;
+    }
+
+    /* Phosphor burn-in effect */
+    @keyframes burn-in {
+      0%, 100% { opacity: 0.15; }
+      50%      { opacity: 0.08; }
+    }
+
+    .burn-in-ghost {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: var(--term-green);
+      opacity: 0.12;
+      font-family: 'VT323', monospace;
+      font-size: 1.4rem;
+      animation: burn-in 8s ease-in-out infinite;
+      pointer-events: none;
+      white-space: nowrap;
+    }
+
+    /* Scroll indicator */
+    @keyframes scroll-indicator {
+      0%   { transform: translateY(0); opacity: 1; }
+      50%  { transform: translateY(8px); opacity: 0.4; }
+      100% { transform: translateY(0); opacity: 1; }
+    }
+
+    .scroll-hint {
+      text-align: center;
+      margin-top: 24px;
+      color: var(--term-green-dim);
+      font-size: 0.8rem;
+      animation: scroll-indicator 2s ease-in-out infinite;
+    }
+
+    /* ========================================
+       ANSI COLOR CHART
+       ======================================== */
+
+    .ansi-chart {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      margin-top: 12px;
+    }
+
+    .ansi-block {
+      width: 80px;
+      padding: 8px;
+      text-align: center;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+    }
+
+    /* ========================================
+       RESPONSIVE
+       ======================================== */
+
+    @media (max-width: 768px) {
+      .container {
+        padding: 0 16px;
+      }
+
+      .term-titlebar .container {
+        flex-direction: column;
+        gap: 10px;
+        align-items: flex-start;
+      }
+
+      .nav-links {
+        gap: 4px;
+      }
+
+      .ascii-art {
+        font-size: clamp(0.28rem, 1vw, 0.5rem);
+      }
+
+      .panel-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .palette-grid {
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      }
+
+      .phosphor-demos {
+        grid-template-columns: 1fr;
+      }
+
+      .effect-row {
+        grid-template-columns: 1fr;
+      }
+
+      .progress-bar-ascii {
+        font-size: 0.75rem;
+      }
+
+      .dir-listing .perms {
+        display: none;
+      }
+
+      .dir-listing .size {
+        display: none;
+      }
+
+      .stats-table {
+        font-size: 0.78rem;
+      }
+
+      .stats-table th,
+      .stats-table td {
+        padding: 6px 8px;
+      }
+
+      h1 { font-size: 1.8rem; }
+    }
+
+    @media (max-width: 480px) {
+      .ascii-art {
+        font-size: 0.28rem;
+      }
+
+      .nav-links a {
+        font-size: 0.78rem;
+        padding: 3px 6px;
+      }
+
+      .titlebar-dots {
+        display: none;
+      }
+
+      section {
+        padding: 32px 0;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .cursor { animation: none; opacity: 1; }
+      .crt-flicker { animation: none; }
+      .typewriter { animation: none; width: auto; border-right: none; }
+      .glitch-text::before,
+      .glitch-text::after { animation: none; opacity: 0; }
+      .screen-boot { animation: none; }
+      .glow-pulse { animation: none; }
+      .scroll-hint { animation: none; }
+      .matrix-column { animation: none; opacity: 0; }
+      .burn-in-ghost { animation: none; }
+      body::before { background: none; }
+    }
+  </style>
+</head>
+<body class="crt-flicker screen-boot">
+
+  <!-- Matrix rain background -->
+  <div class="matrix-rain" aria-hidden="true">
+    <div class="matrix-column">01001101011000010111010001110010011010010111100000110001001100100011001100110100</div>
+    <div class="matrix-column">11010010110111001101001011101000110100101100001011011000110100101111010011001010</div>
+    <div class="matrix-column">01110011011110010111001101110100011001010110110100101110011001000110000101110100</div>
+    <div class="matrix-column">01100011011011110110111001101110011001010110001101110100011010010110111101101110</div>
+    <div class="matrix-column">01101011011001010111001001101110011001010110110000101110011100000110000101101110</div>
+    <div class="matrix-column">01110010011001010110001001101111011011110111010000101110011100110110010101110001</div>
+    <div class="matrix-column">01110000011100100110111101110100011011110110001101101111011011000010111001110011</div>
+    <div class="matrix-column">01100001011101010111010001101000011001010110111001110100011010010110001101100001</div>
+    <div class="matrix-column">01110100011001010010000001100001011011000110110000100000011100100110010101110001</div>
+    <div class="matrix-column">01110101011001010111001101110100011100110010000001100001011011100110010000100000</div>
+    <div class="matrix-column">01110110011001010111001001101001011001100111100100100000011010010110010001100101</div>
+    <div class="matrix-column">01101110011101000110100101110100011110010010111000100000010000010110001101100011</div>
+    <div class="matrix-column">01100101011100110111001100100000011001110111001001100001011011100111010001100101</div>
+    <div class="matrix-column">01100100001011100010000001010011011001010111001101110011011010010110111101101110</div>
+    <div class="matrix-column">00100000011010010110111001101001011101000110100101100001011011000110100101111010</div>
+    <div class="matrix-column">01100101011001000010111000001010010101000110010101110010011011010110100101101110</div>
+    <div class="matrix-column">01100001011011000010000001110010011001010110000101100100011110010010111000001010</div>
+  </div>
+
+  <!-- Page wrapper -->
+  <div class="page-wrapper">
+
+    <!-- ==========================================
+         NAVIGATION / TITLE BAR
+         ========================================== -->
+    <nav class="term-titlebar">
+      <div class="container">
+        <div class="titlebar-left">
+          <div class="titlebar-dots">
+            <span class="titlebar-dot titlebar-dot--close"></span>
+            <span class="titlebar-dot titlebar-dot--min"></span>
+            <span class="titlebar-dot titlebar-dot--max"></span>
+          </div>
+          <span class="titlebar-title">visitor@designref:~/terminal-cli -- bash -- 80x24</span>
+        </div>
+        <ul class="nav-links">
+          <li><a href="#hero" class="active">home</a></li>
+          <li><a href="#typography">type</a></li>
+          <li><a href="#palette">colors</a></li>
+          <li><a href="#components">panels</a></li>
+          <li><a href="#effects">effects</a></li>
+          <li><a href="#interactive">input</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- ==========================================
+         HERO / MOTD SECTION
+         ========================================== -->
+    <section class="hero" id="hero">
+      <div class="container">
+
+        <pre class="ascii-art" aria-label="Terminal CLI Aesthetic in ASCII art">
+  _____                   _             _      ____ _     ___
+ |_   _|__ _ __ _ __ ___ (_)_ __   __ _| |    / ___| |   |_ _|
+   | |/ _ \ '__| '_ ` _ \| | '_ \ / _` | |   | |   | |    | |
+   | |  __/ |  | | | | | | | | | | (_| | |   | |___| |___ | |
+   |_|\___|_|  |_| |_| |_|_|_| |_|\__,_|_|    \____|_____|___|
+     _              _   _          _   _
+    / \   ___  ___ | |_| |__   ___| |_(_) ___
+   / _ \ / _ \/ __|| __| '_ \ / _ \ __| |/ __|
+  / ___ \  __/\__ \| |_| | | |  __/ |_| | (__
+ /_/   \_\___||___/ \__|_| |_|\___|\__|_|\___|
+        </pre>
+
+        <div class="ascii-border" aria-hidden="true">+============================================================================+</div>
+
+        <div class="motd-box">
+          <p>
+            Welcome to the <strong>Terminal CLI Aesthetic</strong> design reference. This page
+            demonstrates the visual language of command-line interfaces, CRT displays, and
+            text-based computing. All elements reference the raw, utilitarian beauty of
+            monospaced type rendered on dark screens -- phosphor glow on void, cursors
+            blinking in patience, and the structured logic of the shell.
+          </p>
+        </div>
+
+        <div class="system-info">
+          Last login: <span>Thu Feb 20 09:14:52 2026</span> from <span>192.168.1.42</span><br>
+          System: <span>Linux designref 6.1.0-amd64 #1 SMP x86_64 GNU/Linux</span><br>
+          Uptime: <span>247 days, 14:33:08</span> | Load: <span>0.08, 0.04, 0.02</span> | Users: <span>3</span>
+        </div>
+
+        <div class="prompt-line" style="margin-top: 20px;">
+          <span class="user">visitor</span><span class="at">@</span><span class="host">designref</span>:<span class="path">~</span><span class="dollar">$</span>
+          <span class="cmd typewriter">cat /proc/aesthetic/manifest</span>
+        </div>
+
+        <div class="scroll-hint">
+          <span>v v v scroll for output v v v</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         TYPOGRAPHY SHOWCASE
+         ========================================== -->
+    <section id="typography">
+      <div class="container">
+        <h2 class="section-heading">Typography</h2>
+
+        <div class="prompt-line" style="margin-bottom: 20px;">
+          <span class="user">visitor</span><span class="at">@</span><span class="host">designref</span>:<span class="path">~/type</span><span class="dollar">$</span>
+          <span class="cmd">fc-list</span> <span class="pipe">|</span> <span class="cmd">grep</span> <span class="flag">-i</span> <span class="arg">"mono"</span>
+        </div>
+
+        <!-- VT323 -->
+        <div class="type-specimen">
+          <div class="type-specimen-label">VT323 -- CRT Bitmap Display Font</div>
+          <div class="type-vt323">
+            THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG<br>
+            the quick brown fox jumps over the lazy dog<br>
+            0123456789 !@#$%^&amp;*() {}&lt;&gt;[]|\/
+          </div>
+        </div>
+
+        <!-- Space Mono -->
+        <div class="type-specimen">
+          <div class="type-specimen-label">Space Mono -- Retro-Futuristic Monospace</div>
+          <div class="type-space-mono">
+            ABCDEFGHIJKLMNOPQRSTUVWXYZ<br>
+            abcdefghijklmnopqrstuvwxyz<br>
+            0123456789 :: =&gt; -&gt; &lt;- != ==
+          </div>
+        </div>
+
+        <!-- Fira Code -->
+        <div class="type-specimen">
+          <div class="type-specimen-label">Fira Code -- Developer Monospace with Ligatures</div>
+          <div class="type-fira">
+            ABCDEFGHIJKLMNOPQRSTUVWXYZ<br>
+            abcdefghijklmnopqrstuvwxyz<br>
+            0123456789 =&gt; -&gt; &lt;- != === &lt;= &gt;= /* */
+          </div>
+        </div>
+
+        <!-- Share Tech Mono -->
+        <div class="type-specimen">
+          <div class="type-specimen-label">Share Tech Mono -- Compact Technical Readout</div>
+          <div class="type-share-tech">
+            SYSTEM DIAGNOSTIC REPORT :: SECTOR 7G<br>
+            thermal_output: nominal | radiation: 0.003 mSv<br>
+            0xFF00 0xDEAD 0xBEEF 0xCAFE 0xBAAD
+          </div>
+        </div>
+
+        <!-- IBM Plex Mono -->
+        <div class="type-specimen">
+          <div class="type-specimen-label">IBM Plex Mono -- Clean Corporate Terminal</div>
+          <div class="type-ibm-plex">
+            International Business Machines Corporation<br>
+            System/360 Model 67 Time-Sharing System<br>
+            READY. _
+          </div>
+        </div>
+
+        <hr class="term-divider term-divider--bright">
+
+        <!-- Hierarchy Demo -->
+        <div class="type-specimen-label" style="margin-bottom: 12px;">Hierarchy Through Color and Formatting (Not Size)</div>
+        <div class="hierarchy-demo">
+          <div style="margin-bottom: 6px;"><span class="h-inverse"> LEVEL 1 </span> <span class="h-bright">Inverse background -- maximum emphasis</span></div>
+          <div style="margin-bottom: 6px;"><span class="h-bright">LEVEL 2</span> -- Bright color with phosphor glow</div>
+          <div style="margin-bottom: 6px;"><span class="h-normal">LEVEL 3</span> -- Standard green, primary text</div>
+          <div style="margin-bottom: 6px;"><span class="h-underline">LEVEL 4</span> -- Underlined cyan, interactive feel</div>
+          <div style="margin-bottom: 6px;"><span class="h-dim">LEVEL 5</span> -- Dim green, secondary information</div>
+          <div><span class="h-comment"># LEVEL 6 -- Ultra-dim, comments and metadata</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         COLOR PALETTE
+         ========================================== -->
+    <section id="palette">
+      <div class="container">
+        <h2 class="section-heading">Color Palette</h2>
+
+        <div class="prompt-line" style="margin-bottom: 20px;">
+          <span class="user">visitor</span><span class="at">@</span><span class="host">designref</span>:<span class="path">~/colors</span><span class="dollar">$</span>
+          <span class="cmd">cat</span> <span class="arg">/etc/X11/rgb.txt</span> <span class="pipe">|</span> <span class="cmd">grep</span> <span class="flag">--color</span> <span class="arg">"phosphor"</span>
+        </div>
+
+        <div class="palette-grid">
+          <div class="color-swatch">
+            <div class="swatch-preview" style="background: #0c0c0c; border: 1px solid #2d2d2d;"></div>
+            <div class="swatch-name">Terminal Black</div>
+            <div class="swatch-hex">#0C0C0C</div>
+            <div class="swatch-role">Primary background</div>
+          </div>
+          <div class="color-swatch">
+            <div class="swatch-preview" style="background: #1a1a1a; border: 1px solid #2d2d2d;"></div>
+            <div class="swatch-name">Soft Black</div>
+            <div class="swatch-hex">#1A1A1A</div>
+            <div class="swatch-role">Elevated panels</div>
+          </div>
+          <div class="color-swatch">
+            <div class="swatch-preview" style="background: #2d2d2d;"></div>
+            <div class="swatch-name">Dark Gray</div>
+            <div class="swatch-hex">#2D2D2D</div>
+            <div class="swatch-role">Borders, dividers</div>
+          </div>
+          <div class="color-swatch">
+            <div class="swatch-preview" style="background: #00ff41; box-shadow: 0 0 12px rgba(0,255,65,0.4);"></div>
+            <div class="swatch-name">Matrix Green</div>
+            <div class="swatch-hex">#00FF41</div>
+            <div class="swatch-role">Primary accent</div>
+          </div>
+          <div class="color-swatch">
+            <div class="swatch-preview" style="background: #33ff33; box-shadow: 0 0 12px rgba(51,255,51,0.4);"></div>
+            <div class="swatch-name">Phosphor Green</div>
+            <div class="swatch-hex">#33FF33</div>
+            <div class="swatch-role">Headings, highlights</div>
+          </div>
+          <div class="color-swatch">
+            <div class="swatch-preview" style="background: #0a6e0a;"></div>
+            <div class="swatch-name">Dim Green</div>
+            <div class="swatch-hex">#0A6E0A</div>
+            <div class="swatch-role">Secondary, comments</div>
+          </div>
+          <div class="color-swatch">
+            <div class="swatch-preview" style="background: #ffb000; box-shadow: 0 0 12px rgba(255,176,0,0.4);"></div>
+            <div class="swatch-name">Amber Phosphor</div>
+            <div class="swatch-hex">#FFB000</div>
+            <div class="swatch-role">Warnings, emphasis</div>
+          </div>
+          <div class="color-swatch">
+            <div class="swatch-preview" style="background: #cccccc; box-shadow: 0 0 8px rgba(204,204,204,0.3);"></div>
+            <div class="swatch-name">CRT White</div>
+            <div class="swatch-hex">#CCCCCC</div>
+            <div class="swatch-role">White phosphor text</div>
+          </div>
+          <div class="color-swatch">
+            <div class="swatch-preview" style="background: #ff3333; box-shadow: 0 0 12px rgba(255,51,51,0.4);"></div>
+            <div class="swatch-name">Error Red</div>
+            <div class="swatch-hex">#FF3333</div>
+            <div class="swatch-role">STDERR, fatal</div>
+          </div>
+          <div class="color-swatch">
+            <div class="swatch-preview" style="background: #00cccc; box-shadow: 0 0 12px rgba(0,204,204,0.4);"></div>
+            <div class="swatch-name">Cyan Accent</div>
+            <div class="swatch-hex">#00CCCC</div>
+            <div class="swatch-role">Links, info</div>
+          </div>
+          <div class="color-swatch">
+            <div class="swatch-preview" style="background: #5c5cff;"></div>
+            <div class="swatch-name">Pale Blue</div>
+            <div class="swatch-hex">#5C5CFF</div>
+            <div class="swatch-role">Directories, decorative</div>
+          </div>
+          <div class="color-swatch">
+            <div class="swatch-preview" style="background: #cc00cc; box-shadow: 0 0 12px rgba(204,0,204,0.4);"></div>
+            <div class="swatch-name">Magenta</div>
+            <div class="swatch-hex">#CC00CC</div>
+            <div class="swatch-role">Syntax, prompts</div>
+          </div>
+        </div>
+
+        <hr class="term-divider" style="margin-top: 32px;">
+
+        <!-- ANSI Color Chart -->
+        <div class="type-specimen-label" style="margin-bottom: 12px;">ANSI Standard Color Block</div>
+        <div class="ansi-chart">
+          <div class="ansi-block" style="background: #000000; color: #666;">BLK</div>
+          <div class="ansi-block" style="background: #ff3333; color: #0c0c0c;">RED</div>
+          <div class="ansi-block" style="background: #00ff41; color: #0c0c0c;">GRN</div>
+          <div class="ansi-block" style="background: #cccc00; color: #0c0c0c;">YEL</div>
+          <div class="ansi-block" style="background: #5c5cff; color: #0c0c0c;">BLU</div>
+          <div class="ansi-block" style="background: #cc00cc; color: #0c0c0c;">MAG</div>
+          <div class="ansi-block" style="background: #00cccc; color: #0c0c0c;">CYN</div>
+          <div class="ansi-block" style="background: #cccccc; color: #0c0c0c;">WHT</div>
+        </div>
+
+        <hr class="term-divider" style="margin-top: 32px;">
+
+        <!-- Phosphor Theme Demos -->
+        <div class="type-specimen-label" style="margin-bottom: 12px;">Phosphor Display Themes</div>
+        <div class="phosphor-demos">
+          <div class="phosphor-demo phosphor-demo--green">
+            <div class="phosphor-heading">Green Phosphor (P1)</div>
+            <div class="phosphor-text">
+              The classic green-on-black terminal. Used in early IBM 5151 monochrome
+              displays and countless VT100 clones. The most iconic terminal color.
+            </div>
+            <div class="phosphor-label">Default Theme</div>
+          </div>
+          <div class="phosphor-demo phosphor-demo--amber">
+            <div class="phosphor-heading">Amber Phosphor (P3)</div>
+            <div class="phosphor-text">
+              Warm amber on black. Popular in Hercules-compatible monochrome adapters
+              and many European terminal models. Easier on the eyes for extended use.
+            </div>
+            <div class="phosphor-label">Alternate Theme</div>
+          </div>
+          <div class="phosphor-demo phosphor-demo--white">
+            <div class="phosphor-heading">White Phosphor (P4)</div>
+            <div class="phosphor-text">
+              Clean white on black. Found in later model terminals and paper-white
+              displays. The most neutral option, closest to modern dark mode.
+            </div>
+            <div class="phosphor-label">Neutral Theme</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         CARDS / COMPONENTS
+         ========================================== -->
+    <section id="components">
+      <div class="container">
+        <h2 class="section-heading">Components</h2>
+
+        <div class="prompt-line" style="margin-bottom: 20px;">
+          <span class="user">visitor</span><span class="at">@</span><span class="host">designref</span>:<span class="path">~/components</span><span class="dollar">$</span>
+          <span class="cmd">ls</span> <span class="flag">-la</span> <span class="arg">/srv/components/</span>
+        </div>
+
+        <!-- Terminal Panels -->
+        <h3 style="color: var(--term-cyan); font-family: 'Fira Code', monospace; font-size: 0.9rem; margin-bottom: 16px;">:: Terminal Panels</h3>
+
+        <div class="panel-grid">
+          <div class="term-panel">
+            <div class="panel-header">
+              <span class="title">process_monitor.sh</span>
+              <span class="meta">PID 1842</span>
+            </div>
+            <div class="panel-body">
+              <span class="comment"># Active process monitoring</span><br>
+              <span class="label">PROCESS</span>  <span class="value">nginx-worker</span><br>
+              <span class="label">STATUS </span>  <span style="color: var(--term-green-bright);">RUNNING</span><br>
+              <span class="label">CPU    </span>  <span class="value">2.3%</span><br>
+              <span class="label">MEM    </span>  <span class="value">148 MB</span><br>
+              <span class="label">THREADS</span>  <span class="value">12</span>
+            </div>
+            <div class="panel-footer">last updated: 3s ago | refresh: 5s</div>
+          </div>
+
+          <div class="term-panel">
+            <div class="panel-header">
+              <span class="title">network_stats.sh</span>
+              <span class="meta">eth0</span>
+            </div>
+            <div class="panel-body">
+              <span class="comment"># Network interface stats</span><br>
+              <span class="label">RX     </span>  <span class="value">847.2 GB</span><br>
+              <span class="label">TX     </span>  <span class="value">1.2 TB</span><br>
+              <span class="label">PACKETS</span>  <span class="value">2,847,193,402</span><br>
+              <span class="label">ERRORS </span>  <span class="warning">3</span><br>
+              <span class="label">DROPS  </span>  <span class="value">0</span>
+            </div>
+            <div class="panel-footer">interface: up | speed: 10Gbps</div>
+          </div>
+
+          <div class="term-panel">
+            <div class="panel-header">
+              <span class="title">security_scan.sh</span>
+              <span class="meta">--verbose</span>
+            </div>
+            <div class="panel-body">
+              <span class="comment"># Last security audit</span><br>
+              <span class="label">VULNS  </span>  <span style="color: var(--term-green-bright);">0 critical</span><br>
+              <span class="label">PATCHES</span>  <span class="warning">2 pending</span><br>
+              <span class="label">FIREWALL</span> <span class="value">active (iptables)</span><br>
+              <span class="label">SSH    </span>  <span class="value">key-only, port 2222</span><br>
+              <span class="label">FAIL2BAN</span> <span class="value">4 banned IPs</span>
+            </div>
+            <div class="panel-footer">scan completed: 2h ago | next: 22h</div>
+          </div>
+
+          <div class="term-panel">
+            <div class="panel-header">
+              <span class="title">disk_health.sh</span>
+              <span class="meta">SMART</span>
+            </div>
+            <div class="panel-body">
+              <span class="comment"># Storage array status</span><br>
+              <span class="label">RAID   </span>  <span style="color: var(--term-green-bright);">OPTIMAL (RAID-6)</span><br>
+              <span class="label">DISKS  </span>  <span class="value">8/8 online</span><br>
+              <span class="label">TOTAL  </span>  <span class="value">32 TB usable</span><br>
+              <span class="label">USED   </span>  <span class="value">21.7 TB (67.8%)</span><br>
+              <span class="label">TEMP   </span>  <span class="value">34C avg</span>
+            </div>
+            <div class="panel-footer">rebuild: none | scrub: weekly</div>
+          </div>
+        </div>
+
+        <hr class="term-divider" style="margin-top: 32px;">
+
+        <!-- Buttons -->
+        <h3 style="color: var(--term-cyan); font-family: 'Fira Code', monospace; font-size: 0.9rem; margin-bottom: 16px;">:: Terminal Buttons</h3>
+
+        <div style="margin-bottom: 24px;">
+          <button class="term-btn">execute</button>
+          <button class="term-btn term-btn--filled">confirm</button>
+          <button class="term-btn term-btn--amber">warning</button>
+          <button class="term-btn term-btn--cyan">info</button>
+          <button class="term-btn term-btn--danger">abort</button>
+        </div>
+
+        <hr class="term-divider" style="margin-top: 16px;">
+
+        <!-- System Status Table -->
+        <h3 style="color: var(--term-cyan); font-family: 'Fira Code', monospace; font-size: 0.9rem; margin-bottom: 8px; margin-top: 24px;">:: Service Status Table</h3>
+
+        <div class="prompt-line" style="margin-bottom: 12px;">
+          <span class="user">visitor</span><span class="at">@</span><span class="host">designref</span>:<span class="path">~</span><span class="dollar">$</span>
+          <span class="cmd">systemctl</span> <span class="arg">status</span> <span class="flag">--all</span>
+        </div>
+
+        <table class="stats-table">
+          <thead>
+            <tr>
+              <th>Service</th>
+              <th>Status</th>
+              <th>Uptime</th>
+              <th>Port</th>
+              <th>PID</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>sshd</td>
+              <td class="status-ok">[ ACTIVE ]</td>
+              <td>247d 14:33</td>
+              <td>2222/tcp</td>
+              <td>1024</td>
+            </tr>
+            <tr>
+              <td>nginx</td>
+              <td class="status-ok">[ ACTIVE ]</td>
+              <td>247d 14:32</td>
+              <td>443/tcp</td>
+              <td>1842</td>
+            </tr>
+            <tr>
+              <td>postgresql</td>
+              <td class="status-ok">[ ACTIVE ]</td>
+              <td>247d 14:30</td>
+              <td>5432/tcp</td>
+              <td>2103</td>
+            </tr>
+            <tr>
+              <td>redis-server</td>
+              <td class="status-ok">[ ACTIVE ]</td>
+              <td>201d 08:17</td>
+              <td>6379/tcp</td>
+              <td>3301</td>
+            </tr>
+            <tr>
+              <td>prometheus</td>
+              <td class="status-ok">[ ACTIVE ]</td>
+              <td>247d 14:28</td>
+              <td>9090/tcp</td>
+              <td>2587</td>
+            </tr>
+            <tr>
+              <td>backup-agent</td>
+              <td class="status-warn">[ DEGRADED ]</td>
+              <td>4d 22:15</td>
+              <td>--</td>
+              <td>8841</td>
+            </tr>
+            <tr>
+              <td>legacy-api</td>
+              <td class="status-err">[ FAILED ]</td>
+              <td>--</td>
+              <td>8080/tcp</td>
+              <td>--</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <hr class="term-divider" style="margin-top: 32px;">
+
+        <!-- Progress Bars -->
+        <h3 style="color: var(--term-cyan); font-family: 'Fira Code', monospace; font-size: 0.9rem; margin-bottom: 16px;">:: Resource Utilization (ASCII)</h3>
+
+        <div class="progress-row">
+          <span class="progress-label">CPU</span>
+          <span class="progress-bar-ascii">[########................................]</span>
+          <span class="progress-pct" style="color: var(--term-green-bright);">18%</span>
+        </div>
+        <div class="progress-row">
+          <span class="progress-label">Memory</span>
+          <span class="progress-bar-ascii">[#######################.................]</span>
+          <span class="progress-pct" style="color: var(--term-green-bright);">57%</span>
+        </div>
+        <div class="progress-row">
+          <span class="progress-label">Swap</span>
+          <span class="progress-bar-ascii">[###.....................................]</span>
+          <span class="progress-pct" style="color: var(--term-green-bright);">6%</span>
+        </div>
+        <div class="progress-row">
+          <span class="progress-label">Disk /</span>
+          <span class="progress-bar-ascii">[#############...........................]</span>
+          <span class="progress-pct" style="color: var(--term-green-bright);">32%</span>
+        </div>
+        <div class="progress-row">
+          <span class="progress-label">Disk /data</span>
+          <span class="progress-bar-ascii">[############################............]</span>
+          <span class="progress-pct" style="color: var(--term-amber);">68%</span>
+        </div>
+        <div class="progress-row">
+          <span class="progress-label">Disk /backup</span>
+          <span class="progress-bar-ascii">[###################################.....]</span>
+          <span class="progress-pct" style="color: var(--term-red);">87%</span>
+        </div>
+        <div class="progress-row">
+          <span class="progress-label">Network I/O</span>
+          <span class="progress-bar-ascii">[#####...................................]</span>
+          <span class="progress-pct" style="color: var(--term-green-bright);">12%</span>
+        </div>
+
+        <hr class="term-divider" style="margin-top: 32px;">
+
+        <!-- Visual Progress Bars -->
+        <h3 style="color: var(--term-cyan); font-family: 'Fira Code', monospace; font-size: 0.9rem; margin-bottom: 16px;">:: Resource Utilization (Visual)</h3>
+
+        <div class="progress-row">
+          <span class="progress-label">CPU</span>
+          <div class="progress-bar-visual">
+            <div class="fill" style="--progress-width: 18%; width: 18%;"></div>
+          </div>
+          <span class="progress-pct" style="color: var(--term-green-bright);">18%</span>
+        </div>
+        <div class="progress-row">
+          <span class="progress-label">Memory</span>
+          <div class="progress-bar-visual">
+            <div class="fill" style="--progress-width: 57%; width: 57%;"></div>
+          </div>
+          <span class="progress-pct" style="color: var(--term-green-bright);">57%</span>
+        </div>
+        <div class="progress-row">
+          <span class="progress-label">Disk /data</span>
+          <div class="progress-bar-visual">
+            <div class="fill" style="--progress-width: 68%; width: 68%; background: var(--term-amber); box-shadow: var(--term-glow-amber);"></div>
+          </div>
+          <span class="progress-pct" style="color: var(--term-amber);">68%</span>
+        </div>
+        <div class="progress-row">
+          <span class="progress-label">Disk /backup</span>
+          <div class="progress-bar-visual">
+            <div class="fill" style="--progress-width: 87%; width: 87%; background: var(--term-red); box-shadow: var(--term-glow-red);"></div>
+          </div>
+          <span class="progress-pct" style="color: var(--term-red);">87%</span>
+        </div>
+
+        <hr class="term-divider" style="margin-top: 32px;">
+
+        <!-- Directory Listing -->
+        <h3 style="color: var(--term-cyan); font-family: 'Fira Code', monospace; font-size: 0.9rem; margin-bottom: 8px;">:: Directory Listing</h3>
+
+        <div class="prompt-line" style="margin-bottom: 12px;">
+          <span class="user">visitor</span><span class="at">@</span><span class="host">designref</span>:<span class="path">~/projects</span><span class="dollar">$</span>
+          <span class="cmd">ls</span> <span class="flag">-la</span>
+        </div>
+
+        <ul class="dir-listing">
+          <li><span class="perms">drwxr-xr-x</span><span class="size">4.0K</span><span class="dir">.</span></li>
+          <li><span class="perms">drwxr-xr-x</span><span class="size">4.0K</span><span class="dir">..</span></li>
+          <li><span class="perms">-rw-r--r--</span><span class="size">2.1K</span><span class="hidden">.gitignore</span></li>
+          <li><span class="perms">-rw-r--r--</span><span class="size">847</span><span class="hidden">.env.example</span></li>
+          <li><span class="perms">drwxr-xr-x</span><span class="size">4.0K</span><span class="dir">src/</span></li>
+          <li><span class="perms">drwxr-xr-x</span><span class="size">4.0K</span><span class="dir">config/</span></li>
+          <li><span class="perms">drwxr-xr-x</span><span class="size">12K</span><span class="dir">node_modules/</span></li>
+          <li><span class="perms">-rwxr-xr-x</span><span class="size">4.2K</span><span class="exec">deploy.sh*</span></li>
+          <li><span class="perms">-rwxr-xr-x</span><span class="size">1.8K</span><span class="exec">run-tests.sh*</span></li>
+          <li><span class="perms">-rw-r--r--</span><span class="size">3.4K</span><span class="file">README.md</span></li>
+          <li><span class="perms">-rw-r--r--</span><span class="size">1.2K</span><span class="file">package.json</span></li>
+          <li><span class="perms">lrwxrwxrwx</span><span class="size">24</span><span class="link">logs -> /var/log/app/</span></li>
+        </ul>
+
+        <hr class="term-divider" style="margin-top: 32px;">
+
+        <!-- Log Entries -->
+        <h3 style="color: var(--term-cyan); font-family: 'Fira Code', monospace; font-size: 0.9rem; margin-bottom: 8px;">:: System Logs</h3>
+
+        <div class="prompt-line" style="margin-bottom: 12px;">
+          <span class="user">visitor</span><span class="at">@</span><span class="host">designref</span>:<span class="path">~</span><span class="dollar">$</span>
+          <span class="cmd">journalctl</span> <span class="flag">-n 10</span> <span class="flag">--no-pager</span>
+        </div>
+
+        <div class="log-section">
+          <div class="log-entry">
+            <span class="log-time">Feb 20 09:14:52</span>
+            <span class="log-info">[INFO]</span>
+            <span class="log-msg">sshd: accepted publickey for visitor from 192.168.1.42 port 52341</span>
+          </div>
+          <div class="log-entry">
+            <span class="log-time">Feb 20 09:12:01</span>
+            <span class="log-info">[INFO]</span>
+            <span class="log-msg">cron: executing /etc/cron.d/certbot-renew</span>
+          </div>
+          <div class="log-entry">
+            <span class="log-time">Feb 20 09:10:44</span>
+            <span class="log-debug">[DEBG]</span>
+            <span class="log-msg">nginx: upstream keepalive pool recycled, 4 connections released</span>
+          </div>
+          <div class="log-entry">
+            <span class="log-time">Feb 20 09:05:33</span>
+            <span class="log-warn">[WARN]</span>
+            <span class="log-msg">backup-agent: retry 3/5 snapshot upload to s3://vault-primary</span>
+          </div>
+          <div class="log-entry">
+            <span class="log-time">Feb 20 08:58:12</span>
+            <span class="log-warn">[WARN]</span>
+            <span class="log-msg">backup-agent: connection timeout to storage endpoint (attempt 2/5)</span>
+          </div>
+          <div class="log-entry">
+            <span class="log-time">Feb 20 08:45:00</span>
+            <span class="log-info">[INFO]</span>
+            <span class="log-msg">prometheus: scrape cycle completed, 1,247 metrics ingested</span>
+          </div>
+          <div class="log-entry">
+            <span class="log-time">Feb 20 08:30:01</span>
+            <span class="log-info">[INFO]</span>
+            <span class="log-msg">redis: RDB snapshot saved to disk (4.8 MB, 0.006s latency)</span>
+          </div>
+          <div class="log-entry">
+            <span class="log-time">Feb 20 07:42:18</span>
+            <span class="log-error">[ERR!]</span>
+            <span class="log-msg">legacy-api: process exited with code 137 (OOM killed by kernel)</span>
+          </div>
+          <div class="log-entry">
+            <span class="log-time">Feb 20 07:42:17</span>
+            <span class="log-error">[ERR!]</span>
+            <span class="log-msg">kernel: memory cgroup out of memory: legacy-api invoked oom-killer</span>
+          </div>
+          <div class="log-entry">
+            <span class="log-time">Feb 20 06:00:01</span>
+            <span class="log-info">[INFO]</span>
+            <span class="log-msg">postgresql: auto-vacuum completed on public.events (18,401 dead tuples)</span>
+          </div>
+          <div class="log-entry">
+            <span class="log-time">Feb 20 05:45:09</span>
+            <span class="log-warn">[WARN]</span>
+            <span class="log-msg">ufw: [BLOCK] IN=eth0 SRC=45.33.12.88 DST=10.0.1.2 PROTO=TCP DPT=22</span>
+          </div>
+          <div class="log-entry">
+            <span class="log-time">Feb 20 04:00:00</span>
+            <span class="log-info">[INFO]</span>
+            <span class="log-msg">logrotate: rotated 12 files, freed 847 MB of disk space</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         EFFECTS / DETAILS SHOWCASE
+         ========================================== -->
+    <section id="effects">
+      <div class="container">
+        <h2 class="section-heading">Effects &amp; Details</h2>
+
+        <div class="prompt-line" style="margin-bottom: 20px;">
+          <span class="user">visitor</span><span class="at">@</span><span class="host">designref</span>:<span class="path">~/effects</span><span class="dollar">$</span>
+          <span class="cmd">./demo</span> <span class="flag">--showcase</span> <span class="arg">all</span>
+        </div>
+
+        <div class="effect-row">
+          <!-- Blinking Cursor -->
+          <div class="effect-box">
+            <div class="effect-box-label">Blinking Cursor</div>
+            <div style="font-size: 0.9rem;">
+              <span style="color: var(--term-cyan);">user</span><span style="color: var(--term-green-dim);">@</span><span style="color: var(--term-magenta);">host</span>:<span style="color: var(--term-cyan);">~</span><span style="color: var(--term-white);">$</span>
+              <span class="cursor"></span>
+            </div>
+            <div style="font-size: 0.9rem; margin-top: 12px;">
+              <span style="color: var(--term-amber);">C:\&gt;</span>
+              <span class="cursor cursor--amber"></span>
+            </div>
+            <div style="margin-top: 12px; color: var(--term-green-dim); font-size: 0.75rem;">
+              step-end timing | 1s interval
+            </div>
+          </div>
+
+          <!-- Phosphor Glow -->
+          <div class="effect-box">
+            <div class="effect-box-label">Phosphor Glow</div>
+            <div style="font-family: 'VT323', monospace;">
+              <span class="glow-pulse" style="font-size: 1.8rem; color: var(--term-green-bright);">SYSTEM ONLINE</span>
+            </div>
+            <div style="margin-top: 10px; font-size: 0.85rem; color: var(--term-green);">
+              <span style="text-shadow: var(--term-glow-green);">text-shadow: 0 0 5px</span>
+            </div>
+            <div style="margin-top: 4px; font-size: 0.85rem; color: var(--term-amber);">
+              <span style="text-shadow: var(--term-glow-amber);">rgba(255,176,0,0.4)</span>
+            </div>
+          </div>
+
+          <!-- Glitch Text -->
+          <div class="effect-box">
+            <div class="effect-box-label">Glitch Distortion</div>
+            <div style="font-family: 'VT323', monospace; font-size: 1.8rem;">
+              <span class="glitch-text" data-text="CORRUPTED" style="color: var(--term-green-bright); text-shadow: var(--term-glow-green);">CORRUPTED</span>
+            </div>
+            <div style="margin-top: 10px; color: var(--term-green-dim); font-size: 0.75rem;">
+              clip-path + translate layers
+            </div>
+          </div>
+
+          <!-- Scanlines Demo -->
+          <div class="effect-box scanline-demo">
+            <div class="effect-box-label">CRT Scanlines</div>
+            <div style="font-size: 0.9rem; color: var(--term-green);">
+              repeating-linear-gradient<br>
+              transparent 2px,<br>
+              rgba(0,0,0,0.1) 2px<br>
+              rgba(0,0,0,0.1) 4px
+            </div>
+            <div style="margin-top: 8px; color: var(--term-green-dim); font-size: 0.75rem;">
+              Fixed overlay | pointer-events: none
+            </div>
+          </div>
+
+          <!-- Phosphor Burn-In -->
+          <div class="effect-box" style="min-height: 140px;">
+            <div class="effect-box-label">Phosphor Burn-In</div>
+            <div class="burn-in-ghost">PERMANENT IMAGE</div>
+            <div style="font-size: 0.85rem; color: var(--term-green); position: relative; z-index: 1;">
+              Ghost image from<br>
+              prolonged static<br>
+              display on CRT<br>
+              phosphor coating
+            </div>
+          </div>
+
+          <!-- Typewriter Effect -->
+          <div class="effect-box">
+            <div class="effect-box-label">Typewriter Reveal</div>
+            <div style="font-size: 0.9rem; color: var(--term-green-bright);">
+              <span class="typewriter">Initializing boot sequence...</span>
+            </div>
+            <div style="margin-top: 12px; color: var(--term-green-dim); font-size: 0.75rem;">
+              overflow: hidden | steps() timing
+            </div>
+          </div>
+        </div>
+
+        <hr class="term-divider" style="margin-top: 32px;">
+
+        <!-- ASCII Art Border Demo -->
+        <h3 style="color: var(--term-cyan); font-family: 'Fira Code', monospace; font-size: 0.9rem; margin-bottom: 12px;">:: ASCII Box Drawing</h3>
+
+        <div class="cmd-block" style="overflow-x: auto;">
+<pre style="color: var(--term-green); font-size: 0.82rem; line-height: 1.4; white-space: pre;">
+<span style="color: var(--term-green-dim);">+------------------------------------------------------------------+
+|</span>  <span style="color: var(--term-green-bright); text-shadow: var(--term-glow-green);">DESIGN AESTHETIC REFERENCE :: TERMINAL CLI</span>                     <span style="color: var(--term-green-dim);">|
++------------------------------------------------------------------+
+|</span>                                                                  <span style="color: var(--term-green-dim);">|
+|</span>  <span style="color: var(--term-cyan);">Aesthetic:</span>   Terminal / Command Line Interface              <span style="color: var(--term-green-dim);">|
+|</span>  <span style="color: var(--term-cyan);">Period:</span>      1970s -- present                              <span style="color: var(--term-green-dim);">|
+|</span>  <span style="color: var(--term-cyan);">Origin:</span>      Unix terminals, VT100, IBM 3270               <span style="color: var(--term-green-dim);">|
+|</span>  <span style="color: var(--term-cyan);">Influence:</span>   Cyberpunk, hacker culture, The Matrix         <span style="color: var(--term-green-dim);">|
+|</span>                                                                  <span style="color: var(--term-green-dim);">|
++------------------------------------------------------------------+</span>
+</pre>
+        </div>
+
+        <div class="cmd-block" style="overflow-x: auto; margin-top: 16px;">
+<pre style="color: var(--term-green); font-size: 0.82rem; line-height: 1.4; white-space: pre;">
+<span style="color: var(--term-green-dim);">+-----------+---------+----------+---------+
+|</span> <span style="color: var(--term-cyan);">SERVICE</span>   <span style="color: var(--term-green-dim);">|</span> <span style="color: var(--term-cyan);">STATUS</span>  <span style="color: var(--term-green-dim);">|</span> <span style="color: var(--term-cyan);">PROTOCOL</span> <span style="color: var(--term-green-dim);">|</span> <span style="color: var(--term-cyan);">LATENCY</span> <span style="color: var(--term-green-dim);">|
++-----------+---------+----------+---------+
+|</span> HTTP      <span style="color: var(--term-green-dim);">|</span> <span style="color: var(--term-green-bright);">UP</span>      <span style="color: var(--term-green-dim);">|</span> TCP/443  <span style="color: var(--term-green-dim);">|</span> 12ms    <span style="color: var(--term-green-dim);">|
+|</span> Database  <span style="color: var(--term-green-dim);">|</span> <span style="color: var(--term-green-bright);">UP</span>      <span style="color: var(--term-green-dim);">|</span> TCP/5432 <span style="color: var(--term-green-dim);">|</span> 3ms     <span style="color: var(--term-green-dim);">|
+|</span> Cache     <span style="color: var(--term-green-dim);">|</span> <span style="color: var(--term-green-bright);">UP</span>      <span style="color: var(--term-green-dim);">|</span> TCP/6379 <span style="color: var(--term-green-dim);">|</span> &lt;1ms    <span style="color: var(--term-green-dim);">|
+|</span> Legacy    <span style="color: var(--term-green-dim);">|</span> <span style="color: var(--term-red);">DOWN</span>    <span style="color: var(--term-green-dim);">|</span> TCP/8080 <span style="color: var(--term-green-dim);">|</span> --      <span style="color: var(--term-green-dim);">|
++-----------+---------+----------+---------+</span>
+</pre>
+        </div>
+
+        <hr class="term-divider" style="margin-top: 32px;">
+
+        <!-- Code Syntax Highlighting -->
+        <h3 style="color: var(--term-cyan); font-family: 'Fira Code', monospace; font-size: 0.9rem; margin-bottom: 8px;">:: Syntax Highlighting</h3>
+
+        <div class="prompt-line" style="margin-bottom: 12px;">
+          <span class="user">visitor</span><span class="at">@</span><span class="host">designref</span>:<span class="path">~/src</span><span class="dollar">$</span>
+          <span class="cmd">cat</span> <span class="arg">monitor.sh</span>
+        </div>
+
+        <div class="cmd-block">
+<span class="comment">#!/bin/bash</span>
+<span class="comment"># System health check script</span>
+
+<span class="keyword">function</span> <span class="highlight">check_service</span>() {
+    <span class="keyword">local</span> service=<span class="string">"$1"</span>
+    <span class="keyword">if</span> systemctl is-active --quiet <span class="string">"$service"</span>; <span class="keyword">then</span>
+        <span class="keyword">echo</span> -e <span class="string">"[\e[32m  OK  \e[0m] $service"</span>
+    <span class="keyword">else</span>
+        <span class="keyword">echo</span> -e <span class="string">"[\e[31m FAIL \e[0m] $service"</span>
+        <span class="keyword">return</span> <span class="number">1</span>
+    <span class="keyword">fi</span>
+}
+
+<span class="keyword">for</span> svc <span class="keyword">in</span> nginx postgresql redis prometheus; <span class="keyword">do</span>
+    check_service <span class="string">"$svc"</span>
+<span class="keyword">done</span>
+
+<span class="keyword">echo</span> <span class="string">""</span>
+<span class="keyword">echo</span> <span class="string">"Load average: $(cat /proc/loadavg)"</span>
+<span class="keyword">echo</span> <span class="string">"Memory free:  $(free -h | awk '/Mem/ {print $4}')"</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         INTERACTIVE SECTION
+         ========================================== -->
+    <section id="interactive">
+      <div class="container">
+        <h2 class="section-heading">Interactive Elements</h2>
+
+        <div class="prompt-line" style="margin-bottom: 20px;">
+          <span class="user">visitor</span><span class="at">@</span><span class="host">designref</span>:<span class="path">~/forms</span><span class="dollar">$</span>
+          <span class="cmd">cat</span> <span class="arg">/dev/stdin</span>
+        </div>
+
+        <!-- Terminal Input -->
+        <h3 style="color: var(--term-cyan); font-family: 'Fira Code', monospace; font-size: 0.9rem; margin-bottom: 12px;">:: Command Input</h3>
+
+        <div class="term-input">
+          <span class="term-input__prompt">visitor@designref:~$</span>
+          <input type="text" class="term-input__field" placeholder="type a command..." autocomplete="off" spellcheck="false">
+        </div>
+
+        <hr class="term-divider" style="margin-top: 32px;">
+
+        <!-- Contact Form -->
+        <h3 style="color: var(--term-cyan); font-family: 'Fira Code', monospace; font-size: 0.9rem; margin-bottom: 12px;">:: Contact Form</h3>
+
+        <div class="cmd-block" style="margin-bottom: 16px;">
+          <span class="comment"># Submit a request through the terminal interface.</span><br>
+          <span class="comment"># All fields are processed through a secure channel.</span><br>
+          <span class="output">PGP Fingerprint: 0xAB12 CD34 EF56 7890 DEAD BEEF</span>
+        </div>
+
+        <form class="term-form" onsubmit="return false;">
+          <div class="field">
+            <label for="f-name">hostname</label>
+            <input type="text" id="f-name" placeholder="your_identifier" autocomplete="off" spellcheck="false">
+          </div>
+          <div class="field">
+            <label for="f-email">email_address</label>
+            <input type="email" id="f-email" placeholder="user@domain.tld" autocomplete="off" spellcheck="false">
+          </div>
+          <div class="field">
+            <label for="f-subject">subject_line</label>
+            <input type="text" id="f-subject" placeholder="RE: infrastructure inquiry" autocomplete="off" spellcheck="false">
+          </div>
+          <div class="field">
+            <label for="f-message">message_body</label>
+            <textarea id="f-message" placeholder="Enter your message here. Use plain text only.&#10;Lines starting with # are treated as comments." spellcheck="false"></textarea>
+          </div>
+          <div style="margin-top: 8px;">
+            <button type="submit" class="term-btn">send</button>
+            <button type="reset" class="term-btn term-btn--amber">clear</button>
+            <button type="button" class="term-btn term-btn--danger">cancel</button>
+          </div>
+        </form>
+
+        <hr class="term-divider" style="margin-top: 32px;">
+
+        <!-- Design Principles -->
+        <h3 style="color: var(--term-cyan); font-family: 'Fira Code', monospace; font-size: 0.9rem; margin-bottom: 8px;">:: Design Principles (man page)</h3>
+
+        <div class="prompt-line" style="margin-bottom: 12px;">
+          <span class="user">visitor</span><span class="at">@</span><span class="host">designref</span>:<span class="path">~</span><span class="dollar">$</span>
+          <span class="cmd">man</span> <span class="arg">terminal-aesthetic</span>
+        </div>
+
+        <div class="cmd-block">
+<span class="highlight">TERMINAL-AESTHETIC(7)</span>        <span class="output">Design Reference Manual</span>        <span class="highlight">TERMINAL-AESTHETIC(7)</span>
+
+<span class="keyword">NAME</span>
+    <span class="output">terminal-aesthetic - design system for CLI-inspired web interfaces</span>
+
+<span class="keyword">DESCRIPTION</span>
+    <span class="output">The terminal aesthetic channels the visual language of command-line</span>
+    <span class="output">computing. Key principles include:</span>
+
+    <span class="highlight">1.</span>  <span class="output">Content is king. Strip away all decoration that does not serve</span>
+        <span class="output">information delivery.</span>
+
+    <span class="highlight">2.</span>  <span class="output">Monospaced fonts exclusively. They are the foundation of the</span>
+        <span class="output">entire aesthetic.</span>
+
+    <span class="highlight">3.</span>  <span class="output">Dark backgrounds always. The terminal is never white.</span>
+
+    <span class="highlight">4.</span>  <span class="output">Hierarchy through color and brightness, not font size.</span>
+
+    <span class="highlight">5.</span>  <span class="output">Animation should be purposeful and subtle. A blinking cursor,</span>
+        <span class="output">a scrolling log -- never gratuitous.</span>
+
+    <span class="highlight">6.</span>  <span class="output">Respect prefers-reduced-motion. Accessibility is paramount.</span>
+
+    <span class="highlight">7.</span>  <span class="output">Constrain content to 80 characters wide. Honor the tradition.</span>
+
+<span class="keyword">SEE ALSO</span>
+    <span class="string">cyberpunk(7)</span>, <span class="string">brutalist-web(7)</span>, <span class="string">dark-mode-neon(7)</span>, <span class="string">8-bit(7)</span>
+
+<span class="output">Design Reference 1.0</span>          <span class="output">February 2026</span>          <span class="highlight">TERMINAL-AESTHETIC(7)</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         FOOTER
+         ========================================== -->
+    <footer>
+      <div class="container">
+        <div class="separator">------------------------------------------------------------------------</div>
+        <p>Terminal CLI Aesthetic -- Design Reference</p>
+        <p class="session-info">PID 1 | TTY pts/0 | SHELL /bin/bash | TERM xterm-256color</p>
+        <p class="session-info">Session duration: 00:14:33 | Bytes transferred: 847,201</p>
+        <div style="margin-top: 16px;">
+          <span class="prompt-line">
+            <span class="user">visitor</span><span class="at">@</span><span class="host">designref</span>:<span class="path">~</span><span class="dollar">$</span>
+            <span style="color: var(--term-green-bright);">exit</span>
+          </span>
+        </div>
+        <p class="close-msg" style="margin-top: 8px;">logout</p>
+        <p style="color: var(--term-green-dim); margin-top: 4px;">Connection to designref closed.</p>
+      </div>
+    </footer>
+
+  </div><!-- /.page-wrapper -->
+
+</body>
+</html>
